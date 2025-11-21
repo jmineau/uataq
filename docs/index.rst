@@ -19,14 +19,6 @@ Utah Atmospheric Trace-gas and Air Quality (UATAQ)
    :target: https://codecov.io/gh/jmineau/uataq
    :alt: Code Coverage
 
-.. image:: https://badge.fury.io/py/uataq.svg
-   :target: https://badge.fury.io/py/uataq
-   :alt: PyPI version
-
-.. image:: https://img.shields.io/pypi/pyversions/uataq.svg
-   :target: https://pypi.org/project/uataq/
-   :alt: Python Version
-
 .. image:: https://img.shields.io/badge/License-MIT-yellow.svg
    :target: https://opensource.org/licenses/MIT
    :alt: License
