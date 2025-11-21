@@ -8,9 +8,10 @@ The `Instrument` class provides a common interface for all instrument classes
 and defines abstract methods that must be implemented by each subclass.
 """
 
-from abc import ABCMeta
 import json
-from typing import Literal, Iterator, Type
+from abc import ABCMeta
+from collections.abc import Iterator
+from typing import Literal
 
 import pandas as pd
 
@@ -20,6 +21,7 @@ from uataq.filesystem import TimeRange
 
 # TODO
 # TRX01 aeth & no2 from horel-group
+
 
 class Instrument(metaclass=ABCMeta):
     """
@@ -39,7 +41,7 @@ class Instrument(metaclass=ABCMeta):
         Loggers used by the research groups to record data.
     config : dict
         Configuration settings for the instrument.
-    
+
     Methods
     -------
     get_files(group: str, lvl: str) -> list[str]
@@ -74,13 +76,15 @@ class Instrument(metaclass=ABCMeta):
         self.loggers = set(loggers.values())
 
     def __str__(self):
-        return f'{self.name}@{self.SID}'
+        return f"{self.name}@{self.SID}"
 
     def __repr__(self):
-        name = f", name='{self.name}" if self.name != self.model else ''
+        name = f", name='{self.name}" if self.name != self.model else ""
         config = json.dumps(self.config, indent=4)
-        return (f"{self.__class__.__name__}({self.SID}"
-                f"{name}, loggers={self._loggers}, config={config})")
+        return (
+            f"{self.__class__.__name__}({self.SID}"
+            f"{name}, loggers={self._loggers}, config={config})"
+        )
 
     def _get_groupspace(self, group: str) -> filesystem.GroupSpace:
         """
@@ -97,9 +101,11 @@ class Instrument(metaclass=ABCMeta):
             The groupspace object.
         """
         if group not in filesystem.groups:
-            raise errors.InvalidGroupError(f'{group} groupspace not found in filesystem')
+            raise errors.InvalidGroupError(
+                f"{group} groupspace not found in filesystem"
+            )
         elif group not in self.groups:
-            raise errors.InvalidGroupError(f'{group} group invalid for {self}')
+            raise errors.InvalidGroupError(f"{group} group invalid for {self}")
         return filesystem.groups[group]
 
     def get_highest_lvl(self, group: str) -> str:
@@ -116,7 +122,7 @@ class Instrument(metaclass=ABCMeta):
         str
             The highest data level.
         """
-        vprint('No level specified. Determining highest level...')
+        vprint("No level specified. Determining highest level...")
         groupspace = self._get_groupspace(group)
         return groupspace.get_highest_lvl(self.SID, self.name)
 
@@ -140,9 +146,9 @@ class Instrument(metaclass=ABCMeta):
         logger = self._loggers[group]
         return groupspace.get_files(self.SID, self.name, lvl, logger)
 
-    def get_datafiles(self, group: str, lvl: str,
-                      time_range: TimeRange,
-                      pattern: str | None = None) -> list[filesystem.DataFile]:
+    def get_datafiles(
+        self, group: str, lvl: str, time_range: TimeRange, pattern: str | None = None
+    ) -> list[filesystem.DataFile]:
         """
         Get data files for the given level and time range from the groupspace.
 
@@ -164,14 +170,16 @@ class Instrument(metaclass=ABCMeta):
         """
         # Check if instrument is active during the time range
         start, end = time_range
-        installation_date = pd.to_datetime(self.config['installation_date'])
-        removal_date = pd.to_datetime(self.config.get('removal_date', pd.Timestamp.max))
+        installation_date = pd.to_datetime(self.config["installation_date"])
+        removal_date = pd.to_datetime(self.config.get("removal_date", pd.Timestamp.max))
         if (start and start > removal_date) or (end and end < installation_date):
             raise errors.InactiveInstrumentError(self)
 
         groupspace = self._get_groupspace(group)
         logger = self._loggers[group]
-        return groupspace.get_datafiles(self.SID, self.name, lvl, logger, time_range, pattern)
+        return groupspace.get_datafiles(
+            self.SID, self.name, lvl, logger, time_range, pattern
+        )
 
     def standardize_data(self, group: str, data: pd.DataFrame) -> pd.DataFrame:
         """
@@ -193,10 +201,14 @@ class Instrument(metaclass=ABCMeta):
         groupspace = self._get_groupspace(group)
         return groupspace.standardize_data(self.model, data)
 
-    def read_data(self, group: str, lvl: str | None = None,
-                  time_range: TimeRange | TimeRange._input_types = None,
-                  num_processes: int | Literal['max'] = 1,
-                  file_pattern: str | None = None) -> pd.DataFrame:
+    def read_data(
+        self,
+        group: str,
+        lvl: str | None = None,
+        time_range: TimeRange | TimeRange._input_types = None,
+        num_processes: int | Literal["max"] = 1,
+        file_pattern: str | None = None,
+    ) -> pd.DataFrame:
         """
         Read and parse data files for the given level and time range,
         using multiple processes if specified.
@@ -219,24 +231,27 @@ class Instrument(metaclass=ABCMeta):
         pandas.DataFrame
             A concatenated DataFrame containing the parsed data from files.
         """
-        vprint(f'Reading data for {self} from the {group} groupspace...')
+        vprint(f"Reading data for {self} from the {group} groupspace...")
 
         # Format lvl & time_range
         lvl = lvl.lower() if lvl else self.get_highest_lvl(group)
-        assert lvl in filesystem.lvls, f"Invalid data level '{lvl}'. Must be one of {filesystem.lvls}."
+        assert lvl in filesystem.lvls, (
+            f"Invalid data level '{lvl}'. Must be one of {filesystem.lvls}."
+        )
         time_range = TimeRange(time_range)
 
-        vprint(f'Getting {lvl} files...')
+        vprint(f"Getting {lvl} files...")
         datafiles = self.get_datafiles(group, lvl, time_range, file_pattern)
         data = filesystem.parse_datafiles(datafiles, time_range, num_processes)
-        vprint('Mapping columns to UATAQ names...')
+        vprint("Mapping columns to UATAQ names...")
         data = self.standardize_data(group, data)
-        vprint('done.')
+        vprint("done.")
         return data
 
 
-def configure_instrument(SID: str, name: str, config: dict, loggers: dict | None = None
-                         ) -> Instrument:
+def configure_instrument(
+    SID: str, name: str, config: dict, loggers: dict | None = None
+) -> Instrument:
     """
     Configure an instrument object based on the given configuration settings.
 
@@ -263,9 +278,9 @@ def configure_instrument(SID: str, name: str, config: dict, loggers: dict | None
     ValueError
         If no loggers are found for the instrument at the site.
     """
-    model = config.get('model', name)
+    model = config.get("model", name)
 
-    loggers = config.get('loggers') or loggers
+    loggers = config.get("loggers") or loggers
     if not loggers:
         raise ValueError(f"No loggers found for instrument {name} at site {SID}.")
 
@@ -295,6 +310,7 @@ class InstrumentEnsemble:
     pollutants : set[str]
         Set of pollutants measured by the instruments.
     """
+
     def __init__(self, SID: str, configs: dict, loggers: dict | None = None):
         """
         Initialize the InstrumentEnsemble object.
@@ -315,8 +331,10 @@ class InstrumentEnsemble:
         self.names = list(configs.keys())
 
         # Configure instruments
-        self._instruments = {name: configure_instrument(SID, name, config, loggers)
-                             for name, config in configs.items()}
+        self._instruments = {
+            name: configure_instrument(SID, name, config, loggers)
+            for name, config in configs.items()
+        }
 
         # Gather ensemble attributes
         self.loggers = set()
@@ -326,12 +344,12 @@ class InstrumentEnsemble:
             self.loggers.update(instrument.loggers)
             self.groups.update(instrument.groups)
 
-            if hasattr(instrument, 'pollutants'):
+            if hasattr(instrument, "pollutants"):
                 self.pollutants.update(p.upper() for p in instrument.pollutants)
 
     def __repr__(self):
         configs = json.dumps(self.configs, indent=4)
-        loggers = f', loggers={self._loggers}' if self._loggers else ''
+        loggers = f", loggers={self._loggers}" if self._loggers else ""
         return f'InstrumentEnsemble("{self.SID}", configs={configs}{loggers})'
 
     def __str__(self):
@@ -357,116 +375,121 @@ class SensorMixin:
     Attributes:
         pollutants (tuple): Tuple of pollutants measured by the instrument.
     """
+
     pollutants: tuple[str, ...]
 
 
 class BB_205(Instrument, SensorMixin):
-    model = '2b_205'
-    pollutants = ('O3',)
+    model = "2b_205"
+    pollutants = ("O3",)
 
 
 class BB_405(Instrument, SensorMixin):
-    model = '2b_405'
-    pollutants = ('NO', 'NO2', 'NOx')
+    model = "2b_405"
+    pollutants = ("NO", "NO2", "NOx")
 
 
 class CR1000(Instrument):
-    model = 'cr1000'
+    model = "cr1000"
 
 
 class GPS(Instrument):
-    model = 'gps'
+    model = "gps"
 
-    def read_data(self, group: str, lvl: str, 
-                  time_range: TimeRange | TimeRange._input_types = [None, None],
-                  num_processes: int | Literal['max'] = 1,
-                  file_pattern: str | None = None) -> pd.DataFrame:
+    def read_data(
+        self,
+        group: str,
+        lvl: str,
+        time_range: TimeRange | TimeRange._input_types = None,
+        num_processes: int | Literal["max"] = 1,
+        file_pattern: str | None = None,
+    ) -> pd.DataFrame:
         # Read GPS data
         data = super().read_data(group, lvl, time_range, num_processes, file_pattern)
 
-        if 'Speed_kt' in data.columns:
+        if "Speed_kt" in data.columns:
             # convert knots to m/s
-            data['Speed_kt'] = data.Speed_kt * 0.514444
-            data.rename(columns={'Speed_kt': 'Speed_m_s'}, inplace=True)
+            data["Speed_kt"] = data.Speed_kt * 0.514444
+            data.rename(columns={"Speed_kt": "Speed_m_s"}, inplace=True)
 
         return data
 
 
 class LGR_NO2(Instrument, SensorMixin):
-    model = 'lgr_no2'
-    pollutants = ('NO2',)
+    model = "lgr_no2"
+    pollutants = ("NO2",)
 
 
 class LGR_UGGA(Instrument, SensorMixin):
-    model = 'lgr_ugga'
-    pollutants = ('CO2', 'CH4')
+    model = "lgr_ugga"
+    pollutants = ("CO2", "CH4")
 
 
 class Licor_6262(Instrument, SensorMixin):
-    model = 'licor_6262'
-    pollutants = ('CO2',)
+    model = "licor_6262"
+    pollutants = ("CO2",)
 
 
 class Licor_7000(Licor_6262):
-    model = 'licor_7000'
+    model = "licor_7000"
 
 
 class Magee_AE33(Instrument, SensorMixin):
-    model = 'magee_ae33'
-    pollutants = ('BC',)
+    model = "magee_ae33"
+    pollutants = ("BC",)
 
 
 class MetOne_ES405(Instrument, SensorMixin):
-    model = 'metone_es405'
-    pollutants = ('PM1', 'PM2.5', 'PM4', 'PM10')
+    model = "metone_es405"
+    pollutants = ("PM1", "PM2.5", "PM4", "PM10")
 
 
 class MetOne_ES642(Instrument, SensorMixin):
-    model = 'metone_es642'
-    pollutants = ('PM2.5',)
+    model = "metone_es642"
+    pollutants = ("PM2.5",)
 
 
 class Teledyne_T200(Instrument, SensorMixin):
-    model = 'teledyne_t200'
-    pollutants = ('NO', 'NO2', 'NOx')
+    model = "teledyne_t200"
+    pollutants = ("NO", "NO2", "NOx")
 
 
 class Teledyne_T300(Instrument, SensorMixin):
-    model = 'teledyne_t300'
-    pollutants = ('CO',)
+    model = "teledyne_t300"
+    pollutants = ("CO",)
 
 
 class Teledyne_T400(Instrument, SensorMixin):
-    model = 'teledyne_t400'
-    pollutants = ('O3',)
+    model = "teledyne_t400"
+    pollutants = ("O3",)
 
 
 class Teledyne_T500u(Instrument, SensorMixin):
-    model = 'teledyne_t500u'
-    pollutants = ('NO2',)
+    model = "teledyne_t500u"
+    pollutants = ("NO2",)
 
 
 class Teom_1400ab(Instrument, SensorMixin):
-    model = 'teom_1400ab'
-    pollutants = ('PM2.5',)
+    model = "teom_1400ab"
+    pollutants = ("PM2.5",)
 
 
 #: Instrument catalog
-catalog: dict[str, Type[Instrument]] = {
-    '2b_205':         BB_205,
-    '2b_405':         BB_405,
-    'cr1000':         CR1000,
-    'gps':            GPS,
-    'lgr_no2':        LGR_NO2,
-    'lgr_ugga':       LGR_UGGA,
-    'licor_6262':     Licor_6262,
-    'licor_7000':     Licor_7000,
-    'magee_ae33':     Magee_AE33,
-    'metone_es405':   MetOne_ES405,
-    'metone_es642':   MetOne_ES642,
-    'teledyne_t200':  Teledyne_T200,
-    'teledyne_t300':  Teledyne_T300,
-    'teledyne_t400':  Teledyne_T400,
-    'teledyne_t500u': Teledyne_T500u,
-    'teom_1400ab':    Teom_1400ab
+catalog: dict[str, type[Instrument]] = {
+    "2b_205": BB_205,
+    "2b_405": BB_405,
+    "cr1000": CR1000,
+    "gps": GPS,
+    "lgr_no2": LGR_NO2,
+    "lgr_ugga": LGR_UGGA,
+    "licor_6262": Licor_6262,
+    "licor_7000": Licor_7000,
+    "magee_ae33": Magee_AE33,
+    "metone_es405": MetOne_ES405,
+    "metone_es642": MetOne_ES642,
+    "teledyne_t200": Teledyne_T200,
+    "teledyne_t300": Teledyne_T300,
+    "teledyne_t400": Teledyne_T400,
+    "teledyne_t500u": Teledyne_T500u,
+    "teom_1400ab": Teom_1400ab,
 }

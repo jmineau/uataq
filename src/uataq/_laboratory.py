@@ -2,17 +2,17 @@
 This module provides a factory class for creating site objects with instruments from a configuration file.
 """
 
-from copy import deepcopy
-import json
 import importlib.resources
+import json
+from copy import deepcopy
 from typing import Literal
 
-from uataq.instruments import InstrumentEnsemble
 from uataq import sites
+from uataq.instruments import InstrumentEnsemble
 
 
 class Laboratory:
-    '''
+    """
     Factory class for creating site objects from config file.
 
     This class provides methods for creating site objects from a configuration file.
@@ -23,9 +23,10 @@ class Laboratory:
 
     Methods:
         get_site(SID): Returns a site object for the specified site ID.
-    '''
-    def __init__(self, config: str | dict ):
-        '''
+    """
+
+    def __init__(self, config: str | dict):
+        """
         Initialize the Laboratory class.
 
         Parameters
@@ -37,7 +38,7 @@ class Laboratory:
         ------
         ValueError
             If the configuration data is invalid.
-        '''
+        """
         if isinstance(config, str):
             # config is a file path
             with open(config) as config_file:
@@ -46,21 +47,30 @@ class Laboratory:
             # config is a dictionary
             self.config = config
         else:
-            raise ValueError("Invalid configuration data. Must be a file path or dictionary.")
+            raise ValueError(
+                "Invalid configuration data. Must be a file path or dictionary."
+            )
 
         self.sites = list(self.config.keys())
-        self.instruments = list(set([instrument for SID in self.sites
-                                     for instrument in self.config[SID].get('instruments', {}).keys()]))
+        self.instruments = list(
+            set(
+                [
+                    instrument
+                    for SID in self.sites
+                    for instrument in self.config[SID].get("instruments", {})
+                ]
+            )
+        )
 
     def __repr__(self) -> str:
         config = json.dumps(self.config, indent=4)
         return f"Laboratory(config={config})"
 
-    def __str__(self) -> Literal['UATAQ Laboratory']:
+    def __str__(self) -> Literal["UATAQ Laboratory"]:
         return "UATAQ Laboratory"
 
     def get_site(self, SID: str) -> sites.Site:
-        '''
+        """
         Return site object from config file
 
         Parameters
@@ -79,22 +89,22 @@ class Laboratory:
             If the site ID is not found in the configuration file.
         ValueError
             If no instruments are found for the specified site.
-        '''
+        """
         SID = SID.upper()
         config = deepcopy(self.config).get(SID)
         if config is None:
             raise ValueError(f"Site '{SID}' not found in the configuration file.")
 
         # Get site class based on config
-        is_mobile = config.get('is_mobile', False)
+        is_mobile = config.get("is_mobile", False)
         SiteClass = sites.MobileSite if is_mobile else sites.Site
 
         # If logger are specified at the site level, then pass them to the instrument ensemble.
         # If both are specified, the instrument ensemble will use the loggers specified at the instrument level.
-        loggers = config.pop('loggers', None)
+        loggers = config.pop("loggers", None)
 
         # Build instrument ensemble based on config
-        instrument_configs = config.pop('instruments', None)
+        instrument_configs = config.pop("instruments", None)
         if instrument_configs is None:
             raise ValueError(f"No instruments found for site '{SID}'.")
         instruments = InstrumentEnsemble(SID, instrument_configs, loggers)
@@ -102,14 +112,16 @@ class Laboratory:
         return SiteClass(SID, config, instruments)
 
 
-config = json.loads(importlib.resources.files('uataq.resources').joinpath('config.json').read_text())
+config = json.loads(
+    importlib.resources.files("uataq.resources").joinpath("config.json").read_text()
+)
 laboratory = Laboratory(config)
 
 
 def get_site(SID: str) -> sites.Site:
     """
     Return site object from config file
-    
+
     Parameters
     ----------
     SID : str

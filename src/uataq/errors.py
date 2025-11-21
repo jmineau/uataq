@@ -2,9 +2,11 @@
 This module provides custom exceptions for UATAQ.
 """
 
+
 class DataFileInitializationError(Exception):
     # Exception to catch custom data file initialization errors
     pass
+
 
 class ParserError(Exception):
     # Exception to catch custom parsing errors
@@ -18,7 +20,7 @@ class ReaderError(Exception):
 
 class InactiveInstrumentError(ReaderError):
     def __init__(self, instrument):
-        msg = f'{instrument} is inactive in given time_range'
+        msg = f"{instrument} is inactive in given time_range"
         super().__init__(msg)
 
 
@@ -29,11 +31,11 @@ class InvalidGroupError(ReaderError):
 
 class InstrumentNotFoundError(Exception):
     def __init__(self, instrument, ensemble):
-        msg = f'{instrument} not found in {ensemble}'
+        msg = f"{instrument} not found in {ensemble}"
         super().__init__(msg)
 
 
 class PollutantNotMeasured(Exception):
     def __init__(self, SID, pollutant):
-        msg = f'{pollutant} not measured at {SID}'
+        msg = f"{pollutant} not measured at {SID}"
         super().__init__(msg)

@@ -16,7 +16,7 @@ Group Spaces
 ------------
 
 Each research group has its own module in ``groupspaces`` where group-specific code is stored.
-Each group module must contain a subclass of :class:`GroupSpace` 
+Each group module must contain a subclass of :class:`GroupSpace`
 and define :class:`DataFile` subclasses  for each file format that the group uses.
 
 All :class:`GroupSpace` objects are stored in the :data:`groups` dictionary with the group name as the key.

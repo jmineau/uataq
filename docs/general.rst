@@ -56,14 +56,14 @@ Available levels are:
 Time Range
 ^^^^^^^^^^
 
-``time_range`` filters the returned data to the specified time range. 
+``time_range`` filters the returned data to the specified time range.
 
 There are three primary formats for ``time_range``:
 
 1. ``None``: Returns all available data.
 2. Single string in ISO8601 format down to the hour:
 
-   - The string is interpreted as a range from the start of the string to the start of the next time unit. 
+   - The string is interpreted as a range from the start of the string to the start of the next time unit.
    - Examples:
 
      - '2020' represents the year 2020.

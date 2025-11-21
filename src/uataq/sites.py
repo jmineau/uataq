@@ -2,11 +2,12 @@
 This module provides classes and functions for working with UATAQ sites.
 """
 
-from collections import defaultdict
 import datetime as dt
-from datetime import timezone
 import json
-from typing import Sequence, Union, Literal
+from collections import defaultdict
+from collections.abc import Sequence
+from datetime import timezone
+from typing import Literal
 
 import geopandas as gpd
 import pandas as pd
@@ -15,7 +16,7 @@ from uataq import errors, filesystem, instruments
 from uataq._vprint import vprint
 from uataq.filesystem import TimeRange
 
-_all_or_mult_strs = Union[Literal['all'], str, list[str], tuple[str, ...], set[str]]
+_all_or_mult_strs = Literal["all"] | str | list[str] | tuple[str, ...] | set[str]
 
 
 class Site:
@@ -47,7 +48,9 @@ class Site:
         Get recent observations from site instruments.
     """
 
-    def __init__(self, SID: str, config: dict, instruments: instruments.InstrumentEnsemble):
+    def __init__(
+        self, SID: str, config: dict, instruments: instruments.InstrumentEnsemble
+    ):
         """
         Initializes a Site object with the given site ID.
 
@@ -90,8 +93,8 @@ class Site:
         # Build pollutant: instruments lookup table
         self.pollutant_instruments = defaultdict(list)
         for instrument in self.instruments:
-            if hasattr(instrument, 'pollutants'):
-                for pollutant in getattr(instrument, 'pollutants'):
+            if hasattr(instrument, "pollutants"):
+                for pollutant in instrument.pollutants:
                     self.pollutant_instruments[pollutant].append(instrument)
 
     def __repr__(self):
@@ -103,12 +106,15 @@ class Site:
     def __str__(self):
         return f"{self.__class__.__name__}: {self.SID}"
 
-    def read_data(self, instruments: _all_or_mult_strs = 'all',
-                  group: str | None = None,
-                  lvl: str | None = None, 
-                  time_range: TimeRange | TimeRange._input_types = None,
-                  num_processes: int | Literal['max'] = 1,
-                  file_pattern: str | None = None) -> dict[str, pd.DataFrame]:
+    def read_data(
+        self,
+        instruments: _all_or_mult_strs = "all",
+        group: str | None = None,
+        lvl: str | None = None,
+        time_range: TimeRange | TimeRange._input_types = None,
+        num_processes: int | Literal["max"] = 1,
+        file_pattern: str | None = None,
+    ) -> dict[str, pd.DataFrame]:
         """
         Read data for the specified instruments and level.
 
@@ -139,7 +145,7 @@ class Site:
             If no data is found for the specified instruments.
         """
         # Format instruments
-        if instruments == 'all':
+        if instruments == "all":
             instruments = self.instruments.names
         elif isinstance(instruments, str):
             instruments = [instruments.lower()]
@@ -158,24 +164,29 @@ class Site:
             instrument = self.instruments[name]
 
             try:
-                data[name] = instrument.read_data(group, lvl, time_range,
-                                                  num_processes, file_pattern)
+                data[name] = instrument.read_data(
+                    group, lvl, time_range, num_processes, file_pattern
+                )
             except errors.ReaderError as e:
-                vprint(f'Error reading {instrument} data from {group} groupspace: {e}')
+                vprint(f"Error reading {instrument} data from {group} groupspace: {e}")
 
         if not data:
-            raise errors.ReaderError(f'No data found for {instruments} at {self.SID} in {group} groupspace.')
+            raise errors.ReaderError(
+                f"No data found for {instruments} at {self.SID} in {group} groupspace."
+            )
 
         return data
 
-    def get_obs(self, pollutants: _all_or_mult_strs = 'all',
-                format: Literal['wide'] | Literal['long'] = 'wide',
-                group: str | None = None,
-                time_range: TimeRange._input_types = None,
-                num_processes: int | Literal['max'] = 1
-                ) -> pd.DataFrame:
+    def get_obs(
+        self,
+        pollutants: _all_or_mult_strs = "all",
+        format: Literal["wide"] | Literal["long"] = "wide",
+        group: str | None = None,
+        time_range: TimeRange._input_types = None,
+        num_processes: int | Literal["max"] = 1,
+    ) -> pd.DataFrame:
         """
-        Get observations for each pollutant, combining instruments by pollutants. 
+        Get observations for each pollutant, combining instruments by pollutants.
 
         Parameters
         ----------
@@ -197,9 +208,9 @@ class Site:
             The keys of the dictionary are the names of the levels ('calibrated', 'qaqc', 'raw'), and the values are the
             corresponding dataframes. If only one level was read, the method returns the corresponding dataframe directly.
         """
-        lvl = 'final'
+        lvl = "final"
 
-        if pollutants == 'all':
+        if pollutants == "all":
             pollutants = self.pollutants
         elif isinstance(pollutants, str):
             pollutants = [pollutants.upper()]
@@ -207,46 +218,57 @@ class Site:
             pollutants = [p.upper() for p in pollutants]
 
         if any(p not in self.pollutants for p in pollutants):
-            raise ValueError(f"Invalid pollutant(s): '{set(pollutants) - set(self.pollutants)}'")
+            raise ValueError(
+                f"Invalid pollutant(s): '{set(pollutants) - set(self.pollutants)}'"
+            )
 
         # Get instruments for each pollutant
         instruments_to_read = {
-            instrument.name for pollutant in pollutants 
+            instrument.name
+            for pollutant in pollutants
             for instrument in self.pollutant_instruments[pollutant]
         }
 
         # Read data
-        data = self.read_data(instruments_to_read, group,
-                              lvl, time_range, num_processes)
+        data = self.read_data(
+            instruments_to_read, group, lvl, time_range, num_processes
+        )
 
         # Reshape data
-        vprint('Combining data by pollutant...')
-        if format == 'wide':
+        vprint("Combining data by pollutant...")
+        if format == "wide":
             obs = pd.concat(data.values())
-            obs = obs.filter(regex='|'.join(pollutants))  # filter columns by pollutants
-            obs = obs.dropna(how='all')
-        elif format == 'long':
+            obs = obs.filter(regex="|".join(pollutants))  # filter columns by pollutants
+            obs = obs.dropna(how="all")
+        elif format == "long":
             melted_dfs = []
-            for instrument, df in data.items():
+            for _instrument, df in data.items():
                 df_reset = df.reset_index()
-                melted_df = df_reset.melt(id_vars='Time_UTC', value_vars=df.columns,
-                                var_name='pollutant', value_name='value')
+                melted_df = df_reset.melt(
+                    id_vars="Time_UTC",
+                    value_vars=df.columns,
+                    var_name="pollutant",
+                    value_name="value",
+                )
                 melted_dfs.append(melted_df)
             obs = pd.concat(melted_dfs)
             # Filter columns by pollutants
-            obs = obs[obs['pollutant'].str.contains('|'.join(pollutants))]
-            obs.dropna(subset='value', inplace=True)
-            obs.set_index('Time_UTC', inplace=True)
+            obs = obs[obs["pollutant"].str.contains("|".join(pollutants))]
+            obs.dropna(subset="value", inplace=True)
+            obs.set_index("Time_UTC", inplace=True)
         else:
             raise ValueError(f"Invalid format '{format}'. Must be 'wide' or 'long'.")
 
         return obs.sort_index()
 
-    def get_recent_obs(self, recent: str | dt.timedelta = dt.timedelta(days=10),
-                       pollutants: _all_or_mult_strs = 'all',
-                       format: Literal['wide'] | Literal['long'] = 'wide',
-                       group: str | None = None) -> pd.DataFrame:
-        '''
+    def get_recent_obs(
+        self,
+        recent: str | dt.timedelta = dt.timedelta(days=10),
+        pollutants: _all_or_mult_strs = "all",
+        format: Literal["wide"] | Literal["long"] = "wide",
+        group: str | None = None,
+    ) -> pd.DataFrame:
+        """
         Get recent observations from site instruments.
 
         Parameters
@@ -264,7 +286,7 @@ class Site:
         -------
         pandas.DataFrame
             A dataframe containing recent observations from site instruments.
-        '''
+        """
         if isinstance(recent, str):
             recent = pd.to_timedelta(recent)
         start_time = dt.datetime.now(timezone.utc).replace(tzinfo=None) - recent
@@ -294,13 +316,16 @@ class MobileSite(Site):
             }
     """
 
-    _pilot_sites = ['trx01', 'trx02']
+    _pilot_sites = ["trx01", "trx02"]
 
     @staticmethod
-    def merge_gps(obs: pd.DataFrame, gps: pd.DataFrame,
-                    on: str | None = None,
-                    obs_on: str | None = None, gps_on: str | None = None
-                    ) -> pd.DataFrame:
+    def merge_gps(
+        obs: pd.DataFrame,
+        gps: pd.DataFrame,
+        on: str | None = None,
+        obs_on: str | None = None,
+        gps_on: str | None = None,
+    ) -> pd.DataFrame:
         """
         Merge observation data with location data from GPS.
 
@@ -316,10 +341,11 @@ class MobileSite(Site):
         -------
         pd.DataFrame: The merged data with added location information.
         """
-        def truncate(time):
-            return time.dt.floor('s')
 
-        vprint('Merging obs data with location data from gps...')
+        def truncate(time):
+            return time.dt.floor("s")
+
+        vprint("Merging obs data with location data from gps...")
 
         # Reset datetime index
         obs = obs.reset_index()
@@ -327,43 +353,47 @@ class MobileSite(Site):
 
         # Merge on Time_UTC by default unless specified
         if on is None:
-            on = 'Time_UTC'
+            on = "Time_UTC"
         obs_on = obs_on or on
         gps_on = gps_on or on
 
         # Convert to datetime
-        obs[obs_on] = pd.to_datetime(obs[obs_on], errors='coerce')
-        gps[gps_on] = pd.to_datetime(gps[gps_on], errors='coerce')
+        obs[obs_on] = pd.to_datetime(obs[obs_on], errors="coerce")
+        gps[gps_on] = pd.to_datetime(gps[gps_on], errors="coerce")
 
         # Drop rows with missing obs, time, or location
-        obs.dropna(how='all', inplace=True)
-        gps.dropna(subset=[gps_on, 'Latitude_deg', 'Longitude_deg'],
-                    inplace=True)
+        obs.dropna(how="all", inplace=True)
+        gps.dropna(subset=[gps_on, "Latitude_deg", "Longitude_deg"], inplace=True)
 
         # Truncate time to seconds
         obs[obs_on] = truncate(obs[obs_on])
         gps[gps_on] = truncate(gps[gps_on])
 
         # Perform merge
-        obs = obs.merge(gps, how='inner', left_on=obs_on, right_on=gps_on,
-                        suffixes=('', '_gps'))
+        obs = obs.merge(
+            gps, how="inner", left_on=obs_on, right_on=gps_on, suffixes=("", "_gps")
+        )
 
         # Set Time_UTC as index
-        obs.set_index('Time_UTC', inplace=True)
+        obs.set_index("Time_UTC", inplace=True)
 
         # Convert to geodataframe
-        obs = gpd.GeoDataFrame(obs, crs='EPSG:4326',
-                               geometry=gpd.points_from_xy(obs.Longitude_deg,
-                                                           obs.Latitude_deg))
+        obs = gpd.GeoDataFrame(
+            obs,
+            crs="EPSG:4326",
+            geometry=gpd.points_from_xy(obs.Longitude_deg, obs.Latitude_deg),
+        )
 
         return obs
 
-    def get_obs(self, pollutants: _all_or_mult_strs = 'all',
-                format: Literal['wide'] | Literal['long'] = 'wide',
-                group: str | None = None, 
-                time_range: TimeRange._input_types = None,
-                num_processes: int | Literal['max'] = 1
-                ) -> pd.DataFrame:
+    def get_obs(
+        self,
+        pollutants: _all_or_mult_strs = "all",
+        format: Literal["wide"] | Literal["long"] = "wide",
+        group: str | None = None,
+        time_range: TimeRange._input_types = None,
+        num_processes: int | Literal["max"] = 1,
+    ) -> pd.DataFrame:
         """
         Get mobile site observations for each pollutant, combining instruments by pollutants,
         and merging location data from GPS.
@@ -392,23 +422,23 @@ class MobileSite(Site):
 
         # Read data
         obs = super().get_obs(pollutants, format, group, time_range, num_processes)
-        gps = self.read_data('gps', group, 'final', time_range, num_processes)['gps']
+        gps = self.read_data("gps", group, "final", time_range, num_processes)["gps"]
 
         # Merge gps data with obs data
-        if group == 'lin':
+        if group == "lin":
             # Can't always trust the pi's time for lin-group mobile data
             # but Pi_Time connects the gps data to the obs data
             # so we'll merge on Pi_Time and use Time_UTC from gps as the time
-            merge_on = 'Pi_Time'
-            obs.index.name = 'Pi_Time'
-        elif group == 'horel':
-            merge_on = 'Time_UTC'
+            merge_on = "Pi_Time"
+            obs.index.name = "Pi_Time"
+        elif group == "horel":
+            merge_on = "Time_UTC"
         else:  # FIXME just check for lin group?
             raise ValueError(f"Invalid group '{group}'. Must be 'lin' or 'horel'.")
         obs = MobileSite.merge_gps(obs, gps, on=merge_on)
 
-        if group == 'lin':
-            obs.drop(columns=['Pi_Time'], inplace=True)
+        if group == "lin":
+            obs.drop(columns=["Pi_Time"], inplace=True)
 
         return obs
 
@@ -418,16 +448,15 @@ class MobileSite(Site):
         import matplotlib.pyplot as plt
 
         # FIXME is this the best way to do this?
-        obs['lon'] = obs.Longitude_deg.round(3)
-        obs['lat'] = obs.Latitude_deg.round(3)
+        obs["lon"] = obs.Longitude_deg.round(3)
+        obs["lat"] = obs.Latitude_deg.round(3)
 
         # keep only most recent for each lat/lon
 
         if ax is not None:
-            fig, ax = plt.subplots(subplot_kw={'projection': ccrs.PlateCarree()})
+            fig, ax = plt.subplots(subplot_kw={"projection": ccrs.PlateCarree()})
 
         # ax.set_extent([SLV_bounds[0], SLV_bounds[2],
         #                SLV_bounds[1], SLV_bounds[3]], crs=ccrs.PlateCarree())
-        
-        return ax
 
+        return ax

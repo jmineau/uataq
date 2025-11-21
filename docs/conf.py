@@ -76,8 +76,8 @@ autosummary_generate = True
 # Intersphinx settings
 intersphinx_mapping = {
     "python": ("https://docs.python.org/3", None),
-    'geopandas': ('https://geopandas.org/en/stable', None),
+    "geopandas": ("https://geopandas.org/en/stable", None),
     "numpy": ("https://numpy.org/doc/stable/", None),
     "pandas": ("https://pandas.pydata.org/docs/", None),
-    'tables': ('https://www.pytables.org', None),
+    "tables": ("https://www.pytables.org", None),
 }

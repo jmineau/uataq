@@ -8,22 +8,19 @@ __author__ = "James Mineau"
 __email__ = "jameskmineau@gmail.com"
 
 import datetime as dt
-from typing import Union, Literal
+from typing import Literal
 
 import pandas as pd
 
-from ._laboratory import Laboratory, laboratory, get_site
-from . import filesystem
-from .filesystem import DEFAULT_GROUP
+from . import filesystem, instruments, sites
+from ._laboratory import Laboratory, get_site, laboratory
 from ._vprint import verbose
-from . import instruments, sites
+from .filesystem import DEFAULT_GROUP
 
-
-
-_all_or_mult_strs = Union[Literal['all'], str, list[str], tuple[str, ...], set[str]]
+_all_or_mult_strs = Literal["all"] | str | list[str] | tuple[str, ...] | set[str]
 
 #: UATAQ Laboratory object.
-#: 
+#:
 #: Built from :doc:`UATAQ configuration <config>`.
 laboratory: Laboratory
 
@@ -32,13 +29,15 @@ laboratory: Laboratory
 #          for SID in laboratory.sites}  # how much time does this take?
 
 
-def read_data(SID: str, 
-              instruments: _all_or_mult_strs = 'all',
-              group: str | None = None, lvl: str | None = None,
-              time_range: filesystem.TimeRange._input_types = None,
-              num_processes: int | Literal['max'] = 1,
-              file_pattern: str | None = None
-              ) -> dict[str, pd.DataFrame]:
+def read_data(
+    SID: str,
+    instruments: _all_or_mult_strs = "all",
+    group: str | None = None,
+    lvl: str | None = None,
+    time_range: filesystem.TimeRange._input_types = None,
+    num_processes: int | Literal["max"] = 1,
+    file_pattern: str | None = None,
+) -> dict[str, pd.DataFrame]:
     """
     Read data from an instrument at a site.
 
@@ -65,19 +64,22 @@ def read_data(SID: str,
         The data.
     """
     site = get_site(SID)
-    data = site.read_data(instruments, group, lvl, time_range, num_processes,
-                          file_pattern)
+    data = site.read_data(
+        instruments, group, lvl, time_range, num_processes, file_pattern
+    )
 
     return data
 
 
-def get_obs(SID: str,
-            pollutants: _all_or_mult_strs ='all',
-            format: Literal['wide'] | Literal['long'] = 'wide',
-            group: str | None = None,
-            time_range: filesystem.TimeRange._input_types = None,
-            num_processes: int | Literal['max'] = 1,
-            file_pattern: str | None = None) -> pd.DataFrame:
+def get_obs(
+    SID: str,
+    pollutants: _all_or_mult_strs = "all",
+    format: Literal["wide"] | Literal["long"] = "wide",
+    group: str | None = None,
+    time_range: filesystem.TimeRange._input_types = None,
+    num_processes: int | Literal["max"] = 1,
+    file_pattern: str | None = None,
+) -> pd.DataFrame:
     """
     Get observations from a site.
 
@@ -109,10 +111,13 @@ def get_obs(SID: str,
     return obs
 
 
-def get_recent_obs(SID, recent: str | dt.timedelta = dt.timedelta(days=10),
-                   pollutants: _all_or_mult_strs = 'all',
-                   format: Literal['wide'] | Literal['long'] = 'wide',
-                   group: str | None = None) -> pd.DataFrame:
+def get_recent_obs(
+    SID,
+    recent: str | dt.timedelta = dt.timedelta(days=10),
+    pollutants: _all_or_mult_strs = "all",
+    format: Literal["wide"] | Literal["long"] = "wide",
+    group: str | None = None,
+) -> pd.DataFrame:
     """
     Get recent observations from a site.
 
@@ -141,7 +146,13 @@ def get_recent_obs(SID, recent: str | dt.timedelta = dt.timedelta(days=10),
 
 
 __all__ = [
-    'sites', 'instruments',
-    'laboratory', 'verbose', 'DEFAULT_GROUP',
-    'get_site', 'read_data', 'get_obs', 'get_recent_obs',
-    ]
+    "sites",
+    "instruments",
+    "laboratory",
+    "verbose",
+    "DEFAULT_GROUP",
+    "get_site",
+    "read_data",
+    "get_obs",
+    "get_recent_obs",
+]
