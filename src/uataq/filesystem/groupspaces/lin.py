@@ -27,13 +27,24 @@ CONFIG_DIR: str = os.path.join(MEASUREMENTS_DIR, "pipeline", "config")
 #: Directory for Lin group data.
 DATA_DIR: str = os.path.join(MEASUREMENTS_DIR, "data")
 
-with open(os.path.join(CONFIG_DIR, "data_config.json")) as data_config_file:
-    #: Data configuration.
-    DATA_CONFIG: dict = json.load(data_config_file)
-    DATA_CONFIG["lgr_ugga_manual_cal"] = DATA_CONFIG[
-        "lgr_ugga"
-    ]  # manual cal has same format
+# Get data configuration
+data_config_path = os.path.join(CONFIG_DIR, "data_config.json")
+if not os.path.exists(data_config_path):
+    import urllib.request
+    data_config_path = (
+        "https://raw.githubusercontent.com/uataq/data-pipeline/main/config/data_config.json"
+    )
+    with urllib.request.urlopen(data_config_path) as response:
+        DATA_CONFIG: dict = json.load(response)
+else:
+    with open(data_config_path) as data_config_file:
+        #: Data configuration.
+        DATA_CONFIG: dict = json.load(data_config_file)
+DATA_CONFIG["lgr_ugga_manual_cal"] = DATA_CONFIG[
+    "lgr_ugga"
+]  # manual cal has same format
 
+# Get site configuration
 site_config_path = os.path.join(CONFIG_DIR, "site_config.csv")
 if not os.path.exists(site_config_path):
     site_config_path = "https://raw.githubusercontent.com/uataq/data-pipeline/main/config/site_config.csv"
