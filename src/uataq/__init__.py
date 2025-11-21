@@ -1,6 +1,11 @@
+"""UATAQ
+
+Read UATAQ data
 """
-Init file for UATAQ package.
-"""
+
+__version__ = "2025.11.0"
+__author__ = "James Mineau"
+__email__ = "jameskmineau@gmail.com"
 
 import datetime as dt
 from typing import Union, Literal
