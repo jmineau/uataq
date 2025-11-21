@@ -16,6 +16,7 @@ from . import filesystem, instruments, sites
 from ._laboratory import Laboratory, get_site, laboratory
 from ._vprint import verbose
 from .filesystem import DEFAULT_GROUP
+from .timerange import TimeRangeAcceptable
 
 _all_or_mult_strs = Literal["all"] | str | list[str] | tuple[str, ...] | set[str]
 
@@ -34,7 +35,7 @@ def read_data(
     instruments: _all_or_mult_strs = "all",
     group: str | None = None,
     lvl: str | None = None,
-    time_range: filesystem.TimeRange._input_types = None,
+    time_range: TimeRangeAcceptable = None,
     num_processes: int | Literal["max"] = 1,
     file_pattern: str | None = None,
 ) -> dict[str, pd.DataFrame]:
@@ -76,7 +77,7 @@ def get_obs(
     pollutants: _all_or_mult_strs = "all",
     format: Literal["wide"] | Literal["long"] = "wide",
     group: str | None = None,
-    time_range: filesystem.TimeRange._input_types = None,
+    time_range: TimeRangeAcceptable = None,
     num_processes: int | Literal["max"] = 1,
     file_pattern: str | None = None,
 ) -> pd.DataFrame:
@@ -149,6 +150,7 @@ __all__ = [
     "sites",
     "instruments",
     "laboratory",
+    "filesystem",
     "verbose",
     "DEFAULT_GROUP",
     "get_site",

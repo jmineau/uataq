@@ -17,7 +17,7 @@ import pandas as pd
 
 from uataq import errors, filesystem
 from uataq._vprint import vprint
-from uataq.filesystem import TimeRange
+from uataq.timerange import TimeRange, TimeRangeAcceptable
 
 # TODO
 # TRX01 aeth & no2 from horel-group
@@ -147,7 +147,11 @@ class Instrument(metaclass=ABCMeta):
         return groupspace.get_files(self.SID, self.name, lvl, logger)
 
     def get_datafiles(
-        self, group: str, lvl: str, time_range: TimeRange, pattern: str | None = None
+        self,
+        group: str,
+        lvl: str,
+        time_range: TimeRangeAcceptable,
+        pattern: str | None = None,
     ) -> list[filesystem.DataFile]:
         """
         Get data files for the given level and time range from the groupspace.
@@ -158,7 +162,7 @@ class Instrument(metaclass=ABCMeta):
             The research group whose data to retrieve.
         lvl : str
             The level of the data to retrieve.
-        time_range : TimeRange
+        time_range : TimeRangeAcceptable
             The time range of the data to retrieve.
         pattern : str
             A string pattern to filter the file paths.
@@ -205,7 +209,7 @@ class Instrument(metaclass=ABCMeta):
         self,
         group: str,
         lvl: str | None = None,
-        time_range: TimeRange | TimeRange._input_types = None,
+        time_range: TimeRangeAcceptable = None,
         num_processes: int | Literal["max"] = 1,
         file_pattern: str | None = None,
     ) -> pd.DataFrame:
@@ -399,8 +403,8 @@ class GPS(Instrument):
     def read_data(
         self,
         group: str,
-        lvl: str,
-        time_range: TimeRange | TimeRange._input_types = None,
+        lvl: str | None = None,
+        time_range: TimeRangeAcceptable = None,
         num_processes: int | Literal["max"] = 1,
         file_pattern: str | None = None,
     ) -> pd.DataFrame:

@@ -14,7 +14,7 @@ import tables as pytbls
 import uataq.filesystem.core as filesystem
 from uataq import errors
 from uataq._vprint import vprint
-from uataq.filesystem.core import TimeRange
+from uataq.timerange import TimeRange
 
 #: Horel group directory
 HOREL_DIR: str = os.path.join(filesystem.HOME, "horel-group")

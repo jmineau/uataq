@@ -14,7 +14,7 @@ import pandas as pd
 
 from uataq import errors, filesystem, instruments
 from uataq._vprint import vprint
-from uataq.filesystem import TimeRange
+from uataq.timerange import TimeRangeAcceptable
 
 _all_or_mult_strs = Literal["all"] | str | list[str] | tuple[str, ...] | set[str]
 
@@ -111,7 +111,7 @@ class Site:
         instruments: _all_or_mult_strs = "all",
         group: str | None = None,
         lvl: str | None = None,
-        time_range: TimeRange | TimeRange._input_types = None,
+        time_range: TimeRangeAcceptable = None,
         num_processes: int | Literal["max"] = 1,
         file_pattern: str | None = None,
     ) -> dict[str, pd.DataFrame]:
@@ -182,7 +182,7 @@ class Site:
         pollutants: _all_or_mult_strs = "all",
         format: Literal["wide"] | Literal["long"] = "wide",
         group: str | None = None,
-        time_range: TimeRange._input_types = None,
+        time_range: TimeRangeAcceptable = None,
         num_processes: int | Literal["max"] = 1,
     ) -> pd.DataFrame:
         """
@@ -391,7 +391,7 @@ class MobileSite(Site):
         pollutants: _all_or_mult_strs = "all",
         format: Literal["wide"] | Literal["long"] = "wide",
         group: str | None = None,
-        time_range: TimeRange._input_types = None,
+        time_range: TimeRangeAcceptable = None,
         num_processes: int | Literal["max"] = 1,
     ) -> pd.DataFrame:
         """

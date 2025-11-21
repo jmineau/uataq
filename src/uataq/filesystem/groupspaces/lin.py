@@ -16,7 +16,7 @@ import pandas as pd
 import uataq.filesystem.core as filesystem
 from uataq._vprint import vprint
 from uataq.errors import DataFileInitializationError, ParserError
-from uataq.filesystem.core import TimeRange
+from uataq.timerange import TimeRange
 
 # TODO: check for reprocessing
 

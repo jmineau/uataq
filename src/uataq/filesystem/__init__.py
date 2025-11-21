@@ -9,7 +9,6 @@ from . import groupspaces
 from .core import (
     DataFile,
     GroupSpace,
-    TimeRange,
     filter_datafiles,
     groups,
     list_files,
@@ -52,7 +51,6 @@ def get_group(group: str | None) -> str:
 
 __all__ = [
     "groupspaces",
-    "TimeRange",
     "DataFile",
     "GroupSpace",
     "groups",
