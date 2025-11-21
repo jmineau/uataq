@@ -14,7 +14,7 @@ import pandas as pd
 
 from uataq import errors, filesystem, instruments
 from uataq._vprint import vprint
-from uataq.timerange import TimeRangeAcceptable
+from uataq.timerange import TimeRange, TimeRangeTypes
 
 _all_or_mult_strs = Literal["all"] | str | list[str] | tuple[str, ...] | set[str]
 
@@ -111,7 +111,7 @@ class Site:
         instruments: _all_or_mult_strs = "all",
         group: str | None = None,
         lvl: str | None = None,
-        time_range: TimeRangeAcceptable = None,
+        time_range: TimeRange | TimeRangeTypes = None,
         num_processes: int | Literal["max"] = 1,
         file_pattern: str | None = None,
     ) -> dict[str, pd.DataFrame]:
@@ -127,7 +127,7 @@ class Site:
             The research group to read data from. Default is None which uses the default group.
         lvl : str, optional
             The data level to read. Default is None which reads the highest level available.
-        time_range : str | list[Union[str, dt.datetime, None]] | tuple[Union[str, dt.datetime, None], Union[str, dt.datetime, None]] | slice | None
+        time_range : TimeRange | TimeRangeTypes
             The time range to read data. Default is None which reads all available data.
         num_processes : int or 'max'
             The number of processes to use for reading data. Default is 1.
@@ -182,7 +182,7 @@ class Site:
         pollutants: _all_or_mult_strs = "all",
         format: Literal["wide"] | Literal["long"] = "wide",
         group: str | None = None,
-        time_range: TimeRangeAcceptable = None,
+        time_range: TimeRange | TimeRangeTypes = None,
         num_processes: int | Literal["max"] = 1,
     ) -> pd.DataFrame:
         """
@@ -196,7 +196,7 @@ class Site:
             Format of the data to return. Default is 'wide'.
         group : str, optional
             Research group to read data from. Default is None which uses the default group.
-        time_range : str | list[Union[str, dt.datetime, None]] | tuple[Union[str, dt.datetime, None], Union[str, dt.datetime, None]] | slice | None
+        time_range : TimeRange | TimeRangeTypes
             The time range to read data. Default is None which reads all available data.
         num_processes : int, optional
             Number of processes to use for reading data. Default is 1.
@@ -391,7 +391,7 @@ class MobileSite(Site):
         pollutants: _all_or_mult_strs = "all",
         format: Literal["wide"] | Literal["long"] = "wide",
         group: str | None = None,
-        time_range: TimeRangeAcceptable = None,
+        time_range: TimeRange | TimeRangeTypes = None,
         num_processes: int | Literal["max"] = 1,
     ) -> pd.DataFrame:
         """
@@ -406,7 +406,7 @@ class MobileSite(Site):
             Format of the data to return. Default is 'wide'.
         group : str, optional
             Research group to read data from. Default is None which uses the default group.
-        time_range : list of str, optional
+        time_range : TimeRange | TimeRangeTypes, optional
             Time range to read data. Default is None.
         num_processes : int, optional
             Number of processes to use for reading data. Default is 1.

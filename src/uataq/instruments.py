@@ -17,7 +17,7 @@ import pandas as pd
 
 from uataq import errors, filesystem
 from uataq._vprint import vprint
-from uataq.timerange import TimeRange, TimeRangeAcceptable
+from uataq.timerange import TimeRange, TimeRangeTypes
 
 # TODO
 # TRX01 aeth & no2 from horel-group
@@ -150,7 +150,7 @@ class Instrument(metaclass=ABCMeta):
         self,
         group: str,
         lvl: str,
-        time_range: TimeRangeAcceptable,
+        time_range: TimeRange | TimeRangeTypes,
         pattern: str | None = None,
     ) -> list[filesystem.DataFile]:
         """
@@ -162,7 +162,7 @@ class Instrument(metaclass=ABCMeta):
             The research group whose data to retrieve.
         lvl : str
             The level of the data to retrieve.
-        time_range : TimeRangeAcceptable
+        time_range : TimeRange | TimeRangeTypes
             The time range of the data to retrieve.
         pattern : str
             A string pattern to filter the file paths.
@@ -209,7 +209,7 @@ class Instrument(metaclass=ABCMeta):
         self,
         group: str,
         lvl: str | None = None,
-        time_range: TimeRangeAcceptable = None,
+        time_range: TimeRange | TimeRangeTypes = None,
         num_processes: int | Literal["max"] = 1,
         file_pattern: str | None = None,
     ) -> pd.DataFrame:
@@ -223,7 +223,7 @@ class Instrument(metaclass=ABCMeta):
             The research group whose data to read.
         lvl : str
             The level of the data to read.
-        time_range : str | list[Union[str, dt.datetime, None]] | tuple[Union[str, dt.datetime, None], Union[str, dt.datetime, None]] | slice | None
+        time_range : TimeRange | TimeRangeTypes
             The time range to read data. Default is None which reads all available data.
         num_processes : int | 'max'
             The number of processes to use for parallelization.
@@ -404,7 +404,7 @@ class GPS(Instrument):
         self,
         group: str,
         lvl: str | None = None,
-        time_range: TimeRangeAcceptable = None,
+        time_range: TimeRange | TimeRangeTypes = None,
         num_processes: int | Literal["max"] = 1,
         file_pattern: str | None = None,
     ) -> pd.DataFrame:

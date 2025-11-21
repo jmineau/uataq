@@ -1,4 +1,3 @@
-
 import datetime as dt
 import re
 from typing import TypeAlias
@@ -6,14 +5,11 @@ from typing import TypeAlias
 import numpy as np
 import pandas as pd
 
-
 # Type Aliases for TimeRange inputs
 TimeObject: TypeAlias = str | dt.datetime | np.datetime64 | None
 TimeRangeTuple: TypeAlias = tuple[TimeObject, TimeObject]
 TimeRangeList: TypeAlias = list[TimeObject]
-TimeRangeAcceptable: TypeAlias = (
-    str | TimeRangeTuple | TimeRangeList | slice | "TimeRange" | None
-)
+TimeRangeTypes = str | TimeRangeTuple | TimeRangeList | slice | None
 
 
 class TimeRange:
@@ -37,7 +33,7 @@ class TimeRange:
 
     def __init__(
         self,
-        time_range: TimeRangeAcceptable = None,
+        time_range: "TimeRange | TimeRangeTypes" = None,
         start: TimeObject = None,
         stop: TimeObject = None,
     ):
@@ -198,4 +194,3 @@ class TimeRange:
             return stop
         else:
             return start
-
