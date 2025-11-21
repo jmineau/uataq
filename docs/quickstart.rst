@@ -6,10 +6,10 @@ Quick Start
 .. ipython:: python
     :suppress:
 
-    import lair
+    import uataq
 
     # Set verbose to False to suppress logging
-    lair.config.verbose = False
+    uataq.verbose = False
 
 Laboratory
 ----------
@@ -17,8 +17,6 @@ Laboratory
 It all starts in the lab...
 
 .. ipython:: python
-
-   import uataq
 
    lab = uataq.laboratory
 

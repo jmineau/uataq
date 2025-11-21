@@ -1,4 +1,4 @@
-.. currentmodule:: lair.uataq.filesystem
+.. currentmodule:: uataq.filesystem
 
 File System
 ===========

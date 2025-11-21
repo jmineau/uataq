@@ -1,4 +1,4 @@
-.. currentmodule:: lair.uataq
+.. currentmodule:: uataq
 
 General Functions
 =================
