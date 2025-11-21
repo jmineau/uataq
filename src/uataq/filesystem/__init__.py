@@ -5,10 +5,11 @@ Provides access to the UATAQ filesystem through the use of `DataFile`
 and `GroupSpace` objects.
 """
 
-from ._filesystem import (DataFile, GroupSpace,
+from .core import (TimeRange, DataFile, GroupSpace,
                           groups, lvls,
-                          filter_datafiles, parse_datafiles)
+                          list_files, filter_datafiles, parse_datafiles)
 from . import groupspaces
+
 
 #: Default group to read data from.
 DEFAULT_GROUP: str = 'lin'
@@ -44,6 +45,6 @@ def get_group(group: str | None) -> str:
 
 
 __all__ = ['groupspaces',
-           'DataFile', 'GroupSpace',
+           'TimeRange', 'DataFile', 'GroupSpace',
            'groups', 'lvls',
-           'filter_datafiles', 'parse_datafiles']
+           'list_files', 'filter_datafiles', 'parse_datafiles']

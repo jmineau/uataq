@@ -24,7 +24,7 @@ by multiple research groups, each with their own naming conventions and data for
 The package must be able to handle all of these different formats and provide a 
 onsistent interface for the user.
 
-I have defined a set of [standardized column names](/lair/uataq/columns.md) that each
+I have defined a set of [standardized column names](columns.md) that each
 groupspace module must define a :obj:`column_mapping` dictionary that maps the group's column
 names to the standardized names when using the `GroupSpace.standardize_data` method.
 

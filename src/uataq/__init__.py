@@ -3,14 +3,16 @@ Init file for UATAQ package.
 """
 
 import datetime as dt
-import pandas as pd
 from typing import Union, Literal
 
+import pandas as pd
 
-from lair.utils.clock import TimeRange
 from ._laboratory import Laboratory, laboratory, get_site
+from . import filesystem
 from .filesystem import DEFAULT_GROUP
+from ._vprint import verbose
 from . import instruments, sites
+
 
 
 _all_or_mult_strs = Union[Literal['all'], str, list[str], tuple[str, ...], set[str]]
@@ -28,7 +30,7 @@ laboratory: Laboratory
 def read_data(SID: str, 
               instruments: _all_or_mult_strs = 'all',
               group: str | None = None, lvl: str | None = None,
-              time_range: TimeRange._input_types = None,
+              time_range: filesystem.TimeRange._input_types = None,
               num_processes: int | Literal['max'] = 1,
               file_pattern: str | None = None
               ) -> dict[str, pd.DataFrame]:
@@ -68,7 +70,7 @@ def get_obs(SID: str,
             pollutants: _all_or_mult_strs ='all',
             format: Literal['wide'] | Literal['long'] = 'wide',
             group: str | None = None,
-            time_range: TimeRange._input_types = None,
+            time_range: filesystem.TimeRange._input_types = None,
             num_processes: int | Literal['max'] = 1,
             file_pattern: str | None = None) -> pd.DataFrame:
     """
@@ -135,6 +137,6 @@ def get_recent_obs(SID, recent: str | dt.timedelta = dt.timedelta(days=10),
 
 __all__ = [
     'sites', 'instruments',
-    'laboratory',
+    'laboratory', 'verbose', 'DEFAULT_GROUP',
     'get_site', 'read_data', 'get_obs', 'get_recent_obs',
     ]

@@ -6,24 +6,24 @@ This module contains classes and functions for working with the Lin group data i
 
 from copy import deepcopy
 import json
-import numpy as np
 import os
-import pandas as pd
 import re
 import subprocess
 from typing import List
 
-from lair.config import HOME, vprint
-from lair.uataq.errors import DataFileInitializationError, ParserError
-import lair.uataq.filesystem._filesystem as filesystem
-from lair.utils.clock import TimeRange
-from lair.utils.geo import dms2dd
-from lair.utils.records import list_files
+import numpy as np
+import pandas as pd
+
+from uataq._vprint import vprint
+from uataq.errors import DataFileInitializationError, ParserError
+import uataq.filesystem.core as filesystem
+from uataq.filesystem.core import TimeRange
+
 
 # TODO: check for reprocessing
 
 #: Directory for Lin group measurements.
-MEASUREMENTS_DIR: str = os.path.join(HOME, 'lin-group20', 'measurements')
+MEASUREMENTS_DIR: str = os.path.join(filesystem.HOME, 'lin-group20', 'measurements')
 #: Directory for Lin group pipeline configuration.
 CONFIG_DIR: str = os.path.join(MEASUREMENTS_DIR, 'pipeline', 'config')
 #: Directory for Lin group data.
@@ -247,6 +247,36 @@ column_mapping: dict[str, dict[str, str]] = {
 column_mapping['licor_7000'] = column_mapping['licor_6262']
 
 
+def dms2dd(d: float=0.0, m: float=0.0, s: float=0.0) -> float:
+    """
+    Degree-minute-second to decimal degree
+
+    Parameters
+    ----------
+    d : float, optional
+        Degrees, by default 0.0
+    m : float, optional
+        Minutes, by default 0.0
+    s : float, optional
+        Seconds, by default 0.0
+
+    Returns
+    -------
+    float
+        Decimal degrees
+
+    Raises
+    ------
+    ValueError
+        If any of the inputs are not floats
+    """
+    try:
+        dd = float(d) + float(m) / 60 + float(s) / 3600
+        return dd
+    except ValueError:
+        return np.nan
+
+
 class LinDatFile(filesystem.DataFile):
     """
     A class for parsing Lin data files.
@@ -320,7 +350,7 @@ class LinDatFile(filesystem.DataFile):
 
         data = pd.read_csv(self.path, on_bad_lines='skip')
         
-        if data.columns[0] is not 'TIMESTAMP':
+        if data.columns[0] != 'TIMESTAMP':
             col_names = DATA_CONFIG[self.instrument][self.lvl]['col_names']
             data = pd.DataFrame(np.vstack([
                     data.columns,
@@ -465,7 +495,7 @@ class LGR_UGGA_File(filesystem.DataFile):
         assert lvl == 'raw', 'Only raw data is stored in UGGA files'
         data_path = LinGroup.data_path(SID, instrument, lvl)
         pattern = '*f????.txt'
-        return list_files(data_path, pattern=pattern, full_names=True, recursive=True)
+        return filesystem.list_files(data_path, pattern=pattern, full_names=True, recursive=True)
 
     def parse(self):
         """
@@ -688,7 +718,7 @@ class LinGroup(filesystem.GroupSpace):
             return LGR_UGGA_File.get_files(SID, instrument, lvl)
 
         data_path = LinGroup.data_path(SID, instrument, lvl)
-        return list_files(data_path, full_names=True)
+        return filesystem.list_files(data_path, full_names=True)
 
     def get_datafile_key(self, instrument: str, lvl: str, logger: str) -> str:
         key = logger if lvl == 'raw' else 'data-pipeline'

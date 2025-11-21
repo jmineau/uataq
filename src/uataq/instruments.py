@@ -10,12 +10,13 @@ and defines abstract methods that must be implemented by each subclass.
 
 from abc import ABCMeta
 import json
-import pandas as pd
 from typing import Literal, Iterator, Type
 
-from lair.config import vprint
-from lair.uataq import errors, filesystem
-from lair.utils.clock import TimeRange
+import pandas as pd
+
+from uataq import errors, filesystem
+from uataq._vprint import vprint
+from uataq.filesystem import TimeRange
 
 # TODO
 # TRX01 aeth & no2 from horel-group

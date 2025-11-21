@@ -1,4 +1,4 @@
-.. currentmodule:: lair.uataq.sites
+.. currentmodule:: uataq.sites
 
 Sites
 =====

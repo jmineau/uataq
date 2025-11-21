@@ -1,4 +1,4 @@
-.. currentmodule:: lair.uataq
+.. currentmodule:: uataq
 
 Quick Start
 ===========
@@ -18,16 +18,16 @@ It all starts in the lab...
 
 .. ipython:: python
 
-   from lair import uataq
+   import uataq
 
    lab = uataq.laboratory
 
-The :data:`laboratory` object is a singleton instance of the :class:`~lair.uataq._laboratory.Laboratory`
+The :data:`laboratory` object is a singleton instance of the :class:`~uataq._laboratory.Laboratory`
 class which is initialized with the :doc:`UATAQ configuration file <config>`.
 The configuration file is a JSON file which specifies UATAQ site characteristics
 including name, location, status, research groups collecting data, and installed instruments.
 
-The :class:`~lair.uataq._laboratory.Laboratory` object contains the following attributes:
+The :class:`~uataq._laboratory.Laboratory` object contains the following attributes:
 
  - sites : A list of site identifiers.
  - instruments : A list of instrument names.

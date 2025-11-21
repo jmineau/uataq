@@ -4,12 +4,11 @@ This module provides a factory class for creating site objects with instruments 
 
 from copy import deepcopy
 import json
-import pkgutil
+import importlib.resources
 from typing import Literal
 
-from lair.config import LAIR_DIR, vprint
-from lair.uataq.instruments import InstrumentEnsemble
-from lair.uataq import sites
+from uataq.instruments import InstrumentEnsemble
+from uataq import sites
 
 
 class Laboratory:
@@ -103,9 +102,7 @@ class Laboratory:
         return SiteClass(SID, config, instruments)
 
 
-config = json.loads(pkgutil.get_data('lair.uataq',
-                                     'config.json'
-                                     ).decode('utf-8'))
+config = json.loads(importlib.resources.files('uataq.resources').joinpath('config.json').read_text())
 laboratory = Laboratory(config)
 
 

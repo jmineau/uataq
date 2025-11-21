@@ -1,6 +1,6 @@
 Instruments
 ===========
 
-.. automodule:: lair.uataq.instruments
+.. automodule:: uataq.instruments
    :members:
    :show-inheritance:

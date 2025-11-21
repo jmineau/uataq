@@ -5,14 +5,15 @@ This module provides classes and functions for working with UATAQ sites.
 from collections import defaultdict
 import datetime as dt
 from datetime import timezone
-import geopandas as gpd
 import json
-import pandas as pd
 from typing import Sequence, Union, Literal
 
-from lair.config import vprint
-from lair.uataq import errors, filesystem, instruments
-from lair.utils.clock import TimeRange
+import geopandas as gpd
+import pandas as pd
+
+from uataq import errors, filesystem, instruments
+from uataq._vprint import vprint
+from uataq.filesystem import TimeRange
 
 _all_or_mult_strs = Union[Literal['all'], str, list[str], tuple[str, ...], set[str]]
 

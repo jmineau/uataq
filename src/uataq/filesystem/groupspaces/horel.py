@@ -5,21 +5,20 @@ This module contains classes and functions for working with the Horel group data
 """
 
 from abc import ABCMeta
-import numpy as np
 import os
-import pandas as pd
-import tables as pytbls
 from typing import Dict, List
 
-from lair.config import HOME, vprint
-from lair.uataq import errors
-import lair.uataq.filesystem._filesystem as filesystem
-from lair import units
-from lair.utils.clock import TimeRange
-from lair.utils.records import list_files
+import numpy as np
+import pandas as pd
+import tables as pytbls
+
+from uataq import errors
+from uataq._vprint import vprint
+import uataq.filesystem.core as filesystem
+from uataq.filesystem.core import TimeRange
 
 #: Horel group directory
-HOREL_DIR: str = os.path.join(HOME, 'horel-group')
+HOREL_DIR: str = os.path.join(filesystem.HOME, 'horel-group')
 
 # UUTRAX directories
 #   Consider UUTRAX project as part of UATAQ (includes TRX, BUS, RAIL, HAWTH)
@@ -527,7 +526,7 @@ class HorelGroup(filesystem.GroupSpace):
     def get_highest_lvl(SID: str, instrument: str) -> str:
         finalized_dir = 'csv_finalized_ebus' if SID.startswith('BUS') else 'csv_finalized'
         # UUTRAX_PILOT_DIR is the pilot phase which does not have qaqc/final data
-        site_files = list_files(os.path.join(UUTRAX_DIR, finalized_dir),
+        site_files = filesystem.list_files(os.path.join(UUTRAX_DIR, finalized_dir),
                                 pattern=f'{SID.upper()}*')
         return 'final' if len(site_files) > 0 else 'raw'
 
@@ -554,7 +553,7 @@ class HorelGroup(filesystem.GroupSpace):
             else:
                 finalized_dir = 'csv_finalized_ebus' if SID.startswith('BUS') else 'csv_finalized'
                 data_path = os.path.join(data_dir, finalized_dir)
-            files.extend(list_files(data_path, pattern=f'*{SID.upper()}*', full_names=True))
+            files.extend(filesystem.list_files(data_path, pattern=f'*{SID.upper()}*', full_names=True))
 
         return files
 
@@ -620,7 +619,7 @@ class HorelGroup(filesystem.GroupSpace):
 
         if 'ITMP' in data.columns:
             # Convert from F to C
-            data['ITMP'] = (data.ITMP.values * units('degF')).to(units('degC')).magnitude
+            data['ITMP'] = (data.ITMP - 32) * 5.0 / 9.0
 
             # Replace ITMP with instrument-specific column name
             new_col = mapping['ITMP'][:-1] + 'C'

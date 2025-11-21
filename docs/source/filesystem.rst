@@ -24,9 +24,9 @@ All :class:`GroupSpace` objects are stored in the :data:`groups` dictionary with
    The default research group can be changed at runtime via :data:`uataq.filesystem.DEFAULT_GROUP`
    or *permanently* (until the next update) changed in the the ``filesystem.__init__`` module:
 
-   .. literalinclude:: /../../lair/uataq/filesystem/__init__.py
+   .. literalinclude:: /../../src/uataq/filesystem/__init__.py
       :language: python
-      :caption: lair/uataq/filesystem/__init__.py
+      :caption: uataq/filesystem/__init__.py
       :lineno-start: 14
       :lines: 14
 

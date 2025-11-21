@@ -1,4 +1,4 @@
-.. currentmodule:: lair.uataq
+.. currentmodule:: uataq
 
 Laboratory
 ==========
@@ -13,14 +13,14 @@ Laboratory
 
     laboratory
     get_site
-    ~lair.uataq._laboratory.Laboratory
+    ~uataq._laboratory.Laboratory
 
 Contents
 --------
 
 .. autodata:: laboratory
-    :annotation: = lair.uataq._laboratory.Laboratory()
+    :annotation: = uataq._laboratory.Laboratory()
 
 .. autofunction:: get_site
 
-.. autoclass:: lair.uataq._laboratory.Laboratory
+.. autoclass:: uataq._laboratory.Laboratory

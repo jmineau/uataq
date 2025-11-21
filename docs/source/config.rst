@@ -11,7 +11,6 @@ collecting data, and installed instruments.
     installation/removal, must be reflected in the configuration
     file for the lab to be able to properly access the data.
 
-.. literalinclude:: /../../lair/uataq/config.json
+.. literalinclude:: /../../src/uataq/config.json
     :language: json
-    :caption: lair/uataq/config.json
-
+    :caption: uataq/config.json
