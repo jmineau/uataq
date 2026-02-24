@@ -23,9 +23,9 @@ classifiers = [
 ]
 dependencies = [
     "geopandas",
-    "numpy<2",  # numpy 2.0 breaks pytables
+    "numpy",
     "pandas",
-    "tables",
+    "tables>3.10",  # 3.10 compatible with numpy 2.0
 ]
 
 [project.optional-dependencies]
