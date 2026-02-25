@@ -10,9 +10,12 @@ from typing import Literal
 
 import pandas as pd
 
+import logging
+
 import uataq.errors as errors
-from uataq._vprint import vprint
 from uataq.timerange import TimeRange
+
+_logger = logging.getLogger(__name__)
 
 pd.options.mode.copy_on_write = True
 
@@ -160,7 +163,7 @@ def filter_datafiles(
     list[DataFile]
         A list of DataFile objects that match the given time range.
     """
-    vprint(f"Filtering files to time range: {time_range}")
+    _logger.info(f"Filtering files to time range: {time_range}")
 
     df = pd.DataFrame(
         [(file, file.period) for file in files], columns=["file", "period"]
@@ -204,7 +207,7 @@ def _parse_datafile(datafile: DataFile) -> pd.DataFrame | None:
     try:
         return datafile.parse()
     except errors.ParserError as e:
-        vprint(f"Error parsing {datafile}: {e}")
+        _logger.warning(f"Error parsing {datafile}: {e}")
 
 
 def parse_datafiles(
@@ -237,8 +240,8 @@ def parse_datafiles(
     if num_processes == "max":
         processes = cpu_count
     elif num_processes > cpu_count:
-        vprint(
-            f"Warning: {num_processes} processes requested, "
+        _logger.debug(
+            f"{num_processes} processes requested, "
             f"but there are only {cpu_count} CPU(s) available."
         )
         processes = cpu_count
@@ -246,18 +249,18 @@ def parse_datafiles(
         processes = num_processes
 
     if processes > len(files):
-        vprint(
-            f"Info: {num_processes} processes requested, "
+        _logger.debug(
+            f"{num_processes} processes requested, "
             f"but there are only {len(files)} files to parse."
         )
         processes = len(files)
 
     # If only one process is requested, execute the function sequentially
     if processes == 1:
-        vprint("Parsing files sequentially...")
+        _logger.debug("Parsing files sequentially...")
         datasets = [_parse_datafile(f) for f in files]
     else:
-        vprint(f"Parsing files in parallel with {processes} processes...")
+        _logger.debug(f"Parsing files in parallel with {processes} processes...")
 
         # Create a multiprocessing Pool
         pool = multiprocessing.Pool(processes=processes)
@@ -270,7 +273,7 @@ def parse_datafiles(
         pool.join()
 
     # Concatenate the datasets
-    vprint("Concatenating datasets and reducing rows to time range...")
+    _logger.info("Concatenating datasets and reducing rows to time range...")
     if driver == "pandas":
         data = pd.concat(datasets)
 
@@ -454,7 +457,7 @@ class GroupSpace(metaclass=ABCMeta):
                 try:
                     datafiles.append(DataFileClass(path))
                 except errors.DataFileInitializationError as e:
-                    vprint(
+                    _logger.warning(
                         f"Unable to initialize {DataFileClass.__name__} from {path}: {e}"
                     )
             continue

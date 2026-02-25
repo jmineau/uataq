@@ -4,6 +4,7 @@ This module provides classes and functions for working with UATAQ sites.
 
 import datetime as dt
 import json
+import logging
 from collections import defaultdict
 from collections.abc import Sequence
 from datetime import timezone
@@ -13,8 +14,9 @@ import geopandas as gpd
 import pandas as pd
 
 from uataq import errors, filesystem, instruments
-from uataq._vprint import vprint
 from uataq.timerange import TimeRange, TimeRangeTypes
+
+_logger = logging.getLogger(__name__)
 
 _all_or_mult_strs = Literal["all"] | str | list[str] | tuple[str, ...] | set[str]
 
@@ -168,7 +170,7 @@ class Site:
                     group, lvl, time_range, num_processes, file_pattern
                 )
             except errors.ReaderError as e:
-                vprint(f"Error reading {instrument} data from {group} groupspace: {e}")
+                _logger.warning(f"Error reading {instrument} data from {group} groupspace: {e}")
 
         if not data:
             raise errors.ReaderError(
@@ -235,7 +237,7 @@ class Site:
         )
 
         # Reshape data
-        vprint("Combining data by pollutant...")
+        _logger.info("Combining data by pollutant...")
         if format == "wide":
             obs = pd.concat(data.values())
             obs = obs.filter(regex="|".join(pollutants))  # filter columns by pollutants
@@ -345,7 +347,7 @@ class MobileSite(Site):
         def truncate(time):
             return time.dt.floor("s")
 
-        vprint("Merging obs data with location data from gps...")
+        _logger.info("Merging obs data with location data from gps...")
 
         # Reset datetime index
         obs = obs.reset_index()

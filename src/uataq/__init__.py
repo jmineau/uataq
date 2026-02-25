@@ -8,13 +8,16 @@ __author__ = "James Mineau"
 __email__ = "jameskmineau@gmail.com"
 
 import datetime as dt
+import logging
 from typing import Literal
 
 import pandas as pd
 
+# Best-practice for libraries: don't emit output unless the caller opts in.
+logging.getLogger(__name__).addHandler(logging.NullHandler())
+
 from . import filesystem, instruments, sites
 from ._laboratory import Laboratory, get_site, laboratory
-from ._vprint import verbose
 from .filesystem import DEFAULT_GROUP
 from .timerange import TimeRange, TimeRangeTypes
 
@@ -151,7 +154,6 @@ __all__ = [
     "instruments",
     "laboratory",
     "filesystem",
-    "verbose",
     "DEFAULT_GROUP",
     "get_site",
     "read_data",

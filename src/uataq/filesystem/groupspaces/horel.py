@@ -13,8 +13,10 @@ import tables as pytbls
 
 import uataq.filesystem.core as filesystem
 from uataq import errors
-from uataq._vprint import vprint
 from uataq.timerange import TimeRange
+
+import logging
+_logger = logging.getLogger(__name__)
 
 #: Horel group directory
 HOREL_DIR: str = os.path.join(filesystem.HOME, "horel-group")
@@ -319,7 +321,7 @@ class HorelH5File(HorelFile):
         pd.DataFrame
             A DataFrame containing the parsed data.
         """
-        vprint(f"Parsing {os.path.relpath(self.path, HOREL_DIR)}")
+        _logger.debug(f"Parsing {os.path.relpath(self.path, HOREL_DIR)}")
 
         with pytbls.open_file(self.path, mode="r") as f:
             table = f.root["obsdata/observations"]
@@ -390,7 +392,7 @@ class HorelCSVFile(HorelFile):
         pd.DataFrame
             A DataFrame containing the parsed data.
         """
-        vprint(f"Parsing {os.path.relpath(self.path, HOREL_DIR)}")
+        _logger.debug(f"Parsing {os.path.relpath(self.path, HOREL_DIR)}")
 
         data = pd.read_csv(
             self.path, compression="gzip", skiprows=[1], usecols=self.usecols
@@ -631,7 +633,7 @@ class HorelGroup(filesystem.GroupSpace):
                 try:
                     datafiles.append(DataFileClass(path, instrument))
                 except errors.DataFileInitializationError as e:
-                    vprint(
+                    _logger.warning(
                         f"Unable to initialize {DataFileClass.__name__} from {path}: {e}"
                     )
             continue

@@ -14,9 +14,11 @@ import numpy as np
 import pandas as pd
 
 import uataq.filesystem.core as filesystem
-from uataq._vprint import vprint
 from uataq.errors import DataFileInitializationError, ParserError
 from uataq.timerange import TimeRange
+
+import logging
+_logger = logging.getLogger(__name__)
 
 # TODO: check for reprocessing
 
@@ -357,7 +359,7 @@ class LinDatFile(filesystem.DataFile):
         pd.DataFrame
             The parsed data.
         """
-        vprint(f"Parsing {os.path.relpath(self.path, DATA_DIR)}")
+        _logger.debug(f"Parsing {os.path.relpath(self.path, DATA_DIR)}")
 
         data = pd.read_csv(self.path, on_bad_lines="skip")
 
@@ -515,7 +517,7 @@ class LGR_UGGA_File(filesystem.DataFile):
         pd.DataFrame
             The parsed data.
         """
-        vprint(f"Parsing {os.path.relpath(self.path, DATA_DIR)}")
+        _logger.debug(f"Parsing {os.path.relpath(self.path, DATA_DIR)}")
 
         # Adapt column names depending on LGR software version.
         #  2013-2014 version has 23 columns
@@ -640,7 +642,7 @@ class AirTrendFile(filesystem.DataFile):
         pd.DataFrame
             The parsed data.
         """
-        vprint(f"Parsing {os.path.relpath(self.path, DATA_DIR)}")
+        _logger.debug(f"Parsing {os.path.relpath(self.path, DATA_DIR)}")
 
         data_config = DATA_CONFIG[self.config["instrument"]][self.config["lvl"]]
 
@@ -768,7 +770,7 @@ class LinGroup(filesystem.GroupSpace):
             if SID.startswith("TRX"):
                 print("Warning: Time_UTC may not be accurate for mobile raw Lin data.")
             if logger == "lgr_ugga":
-                vprint(
+                _logger.debug(
                     "Adding a day on either side of time range to ensure all data is included."
                 )
                 # Raw lgr_ugga files names dont necessarily match the period

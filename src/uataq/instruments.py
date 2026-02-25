@@ -9,6 +9,7 @@ and defines abstract methods that must be implemented by each subclass.
 """
 
 import json
+import logging
 from abc import ABCMeta
 from collections.abc import Iterator
 from typing import Literal
@@ -16,8 +17,9 @@ from typing import Literal
 import pandas as pd
 
 from uataq import errors, filesystem
-from uataq._vprint import vprint
 from uataq.timerange import TimeRange, TimeRangeTypes
+
+_logger = logging.getLogger(__name__)
 
 # TODO
 # TRX01 aeth & no2 from horel-group
@@ -122,7 +124,7 @@ class Instrument(metaclass=ABCMeta):
         str
             The highest data level.
         """
-        vprint("No level specified. Determining highest level...")
+        _logger.info("No level specified. Determining highest level...")
         groupspace = self._get_groupspace(group)
         return groupspace.get_highest_lvl(self.SID, self.name)
 
@@ -235,7 +237,7 @@ class Instrument(metaclass=ABCMeta):
         pandas.DataFrame
             A concatenated DataFrame containing the parsed data from files.
         """
-        vprint(f"Reading data for {self} from the {group} groupspace...")
+        _logger.info(f"Reading data for {self} from the {group} groupspace...")
 
         # Format lvl & time_range
         lvl = lvl.lower() if lvl else self.get_highest_lvl(group)
@@ -244,12 +246,12 @@ class Instrument(metaclass=ABCMeta):
         )
         time_range = TimeRange(time_range)
 
-        vprint(f"Getting {lvl} files...")
+        _logger.info(f"Getting {lvl} files...")
         datafiles = self.get_datafiles(group, lvl, time_range, file_pattern)
         data = filesystem.parse_datafiles(datafiles, time_range, num_processes)
-        vprint("Mapping columns to UATAQ names...")
+        _logger.info("Mapping columns to UATAQ names...")
         data = self.standardize_data(group, data)
-        vprint("done.")
+        _logger.info("done.")
         return data
 
 
