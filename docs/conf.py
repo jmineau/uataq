@@ -43,6 +43,16 @@ html_theme_options = {
     "navbar_align": "left",
 }
 
+# Hide primary (left) sidebar on specific pages
+html_sidebars = {
+    "installation": [],
+    "quickstart": [],
+    "general": [],
+    "filesystem": [],
+    "sites": [],
+    "instruments": [],
+}
+
 # -- Extension configuration -------------------------------------------------
 
 # Napoleon settings
