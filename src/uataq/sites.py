@@ -186,6 +186,7 @@ class Site:
         group: str | None = None,
         time_range: TimeRange | TimeRangeTypes = None,
         num_processes: int | Literal["max"] = 1,
+        **kwargs,
     ) -> pd.DataFrame:
         """
         Get observations for each pollutant, combining instruments by pollutants.
@@ -395,10 +396,12 @@ class MobileSite(Site):
         group: str | None = None,
         time_range: TimeRange | TimeRangeTypes = None,
         num_processes: int | Literal["max"] = 1,
+        include_gps: bool = True,
+        **kwargs,
     ) -> pd.DataFrame:
         """
         Get mobile site observations for each pollutant, combining instruments by pollutants,
-        and merging location data from GPS.
+        and (optionally) merging location data from GPS.
 
         Parameters
         ----------
@@ -412,6 +415,8 @@ class MobileSite(Site):
             Time range to read data. Default is None.
         num_processes : int, optional
             Number of processes to use for reading data. Default is 1.
+        include_gps : bool, optional
+            Whether to include GPS data in the returned dataframe. Default is True.
 
         Returns
         -------
@@ -423,24 +428,25 @@ class MobileSite(Site):
         group = filesystem.get_group(group)
 
         # Read data
-        obs = super().get_obs(pollutants, format, group, time_range, num_processes)
+        obs = super().get_obs(pollutants, format, group, time_range, num_processes, **kwargs)
         gps = self.read_data("gps", group, "final", time_range, num_processes)["gps"]
 
         # Merge gps data with obs data
-        if group == "lin":
-            # Can't always trust the pi's time for lin-group mobile data
-            # but Pi_Time connects the gps data to the obs data
-            # so we'll merge on Pi_Time and use Time_UTC from gps as the time
-            merge_on = "Pi_Time"
-            obs.index.name = "Pi_Time"
-        elif group == "horel":
-            merge_on = "Time_UTC"
-        else:  # FIXME just check for lin group?
-            raise ValueError(f"Invalid group '{group}'. Must be 'lin' or 'horel'.")
-        obs = MobileSite.merge_gps(obs, gps, on=merge_on)
+        if include_gps:
+            if group == "lin":
+                # Can't always trust the pi's time for lin-group mobile data
+                # but Pi_Time connects the gps data to the obs data
+                # so we'll merge on Pi_Time and use Time_UTC from gps as the time
+                merge_on = "Pi_Time"
+                obs.index.name = "Pi_Time"
+            elif group == "horel":
+                merge_on = "Time_UTC"
+            else:  # FIXME just check for lin group?
+                raise ValueError(f"Invalid group '{group}'. Must be 'lin' or 'horel'.")
+            obs = MobileSite.merge_gps(obs, gps, on=merge_on)
 
-        if group == "lin":
-            obs.drop(columns=["Pi_Time"], inplace=True)
+            if group == "lin":
+                obs.drop(columns=["Pi_Time"], inplace=True)
 
         return obs
 

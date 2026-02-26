@@ -82,7 +82,7 @@ def get_obs(
     group: str | None = None,
     time_range: TimeRange | TimeRangeTypes = None,
     num_processes: int | Literal["max"] = 1,
-    file_pattern: str | None = None,
+    **kwargs,
 ) -> pd.DataFrame:
     """
     Get observations from a site.
@@ -101,8 +101,8 @@ def get_obs(
         The time range to get observations. Default is None which gets all available data.
     num_processes : int | 'max'
         The number of processes to use. Default is 1.
-    file_pattern : str | None
-        A string pattern to filter the file paths.
+    kwargs
+        Additional keyword arguments to pass to the site's `get_obs` method.
 
     Returns
     -------
@@ -110,7 +110,7 @@ def get_obs(
         The observations.
     """
     site = get_site(SID)
-    obs = site.get_obs(pollutants, format, group, time_range, num_processes)
+    obs = site.get_obs(pollutants, format, group, time_range, num_processes, **kwargs)
 
     return obs
 
