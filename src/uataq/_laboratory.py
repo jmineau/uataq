@@ -113,7 +113,7 @@ class Laboratory:
 
 
 config = json.loads(
-    importlib.resources.files("uataq.resources").joinpath("config.json").read_text()
+    importlib.resources.files("uataq").joinpath("config.json").read_text()
 )
 laboratory = Laboratory(config)
 

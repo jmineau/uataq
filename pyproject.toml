@@ -28,18 +28,15 @@ dependencies = [
     "tables>3.10",  # 3.10 compatible with numpy 2.0
 ]
 
-[project.optional-dependencies]
+[dependency-groups]
 dev = [
     "docstr-coverage>=2.0.0",
     "pre-commit>=3.0.0",
+    "pydata-sphinx-theme>=0.14.0",
     "pyright>=1.1.0",
     "pytest>=7.0.0",
     "pytest-cov>=4.0.0",
     "ruff>=0.1.0",
-    "rust-just>=1.42.4",
-]
-docs = [
-    "pydata-sphinx-theme>=0.14.0",
     "sphinx>=7.0.0",
     "sphinx-autodoc-typehints>=1.24.0",
 ]
@@ -106,4 +103,4 @@ known-first-party = ["uataq"]
 where = ["src"]
 
 [tool.setuptools.package-data]
-"uataq" = ["py.typed"]
+"uataq" = ["config.json", "py.typed"]
