@@ -8,14 +8,14 @@ list:
 build-docs:
 	@echo "Building HTML documentation..."
 	rm -rf docs/_build/
-	sphinx-build -M html docs docs/_build
+	uv run sphinx-build -M html docs docs/_build
 
 # Clean up build artifacts and cache files
 clean:
 	@echo "Cleaning up generated files..."
 	rm -rf build/
 	rm -rf dist/
-	rm -rf *.egg-info
+	rm -rf src/*.egg-info
 	rm -rf .pytest_cache/
 	rm -rf .ruff_cache/
 	rm -rf .coverage
@@ -29,24 +29,24 @@ clean:
 # Run pre-commit hooks on all files
 pre-commit:
 	@echo "Running pre-commit on all files..."
-	pre-commit run --all-files
+	uv run pre-commit run --all-files
 
 # Run linting, type checking, and tests
 quality-check:
 	@echo "Running quality checks..."
 	@echo "Linting with ruff..."
-	ruff check src/uataq
+	uv run ruff check src/uataq
 	@echo "Type checking with pyright..."
-	pyright src/uataq
+	uv run pyright src/uataq
 	just test
 
 # Run ruff fixes and formatting
 ruff:
 	@echo "Running ruff fixes and formatting..."
-	ruff check --fix src/uataq
-	ruff format src/uataq
+	uv run ruff check --fix src/uataq
+	uv run ruff format src/uataq
 
 # Run tests with pytest
 test:
 	@echo "Running tests..."
-	pytest -v
+	uv run pytest -v
