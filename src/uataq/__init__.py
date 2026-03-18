@@ -19,6 +19,7 @@ logging.getLogger(__name__).addHandler(logging.NullHandler())
 from . import filesystem, instruments, sites
 from ._laboratory import Laboratory, get_site, laboratory
 from .filesystem import DEFAULT_GROUP
+from .network import Network
 from .timerange import TimeRange, TimeRangeTypes
 
 _all_or_mult_strs = Literal["all"] | str | list[str] | tuple[str, ...] | set[str]
@@ -149,6 +150,63 @@ def get_recent_obs(
     return obs
 
 
+def get_network_obs(
+    sites: list[str] | tuple[str, ...],
+    pollutant: str,
+    time_range: TimeRange | TimeRangeTypes = None,
+    group: str | None = None,
+    num_processes: int | Literal["max"] = 1,
+):
+    """
+    Get observations for a network of sites for a single pollutant.
+
+    Convenience wrapper around Network.get_obs() that combines measurements
+    from multiple sites (stationary and/or mobile) into a single GeoDataFrame.
+
+    Parameters
+    ----------
+    sites : list[str] | tuple[str, ...]
+        List of site identifiers to include in the network.
+    pollutant : str
+        The pollutant to retrieve observations for (e.g., 'CO2', 'O3', 'NO2').
+    time_range : TimeRange | TimeRangeTypes, optional
+        The time range to retrieve data for. Can be a TimeRange object,
+        string, list, or None (all data). Default is None.
+    group : str | None, optional
+        The research group to read data from. If None, uses the default group.
+        Default is None.
+    num_processes : int | Literal["max"], optional
+        Number of processes to use for parallel data reading. Default is 1.
+
+    Returns
+    -------
+    geopandas.GeoDataFrame
+        A GeoDataFrame with the following structure:
+        - Index: Time_UTC (datetime)
+        - Columns: SID, [pollutant columns], Latitude_deg, Longitude_deg, zagl, geometry
+        - CRS: EPSG:4326
+
+    Examples
+    --------
+    >>> # Get CO2 from multiple sites for January 2024
+    >>> obs = uataq.get_network_obs(
+    ...     sites=['WBB', 'SUG', 'RPK'],
+    ...     pollutant='CO2',
+    ...     time_range='2024-01'
+    ... )
+    >>> print(obs)
+
+    >>> # Get O3 from mobile sites for a time range
+    >>> obs = uataq.get_network_obs(
+    ...     sites=['TRX01', 'TRX02'],
+    ...     pollutant='O3',
+    ...     time_range=['2024-01-01', '2024-01-31']
+    ... )
+    """
+    net = Network(sites=sites, pollutant=pollutant, group=group)
+    return net.get_obs(time_range=time_range, num_processes=num_processes)
+
+
 __all__ = [
     "sites",
     "instruments",
@@ -159,4 +217,6 @@ __all__ = [
     "read_data",
     "get_obs",
     "get_recent_obs",
+    "Network",
+    "get_network_obs",
 ]
