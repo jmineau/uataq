@@ -51,6 +51,7 @@ html_sidebars = {
     "filesystem": [],
     "sites": [],
     "instruments": [],
+    "sodar": [],
 }
 
 # -- Extension configuration -------------------------------------------------
@@ -90,4 +91,5 @@ intersphinx_mapping = {
     "numpy": ("https://numpy.org/doc/stable/", None),
     "pandas": ("https://pandas.pydata.org/docs/", None),
     "tables": ("https://www.pytables.org", None),
+    "xarray": ("https://docs.xarray.dev/en/stable/", None),
 }

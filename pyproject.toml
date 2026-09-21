@@ -29,6 +29,7 @@ dependencies = [
     "numpy",
     "pandas",
     "tables>3.10",  # 3.10 compatible with numpy 2.0
+    "xarray",  # uataq.sodar returns (Time_UTC, level) profiles
 ]
 
 [dependency-groups]

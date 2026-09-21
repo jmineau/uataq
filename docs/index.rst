@@ -41,6 +41,7 @@ Utah Atmospheric Trace-gas and Air Quality (UATAQ)
    filesystem
    sites
    instruments
+   sodar
    contributing
 
 Naming Convention

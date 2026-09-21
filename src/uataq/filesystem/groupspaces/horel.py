@@ -30,6 +30,9 @@ UUTRAX_DIR: str = os.path.join(HOREL_DIR, "uutrax")
 #: UUTRAX pilot directory
 UUTRAX_PILOT_DIR: str = os.path.join(HOREL_DIR, "uutrax_pilot")
 
+#: MesoWest operational data directory (SODAR archive is read by :mod:`uataq.sodar`)
+MESOWEST_DIR: str = os.path.join(HOREL_DIR, "oper", "mesowest")
+
 #: Pilot phase time ranges for UUTRAX data
 PILOT_PHASE: dict[str, TimeRange] = {
     "TRX01": TimeRange(start="2014-11-11", stop=pd.Timestamp("2018-11-19T20:03:58")),
