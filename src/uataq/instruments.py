@@ -14,9 +14,10 @@ from abc import ABCMeta
 from collections.abc import Iterator
 from typing import Literal
 
+import numpy as np
 import pandas as pd
 
-from uataq import errors, filesystem
+from uataq import errors, filesystem, gps
 from uataq.timerange import TimeRange, TimeRangeTypes
 
 _logger = logging.getLogger(__name__)
@@ -402,6 +403,13 @@ class CR1000(Instrument):
 class GPS(Instrument):
     model = "gps"
 
+    #: Samples on each side of the centered difference used to estimate speed
+    #: and course from positions. See :func:`uataq.gps.estimate_speed_course`.
+    estimate_window: int = 1
+
+    #: Longest interval between consecutive fixes that an estimate may span.
+    estimate_max_gap: str = "60s"
+
     def read_data(
         self,
         group: str,
@@ -409,7 +417,31 @@ class GPS(Instrument):
         time_range: TimeRange | TimeRangeTypes = None,
         num_processes: int | Literal["max"] = 1,
         file_pattern: str | None = None,
+        estimate_motion: bool = True,
     ) -> pd.DataFrame:
+        """
+        Read GPS data, with speed in m/s and course in degrees.
+
+        Extends :meth:`Instrument.read_data`. Recorded speed (knots in the
+        files) is converted to m/s as ``Speed_m_s``, and course is
+        ``Course_deg``.
+
+        Receivers logging only ``GPGGA`` sentences record neither, in which
+        case both are estimated from the positions (see
+        :func:`uataq.gps.estimate_speed_course`) and the boolean columns
+        ``Speed_Estimated`` / ``Course_Estimated`` mark every value that came
+        from positions rather than from the receiver. Recorded values are
+        never overwritten.
+
+        Parameters
+        ----------
+        estimate_motion : bool
+            Fill missing speed and course from the positions. Default True.
+            Only reachable through the instrument object --
+            :func:`uataq.read_data` does not forward it.
+
+        See :meth:`Instrument.read_data` for the other parameters.
+        """
         # Read GPS data
         data = super().read_data(group, lvl, time_range, num_processes, file_pattern)
 
@@ -418,6 +450,46 @@ class GPS(Instrument):
             data["Speed_kt"] = data.Speed_kt * 0.514444
             data.rename(columns={"Speed_kt": "Speed_m_s"}, inplace=True)
 
+        if estimate_motion:
+            data = self.estimate_motion(data)
+
+        return data
+
+    @classmethod
+    def estimate_motion(cls, data: pd.DataFrame) -> pd.DataFrame:
+        """
+        Fill missing ``Speed_m_s`` / ``Course_deg`` from the positions.
+
+        Adds ``Speed_Estimated`` and ``Course_Estimated``, which are True
+        exactly where the value was derived from positions rather than
+        recorded by the receiver. Returns ``data`` unchanged if it has no
+        positions or no DatetimeIndex to difference against.
+        """
+        if not {"Latitude_deg", "Longitude_deg"}.issubset(data.columns) or not (
+            isinstance(data.index, pd.DatetimeIndex) and len(data)
+        ):
+            return data
+
+        estimated = gps.estimate_speed_course(
+            data.Latitude_deg,
+            data.Longitude_deg,
+            time=data.index,
+            window=cls.estimate_window,
+            max_gap=cls.estimate_max_gap,
+        )
+        for col in ("Speed_m_s", "Course_deg"):
+            if col not in data.columns:
+                data[col] = np.nan
+            elif not pd.api.types.is_numeric_dtype(data[col]):
+                # An all-NA column can come back as strings (the GPGGA-only
+                # years), which cannot hold the fill values.
+                coerced = pd.to_numeric(data[col].astype(object), errors="coerce")
+                data[col] = np.asarray(coerced, dtype=float)
+            # Positions only fill gaps; a recorded value always wins.
+            missing = data[col].isna().to_numpy()
+            values = estimated[col].to_numpy()
+            data.loc[missing, col] = values[missing]
+            data[f"{col.split('_')[0]}_Estimated"] = missing & ~np.isnan(values)
         return data
 
 

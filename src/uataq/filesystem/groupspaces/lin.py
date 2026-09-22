@@ -72,7 +72,7 @@ column_mapping: dict[str, dict[str, str]] = {
         "N_Sat": "N_Satellites",
         "altitude_amsl": "Altitude_msl",
         "speed_kt": "Speed_kt",
-        "true_course": "True_Course",
+        "true_course": "Course_deg",
         "status": "Status",
     },
     "licor_6262": {
