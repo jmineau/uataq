@@ -59,8 +59,13 @@ class TestNetworkInitialization:
             Network(sites=["NONEXISTENT"], pollutant="CO2")
 
 
+@pytest.mark.chpc
 class TestNetworkDataRetrieval:
-    """Test Network data retrieval."""
+    """Test Network data retrieval.
+
+    These read real observations through the lin groupspace, so they need the
+    CHPC filesystem. Excluded from CI by ``-m "not chpc"``.
+    """
 
     def test_get_obs_returns_geodataframe(self):
         """Test that get_obs returns a GeoDataFrame."""

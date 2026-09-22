@@ -95,9 +95,9 @@ class Site:
         # Build pollutant: instruments lookup table
         self.pollutant_instruments = defaultdict(list)
         for instrument in self.instruments:
-            if hasattr(instrument, "pollutants"):
-                for pollutant in instrument.pollutants:
-                    self.pollutant_instruments[pollutant].append(instrument)
+            # duck-typed: only SensorMixin subclasses declare pollutants
+            for pollutant in getattr(instrument, "pollutants", ()) or ():
+                self.pollutant_instruments[pollutant].append(instrument)
 
     def __repr__(self):
         cls = self.__class__.__name__
@@ -268,13 +268,13 @@ class Site:
                 melted_dfs.append(melted_df)
             obs = pd.concat(melted_dfs)
             # Filter columns by pollutants
-            obs = obs[obs["pollutant"].str.contains("|".join(pollutants))]
-            obs.dropna(subset="value", inplace=True)
+            obs = pd.DataFrame(obs[obs["pollutant"].str.contains("|".join(pollutants))])
+            obs = obs.dropna(subset=["value"])
             obs.set_index("Time_UTC", inplace=True)
         else:
             raise ValueError(f"Invalid format '{format}'. Must be 'wide' or 'long'.")
 
-        return obs.sort_index()
+        return pd.DataFrame(obs.sort_index())
 
     def get_recent_obs(
         self,
@@ -358,6 +358,7 @@ class MobileSite(Site):
         """
 
         def truncate(time):
+            """Floor to whole seconds so the two records' timestamps line up."""
             return time.dt.floor("s")
 
         _logger.info("Merging obs data with location data from gps...")
@@ -472,8 +473,15 @@ class MobileSite(Site):
 
     @staticmethod
     def plot(obs, ax=None):
-        import cartopy.crs as ccrs
-        import matplotlib.pyplot as plt
+        """Plot mobile observations on a map.
+
+        Requires the optional cartopy and matplotlib dependencies.
+
+        .. warning::
+           Incomplete -- it returns an axis without drawing the observations.
+        """
+        import cartopy.crs as ccrs  # pyright: ignore[reportMissingImports]  # optional plotting extra
+        import matplotlib.pyplot as plt  # pyright: ignore[reportMissingImports]  # optional plotting extra
 
         # FIXME is this the best way to do this?
         obs["lon"] = obs.Longitude_deg.round(3)

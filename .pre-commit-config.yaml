@@ -20,8 +20,15 @@ repos:
       # Run the formatter
       - id: ruff-format
 
-  - repo: https://github.com/RobertCraigie/pyright-python
-    rev: v1.1.406
+  - repo: local
     hooks:
+      # Run through uv so pyright sees the project environment, and over the
+      # same paths as the Code Quality workflow. The upstream pyright hook runs
+      # in its own venv without the dependencies installed, so every third-party
+      # import came back unresolved, and it checked tests/ which CI does not.
       - id: pyright
-        additional_dependencies: [ "pyright[nodejs]" ]  # Ensure Node.js is installed in pyright venv
+        name: pyright (src/uataq)
+        entry: uv run pyright src/uataq
+        language: system
+        types: [ python ]
+        pass_filenames: false

@@ -80,6 +80,9 @@ exclude = ["**/__pycache__", "**/.venv"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+markers = [
+    "chpc: requires CHPC filesystem paths or group data; not runnable off-cluster",
+]
 
 [tool.ruff]
 target-version = "py310"

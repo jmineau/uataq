@@ -5,6 +5,7 @@ This module contains classes and functions for working with the Lin group data i
 """
 
 import json
+import logging
 import os
 import re
 import subprocess
@@ -17,7 +18,6 @@ import uataq.filesystem.core as filesystem
 from uataq.errors import DataFileInitializationError, ParserError
 from uataq.timerange import TimeRange
 
-import logging
 _logger = logging.getLogger(__name__)
 
 # TODO: check for reprocessing
@@ -33,9 +33,8 @@ DATA_DIR: str = os.path.join(MEASUREMENTS_DIR, "data")
 data_config_path = os.path.join(CONFIG_DIR, "data_config.json")
 if not os.path.exists(data_config_path):
     import urllib.request
-    data_config_path = (
-        "https://raw.githubusercontent.com/uataq/data-pipeline/main/config/data_config.json"
-    )
+
+    data_config_path = "https://raw.githubusercontent.com/uataq/data-pipeline/main/config/data_config.json"
     with urllib.request.urlopen(data_config_path) as response:
         DATA_CONFIG: dict = json.load(response)
 else:
@@ -458,9 +457,11 @@ class LGR_UGGA_File(filesystem.DataFile):
 
         header = subprocess.getoutput(f"head -n 1 {path}")
         try:
-            meta = re.match(pattern, header).groupdict()
-        except AttributeError:
-            raise DataFileInitializationError(f"Failed to read meta data from {path}")
+            meta = re.match(pattern, header).groupdict()  # pyright: ignore[reportOptionalMemberAccess]  # no match -> AttributeError, caught below
+        except AttributeError as e:
+            raise DataFileInitializationError(
+                f"Failed to read meta data from {path}"
+            ) from e
         return meta
 
     @staticmethod
@@ -618,15 +619,23 @@ class AirTrendFile(filesystem.DataFile):
         # Some instruments have special configurations indicated by their name
         # but use the same column structure as the default configuration
         # Example: lgr_ugga_manual_cal for trx01
-        self.config["instrument"] = re.match(
-            "|".join(DATA_CONFIG.keys()), instrument_name
-        ).group()
+        instrument_match = re.match("|".join(DATA_CONFIG.keys()), instrument_name)
+        if instrument_match is None:
+            raise DataFileInitializationError(
+                f"Unknown instrument '{instrument_name}' for {path}"
+            )
+        self.config["instrument"] = instrument_match.group()
 
         # Extract filename extension from custom air trend file handlers
         # This is necessary for instruments like the gps which have different types of files
-        air_trend_ext = re.match(
+        ext_match = re.match(
             r"\d{4}-\d{2}-\d{2}_?([^\s]+)?\.csv", os.path.basename(path)
-        ).group(1)
+        )
+        if ext_match is None:
+            raise DataFileInitializationError(
+                f"Unexpected air-trend file name: {os.path.basename(path)}"
+            )
+        air_trend_ext = ext_match.group(1)
         self.config["lvl"] = (
             "air_trend" if air_trend_ext is None else f"air_trend_{air_trend_ext}"
         )
@@ -716,6 +725,7 @@ class LinGroup(filesystem.GroupSpace):
 
     @staticmethod
     def get_highest_lvl(SID: str, instrument: str) -> str:
+        """Return the most processed level present on disk for the instrument."""
         path = os.path.join(DATA_DIR, SID.lower(), instrument)
         inst_lvls = [d for d in os.listdir(path) if d in filesystem.lvls]
         lvl = max(inst_lvls, key=lambda d: filesystem.lvls[d])
@@ -745,6 +755,11 @@ class LinGroup(filesystem.GroupSpace):
     def get_files(
         self, SID: str, instrument: str, lvl: str, logger: str = "campbellsci"
     ) -> list[str]:
+        """List lin files for the instrument and level.
+
+        See :meth:`GroupSpace.get_files`. Raw ``lgr_ugga`` files need their own
+        handling because they sit in subdirectories alongside other files.
+        """
         # Raw lgr_ugga files are stored subdirectories with other files
         if lvl == "raw" and logger == "lgr_ugga":
             return LGR_UGGA_File.get_files(SID, instrument, lvl)
@@ -753,6 +768,8 @@ class LinGroup(filesystem.GroupSpace):
         return filesystem.list_files(data_path, full_names=True)
 
     def get_datafile_key(self, instrument: str, lvl: str, logger: str) -> str:
+        """Return the data file key: the logger for raw files, otherwise the
+        data pipeline's own format."""
         key = logger if lvl == "raw" else "data-pipeline"
         return key
 
@@ -765,6 +782,13 @@ class LinGroup(filesystem.GroupSpace):
         time_range: TimeRange,
         pattern: str | None = None,
     ) -> list[filesystem.DataFile]:
+        """Return the lin data files overlapping the time range.
+
+        See :meth:`GroupSpace.get_datafiles`. Raw files need extra handling:
+        ``lgr_ugga`` file names do not line up with their contents, so the
+        range is widened by a day on each side, and GPS defaults to the
+        ``gpgga`` sentence files.
+        """
         # Custom handling for raw Lin files
         if lvl == "raw":
             if SID.startswith("TRX"):
@@ -779,7 +803,7 @@ class LinGroup(filesystem.GroupSpace):
                 one_day = pd.Timedelta(days=1)
                 start = time_range.start - one_day if time_range.start else None
                 stop = time_range.stop + one_day if time_range.stop else None
-                time_range = TimeRange(start=start, stop=stop)
+                time_range = TimeRange(start=start, stop=stop)  # pyright: ignore[reportArgumentType]  # datetime arithmetic widens to NaTType
             elif instrument == "gps":
                 # Set default file pattern for raw lin gps data
                 pattern = pattern or "gpgga"
@@ -788,6 +812,11 @@ class LinGroup(filesystem.GroupSpace):
 
     @staticmethod
     def standardize_data(instrument: str, data: pd.DataFrame) -> pd.DataFrame:
+        """Rename lin columns to UATAQ names and apply per-instrument fixes
+        (GPS degree-minute coordinates, status flags, unit conversions).
+
+        See :meth:`GroupSpace.standardize_data`.
+        """
         mapping = column_mapping.get(instrument, {})
 
         ### Column specific manipulations ###
@@ -815,7 +844,7 @@ class LinGroup(filesystem.GroupSpace):
             for status in ["status", "Status"]:
                 # Map status to binary
                 if status in data.columns:
-                    data[status] = data[status].map({"A": 1, "V": 0})
+                    data[status] = data[status].map({"A": 1, "V": 0})  # pyright: ignore[reportArgumentType]  # Series.map accepts a mapping
 
         elif instrument == "2b_205":
             for flow in ["flow_ccpm", "Flow_CCmin"]:

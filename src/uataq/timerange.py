@@ -1,3 +1,11 @@
+"""
+Time range handling.
+
+:class:`TimeRange` normalizes the several ways a caller can ask for a period
+(a string, a ``(start, stop)`` pair, a list, a slice, or None for everything)
+into a start and a stop.
+"""
+
 import datetime as dt
 import re
 from typing import TypeAlias
@@ -100,6 +108,11 @@ class TimeRange:
 
     @property
     def start(self) -> dt.datetime | None:
+        """Start of the range, or None when unbounded.
+
+        Assigning a string parses it; a date-only string is taken as the
+        beginning of that day.
+        """
         return self._start
 
     @start.setter
@@ -115,6 +128,12 @@ class TimeRange:
 
     @property
     def stop(self) -> dt.datetime | None:
+        """End of the range, or None when unbounded.
+
+        Assigning a string parses it **inclusively**: a date-only string is
+        taken as the end of that day, so ``"2024-01-01"`` stops at
+        ``2024-01-02 00:00``.
+        """
         return self._stop
 
     @stop.setter
@@ -130,7 +149,14 @@ class TimeRange:
 
     @property
     def total_seconds(self) -> float:
-        if not all([self.start, self.stop]):
+        """Length of the range in seconds.
+
+        Raises
+        ------
+        ValueError
+            If either end is unbounded.
+        """
+        if self.start is None or self.stop is None:
             raise ValueError("Both start and stop times must be specified")
         return (self.stop - self.start).total_seconds()
 

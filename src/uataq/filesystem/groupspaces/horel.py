@@ -4,6 +4,7 @@ John Horel group - MesoWest, TRAX/eBUS, etc.
 This module contains classes and functions for working with the Horel group data in the CHPC UATAQ filesystem.
 """
 
+import logging
 import os
 from abc import ABCMeta
 
@@ -15,7 +16,6 @@ import uataq.filesystem.core as filesystem
 from uataq import errors
 from uataq.timerange import TimeRange
 
-import logging
 _logger = logging.getLogger(__name__)
 
 #: Horel group directory
@@ -35,8 +35,8 @@ MESOWEST_DIR: str = os.path.join(HOREL_DIR, "oper", "mesowest")
 
 #: Pilot phase time ranges for UUTRAX data
 PILOT_PHASE: dict[str, TimeRange] = {
-    "TRX01": TimeRange(start="2014-11-11", stop=pd.Timestamp("2018-11-19T20:03:58")),
-    "TRX02": TimeRange(start="2016-02-04", stop=pd.Timestamp("2018-11-19T18:53:52")),
+    "TRX01": TimeRange(start="2014-11-11", stop="2018-11-19T20:03:58"),
+    "TRX02": TimeRange(start="2016-02-04", stop="2018-11-19T18:53:52"),
 }
 
 #: Data levels for UUTRAX data
@@ -327,11 +327,14 @@ class HorelH5File(HorelFile):
         _logger.debug(f"Parsing {os.path.relpath(self.path, HOREL_DIR)}")
 
         with pytbls.open_file(self.path, mode="r") as f:
+            # the node is a Table; pyright only knows the generic Node type
             table = f.root["obsdata/observations"]
-            data = pd.DataFrame(table.read())
+            data = pd.DataFrame(table.read())  # pyright: ignore[reportAttributeAccessIssue]
 
-        # Subset columns by instrument
-        data = data.loc[:, data.columns.map(self.usecols).to_list()]
+        # Subset columns by instrument.
+        # pytables' File.__exit__ is typed as possibly suppressing exceptions,
+        # so pyright treats everything bound in the with block as conditional.
+        data = data.loc[:, data.columns.map(self.usecols).to_list()]  # pyright: ignore[reportPossiblyUnboundVariable]
 
         # Format time
         data = self.format_time(data, unit="s")
@@ -494,9 +497,9 @@ class HorelCSVFinalizedFile(HorelCSVFile):
         data = data.filter(regex="|".join(self.final_patterns))
 
         # Drop rows without obs
-        data.dropna(how="all", inplace=True)
+        data = data.dropna(how="all")
 
-        return data
+        return pd.DataFrame(data)
 
 
 class HorelGroup(filesystem.GroupSpace):
@@ -532,6 +535,7 @@ class HorelGroup(filesystem.GroupSpace):
 
     @staticmethod
     def get_highest_lvl(SID: str, instrument: str) -> str:
+        """Return "final" when the site has finalized files, else "raw"."""
         finalized_dir = (
             "csv_finalized_ebus" if SID.startswith("BUS") else "csv_finalized"
         )
@@ -544,6 +548,8 @@ class HorelGroup(filesystem.GroupSpace):
     def get_files(
         self, SID: str, instrument: str, lvl: str, logger: str = "campbellsci"
     ) -> list[str]:
+        """List horel files for the instrument, mapping UATAQ instrument names
+        onto the horel directory names. See :meth:`GroupSpace.get_files`."""
         # Map UATAQ instrument names to Horel instrument names to find the correct directories
         instrument_mapper = {
             "2b_205": "2b",
@@ -576,6 +582,8 @@ class HorelGroup(filesystem.GroupSpace):
         return files
 
     def get_datafile_key(self, instrument: str, lvl: str, logger: str) -> str:
+        """Return the data file key. campbellsci is the only horel logger, so
+        the key depends on the level alone."""
         # The only logger for Horel data is campbellsci
         # The datafile key is based only on the level
         return lvl
@@ -614,10 +622,11 @@ class HorelGroup(filesystem.GroupSpace):
             A list of data files.
         """
         # Pilot Phase Warning
+        pilot_stop = PILOT_PHASE[SID].stop if SID in PILOT_PHASE else None
         if (
             lvl != "raw"
-            and SID in PILOT_PHASE
-            and (time_range.start is None or time_range.start < PILOT_PHASE[SID].stop)
+            and pilot_stop is not None
+            and (time_range.start is None or time_range.start < pilot_stop)
         ):
             print(
                 f"Warning: No {lvl} data available for {SID} before pilot phase conclusion."
@@ -634,7 +643,7 @@ class HorelGroup(filesystem.GroupSpace):
         for path in files:
             if path.endswith(DataFileClass.ext):
                 try:
-                    datafiles.append(DataFileClass(path, instrument))
+                    datafiles.append(DataFileClass(path, instrument))  # pyright: ignore[reportCallIssue]  # horel subclasses take the instrument
                 except errors.DataFileInitializationError as e:
                     _logger.warning(
                         f"Unable to initialize {DataFileClass.__name__} from {path}: {e}"
@@ -645,6 +654,8 @@ class HorelGroup(filesystem.GroupSpace):
 
     @staticmethod
     def standardize_data(instrument: str, data: pd.DataFrame) -> pd.DataFrame:
+        """Rename horel columns to UATAQ names and apply per-instrument fixes
+        (GPS flags, Fahrenheit temperatures). See :meth:`GroupSpace.standardize_data`."""
         mapping = column_mapping[instrument]
 
         ### Column specific manipulations ###

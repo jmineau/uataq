@@ -125,7 +125,7 @@ class Instrument(metaclass=ABCMeta):
         """
         if isinstance(group, Mapping):
             group = group.get(self.name, group.get(self.name.lower()))
-        if group is not None:
+        if isinstance(group, str):
             return filesystem.get_group(group)
 
         candidates = [g for g in self.groups if g in filesystem.groups]
@@ -136,15 +136,15 @@ class Instrument(metaclass=ABCMeta):
             )
         if filesystem.DEFAULT_GROUP in candidates:
             return filesystem.DEFAULT_GROUP
-        group = candidates[0]
+        selected: str = candidates[0]
         if len(candidates) > 1:
             _logger.info(
                 f"{self} is operated by {candidates} and not by the default "
-                f"group '{filesystem.DEFAULT_GROUP}'; reading from '{group}'."
+                f"group '{filesystem.DEFAULT_GROUP}'; reading from '{selected}'."
             )
         else:
-            _logger.debug(f"{self} is operated by '{group}'; reading from it.")
-        return group
+            _logger.debug(f"{self} is operated by '{selected}'; reading from it.")
+        return selected
 
     def _get_groupspace(self, group: str) -> filesystem.GroupSpace:
         """
@@ -292,7 +292,9 @@ class Instrument(metaclass=ABCMeta):
             raise errors.InactiveInstrumentError(self)
 
         clipped = TimeRange(
-            start=max(start, active_start) if start else active_start,
+            start=max(start, active_start)
+            if start and active_start
+            else (start or active_start),
             stop=min(stop, active_stop)
             if stop and active_stop
             else (stop or active_stop),
@@ -469,8 +471,10 @@ class InstrumentEnsemble:
             self.loggers.update(instrument.loggers)
             self.groups.update(instrument.groups)
 
-            if hasattr(instrument, "pollutants"):
-                self.pollutants.update(p.upper() for p in instrument.pollutants)
+            # duck-typed: only SensorMixin subclasses declare pollutants
+            pollutants = getattr(instrument, "pollutants", None)
+            if pollutants:
+                self.pollutants.update(p.upper() for p in pollutants)
 
     def __repr__(self):
         configs = json.dumps(self.configs, indent=4)
@@ -505,20 +509,36 @@ class SensorMixin:
 
 
 class BB_205(Instrument, SensorMixin):
+    """2B Technologies Model 205 ozone monitor (UV absorption)."""
+
     model = "2b_205"
     pollutants = ("O3",)
 
 
 class BB_405(Instrument, SensorMixin):
+    """2B Technologies Model 405 nm NO/NO2/NOx monitor."""
+
     model = "2b_405"
     pollutants = ("NO", "NO2", "NOx")
 
 
 class CR1000(Instrument):
+    """Campbell Scientific CR1000 datalogger. Not a sensor itself: it
+    records housekeeping such as battery voltage and enclosure temperature."""
+
     model = "cr1000"
 
 
 class GPS(Instrument):
+    """GPS receiver providing position, and speed/course where the receiver
+    logs them.
+
+    Recorded speed is converted from knots to ``Speed_m_s``. Receivers logging
+    only ``GPGGA`` sentences record neither speed nor course; both are then
+    estimated from the positions (:func:`uataq.gps.estimate_speed_course`) and
+    flagged in ``Speed_Estimated`` / ``Course_Estimated``.
+    """
+
     model = "gps"
 
     #: Samples on each side of the centered difference used to estimate speed
@@ -612,60 +632,93 @@ class GPS(Instrument):
 
 
 class LGR_NO2(Instrument, SensorMixin):
+    """Los Gatos Research NO2 analyzer (cavity-enhanced absorption)."""
+
     model = "lgr_no2"
     pollutants = ("NO2",)
 
 
 class LGR_UGGA(Instrument, SensorMixin):
+    """Los Gatos Research Ultraportable Greenhouse Gas Analyzer,
+    measuring CO2 and CH4 by off-axis ICOS."""
+
     model = "lgr_ugga"
     pollutants = ("CO2", "CH4")
 
 
 class Licor_6262(Instrument, SensorMixin):
+    """LI-COR LI-6262 infrared CO2/H2O gas analyzer."""
+
     model = "licor_6262"
     pollutants = ("CO2",)
 
 
 class Licor_7000(Licor_6262):
+    """LI-COR LI-7000 infrared CO2/H2O gas analyzer. Parsed like the
+    LI-6262."""
+
     model = "licor_7000"
 
 
 class Magee_AE33(Instrument, SensorMixin):
+    """Magee Scientific AE33 aethalometer, measuring black carbon."""
+
     model = "magee_ae33"
     pollutants = ("BC",)
 
 
 class MetOne_ES405(Instrument, SensorMixin):
+    """Met One E-Sampler ES-405, reporting PM1, PM2.5, PM4 and PM10.
+
+    Replaced the ES-642 at several sites. The horel group names both models
+    ``esampler`` on disk, so only the configured installation and removal
+    dates separate them -- see :meth:`Instrument.clip_to_active`."""
+
     model = "metone_es405"
     pollutants = ("PM1", "PM2.5", "PM4", "PM10")
 
 
 class MetOne_ES642(Instrument, SensorMixin):
+    """Met One E-Sampler ES-642, reporting PM2.5 only.
+
+    Superseded by the ES-405 at several sites; see :class:`MetOne_ES405`."""
+
     model = "metone_es642"
     pollutants = ("PM2.5",)
 
 
 class Teledyne_T200(Instrument, SensorMixin):
+    """Teledyne API T200 chemiluminescence NO/NO2/NOx analyzer."""
+
     model = "teledyne_t200"
     pollutants = ("NO", "NO2", "NOx")
 
 
 class Teledyne_T300(Instrument, SensorMixin):
+    """Teledyne API T300 gas-filter-correlation CO analyzer."""
+
     model = "teledyne_t300"
     pollutants = ("CO",)
 
 
 class Teledyne_T400(Instrument, SensorMixin):
+    """Teledyne API T400 UV-absorption ozone analyzer."""
+
     model = "teledyne_t400"
     pollutants = ("O3",)
 
 
 class Teledyne_T500u(Instrument, SensorMixin):
+    """Teledyne API T500U CAPS NO2 analyzer."""
+
     model = "teledyne_t500u"
     pollutants = ("NO2",)
 
 
 class Teom_1400ab(Instrument, SensorMixin):
+    """Thermo/R&P TEOM 1400ab tapered-element oscillating microbalance,
+    measuring PM2.5 mass."""
+
     model = "teom_1400ab"
     pollutants = ("PM2.5",)
 

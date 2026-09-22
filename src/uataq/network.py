@@ -165,22 +165,20 @@ class Network:
         ReaderError
             If no data is found for any site.
         """
-        _logger.info(f"Reading {self.pollutant} data from {len(self.site_objects)} sites...")
+        _logger.info(
+            f"Reading {self.pollutant} data from {len(self.site_objects)} sites..."
+        )
 
         dataframes = []
         for site in self.site_objects:
             try:
-                site_data = self._read_site_data(
-                    site, time_range, num_processes
-                )
+                site_data = self._read_site_data(site, time_range, num_processes)
                 dataframes.append(site_data)
             except errors.ReaderError as e:
                 _logger.warning(f"Error reading data from {site.SID}: {e}")
 
         if not dataframes:
-            raise errors.ReaderError(
-                f"No data found for {self.pollutant} in any site."
-            )
+            raise errors.ReaderError(f"No data found for {self.pollutant} in any site.")
 
         # Concatenate all site dataframes
         _logger.info("Concatenating data from all sites...")
@@ -196,7 +194,7 @@ class Network:
             crs="EPSG:4326",
         )
 
-        return gdf.sort_index()
+        return gpd.GeoDataFrame(gdf.sort_index())
 
     def _read_site_data(
         self,
@@ -227,7 +225,7 @@ class Network:
             If no data is found for the site.
         """
         from uataq import filesystem as fs
-        
+
         # Find instruments that measure this pollutant
         instruments_to_read = [
             instr.name
@@ -293,7 +291,7 @@ class Network:
                 # Use MobileSite.merge_gps() to handle group-specific logic
                 # Set index to Time_UTC for wide format
                 site_data.index.name = "Time_UTC"
-                
+
                 # Determine merge column based on group
                 if group == "lin":
                     merge_on = "Pi_Time"
@@ -304,16 +302,16 @@ class Network:
                     merge_on = "Time_UTC"
 
                 # Use the static merge_gps method from MobileSite
-                site_data = sites.MobileSite.merge_gps(
-                    site_data, gps_data, on=merge_on
-                )
-                
+                site_data = sites.MobileSite.merge_gps(site_data, gps_data, on=merge_on)
+
                 # Clean up Pi_Time column if it was used for merging
                 if merge_on == "Pi_Time" and "Pi_Time" in site_data.columns:
                     site_data = site_data.drop(columns=["Pi_Time"])
-                    
+
             except (errors.ReaderError, KeyError) as e:
-                _logger.warning(f"Could not read GPS data for mobile site {site.SID}: {e}")
+                _logger.warning(
+                    f"Could not read GPS data for mobile site {site.SID}: {e}"
+                )
                 raise
         else:
             # Stationary site: use fixed coordinates from config

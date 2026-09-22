@@ -16,11 +16,13 @@ import pandas as pd
 # Best-practice for libraries: don't emit output unless the caller opts in.
 logging.getLogger(__name__).addHandler(logging.NullHandler())
 
-from . import filesystem, instruments, sites
-from ._laboratory import Laboratory, get_site, laboratory
-from .filesystem import DEFAULT_GROUP
-from .network import Network
-from .timerange import TimeRange, TimeRangeTypes
+# E402: these must follow the NullHandler above -- importing the submodules
+# builds the `laboratory` singleton, which logs while it reads config.json.
+from . import filesystem, instruments, sites  # noqa: E402
+from ._laboratory import Laboratory, get_site, laboratory  # noqa: E402
+from .filesystem import DEFAULT_GROUP  # noqa: E402
+from .network import Network  # noqa: E402
+from .timerange import TimeRange, TimeRangeTypes  # noqa: E402
 
 _all_or_mult_strs = Literal["all"] | str | list[str] | tuple[str, ...] | set[str]
 
@@ -210,7 +212,7 @@ def get_network_obs(
     ...     time_range=["2024-01-01", "2024-01-31"],
     ... )
     """
-    net = Network(sites=sites, pollutant=pollutant, group=group)
+    net = Network(sites=sites, pollutant=pollutant, group=group)  # pyright: ignore[reportArgumentType]  # Network resolves per site
     return net.get_obs(time_range=time_range, num_processes=num_processes)
 
 

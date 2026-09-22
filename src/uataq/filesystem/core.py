@@ -2,6 +2,7 @@
 This module contains classes and functions for working in the CHPC UATAQ filesystem.
 """
 
+import logging
 import multiprocessing
 import os
 from abc import ABCMeta, abstractmethod
@@ -9,8 +10,6 @@ from pathlib import Path
 from typing import Literal
 
 import pandas as pd
-
-import logging
 
 import uataq.errors as errors
 from uataq.timerange import TimeRange
@@ -275,7 +274,8 @@ def parse_datafiles(
     # Concatenate the datasets
     _logger.info("Concatenating datasets and reducing rows to time range...")
     if driver == "pandas":
-        data = pd.concat(datasets)
+        # a datafile that parsed to nothing contributes None
+        data = pd.concat([d for d in datasets if d is not None])
 
         # Set time as index and filter to time_range
         data = data.dropna(subset="Time_UTC").set_index("Time_UTC").sort_index()

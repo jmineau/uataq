@@ -32,7 +32,7 @@ All :class:`GroupSpace` objects are stored in the :data:`groups` dictionary with
 
 
 .. autosummary::
-   :toctree: ../api
+   :toctree: api
    :template: group.rst
    :recursive:
 

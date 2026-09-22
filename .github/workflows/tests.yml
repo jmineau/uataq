@@ -29,7 +29,7 @@ jobs:
 
     - name: Run tests with pytest
       run: |
-        pytest -v --cov=uataq --junitxml=junit.xml -o junit_family=legacy
+        pytest -v -m "not chpc" --cov=uataq --junitxml=junit.xml -o junit_family=legacy
 
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v5
