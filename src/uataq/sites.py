@@ -13,7 +13,7 @@ from typing import Literal
 import geopandas as gpd
 import pandas as pd
 
-from uataq import errors, filesystem, instruments
+from uataq import errors, instruments
 from uataq.timerange import TimeRange, TimeRangeTypes
 
 _logger = logging.getLogger(__name__)
@@ -111,7 +111,7 @@ class Site:
     def read_data(
         self,
         instruments: _all_or_mult_strs = "all",
-        group: str | None = None,
+        group: instruments.GroupSelection = None,
         lvl: str | None = None,
         time_range: TimeRange | TimeRangeTypes = None,
         num_processes: int | Literal["max"] = 1,
@@ -125,8 +125,11 @@ class Site:
         instruments : str or list of str or 'all'
             The instrument(s) to read data from. If 'all', read data from all instruments.
             Default is 'all'.
-        group : str, optional
-            The research group to read data from. Default is None which uses the default group.
+        group : str | Mapping[str, str] | None
+            The research group to read data from. A name applies to every
+            instrument; a mapping of instrument name to group name sets it per
+            instrument. Default None selects each instrument's group
+            automatically (see :meth:`~uataq.instruments.Instrument.resolve_group`).
         lvl : str, optional
             The data level to read. Default is None which reads the highest level available.
         time_range : TimeRange | TimeRangeTypes
@@ -154,27 +157,33 @@ class Site:
         elif isinstance(instruments, Sequence):
             instruments = [i.lower() for i in instruments]
 
-        # Determine group to read data from
-        group = filesystem.get_group(group)
-
         # Read data for each instrument and store in dictionary
         data = {}
+        groups_read = {}
         for name in instruments:
             if name not in self.instruments:
                 raise errors.InstrumentNotFoundError(name, self.instruments)
 
             instrument = self.instruments[name]
 
+            # Each instrument resolves its own group: the site's instruments
+            # are not all operated by the same research group.
+            instrument_group = instrument.resolve_group(group)
+            groups_read[name] = instrument_group
+
             try:
                 data[name] = instrument.read_data(
-                    group, lvl, time_range, num_processes, file_pattern
+                    instrument_group, lvl, time_range, num_processes, file_pattern
                 )
             except errors.ReaderError as e:
-                _logger.warning(f"Error reading {instrument} data from {group} groupspace: {e}")
+                _logger.warning(
+                    f"Error reading {instrument} data from {instrument_group} groupspace: {e}"
+                )
 
         if not data:
+            read_from = ", ".join(f"{k} in {v}" for k, v in groups_read.items())
             raise errors.ReaderError(
-                f"No data found for {instruments} at {self.SID} in {group} groupspace."
+                f"No data found for {instruments} at {self.SID} ({read_from} groupspace(s))."
             )
 
         return data
@@ -183,7 +192,7 @@ class Site:
         self,
         pollutants: _all_or_mult_strs = "all",
         format: Literal["wide"] | Literal["long"] = "wide",
-        group: str | None = None,
+        group: instruments.GroupSelection = None,
         time_range: TimeRange | TimeRangeTypes = None,
         num_processes: int | Literal["max"] = 1,
         **kwargs,
@@ -197,8 +206,11 @@ class Site:
             pollutants to read. If 'all', read all pollutants. Default is 'all'.
         format : str, optional
             Format of the data to return. Default is 'wide'.
-        group : str, optional
-            Research group to read data from. Default is None which uses the default group.
+        group : str | Mapping[str, str] | None
+            The research group to read data from. A name applies to every
+            instrument; a mapping of instrument name to group name sets it per
+            instrument. Default None selects each instrument's group
+            automatically (see :meth:`~uataq.instruments.Instrument.resolve_group`).
         time_range : TimeRange | TimeRangeTypes
             The time range to read data. Default is None which reads all available data.
         num_processes : int, optional
@@ -269,7 +281,7 @@ class Site:
         recent: str | dt.timedelta = dt.timedelta(days=10),
         pollutants: _all_or_mult_strs = "all",
         format: Literal["wide"] | Literal["long"] = "wide",
-        group: str | None = None,
+        group: instruments.GroupSelection = None,
     ) -> pd.DataFrame:
         """
         Get recent observations from site instruments.
@@ -393,7 +405,7 @@ class MobileSite(Site):
         self,
         pollutants: _all_or_mult_strs = "all",
         format: Literal["wide"] | Literal["long"] = "wide",
-        group: str | None = None,
+        group: instruments.GroupSelection = None,
         time_range: TimeRange | TimeRangeTypes = None,
         num_processes: int | Literal["max"] = 1,
         include_gps: bool = True,
@@ -409,8 +421,11 @@ class MobileSite(Site):
             pollutants to read. If 'all', read all pollutants. Default is 'all'.
         format : str, optional
             Format of the data to return. Default is 'wide'.
-        group : str, optional
-            Research group to read data from. Default is None which uses the default group.
+        group : str | Mapping[str, str] | None
+            The research group to read data from. A name applies to every
+            instrument; a mapping of instrument name to group name sets it per
+            instrument. Default None selects each instrument's group
+            automatically (see :meth:`~uataq.instruments.Instrument.resolve_group`).
         time_range : TimeRange | TimeRangeTypes, optional
             Time range to read data. Default is None.
         num_processes : int, optional
@@ -424,28 +439,33 @@ class MobileSite(Site):
             A dataframe containing mobile site observations for each pollutant
             with location data merged.
         """
-        # Determine group to read data from
-        group = filesystem.get_group(group)
+        # The merge depends on which group logged the GPS, so resolve that one
+        # here; every other instrument resolves its own group when read.
+        gps_group = self.instruments["gps"].resolve_group(group)
 
         # Read data
-        obs = super().get_obs(pollutants, format, group, time_range, num_processes, **kwargs)
+        obs = super().get_obs(
+            pollutants, format, group, time_range, num_processes, **kwargs
+        )
         gps = self.read_data("gps", group, "final", time_range, num_processes)["gps"]
 
         # Merge gps data with obs data
         if include_gps:
-            if group == "lin":
+            if gps_group == "lin":
                 # Can't always trust the pi's time for lin-group mobile data
                 # but Pi_Time connects the gps data to the obs data
                 # so we'll merge on Pi_Time and use Time_UTC from gps as the time
                 merge_on = "Pi_Time"
                 obs.index.name = "Pi_Time"
-            elif group == "horel":
+            elif gps_group == "horel":
                 merge_on = "Time_UTC"
             else:  # FIXME just check for lin group?
-                raise ValueError(f"Invalid group '{group}'. Must be 'lin' or 'horel'.")
+                raise ValueError(
+                    f"Invalid group '{gps_group}'. Must be 'lin' or 'horel'."
+                )
             obs = MobileSite.merge_gps(obs, gps, on=merge_on)
 
-            if group == "lin":
+            if gps_group == "lin":
                 obs.drop(columns=["Pi_Time"], inplace=True)
 
         return obs

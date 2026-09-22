@@ -37,7 +37,7 @@ laboratory: Laboratory
 def read_data(
     SID: str,
     instruments: _all_or_mult_strs = "all",
-    group: str | None = None,
+    group: instruments.GroupSelection = None,
     lvl: str | None = None,
     time_range: TimeRange | TimeRangeTypes = None,
     num_processes: int | Literal["max"] = 1,
@@ -52,8 +52,11 @@ def read_data(
         The site ID.
     instruments : str | list[str] | tuple[str] | set[str] | 'all'
         The instrument(s) to read data from.
-    group : str | None
-        The group name.
+    group : str | Mapping[str, str] | None
+        The research group to read data from. A name applies to every
+        instrument; a mapping of instrument name to group name sets it per
+        instrument. Default None selects each instrument's group
+        automatically (see :meth:`uataq.instruments.Instrument.resolve_group`).
     lvl : str | None
         The data level.
     time_range : str | list[Union[str, dt.datetime, None]] | tuple[Union[str, dt.datetime, None], Union[str, dt.datetime, None]] | slice | None
@@ -80,7 +83,7 @@ def get_obs(
     SID: str,
     pollutants: _all_or_mult_strs = "all",
     format: Literal["wide"] | Literal["long"] = "wide",
-    group: str | None = None,
+    group: instruments.GroupSelection = None,
     time_range: TimeRange | TimeRangeTypes = None,
     num_processes: int | Literal["max"] = 1,
     **kwargs,
@@ -96,8 +99,11 @@ def get_obs(
         The pollutant(s) to get observations for.
     format : 'wide' | 'long'
         The format of the data. Default is 'wide'.
-    group : str | None
-        The group name.
+    group : str | Mapping[str, str] | None
+        The research group to read data from. A name applies to every
+        instrument; a mapping of instrument name to group name sets it per
+        instrument. Default None selects each instrument's group
+        automatically (see :meth:`uataq.instruments.Instrument.resolve_group`).
     time_range : str | list[Union[str, dt.datetime, None]] | tuple[Union[str, dt.datetime, None], Union[str, dt.datetime, None]] | slice | None
         The time range to get observations. Default is None which gets all available data.
     num_processes : int | 'max'
@@ -121,7 +127,7 @@ def get_recent_obs(
     recent: str | dt.timedelta = dt.timedelta(days=10),
     pollutants: _all_or_mult_strs = "all",
     format: Literal["wide"] | Literal["long"] = "wide",
-    group: str | None = None,
+    group: instruments.GroupSelection = None,
 ) -> pd.DataFrame:
     """
     Get recent observations from a site.
@@ -136,8 +142,11 @@ def get_recent_obs(
         The pollutant(s) to get observations for.
     format : 'wide' | 'long'
         The format of the data. Default is 'wide'.
-    group : str | None
-        The group name.
+    group : str | Mapping[str, str] | None
+        The research group to read data from. A name applies to every
+        instrument; a mapping of instrument name to group name sets it per
+        instrument. Default None selects each instrument's group
+        automatically (see :meth:`uataq.instruments.Instrument.resolve_group`).
 
     Returns
     -------
@@ -154,7 +163,7 @@ def get_network_obs(
     sites: list[str] | tuple[str, ...],
     pollutant: str,
     time_range: TimeRange | TimeRangeTypes = None,
-    group: str | None = None,
+    group: instruments.GroupSelection = None,
     num_processes: int | Literal["max"] = 1,
 ):
     """
@@ -190,17 +199,15 @@ def get_network_obs(
     --------
     >>> # Get CO2 from multiple sites for January 2024
     >>> obs = uataq.get_network_obs(
-    ...     sites=['WBB', 'SUG', 'RPK'],
-    ...     pollutant='CO2',
-    ...     time_range='2024-01'
+    ...     sites=["WBB", "SUG", "RPK"], pollutant="CO2", time_range="2024-01"
     ... )
     >>> print(obs)
 
     >>> # Get O3 from mobile sites for a time range
     >>> obs = uataq.get_network_obs(
-    ...     sites=['TRX01', 'TRX02'],
-    ...     pollutant='O3',
-    ...     time_range=['2024-01-01', '2024-01-31']
+    ...     sites=["TRX01", "TRX02"],
+    ...     pollutant="O3",
+    ...     time_range=["2024-01-01", "2024-01-31"],
     ... )
     """
     net = Network(sites=sites, pollutant=pollutant, group=group)

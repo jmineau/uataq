@@ -11,7 +11,7 @@ and defines abstract methods that must be implemented by each subclass.
 import json
 import logging
 from abc import ABCMeta
-from collections.abc import Iterator
+from collections.abc import Iterator, Mapping
 from typing import Literal
 
 import numpy as np
@@ -19,6 +19,10 @@ import pandas as pd
 
 from uataq import errors, filesystem, gps
 from uataq.timerange import TimeRange, TimeRangeTypes
+
+#: How a caller picks a research group: a name, a per-instrument mapping, or
+#: None for automatic selection. See :meth:`Instrument.resolve_group`.
+GroupSelection = str | Mapping[str, str] | None
 
 _logger = logging.getLogger(__name__)
 
@@ -88,6 +92,59 @@ class Instrument(metaclass=ABCMeta):
             f"{self.__class__.__name__}({self.SID}"
             f"{name}, loggers={self._loggers}, config={config})"
         )
+
+    def resolve_group(self, group: GroupSelection = None) -> str:
+        """
+        Pick which research group's data to read this instrument from.
+
+        Parameters
+        ----------
+        group : str | Mapping[str, str] | None
+            A group name, used as given; a mapping of instrument name to group
+            name, from which this instrument's entry is used (instruments the
+            mapping does not name fall back to automatic selection); or None to
+            select automatically.
+
+        Returns
+        -------
+        str
+            The group name.
+
+        Raises
+        ------
+        InvalidGroupError
+            If no registered groupspace operates this instrument.
+
+        Notes
+        -----
+        Automatic selection reads the configured operators of *this*
+        instrument: the default group when it is one of them, otherwise the
+        sole operator, otherwise the first configured. It is a configuration
+        lookup, not a search of the archive -- it does not check whether that
+        group actually holds data for a given time range.
+        """
+        if isinstance(group, Mapping):
+            group = group.get(self.name, group.get(self.name.lower()))
+        if group is not None:
+            return filesystem.get_group(group)
+
+        candidates = [g for g in self.groups if g in filesystem.groups]
+        if not candidates:
+            raise errors.InvalidGroupError(
+                f"No registered groupspace operates {self}. "
+                f"Configured: {self.groups or 'none'}."
+            )
+        if filesystem.DEFAULT_GROUP in candidates:
+            return filesystem.DEFAULT_GROUP
+        group = candidates[0]
+        if len(candidates) > 1:
+            _logger.info(
+                f"{self} is operated by {candidates} and not by the default "
+                f"group '{filesystem.DEFAULT_GROUP}'; reading from '{group}'."
+            )
+        else:
+            _logger.debug(f"{self} is operated by '{group}'; reading from it.")
+        return group
 
     def _get_groupspace(self, group: str) -> filesystem.GroupSpace:
         """
