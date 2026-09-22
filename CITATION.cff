@@ -3,7 +3,15 @@ message: "If you use this software, please cite it as below."
 type: software
 title: "uataq"
 version: 2025.11.0
+date-released: "2026-09-22"
 abstract: "uataq (Utah Atmospheric Trace-gas and Air Quality) reads and standardizes observations from the Lin group's UATAQ measurement network: site/instrument metadata, per-group filesystem readers, and network-wide aggregation across sites for a given pollutant."
+identifiers:
+  - type: doi
+    value: "10.5281/zenodo.22900090"
+    description: "The concept DOI for all versions of uataq."
+  - type: doi
+    value: "10.5281/zenodo.22900091"
+    description: "The DOI for version 2025.11.0 of uataq."
 authors:
   - family-names: Mineau
     given-names: James K.
