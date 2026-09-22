@@ -4,6 +4,7 @@ Tests for the Instrument classes.
 
 from unittest.mock import MagicMock, patch, call
 
+import pandas as pd
 import pytest
 
 from uataq import errors, filesystem, instruments
@@ -241,3 +242,79 @@ class TestResolveGroup:
         inst = uataq.get_site("TRX01").instruments["gps"]
         assert set(inst.groups) == {"horel", "lin"}
         assert inst.resolve_group() == "lin"
+
+
+class TestActiveRangeClipping:
+    """Reads are confined to when the instrument was installed (uataq#1)."""
+
+    @staticmethod
+    def make(installation_date="2016-02-04", removal_date=None, name="metone_es642"):
+        class Concrete(instruments.Instrument):
+            model = "test_model"
+
+        config = {"installation_date": installation_date}
+        if removal_date is not None:
+            config["removal_date"] = removal_date
+        return Concrete(
+            SID="TEST", name=name, loggers={"horel": "campbellsci"}, config=config
+        )
+
+    def test_active_range_from_config(self):
+        inst = self.make(removal_date="2025-01-03")
+        assert inst.active_range.start == pd.Timestamp("2016-02-04")
+        assert inst.active_range.stop == pd.Timestamp("2025-01-03")
+
+    def test_still_installed_has_no_stop(self):
+        assert self.make().active_range.stop is None
+
+    def test_removal_date_present_but_null(self):
+        """config may carry `removal_date: null` for an installed instrument."""
+        assert self.make(removal_date=None).active_range.stop is None
+
+    def test_unbounded_request_is_clipped_to_the_active_range(self):
+        """The swap case: reading "everything" must stop at the removal date."""
+        inst = self.make(removal_date="2025-01-03")
+        clipped = inst.clip_to_active(None)
+        assert clipped.start == pd.Timestamp("2016-02-04")
+        assert clipped.stop == pd.Timestamp("2025-01-03")
+
+    def test_request_spanning_the_swap_is_truncated(self):
+        inst = self.make(removal_date="2025-01-03")
+        clipped = inst.clip_to_active(("2024-01-01", "2026-01-01"))
+        assert clipped.start == pd.Timestamp("2024-01-01")
+        assert clipped.stop == pd.Timestamp("2025-01-03")
+
+    def test_replacement_instrument_is_clipped_at_its_start(self):
+        inst = self.make(installation_date="2025-01-06", name="metone_es405")
+        assert inst.clip_to_active(("2016-01-01", "2026-01-01")).start == pd.Timestamp(
+            "2025-01-06"
+        )
+
+    def test_narrower_request_is_left_alone(self):
+        inst = self.make(removal_date="2025-01-03")
+        clipped = inst.clip_to_active(("2020-01-01", "2020-06-01"))
+        assert clipped.start == pd.Timestamp("2020-01-01")
+        # TimeRange parses a date-only stop inclusively, i.e. through that day
+        assert clipped.stop == pd.Timestamp("2020-06-02")
+
+    def test_never_widens_a_request(self):
+        inst = self.make(removal_date="2025-01-03")
+        clipped = inst.clip_to_active(("2020-01-01", None))
+        assert clipped.start == pd.Timestamp("2020-01-01")
+        assert clipped.stop == pd.Timestamp("2025-01-03")
+
+    def test_request_entirely_after_removal_raises(self):
+        inst = self.make(removal_date="2025-01-03")
+        with pytest.raises(errors.InactiveInstrumentError):
+            inst.clip_to_active(("2025-06-01", "2025-07-01"))
+
+    def test_request_entirely_before_installation_raises(self):
+        inst = self.make(installation_date="2025-01-06")
+        with pytest.raises(errors.InactiveInstrumentError):
+            inst.clip_to_active(("2016-01-01", "2016-02-01"))
+
+    def test_swapped_instruments_do_not_overlap(self):
+        """An ES642 and the ES405 that replaced it must not share a window."""
+        es642 = self.make(removal_date="2025-01-03")
+        es405 = self.make(installation_date="2025-01-06", name="metone_es405")
+        assert es642.clip_to_active(None).stop <= es405.clip_to_active(None).start

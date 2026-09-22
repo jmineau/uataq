@@ -232,18 +232,76 @@ class Instrument(metaclass=ABCMeta):
         list[DataFile]
             A list of data files.
         """
-        # Check if instrument is active during the time range
-        start, end = time_range
-        installation_date = pd.to_datetime(self.config["installation_date"])
-        removal_date = pd.to_datetime(self.config.get("removal_date", pd.Timestamp.max))
-        if (start and start > removal_date) or (end and end < installation_date):
-            raise errors.InactiveInstrumentError(self)
+        time_range = self.clip_to_active(time_range)
 
         groupspace = self._get_groupspace(group)
         logger = self._loggers[group]
         return groupspace.get_datafiles(
             self.SID, self.name, lvl, logger, time_range, pattern
         )
+
+    @property
+    def active_range(self) -> TimeRange:
+        """
+        When this instrument was installed at the site and when it was removed.
+
+        An instrument still installed has no stop. Built from the site
+        configuration's ``installation_date`` / ``removal_date``.
+        """
+        removal_date = self.config.get("removal_date")
+        return TimeRange(
+            start=pd.to_datetime(self.config["installation_date"]),
+            stop=pd.to_datetime(removal_date) if removal_date else None,
+        )
+
+    def clip_to_active(self, time_range: TimeRange | TimeRangeTypes) -> TimeRange:
+        """
+        Narrow a requested time range to when this instrument was installed.
+
+        Parameters
+        ----------
+        time_range : TimeRange | TimeRangeTypes
+            The requested time range.
+
+        Returns
+        -------
+        TimeRange
+            The requested range intersected with :attr:`active_range`. Never
+            wider than what was asked for.
+
+        Raises
+        ------
+        InactiveInstrumentError
+            If the requested range does not overlap the active range at all.
+
+        Notes
+        -----
+        Without this, a request that reaches past a swap reads the replacement
+        instrument's files as though they were this one's: research groups
+        reuse a file name across an instrument change (the horel group calls
+        both MetOne models ``esampler``), so the file name cannot distinguish
+        them, but the installation and removal dates can.
+        """
+        time_range = TimeRange(time_range)
+        start, stop = time_range
+        active_start, active_stop = self.active_range
+
+        if (stop and active_start and stop < active_start) or (
+            start and active_stop and start > active_stop
+        ):
+            raise errors.InactiveInstrumentError(self)
+
+        clipped = TimeRange(
+            start=max(start, active_start) if start else active_start,
+            stop=min(stop, active_stop)
+            if stop and active_stop
+            else (stop or active_stop),
+        )
+        if (clipped.start, clipped.stop) != (start, stop):
+            _logger.debug(
+                f"Clipped {time_range} to {clipped} -- when {self} was installed."
+            )
+        return clipped
 
     def standardize_data(self, group: str, data: pd.DataFrame) -> pd.DataFrame:
         """
@@ -302,7 +360,10 @@ class Instrument(metaclass=ABCMeta):
         assert lvl in filesystem.lvls, (
             f"Invalid data level '{lvl}'. Must be one of {filesystem.lvls}."
         )
-        time_range = TimeRange(time_range)
+        # Clip once, and use the clipped range for both file selection and the
+        # row slice, so data logged after a swap cannot be read as this
+        # instrument's (see clip_to_active).
+        time_range = self.clip_to_active(time_range)
 
         _logger.info(f"Getting {lvl} files...")
         datafiles = self.get_datafiles(group, lvl, time_range, file_pattern)
