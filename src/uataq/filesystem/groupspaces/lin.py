@@ -566,8 +566,9 @@ class LGR_UGGA_File(filesystem.DataFile):
         if (ncols < 23) | (ncols > 24):
             raise ParserError("Too few or too many columns!")
         elif ncols == 24:
-            #  drop the valve (fill) column
-            data.drop(columns=data.columns[22], inplace=True)
+            #  drop the valve (fill) column, by position: the header does not
+            #  name it consistently
+            data = data.iloc[:, [i for i in range(ncols) if i != 22]]
 
         # Format time
         data.Time_UTC = pd.to_datetime(

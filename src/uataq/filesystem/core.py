@@ -165,7 +165,10 @@ def filter_datafiles(
     _logger.info(f"Filtering files to time range: {time_range}")
 
     df = pd.DataFrame(
-        [(file, file.period) for file in files], columns=["file", "period"]
+        {
+            "file": files,
+            "period": [file.period for file in files],
+        }
     )
     df = df.set_index("period").sort_index()
 
