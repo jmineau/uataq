@@ -4,7 +4,12 @@ type: software
 title: "uataq"
 version: 2025.11.0
 date-released: "2026-09-22"
+doi: "10.5281/zenodo.22900090"
 abstract: "uataq (Utah Atmospheric Trace-gas and Air Quality) reads and standardizes observations from the Lin group's UATAQ measurement network: site/instrument metadata, per-group filesystem readers, and network-wide aggregation across sites for a given pollutant."
+# `doi` (above) is the shorthand GitHub's "Cite this repository" popup
+# actually renders in APA/BibTeX (it ignores `identifiers`, see
+# citation-file-format/ruby-cff's formatters). Keep `identifiers` too for
+# tools that do read it, and bump the version-DOI entry on each release.
 identifiers:
   - type: doi
     value: "10.5281/zenodo.22900090"
