@@ -4,19 +4,18 @@ type: software
 title: "uataq"
 version: 2025.11.0
 date-released: "2026-09-22"
+# Concept DOI (always resolves to the latest release) — same convention as
+# pandas/astropy/xarray. `doi` is the shorthand GitHub's "Cite this
+# repository" popup actually renders in APA/BibTeX (it ignores
+# `identifiers`, per citation-file-format/ruby-cff's formatters);
+# `identifiers` is kept too for tools that prefer that form. Deliberately
+# not tracking the per-version DOI here — none of the above do either.
 doi: "10.5281/zenodo.22900090"
 abstract: "uataq (Utah Atmospheric Trace-gas and Air Quality) reads and standardizes observations from the Lin group's UATAQ measurement network: site/instrument metadata, per-group filesystem readers, and network-wide aggregation across sites for a given pollutant."
-# `doi` (above) is the shorthand GitHub's "Cite this repository" popup
-# actually renders in APA/BibTeX (it ignores `identifiers`, see
-# citation-file-format/ruby-cff's formatters). Keep `identifiers` too for
-# tools that do read it, and bump the version-DOI entry on each release.
 identifiers:
   - type: doi
     value: "10.5281/zenodo.22900090"
     description: "The concept DOI for all versions of uataq."
-  - type: doi
-    value: "10.5281/zenodo.22900091"
-    description: "The DOI for version 2025.11.0 of uataq."
 authors:
   - family-names: Mineau
     given-names: James K.
