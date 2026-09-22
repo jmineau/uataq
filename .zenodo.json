@@ -1,0 +1,14 @@
+{
+  "title": "uataq",
+  "description": "uataq (Utah Atmospheric Trace-gas and Air Quality) reads and standardizes observations from the Lin group's UATAQ measurement network: site/instrument metadata, per-group filesystem readers, and network-wide aggregation across sites for a given pollutant.",
+  "creators": [
+    {
+      "name": "Mineau, James K.",
+      "affiliation": "University of Utah",
+      "orcid": "0000-0002-2289-2252"
+    }
+  ],
+  "license": "MIT",
+  "upload_type": "software",
+  "keywords": ["atmospheric-science", "air-quality", "trace-gas", "salt-lake-valley", "python"]
+}

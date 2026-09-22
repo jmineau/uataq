@@ -1,0 +1,21 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+type: software
+title: "uataq"
+version: 2025.11.0
+abstract: "uataq (Utah Atmospheric Trace-gas and Air Quality) reads and standardizes observations from the Lin group's UATAQ measurement network: site/instrument metadata, per-group filesystem readers, and network-wide aggregation across sites for a given pollutant."
+authors:
+  - family-names: Mineau
+    given-names: James K.
+    email: jameskmineau@gmail.com
+    affiliation: "University of Utah"
+    orcid: "https://orcid.org/0000-0002-2289-2252"
+license: MIT
+repository-code: "https://github.com/jmineau/uataq"
+url: "https://jmineau.github.io/uataq/"
+keywords:
+  - atmospheric-science
+  - air-quality
+  - trace-gas
+  - salt-lake-valley
+  - python

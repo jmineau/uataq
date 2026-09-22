@@ -38,6 +38,12 @@ Contributions are welcome! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for gui
 
 This project is licensed under the MIT License - see the LICENSE file for details.
 
+## Citation
+
+If you use this package in your research, please cite it. Citation metadata is
+in [`CITATION.cff`](CITATION.cff) (GitHub's "Cite this repository" button uses
+it), and each release is archived on [Zenodo](https://zenodo.org/) with a DOI.
+
 ## Author
 
 **James Mineau** - [jmineau](https://github.com/jmineau)
