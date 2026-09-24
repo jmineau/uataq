@@ -35,6 +35,11 @@ pip install -e .
 
 Contributions are welcome! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
+## Use of AI coding agents
+
+This project is developed with the help of AI coding agents, directed and
+reviewed by the maintainer, who owns the design and the science.
+
 ## License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
