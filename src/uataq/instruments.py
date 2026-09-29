@@ -618,9 +618,10 @@ class GPS(Instrument):
         for col in ("Speed_m_s", "Course_deg"):
             if col not in data.columns:
                 data[col] = np.nan
-            elif not pd.api.types.is_numeric_dtype(data[col]):
+            elif data[col].dtype != np.float64:
                 # An all-NA column can come back as strings (the GPGGA-only
-                # years), which cannot hold the fill values.
+                # years), and the horel CR1000 logger reads float32; neither
+                # can take the float64 fill values in place under pandas 3.
                 coerced = pd.to_numeric(data[col].astype(object), errors="coerce")
                 data[col] = np.asarray(coerced, dtype=float)
             # Positions only fill gaps; a recorded value always wins.

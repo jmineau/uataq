@@ -226,6 +226,15 @@ class TestGPSInstrumentMotion:
         np.testing.assert_allclose(out.Speed_m_s.dropna(), 10.0, atol=1e-3)
         assert out.Speed_Estimated.iloc[1:-1].all()
 
+    def test_float32_column_takes_float64_fills(self):
+        """The horel CR1000 logger reads Speed as float32; pandas 3 will not upcast in place."""
+        speed = np.full(11, 3.0, dtype="float32")
+        speed[5] = np.nan
+        out = instruments.GPS.estimate_motion(self.frame(Speed_m_s=speed))
+        assert out.Speed_m_s.iloc[5] == pytest.approx(10.0, abs=1e-3)
+        assert (out.Speed_m_s.drop(out.index[5]) == 3.0).all()
+        assert out.Speed_Estimated.iloc[5]
+
     def test_no_positions_is_a_no_op(self):
         df = pd.DataFrame(
             {"Speed_m_s": [1.0, 2.0]},
