@@ -9,6 +9,7 @@ from . import groupspaces
 from .core import (
     DataFile,
     GroupSpace,
+    cpu_count,
     filter_datafiles,
     groups,
     list_files,
@@ -53,6 +54,7 @@ __all__ = [
     "groupspaces",
     "DataFile",
     "GroupSpace",
+    "cpu_count",
     "groups",
     "lvls",
     "list_files",

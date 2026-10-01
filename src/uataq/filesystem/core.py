@@ -24,6 +24,24 @@ HOME: str = "/uufs/chpc.utah.edu/common/home"
 lvls: dict = {"raw": 1, "qaqc": 2, "calibrated": 3, "final": 4}
 
 
+def cpu_count() -> int:
+    """
+    Number of CPUs this process may run on.
+
+    Unlike :func:`multiprocessing.cpu_count`, which reports every core on the
+    machine, this respects the CPU affinity a scheduler sets: a SLURM job
+    given 16 cores on a 64-core node gets 16, not 64.
+
+    Returns
+    -------
+    int
+        The usable CPU count.
+    """
+    if hasattr(os, "sched_getaffinity"):  # Linux
+        return len(os.sched_getaffinity(0))
+    return multiprocessing.cpu_count()
+
+
 def list_files(
     path: str | Path = ".",
     pattern: str | None = None,
@@ -238,15 +256,15 @@ def parse_datafiles(
         A DataFrame containing the parsed data.
     """
     # Determine the number of processes to use
-    cpu_count = multiprocessing.cpu_count()
+    cpus = cpu_count()
     if num_processes == "max":
-        processes = cpu_count
-    elif num_processes > cpu_count:
+        processes = cpus
+    elif num_processes > cpus:
         _logger.debug(
             f"{num_processes} processes requested, "
-            f"but there are only {cpu_count} CPU(s) available."
+            f"but there are only {cpus} CPU(s) available."
         )
-        processes = cpu_count
+        processes = cpus
     else:
         processes = num_processes
 

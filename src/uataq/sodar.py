@@ -37,7 +37,7 @@ import pandas as pd
 import tables
 import xarray as xr
 
-from uataq import errors
+from uataq import errors, filesystem
 from uataq.filesystem.groupspaces import horel
 from uataq.timerange import TimeRange, TimeRangeTypes
 
@@ -83,7 +83,7 @@ def list_stations(mesowest_dir: str | None = None) -> list[str]:
 
 def _num_processes(num_processes: int | Literal["max"], n_files: int) -> int:
     """Number of worker processes to use: capped by CPUs and number of files."""
-    cpu_count = multiprocessing.cpu_count()
+    cpu_count = filesystem.cpu_count()
     requested = cpu_count if num_processes == "max" else int(num_processes)
     if requested < 1:
         raise ValueError(f"num_processes must be >= 1 or 'max', got {num_processes!r}")
