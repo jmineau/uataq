@@ -3,15 +3,153 @@ This module provides classes for combining and analyzing data across multiple si
 """
 
 import logging
+import multiprocessing
+import re
+from collections import defaultdict
+from collections.abc import Iterable
 from typing import Literal
 
 import geopandas as gpd
 import pandas as pd
 
-from uataq import _laboratory, errors, sites
+from uataq import _laboratory, errors, filesystem, sites
+from uataq.instruments import Instrument
 from uataq.timerange import TimeRange, TimeRangeTypes
 
 _logger = logging.getLogger(__name__)
+
+#: Colors for each data level in :meth:`Network.plot_availability`. Levels are
+#: ordered, so they share one hue, from light (raw) to dark (final).
+LEVEL_COLORS: dict[str, str] = {
+    "raw": "#86b6ef",
+    "qaqc": "#3987e5",
+    "calibrated": "#1c5cab",
+    "final": "#0d366b",
+}
+
+
+def concentration_columns(pollutant: str, columns: Iterable[str]) -> list[str]:
+    """
+    Pick the columns holding a pollutant's measured concentration.
+
+    Matches ``{pollutant}_{unit}`` with a concentration unit, e.g. ``O3_ppb``,
+    ``CO2d_ppm`` (dry mole fraction), ``CH4d_ppm_cal`` (calibrated),
+    ``PM2.5_ugm3`` or ``BC6_ngm3`` (an aethalometer channel). Instrument
+    diagnostics that share the prefix, like ``O3_Meas_mV`` or ``NO2_Slope``,
+    and spreads like ``O3_ppb_std`` are not matches.
+
+    Parameters
+    ----------
+    pollutant : str
+        The pollutant, matched case-insensitively.
+    columns : Iterable[str]
+        Column names to search.
+
+    Returns
+    -------
+    list[str]
+        The matching columns, in their original order.
+    """
+    # BC is reported per wavelength channel (BC1..BC7); everything else may
+    # carry a "d" for dry mole fraction. Kept apart so PM1 can't match PM10.
+    infix = r"\d" if pollutant.upper() == "BC" else "d?"
+    pattern = re.compile(
+        rf"^{re.escape(pollutant)}{infix}_(ppm|ppb|ugm3|ngm3)(_cal)?$", re.IGNORECASE
+    )
+    return [col for col in columns if pattern.match(col)]
+
+
+def _datafile_coverage(
+    task: tuple[str, Instrument, str, str, filesystem.DataFile, str, str, TimeRange],
+) -> tuple[str, str, pd.PeriodIndex | None]:
+    """
+    Find the time bins in which one data file has the pollutant.
+
+    Module-level so :class:`multiprocessing.Pool` can pickle it.
+
+    Parameters
+    ----------
+    task : tuple
+        ``(SID, instrument, group, lvl, datafile, pollutant, freq, time_range)``.
+        ``time_range`` is already clipped to when the instrument was installed.
+
+    Returns
+    -------
+    tuple[str, str, pd.PeriodIndex | None]
+        ``(SID, lvl, bins)``: the bins holding at least one non-null
+        concentration, or None if the file could not be read.
+    """
+    SID, instrument, group, lvl, datafile, pollutant, freq, time_range = task
+    try:
+        data = datafile.parse()
+        # Stray header rows inside a file parse to NaT; drop them before
+        # standardizing, as parse_datafiles does, or unit conversions see text.
+        data = data.dropna(subset="Time_UTC")
+        data = instrument.standardize_data(group, data)
+    except Exception as e:
+        # A survey of thousands of files should report a bad one, not stop on it.
+        _logger.warning(f"Skipping {datafile} ({type(e).__name__}: {e})")
+        return SID, lvl, None
+
+    columns = concentration_columns(pollutant, data.columns)
+    values = data[columns].apply(pd.to_numeric, errors="coerce")
+    times = data.loc[values.notna().any(axis=1), "Time_UTC"]
+
+    start, stop = time_range
+    if start is not None:
+        times = times[times >= start]
+    # An instrument still installed has no stop; cap at now so a corrupt
+    # timestamp (seen: year ~178 billion) can't become a bin in the far future.
+    now = pd.Timestamp.now("UTC").tz_localize(None)
+    if future := int((times > now).sum()):
+        _logger.warning(f"{datafile}: dropping {future} rows stamped after now")
+    stop = now if stop is None else min(stop, now)
+    times = times[times < stop]
+
+    return SID, lvl, pd.PeriodIndex(times.dt.to_period(freq).unique())
+
+
+def _coverage_to_segments(SID: str, coverage: dict[str, set[pd.Period]]) -> list[dict]:
+    """
+    Collapse per-level time bins into runs of the best available level.
+
+    Parameters
+    ----------
+    SID : str
+        The site ID, copied onto every segment.
+    coverage : dict[str, set[pd.Period]]
+        For each data level, the bins in which it has data.
+
+    Returns
+    -------
+    list[dict]
+        Segments with keys ``SID``, ``lvl``, ``start``, ``stop``. Each bin
+        takes the highest level that covers it; consecutive bins sharing a
+        level merge into one half-open ``[start, stop)`` segment.
+    """
+    best: dict[pd.Period, str] = {}
+    for lvl, bins in coverage.items():
+        for b in bins:
+            if b not in best or filesystem.lvls[lvl] > filesystem.lvls[best[b]]:
+                best[b] = lvl
+
+    runs: list[list] = []  # [lvl, first bin, last bin]
+    for b in sorted(best, key=lambda b: b.ordinal):
+        lvl = best[b]
+        if runs and runs[-1][0] == lvl and runs[-1][2] + 1 == b:
+            runs[-1][2] = b
+        else:
+            runs.append([lvl, b, b])
+
+    return [
+        {
+            "SID": SID,
+            "lvl": lvl,
+            "start": first.start_time,
+            "stop": (last + 1).start_time,
+        }
+        for lvl, first, last in runs
+    ]
 
 
 class Network:
@@ -36,11 +174,15 @@ class Network:
     -------
     get_obs(time_range=None, num_processes=1)
         Get observations for the network across all sites.
+    get_availability(time_range=None, freq='D', lvls=None, num_processes=1)
+        When each site has data for the pollutant, and at what level.
+    plot_availability(availability=None, ax=None, **kwargs)
+        Plot data availability per site, colored by level.
     """
 
     def __init__(
         self,
-        sites: list[str] | tuple[str, ...],
+        sites: list[str] | tuple[str, ...] | Literal["all"],
         pollutant: str,
         group: str | None = None,
     ):
@@ -49,8 +191,9 @@ class Network:
 
         Parameters
         ----------
-        sites : list[str] | tuple[str, ...]
-            List of site identifiers to include in the network.
+        sites : list[str] | tuple[str, ...] | 'all'
+            List of site identifiers to include in the network, or 'all' for
+            every configured site (those not measuring the pollutant drop out).
         pollutant : str
             The pollutant to measure. Will be converted to uppercase.
             Examples: 'CO2', 'O3', 'NO2', 'PM2.5', 'BC'
@@ -64,6 +207,8 @@ class Network:
         """
         if not sites:
             raise ValueError("sites cannot be empty.")
+        if sites == "all":
+            sites = _laboratory.laboratory.sites
 
         self.sites = [s.upper() for s in sites]
         self.pollutant = pollutant.upper()
@@ -195,6 +340,209 @@ class Network:
         )
 
         return gpd.GeoDataFrame(gdf.sort_index())
+
+    def _pollutant_instruments(self, site: sites.Site) -> list[Instrument]:
+        """Instruments at a site measuring this network's pollutant."""
+        # Instruments declare mixed case ("NOx"); the network stores uppercase.
+        return [
+            instrument
+            for instrument in site.instruments
+            if self.pollutant
+            in {p.upper() for p in getattr(instrument, "pollutants", ())}
+        ]
+
+    def get_availability(
+        self,
+        time_range: TimeRange | TimeRangeTypes | None = None,
+        freq: str = "D",
+        lvls: list[str] | None = None,
+        num_processes: int | Literal["max"] = 1,
+    ) -> pd.DataFrame:
+        """
+        Find when each site has data for the pollutant, and at what level.
+
+        Every data file is parsed, so this reflects real measurements rather
+        than which files exist: a time bin counts for a level when any row in
+        it has a non-null concentration (see :func:`concentration_columns`).
+        Each bin is labeled with the highest level that covers it, so a bin
+        measured but dropped from final data shows as qaqc.
+
+        Parameters
+        ----------
+        time_range : TimeRange | TimeRangeTypes, optional
+            The time range to check. Default is None (all data).
+        freq : str, optional
+            The size of a time bin, as a pandas period alias: 'h', 'D', 'W',
+            'M', ... Default is 'D'.
+        lvls : list[str], optional
+            The data levels to check. Default is None, every level in
+            :data:`uataq.filesystem.lvls`. Checking fewer is faster.
+        num_processes : int | 'max', optional
+            Number of processes used to parse files. Default is 1. A whole
+            network is thousands of files; use a compute node.
+
+        Returns
+        -------
+        pandas.DataFrame
+            One row per segment, with columns ``SID``, ``lvl``, ``start`` and
+            ``stop``. Segments are half-open ``[start, stop)``. Sites with no
+            data have no rows.
+
+        Notes
+        -----
+        If the network was built without a group, every group that operates
+        an instrument is checked (TRX01 ozone, for instance, is in both the
+        lin and horel archives), not only the one ``get_obs`` would read.
+        """
+        lvls = lvls or list(filesystem.lvls)
+        if invalid := set(lvls) - set(filesystem.lvls):
+            raise ValueError(
+                f"Invalid level(s) {invalid}. Must be in {list(filesystem.lvls)}."
+            )
+        time_range = TimeRange(time_range)
+
+        # One task per data file, across the whole network, so a single pool
+        # stays busy instead of one pool per site.
+        tasks = []
+        for site in self.site_objects:
+            for instrument in self._pollutant_instruments(site):
+                if self.group:
+                    groups = [instrument.resolve_group(self.group)]
+                else:
+                    groups = [g for g in instrument.groups if g in filesystem.groups]
+                for group in groups:
+                    for lvl in lvls:
+                        try:
+                            clipped = instrument.clip_to_active(time_range)
+                            datafiles = instrument.get_datafiles(group, lvl, clipped)
+                        except (errors.ReaderError, FileNotFoundError, ValueError) as e:
+                            # This group doesn't keep this level, or has no files
+                            # in range.
+                            _logger.debug(
+                                f"No {lvl} files for {instrument} in {group}: {e}"
+                            )
+                            continue
+                        tasks.extend(
+                            (
+                                site.SID,
+                                instrument,
+                                group,
+                                lvl,
+                                datafile,
+                                self.pollutant,
+                                freq,
+                                clipped,
+                            )
+                            for datafile in datafiles
+                        )
+
+        _logger.info(
+            f"Checking {len(tasks)} files for {self.pollutant} "
+            f"at {len(self.site_objects)} sites..."
+        )
+        processes = filesystem.cpu_count() if num_processes == "max" else num_processes
+        processes = max(1, min(processes, len(tasks)))
+        if processes == 1:
+            results = [_datafile_coverage(task) for task in tasks]
+        else:
+            with multiprocessing.Pool(processes) as pool:
+                results = pool.map(_datafile_coverage, tasks, chunksize=4)
+
+        coverage: dict[str, dict[str, set[pd.Period]]] = defaultdict(
+            lambda: defaultdict(set)
+        )
+        skipped = 0
+        for SID, lvl, bins in results:
+            if bins is None:
+                skipped += 1
+            else:
+                coverage[SID][lvl].update(bins)
+        if skipped:
+            _logger.warning(f"{skipped} of {len(tasks)} files could not be read.")
+
+        segments = [
+            segment
+            for site in self.site_objects
+            for segment in _coverage_to_segments(site.SID, coverage[site.SID])
+        ]
+        return pd.DataFrame(segments, columns=pd.Index(["SID", "lvl", "start", "stop"]))
+
+    def plot_availability(
+        self,
+        availability: pd.DataFrame | None = None,
+        ax=None,
+        **kwargs,
+    ):
+        """
+        Plot when each site has data for the pollutant, colored by level.
+
+        Time runs along x and each site gets a row, with a bar wherever it has
+        data, shaded light (raw) to dark (final) by :data:`LEVEL_COLORS`.
+        Requires the optional matplotlib dependency.
+
+        Parameters
+        ----------
+        availability : pandas.DataFrame, optional
+            The output of :meth:`get_availability`. If None, it is computed,
+            passing ``kwargs`` along. Compute it once and pass it in to restyle
+            the plot without re-reading the archive.
+        ax : matplotlib.axes.Axes, optional
+            Axes to draw on. Default is None, which makes a new figure.
+        **kwargs
+            Passed to :meth:`get_availability` when ``availability`` is None.
+
+        Returns
+        -------
+        matplotlib.axes.Axes
+            The axes drawn on.
+        """
+        import matplotlib.dates as mdates  # pyright: ignore[reportMissingImports]  # optional plotting extra
+        import matplotlib.patches as mpatches  # pyright: ignore[reportMissingImports]  # optional plotting extra
+        import matplotlib.pyplot as plt  # pyright: ignore[reportMissingImports]  # optional plotting extra
+
+        if availability is None:
+            availability = self.get_availability(**kwargs)
+
+        # Every site in the network gets a row, top to bottom in network
+        # order, so a site with no data shows up as an empty row.
+        SIDs = [site.SID for site in self.site_objects]
+        if ax is None:
+            _, ax = plt.subplots(figsize=(10, 0.35 * len(SIDs) + 1.5))
+
+        height = 0.6
+        for row, SID in enumerate(SIDs):
+            site_segments = availability[availability["SID"] == SID]
+            for lvl, segments in site_segments.groupby("lvl"):
+                start = mdates.date2num(segments["start"])
+                stop = mdates.date2num(segments["stop"])
+                ax.broken_barh(
+                    list(zip(start, stop - start, strict=True)),
+                    (row - height / 2, height),
+                    facecolors=LEVEL_COLORS[str(lvl)],
+                    linewidth=0,
+                )
+
+        ax.set_yticks(range(len(SIDs)), SIDs)
+        ax.set_ylim(len(SIDs) - 0.5, -0.5)  # first site on top
+        ax.xaxis_date()
+        ax.grid(axis="x", color="0.9", linewidth=0.8)
+        ax.set_axisbelow(True)
+        ax.tick_params(axis="y", length=0)
+        for side in ("top", "right", "left"):
+            ax.spines[side].set_visible(False)
+
+        present = [lvl for lvl in filesystem.lvls if lvl in set(availability["lvl"])]
+        ax.legend(
+            handles=[
+                mpatches.Patch(color=LEVEL_COLORS[lvl], label=lvl) for lvl in present
+            ],
+            loc="lower left",
+            bbox_to_anchor=(0, 1),
+            ncols=len(present) or 1,
+            frameon=False,
+        )
+        ax.set_title(f"{self.pollutant} data availability", loc="left", pad=28)
+        return ax
 
     def _read_site_data(
         self,

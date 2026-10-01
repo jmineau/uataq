@@ -34,7 +34,9 @@ src/uataq/
   instruments.py     Instrument ABC + concrete subclasses; defines how each
                      instrument's files are parsed
   network.py         Network — multi-site aggregator (used by
-                     get_network_obs); returns GeoDataFrame
+                     get_network_obs); returns GeoDataFrame. Also
+                     get_availability / plot_availability (see
+                     "Network availability" below)
   errors.py          custom exceptions (DataFileInitializationError,
                      ParserError, ...)
   timerange.py       TimeRange + TimeRangeTypes (str | tuple | list | slice
@@ -49,7 +51,9 @@ src/uataq/
   filesystem/
     __init__.py      DataFile, GroupSpace, DEFAULT_GROUP="lin",
                      groups dict, lvls dict, list_files,
-                     filter_datafiles, parse_datafiles, get_group
+                     filter_datafiles, parse_datafiles, get_group,
+                     cpu_count (affinity-aware; use it, not
+                     multiprocessing.cpu_count, for num_processes="max")
     core.py          implementations of the above
     groupspaces/     per-group disk layout adapters
       __init__.py
@@ -147,6 +151,34 @@ Gotchas:
 - lin's `true_course` mapped to `True_Course` while horel mapped to
   `Course_deg`, so lin GPS course silently never reached code expecting the
   horel name (slv's mobile reader). Unified to `Course_deg` (2026-09-22).
+
+## Network availability (`Network.get_availability` / `plot_availability`)
+
+`Network(sites, pollutant).get_availability(time_range, freq="D", lvls=None,
+num_processes=1)` returns segments `SID, lvl, start, stop` (half-open). It
+**parses every file** rather than trusting file listings: horel qaqc/final
+CSVs are per-platform (all instruments in one file), so a file existing says
+nothing about one pollutant -- e.g. TRX01's Aug 2022 finalized CSV has -9999
+ozone for all but the last 47 min while the raw 2B h5 is full. A bin counts
+for a level when any row has a non-null `concentration_columns(...)` value
+(`O3_ppb`, `CO2d_ppm_cal`, `BC6_ngm3`; not `O3_Meas_mV` / `O3_std_ppb` /
+`CO2d_ppm_raw`), and takes the highest level present, so "measured but not
+in final" shows as qaqc/raw. With no `group`, **every** group operating the
+instrument is checked (TRX01/02 ozone is in lin 2015-2017 and horel after),
+unlike `get_obs`'s single `resolve_group` pick. One pool over the whole
+network's files; each worker reduces its file to bins immediately, so memory
+is one file per worker. A bad file is logged and skipped (count reported),
+not fatal. Stray in-file header rows (NaT `Time_UTC`, e.g. lin
+`trx01/2b_205/qaqc/2016_05_qaqc.dat`) are dropped before `standardize_data`,
+which otherwise divides a text column.
+
+`plot_availability(availability=None, ax=None, **kwargs)` is matplotlib
+(optional import, like `Site.plot`); bars use `LEVEL_COLORS`, one blue hue
+light (raw) to dark (final) since levels are ordinal. Compute availability
+once and pass it in to restyle. Network("all", pollutant) = every configured
+site measuring it. Full O3 (~19 sites, all years) is thousands of files: run
+it in SLURM with `num_processes="max"` from a script file with a `__main__`
+guard (Python 3.14 defaults to forkserver; a stdin script can't spawn).
 
 ## Mental model
 
