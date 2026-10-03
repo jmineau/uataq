@@ -98,8 +98,10 @@ class TestNetworkGroupSelection:
 
         assert len(obs) == len(self.times)
         assert set(obs["SID"]) == {"BUS01"}
-        # None reaches Site.read_data, so each instrument resolves its own group
-        assert all(group is None for _, _, group in calls)
+        # None reaches Site.read_data, so each instrument resolves its own
+        # group; the GPS is then read from the group the obs came from (#42)
+        assert all(group is None for _, inst, group in calls if inst != ("gps",))
+        assert [group for _, inst, group in calls if inst == ("gps",)] == ["horel"]
 
     def test_explicit_group_is_passed_through(self):
         calls = []

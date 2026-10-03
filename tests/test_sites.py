@@ -2,12 +2,16 @@
 Tests for the Site class and related functionality.
 """
 
+import logging
+from datetime import datetime
+from types import SimpleNamespace
 from unittest.mock import MagicMock, patch
 
 import pandas as pd
 import pytest
 
 from uataq import errors, sites
+from uataq.timerange import TimeRange
 
 
 class TestSiteInitialization:
@@ -380,6 +384,191 @@ class TestMobileSiteGetObs:
 
         read_data.assert_not_called()
         assert result.equals(obs)
+
+
+class TestSplitByPlan:
+    """Cutting a concatenated read back into its plan's portions (#42)."""
+
+    times = pd.DatetimeIndex(
+        ["2017-10-27 23:59", "2017-10-28 00:00", "2017-10-28 00:01"], name="Time_UTC"
+    )
+    frame = pd.DataFrame({"O3_ppb": [1.0, 2.0, 3.0]}, index=times)
+
+    def test_one_portion_is_the_whole_frame(self):
+        plan = [("lin", TimeRange())]
+        (piece,) = sites._split_by_plan(self.frame, plan)
+        assert piece is self.frame
+
+    def test_cut_at_each_portion_start(self):
+        cut = datetime(2017, 10, 28)
+        plan = [
+            ("lin", TimeRange(start=datetime(2015, 5, 13), stop=cut)),
+            ("horel", TimeRange(start=cut, stop=None)),
+        ]
+        lin, horel = sites._split_by_plan(self.frame, plan)
+        assert list(lin["O3_ppb"]) == [1.0]
+        assert list(horel["O3_ppb"]) == [2.0, 3.0]
+
+    def test_no_row_lost_to_a_gap_between_portions(self):
+        plan = [
+            ("lin", TimeRange(start=None, stop=datetime(2017, 10, 27, 23, 59, 30))),
+            ("horel", TimeRange(start=datetime(2017, 10, 28, 0, 0, 30), stop=None)),
+        ]
+        pieces = sites._split_by_plan(self.frame, plan)
+        assert [len(p) for p in pieces] == [2, 1]
+
+
+class TestMobileSiteLocate:
+    """Each row is located with the GPS logged on its own clock (#42).
+
+    TRX01 ozone crossing 2017-10-28 is read from lin, then horel (config
+    group_dates). lin's instruments and GPS are stamped by the Pi; horel's by
+    the CR1000, whose clock runs seconds off the Pi's. Positions encode which
+    GPS a row was joined to: lin's latitudes are 1.x, horel's 2.x.
+    """
+
+    LIN_STOP = datetime(2017, 10, 28)
+    SPAN = (datetime(2017, 10, 27, 23, 59), datetime(2017, 10, 28, 0, 1))
+
+    @staticmethod
+    def stamp(*times):
+        return pd.DatetimeIndex(pd.to_datetime(list(times)), name="Time_UTC")
+
+    @property
+    def o3(self):
+        # lin rows on the Pi clock, then horel rows on the CR1000 clock
+        index = self.stamp(
+            "2017-10-27 23:59:58",
+            "2017-10-27 23:59:59",
+            "2017-10-28 00:00:00",
+            "2017-10-28 00:00:01",
+            "2017-10-28 00:00:02",
+        )
+        return pd.DataFrame({"O3_ppb": [10.0, 11.0, 20.0, 21.0, 22.0]}, index=index)
+
+    @property
+    def lin_gps(self):
+        # GPS time in Time_UTC, the Pi's clock in Pi_Time. No record for the
+        # Pi's 00:00:02, so a horel row joined on Pi_Time there was dropped.
+        index = self.stamp(
+            "2017-10-27 23:59:58",
+            "2017-10-27 23:59:59",
+            "2017-10-28 00:00:00",
+            "2017-10-28 00:00:01",
+        )
+        pi = (index + pd.Timedelta("190ms")).strftime("%Y-%m-%d %H:%M:%S.%f")
+        return pd.DataFrame(
+            {
+                "Pi_Time": pi,
+                "Latitude_deg": [1.0, 1.1, 1.2, 1.3],
+                "Longitude_deg": -111.0,
+                "Altitude_msl": 1300.0,
+            },
+            index=index,
+        )
+
+    @property
+    def horel_gps(self):
+        index = self.stamp(
+            "2017-10-28 00:00:00", "2017-10-28 00:00:01", "2017-10-28 00:00:02"
+        )
+        return pd.DataFrame(
+            {"Latitude_deg": [2.0, 2.1, 2.2], "Longitude_deg": -111.0}, index=index
+        )
+
+    def fake_read_data(self, calls, fail=()):
+        """A read_data stand-in: O3 as read across the cut, GPS per group."""
+
+        def read_data(instruments, group=None, lvl=None, time_range=None, *a, **k):
+            if instruments == "gps":
+                calls.append((group, TimeRange(time_range)))
+                if group in fail:
+                    raise errors.ReaderError(f"no {group} gps")
+                return {"gps": {"lin": self.lin_gps, "horel": self.horel_gps}[group]}
+            return {"2b_205": self.o3}
+
+        return read_data
+
+    def get_obs(self, calls, fail=(), **kwargs):
+        import uataq
+
+        site = uataq.get_site("TRX01")
+        with patch.object(site, "read_data", self.fake_read_data(calls, fail)):
+            return site.get_obs("O3", time_range=self.SPAN, **kwargs)
+
+    def test_each_group_joins_its_own_gps(self):
+        calls = []
+        obs = self.get_obs(calls)
+
+        # Every row kept, horel's 00:00:02 included
+        assert list(obs["O3_ppb"]) == [10.0, 11.0, 20.0, 21.0, 22.0]
+        assert list(obs["Latitude_deg"]) == [1.0, 1.1, 2.0, 2.1, 2.2]
+        assert list(obs["GPS_Group"]) == ["lin", "lin", "horel", "horel", "horel"]
+        assert "Pi_Time" not in obs.columns
+        assert obs.index.name == "Time_UTC"
+        assert obs.crs == "EPSG:4326"
+
+    def test_gps_is_read_only_where_its_rows_were(self):
+        calls = []
+        self.get_obs(calls)
+
+        spans = {group: (tr.start, tr.stop) for group, tr in calls}
+        assert spans == {
+            "lin": (self.SPAN[0], self.LIN_STOP),
+            "horel": (self.LIN_STOP, self.SPAN[1]),
+        }
+
+    def test_long_format_is_located_too(self):
+        obs = self.get_obs([], format="long")
+        assert list(obs["value"]) == [10.0, 11.0, 20.0, 21.0, 22.0]
+        assert list(obs["Latitude_deg"]) == [1.0, 1.1, 2.0, 2.1, 2.2]
+        assert list(obs["GPS_Group"]) == ["lin", "lin", "horel", "horel", "horel"]
+
+    def test_explicit_gps_group_for_another_groups_rows_raises(self):
+        # horel's ozone rows may not be located with lin's GPS (their clocks differ)
+        calls = []
+        with pytest.raises(ValueError, match="read those instruments from lin"):
+            self.get_obs(calls, group={"gps": "lin"})
+
+    def test_missing_gps_drops_only_its_rows(self, caplog):
+        with caplog.at_level(logging.WARNING, logger="uataq.sites"):
+            obs = self.get_obs([], fail=("horel",))
+
+        assert list(obs["O3_ppb"]) == [10.0, 11.0]
+        assert "3 rows go unlocated" in caplog.text
+
+    def test_no_gps_at_all_raises(self):
+        with pytest.raises(errors.ReaderError, match="No GPS data for TRX01"):
+            self.get_obs([], fail=("lin", "horel"))
+
+    def test_network_locates_the_same_way(self):
+        from uataq.network import Network
+
+        net = Network(["TRX01"], "O3")
+        site = net.site_objects[0]
+        with patch.object(site, "read_data", self.fake_read_data([])):
+            obs = net._read_site_data(site, time_range=self.SPAN)
+
+        assert list(obs["Latitude_deg"]) == [1.0, 1.1, 2.0, 2.1, 2.2]
+        assert set(obs["SID"]) == {"TRX01"}
+        assert list(obs["GPS_Group"]) == ["lin", "lin", "horel", "horel", "horel"]
+
+    def test_group_without_its_own_gps_raises(self):
+        gps = MagicMock()
+        gps.groups = ["horel"]
+        gps._named_group.return_value = None
+        site = SimpleNamespace(instruments={"gps": gps}, SID="BUS99")
+
+        with pytest.raises(ValueError, match="lin logs no GPS at BUS99"):
+            sites.MobileSite._gps_group(site, "lin", None)  # pyright: ignore[reportArgumentType]  # duck-typed site
+        assert sites.MobileSite._gps_group(site, "horel", None) == "horel"  # pyright: ignore[reportArgumentType]  # duck-typed site
+
+    def test_named_gps_matching_the_rows_is_fine(self):
+        gps = MagicMock()
+        gps.groups = ["horel", "lin"]
+        gps._named_group.return_value = "horel"
+        site = SimpleNamespace(instruments={"gps": gps}, SID="TRX01")
+        assert sites.MobileSite._gps_group(site, "horel", {"gps": "horel"}) == "horel"  # pyright: ignore[reportArgumentType]  # duck-typed site
 
 
 class TestPollutantCase:
