@@ -28,7 +28,9 @@ LEVEL_COLORS: dict[str, str] = {
 }
 
 
-def concentration_columns(pollutant: str, columns: Iterable[str]) -> list[str]:
+def concentration_columns(
+    pollutant: str, columns: Iterable[str], raw: bool = False
+) -> list[str]:
     """
     Pick the columns holding a pollutant's measured concentration.
 
@@ -36,7 +38,8 @@ def concentration_columns(pollutant: str, columns: Iterable[str]) -> list[str]:
     ``CO2d_ppm`` (dry mole fraction), ``CH4d_ppm_cal`` (calibrated),
     ``PM2.5_ugm3`` or ``BC6_ngm3`` (an aethalometer channel). Instrument
     diagnostics that share the prefix, like ``O3_Meas_mV`` or ``NO2_Slope``,
-    and spreads like ``O3_ppb_std`` are not matches.
+    spreads like ``O3_ppb_std``, and other pollutants sharing the prefix (``NO``
+    vs ``NO2_ppb``) are not matches.
 
     Parameters
     ----------
@@ -44,6 +47,9 @@ def concentration_columns(pollutant: str, columns: Iterable[str]) -> list[str]:
         The pollutant, matched case-insensitively.
     columns : Iterable[str]
         Column names to search.
+    raw : bool
+        Also match the uncalibrated ``..._raw`` columns that sit beside
+        ``..._cal`` in lin final data. Default False.
 
     Returns
     -------
@@ -53,8 +59,9 @@ def concentration_columns(pollutant: str, columns: Iterable[str]) -> list[str]:
     # BC is reported per wavelength channel (BC1..BC7); everything else may
     # carry a "d" for dry mole fraction. Kept apart so PM1 can't match PM10.
     infix = r"\d" if pollutant.upper() == "BC" else "d?"
+    suffix = "(_cal|_raw)?" if raw else "(_cal)?"
     pattern = re.compile(
-        rf"^{re.escape(pollutant)}{infix}_(ppm|ppb|ugm3|ngm3)(_cal)?$", re.IGNORECASE
+        rf"^{re.escape(pollutant)}{infix}_(ppm|ppb|ugm3|ngm3){suffix}$", re.IGNORECASE
     )
     return [col for col in columns if pattern.match(col)]
 
@@ -306,8 +313,23 @@ class Network:
         geopandas.GeoDataFrame
             A GeoDataFrame with the following structure:
             - Index: Time_UTC (datetime)
-            - Columns: SID, [pollutant columns], Latitude_deg, Longitude_deg, zagl, geometry
+            - Columns: SID, instrument, [pollutant columns], Latitude_deg,
+              Longitude_deg, zagl, geometry (mobile sites also carry the GPS
+              motion columns)
             - CRS: EPSG:4326
+
+            Pollutant columns are those :func:`concentration_columns` matches
+            with ``raw=True``: e.g. ``CO2d_ppm_cal`` *and* ``CO2d_ppm_raw``.
+            Instruments at one site are stacked as rows, labeled by
+            ``instrument``.
+
+        Notes
+        -----
+        Which of ``_cal`` / ``_raw`` holds the usable value is not uniform.
+        TRX01's ``lgr_ugga`` is tank-calibrated (``_cal``; ``_raw`` is
+        uncalibrated), but ``lgr_ugga_manual_cal`` (from 2023-11-18, and
+        again from 2024-08-27) has ``_cal`` empty and the LGR-software
+        calibrated value in ``_raw``. Choose per ``instrument``.
 
         Raises
         ------
@@ -603,15 +625,16 @@ class Network:
             if instrument_name == "gps":
                 continue  # Skip GPS; we'll handle separately
 
-            # Filter columns to only include those matching the pollutant
-            pollutant_columns = [
-                col
-                for col in df.columns
-                if self.pollutant in col.upper() or col.upper() == self.pollutant
-            ]
+            # Concentrations only: no diagnostics, and "NO" must not pick up
+            # NO2/NOx. Keep _raw, the only populated column for TRX01's
+            # lgr_ugga_manual_cal (see get_obs).
+            pollutant_columns = concentration_columns(
+                self.pollutant, df.columns, raw=True
+            )
 
             if pollutant_columns:
                 df_filtered = df[pollutant_columns].copy()
+                df_filtered["instrument"] = instrument_name
                 dataframes.append(df_filtered)
 
         if not dataframes:
@@ -619,8 +642,10 @@ class Network:
                 f"No data columns found for {self.pollutant} at {site.SID}"
             )
 
-        # Combine instrument data for this site
-        site_data = pd.concat(dataframes, axis=1)
+        # Stack a site's instruments as rows. Joining them as columns gave
+        # duplicate names when two instruments measure the pollutant (TRX01's
+        # lgr_ugga and lgr_ugga_manual_cal both write CO2d_ppm_cal).
+        site_data = pd.concat(dataframes, axis=0)
         site_data["SID"] = site.SID
 
         # Handle coordinate information

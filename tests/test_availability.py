@@ -34,6 +34,13 @@ class TestConcentrationColumns:
             "PM2.5_ugm3"
         ]
 
+    def test_raw_is_opt_in(self):
+        cols = ["CO2d_ppm_cal", "CO2d_ppm_raw", "CO2d_ppm_raw_sd"]
+        assert concentration_columns("CO2", cols, raw=True) == [
+            "CO2d_ppm_cal",
+            "CO2d_ppm_raw",
+        ]
+
     def test_black_carbon_channels(self):
         cols = ["BC1_ngm3", "BC6_ngm3", "BC_Flag"]
         assert concentration_columns("BC", cols) == ["BC1_ngm3", "BC6_ngm3"]
