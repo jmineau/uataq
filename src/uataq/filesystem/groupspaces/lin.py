@@ -8,7 +8,6 @@ import json
 import logging
 import os
 import re
-import subprocess
 from copy import deepcopy
 
 import numpy as np
@@ -258,6 +257,31 @@ column_mapping: dict[str, dict[str, str]] = {
 column_mapping["licor_7000"] = column_mapping["licor_6262"]
 
 
+def _read_lines(path: str, first: int = 0, last: bool = False) -> list[str]:
+    """
+    Read the first ``first`` lines of a file and, if ``last``, its final line.
+
+    Replaces shelling out to ``head``/``tail``, which spawned a process per
+    file and broke on paths with spaces. Line endings are stripped.
+    """
+    with open(path, "rb") as f:
+        lines = [f.readline() for _ in range(first)]
+        if last:
+            # Read back from the end until the chunk holds a whole final line
+            end = f.seek(0, os.SEEK_END)
+            size = 4096
+            while True:
+                f.seek(max(end - size, 0))
+                tail = f.read()
+                # a trailing newline ends the last line, it doesn't start one
+                body = tail[:-1] if tail.endswith(b"\n") else tail
+                if b"\n" in body or size >= end:
+                    lines.append(body.rsplit(b"\n", 1)[-1])
+                    break
+                size *= 4
+    return [line.decode(errors="replace").rstrip("\r\n") for line in lines]
+
+
 def dms2dd(d: float = 0.0, m: float = 0.0, s: float = 0.0) -> float:
     """
     Degree-minute-second to decimal degree
@@ -455,7 +479,7 @@ class LGR_UGGA_File(filesystem.DataFile):
             r"SN:(?P<SN>.+)"
         )
 
-        header = subprocess.getoutput(f"head -n 1 {path}")
+        header = _read_lines(path, first=1)[0]
         try:
             meta = re.match(pattern, header).groupdict()  # pyright: ignore[reportOptionalMemberAccess]  # no match -> AttributeError, caught below
         except AttributeError as e:
@@ -534,7 +558,7 @@ class LGR_UGGA_File(filesystem.DataFile):
             name: r2py_types[t] for name, t in zip(col_names, col_types, strict=False)
         }
 
-        cols = subprocess.getoutput(f"head -n 2 {self.path} | tail -n 1")
+        _, cols, last_line = _read_lines(self.path, first=2, last=True)
         ndelim = cols.count(",")
 
         if ndelim == 0:
@@ -545,7 +569,6 @@ class LGR_UGGA_File(filesystem.DataFile):
             col_types["fillvalue"] = float
 
         # Check for incomplete final row (probably power issue)
-        last_line = subprocess.getoutput(f"tail -n 1 {self.path}")
         footer = 1 if last_line.count(",") < 22 else 0
 
         # Read file assigning cols and dtypes
@@ -793,7 +816,9 @@ class LinGroup(filesystem.GroupSpace):
         # Custom handling for raw Lin files
         if lvl == "raw":
             if SID.startswith("TRX"):
-                print("Warning: Time_UTC may not be accurate for mobile raw Lin data.")
+                _logger.warning(
+                    f"Time_UTC may not be accurate in raw lin data for mobile site {SID}."
+                )
             if logger == "lgr_ugga":
                 _logger.debug(
                     "Adding a day on either side of time range to ensure all data is included."
@@ -824,19 +849,16 @@ class LinGroup(filesystem.GroupSpace):
 
         if instrument == "gps":
             if "latitude_dm" in data.columns:
-                # convert dms to dd
-                data["Latitude_deg"] = data.apply(
-                    lambda row: dms2dd(
-                        d=row.latitude_dm // 100, m=row.latitude_dm % 100
-                    ),
-                    axis=1,
-                )
-                data["Longitude_deg"] = data.apply(
-                    lambda row: dms2dd(
-                        d=row.longitude_dm // 100, m=row.longitude_dm % 100
-                    ),
-                    axis=1,
-                )
+                # NMEA ddmm.mmmm to decimal degrees, vectorized: a row-wise
+                # dms2dd took minutes on a month of 1 Hz data
+                for dm, deg in [
+                    ("latitude_dm", "Latitude_deg"),
+                    ("longitude_dm", "Longitude_deg"),
+                ]:
+                    values = np.asarray(
+                        pd.to_numeric(data[dm], errors="coerce"), dtype=float
+                    )
+                    data[deg] = values // 100 + (values % 100) / 60
                 data["Latitude_deg"] *= np.where(data.n_s == "S", -1, 1)
                 data["Longitude_deg"] *= np.where(data.e_w == "W", -1, 1)
                 data.drop(

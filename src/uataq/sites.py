@@ -440,18 +440,19 @@ class MobileSite(Site):
             A dataframe containing mobile site observations for each pollutant
             with location data merged.
         """
-        # The merge depends on which group logged the GPS, so resolve that one
-        # here; every other instrument resolves its own group when read.
-        gps_group = self.instruments["gps"].resolve_group(group)
-
         # Read data
         obs = super().get_obs(
             pollutants, format, group, time_range, num_processes, **kwargs
         )
-        gps = self.read_data("gps", group, "final", time_range, num_processes)["gps"]
 
         # Merge gps data with obs data
         if include_gps:
+            # The merge depends on which group logged the GPS, so resolve that
+            # one here; every other instrument resolves its own group when read.
+            gps_group = self.instruments["gps"].resolve_group(group)
+            gps_data = self.read_data("gps", group, "final", time_range, num_processes)
+            gps = gps_data["gps"]
+
             if gps_group == "lin":
                 # Can't always trust the pi's time for lin-group mobile data
                 # but Pi_Time connects the gps data to the obs data
@@ -489,7 +490,7 @@ class MobileSite(Site):
 
         # keep only most recent for each lat/lon
 
-        if ax is not None:
+        if ax is None:
             fig, ax = plt.subplots(subplot_kw={"projection": ccrs.PlateCarree()})
 
         # ax.set_extent([SLV_bounds[0], SLV_bounds[2],
