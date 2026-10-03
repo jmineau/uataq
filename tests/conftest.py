@@ -3,8 +3,7 @@ Shared fixtures and configuration for UATAQ tests.
 """
 
 import datetime as dt
-from pathlib import Path
-from unittest.mock import MagicMock, patch
+from unittest.mock import MagicMock
 
 import pandas as pd
 import pytest
@@ -27,12 +26,14 @@ def sample_datetime_range():
 @pytest.fixture
 def sample_dataframe():
     """Return a sample pandas DataFrame for testing."""
-    return pd.DataFrame({
-        "datetime": pd.date_range("2024-01-01", periods=24, freq="H"),
-        "pollutant_ppm": [1.0 + i * 0.1 for i in range(24)],
-        "temperature_c": [20.0 + i * 0.2 for i in range(24)],
-        "humidity_percent": [50.0 + i * 0.5 for i in range(24)],
-    })
+    return pd.DataFrame(
+        {
+            "datetime": pd.date_range("2024-01-01", periods=24, freq="H"),
+            "pollutant_ppm": [1.0 + i * 0.1 for i in range(24)],
+            "temperature_c": [20.0 + i * 0.2 for i in range(24)],
+            "humidity_percent": [50.0 + i * 0.5 for i in range(24)],
+        }
+    )
 
 
 @pytest.fixture

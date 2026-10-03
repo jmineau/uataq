@@ -2,7 +2,7 @@
 Tests for the Instrument classes.
 """
 
-from unittest.mock import MagicMock, patch, call
+from unittest.mock import patch
 
 import pandas as pd
 import pytest

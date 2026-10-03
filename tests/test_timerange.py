@@ -3,10 +3,8 @@ Tests for the TimeRange class.
 """
 
 import datetime as dt
-from typing import Tuple
 
 import numpy as np
-import pandas as pd
 import pytest
 
 from uataq.timerange import TimeRange
@@ -151,9 +149,7 @@ class TestTimeRangeStringRepresentation:
 
     def test_repr(self):
         """Test __repr__ method."""
-        tr = TimeRange(
-            start=dt.datetime(2024, 1, 1), stop=dt.datetime(2024, 1, 31)
-        )
+        tr = TimeRange(start=dt.datetime(2024, 1, 1), stop=dt.datetime(2024, 1, 31))
         repr_str = repr(tr)
         assert "TimeRange" in repr_str
         assert "2024-01-01" in repr_str
@@ -175,9 +171,7 @@ class TestTimeRangeStringRepresentation:
 
     def test_str_full_range(self):
         """Test __str__ for full time range."""
-        tr = TimeRange(
-            start=dt.datetime(2024, 1, 1), stop=dt.datetime(2024, 1, 31)
-        )
+        tr = TimeRange(start=dt.datetime(2024, 1, 1), stop=dt.datetime(2024, 1, 31))
         str_repr = str(tr)
         assert "2024-01-01" in str_repr
         assert "2024-01-31" in str_repr
@@ -220,9 +214,7 @@ class TestTimeRangeMembership:
 
     def test_contains_full_range(self):
         """Test containment for full time range."""
-        tr = TimeRange(
-            start=dt.datetime(2024, 1, 1), stop=dt.datetime(2024, 1, 31)
-        )
+        tr = TimeRange(start=dt.datetime(2024, 1, 1), stop=dt.datetime(2024, 1, 31))
         assert dt.datetime(2024, 1, 15) in tr
         assert dt.datetime(2024, 1, 1) in tr
         assert dt.datetime(2024, 1, 31) in tr
