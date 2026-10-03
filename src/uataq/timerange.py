@@ -19,6 +19,19 @@ TimeRangeTuple: TypeAlias = tuple[TimeObject, TimeObject]
 TimeRangeList: TypeAlias = list[TimeObject]
 TimeRangeTypes = str | TimeRangeTuple | TimeRangeList | slice | None
 
+# Each component needs the one before it, so "2024-1-5" fails instead of
+# being read as year 2024, hour 1. Only a UTC offset is accepted.
+_ISO8601 = re.compile(
+    r"^(?P<year>\d{4})"
+    r"(?:-?(?P<month>\d{2})"
+    r"(?:-?(?P<day>\d{2})"
+    r"(?:[T\s](?P<hour>\d{1,2})"
+    r"(?::?(?P<minute>\d{2})"
+    r"(?::?(?P<second>\d{2}(?:\.\d{1,6})?))?"
+    r")?)?)?)?"
+    r"(?:Z|[+-]00:?00)?$"
+)
+
 
 class TimeRange:
     """
@@ -36,7 +49,7 @@ class TimeRange:
     Methods
     -------
     parse_iso(string: str, inclusive: bool = False) -> dt.datetime
-        Parse the ISO8601 formatted time string and return a datetime object.
+        Parse an ISO 8601 time string into a datetime.
     """
 
     def __init__(
@@ -163,60 +176,69 @@ class TimeRange:
     @staticmethod
     def parse_iso(string: str, inclusive: bool = False) -> dt.datetime:
         """
-        Parse the ISO8601 formatted time string and return a namedtuple with the parsed components.
+        Parse an ISO 8601 time string into a datetime.
+
+        Accepts ``YYYY``, ``YYYY-MM``, ``YYYY-MM-DD``, then a ``T`` or space
+        and ``HH``, ``HH:MM``, ``HH:MM:SS`` or ``HH:MM:SS.ffffff``. Dashes and
+        colons may be left out (``20240115``), and a trailing ``Z`` or
+        ``+00:00`` is allowed; times are UTC.
 
         Parameters
         ----------
         string : str
-            The ISO8601 formatted time string.
-        inclusive
+            The ISO 8601 formatted time string.
+        inclusive : bool
+            If False (default), return the start of the period the string
+            names. If True, return its end: one unit of the finest component
+            given past the start, so ``"2024-01"`` ends at ``2024-02-01`` and
+            ``"2024-01-15T12:30"`` at ``12:31``. A string with fractional
+            seconds names an instant and is returned as is.
 
         Returns
         -------
         dt.datetime
-            The parsed datetime object.
+            The parsed datetime.
 
         Raises
         ------
         ValueError
-            If the time_str format is invalid.
+            If the string is not in one of the accepted forms, carries a
+            non-UTC offset, or names an impossible date.
         """
-        # Parse time_range string using regex assuming ISO8601 format
-        iso8601 = (
-            r"^(?P<year>\d{4})-?(?P<month>\d{2})?-?(?P<day>\d{2})?"
-            r"[T\s]?(?P<hour>\d{1,2})?:?(?:\d{2})?"
-        )
-        match = re.match(iso8601, string)
+        match = _ISO8601.match(string.strip())
         if not match:
-            raise ValueError("Invalid time string format")
+            raise ValueError(
+                f"Invalid time string '{string}'. Expected ISO 8601 in UTC, "
+                "e.g. '2024', '2024-01', '2024-01-15', '2024-01-15T12:30:45'."
+            )
 
-        components = match.groupdict()
-        year = int(components["year"])
-        month = int(components["month"] or 1)
-        day = int(components["day"] or 1)
-        hour = int(components["hour"] or 0)
-
-        start = dt.datetime(year, month, day, hour)
-
-        # Determine the stop time based on the inclusive flag
-        if inclusive:
-            if components["year"] and not components["month"]:
-                "YYYY"
-                stop = dt.datetime(year + 1, 1, 1)
-            elif components["month"] and not components["day"]:
-                "YYYY-MM"
-                mm = month + 1 if month < 12 else 1
-                yyyy = year + 1 if month == 12 else year
-                stop = dt.datetime(yyyy, mm, 1)
-            elif components["day"] and not components["hour"]:
-                "YYYY-MM-DD"
-                stop = start + dt.timedelta(days=1)
-            elif components["hour"]:
-                "YYYY-MM-DDTHH"
-                stop = start + dt.timedelta(hours=1)
-            else:
-                raise ValueError("Invalid time string format")
-
-            return stop
-        else:
+        c = match.groupdict()
+        second = float(c["second"] or 0)
+        start = dt.datetime(
+            int(c["year"]),
+            int(c["month"] or 1),
+            int(c["day"] or 1),
+            int(c["hour"] or 0),
+            int(c["minute"] or 0),
+            int(second),
+            round((second % 1) * 1e6),
+        )
+        if not inclusive:
             return start
+
+        # Widen by one unit of the finest component given
+        if c["second"]:
+            if "." in c["second"]:
+                return start
+            return start + dt.timedelta(seconds=1)
+        if c["minute"]:
+            return start + dt.timedelta(minutes=1)
+        if c["hour"]:
+            return start + dt.timedelta(hours=1)
+        if c["day"]:
+            return start + dt.timedelta(days=1)
+        if c["month"]:
+            if start.month == 12:
+                return start.replace(year=start.year + 1, month=1)
+            return start.replace(month=start.month + 1)
+        return start.replace(year=start.year + 1)

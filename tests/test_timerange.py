@@ -247,14 +247,12 @@ class TestTimeRangeParsing:
         assert result.year == 2024
         assert result.month == 1
         assert result.day == 15
-        # Parsing might normalize time, check at least hour is reasonable
-        assert result.hour >= 0
-        assert result.hour < 24
+        assert (result.hour, result.minute, result.second) == (12, 30, 45)
 
     def test_parse_iso_with_timezone(self):
         """Test parsing ISO datetime with timezone."""
         result = TimeRange.parse_iso("2024-01-15T12:30:45Z")
-        assert isinstance(result, dt.datetime)
+        assert result == dt.datetime(2024, 1, 15, 12, 30, 45)
 
     def test_parse_iso_inclusive_flag(self):
         """Test parse_iso with inclusive flag adds time."""
@@ -265,6 +263,54 @@ class TestTimeRangeParsing:
         assert result_exclusive.hour == 0
         # Inclusive should be end of day
         assert result_inclusive.hour == 23 or result_inclusive.day != 15
+
+    @pytest.mark.parametrize(
+        "string, start, stop",
+        [
+            ("2024", dt.datetime(2024, 1, 1), dt.datetime(2025, 1, 1)),
+            ("2024-12", dt.datetime(2024, 12, 1), dt.datetime(2025, 1, 1)),
+            ("20240115", dt.datetime(2024, 1, 15), dt.datetime(2024, 1, 16)),
+            (
+                "2024-01-15T12",
+                dt.datetime(2024, 1, 15, 12),
+                dt.datetime(2024, 1, 15, 13),
+            ),
+            (
+                "2024-01-15 12:30",
+                dt.datetime(2024, 1, 15, 12, 30),
+                dt.datetime(2024, 1, 15, 12, 31),
+            ),
+            (
+                "2024-01-15T23:59:59+00:00",
+                dt.datetime(2024, 1, 15, 23, 59, 59),
+                dt.datetime(2024, 1, 16),
+            ),
+            (
+                "2024-01-15T12:30:45.5",
+                dt.datetime(2024, 1, 15, 12, 30, 45, 500000),
+                dt.datetime(2024, 1, 15, 12, 30, 45, 500000),
+            ),
+        ],
+    )
+    def test_parse_iso_resolution(self, string, start, stop):
+        """The inclusive end widens by one unit of the finest component (#15)."""
+        assert TimeRange.parse_iso(string) == start
+        assert TimeRange.parse_iso(string, inclusive=True) == stop
+
+    def test_minutes_are_kept_in_a_range(self):
+        """Minutes used to be dropped, widening this to 12:00-13:00 (#15)."""
+        tr = TimeRange(("2024-01-01 12:30", "2024-01-01 12:45"))
+        assert tr.start == dt.datetime(2024, 1, 1, 12, 30)
+        assert tr.stop == dt.datetime(2024, 1, 1, 12, 46)
+
+    @pytest.mark.parametrize(
+        "string",
+        ["2024-1-5", "garbage", "2024-01-15T12:30-07:00", "2024-13", "2024-02-30"],
+    )
+    def test_parse_iso_rejects_malformed(self, string):
+        """Malformed strings raise; "2024-1-5" used to parse as 01:00 (#15)."""
+        with pytest.raises(ValueError):
+            TimeRange.parse_iso(string)
 
 
 class TestTimeRangeEdgeCases:
