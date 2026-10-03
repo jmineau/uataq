@@ -781,8 +781,10 @@ class GPS(Instrument):
             if "Latitude_deg" in data.columns:
                 # Without a fix the receiver's clock is stale (it counts from
                 # near midnight while the logger reads mid-afternoon)
-                no_fix = pd.to_numeric(data["Latitude_deg"], errors="coerce").isna()
-                gps_time = gps_time.where(~no_fix.to_numpy())
+                lat = np.asarray(
+                    pd.to_numeric(data["Latitude_deg"], errors="coerce"), dtype=float
+                )
+                gps_time = gps_time.where(~np.isnan(lat))
             data["GPS_Time_UTC"] = gps_time.to_numpy()
 
         if estimate_motion:
