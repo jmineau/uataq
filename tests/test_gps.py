@@ -256,3 +256,79 @@ class TestGPSInstrumentMotion:
             {"Latitude_deg": [], "Longitude_deg": []}, index=pd.DatetimeIndex([])
         )
         assert instruments.GPS.estimate_motion(df).empty
+
+
+class TestGpsTimeFromTimeOfDay:
+    """gps_time_from_time_of_day: date the receiver's HHMMSS from the logger clock."""
+
+    def test_logger_ahead_of_gps(self):
+        logger = pd.DatetimeIndex(["2024-06-01 12:00:10", "2024-06-01 12:00:12"])
+        out = gps.gps_time_from_time_of_day(logger, [120000.0, 120002.0])
+        expected = pd.DatetimeIndex(["2024-06-01 12:00:00", "2024-06-01 12:00:02"])
+        assert list(out) == list(expected)
+        assert out.index.equals(logger)
+        assert out.name == "GPS_Time_UTC"
+
+    def test_receiver_still_on_the_previous_day(self):
+        # The logger has passed midnight; the receiver hasn't yet
+        logger = pd.DatetimeIndex(["2019-03-01 00:00:00"])
+        out = gps.gps_time_from_time_of_day(logger, [235950.0])
+        assert out.iloc[0] == pd.Timestamp("2019-02-28 23:59:50")
+
+    def test_receiver_already_on_the_next_day(self):
+        logger = pd.DatetimeIndex(["2019-02-28 23:59:55"])
+        out = gps.gps_time_from_time_of_day(logger, [5.0])  # 00:00:05
+        assert out.iloc[0] == pd.Timestamp("2019-03-01 00:00:05")
+
+    def test_fractional_seconds(self):
+        logger = pd.DatetimeIndex(["2024-06-01 08:30:00"])
+        out = gps.gps_time_from_time_of_day(logger, [82959.5])
+        assert out.iloc[0] == pd.Timestamp("2024-06-01 08:29:59.5")
+
+    def test_missing_and_invalid_give_nat(self):
+        logger = pd.DatetimeIndex(["2024-06-01 08:00:00"] * 5)
+        values = [np.nan, 246000.0, 86000.0, 80060.0, -1.0]  # NaN, hh, mm, ss, <0
+        out = gps.gps_time_from_time_of_day(logger, values)
+        assert out.isna().all()
+
+    def test_accepts_float32_and_strings(self):
+        logger = pd.DatetimeIndex(["2024-06-01 12:00:10"] * 2)
+        f32 = gps.gps_time_from_time_of_day(logger, np.array([120000.0] * 2, "float32"))
+        txt = gps.gps_time_from_time_of_day(logger, ["120000", "not a time"])
+        assert (f32 == pd.Timestamp("2024-06-01 12:00:00")).all()
+        assert txt.iloc[0] == pd.Timestamp("2024-06-01 12:00:00")
+        assert pd.isna(txt.iloc[1])
+
+
+class TestGPSReadDataGpsTime:
+    """GPS.read_data adds GPS_Time_UTC for horel only (lin's Time_UTC is GPS time)."""
+
+    @staticmethod
+    def read(monkeypatch, group, frame):
+        monkeypatch.setattr(
+            instruments.Instrument, "read_data", lambda self, *a, **k: frame.copy()
+        )
+        gps_instrument = object.__new__(instruments.GPS)
+        return gps_instrument.read_data(group, estimate_motion=False)
+
+    @staticmethod
+    def frame():
+        index = pd.DatetimeIndex(
+            ["2024-06-01 00:00:00", "2024-06-01 00:00:02"], name="Time_UTC"
+        )
+        return pd.DataFrame({"Instrument_Time": [235950.0, 235952.0]}, index=index)
+
+    def test_horel_gets_gps_time(self, monkeypatch):
+        out = self.read(monkeypatch, "horel", self.frame())
+        expected = pd.to_datetime(["2024-05-31 23:59:50", "2024-05-31 23:59:52"])
+        np.testing.assert_array_equal(out["GPS_Time_UTC"].to_numpy(), expected.values)
+        assert out.index.equals(self.frame().index)  # still the logger's clock
+
+    def test_lin_is_left_alone(self, monkeypatch):
+        out = self.read(monkeypatch, "lin", self.frame())
+        assert "GPS_Time_UTC" not in out.columns
+
+    def test_horel_without_receiver_time(self, monkeypatch):
+        frame = self.frame().drop(columns="Instrument_Time")
+        out = self.read(monkeypatch, "horel", frame)
+        assert "GPS_Time_UTC" not in out.columns
