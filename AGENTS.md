@@ -283,8 +283,10 @@ public function's docstring — they hand the same alias around.
   no time range returned 142 files, 21 of them ES405-era, and the ES405's
   extra `PM01`/`PM04`/`PM10` columns were dropped while `ITMP` was relabelled
   with the ES642's meaning. A request that misses the window entirely still
-  raises `InactiveInstrumentError`. Checked against the archive: the only
-  horel raw files this excludes are the 441 mis-attributed MetOne ones; no
+  raises `InactiveInstrumentError` -- including one that only touches it
+  (stop == installation, or start == removal): both ranges are half-open, so
+  that is no overlap, not an empty clipped range (#37). Checked against the
+  archive: the only horel raw files this excludes are the 441 mis-attributed MetOne ones; no
   other instrument loses a file. Five configured swaps (TRX01/02/03,
   BUS02/03), all non-overlapping, though three share a boundary date exactly;
   the half-open row slice keeps a sample on that timestamp out of the removed

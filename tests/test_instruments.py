@@ -318,3 +318,109 @@ class TestActiveRangeClipping:
         es642 = self.make(removal_date="2025-01-03")
         es405 = self.make(installation_date="2025-01-06", name="metone_es405")
         assert es642.clip_to_active(None).stop <= es405.clip_to_active(None).start
+
+
+class TestActiveRangeBoundaries:
+    """Touching the installed window at a boundary is not overlapping it (#37).
+
+    Requests and the active range are both half-open, ``[start, stop)``, so a
+    request that stops at the installation date or starts at the removal date
+    shares no instant with the installation and must raise rather than clip to
+    an empty range.
+    """
+
+    INSTALL = pd.Timestamp("2016-02-04")
+    REMOVAL = pd.Timestamp("2025-01-03")
+    ONE_SECOND = pd.Timedelta("1s")
+
+    @classmethod
+    def make(cls, removal=True):
+        return TestActiveRangeClipping.make(
+            installation_date="2016-02-04",
+            removal_date="2025-01-03" if removal else None,
+        )
+
+    def test_stop_at_installation_raises(self):
+        with pytest.raises(errors.InactiveInstrumentError):
+            self.make().clip_to_active(("2016-01-01", self.INSTALL))
+
+    def test_inclusive_string_stop_day_before_installation_raises(self):
+        """ "2016-02-03" as a stop means through that day, i.e. up to install."""
+        with pytest.raises(errors.InactiveInstrumentError):
+            self.make().clip_to_active(("2016-01-01", "2016-02-03"))
+
+    def test_start_at_removal_raises(self):
+        with pytest.raises(errors.InactiveInstrumentError):
+            self.make().clip_to_active((self.REMOVAL, "2025-02-01"))
+
+    def test_string_start_on_removal_day_raises(self):
+        with pytest.raises(errors.InactiveInstrumentError):
+            self.make().clip_to_active("2025-01-03")
+
+    def test_open_start_stopping_at_installation_raises(self):
+        with pytest.raises(errors.InactiveInstrumentError):
+            self.make().clip_to_active((None, self.INSTALL))
+
+    def test_open_stop_starting_at_removal_raises(self):
+        with pytest.raises(errors.InactiveInstrumentError):
+            self.make().clip_to_active((self.REMOVAL, None))
+
+    def test_still_installed_stop_at_installation_raises(self):
+        with pytest.raises(errors.InactiveInstrumentError):
+            self.make(removal=False).clip_to_active((None, self.INSTALL))
+
+    def test_still_installed_has_no_upper_boundary(self):
+        """With no removal date, any start at or after installation is active."""
+        clipped = self.make(removal=False).clip_to_active(("2030-01-01", None))
+        assert clipped.start == pd.Timestamp("2030-01-01")
+        assert clipped.stop is None
+
+    def test_stop_one_second_past_installation_clips(self):
+        clipped = self.make().clip_to_active(
+            ("2016-01-01", self.INSTALL + self.ONE_SECOND)
+        )
+        assert clipped.start == self.INSTALL
+        assert clipped.stop == self.INSTALL + self.ONE_SECOND
+
+    def test_start_one_second_before_removal_clips(self):
+        clipped = self.make().clip_to_active((self.REMOVAL - self.ONE_SECOND, None))
+        assert clipped.start == self.REMOVAL - self.ONE_SECOND
+        assert clipped.stop == self.REMOVAL
+
+    def test_open_start_past_installation_clips(self):
+        clipped = self.make(removal=False).clip_to_active(
+            (None, self.INSTALL + self.ONE_SECOND)
+        )
+        assert clipped.start == self.INSTALL
+        assert clipped.stop == self.INSTALL + self.ONE_SECOND
+
+    def test_request_exactly_the_active_range_is_unchanged(self):
+        clipped = self.make().clip_to_active((self.INSTALL, self.REMOVAL))
+        assert clipped.start == self.INSTALL
+        assert clipped.stop == self.REMOVAL
+
+    def test_start_at_installation_is_active(self):
+        clipped = self.make().clip_to_active("2016-02-04")
+        assert clipped.start == self.INSTALL
+        assert clipped.stop == self.INSTALL + pd.Timedelta("1D")
+
+    def test_last_day_before_removal_is_active(self):
+        clipped = self.make().clip_to_active("2025-01-02")
+        assert clipped.start == pd.Timestamp("2025-01-02")
+        assert clipped.stop == self.REMOVAL
+
+    def test_swap_boundary_belongs_to_the_replacement(self):
+        """At a shared swap date only the newly installed instrument is active."""
+        removed = self.make()
+        replacement = TestActiveRangeClipping.make(
+            installation_date="2025-01-03", name="metone_es405"
+        )
+        day = "2025-01-03"
+        with pytest.raises(errors.InactiveInstrumentError):
+            removed.clip_to_active(day)
+        assert replacement.clip_to_active(day).start == self.REMOVAL
+
+    def test_plan_reads_raises_at_the_boundary(self):
+        """Site.read_data goes through plan_reads, which must raise too."""
+        with pytest.raises(errors.InactiveInstrumentError):
+            self.make().plan_reads("horel", (self.REMOVAL, None))
