@@ -44,3 +44,26 @@ def test_read_lines_matches_head_and_tail(tmp_path, content, expected):
     path = tmp_path / "gga_2024-01-02_f0000.txt"
     path.write_bytes(content)
     assert lin._read_lines(str(path), first=2, last=True) == expected
+
+
+class TestReadConfig:
+    """Off-cluster config fetches fail fast with a clear message."""
+
+    def test_local_file_is_read(self, tmp_path, monkeypatch):
+        (tmp_path / "x.json").write_text('{"a": 1}')
+        monkeypatch.setattr(lin, "CONFIG_DIR", str(tmp_path))
+        assert lin._read_config("x.json").read() == '{"a": 1}'
+
+    def test_fetch_failure_names_path_and_url(self, tmp_path, monkeypatch):
+        import urllib.error
+        import urllib.request
+
+        def fail(url, timeout):
+            assert timeout == lin.CONFIG_FETCH_TIMEOUT
+            raise urllib.error.URLError("timed out")
+
+        monkeypatch.setattr(lin, "CONFIG_DIR", str(tmp_path))
+        monkeypatch.setattr(urllib.request, "urlopen", fail)
+        with pytest.raises(RuntimeError, match="not on CHPC") as err:
+            lin._read_config("site_config.csv")
+        assert lin.CONFIG_URL in str(err.value)
