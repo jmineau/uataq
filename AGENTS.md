@@ -153,7 +153,8 @@ clock, which runs 1-20 s ahead of GPS time and drifts between resets (10 s
 on 2019-03-01 and 2024-06-01, 5-6 s after 2024-06-20). The raw horel GPS
 logs the receiver's own time of day (`GTIM` → `Instrument_Time`, HHMMSS), so
 `GPS.read_data` adds `GPS_Time_UTC` for horel (`gps.gps_time_from_time_of_day`
-dates it from the logger clock, across midnight). The index stays on the
+dates it from the logger clock, across midnight; NaT on rows without a fix,
+where the receiver's clock is stale). The index stays on the
 logger clock so it still lines up with the logger's other columns. horel's
 qaqc/final files have no `GTIM`, so final-level horel O3/PM stay on logger
 time. lin's GPS `Time_UTC` is already GPS time (the Pi clock is `Pi_Time`).

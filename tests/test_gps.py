@@ -324,6 +324,14 @@ class TestGPSReadDataGpsTime:
         np.testing.assert_array_equal(out["GPS_Time_UTC"].to_numpy(), expected.values)
         assert out.index.equals(self.frame().index)  # still the logger's clock
 
+    def test_no_fix_gives_nat(self, monkeypatch):
+        # Without a fix the receiver's clock is stale (seen 2024-06-02: GTIM near
+        # midnight while the logger read 14:52)
+        frame = self.frame().assign(Latitude_deg=[40.7, np.nan])
+        out = self.read(monkeypatch, "horel", frame)
+        assert out["GPS_Time_UTC"].iloc[0] == pd.Timestamp("2024-05-31 23:59:50")
+        assert pd.isna(out["GPS_Time_UTC"].iloc[1])
+
     def test_lin_is_left_alone(self, monkeypatch):
         out = self.read(monkeypatch, "lin", self.frame())
         assert "GPS_Time_UTC" not in out.columns
