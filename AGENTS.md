@@ -256,9 +256,9 @@ public function's docstring — they hand the same alias around.
   raises `InactiveInstrumentError`. Checked against the archive: the only
   horel raw files this excludes are the 441 mis-attributed MetOne ones; no
   other instrument loses a file. Five configured swaps (TRX01/02/03,
-  BUS02/03), all non-overlapping, though three share a boundary date exactly
-  -- with the inclusive `.loc[start:stop]` slice noted below, a sample landing
-  on that timestamp can appear in both.
+  BUS02/03), all non-overlapping, though three share a boundary date exactly;
+  the half-open row slice keeps a sample on that timestamp out of the removed
+  instrument's read (#9).
 - **Read-only at the UATAQ data location**. Never write back to source
   data paths.
 - **`tables>3.10`** is a hard runtime dep (PyTables). The pin is for
@@ -266,9 +266,9 @@ public function's docstring — they hand the same alias around.
 - **`xarray`** is a hard runtime dep (only `uataq.sodar` uses it). Keep it
   out of the `import uataq` path.
 - **Time ranges are half-open `[start, stop)`** per the docs
-  (`general.rst`). `uataq.sodar` implements this exactly. Note
-  `filesystem.parse_datafiles` still slices with inclusive `.loc[start:stop]`
-  (can include a sample exactly at `stop`) — known inconsistency, not yet fixed.
+  (`general.rst`). `uataq.sodar` and `filesystem.parse_datafiles` both
+  exclude a sample exactly at `stop` (the latter since #9; `.loc[start:stop]`
+  alone is inclusive). `TimeRange.__contains__` is still inclusive of `stop`.
 - **Laboratory instance is shared.** Don't mutate `laboratory.sites` in
   application code; it's the import-time singleton.
 
