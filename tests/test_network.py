@@ -115,6 +115,46 @@ class TestNetworkGroupSelection:
         assert "NOx_ppb" in obs.columns
 
 
+class TestNetworkColumns:
+    """Network obs keep concentrations only, one column per name (#13)."""
+
+    times = pd.date_range("2024-06-01", periods=2, freq="s", name="Time_UTC")
+
+    def test_two_instruments_stack_without_duplicate_columns(self):
+        """TRX01's lgr_ugga and lgr_ugga_manual_cal both write CO2d_ppm_cal."""
+        frame = {
+            "CO2d_ppm_cal": [420.0, None],
+            "CO2d_ppm_raw": [410.0, 421.0],
+            "Cavity_P_torr": [140.0, 140.0],
+        }
+        data = {
+            "lgr_ugga": pd.DataFrame(frame, index=self.times),
+            "lgr_ugga_manual_cal": pd.DataFrame(frame, index=self.times),
+        }
+        net = Network(["WBB"], "CO2")
+        with patch.object(sites.Site, "read_data", return_value=data):
+            obs = net._read_site_data(net.site_objects[0])
+
+        assert obs.columns.is_unique
+        assert {"CO2d_ppm_cal", "CO2d_ppm_raw", "instrument"} <= set(obs.columns)
+        assert "Cavity_P_torr" not in obs.columns
+        assert sorted(obs["instrument"].unique()) == ["lgr_ugga", "lgr_ugga_manual_cal"]
+        assert len(obs) == 4
+
+    def test_no_does_not_pick_up_no2(self):
+        data = {
+            "teledyne_t200": pd.DataFrame(
+                {"NO_ppb": 1.0, "NO2_ppb": 2.0, "NOx_ppb": 3.0, "NO_Slope": 1.0},
+                index=self.times,
+            )
+        }
+        net = Network(["WBB"], "NO")
+        with patch.object(sites.Site, "read_data", return_value=data):
+            obs = net._read_site_data(net.site_objects[0])
+
+        assert [c for c in obs.columns if c.startswith("NO")] == ["NO_ppb"]
+
+
 @pytest.mark.chpc
 class TestNetworkDataRetrieval:
     """Test Network data retrieval.

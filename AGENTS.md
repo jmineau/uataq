@@ -162,7 +162,8 @@ nothing about one pollutant -- e.g. TRX01's Aug 2022 finalized CSV has -9999
 ozone for all but the last 47 min while the raw 2B h5 is full. A bin counts
 for a level when any row has a non-null `concentration_columns(...)` value
 (`O3_ppb`, `CO2d_ppm_cal`, `BC6_ngm3`; not `O3_Meas_mV` / `O3_std_ppb` /
-`CO2d_ppm_raw`), and takes the highest level present, so "measured but not
+`CO2d_ppm_raw`; `get_obs` passes `raw=True` to keep `_raw` -- the only
+populated column for TRX01's `lgr_ugga_manual_cal`), and takes the highest level present, so "measured but not
 in final" shows as qaqc/raw. With no `group`, **every** group operating the
 instrument is checked (TRX01/02 ozone is in lin 2015-2017 and horel after),
 unlike `get_obs`'s single `resolve_group` pick. One pool over the whole
