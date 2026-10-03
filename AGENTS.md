@@ -411,7 +411,11 @@ winds = Sodar.get_winds_at_height(data, 100)  # direction/speed at 100 m
 ### Adding a new instrument
 1. Implement parser as an `Instrument` subclass in `instruments.py`.
 2. Add the instrument to the relevant site entry in `config.json`.
-3. Add tests reading a sample file (under `tests/`).
+3. Add tests reading a sample file (under `tests/`). Write a few synthetic
+   lines shaped like the real format into `tmp_path` rather than checking in
+   archive data: `tests/test_horel.py` has `write_h5` / `write_csv_gz`,
+   `tests/test_lin.py` has `write_ugga` and patches `lin.DATA_CONFIG`
+   entries, so the parser tests run off-cluster.
 
 ### Adding a new group space
 1. Add `filesystem/groupspaces/<name>.py` mirroring the layout of
