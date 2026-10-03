@@ -44,7 +44,10 @@ GPS_CONFIG = {
 
 T400_CONFIG = {
     "final": {"col_names": ["Time_UTC", "O3_ppb"], "col_types": "Td"},
-    "raw": {"col_names": ["TIMESTAMP", "RECORD", "O3_ppb"], "col_types": "Tdd"},
+    "raw": {
+        "col_names": ["TIMESTAMP", "RECORD", "MM", "SS", "O3_ppb"],
+        "col_types": "Tdddd",
+    },
 }
 
 
@@ -144,8 +147,9 @@ class TestLinDatFile:
         assert datafile.period == pd.Period("2024-06", freq="M")
 
     def test_pipeline_header_gets_config_names(self, tmp_path):
-        """A Time_UTC header is not TIMESTAMP, so the config names apply and
-        the header line itself is left as a row with no time."""
+        """A Time_UTC header is not TIMESTAMP, so the config names apply. The
+        header line is skipped, not read in as a row that made every column
+        text (uataq.get_obs returned object-dtype concentrations)."""
         path = tmp_path / "wbb" / "teledyne_t400" / "final" / "2024_06_final.dat"
         path.parent.mkdir(parents=True)
         path.write_text(
@@ -157,25 +161,43 @@ class TestLinDatFile:
             data = lin.LinDatFile(str(path)).parse()
 
         assert list(data.columns) == ["Time_UTC", "O3_ppb"]
-        assert pd.isna(data["Time_UTC"].iloc[0])
-        assert data["Time_UTC"].iloc[1] == pd.Timestamp("2024-06-01 00:00:01.270")
-        assert float(data["O3_ppb"].iloc[2]) == 47.1
+        assert data["Time_UTC"].tolist() == list(
+            pd.to_datetime(["2024-06-01 00:00:01.270", "2024-06-01 00:00:03.310"])
+        )
+        assert data["O3_ppb"].dtype == float
+        assert data["O3_ppb"].tolist() == [47.2, 47.1]
+
+    def test_stray_text_in_a_numeric_column(self, tmp_path):
+        """A config numeric column stays numeric; text in it becomes NaN."""
+        path = tmp_path / "wbb" / "teledyne_t400" / "final" / "2024_06_final.dat"
+        path.parent.mkdir(parents=True)
+        path.write_text(
+            "Time_UTC,O3_ppb\n2024-06-01 00:00:01,47.2\n2024-06-01 00:00:03,ERR\n"
+        )
+        with patch.dict(lin.DATA_CONFIG, {"teledyne_t400": T400_CONFIG}):
+            data = lin.LinDatFile(str(path)).parse()
+        assert data["O3_ppb"].dtype == float
+        assert data["O3_ppb"].isna().tolist() == [False, True]
 
     def test_headerless_file_keeps_its_first_row(self, tmp_path):
-        """Old raw logger files have no header: the first line is data."""
+        """Old raw logger files have no header: the first line is data, and
+        its values are kept as written (not de-duplicated like column names,
+        which turned a second "0" into "0.1")."""
         path = tmp_path / "wbb" / "teledyne_t400" / "raw" / "2016_01_raw.dat"
         path.parent.mkdir(parents=True)
         path.write_text(
-            "2016-01-01 00:00:00,805612,40.1\n2016-01-01 00:00:10,805613,40.2\n"
+            "2016-01-01 00:00:00,805612,0,0,40.1\n"
+            "2016-01-01 00:00:10,805613,0,10,40.2\n"
         )
         with patch.dict(lin.DATA_CONFIG, {"teledyne_t400": T400_CONFIG}):
             data = lin.LinDatFile(str(path)).parse()
 
-        assert list(data.columns) == ["Time_UTC", "RECORD", "O3_ppb"]
+        assert list(data.columns) == ["Time_UTC", "RECORD", "MM", "SS", "O3_ppb"]
         assert data["Time_UTC"].tolist() == list(
             pd.to_datetime(["2016-01-01 00:00:00", "2016-01-01 00:00:10"])
         )
-        assert [float(v) for v in data["O3_ppb"]] == [40.1, 40.2]
+        assert data["SS"].tolist() == [0, 10]
+        assert data["O3_ppb"].tolist() == [40.1, 40.2]
 
     def test_timestamp_header_keeps_the_files_names(self, tmp_path):
         """Campbell files with a TIMESTAMP header use their own column names."""
