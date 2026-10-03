@@ -2,6 +2,7 @@
 Tests for the horel group space.
 """
 
+import os
 from unittest.mock import patch
 
 from uataq.filesystem.groupspaces import horel
@@ -21,4 +22,4 @@ def test_get_files_skips_a_missing_level_dir(tmp_path):
     (main / "nox" / "BUS03_2024_04_nox.h5").touch()
     with patch.dict(horel.lvl_data_dirs, {"raw": [str(pilot), str(main)]}):
         files = horel.HorelGroup().get_files("BUS03", "2b_405", "raw")
-    assert [f.split("/")[-1] for f in files] == ["BUS03_2024_04_nox.h5"]
+    assert [os.path.basename(f) for f in files] == ["BUS03_2024_04_nox.h5"]
