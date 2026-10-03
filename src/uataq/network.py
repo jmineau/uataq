@@ -13,7 +13,7 @@ import geopandas as gpd
 import pandas as pd
 
 from uataq import _laboratory, errors, filesystem, sites
-from uataq.instruments import Instrument
+from uataq.instruments import GroupSelection, Instrument
 from uataq.timerange import TimeRange, TimeRangeTypes
 
 _logger = logging.getLogger(__name__)
@@ -167,8 +167,9 @@ class Network:
         The pollutant to retrieve data for (uppercase).
     site_objects : list[sites.Site]
         List of Site or MobileSite objects that measure the specified pollutant.
-    group : str | None
-        The research group to read data from.
+    group : str | Mapping[str, str] | None
+        The research group to read data from, or None to select each
+        instrument's group automatically.
 
     Methods
     -------
@@ -184,7 +185,7 @@ class Network:
         self,
         sites: list[str] | tuple[str, ...] | Literal["all"],
         pollutant: str,
-        group: str | None = None,
+        group: GroupSelection = None,
     ):
         """
         Initialize a Network object.
@@ -197,8 +198,11 @@ class Network:
         pollutant : str
             The pollutant to measure. Will be converted to uppercase.
             Examples: 'CO2', 'O3', 'NO2', 'PM2.5', 'BC'
-        group : str, optional
-            The research group to read data from. If None, uses the default group.
+        group : str | Mapping[str, str] | None, optional
+            The research group to read data from. A name applies to every
+            instrument; a mapping of instrument name to group name sets it per
+            instrument. Default None selects each instrument's group
+            automatically (see :meth:`uataq.instruments.Instrument.resolve_group`).
 
         Raises
         ------
@@ -572,13 +576,9 @@ class Network:
         ReaderError
             If no data is found for the site.
         """
-        from uataq import filesystem as fs
-
         # Find instruments that measure this pollutant
         instruments_to_read = [
-            instr.name
-            for instr in site.instruments
-            if hasattr(instr, "pollutants") and self.pollutant in instr.pollutants  # type: ignore
+            instrument.name for instrument in self._pollutant_instruments(site)
         ]
 
         if not instruments_to_read:
@@ -586,13 +586,12 @@ class Network:
                 f"No instruments at {site.SID} measure {self.pollutant}"
             )
 
-        # Determine group if not specified
-        group = self.group or fs.get_group(None)
-
-        # Read raw instrument data at the highest/final level
+        # Read raw instrument data at the highest/final level. A None group is
+        # passed through so each instrument resolves its own: a site's
+        # instruments are not all operated by the same research group.
         data_dict = site.read_data(
             instruments=instruments_to_read,
-            group=group,
+            group=self.group,
             lvl=None,  # Gets highest available level
             time_range=time_range,
             num_processes=num_processes,
@@ -630,7 +629,7 @@ class Network:
             try:
                 gps_data = site.read_data(
                     instruments="gps",
-                    group=group,
+                    group=self.group,
                     lvl=None,  # GPS typically only has final level
                     time_range=time_range,
                     num_processes=num_processes,
@@ -640,12 +639,12 @@ class Network:
                 # Set index to Time_UTC for wide format
                 site_data.index.name = "Time_UTC"
 
-                # Determine merge column based on group
-                if group == "lin":
+                # The merge key depends on who logged the GPS: lin mobile
+                # data joins on the Pi's clock (see MobileSite.get_obs)
+                gps_group = site.instruments["gps"].resolve_group(self.group)
+                if gps_group == "lin":
                     merge_on = "Pi_Time"
                     site_data.index.name = "Pi_Time"
-                elif group == "horel":
-                    merge_on = "Time_UTC"
                 else:
                     merge_on = "Time_UTC"
 

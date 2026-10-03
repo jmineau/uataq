@@ -2,11 +2,13 @@
 Tests for the Network class.
 """
 
+from unittest.mock import patch
+
 import geopandas as gpd
 import pandas as pd
 import pytest
 
-from uataq import Network
+from uataq import Network, sites
 
 
 class TestNetworkInitialization:
@@ -57,6 +59,60 @@ class TestNetworkInitialization:
         """Test that error is raised if no sites measure the pollutant."""
         with pytest.raises(ValueError, match="No sites found"):
             Network(sites=["NONEXISTENT"], pollutant="CO2")
+
+
+class TestNetworkGroupSelection:
+    """Network reads let each instrument pick its own group (#14)."""
+
+    times = pd.date_range("2024-06-01", periods=3, freq="s", name="Time_UTC")
+
+    def fake_read_data(self, calls):
+        """A Site.read_data stand-in that records the requested group."""
+
+        def read_data(site, instruments, group=None, *args, **kwargs):
+            instruments = [instruments] if isinstance(instruments, str) else instruments
+            calls.append((site.SID, tuple(instruments), group))
+            data = {}
+            for name in instruments:
+                if name == "gps":
+                    data[name] = pd.DataFrame(
+                        {"Latitude_deg": 40.7, "Longitude_deg": -111.9},
+                        index=self.times,
+                    )
+                else:
+                    data[name] = pd.DataFrame(
+                        {"O3_ppb": 40.0, "NOx_ppb": 10.0}, index=self.times
+                    )
+            return data
+
+        return read_data
+
+    def test_horel_only_site_is_read(self):
+        """BUS01 is horel-only; forcing the default group (lin) dropped it."""
+        calls = []
+        with patch.object(sites.Site, "read_data", self.fake_read_data(calls)):
+            obs = Network(["BUS01"], "O3").get_obs(time_range="2024-06-01")
+
+        assert len(obs) == len(self.times)
+        assert set(obs["SID"]) == {"BUS01"}
+        # None reaches Site.read_data, so each instrument resolves its own group
+        assert all(group is None for _, _, group in calls)
+
+    def test_explicit_group_is_passed_through(self):
+        calls = []
+        with patch.object(sites.Site, "read_data", self.fake_read_data(calls)):
+            Network(["BUS01"], "O3", group="horel").get_obs()
+
+        assert {group for _, _, group in calls} == {"horel"}
+
+    def test_mixed_case_pollutant_finds_instruments(self):
+        """Instruments declare "NOx"; the network stores "NOX" (#13)."""
+        calls = []
+        with patch.object(sites.Site, "read_data", self.fake_read_data(calls)):
+            obs = Network(["BUS01"], "NOx").get_obs()
+
+        assert ("BUS01", ("2b_405",), None) in calls
+        assert "NOx_ppb" in obs.columns
 
 
 @pytest.mark.chpc
