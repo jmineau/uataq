@@ -130,8 +130,11 @@ CHPC-bound; use `mesowest_dir=`).
 ## GPS (`uataq.gps` + `instruments.GPS`)
 
 Receivers logging only `GPGGA` (position, altitude, fix quality) record no
-speed or course; `GPRMC` carries both. `GPS.read_data` converts recorded speed
-from knots to `Speed_m_s`, then calls `GPS.estimate_motion`, which fills
+speed or course; `GPRMC` carries both. `GPS.read_data` converts lin's recorded
+speed from knots (NMEA) to `Speed_m_s` -- horel's `RSPD`/`GPS_Speed` are already
+m/s and map straight to `Speed_m_s` (before 2026-10 they went through the knots
+conversion too, so horel speeds read ~half their true value) -- then calls
+`GPS.estimate_motion`, which fills
 missing `Speed_m_s` / `Course_deg` from the positions and adds the booleans
 `Speed_Estimated` / `Course_Estimated` (True exactly where the value came from
 positions). **Recorded values are never overwritten** — only NaNs are filled.

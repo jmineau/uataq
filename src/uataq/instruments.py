@@ -709,7 +709,8 @@ class GPS(Instrument):
     """GPS receiver providing position, and speed/course where the receiver
     logs them.
 
-    Recorded speed is converted from knots to ``Speed_m_s``. Receivers logging
+    Recorded speed is given as ``Speed_m_s`` (lin's NMEA knots are converted;
+    horel logs m/s). Receivers logging
     only ``GPGGA`` sentences record neither speed nor course; both are then
     estimated from the positions (:func:`uataq.gps.estimate_speed_course`) and
     flagged in ``Speed_Estimated`` / ``Course_Estimated``.
@@ -736,9 +737,9 @@ class GPS(Instrument):
         """
         Read GPS data, with speed in m/s and course in degrees.
 
-        Extends :meth:`Instrument.read_data`. Recorded speed (knots in the
-        files) is converted to m/s as ``Speed_m_s``, and course is
-        ``Course_deg``.
+        Extends :meth:`Instrument.read_data`. Recorded speed is
+        ``Speed_m_s`` (lin's files hold NMEA knots, converted here; horel's
+        are already m/s), and course is ``Course_deg``.
 
         Receivers logging only ``GPGGA`` sentences record neither, in which
         case both are estimated from the positions (see
