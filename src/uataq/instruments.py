@@ -775,9 +775,15 @@ class GPS(Instrument):
             # horel's Time_UTC is the CR1000 logger's clock, which runs ahead
             # of GPS time by a drifting 1-20 s; the receiver's own time of day
             # (GTIM) gives the true time of each fix
-            data["GPS_Time_UTC"] = gps.gps_time_from_time_of_day(
+            gps_time = gps.gps_time_from_time_of_day(
                 data.index, data["Instrument_Time"]
-            ).to_numpy()
+            )
+            if "Latitude_deg" in data.columns:
+                # Without a fix the receiver's clock is stale (it counts from
+                # near midnight while the logger reads mid-afternoon)
+                no_fix = pd.to_numeric(data["Latitude_deg"], errors="coerce").isna()
+                gps_time = gps_time.where(~no_fix.to_numpy())
+            data["GPS_Time_UTC"] = gps_time.to_numpy()
 
         if estimate_motion:
             data = self.estimate_motion(data)
