@@ -7,7 +7,8 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from uataq import filesystem
+from uataq import errors, filesystem
+from uataq.timerange import TimeRange
 
 
 class TestLvlsConstant:
@@ -134,3 +135,23 @@ class TestFileSystemIntegration:
         except (FileNotFoundError, OSError):
             # Or it might raise an error, which is also acceptable
             pass
+
+
+class TestParseDatafiles:
+    """Test parse_datafiles."""
+
+    class BadFile(filesystem.DataFile):
+        """A data file whose contents never parse."""
+
+        date_slicer = slice(7)
+        file_freq = "M"
+        ext = "dat"
+
+        def parse(self):
+            raise errors.ParserError("unparseable")
+
+    def test_no_parseable_files_raises_reader_error(self):
+        """Used to escape as pd.concat's ValueError (#16)."""
+        files = [self.BadFile("2024_01.dat"), self.BadFile("2024_02.dat")]
+        with pytest.raises(errors.ReaderError, match="None of the 2"):
+            filesystem.parse_datafiles(files, TimeRange("2024"))

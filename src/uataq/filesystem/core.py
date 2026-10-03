@@ -254,6 +254,11 @@ def parse_datafiles(
     -------
     pandas.DataFrame
         A DataFrame containing the parsed data.
+
+    Raises
+    ------
+    ReaderError
+        If none of the files could be parsed.
     """
     # Determine the number of processes to use
     cpus = cpu_count()
@@ -282,21 +287,22 @@ def parse_datafiles(
     else:
         _logger.debug(f"Parsing files in parallel with {processes} processes...")
 
-        # Create a multiprocessing Pool
-        pool = multiprocessing.Pool(processes=processes)
-
-        # Use the pool to map the function across the iterable
-        datasets = pool.map(func=_parse_datafile, iterable=files)
-
-        # Close the pool to free resources
-        pool.close()
-        pool.join()
+        # The with block shuts the pool down even if a worker raises
+        with multiprocessing.Pool(processes=processes) as pool:
+            datasets = pool.map(func=_parse_datafile, iterable=files)
 
     # Concatenate the datasets
     _logger.info("Concatenating datasets and reducing rows to time range...")
     if driver == "pandas":
-        # a datafile that parsed to nothing contributes None
-        data = pd.concat([d for d in datasets if d is not None])
+        # a datafile that failed to parse contributes None
+        parsed = [d for d in datasets if d is not None]
+        if not parsed:
+            # ReaderError, not pd.concat's ValueError, so Site.read_data skips
+            # this instrument instead of abandoning the whole site
+            raise errors.ReaderError(
+                f"None of the {len(files)} data file(s) could be parsed."
+            )
+        data = pd.concat(parsed)
 
         # Set time as index and filter to time_range
         data = data.dropna(subset="Time_UTC").set_index("Time_UTC").sort_index()
