@@ -299,6 +299,26 @@ class TestLGRUGGAFile:
         with pytest.raises(errors.DataFileInitializationError, match="meta data"):
             lin.LGR_UGGA_File(str(path))
 
+    @pytest.mark.xfail(
+        strict=True,
+        raises=KeyError,
+        reason="LGR_UGGA_File.__init__ looks the software version up in "
+        "version_date_formats unguarded, so a firmware it doesn't know raises "
+        "KeyError, which GroupSpace.get_datafiles doesn't catch: one such file "
+        "stops the whole read instead of being skipped with a warning like a "
+        "file with an unreadable header. Skipping is a guess at the fix; the "
+        "date could also be parsed from the name without the version.",
+    )
+    def test_unknown_software_version_is_skipped(self, tmp_path):
+        path = write_ugga(
+            tmp_path / "gga_2026-10-01_f0000.txt",
+            "abc1234",
+            [ugga_row("10/01/2026 00:00:00.000", tail=("3", "3", "atmosphere"))],
+            header_cols=24,
+        )
+        with pytest.raises(errors.DataFileInitializationError):
+            lin.LGR_UGGA_File(path)
+
     def test_get_files_finds_f_files_in_day_dirs(self, tmp_path, monkeypatch):
         raw = tmp_path / "wbb" / "lgr_ugga" / "raw"
         for name in [
