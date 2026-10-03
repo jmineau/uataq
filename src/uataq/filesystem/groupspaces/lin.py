@@ -4,6 +4,7 @@ John Lin group - UUCON, TRAX, etc.
 This module contains classes and functions for working with the Lin group data in the CHPC UATAQ filesystem.
 """
 
+import io
 import json
 import logging
 import os
@@ -28,28 +29,48 @@ CONFIG_DIR: str = os.path.join(MEASUREMENTS_DIR, "pipeline", "config")
 #: Directory for Lin group data.
 DATA_DIR: str = os.path.join(MEASUREMENTS_DIR, "data")
 
-# Get data configuration
-data_config_path = os.path.join(CONFIG_DIR, "data_config.json")
-if not os.path.exists(data_config_path):
+#: Where the pipeline configuration is fetched from off-cluster.
+CONFIG_URL: str = "https://raw.githubusercontent.com/uataq/data-pipeline/main/config"
+#: Seconds to wait for each off-cluster fetch before giving up.
+CONFIG_FETCH_TIMEOUT: float = 10
+
+
+def _read_config(name: str) -> io.StringIO:
+    """
+    Read a pipeline config file from CONFIG_DIR, or fetch it off-cluster.
+
+    The fetch has a timeout, so a slow or missing network fails the import
+    with a clear message instead of hanging it.
+    """
+    path = os.path.join(CONFIG_DIR, name)
+    if os.path.exists(path):
+        with open(path) as f:
+            return io.StringIO(f.read())
+
+    import urllib.error
     import urllib.request
 
-    data_config_path = "https://raw.githubusercontent.com/uataq/data-pipeline/main/config/data_config.json"
-    with urllib.request.urlopen(data_config_path) as response:
-        DATA_CONFIG: dict = json.load(response)
-else:
-    with open(data_config_path) as data_config_file:
-        #: Data configuration.
-        DATA_CONFIG: dict = json.load(data_config_file)
+    url = f"{CONFIG_URL}/{name}"
+    try:
+        with urllib.request.urlopen(url, timeout=CONFIG_FETCH_TIMEOUT) as response:
+            return io.StringIO(response.read().decode())
+    except (urllib.error.URLError, TimeoutError) as e:
+        raise RuntimeError(
+            f"Could not read the lin pipeline config '{name}': it is not at "
+            f"{path} (not on CHPC?) and fetching {url} failed: {e}"
+        ) from e
+
+
+#: Data configuration.
+DATA_CONFIG: dict = json.load(_read_config("data_config.json"))
 DATA_CONFIG["lgr_ugga_manual_cal"] = DATA_CONFIG[
     "lgr_ugga"
 ]  # manual cal has same format
 
-# Get site configuration
-site_config_path = os.path.join(CONFIG_DIR, "site_config.csv")
-if not os.path.exists(site_config_path):
-    site_config_path = "https://raw.githubusercontent.com/uataq/data-pipeline/main/config/site_config.csv"
 #: Site configuration.
-SITE_CONFIG = pd.read_csv(site_config_path, skipinitialspace=True, index_col="stid")
+SITE_CONFIG = pd.read_csv(
+    _read_config("site_config.csv"), skipinitialspace=True, index_col="stid"
+)
 
 #: Lin to UATAQ column mapping
 column_mapping: dict[str, dict[str, str]] = {
