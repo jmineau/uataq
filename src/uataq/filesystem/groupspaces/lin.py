@@ -403,7 +403,7 @@ class LinDatFile(filesystem.DataFile):
         pd.DataFrame
             The parsed data.
         """
-        _logger.debug(f"Parsing {os.path.relpath(self.path, DATA_DIR)}")
+        _logger.debug(f"Parsing {filesystem._relpath(self.path, DATA_DIR)}")
 
         first_field = _read_lines(self.path, first=1)[0].split(",")[0]
 
@@ -583,7 +583,7 @@ class LGR_UGGA_File(filesystem.DataFile):
         pd.DataFrame
             The parsed data.
         """
-        _logger.debug(f"Parsing {os.path.relpath(self.path, DATA_DIR)}")
+        _logger.debug(f"Parsing {filesystem._relpath(self.path, DATA_DIR)}")
 
         # Adapt column names depending on LGR software version.
         #  2013-2014 version has 23 columns
@@ -718,7 +718,7 @@ class AirTrendFile(filesystem.DataFile):
         pd.DataFrame
             The parsed data.
         """
-        _logger.debug(f"Parsing {os.path.relpath(self.path, DATA_DIR)}")
+        _logger.debug(f"Parsing {filesystem._relpath(self.path, DATA_DIR)}")
 
         data_config = DATA_CONFIG[self.config["instrument"]][self.config["lvl"]]
 
