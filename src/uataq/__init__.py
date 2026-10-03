@@ -183,9 +183,11 @@ def get_network_obs(
     time_range : TimeRange | TimeRangeTypes, optional
         The time range to retrieve data for. Can be a TimeRange object,
         string, list, or None (all data). Default is None.
-    group : str | None, optional
-        The research group to read data from. If None, uses the default group.
-        Default is None.
+    group : str | Mapping[str, str] | None, optional
+        The research group to read data from. A name applies to every
+        instrument; a mapping of instrument name to group name sets it per
+        instrument. Default None selects each instrument's group
+        automatically (see :meth:`uataq.instruments.Instrument.resolve_group`).
     num_processes : int | Literal["max"], optional
         Number of processes to use for parallel data reading. Default is 1.
 
@@ -212,7 +214,7 @@ def get_network_obs(
     ...     time_range=["2024-01-01", "2024-01-31"],
     ... )
     """
-    net = Network(sites=sites, pollutant=pollutant, group=group)  # pyright: ignore[reportArgumentType]  # Network resolves per site
+    net = Network(sites=sites, pollutant=pollutant, group=group)
     return net.get_obs(time_range=time_range, num_processes=num_processes)
 
 

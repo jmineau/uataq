@@ -237,9 +237,11 @@ public function's docstring — they hand the same alias around.
   config lookup, not an archive search -- it does not check whether that group
   holds data for the time range. Before 2026-09-22 `group=None` always meant
   `"lin"`, so the 75 horel-only instruments (of 114) raised ReaderError unless
-  the caller named the group. `MobileSite.get_obs` resolves the **gps**
-  instrument's group specifically, since the Pi_Time vs Time_UTC merge depends
-  on who logged it. If you change the default, update the documented line
+  the caller named the group. `MobileSite.get_obs` and `Network` resolve the
+  **gps** instrument's group specifically, since the Pi_Time vs Time_UTC merge
+  depends on who logged it. Anything that wraps `Site.read_data` must pass
+  `group=None` through, not replace it with `get_group(None)`: `Network` did
+  that until #14, which silently dropped every BUS site and all TRAX PM. If you change the default, update the documented line
   numbers in docs (per the in-file comment).
 - **Reads are clipped to the instrument's installed window.**
   `Instrument.clip_to_active` intersects the requested range with
