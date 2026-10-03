@@ -816,7 +816,9 @@ class LinGroup(filesystem.GroupSpace):
         # Custom handling for raw Lin files
         if lvl == "raw":
             if SID.startswith("TRX"):
-                print("Warning: Time_UTC may not be accurate for mobile raw Lin data.")
+                _logger.warning(
+                    f"Time_UTC may not be accurate in raw lin data for mobile site {SID}."
+                )
             if logger == "lgr_ugga":
                 _logger.debug(
                     "Adding a day on either side of time range to ensure all data is included."

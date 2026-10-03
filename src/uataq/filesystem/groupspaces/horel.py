@@ -120,7 +120,7 @@ column_mapping: dict[str, dict[str, str]] = {
         "ES405_Internal_Air_Temperature": "Internal_T_C",
         "INRH": "Internal_RH_pct",
         "ES405_Internal_Relative_Humidity": "Internal_RH_pct",
-        "PRES": "Internal_P_hpa",
+        "PRES": "Internal_P_hPa",
         "ES405_Internal_Air_Pressure": "Internal_P_hPa",
         "ERRR": "Status",
         "ES405_Error_Code": "Status",
@@ -135,7 +135,7 @@ column_mapping: dict[str, dict[str, str]] = {
         "ES642_Internal_Air_Temperature": "Ambient_T_C",
         "INRH": "Internal_RH_pct",
         "ES642_Internal_Relative_Humidity": "Internal_RH_pct",
-        "PRES": "Ambient_P_hpa",
+        "PRES": "Ambient_P_hPa",
         "ES642_Internal_Air_Pressure": "Ambient_P_hPa",
         "ERRR": "Status",
         "ES642_Error_Code": "Status",
@@ -628,11 +628,10 @@ class HorelGroup(filesystem.GroupSpace):
             and pilot_stop is not None
             and (time_range.start is None or time_range.start < pilot_stop)
         ):
-            print(
-                f"Warning: No {lvl} data available for {SID} before pilot phase conclusion."
-            )
-            print(
-                f"Use raw data for pilot phase: {PILOT_PHASE[SID].start} ~ {PILOT_PHASE[SID].stop}"
+            # info, not warning: this fires on every unbounded read of the site
+            _logger.info(
+                f"No {lvl} data for {SID} during the pilot phase "
+                f"({PILOT_PHASE[SID].start} ~ {pilot_stop}); read lvl='raw' for it."
             )
 
         DataFileClass = self.get_datafile_class(instrument, lvl, logger)
