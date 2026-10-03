@@ -179,9 +179,12 @@ ignoring `group_dates`: availability reports what each archive holds, while
 `get_obs` reads one group per portion (`plan_reads`). One pool over the whole
 network's files; each worker reduces its file to bins immediately, so memory
 is one file per worker. A bad file is logged and skipped (count reported),
-not fatal. Stray in-file header rows (NaT `Time_UTC`, e.g. lin
-`trx01/2b_205/qaqc/2016_05_qaqc.dat`) are dropped before `standardize_data`,
-which otherwise divides a text column.
+not fatal. Rows with a NaT `Time_UTC` are dropped before `standardize_data`,
+which would otherwise divide a text column. (The "stray header" these guarded
+against, e.g. lin `trx01/2b_205/qaqc/2016_05_qaqc.dat`, was every lin pipeline
+file's own header line, which `LinDatFile.parse` read in as a row -- leaving
+every lin column object dtype -- until 2026-10; it now skips the header and
+coerces the config's numeric columns.)
 
 `plot_availability(availability=None, ax=None, **kwargs)` is matplotlib
 (optional import, like `Site.plot`); bars use `LEVEL_COLORS`, one blue hue
