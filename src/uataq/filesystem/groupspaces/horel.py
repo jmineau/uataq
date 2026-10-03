@@ -497,12 +497,12 @@ class HorelCSVFinalizedFile(HorelCSVFile):
             data = data[data.QAQC_Flag >= 0]
 
         # Use final patterns to filter columns
-        data = data.filter(regex="|".join(self.final_patterns))
+        data = pd.DataFrame(data.filter(regex="|".join(self.final_patterns)))
 
-        # Drop rows without obs
-        data = data.dropna(how="all")
-
-        return pd.DataFrame(data)
+        # Drop rows without obs. Time_UTC is always set, so it can't count:
+        # a plain dropna(how="all") never dropped anything.
+        obs_columns = [c for c in data.columns if c != "Time_UTC"]
+        return data.dropna(how="all", subset=obs_columns)
 
 
 class HorelGroup(filesystem.GroupSpace):

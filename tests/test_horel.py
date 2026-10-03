@@ -239,6 +239,24 @@ class TestHorelCSVFinalizedFile:
         assert data["PM2.5_ugm3"].tolist() == [2.0, 1.0]
 
 
+class TestFinalizedRowsWithoutObs:
+    """final drops a row whose measurements are all no-data."""
+
+    def test_drops_rows_without_obs(self, tmp_path):
+        data = horel.HorelCSVFinalizedFile(write_trx(tmp_path), "2b_205").parse()
+        # Row 3 is unflagged, but its ozone is -9999
+        assert data["O3_ppb"].notna().all()
+        assert data["Time_UTC"].tolist() == [pd.Timestamp("2024-06-01 00:00:02")]
+
+    def test_keeps_rows_with_any_obs(self, tmp_path):
+        rows = [r[:7] + [-9999.0] + r[8:] for r in TRX_ROWS]  # no ozone at all
+        path = write_csv_gz(
+            tmp_path / "TRX01_2024_06.csv.gz", TRX_HEADER, TRX_UNITS, rows
+        )
+        data = horel.HorelCSVFinalizedFile(path, "gps").parse()
+        assert len(data) == 3  # the positions are still there
+
+
 class TestStandardizeData:
     """Per-instrument fixes applied on top of the column renames."""
 
