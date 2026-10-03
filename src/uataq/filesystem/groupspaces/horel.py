@@ -96,8 +96,11 @@ column_mapping: dict[str, dict[str, str]] = {
         "Longitude": "Longitude_deg",
         "GELV": "Altitude_msl",
         "Elevation": "Altitude_msl",
-        "RSPD": "Speed_kt",
-        "GPS_Speed": "Speed_kt",
+        # horel logs speed in m/s (h5 variable metadata, CSV units row), not
+        # the knots of the NMEA sentences lin logs; GPS.read_data converts
+        # only Speed_kt
+        "RSPD": "Speed_m_s",
+        "GPS_Speed": "Speed_m_s",
         "RDIR": "Course_deg",
         "GPS_Direction": "Course_deg",
         "NSAT": "N_Satellites",

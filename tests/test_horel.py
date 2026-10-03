@@ -17,6 +17,7 @@ import pandas as pd
 import pytest
 import tables
 
+from uataq import get_site
 from uataq.filesystem.groupspaces import horel
 from uataq.timerange import TimeRange
 
@@ -356,3 +357,41 @@ class TestHorelGroup:
         assert self.names(d.path for d in datafiles) == ["TRX01_2024_06_esampler.h5"]
         assert all(isinstance(d, horel.HorelH5File) for d in datafiles)
         assert all(d.instrument == "metone_es642" for d in datafiles)
+
+
+class TestHorelGPSRead:
+    """GPS through the Instrument, from a synthetic cr1000 table."""
+
+    def test_recorded_speed_is_already_m_s(self, tmp_path):
+        """horel logs RSPD in m/s (the h5 variable metadata and the CSV units
+        row say so; it matches the speed from positions), so reading it must
+        not apply lin's knots conversion."""
+        main = tmp_path / "uutrax"
+        write_h5(
+            main / "cr1000" / "BUS01_2024_06_cr1000.h5",
+            {
+                "EPOCHTIME": [JUNE, JUNE + 5, JUNE + 10],
+                "GLAT": [40.7639, 40.7640, 40.7641],
+                "GLON": [-111.9096, -111.9096, -111.9096],
+                "GELV": [1301.1, 1301.1, 1301.1],
+                "RSPD": [0.0, 2.0, 10.0],
+                "RDIR": [172.2, 0.0, 0.0],
+                "RSTS": [1.0, 1.0, 1.0],
+                "VOLT": [13.5, 13.5, 13.5],
+            },
+        )
+        gps = get_site("BUS01").instruments["gps"]
+        with patch.dict(horel.lvl_data_dirs, {"raw": [str(main)]}):
+            data = gps.read_data(
+                "horel", "raw", ["2024-06-01", "2024-06-02"], estimate_motion=False
+            )
+
+        assert data["Speed_m_s"].tolist() == pytest.approx([0.0, 2.0, 10.0])
+        assert data["Latitude_deg"].iloc[1] == pytest.approx(40.7640)
+        assert "Battery_Voltage_V" not in data.columns  # a cr1000 column
+
+    def test_final_csv_keeps_recorded_speed(self, tmp_path):
+        """The BUS finalized CSV's GPS_Speed (m/s) survives the final filter."""
+        data = horel.HorelCSVFinalizedFile(write_bus(tmp_path), "gps").parse()
+        # The invalid-RMC row is dropped
+        assert data["Speed_m_s"].tolist() == [0.0, 5.5]
