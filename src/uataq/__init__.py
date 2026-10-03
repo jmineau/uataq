@@ -18,7 +18,7 @@ logging.getLogger(__name__).addHandler(logging.NullHandler())
 
 # E402: these must follow the NullHandler above -- importing the submodules
 # builds the `laboratory` singleton, which logs while it reads config.json.
-from . import filesystem, instruments, sites  # noqa: E402
+from . import filesystem, instruments, pollutants, sites  # noqa: E402
 from ._laboratory import Laboratory, get_site, laboratory  # noqa: E402
 from .filesystem import DEFAULT_GROUP  # noqa: E402
 from .network import Network  # noqa: E402
@@ -223,6 +223,7 @@ __all__ = [
     "instruments",
     "laboratory",
     "filesystem",
+    "pollutants",
     "DEFAULT_GROUP",
     "get_site",
     "read_data",

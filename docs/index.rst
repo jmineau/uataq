@@ -45,6 +45,7 @@ Utah Atmospheric Trace-gas and Air Quality (UATAQ)
    filesystem
    sites
    instruments
+   pollutants
    gps
    sodar
    contributing
