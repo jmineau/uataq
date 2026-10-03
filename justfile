@@ -35,7 +35,7 @@ pre-commit:
 quality-check:
 	@echo "Running quality checks..."
 	@echo "Linting with ruff..."
-	uv run ruff check src/uataq
+	uv run ruff check src/uataq tests
 	@echo "Type checking with pyright..."
 	uv run pyright src/uataq
 	just test

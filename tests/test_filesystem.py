@@ -3,7 +3,6 @@ Tests for filesystem utilities.
 """
 
 from pathlib import Path
-from unittest.mock import MagicMock, patch
 
 import pandas as pd
 import pytest
@@ -92,8 +91,12 @@ class TestListFiles:
     def test_list_files_case_insensitive(self, temp_test_dir):
         """Test case-insensitive pattern matching."""
         raw_dir = temp_test_dir / "raw" / "2024" / "01"
-        files_lower = filesystem.list_files(path=raw_dir, pattern="*.dat", ignore_case=False)
-        files_upper = filesystem.list_files(path=raw_dir, pattern="*.DAT", ignore_case=True)
+        files_lower = filesystem.list_files(
+            path=raw_dir, pattern="*.dat", ignore_case=False
+        )
+        files_upper = filesystem.list_files(
+            path=raw_dir, pattern="*.DAT", ignore_case=True
+        )
 
         # At least one should find results (assuming lowercase files exist)
         assert len(files_lower) + len(files_upper) > 0
@@ -105,11 +108,13 @@ class TestHomeConstant:
     def test_home_is_string(self):
         """Test that HOME is defined as a string."""
         from uataq.filesystem.core import HOME
+
         assert isinstance(HOME, str)
 
     def test_home_points_to_common_home(self):
         """Test that HOME points to the expected directory."""
         from uataq.filesystem.core import HOME
+
         assert "common" in HOME
         assert "home" in HOME
 

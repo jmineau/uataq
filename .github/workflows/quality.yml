@@ -25,7 +25,7 @@ jobs:
 
     - name: Lint with ruff
       run: |
-        ruff check --output-format=github src/uataq
+        ruff check --output-format=github src/uataq tests
 
     - name: Type checking with pyright
       if: ${{ !cancelled() }}
