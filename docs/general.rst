@@ -39,7 +39,17 @@ Research Group
 ^^^^^^^^^^^^^^
 
 ``group`` is the research group that collected the data.
-It is a string that corresponds to a key in the ``uataq.filesystem.groups`` dictionary.
+It is a string that corresponds to a key in the ``uataq.filesystem.groups`` dictionary,
+or a mapping of instrument name to group name to choose per instrument.
+
+With ``group=None`` (the default), each instrument picks its own group: the
+default group (``lin``) when it operates the instrument, otherwise the
+configured operator. When the groups' archives cover different periods (the
+instrument's ``group_dates`` in the :doc:`configuration <config>`), a time
+range that crosses a boundary is read from each group in turn and the pieces
+are concatenated in time. For example, TRX01 ozone comes from lin through
+October 2017 and from horel after that. Naming a group reads the whole range
+from that group.
 
 
 Processing Level

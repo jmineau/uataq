@@ -12,6 +12,7 @@ import json
 import logging
 from abc import ABCMeta
 from collections.abc import Iterator, Mapping
+from itertools import pairwise
 from typing import Literal
 
 import numpy as np
@@ -23,6 +24,10 @@ from uataq.timerange import TimeRange, TimeRangeTypes
 #: How a caller picks a research group: a name, a per-instrument mapping, or
 #: None for automatic selection. See :meth:`Instrument.resolve_group`.
 GroupSelection = str | Mapping[str, str] | None
+
+#: A read plan: which group to read each portion of a time range from. See
+#: :meth:`Instrument.plan_reads`.
+ReadPlan = list[tuple[str, TimeRange]]
 
 _logger = logging.getLogger(__name__)
 
@@ -44,6 +49,10 @@ class Instrument(metaclass=ABCMeta):
         Name of the instrument.
     groups : list[str]
         Research groups that operate the instrument.
+    group_dates : dict[str, TimeRange]
+        When each group's archive holds this instrument's data, for the groups
+        whose archive covers less than the whole installation (config
+        ``group_dates``). A group not listed covers the whole installation.
     loggers : set[str]
         Loggers used by the research groups to record data.
     config : dict
@@ -81,6 +90,44 @@ class Instrument(metaclass=ABCMeta):
 
         self.groups = list(loggers.keys())
         self.loggers = set(loggers.values())
+        self.group_dates = self._parse_group_dates(config.get("group_dates"))
+
+    def _parse_group_dates(self, group_dates: dict | None) -> dict[str, TimeRange]:
+        """
+        Parse the config's ``group_dates`` into a TimeRange per group.
+
+        Each entry is ``group: [start, stop]``, a half-open ``[start, stop)``
+        window. Either end may be null for unbounded (in practice, the
+        instrument's installation or removal). Dates are read as exact
+        instants, like ``installation_date``/``removal_date``: a stop of
+        ``"2017-10-28"`` means ``2017-10-28 00:00``, not the end of that day.
+
+        Raises
+        ------
+        ValueError
+            If a group does not operate the instrument, an entry is not a
+            ``[start, stop]`` pair, or a window ends before it starts.
+        """
+        windows: dict[str, TimeRange] = {}
+        for group, dates in (group_dates or {}).items():
+            if group not in self.groups:
+                raise ValueError(
+                    f"group_dates for {self} names '{group}', which does not "
+                    f"operate it. Operators: {self.groups}."
+                )
+            if not isinstance(dates, (list, tuple)) or len(dates) != 2:
+                raise ValueError(
+                    f"group_dates['{group}'] for {self} must be [start, stop], "
+                    f"got {dates!r}."
+                )
+            start, stop = (pd.to_datetime(d) if d else None for d in dates)
+            if start is not None and stop is not None and start >= stop:
+                raise ValueError(
+                    f"group_dates['{group}'] for {self} ends before it starts: "
+                    f"{dates!r}."
+                )
+            windows[group] = TimeRange(start=start, stop=stop)
+        return windows
 
     def __str__(self):
         return f"{self.name}@{self.SID}"
@@ -121,22 +168,18 @@ class Instrument(metaclass=ABCMeta):
         instrument: the default group when it is one of them, otherwise the
         sole operator, otherwise the first configured. It is a configuration
         lookup, not a search of the archive -- it does not check whether that
-        group actually holds data for a given time range.
+        group actually holds data for a given time range, and it ignores
+        ``group_dates``. :meth:`plan_reads` is the time-aware version that
+        :meth:`uataq.sites.Site.read_data` uses.
         """
-        if isinstance(group, Mapping):
-            group = group.get(self.name, group.get(self.name.lower()))
-        if isinstance(group, str):
+        group = self._named_group(group)
+        if group is not None:
             return filesystem.get_group(group)
 
-        candidates = [g for g in self.groups if g in filesystem.groups]
-        if not candidates:
-            raise errors.InvalidGroupError(
-                f"No registered groupspace operates {self}. "
-                f"Configured: {self.groups or 'none'}."
-            )
-        if filesystem.DEFAULT_GROUP in candidates:
-            return filesystem.DEFAULT_GROUP
-        selected: str = candidates[0]
+        candidates = self._preferred_groups()
+        selected = candidates[0]
+        if selected == filesystem.DEFAULT_GROUP:
+            return selected
         if len(candidates) > 1:
             _logger.info(
                 f"{self} is operated by {candidates} and not by the default "
@@ -145,6 +188,124 @@ class Instrument(metaclass=ABCMeta):
         else:
             _logger.debug(f"{self} is operated by '{selected}'; reading from it.")
         return selected
+
+    def _named_group(self, group: GroupSelection) -> str | None:
+        """The group the caller named for this instrument, or None for auto."""
+        if isinstance(group, Mapping):
+            group = group.get(self.name, group.get(self.name.lower()))
+        return group if isinstance(group, str) else None
+
+    def _preferred_groups(self) -> list[str]:
+        """
+        Registered groups that operate this instrument, most preferred first:
+        the default group, then the configured order.
+
+        Raises
+        ------
+        InvalidGroupError
+            If no registered groupspace operates this instrument.
+        """
+        candidates = [g for g in self.groups if g in filesystem.groups]
+        if not candidates:
+            raise errors.InvalidGroupError(
+                f"No registered groupspace operates {self}. "
+                f"Configured: {self.groups or 'none'}."
+            )
+        if filesystem.DEFAULT_GROUP in candidates:
+            candidates.remove(filesystem.DEFAULT_GROUP)
+            candidates.insert(0, filesystem.DEFAULT_GROUP)
+        return candidates
+
+    def plan_reads(
+        self,
+        group: GroupSelection = None,
+        time_range: TimeRange | TimeRangeTypes = None,
+    ) -> ReadPlan:
+        """
+        Plan which group to read each part of a time range from.
+
+        Parameters
+        ----------
+        group : str | Mapping[str, str] | None
+            As for :meth:`resolve_group`. A name, or a mapping entry naming
+            this instrument, reads the whole range from that group.
+        time_range : TimeRange | TimeRangeTypes
+            The requested time range. Default None is the whole installation.
+
+        Returns
+        -------
+        list[tuple[str, TimeRange]]
+            ``(group, portion)`` pairs in time order. The portions are
+            half-open, do not overlap, and lie within the requested range
+            clipped to :attr:`active_range`. Usually a single pair.
+
+        Raises
+        ------
+        InactiveInstrumentError
+            If the requested range misses the installation entirely.
+        InvalidGroupError
+            If no registered groupspace operates this instrument.
+        ReaderError
+            If no group's archive covers any of the requested range.
+
+        Notes
+        -----
+        With no group named, a range that crosses a ``group_dates`` boundary
+        is split there. Each portion goes to the most preferred group whose
+        window covers it -- the default group, then the configured order, as
+        in :meth:`resolve_group` -- and portions no group covers are skipped.
+        An instrument without ``group_dates`` gets
+        ``[(resolve_group(group), clipped range)]``, as before.
+        """
+        named = self._named_group(group)
+        candidates = None if named is not None else self._preferred_groups()
+        time_range = self.clip_to_active(time_range)
+        if candidates is None or not self.group_dates:
+            return [(self.resolve_group(group), time_range)]
+
+        windows = {g: self.group_dates.get(g, TimeRange()) for g in candidates}
+        start, stop = time_range
+        # Cut the range at every window edge that falls inside it
+        cuts = sorted(
+            {
+                edge
+                for window in windows.values()
+                for edge in window
+                if edge is not None
+                and (start is None or edge > start)
+                and (stop is None or edge < stop)
+            }
+        )
+
+        plan: ReadPlan = []
+        for lo, hi in pairwise([start, *cuts, stop]):
+            if lo is not None and hi is not None and lo >= hi:
+                continue
+            chosen = next((g for g in candidates if _covers(windows[g], lo, hi)), None)
+            if chosen is None:
+                _logger.debug(
+                    f"No group's archive covers {self} from {lo} to {hi}; "
+                    f"skipping that portion."
+                )
+                continue
+            if plan and plan[-1][0] == chosen and plan[-1][1].stop == lo:
+                # Adjoins the previous portion from the same group: extend it
+                plan[-1] = (chosen, TimeRange(start=plan[-1][1].start, stop=hi))
+            else:
+                plan.append((chosen, TimeRange(start=lo, stop=hi)))
+
+        if not plan:
+            raise errors.ReaderError(
+                f"No group's archive covers {self} for {time_range} "
+                f"(group_dates: {self.group_dates})."
+            )
+        if len(plan) > 1:
+            _logger.info(
+                f"Reading {self} from "
+                + ", ".join(f"{g} for {portion}" for g, portion in plan)
+                + "."
+            )
+        return plan
 
     def _get_groupspace(self, group: str) -> filesystem.GroupSpace:
         """
@@ -374,6 +535,14 @@ class Instrument(metaclass=ABCMeta):
         data = self.standardize_data(group, data)
         _logger.info("done.")
         return data
+
+
+def _covers(window: TimeRange, start, stop) -> bool:
+    """Whether ``window`` covers ``[start, stop)``. A None end is unbounded."""
+    window_start, window_stop = window
+    starts_in = window_start is None or (start is not None and window_start <= start)
+    stops_in = window_stop is None or (stop is not None and stop <= window_stop)
+    return starts_in and stops_in
 
 
 def configure_instrument(

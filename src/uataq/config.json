@@ -614,7 +614,11 @@
                     "horel": "campbellsci",
                     "lin": "air-trend"
                 },
-                "installation_date": "2015-05-13"
+                "installation_date": "2015-05-13",
+                "group_dates": {
+                    "lin": ["2015-05-13", "2017-10-28"]
+                },
+                "notes": "lin's last sample is 2017-10-27 18:53:22 UTC, so its group_dates stop is the next midnight. horel covers the whole installation, but only as pilot raw before 2018-11-19."
             },
             "cr1000": {
                 "loggers": {
@@ -669,7 +673,11 @@
                     "horel": "campbellsci",
                     "lin": "air-trend"
                 },
-                "installation_date": "2016-06-15"
+                "installation_date": "2016-06-15",
+                "group_dates": {
+                    "lin": ["2016-06-15", "2017-03-29"]
+                },
+                "notes": "lin's last sample is 2017-03-28 17:24:31 UTC, so its group_dates stop is the next midnight. horel covers the whole installation, but only as pilot raw before 2018-11-19."
             },
             "cr1000": {
                 "loggers": {
@@ -696,7 +704,11 @@
                     "lin": "air-trend"
                 },
                 "installation_date": "2016-02-04",
-                "removal_date": "2025-01-03"
+                "removal_date": "2025-01-03",
+                "group_dates": {
+                    "lin": ["2016-02-04", "2017-06-21"]
+                },
+                "notes": "lin's last sample is 2017-06-20 05:28:52 UTC, so its group_dates stop is the next midnight. horel covers the whole installation, but only as pilot raw before 2018-11-19."
             },
             "metone_es405": {
                 "loggers": {

@@ -20,6 +20,54 @@ _logger = logging.getLogger(__name__)
 _all_or_mult_strs = Literal["all"] | str | list[str] | tuple[str, ...] | set[str]
 
 
+def _describe_plan(plan: instruments.ReadPlan) -> str:
+    """Name the groupspace(s) a read plan reads from, with dates when split."""
+    if len(plan) == 1:
+        return f"{plan[0][0]} groupspace"
+    return " and ".join(f"{group} groupspace ({portion})" for group, portion in plan)
+
+
+def _read_plan(
+    instrument: instruments.Instrument,
+    plan: instruments.ReadPlan,
+    lvl: str | None,
+    num_processes: int | Literal["max"],
+    file_pattern: str | None,
+) -> pd.DataFrame:
+    """
+    Read each ``(group, portion)`` of a plan and concatenate them in time.
+
+    A portion that raises ReaderError is logged and skipped, so the others
+    are still returned.
+
+    Raises
+    ------
+    ReaderError
+        If every portion fails. A single-portion plan re-raises its own error.
+    """
+    if len(plan) == 1:
+        group, portion = plan[0]
+        return instrument.read_data(group, lvl, portion, num_processes, file_pattern)
+
+    frames = []
+    failures = []
+    for group, portion in plan:
+        try:
+            frames.append(
+                instrument.read_data(group, lvl, portion, num_processes, file_pattern)
+            )
+        except errors.ReaderError as e:
+            _logger.warning(f"No {instrument} data from {group} for {portion}: {e}")
+            failures.append(f"{group} ({portion}): {e}")
+    if not frames:
+        raise errors.ReaderError(
+            f"No {instrument} data from any group: " + "; ".join(failures)
+        )
+    if len(frames) == 1:
+        return frames[0]
+    return pd.concat(frames).sort_index(kind="stable")
+
+
 class Site:
     """
     A class representing a site where atmospheric measurements are taken.
@@ -132,9 +180,13 @@ class Site:
             The research group to read data from. A name applies to every
             instrument; a mapping of instrument name to group name sets it per
             instrument. Default None selects each instrument's group
-            automatically (see :meth:`~uataq.instruments.Instrument.resolve_group`).
+            automatically, by time when the groups' archives cover different
+            periods: a range crossing a ``group_dates`` boundary is read from
+            each group in turn and concatenated (see
+            :meth:`~uataq.instruments.Instrument.plan_reads`).
         lvl : str, optional
-            The data level to read. Default is None which reads the highest level available.
+            The data level to read. Default is None which reads the highest
+            level available (per group, when the read is split across groups).
         time_range : TimeRange | TimeRangeTypes
             The time range to read data. Default is None which reads all available data.
         num_processes : int or 'max'
@@ -169,24 +221,33 @@ class Site:
 
             instrument = self.instruments[name]
 
-            # Each instrument resolves its own group: the site's instruments
-            # are not all operated by the same research group.
-            instrument_group = instrument.resolve_group(group)
-            groups_read[name] = instrument_group
+            # Each instrument plans its own reads: the site's instruments are
+            # not all operated by the same research group, and one group's
+            # archive may cover only part of the range (config group_dates).
+            try:
+                plan = instrument.plan_reads(group, time_range)
+            except errors.InvalidGroupError:
+                raise
+            except errors.ReaderError as e:
+                # Inactive in the range, or no group's archive covers it
+                _logger.warning(f"Not reading {instrument}: {e}")
+                groups_read[name] = f"{name} not read: {e}"
+                continue
+            groups_read[name] = f"{name} in {_describe_plan(plan)}"
 
             try:
-                data[name] = instrument.read_data(
-                    instrument_group, lvl, time_range, num_processes, file_pattern
+                data[name] = _read_plan(
+                    instrument, plan, lvl, num_processes, file_pattern
                 )
             except errors.ReaderError as e:
                 _logger.warning(
-                    f"Error reading {instrument} data from {instrument_group} groupspace: {e}"
+                    f"Error reading {instrument} data from {_describe_plan(plan)}: {e}"
                 )
 
         if not data:
-            read_from = ", ".join(f"{k} in {v}" for k, v in groups_read.items())
+            read_from = "; ".join(groups_read.values())
             raise errors.ReaderError(
-                f"No data found for {instruments} at {self.SID} ({read_from} groupspace(s))."
+                f"No data found for {instruments} at {self.SID} ({read_from})."
             )
 
         return data
