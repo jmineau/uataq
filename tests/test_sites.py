@@ -354,3 +354,26 @@ class TestPerInstrumentGroupSelection:
 
         with pytest.raises(errors.ReaderError, match="crds in horel"):
             site.read_data(["crds"])
+
+
+class TestMobileSiteGetObs:
+    """MobileSite.get_obs reads GPS only when it will merge it (#18)."""
+
+    def test_include_gps_false_skips_gps_read(self):
+        from unittest.mock import patch
+
+        import uataq
+
+        site = uataq.get_site("TRX01")
+        obs = pd.DataFrame(
+            {"O3_ppb": [40.0]},
+            index=pd.DatetimeIndex(["2024-06-01"], name="Time_UTC"),
+        )
+        with (
+            patch.object(sites.Site, "get_obs", return_value=obs),
+            patch.object(sites.Site, "read_data") as read_data,
+        ):
+            result = site.get_obs("O3", include_gps=False)
+
+        read_data.assert_not_called()
+        assert result.equals(obs)
