@@ -573,6 +573,10 @@ class HorelGroup(filesystem.GroupSpace):
                     "csv_finalized_ebus" if SID.startswith("BUS") else "csv_finalized"
                 )
                 data_path = os.path.join(data_dir, finalized_dir)
+            if not os.path.isdir(data_path):
+                # e.g. the pilot phase had no nox instrument
+                _logger.debug(f"No {data_path} for {SID} {instrument}; skipping.")
+                continue
             files.extend(
                 filesystem.list_files(
                     data_path, pattern=f"*{SID.upper()}*", full_names=True
