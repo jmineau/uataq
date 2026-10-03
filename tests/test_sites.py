@@ -2,12 +2,12 @@
 Tests for the Site class and related functionality.
 """
 
-from unittest.mock import MagicMock, patch, PropertyMock
+from unittest.mock import MagicMock, patch
 
-import pytest
 import pandas as pd
+import pytest
 
-from uataq import sites, errors
+from uataq import errors, sites
 
 
 class TestSiteInitialization:
@@ -360,7 +360,6 @@ class TestMobileSiteGetObs:
     """MobileSite.get_obs reads GPS only when it will merge it (#18)."""
 
     def test_include_gps_false_skips_gps_read(self):
-        from unittest.mock import patch
 
         import uataq
 
@@ -383,7 +382,6 @@ class TestPollutantCase:
     """Pollutants are matched regardless of case (#13)."""
 
     def test_mixed_case_pollutant_finds_its_instrument(self):
-        from unittest.mock import patch
 
         import uataq
 
@@ -400,7 +398,6 @@ class TestPollutantCase:
         assert list(obs.columns) == ["NOx_ppb"]
 
     def test_read_data_lowercases_a_set(self):
-        from unittest.mock import patch
 
         import uataq
 

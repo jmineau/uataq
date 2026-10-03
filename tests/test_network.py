@@ -173,7 +173,7 @@ class TestNetworkDataRetrieval:
         """Test that returned GeoDataFrame has required columns."""
         net = Network(sites=["WBB"], pollutant="CO2")
         obs = net.get_obs(time_range="2024-01-01")
-        
+
         required_columns = {"SID", "Latitude_deg", "Longitude_deg", "zagl", "geometry"}
         assert required_columns.issubset(set(obs.columns))
 
@@ -194,7 +194,7 @@ class TestNetworkDataRetrieval:
         """Test that stationary site has constant coordinates."""
         net = Network(sites=["WBB"], pollutant="CO2")
         obs = net.get_obs(time_range="2024-01-01")
-        
+
         # WBB is stationary, so all rows should have the same coordinates
         assert obs["Latitude_deg"].nunique() == 1
         assert obs["Longitude_deg"].nunique() == 1
@@ -203,7 +203,7 @@ class TestNetworkDataRetrieval:
         """Test that SID column distinguishes sites."""
         net = Network(sites=["WBB", "SUG"], pollutant="CO2")
         obs = net.get_obs(time_range="2024-01-01")
-        
+
         assert "SID" in obs.columns
         site_ids = obs["SID"].unique()
         assert len(site_ids) == 2
@@ -212,7 +212,7 @@ class TestNetworkDataRetrieval:
         """Test that pollutant columns are present in result."""
         net = Network(sites=["WBB"], pollutant="CO2")
         obs = net.get_obs(time_range="2024-01-01")
-        
+
         # At least one column should contain CO2
         co2_cols = [col for col in obs.columns if "CO2" in col.upper()]
         assert len(co2_cols) > 0
@@ -221,7 +221,7 @@ class TestNetworkDataRetrieval:
         """Test that time_range parameter filters data correctly."""
         net = Network(sites=["WBB"], pollutant="CO2")
         obs = net.get_obs(time_range=["2024-01-01", "2024-01-02"])
-        
+
         # Check that all timestamps are within range
         assert obs.index.min() >= pd.Timestamp("2024-01-01")
         # The end of the day on 2024-01-02 is included (23:59:58)
