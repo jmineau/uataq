@@ -16,7 +16,9 @@ from uataq.timerange import TimeRange
 
 _logger = logging.getLogger(__name__)
 
-pd.options.mode.copy_on_write = True
+# pandas 3 always copies on write and deprecates the option (setting it warns)
+if int(pd.__version__.split(".")[0]) < 3:
+    pd.options.mode.copy_on_write = True
 
 HOME: str = "/uufs/chpc.utah.edu/common/home"
 
