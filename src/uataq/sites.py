@@ -611,6 +611,8 @@ class MobileSite(Site):
         ------
         ReaderError
             If no GPS data could be read for any of the rows.
+        ValueError
+            If rows would be located with another group's GPS.
 
         Notes
         -----
@@ -623,10 +625,10 @@ class MobileSite(Site):
         clock placed them that many seconds along the track, and dropped rows
         with no lin GPS record at their second (uataq#42).
 
-        A GPS group the caller names explicitly (a group name, or a mapping
-        entry for ``gps``) is used for every row instead, with a warning for
-        rows read from another group. Rows from a group that does not log GPS
-        at this site use the GPS instrument's automatic group.
+        One group's rows are never located with another group's GPS. A GPS
+        group the caller names explicitly (a mapping entry for ``gps``) that
+        differs from the group some rows were read from raises ``ValueError``,
+        as does a group that logs no GPS at this site.
         """
         # gps group -> [(obs group, rows, portion)]
         pieces: dict[str, list[tuple[str, pd.DataFrame, TimeRange]]] = defaultdict(list)
@@ -657,10 +659,8 @@ class MobileSite(Site):
                 )
                 failures.append(f"{gps_group}: {e}")
                 continue
-            for obs_group, rows, _ in group_pieces:
-                located.append(
-                    MobileSite._merge_on_clock(rows, gps, gps_group, obs_group)
-                )
+            for _, rows, _ in group_pieces:
+                located.append(MobileSite._merge_on_clock(rows, gps, gps_group))
 
         if failures and not located:
             raise errors.ReaderError(
@@ -680,27 +680,38 @@ class MobileSite(Site):
 
     def _gps_group(self, obs_group: str, group: instruments.GroupSelection) -> str:
         """
-        The group whose GPS locates rows read from ``obs_group``: that group
-        itself when it logs GPS here (same clock), unless the caller named the
-        GPS group explicitly; else the GPS instrument's automatic group.
+        The group whose GPS locates rows read from ``obs_group``: always that
+        group itself, since only its GPS shares its logger clock.
+
+        Raises
+        ------
+        ValueError
+            If the caller named another group's GPS for these rows, or
+            ``obs_group`` logs no GPS at this site. One group's rows are never
+            located with another group's GPS.
         """
         gps = self.instruments["gps"]
-        if gps._named_group(group) is None and obs_group in gps.groups:
-            return obs_group
-        return gps.resolve_group(group)
+        named = gps._named_group(group)
+        if named is not None and named != obs_group:
+            raise ValueError(
+                f"group names {named} GPS for {self.SID}, but some rows were read "
+                f"from {obs_group}. Each group's rows are located only with that "
+                "group's own GPS, since their logger clocks differ: drop the "
+                f"'gps' entry, or read those instruments from {named}."
+            )
+        if obs_group not in gps.groups:
+            raise ValueError(
+                f"{obs_group} logs no GPS at {self.SID}, so its rows can't be "
+                "located: one group's rows are never located with another "
+                "group's GPS."
+            )
+        return obs_group
 
     @staticmethod
     def _merge_on_clock(
-        obs: pd.DataFrame, gps: pd.DataFrame, gps_group: str, obs_group: str
+        obs: pd.DataFrame, gps: pd.DataFrame, gps_group: str
     ) -> gpd.GeoDataFrame:
-        """Merge one group's rows with one group's GPS on the GPS logger's clock."""
-        if obs_group != gps_group:
-            _logger.warning(
-                f"Locating {obs_group} data with {gps_group} GPS: the two are "
-                "stamped by different logger clocks, so locations can be off by "
-                "the clock difference and rows whose second the other logger "
-                "did not record are dropped."
-            )
+        """Merge one group's rows with that group's GPS on its logger's clock."""
         if gps_group == "lin":
             # Can't always trust the Pi's clock for lin mobile data, but lin's
             # instruments and GPS are both stamped by it, so Pi_Time connects

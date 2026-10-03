@@ -524,16 +524,11 @@ class TestMobileSiteLocate:
         assert list(obs["Latitude_deg"]) == [1.0, 1.1, 2.0, 2.1, 2.2]
         assert list(obs["GPS_Group"]) == ["lin", "lin", "horel", "horel", "horel"]
 
-    def test_explicit_gps_group_is_used_with_a_warning(self, caplog):
+    def test_explicit_gps_group_for_another_groups_rows_raises(self):
+        # horel's ozone rows may not be located with lin's GPS (their clocks differ)
         calls = []
-        with caplog.at_level(logging.WARNING, logger="uataq.sites"):
-            obs = self.get_obs(calls, group={"gps": "lin"})
-
-        assert {group for group, _ in calls} == {"lin"}
-        # horel rows on lin's Pi clock: 00:00:02 has no lin record
-        assert list(obs["Latitude_deg"]) == [1.0, 1.1, 1.2, 1.3]
-        assert "different logger clocks" in caplog.text
-        assert set(obs["GPS_Group"]) == {"lin"}
+        with pytest.raises(ValueError, match="read those instruments from lin"):
+            self.get_obs(calls, group={"gps": "lin"})
 
     def test_missing_gps_drops_only_its_rows(self, caplog):
         with caplog.at_level(logging.WARNING, logger="uataq.sites"):
@@ -558,15 +553,22 @@ class TestMobileSiteLocate:
         assert set(obs["SID"]) == {"TRX01"}
         assert list(obs["GPS_Group"]) == ["lin", "lin", "horel", "horel", "horel"]
 
-    def test_group_without_its_own_gps_falls_back(self):
+    def test_group_without_its_own_gps_raises(self):
         gps = MagicMock()
         gps.groups = ["horel"]
         gps._named_group.return_value = None
-        gps.resolve_group.return_value = "horel"
-        site = SimpleNamespace(instruments={"gps": gps})
+        site = SimpleNamespace(instruments={"gps": gps}, SID="BUS99")
 
-        assert sites.MobileSite._gps_group(site, "lin", None) == "horel"  # pyright: ignore[reportArgumentType]  # duck-typed site
+        with pytest.raises(ValueError, match="lin logs no GPS at BUS99"):
+            sites.MobileSite._gps_group(site, "lin", None)  # pyright: ignore[reportArgumentType]  # duck-typed site
         assert sites.MobileSite._gps_group(site, "horel", None) == "horel"  # pyright: ignore[reportArgumentType]  # duck-typed site
+
+    def test_named_gps_matching_the_rows_is_fine(self):
+        gps = MagicMock()
+        gps.groups = ["horel", "lin"]
+        gps._named_group.return_value = "horel"
+        site = SimpleNamespace(instruments={"gps": gps}, SID="TRX01")
+        assert sites.MobileSite._gps_group(site, "horel", {"gps": "horel"}) == "horel"  # pyright: ignore[reportArgumentType]  # duck-typed site
 
 
 class TestPollutantCase:
