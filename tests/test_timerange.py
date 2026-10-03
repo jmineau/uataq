@@ -208,7 +208,8 @@ class TestTimeRangeMembership:
         """Test containment for range with only stop."""
         tr = TimeRange(stop=dt.datetime(2024, 1, 31))
         assert dt.datetime(2024, 1, 15) in tr
-        assert dt.datetime(2024, 1, 31) in tr
+        assert dt.datetime(2024, 1, 30, 23, 59, 59) in tr
+        assert dt.datetime(2024, 1, 31) not in tr  # stop is exclusive
         assert dt.datetime(2024, 2, 1) not in tr
 
     def test_contains_after_start_only(self):
@@ -225,9 +226,17 @@ class TestTimeRangeMembership:
         )
         assert dt.datetime(2024, 1, 15) in tr
         assert dt.datetime(2024, 1, 1) in tr
-        assert dt.datetime(2024, 1, 31) in tr
+        assert dt.datetime(2024, 1, 31) not in tr  # stop is exclusive
         assert dt.datetime(2024, 2, 1) not in tr
         assert dt.datetime(2023, 12, 31) not in tr
+
+    def test_string_stop_is_exclusive(self):
+        """A string range's stop is the start of the next period (#15)."""
+        assert dt.datetime(2024, 12, 31, 23, 59) in TimeRange("2024")
+        assert dt.datetime(2025, 1, 1) not in TimeRange("2024")
+        assert dt.datetime(2024, 1, 16) not in TimeRange("2024-01-15")
+        assert dt.datetime(2024, 1, 1) not in TimeRange(stop="2023")
+        assert dt.datetime(2023, 12, 31, 23) in TimeRange(stop="2023")
 
 
 class TestTimeRangeParsing:
@@ -288,7 +297,17 @@ class TestTimeRangeParsing:
             (
                 "2024-01-15T12:30:45.5",
                 dt.datetime(2024, 1, 15, 12, 30, 45, 500000),
-                dt.datetime(2024, 1, 15, 12, 30, 45, 500000),
+                dt.datetime(2024, 1, 15, 12, 30, 45, 600000),
+            ),
+            (
+                "2024-01-15T12:30:45.25Z",
+                dt.datetime(2024, 1, 15, 12, 30, 45, 250000),
+                dt.datetime(2024, 1, 15, 12, 30, 45, 260000),
+            ),
+            (
+                "2024-01-15T12:30:45.123456",
+                dt.datetime(2024, 1, 15, 12, 30, 45, 123456),
+                dt.datetime(2024, 1, 15, 12, 30, 45, 123457),
             ),
         ],
     )
@@ -305,7 +324,16 @@ class TestTimeRangeParsing:
 
     @pytest.mark.parametrize(
         "string",
-        ["2024-1-5", "garbage", "2024-01-15T12:30-07:00", "2024-13", "2024-02-30"],
+        [
+            "2024-1-5",
+            "2024-1",
+            "20241",
+            "2024-01-15junk",
+            "garbage",
+            "2024-01-15T12:30-07:00",
+            "2024-13",
+            "2024-02-30",
+        ],
     )
     def test_parse_iso_rejects_malformed(self, string):
         """Malformed strings raise; "2024-1-5" used to parse as 01:00 (#15)."""

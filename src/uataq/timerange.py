@@ -108,16 +108,18 @@ class TimeRange:
         return iter([self.start, self.stop])
 
     def __contains__(self, item):
+        # Half-open [start, stop): a string range stops at the start of the
+        # next period, so TimeRange("2024") does not contain 2025-01-01 00:00
         if not any([self.start, self.stop]):
             # Entire Period - True
             return True
         if not self.start:
-            # Before stop - True if item <= stop
-            return item <= self.stop
+            # Before stop - True if item < stop
+            return item < self.stop
         if not self.stop:
             # After start - True if start <= item
             return self.start <= item
-        return self.start <= item <= self.stop
+        return self.start <= item < self.stop
 
     @property
     def start(self) -> dt.datetime | None:
@@ -190,9 +192,9 @@ class TimeRange:
         inclusive : bool
             If False (default), return the start of the period the string
             names. If True, return its end: one unit of the finest component
-            given past the start, so ``"2024-01"`` ends at ``2024-02-01`` and
-            ``"2024-01-15T12:30"`` at ``12:31``. A string with fractional
-            seconds names an instant and is returned as is.
+            given past the start, so ``"2024-01"`` ends at ``2024-02-01``,
+            ``"2024-01-15T12:30"`` at ``12:31``, and ``"12:30:45.5"`` at
+            ``12:30:45.6`` (one unit of the last fractional digit).
 
         Returns
         -------
@@ -213,7 +215,7 @@ class TimeRange:
             )
 
         c = match.groupdict()
-        second = float(c["second"] or 0)
+        second, _, fraction = (c["second"] or "0").partition(".")
         start = dt.datetime(
             int(c["year"]),
             int(c["month"] or 1),
@@ -221,16 +223,15 @@ class TimeRange:
             int(c["hour"] or 0),
             int(c["minute"] or 0),
             int(second),
-            round((second % 1) * 1e6),
+            int(fraction.ljust(6, "0")) if fraction else 0,
         )
         if not inclusive:
             return start
 
         # Widen by one unit of the finest component given
         if c["second"]:
-            if "." in c["second"]:
-                return start
-            return start + dt.timedelta(seconds=1)
+            # e.g. 45 -> +1 s, 45.5 -> +0.1 s, 45.123456 -> +1 us
+            return start + dt.timedelta(microseconds=10 ** (6 - len(fraction)))
         if c["minute"]:
             return start + dt.timedelta(minutes=1)
         if c["hour"]:

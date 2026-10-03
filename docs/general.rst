@@ -61,7 +61,7 @@ Time Range
 There are three primary formats for ``time_range``:
 
 1. ``None``: Returns all available data.
-2. Single string in ISO8601 format (UTC), down to the second:
+2. Single string in ISO8601 format (UTC), down to fractions of a second:
 
    - The string is interpreted as a range from the start of the string to the start of the next time unit.
    - Examples:
@@ -71,6 +71,7 @@ There are three primary formats for ``time_range``:
      - '2020-01-01' represents January 1st, 2020 to January 2nd, 2020.
      - '2020-01-01T12' represents January 1st, 2020 from 12:00 to 13:00.
      - '2020-01-01T12:30' represents January 1st, 2020 from 12:30 to 12:31.
+     - '2020-01-01T12:30:45.5' represents 12:30:45.5 to 12:30:45.6 (one unit of the last digit given).
 
    - Dashes and colons may be omitted ('20200101'), and a trailing 'Z' or '+00:00' is accepted.
      Other strings, including other UTC offsets, raise a ``ValueError``.
