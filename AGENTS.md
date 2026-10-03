@@ -148,6 +148,18 @@ first/last `window` samples are NaN, as is anything spanning a gap longer than
 `max_gap` (a chord across a gap is not the path travelled) or a non-increasing
 time step (duplicate timestamps give NaN, not inf).
 
+**horel's clock is not GPS time.** horel's `Time_UTC` is the CR1000 logger's
+clock, which runs 1-20 s ahead of GPS time and drifts between resets (10 s
+on 2019-03-01 and 2024-06-01, 5-6 s after 2024-06-20). The raw horel GPS
+logs the receiver's own time of day (`GTIM` → `Instrument_Time`, HHMMSS), so
+`GPS.read_data` adds `GPS_Time_UTC` for horel (`gps.gps_time_from_time_of_day`
+dates it from the logger clock, across midnight). The index stays on the
+logger clock so it still lines up with the logger's other columns. horel's
+qaqc/final files have no `GTIM`, so final-level horel O3/PM stay on logger
+time. lin's GPS `Time_UTC` is already GPS time (the Pi clock is `Pi_Time`).
+Each group's rows are located with that group's own GPS; one group's GPS is
+never used for the other's rows.
+
 Gotchas:
 - **Position noise becomes speed noise.** ~3 m of jitter differenced over 1 s
   looks like a few m/s. Validated on TRAX 1 Hz: 2024 matches recorded speed at
