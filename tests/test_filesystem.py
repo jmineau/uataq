@@ -5,6 +5,7 @@ Tests for filesystem utilities.
 from pathlib import Path
 from unittest.mock import MagicMock, patch
 
+import pandas as pd
 import pytest
 
 from uataq import errors, filesystem
@@ -155,3 +156,22 @@ class TestParseDatafiles:
         files = [self.BadFile("2024_01.dat"), self.BadFile("2024_02.dat")]
         with pytest.raises(errors.ReaderError, match="None of the 2"):
             filesystem.parse_datafiles(files, TimeRange("2024"))
+
+    def test_rows_are_half_open(self):
+        """A sample exactly at stop is not returned (#9)."""
+
+        class GoodFile(filesystem.DataFile):
+            date_slicer = slice(7)
+            file_freq = "M"
+            ext = "dat"
+
+            def parse(self):
+                times = ["2024-01-01", "2024-01-15", "2024-02-01"]
+                return pd.DataFrame({"Time_UTC": pd.to_datetime(times), "x": 1})
+
+        files = [GoodFile("2024_01.dat")]
+        data = filesystem.parse_datafiles(files, TimeRange("2024-01"))
+        assert data.index.tolist() == [
+            pd.Timestamp("2024-01-01"),
+            pd.Timestamp("2024-01-15"),
+        ]

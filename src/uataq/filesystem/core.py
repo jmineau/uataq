@@ -309,6 +309,10 @@ def parse_datafiles(
         # Set time as index and filter to time_range
         data = data.dropna(subset="Time_UTC").set_index("Time_UTC").sort_index()
         data = data.loc[time_range.start : time_range.stop]
+        if time_range.stop is not None:
+            # .loc is inclusive, but time ranges are half-open [start, stop):
+            # a sample exactly at stop belongs to the next range (#9)
+            data = data[data.index < time_range.stop]
     elif driver == "xarray":
         # TODO
         raise NotImplementedError("xarray driver not implemented yet.")
