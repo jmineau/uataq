@@ -327,7 +327,7 @@ class HorelH5File(HorelFile):
         pd.DataFrame
             A DataFrame containing the parsed data.
         """
-        _logger.debug(f"Parsing {os.path.relpath(self.path, HOREL_DIR)}")
+        _logger.debug(f"Parsing {filesystem._relpath(self.path, HOREL_DIR)}")
 
         with pytbls.open_file(self.path, mode="r") as f:
             # the node is a Table; pyright only knows the generic Node type
@@ -401,7 +401,7 @@ class HorelCSVFile(HorelFile):
         pd.DataFrame
             A DataFrame containing the parsed data.
         """
-        _logger.debug(f"Parsing {os.path.relpath(self.path, HOREL_DIR)}")
+        _logger.debug(f"Parsing {filesystem._relpath(self.path, HOREL_DIR)}")
 
         data = pd.read_csv(
             self.path, compression="gzip", skiprows=[1], usecols=self.usecols

@@ -44,6 +44,17 @@ def cpu_count() -> int:
     return multiprocessing.cpu_count()
 
 
+def _relpath(path: str, start: str) -> str:
+    """
+    ``path`` relative to ``start`` for log messages, or ``path`` itself when
+    there is no relative path (Windows: the two are on different drives).
+    """
+    try:
+        return os.path.relpath(path, start)
+    except ValueError:
+        return path
+
+
 def list_files(
     path: str | Path = ".",
     pattern: str | None = None,

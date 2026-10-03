@@ -254,3 +254,26 @@ def test_cpu_count_without_affinity(monkeypatch):
 def test_groupspace_str():
     assert str(filesystem.groups["horel"]) == "Horel GroupSpace"
     assert repr(filesystem.groups["lin"]) == "LinGroup()"
+
+
+class TestParseLogPathAcrossDrives:
+    """On Windows os.path.relpath raises across drives; a debug message must
+    not stop a parse (pytest's tmp_path is on C:, a CI checkout on D:)."""
+
+    @staticmethod
+    def cross_drive(path, start=None):
+        raise ValueError("path is on mount 'C:', start on mount 'D:'")
+
+    def test_relpath_falls_back_to_the_path(self):
+        with patch("os.path.relpath", self.cross_drive):
+            assert filesystem.core._relpath("C:/x/y.dat", "D:/x") == "C:/x/y.dat"
+
+    def test_lin_parse_on_another_drive(self, tmp_path):
+        from uataq.filesystem.groupspaces import lin
+
+        path = tmp_path / "wbb" / "teom_1400ab" / "final" / "2024_06_final.dat"
+        path.parent.mkdir(parents=True)
+        path.write_text("TIMESTAMP,pm25_ugm3\n2024-06-01 00:00:00,5.0\n")
+        with patch("os.path.relpath", self.cross_drive):
+            data = lin.LinDatFile(str(path)).parse()
+        assert data["pm25_ugm3"].tolist() == [5.0]
