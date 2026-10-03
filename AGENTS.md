@@ -348,6 +348,14 @@ what will break them again:
   pyright src/uataq`. Never pass `--python` to a bare `uv run` in the repo: it
   recreates `.venv`, and the delete half-fails on NFS, leaving it unusable
   until `rm -rf .venv && uv sync --frozen`.
+- **uataq does not set pandas options** (#40). It used to turn on
+  `copy_on_write` at import under pandas 2, which changed pandas for the
+  caller's whole session. Code must be correct with it on or off: no chained
+  assignment, and `.copy()` a filtered frame before setting values on it. To
+  audit, run the suite in the 3.10 env above with a `-p` plugin that sets
+  `pd.options.mode.copy_on_write = "warn"` (it flags every place where on and
+  off differ), and again with it off under
+  `-W error::pandas.errors.SettingWithCopyWarning`.
 - Where pyright is wrong rather than the code (pandas overloads, pytables
   nodes, the optional cartopy/matplotlib imports, `File.__exit__` making
   with-block bindings look conditional), suppress inline with a reason. Fix
