@@ -6,7 +6,6 @@ import datetime as dt
 import json
 import logging
 from collections import defaultdict
-from collections.abc import Sequence
 from datetime import timezone
 from typing import Literal
 
@@ -92,12 +91,16 @@ class Site:
         self.loggers = instruments.loggers
         self.pollutants = instruments.pollutants
 
-        # Build pollutant: instruments lookup table
+        # Build pollutant: instruments lookup table, keyed by the uppercase
+        # name like self.pollutants. Column names keep the declared case
+        # ("NOx_ppb"), so remember it for filtering columns.
         self.pollutant_instruments = defaultdict(list)
+        self._declared_pollutants: dict[str, str] = {}
         for instrument in self.instruments:
             # duck-typed: only SensorMixin subclasses declare pollutants
             for pollutant in getattr(instrument, "pollutants", ()) or ():
-                self.pollutant_instruments[pollutant].append(instrument)
+                self.pollutant_instruments[pollutant.upper()].append(instrument)
+                self._declared_pollutants[pollutant.upper()] = pollutant
 
     def __repr__(self):
         cls = self.__class__.__name__
@@ -154,7 +157,7 @@ class Site:
             instruments = self.instruments.names
         elif isinstance(instruments, str):
             instruments = [instruments.lower()]
-        elif isinstance(instruments, Sequence):
+        else:  # list, tuple or set
             instruments = [i.lower() for i in instruments]
 
         # Read data for each instrument and store in dictionary
@@ -229,7 +232,7 @@ class Site:
             pollutants = self.pollutants
         elif isinstance(pollutants, str):
             pollutants = [pollutants.upper()]
-        elif isinstance(pollutants, Sequence):
+        else:  # list, tuple or set
             pollutants = [p.upper() for p in pollutants]
 
         if any(p not in self.pollutants for p in pollutants):
@@ -249,11 +252,14 @@ class Site:
             instruments_to_read, group, lvl, time_range, num_processes
         )
 
+        # Columns carry the declared case ("NOx_ppb"), not the uppercase request
+        pattern = "|".join(self._declared_pollutants.get(p, p) for p in pollutants)
+
         # Reshape data
         _logger.info("Combining data by pollutant...")
         if format == "wide":
             obs = pd.concat(data.values())
-            obs = obs.filter(regex="|".join(pollutants))  # filter columns by pollutants
+            obs = obs.filter(regex=pattern)  # filter columns by pollutants
             obs = obs.dropna(how="all")
         elif format == "long":
             melted_dfs = []
@@ -268,7 +274,7 @@ class Site:
                 melted_dfs.append(melted_df)
             obs = pd.concat(melted_dfs)
             # Filter columns by pollutants
-            obs = pd.DataFrame(obs[obs["pollutant"].str.contains("|".join(pollutants))])
+            obs = pd.DataFrame(obs[obs["pollutant"].str.contains(pattern)])
             obs = obs.dropna(subset=["value"])
             obs.set_index("Time_UTC", inplace=True)
         else:
