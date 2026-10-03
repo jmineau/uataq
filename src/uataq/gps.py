@@ -28,6 +28,7 @@ __all__ = [
     "EARTH_RADIUS_M",
     "bearing",
     "estimate_speed_course",
+    "gps_time_from_time_of_day",
     "haversine",
 ]
 
@@ -208,3 +209,52 @@ def estimate_speed_course(
         valid, course, np.nan
     )
     return out
+
+
+def gps_time_from_time_of_day(
+    logger_time: pd.Index | npt.ArrayLike, time_of_day: pd.Series | npt.ArrayLike
+) -> pd.Series:
+    """
+    Full GPS datetimes from a receiver's time of day and the logger's clock.
+
+    A receiver that logs only its time of day (``HHMMSS[.ss]``, e.g. horel's
+    ``GTIM``) needs a date. Each value takes the date of its logger timestamp,
+    moved a day either way when the two straddle midnight, so the logger clock
+    only has to be within 12 h of GPS time.
+
+    Parameters
+    ----------
+    logger_time : pd.DatetimeIndex
+        The logger's timestamps (naive UTC), one per row.
+    time_of_day : array-like
+        The receiver's time of day as an ``HHMMSS`` number, aligned with
+        ``logger_time``. NaN, or a value that isn't a valid time of day, gives
+        NaT.
+
+    Returns
+    -------
+    pd.Series
+        GPS time (naive UTC), indexed like ``logger_time``.
+    """
+    index = pd.DatetimeIndex(logger_time)
+    logger = index.to_numpy(dtype="datetime64[ns]")
+    hhmmss = np.asarray(
+        pd.to_numeric(pd.Series(np.asarray(time_of_day)), errors="coerce"),
+        dtype=float,
+    )
+    hours = np.floor(hhmmss / 10_000)
+    minutes = np.floor(hhmmss / 100) % 100
+    seconds = hhmmss % 100
+    valid = (hours < 24) & (minutes < 60) & (seconds < 60) & (hhmmss >= 0)
+    # Integer nanoseconds, 0 where invalid (masked to NaT below)
+    nanoseconds = np.where(valid, (hours * 3600 + minutes * 60 + seconds) * 1e9, 0)
+    midnight = logger.astype("datetime64[D]").astype("datetime64[ns]")
+    gps_time = midnight + np.round(nanoseconds).astype("timedelta64[ns]")
+
+    # The receiver crossed midnight before (or after) the logger did
+    half_day, day = np.timedelta64(12, "h"), np.timedelta64(1, "D")
+    diff = gps_time - logger
+    gps_time = np.where(diff > half_day, gps_time - day, gps_time)
+    gps_time = np.where(diff < -half_day, gps_time + day, gps_time)
+    gps_time[~valid] = np.datetime64("NaT")
+    return pd.Series(gps_time, index=index, name="GPS_Time_UTC")
