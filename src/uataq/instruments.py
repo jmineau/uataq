@@ -434,6 +434,9 @@ class Instrument(metaclass=ABCMeta):
         ------
         InactiveInstrumentError
             If the requested range does not overlap the active range at all.
+            Both are half-open, so a range that only touches it -- stopping at
+            the installation date, or starting at the removal date -- does
+            not overlap it.
 
         Notes
         -----
@@ -447,8 +450,12 @@ class Instrument(metaclass=ABCMeta):
         start, stop = time_range
         active_start, active_stop = self.active_range
 
-        if (stop and active_start and stop < active_start) or (
-            start and active_stop and start > active_stop
+        # Both ranges are half-open, so [start, stop) and [active_start,
+        # active_stop) share no instant when one ends where the other begins:
+        # a request stopping at installation, or starting at removal, misses
+        # the installation and must not clip to an empty range (#37).
+        if (stop is not None and active_start is not None and stop <= active_start) or (
+            start is not None and active_stop is not None and start >= active_stop
         ):
             raise errors.InactiveInstrumentError(self)
 
