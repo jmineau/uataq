@@ -298,7 +298,10 @@ public function's docstring — they hand the same alias around.
 - **Time ranges are half-open `[start, stop)`** per the docs
   (`general.rst`). `uataq.sodar` and `filesystem.parse_datafiles` both
   exclude a sample exactly at `stop` (the latter since #9; `.loc[start:stop]`
-  alone is inclusive). `TimeRange.__contains__` is still inclusive of `stop`.
+  alone is inclusive), and so does `TimeRange.__contains__` (since #15's
+  follow-up; it used to include `stop`, so `TimeRange("2024")` contained
+  2025-01-01 00:00). A string stop is widened by one unit of its finest
+  component, fractional seconds included (`"…:45.5"` stops at `:45.6`).
 - **Laboratory instance is shared.** Don't mutate `laboratory.sites` in
   application code; it's the import-time singleton.
 
