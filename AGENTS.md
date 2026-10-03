@@ -166,7 +166,8 @@ for a level when any row has a non-null `concentration_columns(...)` value
 populated column for TRX01's `lgr_ugga_manual_cal`), and takes the highest level present, so "measured but not
 in final" shows as qaqc/raw. With no `group`, **every** group operating the
 instrument is checked (TRX01/02 ozone is in lin 2015-2017 and horel after),
-unlike `get_obs`'s single `resolve_group` pick. One pool over the whole
+ignoring `group_dates`: availability reports what each archive holds, while
+`get_obs` reads one group per portion (`plan_reads`). One pool over the whole
 network's files; each worker reduces its file to bins immediately, so memory
 is one file per worker. A bad file is logged and skipped (count reported),
 not fatal. Stray in-file header rows (NaT `Time_UTC`, e.g. lin
@@ -233,17 +234,37 @@ public function's docstring — they hand the same alias around.
   `Instrument.resolve_group(group)` picks per instrument: an explicit name (or
   a `{instrument: group}` mapping entry) is used as given; otherwise the
   default group when it operates that instrument, else its sole operator, else
-  the first configured. `Site.read_data` calls it once per instrument, so one
-  site's lin and horel instruments can be read in the same call. It is a
-  config lookup, not an archive search -- it does not check whether that group
-  holds data for the time range. Before 2026-09-22 `group=None` always meant
-  `"lin"`, so the 75 horel-only instruments (of 114) raised ReaderError unless
-  the caller named the group. `MobileSite.get_obs` and `Network` resolve the
+  the first configured. It is a config lookup, not an archive search -- it
+  does not check whether that group holds data for the time range, and it
+  ignores `group_dates`. Before 2026-09-22 `group=None` always meant `"lin"`,
+  so the 75 horel-only instruments (of 114) raised ReaderError unless the
+  caller named the group. `MobileSite.get_obs` and `Network` resolve the
   **gps** instrument's group specifically, since the Pi_Time vs Time_UTC merge
   depends on who logged it. Anything that wraps `Site.read_data` must pass
   `group=None` through, not replace it with `get_group(None)`: `Network` did
-  that until #14, which silently dropped every BUS site and all TRAX PM. If you change the default, update the documented line
-  numbers in docs (per the in-file comment).
+  that until #14, which silently dropped every BUS site and all TRAX PM. If
+  you change the default, update the documented line numbers in docs (per the
+  in-file comment).
+- **Reads are planned by time (`group_dates`, #33).** `Site.read_data` calls
+  `Instrument.plan_reads(group, time_range)` per instrument, which returns
+  `[(group, portion), ...]`. An explicit group (or mapping entry) is one
+  portion, the whole clipped range. With no group named, the range is cut at
+  every config `group_dates` edge inside it and each piece goes to the most
+  preferred group whose window covers it (default group, then `loggers`
+  order); uncovered pieces are skipped (debug log). Without `group_dates` it
+  is `[(resolve_group(group), clipped)]`, as before. `group_dates` is
+  `{group: [start, stop]}`, half-open, null = unbounded, parsed as instants
+  with `pd.to_datetime` (like `removal_date`, **not** TimeRange's inclusive
+  stop strings); groups not listed span the whole installation. Bad entries
+  raise ValueError at import. Set only on TRX01 `2b_205`, TRX02 `2b_205`,
+  TRX02 `metone_es642`: lin's archive stops in 2017 (stop = midnight after
+  lin's last sample, see each `notes`) while horel continues. gps is logged
+  by both throughout and has none, so it still resolves to lin. Each portion
+  is read with `Instrument.read_data(group, ...)` (single group, unchanged)
+  and the frames are concatenated in time; a portion's ReaderError is logged
+  and skipped, all failing raises ReaderError. `lvl=None` is per portion.
+  Known gap: horel's TRX data before 2018-11-19 is pilot raw only, so a
+  `final` read (all `get_obs`) has nothing between lin's stop and 2018-11-19.
 - **Reads are clipped to the instrument's installed window.**
   `Instrument.clip_to_active` intersects the requested range with
   `active_range` (config `installation_date` / `removal_date`) and the clipped

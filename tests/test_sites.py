@@ -312,6 +312,10 @@ class TestPerInstrumentGroupSelection:
             if isinstance(group, str)
             else ("lin" if "lin" in groups else groups[0])
         )
+        # No group_dates: one portion from the resolved group (uataq#33)
+        inst.plan_reads.side_effect = lambda group=None, time_range=None: [
+            (inst.resolve_group(group), time_range)
+        ]
         inst.read_data.return_value = pd.DataFrame({"x": [1.0]})
         return inst
 
