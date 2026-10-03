@@ -10,6 +10,7 @@ current contents.
 """
 
 import logging
+import os
 from unittest.mock import patch
 
 import numpy as np
@@ -334,7 +335,7 @@ class TestLGRUGGAFile:
 
         files = lin.LinGroup().get_files("WBB", "lgr_ugga", "raw", logger="lgr_ugga")
 
-        assert sorted(f.rsplit("/", 1)[-1] for f in files) == [
+        assert sorted(os.path.basename(f) for f in files) == [
             "gga01Apr2016_f0000.txt",
             "gga_2017-05-09_f0000.txt",
         ]
@@ -461,16 +462,12 @@ class TestLinGroup:
         datafiles = lin.LinGroup().get_datafiles(
             "TRX01", "gps", "raw", "air-trend", TimeRange("2024-06-01")
         )
-        assert [d.path.rsplit("/", 1)[-1] for d in datafiles] == [
-            "2024-06-01_gpgga.csv"
-        ]
+        assert [os.path.basename(d.path) for d in datafiles] == ["2024-06-01_gpgga.csv"]
 
         datafiles = lin.LinGroup().get_datafiles(
             "TRX01", "gps", "raw", "air-trend", TimeRange("2024-06-01"), "gprmc"
         )
-        assert [d.path.rsplit("/", 1)[-1] for d in datafiles] == [
-            "2024-06-01_gprmc.csv"
-        ]
+        assert [os.path.basename(d.path) for d in datafiles] == ["2024-06-01_gprmc.csv"]
 
     def test_raw_ugga_range_is_widened_a_day(self, data_dir):
         """LGR file names need not match their contents, so the day before
@@ -510,7 +507,7 @@ class TestLinGroup:
             datafiles = lin.LinGroup().get_datafiles(
                 "TRX01", "2b_205", "raw", "air-trend", TimeRange("2024-06")
             )
-        assert [d.path.rsplit("/", 1)[-1] for d in datafiles] == ["2024-06-01.csv"]
+        assert [os.path.basename(d.path) for d in datafiles] == ["2024-06-01.csv"]
         assert "backup.csv" in caplog.text
 
 
