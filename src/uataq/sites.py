@@ -604,6 +604,8 @@ class MobileSite(Site):
         -------
         geopandas.GeoDataFrame
             The rows that found a location, indexed by ``Time_UTC`` (EPSG:4326).
+            ``GPS_Group`` names the group whose GPS located each row, and so
+            the clock its ``Time_UTC`` is on (lin: GPS time; horel: CR1000).
 
         Raises
         ------
@@ -704,14 +706,18 @@ class MobileSite(Site):
             # instruments and GPS are both stamped by it, so Pi_Time connects
             # them; the GPS supplies Time_UTC.
             merged = MobileSite.merge_gps(obs.rename_axis("Pi_Time"), gps, on="Pi_Time")
-            return gpd.GeoDataFrame(merged.drop(columns=["Pi_Time"]))
-        if gps_group == "horel":
+            merged = merged.drop(columns=["Pi_Time"])
+        elif gps_group == "horel":
             # horel's instruments and GPS are stamped by the same CR1000
             merged = MobileSite.merge_gps(
                 obs.rename_axis("Time_UTC"), gps, on="Time_UTC"
             )
-            return gpd.GeoDataFrame(merged)
-        raise ValueError(f"Invalid group '{gps_group}'. Must be 'lin' or 'horel'.")
+        else:
+            raise ValueError(f"Invalid group '{gps_group}'. Must be 'lin' or 'horel'.")
+        # Which GPS located the row, and so which clock its Time_UTC is on:
+        # lin's GPS time, or horel's CR1000 clock (1-20 s ahead of GPS time)
+        merged["GPS_Group"] = gps_group
+        return gpd.GeoDataFrame(merged)
 
     @staticmethod
     def plot(obs, ax=None):
