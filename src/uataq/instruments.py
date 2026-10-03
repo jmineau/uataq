@@ -741,6 +741,12 @@ class GPS(Instrument):
         ``Speed_m_s`` (lin's files hold NMEA knots, converted here; horel's
         are already m/s), and course is ``Course_deg``.
 
+        horel data is indexed by the CR1000 logger's clock, which runs ahead
+        of GPS time by a drifting 1-20 s. Where the receiver's time of day was
+        logged (``Instrument_Time``, horel's raw ``GTIM``), the true time of
+        each fix is added as ``GPS_Time_UTC``. lin's ``Time_UTC`` is already
+        GPS time.
+
         Receivers logging only ``GPGGA`` sentences record neither, in which
         case both are estimated from the positions (see
         :func:`uataq.gps.estimate_speed_course`) and the boolean columns
@@ -764,6 +770,22 @@ class GPS(Instrument):
             # convert knots to m/s
             data["Speed_kt"] = data.Speed_kt * 0.514444
             data.rename(columns={"Speed_kt": "Speed_m_s"}, inplace=True)
+
+        if group == "horel" and "Instrument_Time" in data.columns:
+            # horel's Time_UTC is the CR1000 logger's clock, which runs ahead
+            # of GPS time by a drifting 1-20 s; the receiver's own time of day
+            # (GTIM) gives the true time of each fix
+            gps_time = gps.gps_time_from_time_of_day(
+                data.index, data["Instrument_Time"]
+            )
+            if "Latitude_deg" in data.columns:
+                # Without a fix the receiver's clock is stale (it counts from
+                # near midnight while the logger reads mid-afternoon)
+                lat = np.asarray(
+                    pd.to_numeric(data["Latitude_deg"], errors="coerce"), dtype=float
+                )
+                gps_time = gps_time.where(~np.isnan(lat))
+            data["GPS_Time_UTC"] = gps_time.to_numpy()
 
         if estimate_motion:
             data = self.estimate_motion(data)
