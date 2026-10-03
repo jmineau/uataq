@@ -3,6 +3,7 @@ Tests for filesystem utilities.
 """
 
 from pathlib import Path
+from unittest.mock import patch
 
 import pandas as pd
 import pytest
@@ -180,3 +181,76 @@ class TestParseDatafiles:
             pd.Timestamp("2024-01-01"),
             pd.Timestamp("2024-01-15"),
         ]
+
+
+class MonthFile(filesystem.DataFile):
+    """A monthly data file that parses to two rows."""
+
+    date_slicer = slice(7)
+    file_freq = "M"
+    ext = "dat"
+
+    def parse(self):
+        times = pd.to_datetime([f"{self.period}-01", f"{self.period}-02"])
+        return pd.DataFrame({"Time_UTC": times, "x": [1.0, 2.0]})
+
+
+class TestFilterDatafiles:
+    """Choosing data files by period and pattern."""
+
+    files = [
+        MonthFile("/a/2024_01_qaqc.dat"),
+        MonthFile("/a/2024_02_final.dat"),
+        MonthFile("/a/2024_03_final.dat"),
+    ]
+
+    def test_by_period(self):
+        out = filesystem.filter_datafiles(self.files, TimeRange("2024-02"))
+        assert [str(f) for f in out] == ["/a/2024_02_final.dat"]
+
+    def test_by_pattern(self):
+        out = filesystem.filter_datafiles(self.files, TimeRange(), pattern="final")
+        assert [f.path for f in out] == ["/a/2024_02_final.dat", "/a/2024_03_final.dat"]
+
+    def test_nothing_in_range(self):
+        with pytest.raises(errors.ReaderError, match="No files found"):
+            filesystem.filter_datafiles(self.files, TimeRange("2023"))
+
+
+class TestParseDatafilesOptions:
+    """Process counts and drivers."""
+
+    files = [MonthFile("2024_01.dat"), MonthFile("2024_02.dat")]
+
+    @pytest.mark.parametrize("num_processes", ["max", 8])
+    def test_one_cpu_parses_sequentially(self, num_processes):
+        """More processes than CPUs is capped, not an error."""
+        with (
+            patch("uataq.filesystem.core.cpu_count", return_value=1),
+            patch("uataq.filesystem.core.multiprocessing.Pool") as pool,
+        ):
+            data = filesystem.parse_datafiles(
+                self.files, TimeRange("2024"), num_processes
+            )
+        pool.assert_not_called()
+        assert len(data) == 4
+
+    def test_xarray_driver_is_not_implemented(self):
+        with pytest.raises(NotImplementedError):
+            filesystem.parse_datafiles(self.files, TimeRange(), driver="xarray")
+
+    def test_invalid_driver(self):
+        with pytest.raises(ValueError, match="Invalid driver"):
+            filesystem.parse_datafiles(self.files, TimeRange(), driver="polars")  # pyright: ignore[reportArgumentType]
+
+
+def test_cpu_count_without_affinity(monkeypatch):
+    """Where the OS has no CPU affinity (macOS), count every core."""
+    monkeypatch.delattr("os.sched_getaffinity", raising=False)
+    with patch("uataq.filesystem.core.multiprocessing.cpu_count", return_value=3):
+        assert filesystem.cpu_count() == 3
+
+
+def test_groupspace_str():
+    assert str(filesystem.groups["horel"]) == "Horel GroupSpace"
+    assert repr(filesystem.groups["lin"]) == "LinGroup()"
