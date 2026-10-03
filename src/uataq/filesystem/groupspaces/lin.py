@@ -793,7 +793,9 @@ class LinGroup(filesystem.GroupSpace):
         # Custom handling for raw Lin files
         if lvl == "raw":
             if SID.startswith("TRX"):
-                print("Warning: Time_UTC may not be accurate for mobile raw Lin data.")
+                _logger.warning(
+                    f"Time_UTC may not be accurate in raw lin data for mobile site {SID}."
+                )
             if logger == "lgr_ugga":
                 _logger.debug(
                     "Adding a day on either side of time range to ensure all data is included."
@@ -824,19 +826,16 @@ class LinGroup(filesystem.GroupSpace):
 
         if instrument == "gps":
             if "latitude_dm" in data.columns:
-                # convert dms to dd
-                data["Latitude_deg"] = data.apply(
-                    lambda row: dms2dd(
-                        d=row.latitude_dm // 100, m=row.latitude_dm % 100
-                    ),
-                    axis=1,
-                )
-                data["Longitude_deg"] = data.apply(
-                    lambda row: dms2dd(
-                        d=row.longitude_dm // 100, m=row.longitude_dm % 100
-                    ),
-                    axis=1,
-                )
+                # NMEA ddmm.mmmm to decimal degrees, vectorized: a row-wise
+                # dms2dd took minutes on a month of 1 Hz data
+                for dm, deg in [
+                    ("latitude_dm", "Latitude_deg"),
+                    ("longitude_dm", "Longitude_deg"),
+                ]:
+                    values = np.asarray(
+                        pd.to_numeric(data[dm], errors="coerce"), dtype=float
+                    )
+                    data[deg] = values // 100 + (values % 100) / 60
                 data["Latitude_deg"] *= np.where(data.n_s == "S", -1, 1)
                 data["Longitude_deg"] *= np.where(data.e_w == "W", -1, 1)
                 data.drop(
