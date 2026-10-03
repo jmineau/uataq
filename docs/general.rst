@@ -61,7 +61,7 @@ Time Range
 There are three primary formats for ``time_range``:
 
 1. ``None``: Returns all available data.
-2. Single string in ISO8601 format down to the hour:
+2. Single string in ISO8601 format (UTC), down to the second:
 
    - The string is interpreted as a range from the start of the string to the start of the next time unit.
    - Examples:
@@ -70,11 +70,17 @@ There are three primary formats for ``time_range``:
      - '2020-01' represents January 2020 to February 2020.
      - '2020-01-01' represents January 1st, 2020 to January 2nd, 2020.
      - '2020-01-01T12' represents January 1st, 2020 from 12:00 to 13:00.
+     - '2020-01-01T12:30' represents January 1st, 2020 from 12:30 to 12:31.
+
+   - Dashes and colons may be omitted ('20200101'), and a trailing 'Z' or '+00:00' is accepted.
+     Other strings, including other UTC offsets, raise a ``ValueError``.
 
 3. List, tuple, or slice of two datetime-like objects:
     - Datetime-like objects include datetime objects, Timestamp objects, and strings in ISO8601 format.
     - The first object is the start of the range and the second object is the end of the range.
       The range is inclusive of the start and exclusive of the end.
+      An end given as a string is taken as the end of the period it names, as above,
+      so ``['2020-01-01', '2020-01-31']`` includes all of January 31st.
     - The use of ``None`` in place of a datetime-like object will set the range to be unbounded in that direction.
 
 Number of Processes
