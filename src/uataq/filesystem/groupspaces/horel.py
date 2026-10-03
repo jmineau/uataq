@@ -628,11 +628,10 @@ class HorelGroup(filesystem.GroupSpace):
             and pilot_stop is not None
             and (time_range.start is None or time_range.start < pilot_stop)
         ):
-            print(
-                f"Warning: No {lvl} data available for {SID} before pilot phase conclusion."
-            )
-            print(
-                f"Use raw data for pilot phase: {PILOT_PHASE[SID].start} ~ {PILOT_PHASE[SID].stop}"
+            # info, not warning: this fires on every unbounded read of the site
+            _logger.info(
+                f"No {lvl} data for {SID} during the pilot phase "
+                f"({PILOT_PHASE[SID].start} ~ {pilot_stop}); read lvl='raw' for it."
             )
 
         DataFileClass = self.get_datafile_class(instrument, lvl, logger)
