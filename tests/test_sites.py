@@ -503,6 +503,7 @@ class TestMobileSiteLocate:
         # Every row kept, horel's 00:00:02 included
         assert list(obs["O3_ppb"]) == [10.0, 11.0, 20.0, 21.0, 22.0]
         assert list(obs["Latitude_deg"]) == [1.0, 1.1, 2.0, 2.1, 2.2]
+        assert list(obs["GPS_Group"]) == ["lin", "lin", "horel", "horel", "horel"]
         assert "Pi_Time" not in obs.columns
         assert obs.index.name == "Time_UTC"
         assert obs.crs == "EPSG:4326"
@@ -521,6 +522,7 @@ class TestMobileSiteLocate:
         obs = self.get_obs([], format="long")
         assert list(obs["value"]) == [10.0, 11.0, 20.0, 21.0, 22.0]
         assert list(obs["Latitude_deg"]) == [1.0, 1.1, 2.0, 2.1, 2.2]
+        assert list(obs["GPS_Group"]) == ["lin", "lin", "horel", "horel", "horel"]
 
     def test_explicit_gps_group_is_used_with_a_warning(self, caplog):
         calls = []
@@ -531,6 +533,7 @@ class TestMobileSiteLocate:
         # horel rows on lin's Pi clock: 00:00:02 has no lin record
         assert list(obs["Latitude_deg"]) == [1.0, 1.1, 1.2, 1.3]
         assert "different logger clocks" in caplog.text
+        assert set(obs["GPS_Group"]) == {"lin"}
 
     def test_missing_gps_drops_only_its_rows(self, caplog):
         with caplog.at_level(logging.WARNING, logger="uataq.sites"):
@@ -553,6 +556,7 @@ class TestMobileSiteLocate:
 
         assert list(obs["Latitude_deg"]) == [1.0, 1.1, 2.0, 2.1, 2.2]
         assert set(obs["SID"]) == {"TRX01"}
+        assert list(obs["GPS_Group"]) == ["lin", "lin", "horel", "horel", "horel"]
 
     def test_group_without_its_own_gps_falls_back(self):
         gps = MagicMock()

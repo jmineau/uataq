@@ -181,6 +181,10 @@ put moving rows a median 120 m (p95 250 m) off the track position and dropped
 42 of 35,135 O3 rows. Joined on the CR1000 clock they sit 5 m off. The
 **timestamp** of horel rows is still CR1000 time, offset from true UTC by
 that drift: the finalized horel files carry no GPS time to correct it.
+Every located row carries `GPS_Group` (`"lin"`/`"horel"`): which GPS located
+it, and so which clock its `Time_UTC` is on (lin: GPS time; horel: CR1000).
+A no-group TRAX read mixes the two (lin GPS at 1 s with altitude, horel at
+2 s without), so filter or compare by it.
 
 An explicitly named GPS group (`group="lin"`, or a mapping entry for `gps`)
 is used for every row, with a warning for rows from another group. A group
