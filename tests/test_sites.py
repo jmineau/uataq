@@ -354,3 +354,36 @@ class TestPerInstrumentGroupSelection:
 
         with pytest.raises(errors.ReaderError, match="crds in horel"):
             site.read_data(["crds"])
+
+
+class TestPollutantCase:
+    """Pollutants are matched regardless of case (#13)."""
+
+    def test_mixed_case_pollutant_finds_its_instrument(self):
+        from unittest.mock import patch
+
+        import uataq
+
+        site = uataq.get_site("BUS01")
+        assert [i.name for i in site.pollutant_instruments["NOX"]] == ["2b_405"]
+
+        times = pd.DatetimeIndex(["2024-06-01"], name="Time_UTC")
+        data = {"2b_405": pd.DataFrame({"NOx_ppb": [10.0], "NO_ppb": [2.0]}, times)}
+        with patch.object(sites.Site, "read_data", return_value=data) as read_data:
+            obs = sites.Site.get_obs(site, "NOx")
+
+        assert read_data.call_args.args[0] == {"2b_405"}
+        # "NOX" must still select the declared-case NOx_ppb column
+        assert list(obs.columns) == ["NOx_ppb"]
+
+    def test_read_data_lowercases_a_set(self):
+        from unittest.mock import patch
+
+        import uataq
+
+        site = uataq.get_site("BUS01")
+        with patch.object(
+            site.instruments["2b_405"], "read_data", return_value=pd.DataFrame()
+        ):
+            data = site.read_data({"2B_405"})
+        assert list(data) == ["2b_405"]
