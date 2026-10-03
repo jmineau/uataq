@@ -380,8 +380,28 @@ class TestAirTrendFile:
     def test_variant_instrument_uses_its_base_config(self, tmp_path):
         """lgr_ugga_manual_cal files have the lgr_ugga layout."""
         path = self.write(tmp_path, "lgr_ugga_manual_cal", "2024-08-27.csv", "")
-        datafile = lin.AirTrendFile(path)
-        assert datafile.config == {"instrument": "lgr_ugga", "lvl": "air_trend"}
+        config = lin.AirTrendFile(path).config
+        assert config["lvl"] == "air_trend"
+        assert lin.DATA_CONFIG[config["instrument"]] is lin.DATA_CONFIG["lgr_ugga"]
+
+    def test_instrument_is_not_matched_by_a_shorter_name(self, tmp_path):
+        """metone_es642 starts with "met" (the met sensors), which comes first
+        in the pipeline config; its PM files were read with the met layout."""
+        metone = {"air_trend": {"col_names": ["time", "pm25_mgm3"], "col_types": "Td"}}
+        met = {"air_trend": {"col_names": ["time", "case_t_c"], "col_types": "Td"}}
+        path = self.write(
+            tmp_path,
+            "metone_es642",
+            "2022-06-07.csv",
+            "time,pm25_mgm3\n2022-06-07T00:00:00.769465,000.012\n",
+        )
+        config = {"met": met, "metone_es642": metone}
+        with patch.object(lin, "DATA_CONFIG", config):
+            datafile = lin.AirTrendFile(path)
+            data = datafile.parse()
+
+        assert datafile.config["instrument"] == "metone_es642"
+        assert data["pm25_mgm3"].tolist() == [0.012]
 
     def test_unknown_instrument(self, tmp_path):
         path = self.write(tmp_path, "img", "2024-08-27.csv", "")

@@ -684,12 +684,14 @@ class AirTrendFile(filesystem.DataFile):
         # Some instruments have special configurations indicated by their name
         # but use the same column structure as the default configuration
         # Example: lgr_ugga_manual_cal for trx01
-        instrument_match = re.match("|".join(DATA_CONFIG.keys()), instrument_name)
-        if instrument_match is None:
+        # Take the longest config name the directory starts with: the first
+        # one in config order gave metone_es642 the layout of "met".
+        matches = [key for key in DATA_CONFIG if instrument_name.startswith(key)]
+        if not matches:
             raise DataFileInitializationError(
                 f"Unknown instrument '{instrument_name}' for {path}"
             )
-        self.config["instrument"] = instrument_match.group()
+        self.config["instrument"] = max(matches, key=len)
 
         # Extract filename extension from custom air trend file handlers
         # This is necessary for instruments like the gps which have different types of files
