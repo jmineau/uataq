@@ -41,6 +41,12 @@ src/uataq/
                      ParserError, ...)
   timerange.py       TimeRange + TimeRangeTypes (str | tuple | list | slice
                      | None)
+  pollutants.py      UATAQ concentration-column grammar
+                     ({pollutant}[d|channel]_{units}[_cal|_raw]):
+                     concentration_columns (used by network), parse_column,
+                     POLLUTANTS (from the instrument catalog). Display
+                     metadata lives in lair.pollutants; uataq never imports
+                     lair (its import downloads the CCG filter).
   gps.py             great-circle helpers (haversine, bearing) +
                      estimate_speed_course(); used by instruments.GPS to fill
                      speed/course the receiver did not record
@@ -160,7 +166,7 @@ num_processes=1)` returns segments `SID, lvl, start, stop` (half-open). It
 CSVs are per-platform (all instruments in one file), so a file existing says
 nothing about one pollutant -- e.g. TRX01's Aug 2022 finalized CSV has -9999
 ozone for all but the last 47 min while the raw 2B h5 is full. A bin counts
-for a level when any row has a non-null `concentration_columns(...)` value
+for a level when any row has a non-null `pollutants.concentration_columns(...)` value
 (`O3_ppb`, `CO2d_ppm_cal`, `BC6_ngm3`; not `O3_Meas_mV` / `O3_std_ppb` /
 `CO2d_ppm_raw`; `get_obs` passes `raw=True` to keep `_raw` -- the only
 populated column for TRX01's `lgr_ugga_manual_cal`), and takes the highest level present, so "measured but not

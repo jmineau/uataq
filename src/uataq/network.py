@@ -4,9 +4,7 @@ This module provides classes for combining and analyzing data across multiple si
 
 import logging
 import multiprocessing
-import re
 from collections import defaultdict
-from collections.abc import Iterable
 from typing import Literal
 
 import geopandas as gpd
@@ -14,6 +12,7 @@ import pandas as pd
 
 from uataq import _laboratory, errors, filesystem, sites
 from uataq.instruments import GroupSelection, Instrument
+from uataq.pollutants import concentration_columns
 from uataq.timerange import TimeRange, TimeRangeTypes
 
 _logger = logging.getLogger(__name__)
@@ -26,44 +25,6 @@ LEVEL_COLORS: dict[str, str] = {
     "calibrated": "#1c5cab",
     "final": "#0d366b",
 }
-
-
-def concentration_columns(
-    pollutant: str, columns: Iterable[str], raw: bool = False
-) -> list[str]:
-    """
-    Pick the columns holding a pollutant's measured concentration.
-
-    Matches ``{pollutant}_{unit}`` with a concentration unit, e.g. ``O3_ppb``,
-    ``CO2d_ppm`` (dry mole fraction), ``CH4d_ppm_cal`` (calibrated),
-    ``PM2.5_ugm3`` or ``BC6_ngm3`` (an aethalometer channel). Instrument
-    diagnostics that share the prefix, like ``O3_Meas_mV`` or ``NO2_Slope``,
-    spreads like ``O3_ppb_std``, and other pollutants sharing the prefix (``NO``
-    vs ``NO2_ppb``) are not matches.
-
-    Parameters
-    ----------
-    pollutant : str
-        The pollutant, matched case-insensitively.
-    columns : Iterable[str]
-        Column names to search.
-    raw : bool
-        Also match the uncalibrated ``..._raw`` columns that sit beside
-        ``..._cal`` in lin final data. Default False.
-
-    Returns
-    -------
-    list[str]
-        The matching columns, in their original order.
-    """
-    # BC is reported per wavelength channel (BC1..BC7); everything else may
-    # carry a "d" for dry mole fraction. Kept apart so PM1 can't match PM10.
-    infix = r"\d" if pollutant.upper() == "BC" else "d?"
-    suffix = "(_cal|_raw)?" if raw else "(_cal)?"
-    pattern = re.compile(
-        rf"^{re.escape(pollutant)}{infix}_(ppm|ppb|ugm3|ngm3){suffix}$", re.IGNORECASE
-    )
-    return [col for col in columns if pattern.match(col)]
 
 
 def _datafile_coverage(
@@ -318,7 +279,7 @@ class Network:
               motion columns)
             - CRS: EPSG:4326
 
-            Pollutant columns are those :func:`concentration_columns` matches
+            Pollutant columns are those :func:`~uataq.pollutants.concentration_columns` matches
             with ``raw=True``: e.g. ``CO2d_ppm_cal`` *and* ``CO2d_ppm_raw``.
             Instruments at one site are stacked as rows, labeled by
             ``instrument``.
@@ -389,7 +350,7 @@ class Network:
 
         Every data file is parsed, so this reflects real measurements rather
         than which files exist: a time bin counts for a level when any row in
-        it has a non-null concentration (see :func:`concentration_columns`).
+        it has a non-null concentration (see :func:`uataq.pollutants.concentration_columns`).
         Each bin is labeled with the highest level that covers it, so a bin
         measured but dropped from final data shows as qaqc.
 
