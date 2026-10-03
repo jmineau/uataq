@@ -186,10 +186,13 @@ it, and so which clock its `Time_UTC` is on (lin: GPS time; horel: CR1000).
 A no-group TRAX read mixes the two (lin GPS at 1 s with altitude, horel at
 2 s without), so filter or compare by it.
 
-An explicitly named GPS group (`group="lin"`, or a mapping entry for `gps`)
-is used for every row, with a warning for rows from another group. A group
-that does not log GPS at the site falls back to the GPS instrument's
-automatic group. A GPS group that cannot be read drops only its rows (warned);
+**One group's rows are never located with another group's GPS** (James,
+2026-10-03): the logger clocks differ. `_gps_group` raises `ValueError` if the
+caller names another group's GPS for some rows (a mapping like
+`{"gps": "lin"}` while O3 comes from horel), or if a group logs no GPS at the
+site (no current site has one; this used to fall back to the other group's
+GPS). `group="lin"` as a plain string is fine: every instrument then comes
+from lin. A GPS group that cannot be read drops only its rows (warned);
 all failing raises ReaderError. With no group, one TRAX call can return both
 groups' GPS columns (lin's carry `Altitude_msl`, horel's final GPS does not).
 
