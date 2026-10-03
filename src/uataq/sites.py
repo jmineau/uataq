@@ -6,10 +6,12 @@ import datetime as dt
 import json
 import logging
 from collections import defaultdict
+from collections.abc import Mapping
 from datetime import timezone
 from typing import Literal
 
 import geopandas as gpd
+import numpy as np
 import pandas as pd
 
 from uataq import errors, instruments
@@ -66,6 +68,57 @@ def _read_plan(
     if len(frames) == 1:
         return frames[0]
     return pd.concat(frames).sort_index(kind="stable")
+
+
+def _split_by_plan(
+    frame: pd.DataFrame, plan: instruments.ReadPlan
+) -> list[pd.DataFrame]:
+    """
+    Cut an instrument's frame back into the rows each portion of its plan read.
+
+    Returns one frame per ``(group, portion)`` of ``plan``, in the same order.
+    Reads slice rows to their portion, so a row belongs to the last portion
+    starting at or before it; cutting at the starts alone keeps every row.
+    """
+    if len(plan) == 1:
+        return [frame]
+    times = pd.DatetimeIndex(frame.index)
+    pieces = []
+    for i, (_, portion) in enumerate(plan):
+        keep = np.ones(len(frame), dtype=bool)
+        if i > 0 and portion.start is not None:
+            keep &= times >= pd.Timestamp(portion.start)
+        next_start = plan[i + 1][1].start if i + 1 < len(plan) else None
+        if next_start is not None:
+            keep &= times < pd.Timestamp(next_start)
+        pieces.append(frame[keep])
+    return pieces
+
+
+def _span(portions: list[TimeRange]) -> TimeRange:
+    """The smallest range covering every portion; a None bound is unbounded."""
+    starts = [p.start for p in portions if p.start is not None]
+    stops = [p.stop for p in portions if p.stop is not None]
+    start = min(starts) if len(starts) == len(portions) else None
+    stop = max(stops) if len(stops) == len(portions) else None
+    return TimeRange(start=start, stop=stop)
+
+
+def _reshape_obs(
+    df: pd.DataFrame, pattern: str, format: Literal["wide", "long"]
+) -> pd.DataFrame:
+    """Keep one instrument's ``pattern`` columns, wide or melted long."""
+    if format == "wide":
+        return pd.DataFrame(df.filter(regex=pattern).dropna(how="all"))
+    melted = df.reset_index().melt(
+        id_vars="Time_UTC",
+        value_vars=list(df.columns),
+        var_name="pollutant",
+        value_name="value",
+    )
+    melted = pd.DataFrame(melted[melted["pollutant"].str.contains(pattern)])
+    melted = melted.dropna(subset=["value"])
+    return melted.set_index("Time_UTC")
 
 
 class Site:
@@ -287,7 +340,28 @@ class Site:
             The keys of the dictionary are the names of the levels ('calibrated', 'qaqc', 'raw'), and the values are the
             corresponding dataframes. If only one level was read, the method returns the corresponding dataframe directly.
         """
+        frames = self._read_obs(pollutants, format, group, time_range, num_processes)
+        return pd.DataFrame(pd.concat(frames.values()).sort_index())
+
+    def _read_obs(
+        self,
+        pollutants: _all_or_mult_strs,
+        format: Literal["wide"] | Literal["long"],
+        group: instruments.GroupSelection,
+        time_range: TimeRange | TimeRangeTypes,
+        num_processes: int | Literal["max"],
+    ) -> dict[str, pd.DataFrame]:
+        """
+        Read the instruments measuring ``pollutants`` at the final level and
+        reshape each one's frame to ``format`` (see :meth:`get_obs`).
+
+        Instruments are kept apart, keyed by name, so a caller can still tell
+        which instrument (and so which group's clock) each row came from.
+        """
         lvl = "final"
+
+        if format not in ("wide", "long"):
+            raise ValueError(f"Invalid format '{format}'. Must be 'wide' or 'long'.")
 
         if pollutants == "all":
             pollutants = self.pollutants
@@ -316,32 +390,8 @@ class Site:
         # Columns carry the declared case ("NOx_ppb"), not the uppercase request
         pattern = "|".join(self._declared_pollutants.get(p, p) for p in pollutants)
 
-        # Reshape data
         _logger.info("Combining data by pollutant...")
-        if format == "wide":
-            obs = pd.concat(data.values())
-            obs = obs.filter(regex=pattern)  # filter columns by pollutants
-            obs = obs.dropna(how="all")
-        elif format == "long":
-            melted_dfs = []
-            for _instrument, df in data.items():
-                df_reset = df.reset_index()
-                melted_df = df_reset.melt(
-                    id_vars="Time_UTC",
-                    value_vars=df.columns,
-                    var_name="pollutant",
-                    value_name="value",
-                )
-                melted_dfs.append(melted_df)
-            obs = pd.concat(melted_dfs)
-            # Filter columns by pollutants
-            obs = pd.DataFrame(obs[obs["pollutant"].str.contains(pattern)])
-            obs = obs.dropna(subset=["value"])
-            obs.set_index("Time_UTC", inplace=True)
-        else:
-            raise ValueError(f"Invalid format '{format}'. Must be 'wide' or 'long'.")
-
-        return pd.DataFrame(obs.sort_index())
+        return {name: _reshape_obs(df, pattern, format) for name, df in data.items()}
 
     def get_recent_obs(
         self,
@@ -505,39 +555,163 @@ class MobileSite(Site):
         -------
         pandas.DataFrame
             A dataframe containing mobile site observations for each pollutant
-            with location data merged.
+            with location data merged (a GeoDataFrame when ``include_gps``).
+
+        Notes
+        -----
+        Each instrument's rows are located with the GPS logged on the same
+        clock, which is the GPS of the group they were read from (see
+        :meth:`locate`). With no group named, one call can read TRAX methane
+        from lin and ozone from horel, so the result can mix both groups'
+        GPS columns.
         """
-        # Read data
-        obs = super().get_obs(
-            pollutants, format, group, time_range, num_processes, **kwargs
-        )
+        if not include_gps:
+            return super().get_obs(
+                pollutants, format, group, time_range, num_processes, **kwargs
+            )
 
-        # Merge gps data with obs data
-        if include_gps:
-            # The merge depends on which group logged the GPS, so resolve that
-            # one here; every other instrument resolves its own group when read.
-            gps_group = self.instruments["gps"].resolve_group(group)
-            gps_data = self.read_data("gps", group, "final", time_range, num_processes)
-            gps = gps_data["gps"]
+        frames = self._read_obs(pollutants, format, group, time_range, num_processes)
+        return self.locate(frames, group, time_range, "final", num_processes)
 
-            if gps_group == "lin":
-                # Can't always trust the pi's time for lin-group mobile data
-                # but Pi_Time connects the gps data to the obs data
-                # so we'll merge on Pi_Time and use Time_UTC from gps as the time
-                merge_on = "Pi_Time"
-                obs.index.name = "Pi_Time"
-            elif gps_group == "horel":
-                merge_on = "Time_UTC"
-            else:  # FIXME just check for lin group?
-                raise ValueError(
-                    f"Invalid group '{gps_group}'. Must be 'lin' or 'horel'."
+    def locate(
+        self,
+        frames: Mapping[str, pd.DataFrame],
+        group: instruments.GroupSelection = None,
+        time_range: TimeRange | TimeRangeTypes = None,
+        lvl: str | None = "final",
+        num_processes: int | Literal["max"] = 1,
+    ) -> gpd.GeoDataFrame:
+        """
+        Merge GPS locations onto instrument data, joining each row on its own clock.
+
+        Parameters
+        ----------
+        frames : Mapping[str, pandas.DataFrame]
+            Data per instrument name, indexed by ``Time_UTC``, as read with
+            ``group`` and ``time_range`` (e.g. from :meth:`read_data`).
+        group : str | Mapping[str, str] | None
+            The group selection the frames were read with. It is used to
+            replay each instrument's read plan, so it must be the same one.
+        time_range : TimeRange | TimeRangeTypes
+            The time range the frames were read with.
+        lvl : str or None, optional
+            The GPS data level to read. Default 'final'; None reads the
+            highest level available.
+        num_processes : int or 'max', optional
+            Number of processes to use for reading GPS data. Default is 1.
+
+        Returns
+        -------
+        geopandas.GeoDataFrame
+            The rows that found a location, indexed by ``Time_UTC`` (EPSG:4326).
+
+        Raises
+        ------
+        ReaderError
+            If no GPS data could be read for any of the rows.
+
+        Notes
+        -----
+        A row is joined to the GPS of the group it was read from, since the
+        two share a logger clock: lin instruments and lin's GPS are stamped
+        by the Pi (joined on ``Pi_Time``), horel's by the CR1000 (joined on
+        ``Time_UTC``; the instrument and GPS values share one record). The
+        clocks disagree: on TRX01 the CR1000 ran 1-20 s ahead of GPS time on
+        dates sampled 2019-2026, so joining horel rows to lin's GPS on the Pi
+        clock placed them that many seconds along the track, and dropped rows
+        with no lin GPS record at their second (uataq#42).
+
+        A GPS group the caller names explicitly (a group name, or a mapping
+        entry for ``gps``) is used for every row instead, with a warning for
+        rows read from another group. Rows from a group that does not log GPS
+        at this site use the GPS instrument's automatic group.
+        """
+        # gps group -> [(obs group, rows, portion)]
+        pieces: dict[str, list[tuple[str, pd.DataFrame, TimeRange]]] = defaultdict(list)
+        for name, frame in frames.items():
+            # Replay the instrument's read plan to tell which group each row
+            # came from: read_data concatenates the portions.
+            plan = self.instruments[name].plan_reads(group, time_range)
+            for (obs_group, portion), rows in zip(
+                plan, _split_by_plan(frame, plan), strict=True
+            ):
+                if rows.empty:
+                    continue
+                gps_group = self._gps_group(obs_group, group)
+                pieces[gps_group].append((obs_group, rows, portion))
+
+        located = []
+        failures = []
+        for gps_group, group_pieces in pieces.items():
+            # Read GPS only where these rows were read, not the whole request
+            span = _span([portion for _, _, portion in group_pieces])
+            try:
+                gps = self.read_data("gps", gps_group, lvl, span, num_processes)["gps"]
+            except errors.ReaderError as e:
+                n_rows = sum(len(rows) for _, rows, _ in group_pieces)
+                _logger.warning(
+                    f"No {gps_group} GPS for {self.SID} ({span}); "
+                    f"{n_rows} rows go unlocated: {e}"
                 )
-            obs = MobileSite.merge_gps(obs, gps, on=merge_on)
+                failures.append(f"{gps_group}: {e}")
+                continue
+            for obs_group, rows, _ in group_pieces:
+                located.append(
+                    MobileSite._merge_on_clock(rows, gps, gps_group, obs_group)
+                )
 
-            if gps_group == "lin":
-                obs.drop(columns=["Pi_Time"], inplace=True)
+        if failures and not located:
+            raise errors.ReaderError(
+                f"No GPS data for {self.SID}: " + "; ".join(failures)
+            )
+        if not located:  # every frame was empty: nothing to locate
+            empty = pd.concat(list(frames.values())) if frames else pd.DataFrame()
+            return gpd.GeoDataFrame(
+                empty, geometry=gpd.points_from_xy([], []), crs="EPSG:4326"
+            )
+        obs = located[0] if len(located) == 1 else pd.concat(located)
+        # Instrument columns first, then GPS, whichever piece came first
+        firsts = list(dict.fromkeys(c for f in frames.values() for c in f.columns))
+        firsts = [c for c in firsts if c in obs.columns]
+        obs = obs[firsts + [c for c in obs.columns if c not in firsts]]
+        return gpd.GeoDataFrame(obs.sort_index(kind="stable"))
 
-        return obs
+    def _gps_group(self, obs_group: str, group: instruments.GroupSelection) -> str:
+        """
+        The group whose GPS locates rows read from ``obs_group``: that group
+        itself when it logs GPS here (same clock), unless the caller named the
+        GPS group explicitly; else the GPS instrument's automatic group.
+        """
+        gps = self.instruments["gps"]
+        if gps._named_group(group) is None and obs_group in gps.groups:
+            return obs_group
+        return gps.resolve_group(group)
+
+    @staticmethod
+    def _merge_on_clock(
+        obs: pd.DataFrame, gps: pd.DataFrame, gps_group: str, obs_group: str
+    ) -> gpd.GeoDataFrame:
+        """Merge one group's rows with one group's GPS on the GPS logger's clock."""
+        if obs_group != gps_group:
+            _logger.warning(
+                f"Locating {obs_group} data with {gps_group} GPS: the two are "
+                "stamped by different logger clocks, so locations can be off by "
+                "the clock difference and rows whose second the other logger "
+                "did not record are dropped."
+            )
+        if gps_group == "lin":
+            # Can't always trust the Pi's clock for lin mobile data, but lin's
+            # instruments and GPS are both stamped by it, so Pi_Time connects
+            # them; the GPS supplies Time_UTC.
+            merged = MobileSite.merge_gps(obs.rename_axis("Pi_Time"), gps, on="Pi_Time")
+            return gpd.GeoDataFrame(merged.drop(columns=["Pi_Time"]))
+        if gps_group == "horel":
+            # horel's instruments and GPS are stamped by the same CR1000
+            merged = MobileSite.merge_gps(
+                obs.rename_axis("Time_UTC"), gps, on="Time_UTC"
+            )
+            return gpd.GeoDataFrame(merged)
+        raise ValueError(f"Invalid group '{gps_group}'. Must be 'lin' or 'horel'.")
 
     @staticmethod
     def plot(obs, ax=None):

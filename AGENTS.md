@@ -158,6 +158,34 @@ Gotchas:
   `Course_deg`, so lin GPS course silently never reached code expecting the
   horel name (slv's mobile reader). Unified to `Course_deg` (2026-09-22).
 
+## Locating mobile data (`MobileSite.locate`, #42)
+
+`MobileSite.get_obs` and `Network` (mobile sites) join each instrument's rows
+to the GPS **of the group the rows were read from**, because each group's
+instruments and GPS share a logger clock: lin's are stamped by the Pi (join
+`Pi_Time`; the GPS supplies `Time_UTC`), horel's by the CR1000 (join
+`Time_UTC`; the instrument and GPS values are one record). `locate` replays
+each instrument's `plan_reads` to cut its concatenated frame back into
+`(group, rows)` pieces (`_split_by_plan`), reads each needed GPS group once
+over the span of its pieces, and stacks the results in time.
+
+Why it matters: the clocks disagree. TRX01's CR1000 ran 1-20 s **ahead** of
+GPS time on dates sampled 2019-2026 (horel raw `Instrument_Time`/GTIM vs
+`Time_UTC`; it drifts and is reset, e.g. 6 s on 2024-05-15, 10 s on
+2024-06-01, 5 s on 2024-06-20, ~20 s in 2026). Before #42, post-2017 TRAX
+ozone/PM (horel) was joined to lin's GPS on the Pi clock: on 2024-06-01 that
+put moving rows a median 120 m (p95 250 m) off the track position and dropped
+42 of 35,135 O3 rows. Joined on the CR1000 clock they sit 5 m off. The
+**timestamp** of horel rows is still CR1000 time, offset from true UTC by
+that drift: the finalized horel files carry no GPS time to correct it.
+
+An explicitly named GPS group (`group="lin"`, or a mapping entry for `gps`)
+is used for every row, with a warning for rows from another group. A group
+that does not log GPS at the site falls back to the GPS instrument's
+automatic group. A GPS group that cannot be read drops only its rows (warned);
+all failing raises ReaderError. With no group, one TRAX call can return both
+groups' GPS columns (lin's carry `Altitude_msl`, horel's final GPS does not).
+
 ## Network availability (`Network.get_availability` / `plot_availability`)
 
 `Network(sites, pollutant).get_availability(time_range, freq="D", lvls=None,
@@ -244,9 +272,10 @@ public function's docstring — they hand the same alias around.
   does not check whether that group holds data for the time range, and it
   ignores `group_dates`. Before 2026-09-22 `group=None` always meant `"lin"`,
   so the 75 horel-only instruments (of 114) raised ReaderError unless the
-  caller named the group. `MobileSite.get_obs` and `Network` resolve the
-  **gps** instrument's group specifically, since the Pi_Time vs Time_UTC merge
-  depends on who logged it. Anything that wraps `Site.read_data` must pass
+  caller named the group. `MobileSite.get_obs` and `Network` locate each
+  instrument's rows with the GPS of the group they were read from (see
+  "Locating mobile data" below), not one GPS group for the whole site.
+  Anything that wraps `Site.read_data` must pass
   `group=None` through, not replace it with `get_group(None)`: `Network` did
   that until #14, which silently dropped every BUS site and all TRAX PM. If
   you change the default, update the documented line numbers in docs (per the
@@ -265,7 +294,8 @@ public function's docstring — they hand the same alias around.
   raise ValueError at import. Set only on TRX01 `2b_205`, TRX02 `2b_205`,
   TRX02 `metone_es642`: lin's archive stops in 2017 (stop = midnight after
   lin's last sample, see each `notes`) while horel continues. gps is logged
-  by both throughout and has none, so it still resolves to lin. Each portion
+  by both throughout and has none; a mobile read picks its GPS group per
+  portion of the obs (`MobileSite.locate`). Each portion
   is read with `Instrument.read_data(group, ...)` (single group, unchanged)
   and the frames are concatenated in time; a portion's ReaderError is logged
   and skipped, all failing raises ReaderError. `lvl=None` is per portion.

@@ -124,6 +124,11 @@ Mobile sites provide the same functionality as fixed sites, but merge location
 data with observations when using the :meth:`~sites.MobileSite.get_obs` method
 and return a geodataframe.
 
+Each instrument's rows are located with the GPS of the research group they were
+read from, since that GPS was stamped by the same logger clock (see
+:meth:`~sites.MobileSite.locate`). With no ``group`` given, a TRAX read can take
+methane from lin and ozone from horel, each joined to its own group's GPS.
+
 .. ipython:: python
 
     trx01 = lab.get_site('TRX01')
