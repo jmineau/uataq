@@ -96,8 +96,11 @@ column_mapping: dict[str, dict[str, str]] = {
         "Longitude": "Longitude_deg",
         "GELV": "Altitude_msl",
         "Elevation": "Altitude_msl",
-        "RSPD": "Speed_kt",
-        "GPS_Speed": "Speed_kt",
+        # horel logs speed in m/s (h5 variable metadata, CSV units row), not
+        # the knots of the NMEA sentences lin logs; GPS.read_data converts
+        # only Speed_kt
+        "RSPD": "Speed_m_s",
+        "GPS_Speed": "Speed_m_s",
         "RDIR": "Course_deg",
         "GPS_Direction": "Course_deg",
         "NSAT": "N_Satellites",
@@ -324,7 +327,7 @@ class HorelH5File(HorelFile):
         pd.DataFrame
             A DataFrame containing the parsed data.
         """
-        _logger.debug(f"Parsing {os.path.relpath(self.path, HOREL_DIR)}")
+        _logger.debug(f"Parsing {filesystem._relpath(self.path, HOREL_DIR)}")
 
         with pytbls.open_file(self.path, mode="r") as f:
             # the node is a Table; pyright only knows the generic Node type
@@ -398,7 +401,7 @@ class HorelCSVFile(HorelFile):
         pd.DataFrame
             A DataFrame containing the parsed data.
         """
-        _logger.debug(f"Parsing {os.path.relpath(self.path, HOREL_DIR)}")
+        _logger.debug(f"Parsing {filesystem._relpath(self.path, HOREL_DIR)}")
 
         data = pd.read_csv(
             self.path, compression="gzip", skiprows=[1], usecols=self.usecols
@@ -494,12 +497,12 @@ class HorelCSVFinalizedFile(HorelCSVFile):
             data = data[data.QAQC_Flag >= 0]
 
         # Use final patterns to filter columns
-        data = data.filter(regex="|".join(self.final_patterns))
+        data = pd.DataFrame(data.filter(regex="|".join(self.final_patterns)))
 
-        # Drop rows without obs
-        data = data.dropna(how="all")
-
-        return pd.DataFrame(data)
+        # Drop rows without obs. Time_UTC is always set, so it can't count:
+        # a plain dropna(how="all") never dropped anything.
+        obs_columns = [c for c in data.columns if c != "Time_UTC"]
+        return data.dropna(how="all", subset=obs_columns)
 
 
 class HorelGroup(filesystem.GroupSpace):

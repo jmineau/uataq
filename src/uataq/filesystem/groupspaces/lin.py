@@ -403,15 +403,35 @@ class LinDatFile(filesystem.DataFile):
         pd.DataFrame
             The parsed data.
         """
-        _logger.debug(f"Parsing {os.path.relpath(self.path, DATA_DIR)}")
+        _logger.debug(f"Parsing {filesystem._relpath(self.path, DATA_DIR)}")
 
-        data = pd.read_csv(self.path, on_bad_lines="skip")
+        first_field = _read_lines(self.path, first=1)[0].split(",")[0]
 
-        if data.columns[0] != "TIMESTAMP":
-            col_names = DATA_CONFIG[self.instrument][self.lvl]["col_names"]
-            data = pd.DataFrame(
-                np.vstack([data.columns, data.values]), columns=col_names
+        if first_field == "TIMESTAMP":
+            # campbellsci files with their own header
+            data = pd.read_csv(self.path, on_bad_lines="skip")
+        else:
+            # The pipeline's files have a header (Time_UTC, ...) and old
+            # logger files none; either way the config names the columns.
+            # Skip a header line instead of reading it in as a row, which
+            # left every column object dtype.
+            config = DATA_CONFIG[self.instrument][self.lvl]
+            col_names = config["col_names"]
+            has_header = pd.isna(pd.to_datetime(first_field, errors="coerce"))
+            data = pd.read_csv(
+                self.path,
+                header=None,
+                skiprows=1 if has_header else 0,
+                on_bad_lines="skip",
             )
+            data.columns = col_names
+            # A stray text row would still leave a column object dtype
+            numeric = [
+                col
+                for col, dtype in zip(col_names, config["col_types"], strict=False)
+                if dtype == "d"
+            ]
+            data[numeric] = data[numeric].apply(pd.to_numeric, errors="coerce")
 
         # Format time col
         data.rename(columns={"TIMESTAMP": "Time_UTC"}, inplace=True)
@@ -563,7 +583,7 @@ class LGR_UGGA_File(filesystem.DataFile):
         pd.DataFrame
             The parsed data.
         """
-        _logger.debug(f"Parsing {os.path.relpath(self.path, DATA_DIR)}")
+        _logger.debug(f"Parsing {filesystem._relpath(self.path, DATA_DIR)}")
 
         # Adapt column names depending on LGR software version.
         #  2013-2014 version has 23 columns
@@ -664,12 +684,14 @@ class AirTrendFile(filesystem.DataFile):
         # Some instruments have special configurations indicated by their name
         # but use the same column structure as the default configuration
         # Example: lgr_ugga_manual_cal for trx01
-        instrument_match = re.match("|".join(DATA_CONFIG.keys()), instrument_name)
-        if instrument_match is None:
+        # Take the longest config name the directory starts with: the first
+        # one in config order gave metone_es642 the layout of "met".
+        matches = [key for key in DATA_CONFIG if instrument_name.startswith(key)]
+        if not matches:
             raise DataFileInitializationError(
                 f"Unknown instrument '{instrument_name}' for {path}"
             )
-        self.config["instrument"] = instrument_match.group()
+        self.config["instrument"] = max(matches, key=len)
 
         # Extract filename extension from custom air trend file handlers
         # This is necessary for instruments like the gps which have different types of files
@@ -696,7 +718,7 @@ class AirTrendFile(filesystem.DataFile):
         pd.DataFrame
             The parsed data.
         """
-        _logger.debug(f"Parsing {os.path.relpath(self.path, DATA_DIR)}")
+        _logger.debug(f"Parsing {filesystem._relpath(self.path, DATA_DIR)}")
 
         data_config = DATA_CONFIG[self.config["instrument"]][self.config["lvl"]]
 

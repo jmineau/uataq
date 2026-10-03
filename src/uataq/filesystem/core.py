@@ -16,10 +16,6 @@ from uataq.timerange import TimeRange
 
 _logger = logging.getLogger(__name__)
 
-# pandas 3 always copies on write and deprecates the option (setting it warns)
-if int(pd.__version__.split(".")[0]) < 3:
-    pd.options.mode.copy_on_write = True
-
 HOME: str = "/uufs/chpc.utah.edu/common/home"
 
 
@@ -42,6 +38,17 @@ def cpu_count() -> int:
     if hasattr(os, "sched_getaffinity"):  # Linux
         return len(os.sched_getaffinity(0))
     return multiprocessing.cpu_count()
+
+
+def _relpath(path: str, start: str) -> str:
+    """
+    ``path`` relative to ``start`` for log messages, or ``path`` itself when
+    there is no relative path (Windows: the two are on different drives).
+    """
+    try:
+        return os.path.relpath(path, start)
+    except ValueError:
+        return path
 
 
 def list_files(

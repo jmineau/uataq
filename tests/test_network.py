@@ -2,13 +2,16 @@
 Tests for the Network class.
 """
 
-from unittest.mock import patch
+import logging
+from unittest.mock import MagicMock, patch
 
 import geopandas as gpd
 import pandas as pd
 import pytest
 
-from uataq import Network, sites
+from uataq import Network, errors, get_site, instruments, sites
+from uataq.network import _datafile_coverage
+from uataq.timerange import TimeRange
 
 
 class TestNetworkInitialization:
@@ -254,6 +257,136 @@ class TestNetworkReprAndStr:
         str_str = str(net)
         assert "Network" in str_str
         assert "CO2" in str_str
+
+
+class TestNetworkGetObsErrors:
+    """A site that can't be read is skipped; no readable site is an error."""
+
+    @staticmethod
+    def frame(value):
+        times = pd.date_range("2024-06-01", periods=2, freq="h", name="Time_UTC")
+        return pd.DataFrame(
+            {"CO2d_ppm_cal": value, "Latitude_deg": 40.7, "Longitude_deg": -111.8},
+            index=times,
+        )
+
+    def test_unreadable_site_is_skipped(self, caplog):
+        def read(self, site, time_range=None, num_processes=1):
+            if site.SID == "SUG":
+                raise errors.ReaderError("no files")
+            return TestNetworkGetObsErrors.frame(420.0).assign(SID=site.SID)
+
+        net = Network(["WBB", "SUG"], "CO2")
+        with (
+            patch.object(Network, "_read_site_data", read),
+            caplog.at_level(logging.WARNING, logger="uataq"),
+        ):
+            obs = net.get_obs()
+
+        assert set(obs["SID"]) == {"WBB"}
+        assert "SUG" in caplog.text
+
+    def test_no_readable_site(self):
+        net = Network(["WBB", "SUG"], "CO2")
+        with (
+            patch.object(
+                Network, "_read_site_data", side_effect=errors.ReaderError("none")
+            ),
+            pytest.raises(errors.ReaderError, match="No data found for CO2"),
+        ):
+            net.get_obs()
+
+
+class TestReadSiteData:
+    """One site's rows: concentrations, coordinates and height."""
+
+    times = pd.date_range("2024-06-01", periods=2, freq="h", name="Time_UTC")
+
+    def test_stationary_site_gets_its_configured_location(self):
+        net = Network(["WBB"], "CO2")
+        site = net.site_objects[0]
+        data = {"lgr_ugga": pd.DataFrame({"CO2d_ppm_cal": [420.0, 421.0]}, self.times)}
+        with patch.object(sites.Site, "read_data", return_value=data):
+            obs = net._read_site_data(site)
+
+        assert (obs["Latitude_deg"] == site.config["latitude"]).all()
+        assert (obs["Longitude_deg"] == site.config["longitude"]).all()
+        assert (obs["zagl"] == site.config["zagl"]).all()
+        assert (obs["SID"] == "WBB").all()
+        assert obs["CO2d_ppm_cal"].tolist() == [420.0, 421.0]
+
+    def test_site_without_the_pollutant(self):
+        """BUS01 measures no CO2."""
+        net = Network(["WBB"], "CO2")
+        with pytest.raises(errors.ReaderError, match="No instruments at BUS01"):
+            net._read_site_data(get_site("BUS01"))
+
+    def test_instrument_data_without_concentrations(self):
+        net = Network(["WBB"], "CO2")
+        data = {"lgr_ugga": pd.DataFrame({"Cavity_P_torr": [140.0, 140.0]}, self.times)}
+        with (
+            patch.object(sites.Site, "read_data", return_value=data),
+            pytest.raises(errors.ReaderError, match="No data columns found"),
+        ):
+            net._read_site_data(net.site_objects[0])
+
+    def test_stationary_site_without_coordinates(self):
+        net = Network(["WBB"], "CO2")
+        site = net.site_objects[0]
+        del site.config["latitude"]  # get_site hands out its own copy
+        data = {"lgr_ugga": pd.DataFrame({"CO2d_ppm_cal": [420.0, 421.0]}, self.times)}
+        with (
+            patch.object(sites.Site, "read_data", return_value=data),
+            pytest.raises(ValueError, match="missing latitude or longitude"),
+        ):
+            net._read_site_data(site)
+
+
+class TestAvailabilityGroups:
+    """Which archives get_availability looks in."""
+
+    def groups_checked(self, monkeypatch, **network_kwargs) -> set[str]:
+        calls = []
+
+        def get_datafiles(self, group, lvl, time_range, pattern=None):
+            calls.append(group)
+            return []
+
+        monkeypatch.setattr(instruments.Instrument, "get_datafiles", get_datafiles)
+        Network(["TRX01"], "O3", **network_kwargs).get_availability(
+            ["2016-01-01", "2016-01-02"], lvls=["raw"]
+        )
+        return set(calls)
+
+    def test_every_operating_group_without_a_group(self, monkeypatch):
+        """TRX01 ozone is in both the lin and horel archives."""
+        assert self.groups_checked(monkeypatch) == {"lin", "horel"}
+
+    def test_only_the_named_group(self, monkeypatch):
+        assert self.groups_checked(monkeypatch, group="horel") == {"horel"}
+
+
+def test_coverage_drops_rows_stamped_in_the_future(caplog):
+    """A corrupt timestamp in the far future must not become a bin."""
+    future = pd.Timestamp.now() + pd.Timedelta(days=400)
+    data = pd.DataFrame(
+        {
+            "Time_UTC": [pd.Timestamp("2024-06-01 12:00"), future],
+            "O3_ppb": [40.0, 41.0],
+        }
+    )
+    datafile = MagicMock()
+    datafile.parse.return_value = data
+    instrument = MagicMock()
+    instrument.standardize_data.side_effect = lambda group, data: data
+    task = ("WBB", instrument, "lin", "raw", datafile, "O3", "D", TimeRange())
+
+    with caplog.at_level(logging.WARNING, logger="uataq"):
+        SID, lvl, bins = _datafile_coverage(task)
+
+    assert (SID, lvl) == ("WBB", "raw")
+    assert list(bins) == [pd.Period("2024-06-01", freq="D")]
+    assert "after now" in caplog.text
 
 
 if __name__ == "__main__":

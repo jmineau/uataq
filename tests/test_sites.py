@@ -594,3 +594,137 @@ class TestPollutantCase:
         ):
             data = site.read_data({"2B_405"})
         assert list(data) == ["2b_405"]
+
+
+class TestSiteReadDataSelection:
+    """Which instruments Site.read_data reads, and what it does on failure."""
+
+    @staticmethod
+    def site_with(mock_config, names, plan_errors=None):
+        """A site whose instruments return a one-row frame named after them."""
+        plan_errors = plan_errors or {}
+        insts = {}
+        for name in names:
+            inst = MagicMock()
+            inst.name = name
+            inst.__str__.return_value = name
+            if name in plan_errors:
+                inst.plan_reads.side_effect = plan_errors[name]
+            else:
+                inst.plan_reads.return_value = [("lin", None)]
+            inst.read_data.return_value = pd.DataFrame({name: [1.0]})
+            insts[name] = inst
+        ensemble = MagicMock()
+        ensemble.names = list(insts)
+        ensemble.__contains__ = lambda self, key: key in insts
+        ensemble.__getitem__ = lambda self, key: insts[key]
+        return sites.Site(SID="TEST", config=mock_config, instruments=ensemble)
+
+    def test_all_reads_every_instrument(self, mock_config):
+        site = self.site_with(mock_config, ["licor", "crds"])
+        assert sorted(site.read_data("all")) == ["crds", "licor"]
+
+    def test_unknown_instrument(self, mock_config):
+        site = self.site_with(mock_config, ["licor"])
+        with pytest.raises(errors.InstrumentNotFoundError):
+            site.read_data("picarro")
+
+    def test_invalid_group_is_raised_not_skipped(self, mock_config):
+        """A bad group name is the caller's mistake, not missing data."""
+        site = self.site_with(
+            mock_config,
+            ["licor", "crds"],
+            plan_errors={"crds": errors.InvalidGroupError("no group 'x'")},
+        )
+        with pytest.raises(errors.InvalidGroupError):
+            site.read_data(["licor", "crds"], group="x")
+
+    def test_inactive_instrument_is_skipped(self, mock_config):
+        site = self.site_with(
+            mock_config,
+            ["licor", "crds"],
+            plan_errors={"crds": errors.ReaderError("not installed")},
+        )
+        data = site.read_data(["licor", "crds"])
+        assert list(data) == ["licor"]
+
+    def test_nothing_read_says_why(self, mock_config):
+        site = self.site_with(
+            mock_config,
+            ["crds"],
+            plan_errors={"crds": errors.ReaderError("not installed")},
+        )
+        with pytest.raises(errors.ReaderError, match="crds not read: not installed"):
+            site.read_data("crds")
+
+
+class TestSiteGetObs:
+    """Combining instruments by pollutant, in wide and long format."""
+
+    times = pd.DatetimeIndex(["2024-06-01 00:00", "2024-06-01 00:01"], name="Time_UTC")
+
+    @pytest.fixture
+    def site(self):
+        import uataq
+
+        return uataq.get_site("BUS01")
+
+    def data(self):
+        return {
+            "2b_205": pd.DataFrame(
+                {"O3_ppb": [40.0, None], "Flow_Lpm": [1.9, 1.9]}, self.times
+            ),
+            "2b_405": pd.DataFrame(
+                {"NO_ppb": [1.0, 2.0], "NO2_ppb": [3.0, None]}, self.times
+            ),
+        }
+
+    def test_unmeasured_pollutant(self, site):
+        with pytest.raises(ValueError, match="CO2"):
+            sites.Site.get_obs(site, ["O3", "CO2"])
+
+    def test_all_reads_every_pollutant_instrument(self, site):
+        with patch.object(sites.Site, "read_data", return_value=self.data()) as read:
+            sites.Site.get_obs(site, "all")
+        assert read.call_args.args[0] == {"2b_205", "2b_405", "metone_es642"}
+        assert read.call_args.args[2] == "final"
+
+    def test_long_format(self, site):
+        with patch.object(sites.Site, "read_data", return_value=self.data()):
+            obs = sites.Site.get_obs(site, ["O3", "NO2"], format="long")
+
+        assert list(obs.columns) == ["pollutant", "value"]
+        assert obs.index.name == "Time_UTC"
+        # Diagnostics and missing values are dropped; NO2 rows survive NO's
+        assert sorted(zip(obs["pollutant"], obs["value"], strict=True)) == [
+            ("NO2_ppb", 3.0),
+            ("O3_ppb", 40.0),
+        ]
+        assert obs.index.is_monotonic_increasing
+
+    def test_wide_format_drops_empty_rows(self, site):
+        data = {"2b_205": self.data()["2b_205"]}
+        with patch.object(sites.Site, "read_data", return_value=data):
+            obs = sites.Site.get_obs(site, "O3")
+        assert list(obs.columns) == ["O3_ppb"]
+        assert obs["O3_ppb"].tolist() == [40.0]
+
+    def test_invalid_format(self, site):
+        with (
+            patch.object(sites.Site, "read_data", return_value=self.data()),
+            pytest.raises(ValueError, match="Invalid format"),
+        ):
+            sites.Site.get_obs(site, "O3", format="tall")  # pyright: ignore[reportArgumentType]
+
+    def test_recent_obs_reads_from_now_minus_recent(self):
+        import uataq
+
+        site = uataq.get_site("WBB")  # stationary: Site.get_obs is its own
+        before = pd.Timestamp.now("UTC").tz_localize(None)
+        with patch.object(sites.Site, "get_obs") as get_obs:
+            site.get_recent_obs("2D", "O3", "long", "horel")
+        after = pd.Timestamp.now("UTC").tz_localize(None)
+
+        pollutants, format, group, (start, stop) = get_obs.call_args.args
+        assert (pollutants, format, group, stop) == ("O3", "long", "horel", None)
+        assert before - pd.Timedelta("2D") <= start <= after - pd.Timedelta("2D")

@@ -130,8 +130,11 @@ CHPC-bound; use `mesowest_dir=`).
 ## GPS (`uataq.gps` + `instruments.GPS`)
 
 Receivers logging only `GPGGA` (position, altitude, fix quality) record no
-speed or course; `GPRMC` carries both. `GPS.read_data` converts recorded speed
-from knots to `Speed_m_s`, then calls `GPS.estimate_motion`, which fills
+speed or course; `GPRMC` carries both. `GPS.read_data` converts lin's recorded
+speed from knots (NMEA) to `Speed_m_s` -- horel's `RSPD`/`GPS_Speed` are already
+m/s and map straight to `Speed_m_s` (before 2026-10 they went through the knots
+conversion too, so horel speeds read ~half their true value) -- then calls
+`GPS.estimate_motion`, which fills
 missing `Speed_m_s` / `Course_deg` from the positions and adds the booleans
 `Speed_Estimated` / `Course_Estimated` (True exactly where the value came from
 positions). **Recorded values are never overwritten** — only NaNs are filled.
@@ -204,9 +207,12 @@ ignoring `group_dates`: availability reports what each archive holds, while
 `get_obs` reads one group per portion (`plan_reads`). One pool over the whole
 network's files; each worker reduces its file to bins immediately, so memory
 is one file per worker. A bad file is logged and skipped (count reported),
-not fatal. Stray in-file header rows (NaT `Time_UTC`, e.g. lin
-`trx01/2b_205/qaqc/2016_05_qaqc.dat`) are dropped before `standardize_data`,
-which otherwise divides a text column.
+not fatal. Rows with a NaT `Time_UTC` are dropped before `standardize_data`,
+which would otherwise divide a text column. (The "stray header" these guarded
+against, e.g. lin `trx01/2b_205/qaqc/2016_05_qaqc.dat`, was every lin pipeline
+file's own header line, which `LinDatFile.parse` read in as a row -- leaving
+every lin column object dtype -- until 2026-10; it now skips the header and
+coerces the config's numeric columns.)
 
 `plot_availability(availability=None, ax=None, **kwargs)` is matplotlib
 (optional import, like `Site.plot`); bars use `LEVEL_COLORS`, one blue hue
@@ -313,8 +319,10 @@ public function's docstring — they hand the same alias around.
   no time range returned 142 files, 21 of them ES405-era, and the ES405's
   extra `PM01`/`PM04`/`PM10` columns were dropped while `ITMP` was relabelled
   with the ES642's meaning. A request that misses the window entirely still
-  raises `InactiveInstrumentError`. Checked against the archive: the only
-  horel raw files this excludes are the 441 mis-attributed MetOne ones; no
+  raises `InactiveInstrumentError` -- including one that only touches it
+  (stop == installation, or start == removal): both ranges are half-open, so
+  that is no overlap, not an empty clipped range (#37). Checked against the
+  archive: the only horel raw files this excludes are the 441 mis-attributed MetOne ones; no
   other instrument loses a file. Five configured swaps (TRX01/02/03,
   BUS02/03), all non-overlapping, though three share a boundary date exactly;
   the half-open row slice keeps a sample on that timestamp out of the removed
@@ -376,6 +384,14 @@ what will break them again:
   pyright src/uataq`. Never pass `--python` to a bare `uv run` in the repo: it
   recreates `.venv`, and the delete half-fails on NFS, leaving it unusable
   until `rm -rf .venv && uv sync --frozen`.
+- **uataq does not set pandas options** (#40). It used to turn on
+  `copy_on_write` at import under pandas 2, which changed pandas for the
+  caller's whole session. Code must be correct with it on or off: no chained
+  assignment, and `.copy()` a filtered frame before setting values on it. To
+  audit, run the suite in the 3.10 env above with a `-p` plugin that sets
+  `pd.options.mode.copy_on_write = "warn"` (it flags every place where on and
+  off differ), and again with it off under
+  `-W error::pandas.errors.SettingWithCopyWarning`.
 - Where pyright is wrong rather than the code (pandas overloads, pytables
   nodes, the optional cartopy/matplotlib imports, `File.__exit__` making
   with-block bindings look conditional), suppress inline with a reason. Fix
@@ -435,7 +451,11 @@ winds = Sodar.get_winds_at_height(data, 100)  # direction/speed at 100 m
 ### Adding a new instrument
 1. Implement parser as an `Instrument` subclass in `instruments.py`.
 2. Add the instrument to the relevant site entry in `config.json`.
-3. Add tests reading a sample file (under `tests/`).
+3. Add tests reading a sample file (under `tests/`). Write a few synthetic
+   lines shaped like the real format into `tmp_path` rather than checking in
+   archive data: `tests/test_horel.py` has `write_h5` / `write_csv_gz`,
+   `tests/test_lin.py` has `write_ugga` and patches `lin.DATA_CONFIG`
+   entries, so the parser tests run off-cluster.
 
 ### Adding a new group space
 1. Add `filesystem/groupspaces/<name>.py` mirroring the layout of
