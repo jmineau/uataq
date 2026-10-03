@@ -580,8 +580,9 @@ class Network:
             num_processes=num_processes,
         )
 
-        # Extract pollutant columns from all instruments
-        dataframes = []
+        # Extract pollutant columns from each instrument, kept apart so a
+        # mobile site can locate each one's rows with the GPS on its clock
+        frames = {}
         for instrument_name, df in data_dict.items():
             if instrument_name == "gps":
                 continue  # Skip GPS; we'll handle separately
@@ -596,57 +597,37 @@ class Network:
             if pollutant_columns:
                 df_filtered = df[pollutant_columns].copy()
                 df_filtered["instrument"] = instrument_name
-                dataframes.append(df_filtered)
+                df_filtered["SID"] = site.SID
+                frames[instrument_name] = df_filtered
 
-        if not dataframes:
+        if not frames:
             raise errors.ReaderError(
                 f"No data columns found for {self.pollutant} at {site.SID}"
             )
 
-        # Stack a site's instruments as rows. Joining them as columns gave
-        # duplicate names when two instruments measure the pollutant (TRX01's
-        # lgr_ugga and lgr_ugga_manual_cal both write CO2d_ppm_cal).
-        site_data = pd.concat(dataframes, axis=0)
-        site_data["SID"] = site.SID
-
         # Handle coordinate information
         if isinstance(site, sites.MobileSite):
-            # Mobile site: use GPS data with group-specific merging
+            # Mobile site: each instrument's rows join the GPS of the group
+            # they were read from, on that group's clock (uataq#42)
             try:
-                gps_data = site.read_data(
-                    instruments="gps",
+                site_data = site.locate(
+                    frames,
                     group=self.group,
-                    lvl=None,  # GPS typically only has final level
                     time_range=time_range,
+                    lvl=None,  # GPS typically only has final level
                     num_processes=num_processes,
-                )["gps"]
-
-                # Use MobileSite.merge_gps() to handle group-specific logic
-                # Set index to Time_UTC for wide format
-                site_data.index.name = "Time_UTC"
-
-                # The merge key depends on who logged the GPS: lin mobile
-                # data joins on the Pi's clock (see MobileSite.get_obs)
-                gps_group = site.instruments["gps"].resolve_group(self.group)
-                if gps_group == "lin":
-                    merge_on = "Pi_Time"
-                    site_data.index.name = "Pi_Time"
-                else:
-                    merge_on = "Time_UTC"
-
-                # Use the static merge_gps method from MobileSite
-                site_data = sites.MobileSite.merge_gps(site_data, gps_data, on=merge_on)
-
-                # Clean up Pi_Time column if it was used for merging
-                if merge_on == "Pi_Time" and "Pi_Time" in site_data.columns:
-                    site_data = site_data.drop(columns=["Pi_Time"])
-
+                )
             except (errors.ReaderError, KeyError) as e:
                 _logger.warning(
                     f"Could not read GPS data for mobile site {site.SID}: {e}"
                 )
                 raise
         else:
+            # Stack a site's instruments as rows. Joining them as columns gave
+            # duplicate names when two instruments measure the pollutant
+            # (TRX01's lgr_ugga and lgr_ugga_manual_cal both write CO2d_ppm_cal).
+            site_data = pd.concat(frames.values(), axis=0)
+
             # Stationary site: use fixed coordinates from config
             latitude = site.config.get("latitude")
             longitude = site.config.get("longitude")
