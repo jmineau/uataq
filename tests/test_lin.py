@@ -300,24 +300,29 @@ class TestLGRUGGAFile:
         with pytest.raises(errors.DataFileInitializationError, match="meta data"):
             lin.LGR_UGGA_File(str(path))
 
-    @pytest.mark.xfail(
-        strict=True,
-        raises=KeyError,
-        reason="LGR_UGGA_File.__init__ looks the software version up in "
-        "version_date_formats unguarded, so a firmware it doesn't know raises "
-        "KeyError, which GroupSpace.get_datafiles doesn't catch: one such file "
-        "stops the whole read instead of being skipped with a warning like a "
-        "file with an unreadable header. Skipping is a guess at the fix; the "
-        "date could also be parsed from the name without the version.",
+    @pytest.mark.parametrize(
+        "name", ["gga_2026-10-01_f0000.txt", "gga01Oct2026_f0000.txt"]
     )
-    def test_unknown_software_version_is_skipped(self, tmp_path):
+    def test_unknown_software_version_is_dated_from_the_name(self, tmp_path, name):
+        # The date comes from the file-name style, not a per-version table
         path = write_ugga(
-            tmp_path / "gga_2026-10-01_f0000.txt",
+            tmp_path / name,
             "abc1234",
             [ugga_row("10/01/2026 00:00:00.000", tail=("3", "3", "atmosphere"))],
             header_cols=24,
         )
-        with pytest.raises(errors.DataFileInitializationError):
+        f = lin.LGR_UGGA_File(path)
+        assert f.version == "abc1234"
+        assert f.period == pd.Period("2026-10-01", freq="D")
+
+    def test_name_without_a_date_is_skipped(self, tmp_path):
+        path = write_ugga(
+            tmp_path / "gga_latest_f0000.txt",
+            "2f90039",
+            [ugga_row("10/01/2026 00:00:00.000", tail=("3", "3", "atmosphere"))],
+            header_cols=24,
+        )
+        with pytest.raises(errors.DataFileInitializationError, match="No date"):
             lin.LGR_UGGA_File(path)
 
     def test_get_files_finds_f_files_in_day_dirs(self, tmp_path, monkeypatch):
