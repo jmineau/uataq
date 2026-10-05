@@ -454,8 +454,10 @@ class LGR_UGGA_File(filesystem.DataFile):
         The period of the data file.
     logger : str
         The logger name.
-    date_slicer : slice
-        A slice object for extracting the date from the file name.
+    serial : str
+        The analyzer's serial number (``SN`` in the header).
+    version : str
+        The analyzer's software version (``VC`` in the header).
     file_freq : str
         The file frequency.
     ext : str
@@ -477,11 +479,14 @@ class LGR_UGGA_File(filesystem.DataFile):
     file_freq = "D"
     ext = "txt"
 
-    version_date_formats = {
-        "904M": {"slicer": slice(3, 12), "format": "%d%b%Y"},
-        "2f90039": {"slicer": slice(4, 14), "format": "%Y-%m-%d"},
-        "cf32204": {"slicer": slice(4, 14), "format": "%Y-%m-%d"},
-    }
+    #: The two ways the LGR software has named its files, matched on the name
+    #: itself rather than looked up by software version, so a new version that
+    #: keeps either style needs no change: ``gga01Apr2014_f0000.txt`` (904M,
+    #: WBB 2014-2016) and ``gga_2015-11-17_f0000.txt`` (2f90039, cf32204).
+    name_date_formats = (
+        (re.compile(r"^gga(\d{2}[A-Za-z]{3}\d{4})_"), "%d%b%Y"),
+        (re.compile(r"^gga_(\d{4}-\d{2}-\d{2})_"), "%Y-%m-%d"),
+    )
 
     def __init__(self, path: str):
         self.path = path
@@ -489,15 +494,18 @@ class LGR_UGGA_File(filesystem.DataFile):
         self.serial = self.meta["SN"]
         self.version = self.meta["VC"]
 
-        # Get date format based on version
-        date_format = self.version_date_formats[self.version]
-        self.date_slicer = date_format["slicer"]
-        self.date_format = date_format["format"]
-
         # Get date from file name
         fname = os.path.basename(path)
-        date_str = fname[self.date_slicer]
-        self.period = pd.Period(date_str, freq=self.file_freq)
+        for pattern, date_format in self.name_date_formats:
+            match = pattern.match(fname)
+            if match:
+                date = pd.to_datetime(match.group(1), format=date_format)
+                self.period = pd.Period(date, freq=self.file_freq)
+                break
+        else:
+            raise DataFileInitializationError(
+                f"No date in LGR file name {fname} (software {self.version})"
+            )
 
     @staticmethod
     def get_meta(path) -> dict[str, str]:
