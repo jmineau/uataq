@@ -429,8 +429,8 @@ What keeps CI green:
   `ignore-missing-imports` in `pyproject.toml`. Fix real narrowing problems
   instead of suppressing them.
 - The docs build does not treat warnings as errors yet: they have known
-  problems (duplicate API entries, the quickstart's `ipython` blocks, broken
-  `literalinclude` paths). Once fixed, add `-W` back to `build-docs` (the
+  problems, tracked in #49 (duplicate API entries, the quickstart's `ipython`
+  blocks, broken `literalinclude` paths). Once fixed, add `-W` back to `build-docs` (the
   template's default). Autosummary stubs generate into `docs/api/`
   (gitignored); a `:toctree:` pointing outside `docs/` litters the repo root.
 
