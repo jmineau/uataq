@@ -3,6 +3,12 @@
 .claude/settings.local.json
 .aider*
 
+# Generated docs and test reports
+docs/_autosummary/
+docs/api/
+junit.xml
+.pyrefly_cache/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
@@ -75,8 +81,6 @@ instance/
 
 # Sphinx documentation
 docs/_build/
-# autosummary-generated stubs
-docs/api/
 
 # PyBuilder
 .pybuilder/

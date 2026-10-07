@@ -16,8 +16,8 @@ project data. It abstracts over the on-disk layout maintained by UATAQ groups
 (group spaces) and exposes a high-level Laboratory → Site → Instrument model
 plus convenience top-level functions for reading time-bounded data.
 
-PyPI/import name: `uataq`. Source in `src/uataq/`. Built with **hatchling**
-— unlike the user's other packages, which use setuptools.
+Distribution and import name: `uataq` (installed from GitHub; not on PyPI).
+Source in `src/uataq/`. Built with setuptools, like the user's other packages.
 
 ## Module layout
 
@@ -365,31 +365,43 @@ public function's docstring — they hand the same alias around.
 
 ## Dev commands
 
-Driven by `just` + `uv`. There is **no `just install`** recipe — use
-`uv sync` directly.
+Driven by `just` + `uv`; CI runs the same recipes.
 
 | Command | What it does |
 |---|---|
-| `just test` | `uv run pytest -v` |
-| `just quality-check` | ruff (`src/uataq`) + pyrefly + tests |
-| `just ruff` | `uv run ruff check --fix` + `uv run ruff format` on `src/uataq` |
-| `just build-docs` | clean + Sphinx HTML build |
-| `just pre-commit` | `uv run pre-commit run --all-files` |
-| `just clean` | wipe build artifacts, caches, coverage, docs (note:
-  cleans `src/*.egg-info`, not bare `*.egg-info`) |
+| `just sync` | `uv sync`: uataq and the dev tools |
+| `just quality-check` | `lint` + `type-check` + `docstr` + `test`: what CI checks |
+| `just test` | pytest in parallel (up to 8 workers), skipping `network`, `slow` and `chpc`; extra args go to pytest (`-n 0` for serial) |
+| `just lint` / `just format` | ruff check and format check / fix and format |
+| `just type-check` | pyrefly |
+| `just docstr` | docstring coverage of the public API, at 100% |
+| `just build-docs` | Sphinx HTML into `docs/_build` (warnings do not fail it yet) |
+| `just docs-serve` | live docs preview on port 8000 |
+| `just changelog` | draft CHANGELOG entries from the commits since the last tag |
+| `just pre-commit` | every hook on every file |
+| `just dist` | build and check the sdist and wheel |
+| `just release X.Y.Z` | tag and push a release (the maintainer runs it, never an agent) |
+| `just clean` | wipe build artifacts, caches, coverage, docs |
 
-CI: `.github/workflows/` has `tests.yml`, `quality.yml`, `docs.yml`. **All
-three are green as of 2026-09-22 — keep them that way.** What that took, and
-what will break them again:
+CI: `.github/workflows/` has `tests.yml` (Linux/macOS/Windows x Python
+3.11-3.14), `quality.yml`, `docs.yml` (versioned docs on GitHub Pages: `dev/`
+from main, one folder per release, `stable/`), and `publish.yml` (a
+`vYYYY.M.PATCH` tag builds the release and creates the GitHub Release from its
+CHANGELOG section; uataq is not on PyPI). The version comes from git tags
+(setuptools-scm); never tag or push unless the maintainer asks. The tooling
+comes from [jmineau/python-template](https://github.com/jmineau/python-template)
+via copier (`.copier-answers.yml`); `copier update` pulls in template changes.
+What keeps CI green:
 
-- `tests.yml` runs `pytest -m "not chpc"`. Tests needing the real CHPC archive
+- `just test` and `just cov` (what `tests.yml` runs) skip `chpc`. Tests needing the real CHPC archive
   carry `@pytest.mark.chpc` (the marker is declared in `pyproject.toml`); the
   `TestNetworkDataRetrieval` class is the current set. Off-cluster they cannot
   pass, so mark new ones rather than letting the job go red. `test_sodar.py`
   separately uses a `skipif` on the archive path.
-- `quality.yml` gates on **three** steps, all now clean: ruff, pyrefly (0
-  errors), and `docstr-coverage` at **100%** — that tool fails under 100 by
-  default, so a new public function without a docstring turns the job red.
+- `quality.yml` gates on **three** steps: `just lint` (ruff check and format
+  check over the whole repo, tests included), `just type-check` (pyrefly, 0
+  errors), and `just docstr` at **100%**, so a new public function without a
+  docstring turns the job red.
 - Intentional lint violations carry an inline `# noqa` with the reason: the
   `E402` imports in `uataq/__init__.py` must follow the NullHandler, and the
   `E402,F403` star import in `groupspaces/__init__.py` must follow the
@@ -416,17 +428,16 @@ what will break them again:
   reason. The optional cartopy/matplotlib imports are covered by
   `ignore-missing-imports` in `pyproject.toml`. Fix real narrowing problems
   instead of suppressing them.
-- `docs.yml` builds with **uv**, not pip + `just`: the `build-docs` recipe
-  shells out to `uv run`, so a workflow without uv dies with exit 127 (it did,
-  silently, for a while). Autosummary stubs generate into `docs/api/`
+- The docs build does not treat warnings as errors yet: they have known
+  problems (duplicate API entries, the quickstart's `ipython` blocks, broken
+  `literalinclude` paths). Once fixed, add `-W` back to `build-docs` (the
+  template's default). Autosummary stubs generate into `docs/api/`
   (gitignored); a `:toctree:` pointing outside `docs/` litters the repo root.
 
 ## Conventions and tooling
 
-- **Build backend**: hatchling (`pyproject.toml: [tool.hatch.build.targets.wheel]`).
-  Wheel packs `src/uataq`. Coverage XML and HTML are checked in via
-  `.coverage`, `coverage.xml`, `htmlcov/` — these are test outputs, not
-  source.
+- **Build backend**: setuptools with setuptools-scm (the version is the git
+  tag). `config.json` and `py.typed` ship as package data (`pyproject.toml`).
 - **Python**: 3.11+ (`requires-python`; ruff takes its target from it).
 - **Linting**: ruff selects `E, F, UP, B, SIM, I` and ignores `E501`. No
   pydocstyle rules.
@@ -439,6 +450,7 @@ what will break them again:
 ### Read one site's data
 ```python
 import uataq
+
 df_by_instr = uataq.read_data("WBB", instruments="all", time_range="2024-01")
 ```
 
@@ -463,6 +475,7 @@ obs = uataq.get_network_obs(
 ### SODAR wind profiles (Horel/MesoWest archive)
 ```python
 from uataq.sodar import Sodar
+
 usdr1 = Sodar("USDR1")
 data = usdr1.read_data(time_range=["2019-01-01", "2019-01-31"])  # xr.Dataset
 winds = Sodar.get_winds_at_height(data, 100)  # direction/speed at 100 m
@@ -497,5 +510,6 @@ winds = Sodar.get_winds_at_height(data, 100)  # direction/speed at 100 m
 - `filesystem/groupspaces/__init__.py` does `from . import *` over **every**
   non-underscore `.py` in that dir, so only put group-space modules there
   (that's why SODAR lives in `uataq/sodar.py`, not `groupspaces/`).
-- Tests needing the real CHPC archive are guarded with
-  `pytest.mark.skipif(not os.path.isdir(...))` (no custom markers here).
+- Tests needing the real CHPC archive carry `@pytest.mark.chpc` (declared in
+  `pyproject.toml`; `just test` and CI skip it), or a
+  `pytest.mark.skipif(not os.path.isdir(...))` on the archive path.

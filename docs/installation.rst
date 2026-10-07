@@ -21,9 +21,11 @@ For development, install with the development dependencies:
 
    git clone https://github.com/jmineau/uataq.git
    cd uataq
-   python -m pip install --upgrade pip
-   pip install -e ".[dev,docs]"
-   pre-commit install
+   uv sync                    # uataq and the dev tools
+   uv run pre-commit install
+   uv run just quality-check
+
+See ``CONTRIBUTING.md`` for the full workflow.
 
 Requirements
 ------------

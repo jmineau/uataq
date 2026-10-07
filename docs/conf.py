@@ -3,19 +3,19 @@
 # For the full list of built-in configuration values, see the documentation:
 # https://www.sphinx-doc.org/en/master/usage/configuration.html
 
+import datetime
 import importlib.metadata
-import os
-import sys
-
-sys.path.insert(0, os.path.abspath("../src"))
 
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = "UATAQ"
-copyright = "2025, James Mineau"
+copyright = f"2025-{datetime.date.today().year}, James Mineau"
 author = "James Mineau"
 release = importlib.metadata.version("uataq")  # from git tags, via setuptools-scm
+version = release
+# Builds from main (and local builds) are "dev"; release builds are their version.
+version_match = "dev" if (".dev" in release or "+" in release) else release
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
@@ -27,6 +27,7 @@ extensions = [
     "sphinx.ext.viewcode",
     "sphinx.ext.intersphinx",
     "sphinx_autodoc_typehints",
+    "sphinx_copybutton",
 ]
 
 templates_path = ["_templates"]
@@ -42,6 +43,15 @@ html_theme_options = {
     "github_url": "https://github.com/jmineau/uataq",
     "show_toc_level": 2,
     "navbar_align": "left",
+    "navbar_end": ["version-switcher", "theme-switcher", "navbar-icon-links"],
+    # The version dropdown. The Documentation workflow publishes dev/ (main),
+    # one folder per release and stable/, and writes switcher.json listing them.
+    "switcher": {
+        "json_url": "https://jmineau.github.io/uataq/switcher.json",
+        "version_match": version_match,
+    },
+    "check_switcher": False,  # switcher.json exists only on the deployed site
+    "show_version_warning_banner": True,  # point old versions at stable
 }
 
 # Hide primary (left) sidebar on specific pages
