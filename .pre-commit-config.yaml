@@ -22,13 +22,11 @@ repos:
 
   - repo: local
     hooks:
-      # Run through uv so pyright sees the project environment, and over the
-      # same paths as the Code Quality workflow. The upstream pyright hook runs
-      # in its own venv without the dependencies installed, so every third-party
-      # import came back unresolved, and it checked tests/ which CI does not.
-      - id: pyright
-        name: pyright (src/uataq)
-        entry: uv run pyright src/uataq
+      # Runs in .venv, so pyrefly sees uataq's dependencies. --no-sync: a hook
+      # never re-syncs .venv (run `uv sync` after changing dependencies).
+      - id: pyrefly
+        name: pyrefly
+        entry: uv run --no-sync pyrefly check
         language: system
-        types: [ python ]
+        types: [python]
         pass_filenames: false

@@ -204,7 +204,10 @@ def estimate_speed_course(
         valid &= step <= pd.Timedelta(max_gap).total_seconds()
 
     speed = np.where(valid, dist / np.where(dt > 0, dt, np.nan), np.nan)
+    # pandas-stubs type .iloc assignment too narrowly for get_loc's result
+    # pyrefly: ignore[unsupported-operation]
     out.iloc[center, out.columns.get_loc("Speed_m_s")] = speed
+    # pyrefly: ignore[unsupported-operation]
     out.iloc[center, out.columns.get_loc("Course_deg")] = np.where(
         valid, course, np.nan
     )
@@ -236,6 +239,8 @@ def gps_time_from_time_of_day(
     pd.Series
         GPS time (naive UTC), indexed like ``logger_time``.
     """
+    # pandas-stubs' DatetimeIndex rejects part of ArrayLike (Buffer); any array of times works
+    # pyrefly: ignore[bad-argument-type]
     index = pd.DatetimeIndex(logger_time)
     logger = index.to_numpy(dtype="datetime64[ns]")
     hhmmss = np.asarray(

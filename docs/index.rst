@@ -31,9 +31,9 @@ Utah Atmospheric Trace-gas and Air Quality (UATAQ)
    :target: https://github.com/astral-sh/ruff
    :alt: Ruff
 
-.. image:: https://img.shields.io/badge/pyright-checked-brightgreen.svg
-   :target: https://github.com/microsoft/pyright
-   :alt: Pyright
+.. image:: https://img.shields.io/badge/types-pyrefly-blue.svg
+   :target: https://pyrefly.org
+   :alt: Pyrefly
 
 .. toctree::
    :maxdepth: 1

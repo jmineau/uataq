@@ -193,7 +193,7 @@ class TestLaboratory:
 
     def test_invalid_config(self):
         with pytest.raises(ValueError, match="file path or dictionary"):
-            Laboratory(["TST"])  # pyright: ignore[reportArgumentType]
+            Laboratory(["TST"])  # pyrefly: ignore[bad-argument-type]
 
     def test_site_class_and_config(self):
         lab = Laboratory(self.config)

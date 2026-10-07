@@ -330,14 +330,13 @@ class HorelH5File(HorelFile):
         _logger.debug(f"Parsing {filesystem._relpath(self.path, HOREL_DIR)}")
 
         with pytbls.open_file(self.path, mode="r") as f:
-            # the node is a Table; pyright only knows the generic Node type
+            # the node is a Table; type checkers only know the generic Node type
             table = f.root["obsdata/observations"]
-            data = pd.DataFrame(table.read())  # pyright: ignore[reportAttributeAccessIssue]
+            # pyrefly: ignore[missing-attribute]
+            data = pd.DataFrame(table.read())
 
         # Subset columns by instrument.
-        # pytables' File.__exit__ is typed as possibly suppressing exceptions,
-        # so pyright treats everything bound in the with block as conditional.
-        data = data.loc[:, data.columns.map(self.usecols).to_list()]  # pyright: ignore[reportPossiblyUnboundVariable]
+        data = data.loc[:, data.columns.map(self.usecols).to_list()]
 
         # Format time
         data = self.format_time(data, unit="s")
@@ -649,7 +648,9 @@ class HorelGroup(filesystem.GroupSpace):
         for path in files:
             if path.endswith(DataFileClass.ext):
                 try:
-                    datafiles.append(DataFileClass(path, instrument))  # pyright: ignore[reportCallIssue]  # horel subclasses take the instrument
+                    # horel subclasses take the instrument
+                    # pyrefly: ignore[bad-argument-count]
+                    datafiles.append(DataFileClass(path, instrument))
                 except errors.DataFileInitializationError as e:
                     _logger.warning(
                         f"Unable to initialize {DataFileClass.__name__} from {path}: {e}"
