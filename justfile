@@ -40,7 +40,7 @@ test *args:
 cov *args:
     uv run pytest -n auto --maxprocesses=8 -m "not network and not slow and not chpc" --cov --cov-report=term --cov-report=xml --junitxml=junit.xml -o junit_family=legacy "$@"
 
-# Build the HTML docs (warnings do not fail the build yet; the template's -W comes back once the docs are fixed)
+# Build the HTML docs (warnings do not fail the build yet: #49; the template's -W comes back once it is fixed)
 build-docs:
     rm -rf docs/_build docs/api
     uv run sphinx-build -M html docs docs/_build
