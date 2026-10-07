@@ -7,7 +7,6 @@ import json
 import logging
 from collections import defaultdict
 from collections.abc import Mapping
-from datetime import timezone
 from typing import Literal
 
 import geopandas as gpd
@@ -421,7 +420,7 @@ class Site:
         """
         if isinstance(recent, str):
             recent = pd.to_timedelta(recent)
-        start_time = dt.datetime.now(timezone.utc).replace(tzinfo=None) - recent
+        start_time = dt.datetime.now(dt.UTC).replace(tzinfo=None) - recent
         return self.get_obs(pollutants, format, group, [start_time, None])
 
 

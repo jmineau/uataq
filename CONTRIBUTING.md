@@ -22,7 +22,7 @@ the orientation file it should read.
    source .venv/bin/activate  # On Windows: .venv\Scripts\activate
 
    # OR using conda:
-   conda create -n myenv python=3.10 -y
+   conda create -n myenv python=3.11 -y
    conda activate myenv
 
    # Install development dependencies:

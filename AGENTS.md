@@ -394,21 +394,20 @@ what will break them again:
   `E402` imports in `uataq/__init__.py` must follow the NullHandler, and the
   `E402,F403` star import in `groupspaces/__init__.py` must follow the
   `__all__` built from the directory listing.
-- **pyrefly sees a different pandas in CI.** The lock pins pandas 2.3.3 for
-  Python < 3.11 and 3.0.1 above it, and the quality workflow runs on 3.10 --
-  so the local venv (3.14, pandas 3) can be clean while CI fails on pandas 2
-  stubs. That happened once already. Reproduce CI's view before pushing a
-  typing change, using a scratch env so the project venv is left alone:
-  `UV_PROJECT_ENVIRONMENT=$TMPDIR/venv310 uv sync --frozen --python 3.10` then
-  `UV_PROJECT_ENVIRONMENT=$TMPDIR/venv310 uv run --no-sync --python 3.10
-  pyrefly check`. Never pass `--python` to a bare `uv run` in the repo: it
-  recreates `.venv`, and the delete half-fails on NFS, leaving it unusable
-  until `rm -rf .venv && uv sync --frozen`.
+- **Reproduce CI's Python before pushing a typing change.** The quality
+  workflow runs on the oldest supported Python (3.11), and the local venv may
+  be newer. Use a scratch env so the project venv is left alone:
+  `UV_PROJECT_ENVIRONMENT=$TMPDIR/venv311 uv sync --frozen --python 3.11` then
+  `UV_PROJECT_ENVIRONMENT=$TMPDIR/venv311 uv run --no-sync pyrefly check`.
+  Never pass `--python` to a bare `uv run` in the repo: it recreates `.venv`,
+  and the delete half-fails on NFS, leaving it unusable until
+  `rm -rf .venv && uv sync --frozen`. (With Python 3.10 dropped, CI and a
+  newer local venv now lock the same pandas, 3.x.)
 - **uataq does not set pandas options** (#40). It used to turn on
   `copy_on_write` at import under pandas 2, which changed pandas for the
   caller's whole session. Code must be correct with it on or off: no chained
   assignment, and `.copy()` a filtered frame before setting values on it. To
-  audit, run the suite in the 3.10 env above with a `-p` plugin that sets
+  audit, run the suite in the 3.11 env above with a `-p` plugin that sets
   `pd.options.mode.copy_on_write = "warn"` (it flags every place where on and
   off differ), and again with it off under
   `-W error::pandas.errors.SettingWithCopyWarning`.
@@ -428,7 +427,7 @@ what will break them again:
   Wheel packs `src/uataq`. Coverage XML and HTML are checked in via
   `.coverage`, `coverage.xml`, `htmlcov/` — these are test outputs, not
   source.
-- **Python**: 3.10+ (`ruff.target-version = "py310"`).
+- **Python**: 3.11+ (`requires-python`; ruff takes its target from it).
 - **Linting**: ruff selects `E, F, UP, B, SIM, I` and ignores `E501`. No
   pydocstyle rules.
 - **Types**: pyrefly (`[tool.pyrefly]` in `pyproject.toml`). `py.typed` shipped.
