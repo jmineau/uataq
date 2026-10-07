@@ -15,23 +15,16 @@ the orientation file it should read.
    git clone https://github.com/YOUR_USERNAME/uataq.git
    cd uataq
    ```
-3. Create a python environment and install development dependencies:
+3. Install uataq and the development tools with [uv](https://docs.astral.sh/uv/):
    ```bash
-   # Using venv:
-   python -m venv .venv
-   source .venv/bin/activate  # On Windows: .venv\Scripts\activate
-
-   # OR using conda:
-   conda create -n myenv python=3.11 -y
-   conda activate myenv
-
-   # Install development dependencies:
-   pip install -e ".[dev]"
+   uv sync  # .venv with uataq (editable) and the dev tools
    ```
+   Without uv: `python -m venv .venv`, activate it, then
+   `pip install --group dev -e .` (needs pip 25.1 or newer).
 
 4. Install pre-commit hooks:
    ```bash
-   pre-commit install
+   uv run pre-commit install
    ```
 
 ## Development Workflow
@@ -65,7 +58,7 @@ the orientation file it should read.
 6. Commit your changes:
    ```bash
    git add .
-   git commit -m "Description of your changes"
+   git commit -m "fix(gps): keep rows without a fix"  # Conventional Commits
    ```
 
 7. Push to your fork:
@@ -74,6 +67,30 @@ the orientation file it should read.
    ```
 
 8. Open a Pull Request on GitHub
+
+## Releasing
+
+The version comes from git tags (setuptools-scm), so there is no version string
+to bump. Releases are calendar-based: `YYYY.M.PATCH`.
+
+1. Run `just changelog` to draft entries from the commit messages, edit them
+   into `CHANGELOG.md` under `## [Unreleased]`, then rename that heading to
+   `## [YYYY.M.PATCH] - YYYY-MM-DD` and start a new empty `## [Unreleased]`
+   above it. Commit (`chore(release): YYYY.M.PATCH`) and push to `main`.
+2. Run `just release YYYY.M.PATCH`. It checks that the tree is clean, that
+   `main` is in sync with GitHub, and that the version is newer than every
+   existing tag, then pushes the tag `vYYYY.M.PATCH`.
+3. The Publish workflow builds the tag and creates the GitHub Release from the
+   CHANGELOG section (uataq is not on PyPI); Zenodo archives it. The
+   Documentation workflow publishes its docs in the version dropdown.
+
+## Template
+
+The tooling (CI workflows, pre-commit, justfile, packaging configuration) comes
+from [jmineau/python-template](https://github.com/jmineau/python-template).
+`.copier-answers.yml` records the template version; `copier update` pulls in
+later template changes. Improvements that would help every package are best
+made in the template.
 
 ## Pull Request Guidelines
 

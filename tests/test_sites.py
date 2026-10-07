@@ -560,21 +560,15 @@ class TestMobileSiteLocate:
         site = SimpleNamespace(instruments={"gps": gps}, SID="BUS99")
 
         with pytest.raises(ValueError, match="lin logs no GPS at BUS99"):
-            sites.MobileSite._gps_group(
-                site, "lin", None
-            )  # pyrefly: ignore[bad-argument-type]  # duck-typed site
-        assert (
-            sites.MobileSite._gps_group(site, "horel", None) == "horel"
-        )  # pyrefly: ignore[bad-argument-type]  # duck-typed site
+            sites.MobileSite._gps_group(site, "lin", None)  # pyrefly: ignore[bad-argument-type]  # duck-typed site
+        assert sites.MobileSite._gps_group(site, "horel", None) == "horel"  # pyrefly: ignore[bad-argument-type]  # duck-typed site
 
     def test_named_gps_matching_the_rows_is_fine(self):
         gps = MagicMock()
         gps.groups = ["horel", "lin"]
         gps._named_group.return_value = "horel"
         site = SimpleNamespace(instruments={"gps": gps}, SID="TRX01")
-        assert (
-            sites.MobileSite._gps_group(site, "horel", {"gps": "horel"}) == "horel"
-        )  # pyrefly: ignore[bad-argument-type]  # duck-typed site
+        assert sites.MobileSite._gps_group(site, "horel", {"gps": "horel"}) == "horel"  # pyrefly: ignore[bad-argument-type]  # duck-typed site
 
 
 class TestPollutantCase:
@@ -726,9 +720,7 @@ class TestSiteGetObs:
             patch.object(sites.Site, "read_data", return_value=self.data()),
             pytest.raises(ValueError, match="Invalid format"),
         ):
-            sites.Site.get_obs(
-                site, "O3", format="tall"
-            )  # pyrefly: ignore[bad-argument-type]
+            sites.Site.get_obs(site, "O3", format="tall")  # pyrefly: ignore[bad-argument-type]
 
     def test_recent_obs_reads_from_now_minus_recent(self):
         import uataq

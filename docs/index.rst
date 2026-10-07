@@ -53,7 +53,7 @@ Utah Atmospheric Trace-gas and Air Quality (UATAQ)
 Naming Convention
 -----------------
 
-I chose `UATAQ` as the name for the package because it is the most encompassing
+I chose *UATAQ* as the name for the package because it is the most encompassing
 name for the groups currently involved in the project.
 
 Designing a user-friendly package is a challenge because the data is collected
@@ -63,7 +63,7 @@ onsistent interface for the user.
 
 I have defined a set of [standardized column names](columns.md) that each
 groupspace module must define a :obj:`column_mapping` dictionary that maps the group's column
-names to the standardized names when using the `GroupSpace.standardize_data` method.
+names to the standardized names when using the ``GroupSpace.standardize_data`` method.
 
 Contents
 --------

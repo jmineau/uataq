@@ -11,6 +11,7 @@ Additional organized tests are in:
 - test_integration.py: Integration and API tests
 """
 
+import importlib.metadata
 import json
 from unittest.mock import MagicMock, patch
 
@@ -29,6 +30,8 @@ class TestPackageMetadata:
         assert hasattr(uataq, "__version__")
         assert isinstance(uataq.__version__, str)
         assert len(uataq.__version__) > 0
+        # the installed distribution's version (setuptools-scm, from git tags)
+        assert uataq.__version__ == importlib.metadata.version("uataq")
 
     def test_author(self):
         """Test that author is defined."""
