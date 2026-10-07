@@ -270,10 +270,10 @@ class Sodar:
 
         ds = ds.where(ds != NODATA)
 
-        for var in variables.index:
+        for var, mult in variables["MULT"].items():
             # Variables added to the log later are absent from older files
             if var in ds:
-                ds[var] = ds[var] / variables.loc[var, "MULT"]
+                ds[var] = ds[var] / mult
 
         return ds
 

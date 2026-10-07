@@ -530,7 +530,9 @@ class LGR_UGGA_File(filesystem.DataFile):
 
         header = _read_lines(path, first=1)[0]
         try:
-            meta = re.match(pattern, header).groupdict()  # pyright: ignore[reportOptionalMemberAccess]  # no match -> AttributeError, caught below
+            # no match -> AttributeError, caught below
+            # pyrefly: ignore[missing-attribute]
+            meta = re.match(pattern, header).groupdict()
         except AttributeError as e:
             raise DataFileInitializationError(
                 f"Failed to read meta data from {path}"
@@ -880,7 +882,7 @@ class LinGroup(filesystem.GroupSpace):
                 one_day = pd.Timedelta(days=1)
                 start = time_range.start - one_day if time_range.start else None
                 stop = time_range.stop + one_day if time_range.stop else None
-                time_range = TimeRange(start=start, stop=stop)  # pyright: ignore[reportArgumentType]  # datetime arithmetic widens to NaTType
+                time_range = TimeRange(start=start, stop=stop)
             elif instrument == "gps":
                 # Set default file pattern for raw lin gps data
                 pattern = pattern or "gpgga"
@@ -918,7 +920,7 @@ class LinGroup(filesystem.GroupSpace):
             for status in ["status", "Status"]:
                 # Map status to binary
                 if status in data.columns:
-                    data[status] = data[status].map({"A": 1, "V": 0})  # pyright: ignore[reportArgumentType]  # Series.map accepts a mapping
+                    data[status] = data[status].map({"A": 1, "V": 0})
 
         elif instrument == "2b_205":
             for flow in ["flow_ccpm", "Flow_CCmin"]:

@@ -36,8 +36,8 @@ quality-check:
 	@echo "Running quality checks..."
 	@echo "Linting with ruff..."
 	uv run ruff check src/uataq tests
-	@echo "Type checking with pyright..."
-	uv run pyright src/uataq
+	@echo "Type checking with pyrefly..."
+	uv run pyrefly check
 	just test
 
 # Run ruff fixes and formatting

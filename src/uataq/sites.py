@@ -739,8 +739,8 @@ class MobileSite(Site):
         .. warning::
            Incomplete -- it returns an axis without drawing the observations.
         """
-        import cartopy.crs as ccrs  # pyright: ignore[reportMissingImports]  # optional plotting extra
-        import matplotlib.pyplot as plt  # pyright: ignore[reportMissingImports]  # optional plotting extra
+        import cartopy.crs as ccrs  # optional plotting extra
+        import matplotlib.pyplot as plt  # optional plotting extra
 
         # FIXME is this the best way to do this?
         obs["lon"] = obs.Longitude_deg.round(3)

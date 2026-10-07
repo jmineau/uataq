@@ -371,7 +371,7 @@ Driven by `just` + `uv`. There is **no `just install`** recipe — use
 | Command | What it does |
 |---|---|
 | `just test` | `uv run pytest -v` |
-| `just quality-check` | ruff (`src/uataq`) + pyright (`src/uataq`) + tests |
+| `just quality-check` | ruff (`src/uataq`) + pyrefly + tests |
 | `just ruff` | `uv run ruff check --fix` + `uv run ruff format` on `src/uataq` |
 | `just build-docs` | clean + Sphinx HTML build |
 | `just pre-commit` | `uv run pre-commit run --all-files` |
@@ -387,21 +387,21 @@ what will break them again:
   `TestNetworkDataRetrieval` class is the current set. Off-cluster they cannot
   pass, so mark new ones rather than letting the job go red. `test_sodar.py`
   separately uses a `skipif` on the archive path.
-- `quality.yml` gates on **three** steps, all now clean: ruff, pyright (0
+- `quality.yml` gates on **three** steps, all now clean: ruff, pyrefly (0
   errors), and `docstr-coverage` at **100%** — that tool fails under 100 by
   default, so a new public function without a docstring turns the job red.
 - Intentional lint violations carry an inline `# noqa` with the reason: the
   `E402` imports in `uataq/__init__.py` must follow the NullHandler, and the
   `E402,F403` star import in `groupspaces/__init__.py` must follow the
   `__all__` built from the directory listing.
-- **pyright sees a different pandas in CI.** The lock pins pandas 2.3.3 for
+- **pyrefly sees a different pandas in CI.** The lock pins pandas 2.3.3 for
   Python < 3.11 and 3.0.1 above it, and the quality workflow runs on 3.10 --
   so the local venv (3.14, pandas 3) can be clean while CI fails on pandas 2
   stubs. That happened once already. Reproduce CI's view before pushing a
   typing change, using a scratch env so the project venv is left alone:
   `UV_PROJECT_ENVIRONMENT=$TMPDIR/venv310 uv sync --frozen --python 3.10` then
   `UV_PROJECT_ENVIRONMENT=$TMPDIR/venv310 uv run --no-sync --python 3.10
-  pyright src/uataq`. Never pass `--python` to a bare `uv run` in the repo: it
+  pyrefly check`. Never pass `--python` to a bare `uv run` in the repo: it
   recreates `.venv`, and the delete half-fails on NFS, leaving it unusable
   until `rm -rf .venv && uv sync --frozen`.
 - **uataq does not set pandas options** (#40). It used to turn on
@@ -412,10 +412,11 @@ what will break them again:
   `pd.options.mode.copy_on_write = "warn"` (it flags every place where on and
   off differ), and again with it off under
   `-W error::pandas.errors.SettingWithCopyWarning`.
-- Where pyright is wrong rather than the code (pandas overloads, pytables
-  nodes, the optional cartopy/matplotlib imports, `File.__exit__` making
-  with-block bindings look conditional), suppress inline with a reason. Fix
-  real narrowing problems instead of suppressing them.
+- Where pyrefly is wrong rather than the code (pandas-stubs overloads,
+  pytables nodes), suppress inline with `# pyrefly: ignore[<code>]` and a
+  reason. The optional cartopy/matplotlib imports are covered by
+  `ignore-missing-imports` in `pyproject.toml`. Fix real narrowing problems
+  instead of suppressing them.
 - `docs.yml` builds with **uv**, not pip + `just`: the `build-docs` recipe
   shells out to `uv run`, so a workflow without uv dies with exit 127 (it did,
   silently, for a while). Autosummary stubs generate into `docs/api/`
@@ -430,7 +431,7 @@ what will break them again:
 - **Python**: 3.10+ (`ruff.target-version = "py310"`).
 - **Linting**: ruff selects `E, F, UP, B, SIM, I` and ignores `E501`. No
   pydocstyle rules.
-- **Types**: pyright. `py.typed` shipped.
+- **Types**: pyrefly (`[tool.pyrefly]` in `pyproject.toml`). `py.typed` shipped.
 - **Logging**: library uses `logging.getLogger(__name__)`; `__init__.py`
   attaches a `NullHandler`. Don't `print()` in library code.
 

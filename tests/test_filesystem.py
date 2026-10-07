@@ -241,7 +241,9 @@ class TestParseDatafilesOptions:
 
     def test_invalid_driver(self):
         with pytest.raises(ValueError, match="Invalid driver"):
-            filesystem.parse_datafiles(self.files, TimeRange(), driver="polars")  # pyright: ignore[reportArgumentType]
+            filesystem.parse_datafiles(
+                self.files, TimeRange(), driver="polars"
+            )  # pyrefly: ignore[bad-argument-type]
 
 
 def test_cpu_count_without_affinity(monkeypatch):

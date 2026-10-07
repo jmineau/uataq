@@ -74,7 +74,7 @@ def _datafile_coverage(
     stop = now if stop is None else min(stop, now)
     times = times[times < stop]
 
-    return SID, lvl, pd.PeriodIndex(times.dt.to_period(freq).unique())
+    return SID, lvl, pd.DatetimeIndex(times).to_period(freq).unique()
 
 
 def _coverage_to_segments(SID: str, coverage: dict[str, set[pd.Period]]) -> list[dict]:
@@ -483,9 +483,9 @@ class Network:
         matplotlib.axes.Axes
             The axes drawn on.
         """
-        import matplotlib.dates as mdates  # pyright: ignore[reportMissingImports]  # optional plotting extra
-        import matplotlib.patches as mpatches  # pyright: ignore[reportMissingImports]  # optional plotting extra
-        import matplotlib.pyplot as plt  # pyright: ignore[reportMissingImports]  # optional plotting extra
+        import matplotlib.dates as mdates  # optional plotting extra
+        import matplotlib.patches as mpatches  # optional plotting extra
+        import matplotlib.pyplot as plt  # optional plotting extra
 
         if availability is None:
             availability = self.get_availability(**kwargs)
