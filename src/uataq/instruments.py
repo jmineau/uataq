@@ -1,5 +1,5 @@
 """
-This module implements UATAQ instruments as classes.
+UATAQ instruments as classes.
 
 Each instrument class is a subclass of the `Instrument` abstract base class and
 implements methods for reading and parsing data files.
@@ -190,15 +190,16 @@ class Instrument(metaclass=ABCMeta):
         return selected
 
     def _named_group(self, group: GroupSelection) -> str | None:
-        """The group the caller named for this instrument, or None for auto."""
+        """Return the group the caller named for this instrument, or None for auto."""
         if isinstance(group, Mapping):
             group = group.get(self.name, group.get(self.name.lower()))
         return group if isinstance(group, str) else None
 
     def _preferred_groups(self) -> list[str]:
         """
-        Registered groups that operate this instrument, most preferred first:
-        the default group, then the configured order.
+        Return the registered groups that operate this instrument.
+
+        Most preferred first: the default group, then the configured order.
 
         Raises
         ------
@@ -475,8 +476,9 @@ class Instrument(metaclass=ABCMeta):
 
     def standardize_data(self, group: str, data: pd.DataFrame) -> pd.DataFrame:
         """
-        Manipulate the data to a standard format between research groups,
-        renaming columns, converting units, mapping values, etc. as needed.
+        Standardize the data across research groups.
+
+        Rename columns, convert units, map values, etc. as needed.
 
         Parameters
         ----------
@@ -502,8 +504,9 @@ class Instrument(metaclass=ABCMeta):
         file_pattern: str | None = None,
     ) -> pd.DataFrame:
         """
-        Read and parse data files for the given level and time range,
-        using multiple processes if specified.
+        Read and parse data files for the given level and time range.
+
+        Uses multiple processes if specified.
 
         Parameters
         ----------
@@ -677,7 +680,8 @@ class SensorMixin:
     """
     Mixin for instrument objects that measure a pollutant.
 
-    Attributes:
+    Attributes
+    ----------
         pollutants (tuple): Tuple of pollutants measured by the instrument.
     """
 
@@ -699,15 +703,19 @@ class BB_405(Instrument, SensorMixin):
 
 
 class CR1000(Instrument):
-    """Campbell Scientific CR1000 datalogger. Not a sensor itself: it
-    records housekeeping such as battery voltage and enclosure temperature."""
+    """
+    Campbell Scientific CR1000 datalogger.
+
+    Not a sensor itself: it records housekeeping such as battery voltage and
+    enclosure temperature.
+    """
 
     model = "cr1000"
 
 
 class GPS(Instrument):
-    """GPS receiver providing position, and speed/course where the receiver
-    logs them.
+    """
+    GPS receiver providing position, and speed and course where logged.
 
     Recorded speed is given as ``Speed_m_s`` (lin's NMEA knots are converted;
     horel logs m/s). Receivers logging
@@ -839,8 +847,11 @@ class LGR_NO2(Instrument, SensorMixin):
 
 
 class LGR_UGGA(Instrument, SensorMixin):
-    """Los Gatos Research Ultraportable Greenhouse Gas Analyzer,
-    measuring CO2 and CH4 by off-axis ICOS."""
+    """
+    Los Gatos Research Ultraportable Greenhouse Gas Analyzer.
+
+    Measures CO2 and CH4 by off-axis ICOS.
+    """
 
     model = "lgr_ugga"
     pollutants = ("CO2", "CH4")
@@ -854,8 +865,11 @@ class Licor_6262(Instrument, SensorMixin):
 
 
 class Licor_7000(Licor_6262):
-    """LI-COR LI-7000 infrared CO2/H2O gas analyzer. Parsed like the
-    LI-6262."""
+    """
+    LI-COR LI-7000 infrared CO2/H2O gas analyzer.
+
+    Parsed like the LI-6262.
+    """
 
     model = "licor_7000"
 
@@ -868,20 +882,24 @@ class Magee_AE33(Instrument, SensorMixin):
 
 
 class MetOne_ES405(Instrument, SensorMixin):
-    """Met One E-Sampler ES-405, reporting PM1, PM2.5, PM4 and PM10.
+    """
+    Met One E-Sampler ES-405, reporting PM1, PM2.5, PM4 and PM10.
 
     Replaced the ES-642 at several sites. The horel group names both models
     ``esampler`` on disk, so only the configured installation and removal
-    dates separate them -- see :meth:`Instrument.clip_to_active`."""
+    dates separate them -- see :meth:`Instrument.clip_to_active`.
+    """
 
     model = "metone_es405"
     pollutants = ("PM1", "PM2.5", "PM4", "PM10")
 
 
 class MetOne_ES642(Instrument, SensorMixin):
-    """Met One E-Sampler ES-642, reporting PM2.5 only.
+    """
+    Met One E-Sampler ES-642, reporting PM2.5 only.
 
-    Superseded by the ES-405 at several sites; see :class:`MetOne_ES405`."""
+    Superseded by the ES-405 at several sites; see :class:`MetOne_ES405`.
+    """
 
     model = "metone_es642"
     pollutants = ("PM2.5",)
@@ -916,8 +934,11 @@ class Teledyne_T500u(Instrument, SensorMixin):
 
 
 class Teom_1400ab(Instrument, SensorMixin):
-    """Thermo/R&P TEOM 1400ab tapered-element oscillating microbalance,
-    measuring PM2.5 mass."""
+    """
+    Thermo/R&P TEOM 1400ab tapered-element oscillating microbalance.
+
+    Measures PM2.5 mass.
+    """
 
     model = "teom_1400ab"
     pollutants = ("PM2.5",)

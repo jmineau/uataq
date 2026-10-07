@@ -1,6 +1,7 @@
 """
-Tests for per-group date windows (config ``group_dates``) and the reads they
-split (uataq#33). No CHPC data needed: reads are mocked.
+Tests for per-group date windows (config ``group_dates``) and split reads.
+
+See uataq#33. No CHPC data needed: reads are mocked.
 """
 
 import logging
@@ -20,7 +21,7 @@ SPAN = (datetime(2017, 10, 20), datetime(2017, 10, 30))
 
 
 def make(groups=("horel", "lin"), name="2b_205", **config):
-    """An instrument operated by ``groups``, installed 2015-05-13 by default."""
+    """Make an instrument operated by ``groups``, installed 2015-05-13 by default."""
 
     class Concrete(instruments.Instrument):
         model = "test_model"
@@ -40,7 +41,7 @@ def trx_like(**config):
 
 
 def as_tuples(plan):
-    """A plan as plain (group, start, stop) tuples, for comparison."""
+    """Return a plan as plain (group, start, stop) tuples, for comparison."""
     return [(group, portion.start, portion.stop) for group, portion in plan]
 
 
@@ -225,7 +226,7 @@ class TestPlanReads:
 
 
 def fake_read(failing=()):
-    """A stand-in Instrument.read_data: two samples per portion, tagged by group."""
+    """Stand in for Instrument.read_data: two samples per portion, tagged by group."""
 
     def read_data(group, lvl=None, time_range=None, num_processes=1, pattern=None):
         if group in failing:

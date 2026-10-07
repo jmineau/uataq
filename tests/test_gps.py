@@ -13,7 +13,7 @@ M_PER_DEG_LAT = np.pi * gps.EARTH_RADIUS_M / 180
 
 
 def straight_track(speed=10.0, n=11, freq="1s", lat0=40.0, lon0=-111.0, heading="N"):
-    """A constant-speed track due north or east, and its times."""
+    """Make a constant-speed track due north or east, and its times."""
     time = pd.date_range("2024-01-01", periods=n, freq=freq)
     step = speed * (time[1] - time[0]).total_seconds() / M_PER_DEG_LAT
     offsets = np.arange(n) * step

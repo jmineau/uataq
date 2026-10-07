@@ -257,8 +257,12 @@ def test_groupspace_str():
 
 
 class TestParseLogPathAcrossDrives:
-    """On Windows os.path.relpath raises across drives; a debug message must
-    not stop a parse (pytest's tmp_path is on C:, a CI checkout on D:)."""
+    """
+    A debug message must not stop a parse across drives.
+
+    On Windows os.path.relpath raises across drives (pytest's tmp_path is on
+    C:, a CI checkout on D:).
+    """
 
     @staticmethod
     def cross_drive(path, start=None):

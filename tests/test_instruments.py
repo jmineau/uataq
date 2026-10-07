@@ -268,7 +268,7 @@ class TestActiveRangeClipping:
         assert self.make().active_range.stop is None
 
     def test_removal_date_present_but_null(self):
-        """config may carry `removal_date: null` for an installed instrument."""
+        """Config may carry `removal_date: null` for an installed instrument."""
         assert self.make(removal_date=None).active_range.stop is None
 
     def test_unbounded_request_is_clipped_to_the_active_range(self):
@@ -321,7 +321,8 @@ class TestActiveRangeClipping:
 
 
 class TestActiveRangeBoundaries:
-    """Touching the installed window at a boundary is not overlapping it (#37).
+    """
+    Touching the installed window at a boundary is not overlapping it (#37).
 
     Requests and the active range are both half-open, ``[start, stop)``, so a
     request that stops at the installation date or starts at the removal date
@@ -345,7 +346,7 @@ class TestActiveRangeBoundaries:
             self.make().clip_to_active(("2016-01-01", self.INSTALL))
 
     def test_inclusive_string_stop_day_before_installation_raises(self):
-        """ "2016-02-03" as a stop means through that day, i.e. up to install."""
+        """A stop of "2016-02-03" means through that day, i.e. up to install."""
         with pytest.raises(errors.InactiveInstrumentError):
             self.make().clip_to_active(("2016-01-01", "2016-02-03"))
 

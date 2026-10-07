@@ -70,7 +70,7 @@ class TestNetworkGroupSelection:
     times = pd.date_range("2024-06-01", periods=3, freq="s", name="Time_UTC")
 
     def fake_read_data(self, calls):
-        """A Site.read_data stand-in that records the requested group."""
+        """Stand in for Site.read_data, recording the requested group."""
 
         def read_data(site, instruments, group=None, *args, **kwargs):
             instruments = [instruments] if isinstance(instruments, str) else instruments
@@ -162,7 +162,8 @@ class TestNetworkColumns:
 
 @pytest.mark.chpc
 class TestNetworkDataRetrieval:
-    """Test Network data retrieval.
+    """
+    Test Network data retrieval.
 
     These read real observations through the lin groupspace, so they need the
     CHPC filesystem. Excluded from CI by ``-m "not chpc"``.

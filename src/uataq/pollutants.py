@@ -27,7 +27,7 @@ POLLUTANTS: tuple[str, ...] = tuple(
 
 
 def _pattern(pollutant: str, raw: bool) -> re.Pattern:
-    """The column-name pattern for one pollutant."""
+    """Return the column-name pattern for one pollutant."""
     # BC is reported per wavelength channel (BC1..BC7); everything else may
     # carry a "d" for dry mole fraction. Kept apart so PM1 can't match PM10.
     infix = r"(?P<channel>\d)" if pollutant.upper() == "BC" else "(?P<dry>d)?"

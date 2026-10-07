@@ -419,7 +419,8 @@ class TestSplitByPlan:
 
 
 class TestMobileSiteLocate:
-    """Each row is located with the GPS logged on its own clock (#42).
+    """
+    Each row is located with the GPS logged on its own clock (#42).
 
     TRX01 ozone crossing 2017-10-28 is read from lin, then horel (config
     group_dates). lin's instruments and GPS are stamped by the Pi; horel's by
@@ -477,7 +478,7 @@ class TestMobileSiteLocate:
         )
 
     def fake_read_data(self, calls, fail=()):
-        """A read_data stand-in: O3 as read across the cut, GPS per group."""
+        """Stand in for read_data: O3 as read across the cut, GPS per group."""
 
         def read_data(instruments, group=None, lvl=None, time_range=None, *a, **k):
             if instruments == "gps":
@@ -607,7 +608,7 @@ class TestSiteReadDataSelection:
 
     @staticmethod
     def site_with(mock_config, names, plan_errors=None):
-        """A site whose instruments return a one-row frame named after them."""
+        """Make a site whose instruments return a one-row frame named after them."""
         plan_errors = plan_errors or {}
         insts = {}
         for name in names:

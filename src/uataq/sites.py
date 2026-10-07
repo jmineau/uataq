@@ -1,5 +1,5 @@
 """
-This module provides classes and functions for working with UATAQ sites.
+Classes and functions for working with UATAQ sites.
 """
 
 import datetime as dt
@@ -95,7 +95,7 @@ def _split_by_plan(
 
 
 def _span(portions: list[TimeRange]) -> TimeRange:
-    """The smallest range covering every portion; a None bound is unbounded."""
+    """Return the smallest range covering every portion; a None bound is unbounded."""
     starts = [p.start for p in portions if p.start is not None]
     stops = [p.stop for p in portions if p.stop is not None]
     start = min(starts) if len(starts) == len(portions) else None
@@ -153,7 +153,7 @@ class Site:
         self, SID: str, config: dict, instruments: instruments.InstrumentEnsemble
     ):
         """
-        Initializes a Site object with the given site ID.
+        Initialize a Site object with the given site ID.
 
         Parameters
         ----------
@@ -351,9 +351,9 @@ class Site:
         num_processes: int | Literal["max"],
     ) -> dict[str, pd.DataFrame]:
         """
-        Read the instruments measuring ``pollutants`` at the final level and
-        reshape each one's frame to ``format`` (see :meth:`get_obs`).
+        Read the instruments measuring ``pollutants`` at the final level.
 
+        Reshape each one's frame to ``format`` (see :meth:`get_obs`).
         Instruments are kept apart, keyed by name, so a caller can still tell
         which instrument (and so which group's clock) each row came from.
         """
@@ -529,8 +529,10 @@ class MobileSite(Site):
         **kwargs,
     ) -> pd.DataFrame:
         """
-        Get mobile site observations for each pollutant, combining instruments by pollutants,
-        and (optionally) merging location data from GPS.
+        Get mobile site observations for each pollutant.
+
+        Combines instruments by pollutant and, optionally, merges location data
+        from GPS.
 
         Parameters
         ----------
@@ -679,8 +681,10 @@ class MobileSite(Site):
 
     def _gps_group(self, obs_group: str, group: instruments.GroupSelection) -> str:
         """
-        The group whose GPS locates rows read from ``obs_group``: always that
-        group itself, since only its GPS shares its logger clock.
+        Return the group whose GPS locates rows read from ``obs_group``.
+
+        It is always that group itself, since only its GPS shares its logger
+        clock.
 
         Raises
         ------
@@ -731,7 +735,8 @@ class MobileSite(Site):
 
     @staticmethod
     def plot(obs, ax=None):
-        """Plot mobile observations on a map.
+        """
+        Plot mobile observations on a map.
 
         Requires the optional cartopy and matplotlib dependencies.
 

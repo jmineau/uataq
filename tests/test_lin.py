@@ -119,7 +119,7 @@ def ugga_row(time: str, sep: str = ",", n_numeric: int = 20, tail=("3",)) -> str
 
 
 def write_ugga(path, version: str, rows: list[str], header_cols: int = 23) -> str:
-    """An LGR software file: meta line, column header, data rows."""
+    """Write an LGR software file: meta line, column header, data rows."""
     path.parent.mkdir(parents=True, exist_ok=True)
     meta = f"VC:{version} BD:Jan 16 2014 SN:LGR-13-0221"
     header = ",".join(f"col{i}" for i in range(header_cols))
@@ -148,9 +148,12 @@ class TestLinDatFile:
         assert datafile.period == pd.Period("2024-06", freq="M")
 
     def test_pipeline_header_gets_config_names(self, tmp_path):
-        """A Time_UTC header is not TIMESTAMP, so the config names apply. The
-        header line is skipped, not read in as a row that made every column
-        text (uataq.get_obs returned object-dtype concentrations)."""
+        """
+        A Time_UTC header is not TIMESTAMP, so the config names apply.
+
+        The header line is skipped, not read in as a row that made every column
+        text (uataq.get_obs returned object-dtype concentrations).
+        """
         path = tmp_path / "wbb" / "teledyne_t400" / "final" / "2024_06_final.dat"
         path.parent.mkdir(parents=True)
         path.write_text(
@@ -181,9 +184,12 @@ class TestLinDatFile:
         assert data["O3_ppb"].isna().tolist() == [False, True]
 
     def test_headerless_file_keeps_its_first_row(self, tmp_path):
-        """Old raw logger files have no header: the first line is data, and
-        its values are kept as written (not de-duplicated like column names,
-        which turned a second "0" into "0.1")."""
+        """
+        Old raw logger files have no header: the first line is data.
+
+        Its values are kept as written (not de-duplicated like column names,
+        which turned a second "0" into "0.1").
+        """
         path = tmp_path / "wbb" / "teledyne_t400" / "raw" / "2016_01_raw.dat"
         path.parent.mkdir(parents=True)
         path.write_text(
@@ -263,8 +269,11 @@ class TestLGRUGGAFile:
         assert data["ID"].tolist() == ["V:1 Atmosphere"] * 2
 
     def test_parse_24_columns_drops_the_valve(self, tmp_path):
-        """2014+ software splits the MIU field; the valve number is dropped
-        and the description becomes ID."""
+        """
+        2014+ software splits the MIU field.
+
+        The valve number is dropped and the description becomes ID.
+        """
         rows = [
             ugga_row("05/09/2017 22:06:07.927", tail=("3", "3", "~flush~flush")),
             ugga_row("05/09/2017 22:06:17.927", tail=("3", "4", "atmosphere")),
@@ -391,8 +400,12 @@ class TestAirTrendFile:
         assert lin.DATA_CONFIG[config["instrument"]] is lin.DATA_CONFIG["lgr_ugga"]
 
     def test_instrument_is_not_matched_by_a_shorter_name(self, tmp_path):
-        """metone_es642 starts with "met" (the met sensors), which comes first
-        in the pipeline config; its PM files were read with the met layout."""
+        """
+        metone_es642 is not read with the met sensors' layout.
+
+        Its name starts with "met" (the met sensors), which comes first in the
+        pipeline config, so its PM files were read with the met layout.
+        """
         metone = {"air_trend": {"col_names": ["time", "pm25_mgm3"], "col_types": "Td"}}
         met = {"air_trend": {"col_names": ["time", "case_t_c"], "col_types": "Td"}}
         path = self.write(
@@ -475,8 +488,11 @@ class TestLinGroup:
         assert [os.path.basename(d.path) for d in datafiles] == ["2024-06-01_gprmc.csv"]
 
     def test_raw_ugga_range_is_widened_a_day(self, data_dir):
-        """LGR file names need not match their contents, so the day before
-        and after are read too."""
+        """
+        LGR file names need not match their contents.
+
+        So the day before and after are read too.
+        """
         raw = data_dir / "wbb" / "lgr_ugga" / "raw"
         for day in [
             "2024-06-01",

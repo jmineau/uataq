@@ -1,5 +1,5 @@
 """
-This module provides classes for combining and analyzing data across multiple sites.
+Classes for combining and analyzing data across multiple sites.
 """
 
 import logging

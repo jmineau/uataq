@@ -142,7 +142,7 @@ def write_hourly_month(mesowest_dir, SID, start, periods, heights=(10.0, 50.0)):
 
 @pytest.fixture
 def mesowest(tmp_path):
-    """A MesoWest dir with station USDR1 and two months (Jan 31 + Feb 1)."""
+    """Make a MesoWest dir with station USDR1 and two months (Jan 31 + Feb 1)."""
     write_metadata(tmp_path, "USDR1")
     # Jan 31 00:00 .. 23:00 and Feb 1 00:00 .. 05:00
     write_hourly_month(tmp_path, "USDR1", "2024-01-31 00:00", 24)
