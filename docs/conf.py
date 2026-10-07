@@ -3,6 +3,7 @@
 # For the full list of built-in configuration values, see the documentation:
 # https://www.sphinx-doc.org/en/master/usage/configuration.html
 
+import importlib.metadata
 import os
 import sys
 
@@ -14,7 +15,7 @@ sys.path.insert(0, os.path.abspath("../src"))
 project = "UATAQ"
 copyright = "2025, James Mineau"
 author = "James Mineau"
-release = "2025.11.0"
+release = importlib.metadata.version("uataq")  # from git tags, via setuptools-scm
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration

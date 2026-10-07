@@ -3,7 +3,13 @@
 Read UATAQ data
 """
 
-__version__ = "2025.11.0"
+from importlib.metadata import PackageNotFoundError
+from importlib.metadata import version as _version
+
+try:
+    __version__ = _version("uataq")  # set by setuptools-scm from git tags
+except PackageNotFoundError:  # pragma: no cover - not installed
+    __version__ = "0+unknown"
 __author__ = "James Mineau"
 __email__ = "jameskmineau@gmail.com"
 
