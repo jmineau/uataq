@@ -9,6 +9,8 @@ follow [PEP 440](https://peps.python.org/pep-0440/): calendar-based,
 
 ### Changed
 
+- **Requires Python 3.11 or newer** (breaking): Python 3.10 reaches its end of
+  life in October 2026. Tested on 3.11 through 3.14.
 - The version now comes from git tags (setuptools-scm). An install from git
   between releases reports a development version such as
   `2025.11.1.dev3+g1a2b3c4` rather than the last release's number.
