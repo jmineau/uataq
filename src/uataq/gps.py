@@ -76,7 +76,7 @@ def bearing(
     lon2: npt.ArrayLike,
 ) -> np.ndarray:
     """
-    Initial great-circle bearing from the first point to the second.
+    Return the initial great-circle bearing from the first point to the second.
 
     Parameters
     ----------

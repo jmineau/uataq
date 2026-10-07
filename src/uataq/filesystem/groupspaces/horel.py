@@ -550,8 +550,12 @@ class HorelGroup(filesystem.GroupSpace):
     def get_files(
         self, SID: str, instrument: str, lvl: str, logger: str = "campbellsci"
     ) -> list[str]:
-        """List horel files for the instrument, mapping UATAQ instrument names
-        onto the horel directory names. See :meth:`GroupSpace.get_files`."""
+        """
+        List horel files for the instrument.
+
+        Maps UATAQ instrument names onto the horel directory names. See
+        :meth:`GroupSpace.get_files`.
+        """
         # Map UATAQ instrument names to Horel instrument names to find the correct directories
         instrument_mapper = {
             "2b_205": "2b",
@@ -588,8 +592,12 @@ class HorelGroup(filesystem.GroupSpace):
         return files
 
     def get_datafile_key(self, instrument: str, lvl: str, logger: str) -> str:
-        """Return the data file key. campbellsci is the only horel logger, so
-        the key depends on the level alone."""
+        """
+        Return the data file key.
+
+        campbellsci is the only horel logger, so the key depends on the level
+        alone.
+        """
         # The only logger for Horel data is campbellsci
         # The datafile key is based only on the level
         return lvl
@@ -604,7 +612,8 @@ class HorelGroup(filesystem.GroupSpace):
         pattern: str | None = None,
     ) -> list[filesystem.DataFile]:
         """
-        Returns a list of data files for a given level and time range.
+        Return a list of data files for a given level and time range.
+
         Extends DataFile.get_datafiles by supplying the instrument name to the DataFile subclass.
 
         Parameters
@@ -661,8 +670,12 @@ class HorelGroup(filesystem.GroupSpace):
 
     @staticmethod
     def standardize_data(instrument: str, data: pd.DataFrame) -> pd.DataFrame:
-        """Rename horel columns to UATAQ names and apply per-instrument fixes
-        (GPS flags, Fahrenheit temperatures). See :meth:`GroupSpace.standardize_data`."""
+        """
+        Rename horel columns to UATAQ names and apply per-instrument fixes.
+
+        The fixes: GPS flags, Fahrenheit temperatures. See
+        :meth:`GroupSpace.standardize_data`.
+        """
         mapping = column_mapping[instrument]
 
         ### Column specific manipulations ###

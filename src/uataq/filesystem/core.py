@@ -1,5 +1,5 @@
 """
-This module contains classes and functions for working in the CHPC UATAQ filesystem.
+Classes and functions for working in the CHPC UATAQ filesystem.
 """
 
 import logging
@@ -24,7 +24,7 @@ lvls: dict = {"raw": 1, "qaqc": 2, "calibrated": 3, "final": 4}
 
 def cpu_count() -> int:
     """
-    Number of CPUs this process may run on.
+    Return the number of CPUs this process may run on.
 
     Unlike :func:`multiprocessing.cpu_count`, which reports every core on the
     machine, this respects the CPU affinity a scheduler sets: a SLURM job
@@ -42,8 +42,10 @@ def cpu_count() -> int:
 
 def _relpath(path: str, start: str) -> str:
     """
-    ``path`` relative to ``start`` for log messages, or ``path`` itself when
-    there is no relative path (Windows: the two are on different drives).
+    Return ``path`` relative to ``start``, for log messages.
+
+    Return ``path`` itself when there is no relative path (on Windows, when the
+    two are on different drives).
     """
     try:
         return os.path.relpath(path, start)
@@ -61,7 +63,7 @@ def list_files(
     followlinks: bool = False,
 ) -> list[str]:
     """
-    Returns a list of files in the specified directory that match the specified pattern.
+    Return a list of files in the specified directory that match the specified pattern.
 
     Parameters
     ----------
@@ -141,6 +143,7 @@ class DataFile(metaclass=ABCMeta):
     def __init__(self, path: str):
         """
         Initialize the DataFile object.
+
         Determines the period of the data file from the file name.
 
         Parameters
@@ -351,7 +354,7 @@ class GroupSpace(metaclass=ABCMeta):
     get_datafile_class(instrument, lvl, logger)
         Get the DataFile class based on the instrument, level, and logger.
     get_datafiles(SID, instrument, lvl, logger, time_range, pattern)
-        Returns a list of data files for a given level and time range.
+        Return a list of data files for a given level and time range.
     """
 
     name: str  # group name
@@ -400,6 +403,7 @@ class GroupSpace(metaclass=ABCMeta):
             The logger name.
 
         Returns
+        -------
         list[str]
             A list of file paths.
         """
@@ -464,7 +468,7 @@ class GroupSpace(metaclass=ABCMeta):
         pattern: str | None = None,
     ) -> list[DataFile]:
         """
-        Returns a list of data files for a given level and time range.
+        Return a list of data files for a given level and time range.
 
         Parameters
         ----------
@@ -508,11 +512,12 @@ class GroupSpace(metaclass=ABCMeta):
     @abstractmethod
     def standardize_data(instrument: str, data: pd.DataFrame) -> pd.DataFrame:
         """
-        Manipulate the data to a standard format between research groups,
-        renaming columns, converting units, mapping values, etc. as needed.
+        Standardize the data across research groups.
+
+        Rename columns, convert units, map values, etc. as needed.
 
         Parameters
-        ----------s
+        ----------
         instrument : str
             The instrument model.
         data : pd.DataFrame

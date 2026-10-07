@@ -1,5 +1,5 @@
 """
-This module provides a factory class for creating site objects with instruments from a configuration file.
+A factory class for creating site objects with instruments from a configuration file.
 """
 
 import importlib.resources
@@ -18,10 +18,12 @@ class Laboratory:
     This class provides methods for creating site objects from a configuration file.
     The configuration file should contain information about the sites and their instruments.
 
-    Attributes:
+    Attributes
+    ----------
         site_config (str): The path to the site configuration file.
 
-    Methods:
+    Methods
+    -------
         get_site(SID): Returns a site object for the specified site ID.
     """
 

@@ -439,8 +439,11 @@ What keeps CI green:
 - **Build backend**: setuptools with setuptools-scm (the version is the git
   tag). `config.json` and `py.typed` ship as package data (`pyproject.toml`).
 - **Python**: 3.11+ (`requires-python`; ruff takes its target from it).
-- **Linting**: ruff selects `E, F, UP, B, SIM, I` and ignores `E501`. No
-  pydocstyle rules.
+- **Linting**: ruff selects `E, F, UP, B, SIM, I, D, D213, NPY, RUF100` and
+  ignores `E501, D105, D200, D212, D400`. Docstrings follow the numpy
+  convention (pydocstyle), with the summary on the second line (D213), one
+  line long and in the imperative. Tests need no docstrings, but the ones they
+  have follow the same format (see `pyproject.toml`).
 - **Types**: pyrefly (`[tool.pyrefly]` in `pyproject.toml`). `py.typed` shipped.
 - **Logging**: library uses `logging.getLogger(__name__)`; `__init__.py`
   attaches a `NullHandler`. Don't `print()` in library code.

@@ -123,7 +123,8 @@ class TimeRange:
 
     @property
     def start(self) -> dt.datetime | None:
-        """Start of the range, or None when unbounded.
+        """
+        Start of the range, or None when unbounded.
 
         Assigning a string parses it; a date-only string is taken as the
         beginning of that day.
@@ -143,7 +144,8 @@ class TimeRange:
 
     @property
     def stop(self) -> dt.datetime | None:
-        """End of the range, or None when unbounded.
+        """
+        End of the range, or None when unbounded.
 
         Assigning a string parses it **inclusively**: a date-only string is
         taken as the end of that day, so ``"2024-01-01"`` stops at
@@ -164,7 +166,8 @@ class TimeRange:
 
     @property
     def total_seconds(self) -> float:
-        """Length of the range in seconds.
+        """
+        Length of the range in seconds.
 
         Raises
         ------

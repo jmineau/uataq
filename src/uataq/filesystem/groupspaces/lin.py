@@ -832,7 +832,8 @@ class LinGroup(filesystem.GroupSpace):
     def get_files(
         self, SID: str, instrument: str, lvl: str, logger: str = "campbellsci"
     ) -> list[str]:
-        """List lin files for the instrument and level.
+        """
+        List lin files for the instrument and level.
 
         See :meth:`GroupSpace.get_files`. Raw ``lgr_ugga`` files need their own
         handling because they sit in subdirectories alongside other files.
@@ -845,8 +846,11 @@ class LinGroup(filesystem.GroupSpace):
         return filesystem.list_files(data_path, full_names=True)
 
     def get_datafile_key(self, instrument: str, lvl: str, logger: str) -> str:
-        """Return the data file key: the logger for raw files, otherwise the
-        data pipeline's own format."""
+        """
+        Return the data file key.
+
+        The logger for raw files, otherwise the data pipeline's own format.
+        """
         key = logger if lvl == "raw" else "data-pipeline"
         return key
 
@@ -859,7 +863,8 @@ class LinGroup(filesystem.GroupSpace):
         time_range: TimeRange,
         pattern: str | None = None,
     ) -> list[filesystem.DataFile]:
-        """Return the lin data files overlapping the time range.
+        """
+        Return the lin data files overlapping the time range.
 
         See :meth:`GroupSpace.get_datafiles`. Raw files need extra handling:
         ``lgr_ugga`` file names do not line up with their contents, so the
@@ -891,10 +896,11 @@ class LinGroup(filesystem.GroupSpace):
 
     @staticmethod
     def standardize_data(instrument: str, data: pd.DataFrame) -> pd.DataFrame:
-        """Rename lin columns to UATAQ names and apply per-instrument fixes
-        (GPS degree-minute coordinates, status flags, unit conversions).
+        """
+        Rename lin columns to UATAQ names and apply per-instrument fixes.
 
-        See :meth:`GroupSpace.standardize_data`.
+        The fixes: GPS degree-minute coordinates, status flags, unit
+        conversions. See :meth:`GroupSpace.standardize_data`.
         """
         mapping = column_mapping.get(instrument, {})
 

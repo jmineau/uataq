@@ -206,8 +206,11 @@ class TestHorelCSVFile:
         assert "PM2.5_Data_Flagged" not in pm.columns
 
     def test_gps_flags(self, tmp_path):
-        """Storage (GPS_Data_Flagged) is a positive flag, an invalid RMC fix
-        a negative one, and the source columns are dropped."""
+        """
+        Storage is a positive GPS flag, an invalid RMC fix a negative one.
+
+        Storage is ``GPS_Data_Flagged``; the source columns are dropped.
+        """
         data = horel.HorelCSVFile(write_bus(tmp_path), "gps").parse()
 
         assert data["QAQC_Flag"].tolist() == [20, 0, -23]
@@ -325,7 +328,7 @@ class TestHorelGroup:
         return sorted(os.path.basename(str(p)) for p in paths)
 
     def test_highest_level(self, archive):
-        """final if the site has a finalized file (BUS in the ebus dir)."""
+        """Final if the site has a finalized file (BUS in the ebus dir)."""
         assert horel.HorelGroup.get_highest_lvl("TRX01", "2b_205") == "final"
         assert horel.HorelGroup.get_highest_lvl("BUS01", "2b_205") == "final"
         assert horel.HorelGroup.get_highest_lvl("TRX02", "2b_205") == "raw"
@@ -381,9 +384,12 @@ class TestHorelGPSRead:
     """GPS through the Instrument, from a synthetic cr1000 table."""
 
     def test_recorded_speed_is_already_m_s(self, tmp_path):
-        """horel logs RSPD in m/s (the h5 variable metadata and the CSV units
-        row say so; it matches the speed from positions), so reading it must
-        not apply lin's knots conversion."""
+        """
+        Horel's RSPD is in m/s, so reading it applies no knots conversion.
+
+        The h5 variable metadata and the CSV units row say so, and it matches
+        the speed from positions. Lin's knots conversion must not apply.
+        """
         main = tmp_path / "uutrax"
         write_h5(
             main / "cr1000" / "BUS01_2024_06_cr1000.h5",

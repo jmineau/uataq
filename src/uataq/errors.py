@@ -1,11 +1,15 @@
 """
-This module provides custom exceptions for UATAQ.
+Custom exceptions for UATAQ.
 """
 
 
 class DataFileInitializationError(Exception):
-    """Raised when a data file cannot be set up, e.g. its header or file name
-    does not carry the metadata the reader needs."""
+    """
+    Raised when a data file cannot be set up.
+
+    Its header or file name, for example, does not carry the metadata the
+    reader needs.
+    """
 
 
 class ParserError(Exception):
@@ -13,13 +17,21 @@ class ParserError(Exception):
 
 
 class ReaderError(Exception):
-    """Base class for failures to read data. Caught per instrument by
-    :meth:`uataq.sites.Site.read_data`, which warns and moves on."""
+    """
+    Base class for failures to read data.
+
+    Caught per instrument by :meth:`uataq.sites.Site.read_data`, which warns
+    and moves on.
+    """
 
 
 class InactiveInstrumentError(ReaderError):
-    """Raised when the requested time range lies entirely outside the window
-    in which the instrument was installed at the site."""
+    """
+    Raised when the requested time range misses the instrument's installation.
+
+    The range lies entirely outside the window in which the instrument was
+    installed at the site.
+    """
 
     def __init__(self, instrument):
         msg = f"{instrument} is inactive in given time_range"
@@ -27,8 +39,12 @@ class InactiveInstrumentError(ReaderError):
 
 
 class InvalidGroupError(ReaderError):
-    """Raised when a research group does not operate the instrument, or is not
-    a registered groupspace."""
+    """
+    Raised when a research group cannot read the instrument.
+
+    The group does not operate the instrument, or is not a registered
+    groupspace.
+    """
 
 
 class InstrumentNotFoundError(Exception):
