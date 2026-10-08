@@ -77,6 +77,7 @@ exclude_also = [
 project-includes = ["src"]
 # matplotlib and cartopy are optional plotting imports, not dependencies.
 ignore-missing-imports = ["matplotlib.*", "cartopy.*"]
+python-version = "3.11"  # as CI checks, against the oldest supported Python
 
 [tool.pytest]
 minversion = "9.0"
@@ -86,7 +87,12 @@ addopts = ["-ra"]
 log_level = "INFO"  # show captured logs for failing tests
 # Warnings are errors, so deprecations surface early. Ignore a specific
 # third-party warning with e.g. "ignore:some message:DeprecationWarning:pkg".
-filterwarnings = ["error"]
+filterwarnings = [
+    "error",
+    # numpy ignores this one itself (compiled packages such as netCDF4 raise it on
+    # import); pytest's "error" filter would bring it back.
+    "ignore:numpy.ndarray size changed:RuntimeWarning",
+]
 markers = [
     "network: needs live network access; excluded from default runs",
     "slow: expensive in time, bandwidth or disk; excluded from default runs",
@@ -111,6 +117,9 @@ ignore = [
 
 [tool.ruff.format]
 docstring-code-format = true
+# ruff also formats code blocks in Markdown; these keep their examples as written
+# (e.g. hand-aligned comments).
+exclude = ["README.md", "AGENTS.md"]
 
 [tool.ruff.lint]
 select = [
@@ -120,7 +129,7 @@ select = [
     "B",  # flake8-bugbear
     "SIM",  # flake8-simplify
     "I",  # isort
-    "D",  # pydocstyle, numpy convention (below)
+    "D",  # pydocstyle, NumPy convention (below)
     "D213",  # docstring summary on the second line
     "NPY",  # NumPy-specific, incl. NumPy 2 deprecations
     "RUF100",  # unused noqa
@@ -134,8 +143,9 @@ ignore = [
 ]
 
 [tool.ruff.lint.per-file-ignores]
-# Tests need no docstrings; the docstring format rules still apply to them.
-"tests/**" = ["D100", "D101", "D102", "D103", "D104", "D106", "D107"]
+# Tests need no docstrings, and a fixture's names what it provides ("A small
+# grid."); the other docstring rules still apply to them.
+"tests/**" = ["D100", "D101", "D102", "D103", "D104", "D106", "D107", "D401"]
 
 [tool.ruff.lint.pydocstyle]
 convention = "numpy"
@@ -157,5 +167,6 @@ fallback_version = "0.0.0"  # no git metadata at all (e.g. a bare source copy)
 [tool.uv]
 required-version = ">=0.12"
 # Rebuild the editable install when pyproject.toml or the git state changes, so
-# `__version__` follows new commits and tags.
+# `__version__` follows new commits and tags. This replaces uv's default keys, so
+# add { file = "setup.py" } (and any C sources) if the project has them.
 cache-keys = [{ file = "pyproject.toml" }, { git = { commit = true, tags = true } }]

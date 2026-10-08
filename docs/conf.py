@@ -7,6 +7,10 @@
 
 import datetime
 import importlib.metadata
+import sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).parent / "_ext"))
 
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
@@ -30,6 +34,7 @@ extensions = [
     "sphinx.ext.intersphinx",
     "sphinx_autodoc_typehints",
     "sphinx_copybutton",
+    "api_pages",  # _ext/api_pages.py: class pages with member tables
 ]
 
 templates_path = ["_templates"]
@@ -78,7 +83,7 @@ napoleon_include_special_with_doc = True
 napoleon_use_admonition_for_examples = False
 napoleon_use_admonition_for_notes = False
 napoleon_use_admonition_for_references = False
-napoleon_use_ivar = False
+napoleon_use_ivar = True  # what a class docstring's Attributes section leaves
 napoleon_use_param = True
 napoleon_use_rtype = True
 napoleon_preprocess_types = False
