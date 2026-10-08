@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Sites &#8212; UATAQ 2025.11.1.dev61+gbbebd4b09 documentation</title>
+    <title>Sites &#8212; UATAQ 2025.11.1.dev62+g9a38e416d documentation</title>
   
   
   
@@ -38,7 +38,7 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="_static/documentation_options.js?v=e29ad1ef"></script>
+    <script src="_static/documentation_options.js?v=3e9cad26"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -58,7 +58,7 @@
     <link rel="prev" title="Lin Group" href="api/uataq.filesystem.groupspaces.lin.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2025.11.1.dev61+gbbebd4b09" />
+  <meta name="docsearch:version" content="2025.11.1.dev62+g9a38e416d" />
   
     
     <script src="_static/searchtools.js"></script>
@@ -126,7 +126,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2025.11.1.dev61+gbbebd4b09 documentation</p>
+    <p class="title logo__title">UATAQ 2025.11.1.dev62+g9a38e416d documentation</p>
   
 </a></div>
     
@@ -551,90 +551,18 @@
 <dt class="sig sig-object py" id="uataq.sites.Site">
 <span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">uataq.sites.</span></span><span class="sig-name descname"><span class="pre">Site</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">SID</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">instruments</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/uataq/sites.html#Site"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uataq.sites.Site" title="Link to this definition">#</a></dt>
 <dd><p>A class representing a site where atmospheric measurements are taken.</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="uataq.sites.Site.SID">
-<span class="sig-name descname"><span class="pre">SID</span></span><a class="headerlink" href="#uataq.sites.Site.SID" title="Link to this definition">#</a></dt>
-<dd><p>The site identifier.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)">str</a></p>
+<dt class="field-odd">Variables<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>SID</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – The site identifier.</p></li>
+<li><p><strong>config</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.14)"><em>dict</em></a>) – A dictionary containing configuration information for the site.</p></li>
+<li><p><strong>instruments</strong> (<a class="reference internal" href="instruments.html#uataq.instruments.InstrumentEnsemble" title="uataq.instruments.InstrumentEnsemble"><em>InstrumentEnsemble</em></a>) – An instance of the InstrumentEnsemble class representing the instruments at the site.</p></li>
+<li><p><strong>groups</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#set" title="(in Python v3.14)"><em>set</em></a><em> of </em><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – The research groups that collect data at the site.</p></li>
+<li><p><strong>loggers</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#set" title="(in Python v3.14)"><em>set</em></a><em> of </em><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – The loggers used by research groups that record data at a site.</p></li>
+<li><p><strong>pollutants</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#set" title="(in Python v3.14)"><em>set</em></a><em> of </em><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – The pollutants measured at the site.</p></li>
+</ul>
 </dd>
 </dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="uataq.sites.Site.config">
-<span class="sig-name descname"><span class="pre">config</span></span><a class="headerlink" href="#uataq.sites.Site.config" title="Link to this definition">#</a></dt>
-<dd><p>A dictionary containing configuration information for the site.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.14)">dict</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="uataq.sites.Site.instruments">
-<span class="sig-name descname"><span class="pre">instruments</span></span><a class="headerlink" href="#uataq.sites.Site.instruments" title="Link to this definition">#</a></dt>
-<dd><p>An instance of the InstrumentEnsemble class representing the instruments at the site.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="instruments.html#uataq.instruments.InstrumentEnsemble" title="uataq.instruments.InstrumentEnsemble">InstrumentEnsemble</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="uataq.sites.Site.groups">
-<span class="sig-name descname"><span class="pre">groups</span></span><a class="headerlink" href="#uataq.sites.Site.groups" title="Link to this definition">#</a></dt>
-<dd><p>The research groups that collect data at the site.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#set" title="(in Python v3.14)">set</a> of <a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)">str</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="uataq.sites.Site.loggers">
-<span class="sig-name descname"><span class="pre">loggers</span></span><a class="headerlink" href="#uataq.sites.Site.loggers" title="Link to this definition">#</a></dt>
-<dd><p>The loggers used by research groups that record data at a site.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#set" title="(in Python v3.14)">set</a> of <a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)">str</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="uataq.sites.Site.pollutants">
-<span class="sig-name descname"><span class="pre">pollutants</span></span><a class="headerlink" href="#uataq.sites.Site.pollutants" title="Link to this definition">#</a></dt>
-<dd><p>The pollutants measured at the site.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#set" title="(in Python v3.14)">set</a> of <a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)">str</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="uataq.sites.Site.read_data">
-<span class="sig-name descname"><span class="pre">read_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">instruments</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'all'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lvl</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_range</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_processes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_pattern</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/uataq/sites.html#Site.read_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uataq.sites.Site.read_data" title="Link to this definition">#</a></dt>
-<dd><p>Read data for each instrument for specified level.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="uataq.sites.Site.read_obs">
-<span class="sig-name descname"><span class="pre">read_obs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pollutants</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'all'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'wide'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_range</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_processes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#uataq.sites.Site.read_obs" title="Link to this definition">#</a></dt>
-<dd><p>Read observations for each pollutant, combining instruments by pollutants.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="uataq.sites.Site.get_recent_obs">
-<span class="sig-name descname"><span class="pre">get_recent_obs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">recent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">dt.timedelta(days=10)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lvl</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'qaqc'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/uataq/sites.html#Site.get_recent_obs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uataq.sites.Site.get_recent_obs" title="Link to this definition">#</a></dt>
-<dd><p>Get recent observations from site instruments.</p>
-</dd></dl>
-
 <dl class="py method">
 <dt class="sig sig-object py" id="uataq.sites.Site.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">SID</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">instruments</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/uataq/sites.html#Site.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uataq.sites.Site.__init__" title="Link to this definition">#</a></dt>
@@ -670,8 +598,8 @@
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id0">
-<span class="sig-name descname"><span class="pre">read_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">instruments</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'all'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lvl</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_range</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_processes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_pattern</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/uataq/sites.html#Site.read_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id0" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py" id="uataq.sites.Site.read_data">
+<span class="sig-name descname"><span class="pre">read_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">instruments</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'all'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lvl</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_range</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_processes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_pattern</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/uataq/sites.html#Site.read_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uataq.sites.Site.read_data" title="Link to this definition">#</a></dt>
 <dd><p>Read data for the specified instruments and level.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -733,8 +661,8 @@ corresponding dataframes. If only one level was read, the method returns the cor
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id1">
-<span class="sig-name descname"><span class="pre">get_recent_obs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">recent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">datetime.timedelta(days=10)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pollutants</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'all'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'wide'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/uataq/sites.html#Site.get_recent_obs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id1" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py" id="uataq.sites.Site.get_recent_obs">
+<span class="sig-name descname"><span class="pre">get_recent_obs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">recent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">datetime.timedelta(days=10)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pollutants</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'all'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'wide'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/uataq/sites.html#Site.get_recent_obs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uataq.sites.Site.get_recent_obs" title="Link to this definition">#</a></dt>
 <dd><p>Get recent observations from site instruments.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -951,19 +879,10 @@ as does a group that logs no GPS at this site.</p>
   <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#uataq.sites.Site"><code class="docutils literal notranslate"><span class="pre">Site</span></code></a><ul class="pst-show_toc_level nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uataq.sites.Site.SID"><code class="docutils literal notranslate"><span class="pre">Site.SID</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uataq.sites.Site.config"><code class="docutils literal notranslate"><span class="pre">Site.config</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uataq.sites.Site.instruments"><code class="docutils literal notranslate"><span class="pre">Site.instruments</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uataq.sites.Site.groups"><code class="docutils literal notranslate"><span class="pre">Site.groups</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uataq.sites.Site.loggers"><code class="docutils literal notranslate"><span class="pre">Site.loggers</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uataq.sites.Site.pollutants"><code class="docutils literal notranslate"><span class="pre">Site.pollutants</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uataq.sites.Site.read_data"><code class="docutils literal notranslate"><span class="pre">Site.read_data()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uataq.sites.Site.read_obs"><code class="docutils literal notranslate"><span class="pre">Site.read_obs()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uataq.sites.Site.get_recent_obs"><code class="docutils literal notranslate"><span class="pre">Site.get_recent_obs()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uataq.sites.Site.__init__"><code class="docutils literal notranslate"><span class="pre">Site.__init__()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id0"><code class="docutils literal notranslate"><span class="pre">Site.read_data()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uataq.sites.Site.read_data"><code class="docutils literal notranslate"><span class="pre">Site.read_data()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uataq.sites.Site.get_obs"><code class="docutils literal notranslate"><span class="pre">Site.get_obs()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1"><code class="docutils literal notranslate"><span class="pre">Site.get_recent_obs()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uataq.sites.Site.get_recent_obs"><code class="docutils literal notranslate"><span class="pre">Site.get_recent_obs()</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#uataq.sites.MobileSite"><code class="docutils literal notranslate"><span class="pre">MobileSite</span></code></a><ul class="pst-show_toc_level nav section-nav flex-column">
