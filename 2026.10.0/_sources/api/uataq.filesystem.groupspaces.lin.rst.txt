@@ -1,0 +1,52 @@
+﻿
+Lin Group
+=========
+
+.. automodule:: uataq.filesystem.groupspaces.lin
+
+   
+   
+   .. rubric:: Module Attributes
+
+   .. autosummary::
+   
+      MEASUREMENTS_DIR
+      CONFIG_DIR
+      DATA_DIR
+      CONFIG_URL
+      CONFIG_FETCH_TIMEOUT
+      DATA_CONFIG
+      SITE_CONFIG
+      column_mapping
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      dms2dd
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      AirTrendFile
+      LGR_UGGA_File
+      LinDatFile
+      LinGroup
+   
+   
+
+   
+   
+   
+
+
+

@@ -1,0 +1,46 @@
+﻿
+Horel Group
+===========
+
+.. automodule:: uataq.filesystem.groupspaces.horel
+
+   
+   
+   .. rubric:: Module Attributes
+
+   .. autosummary::
+   
+      HOREL_DIR
+      UUTRAX_DIR
+      UUTRAX_PILOT_DIR
+      MESOWEST_DIR
+      PILOT_PHASE
+      lvl_data_dirs
+      column_mapping
+   
+   
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      HorelCSVFile
+      HorelCSVFinalizedFile
+      HorelFile
+      HorelGroup
+      HorelH5File
+   
+   
+
+   
+   
+   
+
+
+

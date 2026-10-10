@@ -1,0 +1,1620 @@
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>uataq.filesystem.groupspaces.lin &#8212; UATAQ 2026.10.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../../_static/styles/theme.css?digest=64cc4de3f052d77215f0" rel="stylesheet" />
+<link href="../../../../_static/styles/pydata-sphinx-theme.css?digest=64cc4de3f052d77215f0" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../../../_static/scripts/fontawesome.js?digest=64cc4de3f052d77215f0"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
+<link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
+
+    <script src="../../../../_static/documentation_options.js?v=c1b729fb"></script>
+    <script src="../../../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../../_static/copybutton.js?v=f281be69"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/uataq/filesystem/groupspaces/lin';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.22.0';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://jmineau.github.io/uataq/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '2026.10.0';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            true;
+        </script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="2026.10.0" />
+  
+    
+    <script src="../../../../_static/searchtools.js"></script>
+    <script src="../../../../_static/language_data.js"></script>
+    <script src="../../../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button type="button" class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">UATAQ 2026.10.0 documentation</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../quickstart.html">
+    Quick Start
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../general.html">
+    General Functions
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../laboratory.html">
+    Laboratory
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../filesystem.html">
+    File System
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../../sites.html">
+    Sites
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../../instruments.html">
+    Instruments
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../../pollutants.html">
+    Pollutants
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../../gps.html">
+    GPS
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../../sodar.html">
+    SODAR
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../../contributing.html">
+    Contributing
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button type="button" class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+      
+        <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button type="button" class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/jmineau/uataq" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button type="button" class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../quickstart.html">
+    Quick Start
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../general.html">
+    General Functions
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../laboratory.html">
+    Laboratory
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../filesystem.html">
+    File System
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../sites.html">
+    Sites
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../instruments.html">
+    Instruments
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../pollutants.html">
+    Pollutants
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../gps.html">
+    GPS
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../sodar.html">
+    SODAR
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../contributing.html">
+    Contributing
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-3"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-3"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-3"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-3">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+        
+          <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button type="button" class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/jmineau/uataq" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../../index.html" class="nav-link">Module code</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../../../uataq.html" class="nav-link">uataq</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">uataq.filesystem.groupspaces.lin</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for uataq.filesystem.groupspaces.lin</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">John Lin group - UUCON, TRAX, etc.</span>
+
+<span class="sd">This module contains classes and functions for working with the Lin group data in the CHPC UATAQ filesystem.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">io</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">copy</span><span class="w"> </span><span class="kn">import</span> <span class="n">deepcopy</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">uataq.filesystem.core</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">filesystem</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">uataq.errors</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataFileInitializationError</span><span class="p">,</span> <span class="n">ParserError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">uataq.timerange</span><span class="w"> </span><span class="kn">import</span> <span class="n">TimeRange</span>
+
+<span class="n">_logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+<span class="c1"># TODO: check for reprocessing</span>
+
+<span class="c1">#: Directory for Lin group measurements.</span>
+<span class="n">MEASUREMENTS_DIR</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">filesystem</span><span class="o">.</span><span class="n">HOME</span><span class="p">,</span> <span class="s2">&quot;lin-group20&quot;</span><span class="p">,</span> <span class="s2">&quot;measurements&quot;</span><span class="p">)</span>
+<span class="c1">#: Directory for Lin group pipeline configuration.</span>
+<span class="n">CONFIG_DIR</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">MEASUREMENTS_DIR</span><span class="p">,</span> <span class="s2">&quot;pipeline&quot;</span><span class="p">,</span> <span class="s2">&quot;config&quot;</span><span class="p">)</span>
+<span class="c1">#: Directory for Lin group data.</span>
+<span class="n">DATA_DIR</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">MEASUREMENTS_DIR</span><span class="p">,</span> <span class="s2">&quot;data&quot;</span><span class="p">)</span>
+
+<span class="c1">#: Where the pipeline configuration is fetched from off-cluster.</span>
+<span class="n">CONFIG_URL</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;https://raw.githubusercontent.com/uataq/data-pipeline/main/config&quot;</span>
+<span class="c1">#: Seconds to wait for each off-cluster fetch before giving up.</span>
+<span class="n">CONFIG_FETCH_TIMEOUT</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">10</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_read_config</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">io</span><span class="o">.</span><span class="n">StringIO</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Read a pipeline config file from CONFIG_DIR, or fetch it off-cluster.</span>
+
+<span class="sd">    The fetch has a timeout, so a slow or missing network fails the import</span>
+<span class="sd">    with a clear message instead of hanging it.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">CONFIG_DIR</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">io</span><span class="o">.</span><span class="n">StringIO</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+
+    <span class="kn">import</span><span class="w"> </span><span class="nn">urllib.error</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">urllib.request</span>
+
+    <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">CONFIG_URL</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">with</span> <span class="n">urllib</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">CONFIG_FETCH_TIMEOUT</span><span class="p">)</span> <span class="k">as</span> <span class="n">response</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">io</span><span class="o">.</span><span class="n">StringIO</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
+    <span class="k">except</span> <span class="p">(</span><span class="n">urllib</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">URLError</span><span class="p">,</span> <span class="ne">TimeoutError</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Could not read the lin pipeline config &#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39;: it is not at &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2"> (not on CHPC?) and fetching </span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s2"> failed: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
+
+
+<span class="c1">#: Data configuration.</span>
+<span class="n">DATA_CONFIG</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">_read_config</span><span class="p">(</span><span class="s2">&quot;data_config.json&quot;</span><span class="p">))</span>
+<span class="n">DATA_CONFIG</span><span class="p">[</span><span class="s2">&quot;lgr_ugga_manual_cal&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">DATA_CONFIG</span><span class="p">[</span>
+    <span class="s2">&quot;lgr_ugga&quot;</span>
+<span class="p">]</span>  <span class="c1"># manual cal has same format</span>
+
+<span class="c1">#: Site configuration.</span>
+<span class="n">SITE_CONFIG</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
+    <span class="n">_read_config</span><span class="p">(</span><span class="s2">&quot;site_config.csv&quot;</span><span class="p">),</span> <span class="n">skipinitialspace</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="s2">&quot;stid&quot;</span>
+<span class="p">)</span>
+
+<span class="c1">#: Lin to UATAQ column mapping</span>
+<span class="n">column_mapping</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;2b_205&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;o3_ppb&quot;</span><span class="p">:</span> <span class="s2">&quot;O3_ppb&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;t_c&quot;</span><span class="p">:</span> <span class="s2">&quot;Internal_T_C&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Cavity_T_C&quot;</span><span class="p">:</span> <span class="s2">&quot;Internal_T_C&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;p_hpa&quot;</span><span class="p">:</span> <span class="s2">&quot;Internal_P_hPa&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Cavity_P_hPa&quot;</span><span class="p">:</span> <span class="s2">&quot;Internal_P_hPa&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;flow_ccpm&quot;</span><span class="p">:</span> <span class="s2">&quot;Flow_mLpm&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Flow_CCmin&quot;</span><span class="p">:</span> <span class="s2">&quot;Flow_mLpm&quot;</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;gps&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;inst_date&quot;</span><span class="p">:</span> <span class="s2">&quot;Instrument_Date&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;inst_time&quot;</span><span class="p">:</span> <span class="s2">&quot;Instrument_Time&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;fix_quality&quot;</span><span class="p">:</span> <span class="s2">&quot;Fix_Quality&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;n_sat&quot;</span><span class="p">:</span> <span class="s2">&quot;N_Satellites&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;N_Sat&quot;</span><span class="p">:</span> <span class="s2">&quot;N_Satellites&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;altitude_amsl&quot;</span><span class="p">:</span> <span class="s2">&quot;Altitude_msl&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;speed_kt&quot;</span><span class="p">:</span> <span class="s2">&quot;Speed_kt&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;true_course&quot;</span><span class="p">:</span> <span class="s2">&quot;Course_deg&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;Status&quot;</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;licor_6262&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;RECORD&quot;</span><span class="p">:</span> <span class="s2">&quot;Record&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;batt_volt_Min&quot;</span><span class="p">:</span> <span class="s2">&quot;Battery_Voltage_V&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;PTemp_Avg&quot;</span><span class="p">:</span> <span class="s2">&quot;Logger_T_C&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Panel_T_C&quot;</span><span class="p">:</span> <span class="s2">&quot;Logger_T_C&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Room_T_Avg&quot;</span><span class="p">:</span> <span class="s2">&quot;Ambient_T_C&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;IRGA_T_Avg&quot;</span><span class="p">:</span> <span class="s2">&quot;Instrument_T_C&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Cavity_T_C_IRGA&quot;</span><span class="p">:</span> <span class="s2">&quot;Instrument_T_C&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;IRGA_P_Avg&quot;</span><span class="p">:</span> <span class="s2">&quot;Internal_P_kPa&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Cavity_P_kPa_IRGA&quot;</span><span class="p">:</span> <span class="s2">&quot;Internal_P_kPa&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;MF_Controller_mLmin_Avg&quot;</span><span class="p">:</span> <span class="s2">&quot;Flow_mLpm&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Flow_mLmin&quot;</span><span class="p">:</span> <span class="s2">&quot;Flow_mLpm&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;PressureVolt_Avg&quot;</span><span class="p">:</span> <span class="s2">&quot;Internal_P_mV&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Cavity_P_mV&quot;</span><span class="p">:</span> <span class="s2">&quot;Internal_P_mV&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;RH_voltage_Avg&quot;</span><span class="p">:</span> <span class="s2">&quot;Internal_RH_mV&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Cavity_RH_mV&quot;</span><span class="p">:</span> <span class="s2">&quot;Internal_RH_mV&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Gas_T_Avg&quot;</span><span class="p">:</span> <span class="s2">&quot;Internal_T_C&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Cavity_T_C&quot;</span><span class="p">:</span> <span class="s2">&quot;Internal_T_C&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;rawCO2_Voltage_Avg&quot;</span><span class="p">:</span> <span class="s2">&quot;Analog_CO2_ppm&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;CO2_Analog_ppm&quot;</span><span class="p">:</span> <span class="s2">&quot;Analog_CO2_ppm&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;rawCO2_Avg&quot;</span><span class="p">:</span> <span class="s2">&quot;CO2_ppm&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;rawH2O_Avg&quot;</span><span class="p">:</span> <span class="s2">&quot;Analog_H2O_ppm&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;H2O_ppth_IRGA&quot;</span><span class="p">:</span> <span class="s2">&quot;Analog_H2O_ppm&quot;</span><span class="p">,</span>  <span class="c1"># TODO check this</span>
+        <span class="s2">&quot;Cavity_RH_pct&quot;</span><span class="p">:</span> <span class="s2">&quot;Internal_RH_pct&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Cavity_P_Pa&quot;</span><span class="p">:</span> <span class="s2">&quot;Analog_Internal_P_Pa&quot;</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;lgr_no2&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;inst_time&quot;</span><span class="p">:</span> <span class="s2">&quot;Instrument_Time&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Pressure_torr&quot;</span><span class="p">:</span> <span class="s2">&quot;Internal_P_torr&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Cavity_P_torr&quot;</span><span class="p">:</span> <span class="s2">&quot;Internal_P_torr&quot;</span><span class="p">,</span>
+        <span class="c1"># do i want to drop the -1</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;lgr_ugga&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;GasP_torr&quot;</span><span class="p">:</span> <span class="s2">&quot;Internal_P_torr&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Cavity_P_torr&quot;</span><span class="p">:</span> <span class="s2">&quot;Internal_P_torr&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;GasP_torr_sd&quot;</span><span class="p">:</span> <span class="s2">&quot;Internal_P_torr_sd&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Cavity_P_torr_sd&quot;</span><span class="p">:</span> <span class="s2">&quot;Internal_P_torr_sd&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;GasT_C&quot;</span><span class="p">:</span> <span class="s2">&quot;Internal_T_C&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Cavity_T_C&quot;</span><span class="p">:</span> <span class="s2">&quot;Internal_T_C&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;GasT_C_sd&quot;</span><span class="p">:</span> <span class="s2">&quot;Internal_T_C_sd&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Cavity_T_C_sd&quot;</span><span class="p">:</span> <span class="s2">&quot;Internal_T_C_sd&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;AmbT_C&quot;</span><span class="p">:</span> <span class="s2">&quot;Ambient_T_C&quot;</span><span class="p">,</span>  <span class="c1"># FIXME should this actually be called ambient??</span>
+        <span class="s2">&quot;AmbT_C_sd&quot;</span><span class="p">:</span> <span class="s2">&quot;Ambient_T_C_sd&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;RD0_us&quot;</span><span class="p">:</span> <span class="s2">&quot;RingDown0_us&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;RD0_us_sd&quot;</span><span class="p">:</span> <span class="s2">&quot;RingDown0_us_sd&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;RD1_us&quot;</span><span class="p">:</span> <span class="s2">&quot;RingDown1_us&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;RD1_us_sd&quot;</span><span class="p">:</span> <span class="s2">&quot;RingDown1_us_sd&quot;</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;magee_ae33&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;bc1_ngm3&quot;</span><span class="p">:</span> <span class="s2">&quot;BC1_ngm3&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;bc2_ngm3&quot;</span><span class="p">:</span> <span class="s2">&quot;BC2_ngm3&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;bc3_ngm3&quot;</span><span class="p">:</span> <span class="s2">&quot;BC3_ngm3&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;bc4_ngm3&quot;</span><span class="p">:</span> <span class="s2">&quot;BC4_ngm3&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;bc5_ngm3&quot;</span><span class="p">:</span> <span class="s2">&quot;BC5_ngm3&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;bc6_ngm3&quot;</span><span class="p">:</span> <span class="s2">&quot;BC6_ngm3&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;bc7_ngm3&quot;</span><span class="p">:</span> <span class="s2">&quot;BC7_ngm3&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;flow_lpm&quot;</span><span class="p">:</span> <span class="s2">&quot;Flow_Lpm&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Flow_Lmin&quot;</span><span class="p">:</span> <span class="s2">&quot;Flow_Lpm&quot;</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;metone_es642&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;RECORD&quot;</span><span class="p">:</span> <span class="s2">&quot;Record&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;batt_volt_Min&quot;</span><span class="p">:</span> <span class="s2">&quot;Battery_Voltage_V&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;PTemp_Avg&quot;</span><span class="p">:</span> <span class="s2">&quot;Logger_T_C&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;PM_25_Avg&quot;</span><span class="p">:</span> <span class="s2">&quot;PM2.5_ugm3&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;pm25_mgm3&quot;</span><span class="p">:</span> <span class="s2">&quot;PM2.5_mgm3&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Flow_Avg&quot;</span><span class="p">:</span> <span class="s2">&quot;Flow_Lpm&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;flow_lpm&quot;</span><span class="p">:</span> <span class="s2">&quot;Flow_Lpm&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Flow_Lmin&quot;</span><span class="p">:</span> <span class="s2">&quot;Flow_Lpm&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Temp_Avg&quot;</span><span class="p">:</span> <span class="s2">&quot;Ambient_T_C&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;t_c&quot;</span><span class="p">:</span> <span class="s2">&quot;Ambient_T_C&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;RH_Avg&quot;</span><span class="p">:</span> <span class="s2">&quot;Internal_RH_pct&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;rh_pct&quot;</span><span class="p">:</span> <span class="s2">&quot;Internal_RH_pct&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Cavity_RH_pct&quot;</span><span class="p">:</span> <span class="s2">&quot;Internal_RH_pct&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;BP_Avg&quot;</span><span class="p">:</span> <span class="s2">&quot;Ambient_P_hPa&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;pres_hpa&quot;</span><span class="p">:</span> <span class="s2">&quot;Ambient_P_hPa&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;Status&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;checksum&quot;</span><span class="p">:</span> <span class="s2">&quot;Checksum&quot;</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;teledyne_t200&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;nox_std_ppb&quot;</span><span class="p">:</span> <span class="s2">&quot;NOx_ppb_std&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;flow_ccm&quot;</span><span class="p">:</span> <span class="s2">&quot;Flow_mLpm&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Flow_CCmin&quot;</span><span class="p">:</span> <span class="s2">&quot;Flow_mLpm&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;o3_flow_ccm&quot;</span><span class="p">:</span> <span class="s2">&quot;O3_Flow_mLpm&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;O3_Flow_CCmin&quot;</span><span class="p">:</span> <span class="s2">&quot;O3_Flow_mLpm&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;pmt_mv&quot;</span><span class="p">:</span> <span class="s2">&quot;PMT_mV&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;pmt_norm_mv&quot;</span><span class="p">:</span> <span class="s2">&quot;PMT_Norm_mV&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;azero_mv&quot;</span><span class="p">:</span> <span class="s2">&quot;Azero_mV&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;hvps_v&quot;</span><span class="p">:</span> <span class="s2">&quot;HVPS_V&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;rcell_t_c&quot;</span><span class="p">:</span> <span class="s2">&quot;RCell_T_C&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;RCel_T_C&quot;</span><span class="p">:</span> <span class="s2">&quot;RCell_T_C&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;box_t_c&quot;</span><span class="p">:</span> <span class="s2">&quot;Instrument_T_C&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Box_T_C&quot;</span><span class="p">:</span> <span class="s2">&quot;Instrument_T_C&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;pmt_t_c&quot;</span><span class="p">:</span> <span class="s2">&quot;PMT_T_C&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;moly_t_c&quot;</span><span class="p">:</span> <span class="s2">&quot;Moly_T_C&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;rcel_pres_inhga&quot;</span><span class="p">:</span> <span class="s2">&quot;RCell_P_inHgA&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;RCel_Pres_inHgA&quot;</span><span class="p">:</span> <span class="s2">&quot;RCell_P_inHgA&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;samp_pres_inhga&quot;</span><span class="p">:</span> <span class="s2">&quot;Internal_P_inHgA&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Samp_Pres_inHgA&quot;</span><span class="p">:</span> <span class="s2">&quot;Internal_P_inHgA&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;nox_slope&quot;</span><span class="p">:</span> <span class="s2">&quot;NOx_Slope&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;nox_offset_mv&quot;</span><span class="p">:</span> <span class="s2">&quot;NOx_Offset_mV&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;no_slope&quot;</span><span class="p">:</span> <span class="s2">&quot;NO_Slope&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;no_offset_mv&quot;</span><span class="p">:</span> <span class="s2">&quot;NO_Offset_mV&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;no2_ppb&quot;</span><span class="p">:</span> <span class="s2">&quot;NO2_ppb&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;nox_ppb&quot;</span><span class="p">:</span> <span class="s2">&quot;NOx_ppb&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;no_ppb&quot;</span><span class="p">:</span> <span class="s2">&quot;NO_ppb&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;test_mv&quot;</span><span class="p">:</span> <span class="s2">&quot;Test_mV&quot;</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;teledyne_t300&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;co_std_ppb&quot;</span><span class="p">:</span> <span class="s2">&quot;CO_ppb_std&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;CO_std_ppb&quot;</span><span class="p">:</span> <span class="s2">&quot;CO_ppb_std&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;co_meas_mv&quot;</span><span class="p">:</span> <span class="s2">&quot;CO_Meas_mV&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;co_ref_mv&quot;</span><span class="p">:</span> <span class="s2">&quot;CO_Ref_mV&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;mr_ratio&quot;</span><span class="p">:</span> <span class="s2">&quot;MR_Ratio&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;samp_pres_inhga&quot;</span><span class="p">:</span> <span class="s2">&quot;Internal_P_inHgA&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Samp_Pres_inHgA&quot;</span><span class="p">:</span> <span class="s2">&quot;Internal_P_inHgA&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;flow_ccm&quot;</span><span class="p">:</span> <span class="s2">&quot;Flow_mLpm&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Flow_CCmin&quot;</span><span class="p">:</span> <span class="s2">&quot;Flow_mLpm&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;samp_t_c&quot;</span><span class="p">:</span> <span class="s2">&quot;Internal_T_C&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Samp_T_C&quot;</span><span class="p">:</span> <span class="s2">&quot;Internal_T_C&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;bench_t_c&quot;</span><span class="p">:</span> <span class="s2">&quot;Bench_T_C&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;wheel_t_c&quot;</span><span class="p">:</span> <span class="s2">&quot;Wheel_T_C&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;pht_drive_mv&quot;</span><span class="p">:</span> <span class="s2">&quot;PHT_Drive_mV&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;slope&quot;</span><span class="p">:</span> <span class="s2">&quot;Slope&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;slope1&quot;</span><span class="p">:</span> <span class="s2">&quot;Slope1&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;slope2&quot;</span><span class="p">:</span> <span class="s2">&quot;Slope2&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;offset&quot;</span><span class="p">:</span> <span class="s2">&quot;Offset&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;offset1&quot;</span><span class="p">:</span> <span class="s2">&quot;Offset1&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;offset2&quot;</span><span class="p">:</span> <span class="s2">&quot;Offset2&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;co_ppb&quot;</span><span class="p">:</span> <span class="s2">&quot;CO_ppb&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;test_mv&quot;</span><span class="p">:</span> <span class="s2">&quot;Test_mV&quot;</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;teledyne_t400&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;o3_std_ppb&quot;</span><span class="p">:</span> <span class="s2">&quot;O3_ppb_std&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;o3_meas_mv&quot;</span><span class="p">:</span> <span class="s2">&quot;O3_Meas_mV&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;o3_ref_mv&quot;</span><span class="p">:</span> <span class="s2">&quot;O3_Ref_mV&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;o3_gen_mv&quot;</span><span class="p">:</span> <span class="s2">&quot;O3_Gen_mV&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;o3_drive_mv&quot;</span><span class="p">:</span> <span class="s2">&quot;O3_Drive_mV&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;photo_power_mv&quot;</span><span class="p">:</span> <span class="s2">&quot;Photo_Power_mV&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;samp_pres_inhga&quot;</span><span class="p">:</span> <span class="s2">&quot;Internal_P_inHgA&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Samp_Pres_inHgA&quot;</span><span class="p">:</span> <span class="s2">&quot;Internal_P_inHgA&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;flow_ccm&quot;</span><span class="p">:</span> <span class="s2">&quot;Flow_mLpm&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Flow_CCmin&quot;</span><span class="p">:</span> <span class="s2">&quot;Flow_mLpm&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;samp_t_c&quot;</span><span class="p">:</span> <span class="s2">&quot;Internal_T_C&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Samp_T_C&quot;</span><span class="p">:</span> <span class="s2">&quot;Internal_T_C&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;photo_lamp_t_c&quot;</span><span class="p">:</span> <span class="s2">&quot;Photo_Lamp_T_C&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;o3_scrub_t_c&quot;</span><span class="p">:</span> <span class="s2">&quot;O3_Scrub_T_C&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;o3_gen_t_c&quot;</span><span class="p">:</span> <span class="s2">&quot;O3_Gen_T_C&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;box_t_c&quot;</span><span class="p">:</span> <span class="s2">&quot;Instrument_T_C&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Box_T_C&quot;</span><span class="p">:</span> <span class="s2">&quot;Instrument_T_C&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;slope&quot;</span><span class="p">:</span> <span class="s2">&quot;Slope&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;offset&quot;</span><span class="p">:</span> <span class="s2">&quot;Offset&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;o3_ppb&quot;</span><span class="p">:</span> <span class="s2">&quot;O3_ppb&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;test_mv&quot;</span><span class="p">:</span> <span class="s2">&quot;Test_mV&quot;</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;teledyne_t500u&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;phase_t_c&quot;</span><span class="p">:</span> <span class="s2">&quot;Phase_T_C&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;bench_phase_s&quot;</span><span class="p">:</span> <span class="s2">&quot;Bench_Phase_s&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;meas_l_mm&quot;</span><span class="p">:</span> <span class="s2">&quot;Measure_Loss_Mm&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Meas_L_mm&quot;</span><span class="p">:</span> <span class="s2">&quot;Measure_Loss_Mm&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;aref_l_mm&quot;</span><span class="p">:</span> <span class="s2">&quot;ARef_Loss_Mm&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;ARef_L_mm&quot;</span><span class="p">:</span> <span class="s2">&quot;ARef_Loss_Mm&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;samp_pres_inhga&quot;</span><span class="p">:</span> <span class="s2">&quot;Internal_P_inHgA&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Samp_Pres_inHgA&quot;</span><span class="p">:</span> <span class="s2">&quot;Internal_P_inHgA&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;samp_temp_c&quot;</span><span class="p">:</span> <span class="s2">&quot;Internal_T_C&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Samp_Temp_C&quot;</span><span class="p">:</span> <span class="s2">&quot;Internal_T_C&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;bench_t_c&quot;</span><span class="p">:</span> <span class="s2">&quot;Bench_T_C&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;box_t_c&quot;</span><span class="p">:</span> <span class="s2">&quot;Instrument_T_C&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Box_T_C&quot;</span><span class="p">:</span> <span class="s2">&quot;Instrument_T_C&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;no2_slope&quot;</span><span class="p">:</span> <span class="s2">&quot;NO2_Slope&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;no2_offset_mv&quot;</span><span class="p">:</span> <span class="s2">&quot;NO2_Offset_mV&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;no2_ppb&quot;</span><span class="p">:</span> <span class="s2">&quot;NO2_ppb&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;no2_std_ppb&quot;</span><span class="p">:</span> <span class="s2">&quot;NO2_ppb_std&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;NO2_std_ppb&quot;</span><span class="p">:</span> <span class="s2">&quot;NO2_ppb_std&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;test_mv&quot;</span><span class="p">:</span> <span class="s2">&quot;Test_mV&quot;</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;teom_1400ab&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;pm25_ugm3&quot;</span><span class="p">:</span> <span class="s2">&quot;PM2.5_ugm3&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;pm25_ugm3_30min&quot;</span><span class="p">:</span> <span class="s2">&quot;PM2.5_ugm3_30min&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;pm25_ugm3_1hr&quot;</span><span class="p">:</span> <span class="s2">&quot;PM2.5_ugm3_1hr&quot;</span><span class="p">,</span>
+    <span class="p">},</span>
+<span class="p">}</span>
+<span class="n">column_mapping</span><span class="p">[</span><span class="s2">&quot;licor_7000&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">column_mapping</span><span class="p">[</span><span class="s2">&quot;licor_6262&quot;</span><span class="p">]</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_read_lines</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">first</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">last</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Read the first ``first`` lines of a file and, if ``last``, its final line.</span>
+
+<span class="sd">    Replaces shelling out to ``head``/``tail``, which spawned a process per</span>
+<span class="sd">    file and broke on paths with spaces. Line endings are stripped.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">lines</span> <span class="o">=</span> <span class="p">[</span><span class="n">f</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">first</span><span class="p">)]</span>
+        <span class="k">if</span> <span class="n">last</span><span class="p">:</span>
+            <span class="c1"># Read back from the end until the chunk holds a whole final line</span>
+            <span class="n">end</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">SEEK_END</span><span class="p">)</span>
+            <span class="n">size</span> <span class="o">=</span> <span class="mi">4096</span>
+            <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+                <span class="n">f</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">end</span> <span class="o">-</span> <span class="n">size</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+                <span class="n">tail</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+                <span class="c1"># a trailing newline ends the last line, it doesn&#39;t start one</span>
+                <span class="n">body</span> <span class="o">=</span> <span class="n">tail</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">if</span> <span class="n">tail</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="sa">b</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="n">tail</span>
+                <span class="k">if</span> <span class="sa">b</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="ow">in</span> <span class="n">body</span> <span class="ow">or</span> <span class="n">size</span> <span class="o">&gt;=</span> <span class="n">end</span><span class="p">:</span>
+                    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">body</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="sa">b</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+                    <span class="k">break</span>
+                <span class="n">size</span> <span class="o">*=</span> <span class="mi">4</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">line</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">errors</span><span class="o">=</span><span class="s2">&quot;replace&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\r\n</span><span class="s2">&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">]</span>
+
+
+<div class="viewcode-block" id="dms2dd">
+<a class="viewcode-back" href="../../../../api/uataq.filesystem.groupspaces.lin.html#uataq.filesystem.groupspaces.lin.dms2dd">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">dms2dd</span><span class="p">(</span><span class="n">d</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">m</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">s</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Degree-minute-second to decimal degree</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    d : float, optional</span>
+<span class="sd">        Degrees, by default 0.0</span>
+<span class="sd">    m : float, optional</span>
+<span class="sd">        Minutes, by default 0.0</span>
+<span class="sd">    s : float, optional</span>
+<span class="sd">        Seconds, by default 0.0</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    float</span>
+<span class="sd">        Decimal degrees</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        If any of the inputs are not floats</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">dd</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">d</span><span class="p">)</span> <span class="o">+</span> <span class="nb">float</span><span class="p">(</span><span class="n">m</span><span class="p">)</span> <span class="o">/</span> <span class="mi">60</span> <span class="o">+</span> <span class="nb">float</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">/</span> <span class="mi">3600</span>
+        <span class="k">return</span> <span class="n">dd</span>
+    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span></div>
+
+
+
+<div class="viewcode-block" id="LinDatFile">
+<a class="viewcode-back" href="../../../../api/uataq.filesystem.groupspaces.lin.html#uataq.filesystem.groupspaces.lin.LinDatFile">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">LinDatFile</span><span class="p">(</span><span class="n">filesystem</span><span class="o">.</span><span class="n">DataFile</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A class for parsing Lin data files.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    path : str</span>
+<span class="sd">        The file path.</span>
+<span class="sd">    period : pd.Period</span>
+<span class="sd">        The period of the data file.</span>
+<span class="sd">    logger : str</span>
+<span class="sd">        The logger name.</span>
+<span class="sd">    date_slicer : slice</span>
+<span class="sd">        A slice object for extracting the date from the file name.</span>
+<span class="sd">    file_freq : str</span>
+<span class="sd">        The file frequency.</span>
+<span class="sd">    ext : str</span>
+<span class="sd">        The file extension.</span>
+
+<span class="sd">    Methods</span>
+<span class="sd">    -------</span>
+<span class="sd">    parse()</span>
+<span class="sd">        Parse the data file.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">logger</span> <span class="o">=</span> <span class="s2">&quot;campbellsci&quot;</span>
+    <span class="n">date_slicer</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span>
+    <span class="n">file_freq</span> <span class="o">=</span> <span class="s2">&quot;M&quot;</span>
+    <span class="n">ext</span> <span class="o">=</span> <span class="s2">&quot;dat&quot;</span>
+
+<div class="viewcode-block" id="LinDatFile.__init__">
+<a class="viewcode-back" href="../../../../api/uataq.filesystem.groupspaces.lin.html#uataq.filesystem.groupspaces.lin.LinDatFile.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+
+        <span class="c1"># Get instrument name and lvl from file path</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">instrument</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_instrument_name</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lvl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_lvl</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="LinDatFile.get_instrument_name">
+<a class="viewcode-back" href="../../../../api/uataq.filesystem.groupspaces.lin.html#uataq.filesystem.groupspaces.lin.LinDatFile.get_instrument_name">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_instrument_name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the instrument name from the file path.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        str</span>
+<span class="sd">            The instrument name.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Instrument name is the name of the directory two levels up from the file path</span>
+        <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">)))</span></div>
+
+
+<div class="viewcode-block" id="LinDatFile.get_lvl">
+<a class="viewcode-back" href="../../../../api/uataq.filesystem.groupspaces.lin.html#uataq.filesystem.groupspaces.lin.LinDatFile.get_lvl">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_lvl</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the data level from the file path.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        str</span>
+<span class="sd">            The data level.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Data level is the name of the directory one level up from the file path</span>
+        <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="LinDatFile.parse">
+<a class="viewcode-back" href="../../../../api/uataq.filesystem.groupspaces.lin.html#uataq.filesystem.groupspaces.lin.LinDatFile.parse">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parse a Lin data file.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        pd.DataFrame</span>
+<span class="sd">            The parsed data.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">_logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Parsing </span><span class="si">{</span><span class="n">filesystem</span><span class="o">.</span><span class="n">_relpath</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span><span class="w"> </span><span class="n">DATA_DIR</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="n">first_field</span> <span class="o">=</span> <span class="n">_read_lines</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">first</span><span class="o">=</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">first_field</span> <span class="o">==</span> <span class="s2">&quot;TIMESTAMP&quot;</span><span class="p">:</span>
+            <span class="c1"># campbellsci files with their own header</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">on_bad_lines</span><span class="o">=</span><span class="s2">&quot;skip&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># The pipeline&#39;s files have a header (Time_UTC, ...) and old</span>
+            <span class="c1"># logger files none; either way the config names the columns.</span>
+            <span class="c1"># Skip a header line instead of reading it in as a row, which</span>
+            <span class="c1"># left every column object dtype.</span>
+            <span class="n">config</span> <span class="o">=</span> <span class="n">DATA_CONFIG</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">instrument</span><span class="p">][</span><span class="bp">self</span><span class="o">.</span><span class="n">lvl</span><span class="p">]</span>
+            <span class="n">col_names</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;col_names&quot;</span><span class="p">]</span>
+            <span class="n">has_header</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">isna</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">first_field</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s2">&quot;coerce&quot;</span><span class="p">))</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span>
+                <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                <span class="n">skiprows</span><span class="o">=</span><span class="mi">1</span> <span class="k">if</span> <span class="n">has_header</span> <span class="k">else</span> <span class="mi">0</span><span class="p">,</span>
+                <span class="n">on_bad_lines</span><span class="o">=</span><span class="s2">&quot;skip&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">data</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">col_names</span>
+            <span class="c1"># A stray text row would still leave a column object dtype</span>
+            <span class="n">numeric</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">col</span>
+                <span class="k">for</span> <span class="n">col</span><span class="p">,</span> <span class="n">dtype</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">col_names</span><span class="p">,</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;col_types&quot;</span><span class="p">],</span> <span class="n">strict</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">dtype</span> <span class="o">==</span> <span class="s2">&quot;d&quot;</span>
+            <span class="p">]</span>
+            <span class="n">data</span><span class="p">[</span><span class="n">numeric</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">numeric</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s2">&quot;coerce&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Format time col</span>
+        <span class="n">data</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;TIMESTAMP&quot;</span><span class="p">:</span> <span class="s2">&quot;Time_UTC&quot;</span><span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">data</span><span class="p">[</span><span class="s2">&quot;Time_UTC&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span>
+            <span class="n">data</span><span class="o">.</span><span class="n">Time_UTC</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s2">&quot;coerce&quot;</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;ISO8601&quot;</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">data</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="LGR_UGGA_File">
+<a class="viewcode-back" href="../../../../api/uataq.filesystem.groupspaces.lin.html#uataq.filesystem.groupspaces.lin.LGR_UGGA_File">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">LGR_UGGA_File</span><span class="p">(</span><span class="n">filesystem</span><span class="o">.</span><span class="n">DataFile</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A class for parsing LGR UGGA data files.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    path : str</span>
+<span class="sd">        The file path.</span>
+<span class="sd">    period : pd.Period</span>
+<span class="sd">        The period of the data file.</span>
+<span class="sd">    logger : str</span>
+<span class="sd">        The logger name.</span>
+<span class="sd">    serial : str</span>
+<span class="sd">        The analyzer&#39;s serial number (``SN`` in the header).</span>
+<span class="sd">    version : str</span>
+<span class="sd">        The analyzer&#39;s software version (``VC`` in the header).</span>
+<span class="sd">    file_freq : str</span>
+<span class="sd">        The file frequency.</span>
+<span class="sd">    ext : str</span>
+<span class="sd">        The file extension.</span>
+
+<span class="sd">    Methods</span>
+<span class="sd">    -------</span>
+<span class="sd">    get_meta(path)</span>
+<span class="sd">        Get meta data from UGGA file.</span>
+<span class="sd">    get_serial(path)</span>
+<span class="sd">        Get serial number of UGGA from file.</span>
+<span class="sd">    get_files(SID, instrument=&#39;lgr_ugga&#39;, lvl=&#39;raw&#39;)</span>
+<span class="sd">        Get list of UGGA files for a given site.</span>
+<span class="sd">    parse()</span>
+<span class="sd">        Parse files transferred directly from LGR software.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">logger</span> <span class="o">=</span> <span class="s2">&quot;lgr_ugga&quot;</span>
+    <span class="n">file_freq</span> <span class="o">=</span> <span class="s2">&quot;D&quot;</span>
+    <span class="n">ext</span> <span class="o">=</span> <span class="s2">&quot;txt&quot;</span>
+
+    <span class="c1">#: The two ways the LGR software has named its files, matched on the name</span>
+    <span class="c1">#: itself rather than looked up by software version, so a new version that</span>
+    <span class="c1">#: keeps either style needs no change: ``gga01Apr2014_f0000.txt`` (904M,</span>
+    <span class="c1">#: WBB 2014-2016) and ``gga_2015-11-17_f0000.txt`` (2f90039, cf32204).</span>
+    <span class="n">name_date_formats</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;^gga(\d</span><span class="si">{2}</span><span class="s2">[A-Za-z]</span><span class="si">{3}</span><span class="s2">\d</span><span class="si">{4}</span><span class="s2">)_&quot;</span><span class="p">),</span> <span class="s2">&quot;</span><span class="si">%d</span><span class="s2">%b%Y&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;^gga_(\d</span><span class="si">{4}</span><span class="s2">-\d</span><span class="si">{2}</span><span class="s2">-\d</span><span class="si">{2}</span><span class="s2">)_&quot;</span><span class="p">),</span> <span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">),</span>
+    <span class="p">)</span>
+
+<div class="viewcode-block" id="LGR_UGGA_File.__init__">
+<a class="viewcode-back" href="../../../../api/uataq.filesystem.groupspaces.lin.html#uataq.filesystem.groupspaces.lin.LGR_UGGA_File.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">path</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">meta</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_meta</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">serial</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">meta</span><span class="p">[</span><span class="s2">&quot;SN&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">version</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">meta</span><span class="p">[</span><span class="s2">&quot;VC&quot;</span><span class="p">]</span>
+
+        <span class="c1"># Get date from file name</span>
+        <span class="n">fname</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">pattern</span><span class="p">,</span> <span class="n">date_format</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">name_date_formats</span><span class="p">:</span>
+            <span class="n">match</span> <span class="o">=</span> <span class="n">pattern</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">match</span><span class="p">:</span>
+                <span class="n">date</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="nb">format</span><span class="o">=</span><span class="n">date_format</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">period</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Period</span><span class="p">(</span><span class="n">date</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">file_freq</span><span class="p">)</span>
+                <span class="k">break</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">DataFileInitializationError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;No date in LGR file name </span><span class="si">{</span><span class="n">fname</span><span class="si">}</span><span class="s2"> (software </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">version</span><span class="si">}</span><span class="s2">)&quot;</span>
+            <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="LGR_UGGA_File.get_meta">
+<a class="viewcode-back" href="../../../../api/uataq.filesystem.groupspaces.lin.html#uataq.filesystem.groupspaces.lin.LGR_UGGA_File.get_meta">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_meta</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get meta data from UGGA file</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        path : str</span>
+<span class="sd">            The path to the UGGA file.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        dict[str, str]</span>
+<span class="sd">            A dictionary containing the meta data.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">pattern</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="sa">r</span><span class="s2">&quot;VC:(?P&lt;VC&gt;\w+)\s&quot;</span>
+            <span class="sa">r</span><span class="s2">&quot;BD:(?P&lt;BD&gt;[a-zA-Z]</span><span class="si">{3}</span><span class="s2">\s\d</span><span class="si">{2}</span><span class="s2">\s\d</span><span class="si">{4}</span><span class="s2">)\s&quot;</span>
+            <span class="sa">r</span><span class="s2">&quot;SN:(?P&lt;SN&gt;.+)&quot;</span>
+        <span class="p">)</span>
+
+        <span class="n">header</span> <span class="o">=</span> <span class="n">_read_lines</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">first</span><span class="o">=</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># no match -&gt; AttributeError, caught below</span>
+            <span class="c1"># pyrefly: ignore[missing-attribute]</span>
+            <span class="n">meta</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">header</span><span class="p">)</span><span class="o">.</span><span class="n">groupdict</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">DataFileInitializationError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Failed to read meta data from </span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
+        <span class="k">return</span> <span class="n">meta</span></div>
+
+
+<div class="viewcode-block" id="LGR_UGGA_File.get_serial">
+<a class="viewcode-back" href="../../../../api/uataq.filesystem.groupspaces.lin.html#uataq.filesystem.groupspaces.lin.LGR_UGGA_File.get_serial">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_serial</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get serial number of UGGA from file.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        path : str</span>
+<span class="sd">            The path to the UGGA file.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        str</span>
+<span class="sd">            The serial number.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">LGR_UGGA_File</span><span class="o">.</span><span class="n">get_meta</span><span class="p">(</span><span class="n">path</span><span class="p">)[</span><span class="s2">&quot;SN&quot;</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="LGR_UGGA_File.get_files">
+<a class="viewcode-back" href="../../../../api/uataq.filesystem.groupspaces.lin.html#uataq.filesystem.groupspaces.lin.LGR_UGGA_File.get_files">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_files</span><span class="p">(</span>
+        <span class="n">SID</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">instrument</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;lgr_ugga&quot;</span><span class="p">,</span> <span class="n">lvl</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;raw&quot;</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get list of UGGA files for a given site.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        SID : str</span>
+<span class="sd">            The site ID.</span>
+<span class="sd">        instrument : str</span>
+<span class="sd">            The instrument name. Defaults to &#39;lgr_ugga&#39;.</span>
+<span class="sd">        lvl : str</span>
+<span class="sd">            The data level. Defaults to &#39;raw&#39;.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        list[str]</span>
+<span class="sd">            A list of file paths.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">assert</span> <span class="n">lvl</span> <span class="o">==</span> <span class="s2">&quot;raw&quot;</span><span class="p">,</span> <span class="s2">&quot;Only raw data is stored in UGGA files&quot;</span>
+        <span class="n">data_path</span> <span class="o">=</span> <span class="n">LinGroup</span><span class="o">.</span><span class="n">data_path</span><span class="p">(</span><span class="n">SID</span><span class="p">,</span> <span class="n">instrument</span><span class="p">,</span> <span class="n">lvl</span><span class="p">)</span>
+        <span class="n">pattern</span> <span class="o">=</span> <span class="s2">&quot;*f????.txt&quot;</span>
+        <span class="k">return</span> <span class="n">filesystem</span><span class="o">.</span><span class="n">list_files</span><span class="p">(</span>
+            <span class="n">data_path</span><span class="p">,</span> <span class="n">pattern</span><span class="o">=</span><span class="n">pattern</span><span class="p">,</span> <span class="n">full_names</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">recursive</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="LGR_UGGA_File.parse">
+<a class="viewcode-back" href="../../../../api/uataq.filesystem.groupspaces.lin.html#uataq.filesystem.groupspaces.lin.LGR_UGGA_File.parse">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parse files transferred directly from LGR software.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        pd.DataFrame</span>
+<span class="sd">            The parsed data.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">_logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Parsing </span><span class="si">{</span><span class="n">filesystem</span><span class="o">.</span><span class="n">_relpath</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span><span class="w"> </span><span class="n">DATA_DIR</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Adapt column names depending on LGR software version.</span>
+        <span class="c1">#  2013-2014 version has 23 columns</span>
+        <span class="c1">#  2014+ version has 24 columns (MIU split into valve and description)</span>
+
+        <span class="n">data_config</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">DATA_CONFIG</span><span class="p">[</span><span class="s2">&quot;lgr_ugga&quot;</span><span class="p">][</span><span class="s2">&quot;raw&quot;</span><span class="p">])</span>
+
+        <span class="n">r2py_types</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;c&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="s2">&quot;d&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="s2">&quot;T&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">}</span>
+
+        <span class="n">col_names</span> <span class="o">=</span> <span class="n">data_config</span><span class="p">[</span><span class="s2">&quot;col_names&quot;</span><span class="p">]</span>
+        <span class="n">col_types</span> <span class="o">=</span> <span class="n">data_config</span><span class="p">[</span><span class="s2">&quot;col_types&quot;</span><span class="p">]</span>
+        <span class="n">col_types</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="n">name</span><span class="p">:</span> <span class="n">r2py_types</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">col_names</span><span class="p">,</span> <span class="n">col_types</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="p">}</span>
+
+        <span class="n">_</span><span class="p">,</span> <span class="n">cols</span><span class="p">,</span> <span class="n">last_line</span> <span class="o">=</span> <span class="n">_read_lines</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">first</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">last</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">ndelim</span> <span class="o">=</span> <span class="n">cols</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">ndelim</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">ParserError</span><span class="p">(</span><span class="s2">&quot;No deliminators in header!&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">ndelim</span> <span class="o">==</span> <span class="mi">23</span><span class="p">:</span>
+            <span class="c1"># col_names config has 23 columns, temporarily add fill column</span>
+            <span class="n">col_names</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">22</span><span class="p">,</span> <span class="s2">&quot;fillvalue&quot;</span><span class="p">)</span>
+            <span class="n">col_types</span><span class="p">[</span><span class="s2">&quot;fillvalue&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span>
+
+        <span class="c1"># Check for incomplete final row (probably power issue)</span>
+        <span class="n">footer</span> <span class="o">=</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">last_line</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">22</span> <span class="k">else</span> <span class="mi">0</span>
+
+        <span class="c1"># Read file assigning cols and dtypes</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span>
+            <span class="n">header</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+            <span class="n">names</span><span class="o">=</span><span class="n">col_names</span><span class="p">,</span>
+            <span class="n">dtype</span><span class="o">=</span><span class="n">col_types</span><span class="p">,</span>
+            <span class="n">on_bad_lines</span><span class="o">=</span><span class="s2">&quot;skip&quot;</span><span class="p">,</span>
+            <span class="n">na_values</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;TO&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">],</span>
+            <span class="n">skipinitialspace</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">skipfooter</span><span class="o">=</span><span class="n">footer</span><span class="p">,</span>
+            <span class="n">engine</span><span class="o">=</span><span class="s2">&quot;python&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Update columns now that data has been read in</span>
+        <span class="n">ncols</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">ncols</span> <span class="o">&lt;</span> <span class="mi">23</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">ncols</span> <span class="o">&gt;</span> <span class="mi">24</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">ParserError</span><span class="p">(</span><span class="s2">&quot;Too few or too many columns!&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">ncols</span> <span class="o">==</span> <span class="mi">24</span><span class="p">:</span>
+            <span class="c1">#  drop the valve (fill) column, by position: the header does not</span>
+            <span class="c1">#  name it consistently</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ncols</span><span class="p">)</span> <span class="k">if</span> <span class="n">i</span> <span class="o">!=</span> <span class="mi">22</span><span class="p">]]</span>
+
+        <span class="c1"># Format time</span>
+        <span class="n">data</span><span class="o">.</span><span class="n">Time_UTC</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span>
+            <span class="n">data</span><span class="o">.</span><span class="n">Time_UTC</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;%m/</span><span class="si">%d</span><span class="s2">/%Y %H:%M:%S.</span><span class="si">%f</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s2">&quot;coerce&quot;</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">data</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="AirTrendFile">
+<a class="viewcode-back" href="../../../../api/uataq.filesystem.groupspaces.lin.html#uataq.filesystem.groupspaces.lin.AirTrendFile">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">AirTrendFile</span><span class="p">(</span><span class="n">filesystem</span><span class="o">.</span><span class="n">DataFile</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A class for parsing AirTrend data files.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    path : str</span>
+<span class="sd">        The file path.</span>
+<span class="sd">    period : pd.Period</span>
+<span class="sd">        The period of the data file.</span>
+<span class="sd">    logger : str</span>
+<span class="sd">        The logger name.</span>
+<span class="sd">    date_slicer : slice</span>
+<span class="sd">        A slice object for extracting the date from the file name.</span>
+<span class="sd">    file_freq : str</span>
+<span class="sd">        The file frequency.</span>
+<span class="sd">    ext : str</span>
+<span class="sd">        The file extension.</span>
+<span class="sd">    config : dict</span>
+<span class="sd">        The data configuration.</span>
+
+<span class="sd">    Methods</span>
+<span class="sd">    -------</span>
+<span class="sd">    parse()</span>
+<span class="sd">        Parse the data file.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">logger</span> <span class="o">=</span> <span class="s2">&quot;air-trend&quot;</span>
+    <span class="n">date_slicer</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">file_freq</span> <span class="o">=</span> <span class="s2">&quot;D&quot;</span>
+    <span class="n">ext</span> <span class="o">=</span> <span class="s2">&quot;csv&quot;</span>
+
+<div class="viewcode-block" id="AirTrendFile.__init__">
+<a class="viewcode-back" href="../../../../api/uataq.filesystem.groupspaces.lin.html#uataq.filesystem.groupspaces.lin.AirTrendFile.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="c1"># Store data config labels</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="c1"># instrument name is the name of the directory two levels up</span>
+        <span class="n">instrument_name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">path</span><span class="p">)))</span>
+
+        <span class="c1"># Some instruments have special configurations indicated by their name</span>
+        <span class="c1"># but use the same column structure as the default configuration</span>
+        <span class="c1"># Example: lgr_ugga_manual_cal for trx01</span>
+        <span class="c1"># Take the longest config name the directory starts with: the first</span>
+        <span class="c1"># one in config order gave metone_es642 the layout of &quot;met&quot;.</span>
+        <span class="n">matches</span> <span class="o">=</span> <span class="p">[</span><span class="n">key</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">DATA_CONFIG</span> <span class="k">if</span> <span class="n">instrument_name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">key</span><span class="p">)]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">matches</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">DataFileInitializationError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Unknown instrument &#39;</span><span class="si">{</span><span class="n">instrument_name</span><span class="si">}</span><span class="s2">&#39; for </span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;instrument&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">matches</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="nb">len</span><span class="p">)</span>
+
+        <span class="c1"># Extract filename extension from custom air trend file handlers</span>
+        <span class="c1"># This is necessary for instruments like the gps which have different types of files</span>
+        <span class="n">ext_match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span>
+            <span class="sa">r</span><span class="s2">&quot;\d</span><span class="si">{4}</span><span class="s2">-\d</span><span class="si">{2}</span><span class="s2">-\d</span><span class="si">{2}</span><span class="s2">_?([^\s]+)?\.csv&quot;</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">ext_match</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">DataFileInitializationError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Unexpected air-trend file name: </span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">path</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+        <span class="n">air_trend_ext</span> <span class="o">=</span> <span class="n">ext_match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;lvl&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="s2">&quot;air_trend&quot;</span> <span class="k">if</span> <span class="n">air_trend_ext</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="sa">f</span><span class="s2">&quot;air_trend_</span><span class="si">{</span><span class="n">air_trend_ext</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">path</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="AirTrendFile.parse">
+<a class="viewcode-back" href="../../../../api/uataq.filesystem.groupspaces.lin.html#uataq.filesystem.groupspaces.lin.AirTrendFile.parse">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parse an AirTrend file.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        pd.DataFrame</span>
+<span class="sd">            The parsed data.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">_logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Parsing </span><span class="si">{</span><span class="n">filesystem</span><span class="o">.</span><span class="n">_relpath</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span><span class="w"> </span><span class="n">DATA_DIR</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="n">data_config</span> <span class="o">=</span> <span class="n">DATA_CONFIG</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;instrument&quot;</span><span class="p">]][</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;lvl&quot;</span><span class="p">]]</span>
+
+        <span class="n">col_names</span> <span class="o">=</span> <span class="n">data_config</span><span class="p">[</span><span class="s2">&quot;col_names&quot;</span><span class="p">]</span>
+        <span class="n">col_types</span> <span class="o">=</span> <span class="n">data_config</span><span class="p">[</span><span class="s2">&quot;col_types&quot;</span><span class="p">]</span>
+
+        <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span>
+            <span class="n">names</span><span class="o">=</span><span class="n">col_names</span><span class="p">,</span>
+            <span class="n">header</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+            <span class="n">na_values</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;XXXX&quot;</span><span class="p">],</span>
+            <span class="n">on_bad_lines</span><span class="o">=</span><span class="s2">&quot;skip&quot;</span><span class="p">,</span>
+            <span class="n">low_memory</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Format time</span>
+        <span class="n">data</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s2">&quot;coerce&quot;</span><span class="p">)</span>
+        <span class="n">data</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="s2">&quot;Time_UTC&quot;</span><span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="c1"># Coerce numeric columns</span>
+        <span class="n">numeric_cols</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">col</span>
+            <span class="k">for</span> <span class="n">col</span><span class="p">,</span> <span class="n">dtype</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">col_names</span><span class="p">,</span> <span class="n">col_types</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">dtype</span> <span class="o">==</span> <span class="s2">&quot;d&quot;</span>
+        <span class="p">]</span>
+        <span class="n">data</span><span class="p">[</span><span class="n">numeric_cols</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">numeric_cols</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s2">&quot;coerce&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">data</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="LinGroup">
+<a class="viewcode-back" href="../../../../api/uataq.filesystem.groupspaces.lin.html#uataq.filesystem.groupspaces.lin.LinGroup">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">LinGroup</span><span class="p">(</span><span class="n">filesystem</span><span class="o">.</span><span class="n">GroupSpace</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A class representing the Lin group space in the CHPC UATAQ filesystem.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    name : str</span>
+<span class="sd">        The group name.</span>
+<span class="sd">    datafiles : dict[str, Type[DataFile]]</span>
+<span class="sd">        A dictionary mapping datafile keys to DataFile classes.</span>
+<span class="sd">    data_dir : str</span>
+<span class="sd">        The path to the data directory.</span>
+<span class="sd">    data_config : dict</span>
+<span class="sd">        The data configuration.</span>
+
+<span class="sd">    Methods</span>
+<span class="sd">    -------</span>
+<span class="sd">    get_highest_lvl(SID, instrument)</span>
+<span class="sd">        Get the highest level of data for a given site and instrument.</span>
+<span class="sd">    data_path(SID, instrument, lvl)</span>
+<span class="sd">        Get the path to the data directory for a given site, instrument, and level.</span>
+<span class="sd">    get_files(SID, instrument, lvl, logger)</span>
+<span class="sd">        Get list of file paths for a given site, instrument, and level.</span>
+<span class="sd">    get_datafile_key(instrument, lvl, logger)</span>
+<span class="sd">        Get the datafile key based on the instrument, level, and logger.</span>
+<span class="sd">    get_datafiles(SID, instrument, lvl, logger, time_range, pattern)</span>
+<span class="sd">        Get list of data files for a given level and time range.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;lin&quot;</span>
+
+    <span class="n">datafiles</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;data-pipeline&quot;</span><span class="p">:</span> <span class="n">LinDatFile</span><span class="p">,</span>
+        <span class="s2">&quot;campbellsci&quot;</span><span class="p">:</span> <span class="n">LinDatFile</span><span class="p">,</span>
+        <span class="s2">&quot;air-trend&quot;</span><span class="p">:</span> <span class="n">AirTrendFile</span><span class="p">,</span>
+        <span class="s2">&quot;lgr_ugga&quot;</span><span class="p">:</span> <span class="n">LGR_UGGA_File</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="n">data_dir</span> <span class="o">=</span> <span class="n">DATA_DIR</span>
+    <span class="n">data_config</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">DATA_CONFIG</span><span class="p">)</span>
+
+<div class="viewcode-block" id="LinGroup.get_highest_lvl">
+<a class="viewcode-back" href="../../../../api/uataq.filesystem.groupspaces.lin.html#uataq.filesystem.groupspaces.lin.LinGroup.get_highest_lvl">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_highest_lvl</span><span class="p">(</span><span class="n">SID</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">instrument</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the most processed level present on disk for the instrument.&quot;&quot;&quot;</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">DATA_DIR</span><span class="p">,</span> <span class="n">SID</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="n">instrument</span><span class="p">)</span>
+        <span class="n">inst_lvls</span> <span class="o">=</span> <span class="p">[</span><span class="n">d</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="k">if</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">filesystem</span><span class="o">.</span><span class="n">lvls</span><span class="p">]</span>
+        <span class="n">lvl</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">inst_lvls</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">d</span><span class="p">:</span> <span class="n">filesystem</span><span class="o">.</span><span class="n">lvls</span><span class="p">[</span><span class="n">d</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">lvl</span></div>
+
+
+<div class="viewcode-block" id="LinGroup.data_path">
+<a class="viewcode-back" href="../../../../api/uataq.filesystem.groupspaces.lin.html#uataq.filesystem.groupspaces.lin.LinGroup.data_path">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">data_path</span><span class="p">(</span><span class="n">SID</span><span class="p">,</span> <span class="n">instrument</span><span class="p">,</span> <span class="n">lvl</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the path to the data directory for a given site, instrument, and level.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        SID : str</span>
+<span class="sd">            The site ID.</span>
+<span class="sd">        instrument : str</span>
+<span class="sd">            The instrument name.</span>
+<span class="sd">        lvl : str</span>
+<span class="sd">            The data level.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        str</span>
+<span class="sd">            The path to the data directory.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">DATA_DIR</span><span class="p">,</span> <span class="n">SID</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="n">instrument</span><span class="p">,</span> <span class="n">lvl</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="LinGroup.get_files">
+<a class="viewcode-back" href="../../../../api/uataq.filesystem.groupspaces.lin.html#uataq.filesystem.groupspaces.lin.LinGroup.get_files">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_files</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">SID</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">instrument</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">lvl</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">logger</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;campbellsci&quot;</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        List lin files for the instrument and level.</span>
+
+<span class="sd">        See :meth:`GroupSpace.get_files`. Raw ``lgr_ugga`` files need their own</span>
+<span class="sd">        handling because they sit in subdirectories alongside other files.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Raw lgr_ugga files are stored subdirectories with other files</span>
+        <span class="k">if</span> <span class="n">lvl</span> <span class="o">==</span> <span class="s2">&quot;raw&quot;</span> <span class="ow">and</span> <span class="n">logger</span> <span class="o">==</span> <span class="s2">&quot;lgr_ugga&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">LGR_UGGA_File</span><span class="o">.</span><span class="n">get_files</span><span class="p">(</span><span class="n">SID</span><span class="p">,</span> <span class="n">instrument</span><span class="p">,</span> <span class="n">lvl</span><span class="p">)</span>
+
+        <span class="n">data_path</span> <span class="o">=</span> <span class="n">LinGroup</span><span class="o">.</span><span class="n">data_path</span><span class="p">(</span><span class="n">SID</span><span class="p">,</span> <span class="n">instrument</span><span class="p">,</span> <span class="n">lvl</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">filesystem</span><span class="o">.</span><span class="n">list_files</span><span class="p">(</span><span class="n">data_path</span><span class="p">,</span> <span class="n">full_names</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="LinGroup.get_datafile_key">
+<a class="viewcode-back" href="../../../../api/uataq.filesystem.groupspaces.lin.html#uataq.filesystem.groupspaces.lin.LinGroup.get_datafile_key">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_datafile_key</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instrument</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">lvl</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">logger</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the data file key.</span>
+
+<span class="sd">        The logger for raw files, otherwise the data pipeline&#39;s own format.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="n">logger</span> <span class="k">if</span> <span class="n">lvl</span> <span class="o">==</span> <span class="s2">&quot;raw&quot;</span> <span class="k">else</span> <span class="s2">&quot;data-pipeline&quot;</span>
+        <span class="k">return</span> <span class="n">key</span></div>
+
+
+<div class="viewcode-block" id="LinGroup.get_datafiles">
+<a class="viewcode-back" href="../../../../api/uataq.filesystem.groupspaces.lin.html#uataq.filesystem.groupspaces.lin.LinGroup.get_datafiles">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_datafiles</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">SID</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">instrument</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">lvl</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">logger</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">time_range</span><span class="p">:</span> <span class="n">TimeRange</span><span class="p">,</span>
+        <span class="n">pattern</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">filesystem</span><span class="o">.</span><span class="n">DataFile</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the lin data files overlapping the time range.</span>
+
+<span class="sd">        See :meth:`GroupSpace.get_datafiles`. Raw files need extra handling:</span>
+<span class="sd">        ``lgr_ugga`` file names do not line up with their contents, so the</span>
+<span class="sd">        range is widened by a day on each side, and GPS defaults to the</span>
+<span class="sd">        ``gpgga`` sentence files.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Custom handling for raw Lin files</span>
+        <span class="k">if</span> <span class="n">lvl</span> <span class="o">==</span> <span class="s2">&quot;raw&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">SID</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;TRX&quot;</span><span class="p">):</span>
+                <span class="n">_logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Time_UTC may not be accurate in raw lin data for mobile site </span><span class="si">{</span><span class="n">SID</span><span class="si">}</span><span class="s2">.&quot;</span>
+                <span class="p">)</span>
+            <span class="k">if</span> <span class="n">logger</span> <span class="o">==</span> <span class="s2">&quot;lgr_ugga&quot;</span><span class="p">:</span>
+                <span class="n">_logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+                    <span class="s2">&quot;Adding a day on either side of time range to ensure all data is included.&quot;</span>
+                <span class="p">)</span>
+                <span class="c1"># Raw lgr_ugga files names dont necessarily match the period</span>
+                <span class="c1"># Add a day on either side to ensure we get all the data</span>
+                <span class="c1"># Construct new TimeRange to avoid modifing original range</span>
+                <span class="n">one_day</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+                <span class="n">start</span> <span class="o">=</span> <span class="n">time_range</span><span class="o">.</span><span class="n">start</span> <span class="o">-</span> <span class="n">one_day</span> <span class="k">if</span> <span class="n">time_range</span><span class="o">.</span><span class="n">start</span> <span class="k">else</span> <span class="kc">None</span>
+                <span class="n">stop</span> <span class="o">=</span> <span class="n">time_range</span><span class="o">.</span><span class="n">stop</span> <span class="o">+</span> <span class="n">one_day</span> <span class="k">if</span> <span class="n">time_range</span><span class="o">.</span><span class="n">stop</span> <span class="k">else</span> <span class="kc">None</span>
+                <span class="n">time_range</span> <span class="o">=</span> <span class="n">TimeRange</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="o">=</span><span class="n">stop</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">instrument</span> <span class="o">==</span> <span class="s2">&quot;gps&quot;</span><span class="p">:</span>
+                <span class="c1"># Set default file pattern for raw lin gps data</span>
+                <span class="n">pattern</span> <span class="o">=</span> <span class="n">pattern</span> <span class="ow">or</span> <span class="s2">&quot;gpgga&quot;</span>
+
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">get_datafiles</span><span class="p">(</span><span class="n">SID</span><span class="p">,</span> <span class="n">instrument</span><span class="p">,</span> <span class="n">lvl</span><span class="p">,</span> <span class="n">logger</span><span class="p">,</span> <span class="n">time_range</span><span class="p">,</span> <span class="n">pattern</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="LinGroup.standardize_data">
+<a class="viewcode-back" href="../../../../api/uataq.filesystem.groupspaces.lin.html#uataq.filesystem.groupspaces.lin.LinGroup.standardize_data">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">standardize_data</span><span class="p">(</span><span class="n">instrument</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Rename lin columns to UATAQ names and apply per-instrument fixes.</span>
+
+<span class="sd">        The fixes: GPS degree-minute coordinates, status flags, unit</span>
+<span class="sd">        conversions. See :meth:`GroupSpace.standardize_data`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">mapping</span> <span class="o">=</span> <span class="n">column_mapping</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">instrument</span><span class="p">,</span> <span class="p">{})</span>
+
+        <span class="c1">### Column specific manipulations ###</span>
+
+        <span class="k">if</span> <span class="n">instrument</span> <span class="o">==</span> <span class="s2">&quot;gps&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s2">&quot;latitude_dm&quot;</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+                <span class="c1"># NMEA ddmm.mmmm to decimal degrees, vectorized: a row-wise</span>
+                <span class="c1"># dms2dd took minutes on a month of 1 Hz data</span>
+                <span class="k">for</span> <span class="n">dm</span><span class="p">,</span> <span class="n">deg</span> <span class="ow">in</span> <span class="p">[</span>
+                    <span class="p">(</span><span class="s2">&quot;latitude_dm&quot;</span><span class="p">,</span> <span class="s2">&quot;Latitude_deg&quot;</span><span class="p">),</span>
+                    <span class="p">(</span><span class="s2">&quot;longitude_dm&quot;</span><span class="p">,</span> <span class="s2">&quot;Longitude_deg&quot;</span><span class="p">),</span>
+                <span class="p">]:</span>
+                    <span class="n">values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span>
+                        <span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">dm</span><span class="p">],</span> <span class="n">errors</span><span class="o">=</span><span class="s2">&quot;coerce&quot;</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span>
+                    <span class="p">)</span>
+                    <span class="n">data</span><span class="p">[</span><span class="n">deg</span><span class="p">]</span> <span class="o">=</span> <span class="n">values</span> <span class="o">//</span> <span class="mi">100</span> <span class="o">+</span> <span class="p">(</span><span class="n">values</span> <span class="o">%</span> <span class="mi">100</span><span class="p">)</span> <span class="o">/</span> <span class="mi">60</span>
+                <span class="n">data</span><span class="p">[</span><span class="s2">&quot;Latitude_deg&quot;</span><span class="p">]</span> <span class="o">*=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">n_s</span> <span class="o">==</span> <span class="s2">&quot;S&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="n">data</span><span class="p">[</span><span class="s2">&quot;Longitude_deg&quot;</span><span class="p">]</span> <span class="o">*=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">e_w</span> <span class="o">==</span> <span class="s2">&quot;W&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="n">data</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span>
+                    <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;latitude_dm&quot;</span><span class="p">,</span> <span class="s2">&quot;longitude_dm&quot;</span><span class="p">,</span> <span class="s2">&quot;n_s&quot;</span><span class="p">,</span> <span class="s2">&quot;e_w&quot;</span><span class="p">],</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span>
+                <span class="p">)</span>
+            <span class="k">for</span> <span class="n">status</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;status&quot;</span><span class="p">,</span> <span class="s2">&quot;Status&quot;</span><span class="p">]:</span>
+                <span class="c1"># Map status to binary</span>
+                <span class="k">if</span> <span class="n">status</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+                    <span class="n">data</span><span class="p">[</span><span class="n">status</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">status</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">({</span><span class="s2">&quot;A&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;V&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">})</span>
+
+        <span class="k">elif</span> <span class="n">instrument</span> <span class="o">==</span> <span class="s2">&quot;2b_205&quot;</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">flow</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;flow_ccpm&quot;</span><span class="p">,</span> <span class="s2">&quot;Flow_CCmin&quot;</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">flow</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+                    <span class="n">data</span><span class="p">[</span><span class="n">flow</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">flow</span><span class="p">]</span> <span class="o">/</span> <span class="mi">1000</span>
+                    <span class="n">data</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="n">flow</span><span class="p">:</span> <span class="s2">&quot;Flow_Lpm&quot;</span><span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="s2">&quot;pm25_mgm3&quot;</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+            <span class="n">data</span><span class="p">[</span><span class="s2">&quot;pm25_mgm3&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">pm25_mgm3</span> <span class="o">*</span> <span class="mi">1000</span>
+            <span class="n">data</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;pm25_mgm3&quot;</span><span class="p">:</span> <span class="s2">&quot;PM2.5_ugm3&quot;</span><span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">data</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="n">mapping</span><span class="p">)</span></div>
+</div>
+
+
+
+<span class="n">filesystem</span><span class="o">.</span><span class="n">groups</span><span class="p">[</span><span class="s2">&quot;lin&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">LinGroup</span><span class="p">()</span>
+</pre></div>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0"></script>
+<script defer src="../../../../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025-2026, James Mineau.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.22.0.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

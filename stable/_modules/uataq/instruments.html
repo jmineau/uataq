@@ -1,0 +1,1671 @@
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>uataq.instruments &#8212; UATAQ 2026.10.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=64cc4de3f052d77215f0" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=64cc4de3f052d77215f0" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=64cc4de3f052d77215f0"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
+
+    <script src="../../_static/documentation_options.js?v=c1b729fb"></script>
+    <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/uataq/instruments';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.22.0';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://jmineau.github.io/uataq/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '2026.10.0';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            true;
+        </script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="2026.10.0" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button type="button" class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">UATAQ 2026.10.0 documentation</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../quickstart.html">
+    Quick Start
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../general.html">
+    General Functions
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../laboratory.html">
+    Laboratory
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../filesystem.html">
+    File System
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../sites.html">
+    Sites
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../instruments.html">
+    Instruments
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../pollutants.html">
+    Pollutants
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../gps.html">
+    GPS
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../sodar.html">
+    SODAR
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../contributing.html">
+    Contributing
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button type="button" class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+      
+        <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button type="button" class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/jmineau/uataq" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button type="button" class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../quickstart.html">
+    Quick Start
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../general.html">
+    General Functions
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../laboratory.html">
+    Laboratory
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../filesystem.html">
+    File System
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sites.html">
+    Sites
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../instruments.html">
+    Instruments
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../pollutants.html">
+    Pollutants
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../gps.html">
+    GPS
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sodar.html">
+    SODAR
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contributing.html">
+    Contributing
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-3"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-3"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-3"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-3">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+        
+          <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button type="button" class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/jmineau/uataq" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Module code</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../uataq.html" class="nav-link">uataq</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">uataq.instruments</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for uataq.instruments</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">UATAQ instruments as classes.</span>
+
+<span class="sd">Each instrument class is a subclass of the `Instrument` abstract base class and</span>
+<span class="sd">implements methods for reading and parsing data files.</span>
+
+<span class="sd">The `Instrument` class provides a common interface for all instrument classes</span>
+<span class="sd">and defines abstract methods that must be implemented by each subclass.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">ABCMeta</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">Mapping</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">itertools</span><span class="w"> </span><span class="kn">import</span> <span class="n">pairwise</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Literal</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">uataq</span><span class="w"> </span><span class="kn">import</span> <span class="n">errors</span><span class="p">,</span> <span class="n">filesystem</span><span class="p">,</span> <span class="n">gps</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">uataq.timerange</span><span class="w"> </span><span class="kn">import</span> <span class="n">TimeRange</span><span class="p">,</span> <span class="n">TimeRangeTypes</span>
+
+<span class="c1">#: How a caller picks a research group: a name, a per-instrument mapping, or</span>
+<span class="c1">#: None for automatic selection. See :meth:`Instrument.resolve_group`.</span>
+<span class="n">GroupSelection</span> <span class="o">=</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span>
+
+<span class="c1">#: A read plan: which group to read each portion of a time range from. See</span>
+<span class="c1">#: :meth:`Instrument.plan_reads`.</span>
+<span class="n">ReadPlan</span> <span class="o">=</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">TimeRange</span><span class="p">]]</span>
+
+<span class="n">_logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+<span class="c1"># TODO</span>
+<span class="c1"># TRX01 aeth &amp; no2 from horel-group</span>
+
+
+<div class="viewcode-block" id="Instrument">
+<a class="viewcode-back" href="../../instruments.html#uataq.instruments.Instrument">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Instrument</span><span class="p">(</span><span class="n">metaclass</span><span class="o">=</span><span class="n">ABCMeta</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Abstract base class for instrument objects.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    model : str</span>
+<span class="sd">        Model of the instrument.</span>
+<span class="sd">    SID : str</span>
+<span class="sd">        Site ID where the instrument is installed.</span>
+<span class="sd">    name : str</span>
+<span class="sd">        Name of the instrument.</span>
+<span class="sd">    groups : list[str]</span>
+<span class="sd">        Research groups that operate the instrument.</span>
+<span class="sd">    group_dates : dict[str, TimeRange]</span>
+<span class="sd">        When each group&#39;s archive holds this instrument&#39;s data, for the groups</span>
+<span class="sd">        whose archive covers less than the whole installation (config</span>
+<span class="sd">        ``group_dates``). A group not listed covers the whole installation.</span>
+<span class="sd">    loggers : set[str]</span>
+<span class="sd">        Loggers used by the research groups to record data.</span>
+<span class="sd">    config : dict</span>
+<span class="sd">        Configuration settings for the instrument.</span>
+
+<span class="sd">    Methods</span>
+<span class="sd">    -------</span>
+<span class="sd">    get_files(group: str, lvl: str) -&gt; list[str]</span>
+<span class="sd">        Get list of file paths for a given level.</span>
+<span class="sd">    read_data(group: str, lvl: str, time_range: TimeRange, num_processes: int, file_pattern: str) -&gt; pd.DataFrame</span>
+<span class="sd">        Read and parse group data files for the given level and time range using multiple processes.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">model</span><span class="p">:</span> <span class="nb">str</span>
+
+<div class="viewcode-block" id="Instrument.__init__">
+<a class="viewcode-back" href="../../instruments.html#uataq.instruments.Instrument.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">SID</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">loggers</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize the Instrument object.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        SID : str</span>
+<span class="sd">            Site ID where the instrument is installed.</span>
+<span class="sd">        name : str</span>
+<span class="sd">            Name of the instrument.</span>
+<span class="sd">        loggers : dict</span>
+<span class="sd">            Dictionary of loggers used by different research groups.</span>
+<span class="sd">        config : dict</span>
+<span class="sd">            Configuration settings for the instrument.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">SID</span> <span class="o">=</span> <span class="n">SID</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_loggers</span> <span class="o">=</span> <span class="n">loggers</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">config</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">groups</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">loggers</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">loggers</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">loggers</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">group_dates</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_group_dates</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;group_dates&quot;</span><span class="p">))</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_parse_group_dates</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">group_dates</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">|</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">TimeRange</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parse the config&#39;s ``group_dates`` into a TimeRange per group.</span>
+
+<span class="sd">        Each entry is ``group: [start, stop]``, a half-open ``[start, stop)``</span>
+<span class="sd">        window. Either end may be null for unbounded (in practice, the</span>
+<span class="sd">        instrument&#39;s installation or removal). Dates are read as exact</span>
+<span class="sd">        instants, like ``installation_date``/``removal_date``: a stop of</span>
+<span class="sd">        ``&quot;2017-10-28&quot;`` means ``2017-10-28 00:00``, not the end of that day.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        ValueError</span>
+<span class="sd">            If a group does not operate the instrument, an entry is not a</span>
+<span class="sd">            ``[start, stop]`` pair, or a window ends before it starts.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">windows</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">TimeRange</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">group</span><span class="p">,</span> <span class="n">dates</span> <span class="ow">in</span> <span class="p">(</span><span class="n">group_dates</span> <span class="ow">or</span> <span class="p">{})</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">group</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">groups</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;group_dates for </span><span class="si">{</span><span class="bp">self</span><span class="si">}</span><span class="s2"> names &#39;</span><span class="si">{</span><span class="n">group</span><span class="si">}</span><span class="s2">&#39;, which does not &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;operate it. Operators: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">groups</span><span class="si">}</span><span class="s2">.&quot;</span>
+                <span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dates</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">))</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">dates</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;group_dates[&#39;</span><span class="si">{</span><span class="n">group</span><span class="si">}</span><span class="s2">&#39;] for </span><span class="si">{</span><span class="bp">self</span><span class="si">}</span><span class="s2"> must be [start, stop], &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;got </span><span class="si">{</span><span class="n">dates</span><span class="si">!r}</span><span class="s2">.&quot;</span>
+                <span class="p">)</span>
+            <span class="n">start</span><span class="p">,</span> <span class="n">stop</span> <span class="o">=</span> <span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">d</span><span class="p">)</span> <span class="k">if</span> <span class="n">d</span> <span class="k">else</span> <span class="kc">None</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">dates</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">start</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">stop</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">start</span> <span class="o">&gt;=</span> <span class="n">stop</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;group_dates[&#39;</span><span class="si">{</span><span class="n">group</span><span class="si">}</span><span class="s2">&#39;] for </span><span class="si">{</span><span class="bp">self</span><span class="si">}</span><span class="s2"> ends before it starts: &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">dates</span><span class="si">!r}</span><span class="s2">.&quot;</span>
+                <span class="p">)</span>
+            <span class="n">windows</span><span class="p">[</span><span class="n">group</span><span class="p">]</span> <span class="o">=</span> <span class="n">TimeRange</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="o">=</span><span class="n">stop</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">windows</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">@</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">SID</span><span class="si">}</span><span class="s2">&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;, name=&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+        <span class="n">config</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">SID</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">, loggers=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_loggers</span><span class="si">}</span><span class="s2">, config=</span><span class="si">{</span><span class="n">config</span><span class="si">}</span><span class="s2">)&quot;</span>
+        <span class="p">)</span>
+
+<div class="viewcode-block" id="Instrument.resolve_group">
+<a class="viewcode-back" href="../../instruments.html#uataq.instruments.Instrument.resolve_group">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">resolve_group</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">group</span><span class="p">:</span> <span class="n">GroupSelection</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Pick which research group&#39;s data to read this instrument from.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        group : str | Mapping[str, str] | None</span>
+<span class="sd">            A group name, used as given; a mapping of instrument name to group</span>
+<span class="sd">            name, from which this instrument&#39;s entry is used (instruments the</span>
+<span class="sd">            mapping does not name fall back to automatic selection); or None to</span>
+<span class="sd">            select automatically.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        str</span>
+<span class="sd">            The group name.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        InvalidGroupError</span>
+<span class="sd">            If no registered groupspace operates this instrument.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        Automatic selection reads the configured operators of *this*</span>
+<span class="sd">        instrument: the default group when it is one of them, otherwise the</span>
+<span class="sd">        sole operator, otherwise the first configured. It is a configuration</span>
+<span class="sd">        lookup, not a search of the archive -- it does not check whether that</span>
+<span class="sd">        group actually holds data for a given time range, and it ignores</span>
+<span class="sd">        ``group_dates``. :meth:`plan_reads` is the time-aware version that</span>
+<span class="sd">        :meth:`uataq.sites.Site.read_data` uses.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">group</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_named_group</span><span class="p">(</span><span class="n">group</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">group</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">filesystem</span><span class="o">.</span><span class="n">get_group</span><span class="p">(</span><span class="n">group</span><span class="p">)</span>
+
+        <span class="n">candidates</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_preferred_groups</span><span class="p">()</span>
+        <span class="n">selected</span> <span class="o">=</span> <span class="n">candidates</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">selected</span> <span class="o">==</span> <span class="n">filesystem</span><span class="o">.</span><span class="n">DEFAULT_GROUP</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">selected</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">candidates</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="si">}</span><span class="s2"> is operated by </span><span class="si">{</span><span class="n">candidates</span><span class="si">}</span><span class="s2"> and not by the default &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;group &#39;</span><span class="si">{</span><span class="n">filesystem</span><span class="o">.</span><span class="n">DEFAULT_GROUP</span><span class="si">}</span><span class="s2">&#39;; reading from &#39;</span><span class="si">{</span><span class="n">selected</span><span class="si">}</span><span class="s2">&#39;.&quot;</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">_logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="si">}</span><span class="s2"> is operated by &#39;</span><span class="si">{</span><span class="n">selected</span><span class="si">}</span><span class="s2">&#39;; reading from it.&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">selected</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_named_group</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">group</span><span class="p">:</span> <span class="n">GroupSelection</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the group the caller named for this instrument, or None for auto.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">):</span>
+            <span class="n">group</span> <span class="o">=</span> <span class="n">group</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">group</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">()))</span>
+        <span class="k">return</span> <span class="n">group</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_preferred_groups</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the registered groups that operate this instrument.</span>
+
+<span class="sd">        Most preferred first: the default group, then the configured order.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        InvalidGroupError</span>
+<span class="sd">            If no registered groupspace operates this instrument.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">candidates</span> <span class="o">=</span> <span class="p">[</span><span class="n">g</span> <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">groups</span> <span class="k">if</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">filesystem</span><span class="o">.</span><span class="n">groups</span><span class="p">]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">candidates</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">InvalidGroupError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;No registered groupspace operates </span><span class="si">{</span><span class="bp">self</span><span class="si">}</span><span class="s2">. &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;Configured: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">groups</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="s1">&#39;none&#39;</span><span class="si">}</span><span class="s2">.&quot;</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="n">filesystem</span><span class="o">.</span><span class="n">DEFAULT_GROUP</span> <span class="ow">in</span> <span class="n">candidates</span><span class="p">:</span>
+            <span class="n">candidates</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">filesystem</span><span class="o">.</span><span class="n">DEFAULT_GROUP</span><span class="p">)</span>
+            <span class="n">candidates</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">filesystem</span><span class="o">.</span><span class="n">DEFAULT_GROUP</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">candidates</span>
+
+<div class="viewcode-block" id="Instrument.plan_reads">
+<a class="viewcode-back" href="../../instruments.html#uataq.instruments.Instrument.plan_reads">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">plan_reads</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">group</span><span class="p">:</span> <span class="n">GroupSelection</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">time_range</span><span class="p">:</span> <span class="n">TimeRange</span> <span class="o">|</span> <span class="n">TimeRangeTypes</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ReadPlan</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Plan which group to read each part of a time range from.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        group : str | Mapping[str, str] | None</span>
+<span class="sd">            As for :meth:`resolve_group`. A name, or a mapping entry naming</span>
+<span class="sd">            this instrument, reads the whole range from that group.</span>
+<span class="sd">        time_range : TimeRange | TimeRangeTypes</span>
+<span class="sd">            The requested time range. Default None is the whole installation.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        list[tuple[str, TimeRange]]</span>
+<span class="sd">            ``(group, portion)`` pairs in time order. The portions are</span>
+<span class="sd">            half-open, do not overlap, and lie within the requested range</span>
+<span class="sd">            clipped to :attr:`active_range`. Usually a single pair.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        InactiveInstrumentError</span>
+<span class="sd">            If the requested range misses the installation entirely.</span>
+<span class="sd">        InvalidGroupError</span>
+<span class="sd">            If no registered groupspace operates this instrument.</span>
+<span class="sd">        ReaderError</span>
+<span class="sd">            If no group&#39;s archive covers any of the requested range.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        With no group named, a range that crosses a ``group_dates`` boundary</span>
+<span class="sd">        is split there. Each portion goes to the most preferred group whose</span>
+<span class="sd">        window covers it -- the default group, then the configured order, as</span>
+<span class="sd">        in :meth:`resolve_group` -- and portions no group covers are skipped.</span>
+<span class="sd">        An instrument without ``group_dates`` gets</span>
+<span class="sd">        ``[(resolve_group(group), clipped range)]``, as before.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">named</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_named_group</span><span class="p">(</span><span class="n">group</span><span class="p">)</span>
+        <span class="n">candidates</span> <span class="o">=</span> <span class="kc">None</span> <span class="k">if</span> <span class="n">named</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">_preferred_groups</span><span class="p">()</span>
+        <span class="n">time_range</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">clip_to_active</span><span class="p">(</span><span class="n">time_range</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">candidates</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">group_dates</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[(</span><span class="bp">self</span><span class="o">.</span><span class="n">resolve_group</span><span class="p">(</span><span class="n">group</span><span class="p">),</span> <span class="n">time_range</span><span class="p">)]</span>
+
+        <span class="n">windows</span> <span class="o">=</span> <span class="p">{</span><span class="n">g</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">group_dates</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">TimeRange</span><span class="p">())</span> <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">candidates</span><span class="p">}</span>
+        <span class="n">start</span><span class="p">,</span> <span class="n">stop</span> <span class="o">=</span> <span class="n">time_range</span>
+        <span class="c1"># Cut the range at every window edge that falls inside it</span>
+        <span class="n">cuts</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span>
+            <span class="p">{</span>
+                <span class="n">edge</span>
+                <span class="k">for</span> <span class="n">window</span> <span class="ow">in</span> <span class="n">windows</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
+                <span class="k">for</span> <span class="n">edge</span> <span class="ow">in</span> <span class="n">window</span>
+                <span class="k">if</span> <span class="n">edge</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+                <span class="ow">and</span> <span class="p">(</span><span class="n">start</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">edge</span> <span class="o">&gt;</span> <span class="n">start</span><span class="p">)</span>
+                <span class="ow">and</span> <span class="p">(</span><span class="n">stop</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">edge</span> <span class="o">&lt;</span> <span class="n">stop</span><span class="p">)</span>
+            <span class="p">}</span>
+        <span class="p">)</span>
+
+        <span class="n">plan</span><span class="p">:</span> <span class="n">ReadPlan</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">lo</span><span class="p">,</span> <span class="n">hi</span> <span class="ow">in</span> <span class="n">pairwise</span><span class="p">([</span><span class="n">start</span><span class="p">,</span> <span class="o">*</span><span class="n">cuts</span><span class="p">,</span> <span class="n">stop</span><span class="p">]):</span>
+            <span class="k">if</span> <span class="n">lo</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">hi</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">lo</span> <span class="o">&gt;=</span> <span class="n">hi</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="n">chosen</span> <span class="o">=</span> <span class="nb">next</span><span class="p">((</span><span class="n">g</span> <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">candidates</span> <span class="k">if</span> <span class="n">_covers</span><span class="p">(</span><span class="n">windows</span><span class="p">[</span><span class="n">g</span><span class="p">],</span> <span class="n">lo</span><span class="p">,</span> <span class="n">hi</span><span class="p">)),</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">chosen</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">_logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;No group&#39;s archive covers </span><span class="si">{</span><span class="bp">self</span><span class="si">}</span><span class="s2"> from </span><span class="si">{</span><span class="n">lo</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="n">hi</span><span class="si">}</span><span class="s2">; &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;skipping that portion.&quot;</span>
+                <span class="p">)</span>
+                <span class="k">continue</span>
+            <span class="k">if</span> <span class="n">plan</span> <span class="ow">and</span> <span class="n">plan</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">chosen</span> <span class="ow">and</span> <span class="n">plan</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">stop</span> <span class="o">==</span> <span class="n">lo</span><span class="p">:</span>
+                <span class="c1"># Adjoins the previous portion from the same group: extend it</span>
+                <span class="n">plan</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">chosen</span><span class="p">,</span> <span class="n">TimeRange</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="n">plan</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="o">=</span><span class="n">hi</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">plan</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">chosen</span><span class="p">,</span> <span class="n">TimeRange</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="n">lo</span><span class="p">,</span> <span class="n">stop</span><span class="o">=</span><span class="n">hi</span><span class="p">)))</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">plan</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">ReaderError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;No group&#39;s archive covers </span><span class="si">{</span><span class="bp">self</span><span class="si">}</span><span class="s2"> for </span><span class="si">{</span><span class="n">time_range</span><span class="si">}</span><span class="s2"> &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;(group_dates: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">group_dates</span><span class="si">}</span><span class="s2">).&quot;</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">plan</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Reading </span><span class="si">{</span><span class="bp">self</span><span class="si">}</span><span class="s2"> from &quot;</span>
+                <span class="o">+</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">g</span><span class="si">}</span><span class="s2"> for </span><span class="si">{</span><span class="n">portion</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">g</span><span class="p">,</span> <span class="n">portion</span> <span class="ow">in</span> <span class="n">plan</span><span class="p">)</span>
+                <span class="o">+</span> <span class="s2">&quot;.&quot;</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">plan</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_groupspace</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">group</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">filesystem</span><span class="o">.</span><span class="n">GroupSpace</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the groupspace object for the given group.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        group : str</span>
+<span class="sd">            The research group whose groupspace to retrieve.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        GroupSpace</span>
+<span class="sd">            The groupspace object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">group</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">filesystem</span><span class="o">.</span><span class="n">groups</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">InvalidGroupError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">group</span><span class="si">}</span><span class="s2"> groupspace not found in filesystem&quot;</span>
+            <span class="p">)</span>
+        <span class="k">elif</span> <span class="n">group</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">groups</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">InvalidGroupError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">group</span><span class="si">}</span><span class="s2"> group invalid for </span><span class="si">{</span><span class="bp">self</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">filesystem</span><span class="o">.</span><span class="n">groups</span><span class="p">[</span><span class="n">group</span><span class="p">]</span>
+
+<div class="viewcode-block" id="Instrument.get_highest_lvl">
+<a class="viewcode-back" href="../../instruments.html#uataq.instruments.Instrument.get_highest_lvl">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_highest_lvl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">group</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the highest data level for the instrument.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        group : str</span>
+<span class="sd">            The research group whose data to retrieve.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        str</span>
+<span class="sd">            The highest data level.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;No level specified. Determining highest level...&quot;</span><span class="p">)</span>
+        <span class="n">groupspace</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_groupspace</span><span class="p">(</span><span class="n">group</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">groupspace</span><span class="o">.</span><span class="n">get_highest_lvl</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">SID</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Instrument.get_files">
+<a class="viewcode-back" href="../../instruments.html#uataq.instruments.Instrument.get_files">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_files</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">group</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">lvl</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get list of file paths for a given level.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        group : str</span>
+<span class="sd">            The research group whose data to retrieve.</span>
+<span class="sd">        lvl : str</span>
+<span class="sd">            The level of the data to retrieve.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        list[str]</span>
+<span class="sd">            A list of file paths.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">groupspace</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_groupspace</span><span class="p">(</span><span class="n">group</span><span class="p">)</span>
+        <span class="n">logger</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_loggers</span><span class="p">[</span><span class="n">group</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">groupspace</span><span class="o">.</span><span class="n">get_files</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">SID</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">lvl</span><span class="p">,</span> <span class="n">logger</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Instrument.get_datafiles">
+<a class="viewcode-back" href="../../instruments.html#uataq.instruments.Instrument.get_datafiles">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_datafiles</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">group</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">lvl</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">time_range</span><span class="p">:</span> <span class="n">TimeRange</span> <span class="o">|</span> <span class="n">TimeRangeTypes</span><span class="p">,</span>
+        <span class="n">pattern</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">filesystem</span><span class="o">.</span><span class="n">DataFile</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get data files for the given level and time range from the groupspace.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        group : str</span>
+<span class="sd">            The research group whose data to retrieve.</span>
+<span class="sd">        lvl : str</span>
+<span class="sd">            The level of the data to retrieve.</span>
+<span class="sd">        time_range : TimeRange | TimeRangeTypes</span>
+<span class="sd">            The time range of the data to retrieve.</span>
+<span class="sd">        pattern : str</span>
+<span class="sd">            A string pattern to filter the file paths.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        list[DataFile]</span>
+<span class="sd">            A list of data files.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">time_range</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">clip_to_active</span><span class="p">(</span><span class="n">time_range</span><span class="p">)</span>
+
+        <span class="n">groupspace</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_groupspace</span><span class="p">(</span><span class="n">group</span><span class="p">)</span>
+        <span class="n">logger</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_loggers</span><span class="p">[</span><span class="n">group</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">groupspace</span><span class="o">.</span><span class="n">get_datafiles</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">SID</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">lvl</span><span class="p">,</span> <span class="n">logger</span><span class="p">,</span> <span class="n">time_range</span><span class="p">,</span> <span class="n">pattern</span>
+        <span class="p">)</span></div>
+
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">active_range</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TimeRange</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        When this instrument was installed at the site and when it was removed.</span>
+
+<span class="sd">        An instrument still installed has no stop. Built from the site</span>
+<span class="sd">        configuration&#39;s ``installation_date`` / ``removal_date``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">removal_date</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;removal_date&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">TimeRange</span><span class="p">(</span>
+            <span class="n">start</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;installation_date&quot;</span><span class="p">]),</span>
+            <span class="n">stop</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">removal_date</span><span class="p">)</span> <span class="k">if</span> <span class="n">removal_date</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="p">)</span>
+
+<div class="viewcode-block" id="Instrument.clip_to_active">
+<a class="viewcode-back" href="../../instruments.html#uataq.instruments.Instrument.clip_to_active">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">clip_to_active</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">time_range</span><span class="p">:</span> <span class="n">TimeRange</span> <span class="o">|</span> <span class="n">TimeRangeTypes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TimeRange</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Narrow a requested time range to when this instrument was installed.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        time_range : TimeRange | TimeRangeTypes</span>
+<span class="sd">            The requested time range.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        TimeRange</span>
+<span class="sd">            The requested range intersected with :attr:`active_range`. Never</span>
+<span class="sd">            wider than what was asked for.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        InactiveInstrumentError</span>
+<span class="sd">            If the requested range does not overlap the active range at all.</span>
+<span class="sd">            Both are half-open, so a range that only touches it -- stopping at</span>
+<span class="sd">            the installation date, or starting at the removal date -- does</span>
+<span class="sd">            not overlap it.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        Without this, a request that reaches past a swap reads the replacement</span>
+<span class="sd">        instrument&#39;s files as though they were this one&#39;s: research groups</span>
+<span class="sd">        reuse a file name across an instrument change (the horel group calls</span>
+<span class="sd">        both MetOne models ``esampler``), so the file name cannot distinguish</span>
+<span class="sd">        them, but the installation and removal dates can.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">time_range</span> <span class="o">=</span> <span class="n">TimeRange</span><span class="p">(</span><span class="n">time_range</span><span class="p">)</span>
+        <span class="n">start</span><span class="p">,</span> <span class="n">stop</span> <span class="o">=</span> <span class="n">time_range</span>
+        <span class="n">active_start</span><span class="p">,</span> <span class="n">active_stop</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">active_range</span>
+
+        <span class="c1"># Both ranges are half-open, so [start, stop) and [active_start,</span>
+        <span class="c1"># active_stop) share no instant when one ends where the other begins:</span>
+        <span class="c1"># a request stopping at installation, or starting at removal, misses</span>
+        <span class="c1"># the installation and must not clip to an empty range (#37).</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">stop</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">active_start</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">stop</span> <span class="o">&lt;=</span> <span class="n">active_start</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span>
+            <span class="n">start</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">active_stop</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">start</span> <span class="o">&gt;=</span> <span class="n">active_stop</span>
+        <span class="p">):</span>
+            <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">InactiveInstrumentError</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+        <span class="n">clipped</span> <span class="o">=</span> <span class="n">TimeRange</span><span class="p">(</span>
+            <span class="n">start</span><span class="o">=</span><span class="nb">max</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">active_start</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">start</span> <span class="ow">and</span> <span class="n">active_start</span>
+            <span class="k">else</span> <span class="p">(</span><span class="n">start</span> <span class="ow">or</span> <span class="n">active_start</span><span class="p">),</span>
+            <span class="n">stop</span><span class="o">=</span><span class="nb">min</span><span class="p">(</span><span class="n">stop</span><span class="p">,</span> <span class="n">active_stop</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">stop</span> <span class="ow">and</span> <span class="n">active_stop</span>
+            <span class="k">else</span> <span class="p">(</span><span class="n">stop</span> <span class="ow">or</span> <span class="n">active_stop</span><span class="p">),</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">clipped</span><span class="o">.</span><span class="n">start</span><span class="p">,</span> <span class="n">clipped</span><span class="o">.</span><span class="n">stop</span><span class="p">)</span> <span class="o">!=</span> <span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">):</span>
+            <span class="n">_logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Clipped </span><span class="si">{</span><span class="n">time_range</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="n">clipped</span><span class="si">}</span><span class="s2"> -- when </span><span class="si">{</span><span class="bp">self</span><span class="si">}</span><span class="s2"> was installed.&quot;</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">clipped</span></div>
+
+
+<div class="viewcode-block" id="Instrument.standardize_data">
+<a class="viewcode-back" href="../../instruments.html#uataq.instruments.Instrument.standardize_data">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">standardize_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">group</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Standardize the data across research groups.</span>
+
+<span class="sd">        Rename columns, convert units, map values, etc. as needed.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        group : str</span>
+<span class="sd">            The research group whose data to standardize.</span>
+<span class="sd">        data : pandas.DataFrame</span>
+<span class="sd">            The data to standardize.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        pandas.DataFrame</span>
+<span class="sd">            The standardized data.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">groupspace</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_groupspace</span><span class="p">(</span><span class="n">group</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">groupspace</span><span class="o">.</span><span class="n">standardize_data</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Instrument.read_data">
+<a class="viewcode-back" href="../../instruments.html#uataq.instruments.Instrument.read_data">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">read_data</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">group</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">lvl</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">time_range</span><span class="p">:</span> <span class="n">TimeRange</span> <span class="o">|</span> <span class="n">TimeRangeTypes</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">num_processes</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;max&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="n">file_pattern</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Read and parse data files for the given level and time range.</span>
+
+<span class="sd">        Uses multiple processes if specified.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        group : str</span>
+<span class="sd">            The research group whose data to read.</span>
+<span class="sd">        lvl : str</span>
+<span class="sd">            The level of the data to read.</span>
+<span class="sd">        time_range : TimeRange | TimeRangeTypes</span>
+<span class="sd">            The time range to read data. Default is None which reads all available data.</span>
+<span class="sd">        num_processes : int | &#39;max&#39;</span>
+<span class="sd">            The number of processes to use for parallelization.</span>
+<span class="sd">        file_pattern : str</span>
+<span class="sd">            A string pattern to filter the file paths.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        pandas.DataFrame</span>
+<span class="sd">            A concatenated DataFrame containing the parsed data from files.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Reading data for </span><span class="si">{</span><span class="bp">self</span><span class="si">}</span><span class="s2"> from the </span><span class="si">{</span><span class="n">group</span><span class="si">}</span><span class="s2"> groupspace...&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Format lvl &amp; time_range</span>
+        <span class="n">lvl</span> <span class="o">=</span> <span class="n">lvl</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">if</span> <span class="n">lvl</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_highest_lvl</span><span class="p">(</span><span class="n">group</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="n">lvl</span> <span class="ow">in</span> <span class="n">filesystem</span><span class="o">.</span><span class="n">lvls</span><span class="p">,</span> <span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Invalid data level &#39;</span><span class="si">{</span><span class="n">lvl</span><span class="si">}</span><span class="s2">&#39;. Must be one of </span><span class="si">{</span><span class="n">filesystem</span><span class="o">.</span><span class="n">lvls</span><span class="si">}</span><span class="s2">.&quot;</span>
+        <span class="p">)</span>
+        <span class="c1"># Clip once, and use the clipped range for both file selection and the</span>
+        <span class="c1"># row slice, so data logged after a swap cannot be read as this</span>
+        <span class="c1"># instrument&#39;s (see clip_to_active).</span>
+        <span class="n">time_range</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">clip_to_active</span><span class="p">(</span><span class="n">time_range</span><span class="p">)</span>
+
+        <span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Getting </span><span class="si">{</span><span class="n">lvl</span><span class="si">}</span><span class="s2"> files...&quot;</span><span class="p">)</span>
+        <span class="n">datafiles</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_datafiles</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">lvl</span><span class="p">,</span> <span class="n">time_range</span><span class="p">,</span> <span class="n">file_pattern</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">filesystem</span><span class="o">.</span><span class="n">parse_datafiles</span><span class="p">(</span><span class="n">datafiles</span><span class="p">,</span> <span class="n">time_range</span><span class="p">,</span> <span class="n">num_processes</span><span class="p">)</span>
+        <span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Mapping columns to UATAQ names...&quot;</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">standardize_data</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+        <span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;done.&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">data</span></div>
+</div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_covers</span><span class="p">(</span><span class="n">window</span><span class="p">:</span> <span class="n">TimeRange</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Whether ``window`` covers ``[start, stop)``. A None end is unbounded.&quot;&quot;&quot;</span>
+    <span class="n">window_start</span><span class="p">,</span> <span class="n">window_stop</span> <span class="o">=</span> <span class="n">window</span>
+    <span class="n">starts_in</span> <span class="o">=</span> <span class="n">window_start</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="p">(</span><span class="n">start</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">window_start</span> <span class="o">&lt;=</span> <span class="n">start</span><span class="p">)</span>
+    <span class="n">stops_in</span> <span class="o">=</span> <span class="n">window_stop</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="p">(</span><span class="n">stop</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">stop</span> <span class="o">&lt;=</span> <span class="n">window_stop</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">starts_in</span> <span class="ow">and</span> <span class="n">stops_in</span>
+
+
+<div class="viewcode-block" id="configure_instrument">
+<a class="viewcode-back" href="../../instruments.html#uataq.instruments.configure_instrument">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">configure_instrument</span><span class="p">(</span>
+    <span class="n">SID</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">loggers</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Instrument</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Configure an instrument object based on the given configuration settings.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    SID : str</span>
+<span class="sd">        Site ID where the instrument is installed.</span>
+<span class="sd">    name : str</span>
+<span class="sd">        Name of the instrument.</span>
+<span class="sd">    config : dict</span>
+<span class="sd">        Configuration settings for the instrument.</span>
+<span class="sd">    loggers : dict, optional</span>
+<span class="sd">        Dictionary of loggers used by different research groups.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Instrument</span>
+<span class="sd">        An instrument object configured with the given settings.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        If the instrument model is not found in the catalog.</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        If no loggers are found for the instrument at the site.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;model&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+
+    <span class="n">loggers</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;loggers&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">loggers</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">loggers</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No loggers found for instrument </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> at site </span><span class="si">{</span><span class="n">SID</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+
+    <span class="n">InstrumentClass</span> <span class="o">=</span> <span class="n">catalog</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">InstrumentClass</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Model &#39;</span><span class="si">{</span><span class="n">model</span><span class="si">}</span><span class="s2">&#39; not found in the instrument catalog.&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">InstrumentClass</span><span class="p">(</span><span class="n">SID</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">loggers</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="InstrumentEnsemble">
+<a class="viewcode-back" href="../../instruments.html#uataq.instruments.InstrumentEnsemble">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">InstrumentEnsemble</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Container for an ensemble of instruments at a site.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    SID : str</span>
+<span class="sd">        Site ID of the ensemble.</span>
+<span class="sd">    configs : dict[str, dict]</span>
+<span class="sd">        Dictionary of configuration settings for each instrument.</span>
+<span class="sd">    names : list[str]</span>
+<span class="sd">        List of instrument names in the ensemble.</span>
+<span class="sd">    loggers : set[str]</span>
+<span class="sd">        Set of loggers used by the research groups.</span>
+<span class="sd">    groups : set[str]</span>
+<span class="sd">        Set of research groups that operate the instruments.</span>
+<span class="sd">    pollutants : set[str]</span>
+<span class="sd">        Set of pollutants measured by the instruments.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="InstrumentEnsemble.__init__">
+<a class="viewcode-back" href="../../instruments.html#uataq.instruments.InstrumentEnsemble.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">SID</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">configs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">loggers</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize the InstrumentEnsemble object.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        SID : str</span>
+<span class="sd">            Site ID of the ensemble.</span>
+<span class="sd">        configs : dict[instrument, config]</span>
+<span class="sd">            Dictionary of configuration settings for each instrument.</span>
+<span class="sd">        loggers : dict[group, logger], optional</span>
+<span class="sd">            Dictionary of loggers used by different research groups.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">SID</span> <span class="o">=</span> <span class="n">SID</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">configs</span> <span class="o">=</span> <span class="n">configs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_loggers</span> <span class="o">=</span> <span class="n">loggers</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">names</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">configs</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+
+        <span class="c1"># Configure instruments</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_instruments</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="n">name</span><span class="p">:</span> <span class="n">configure_instrument</span><span class="p">(</span><span class="n">SID</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="n">loggers</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">config</span> <span class="ow">in</span> <span class="n">configs</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+        <span class="p">}</span>
+
+        <span class="c1"># Gather ensemble attributes</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">loggers</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">groups</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pollutants</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">instrument</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_instruments</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">loggers</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">instrument</span><span class="o">.</span><span class="n">loggers</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">groups</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">instrument</span><span class="o">.</span><span class="n">groups</span><span class="p">)</span>
+
+            <span class="c1"># duck-typed: only SensorMixin subclasses declare pollutants</span>
+            <span class="n">pollutants</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">instrument</span><span class="p">,</span> <span class="s2">&quot;pollutants&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">pollutants</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">pollutants</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">pollutants</span><span class="p">)</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">configs</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">configs</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+        <span class="n">loggers</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;, loggers=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_loggers</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_loggers</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;InstrumentEnsemble(&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">SID</span><span class="si">}</span><span class="s1">&quot;, configs=</span><span class="si">{</span><span class="n">configs</span><span class="si">}{</span><span class="n">loggers</span><span class="si">}</span><span class="s1">)&#39;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;InstrumentEnsemble(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">SID</span><span class="si">}</span><span class="s2">, instruments=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">names</span><span class="si">}</span><span class="s2">)&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Instrument</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_instruments</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Instrument</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_instruments</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__contains__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">names</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Instrument</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_instruments</span><span class="o">.</span><span class="n">values</span><span class="p">())</span></div>
+
+
+
+<div class="viewcode-block" id="SensorMixin">
+<a class="viewcode-back" href="../../instruments.html#uataq.instruments.SensorMixin">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">SensorMixin</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Mixin for instrument objects that measure a pollutant.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">        pollutants (tuple): Tuple of pollutants measured by the instrument.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">pollutants</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span></div>
+
+
+
+<div class="viewcode-block" id="BB_205">
+<a class="viewcode-back" href="../../instruments.html#uataq.instruments.BB_205">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">BB_205</span><span class="p">(</span><span class="n">Instrument</span><span class="p">,</span> <span class="n">SensorMixin</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;2B Technologies Model 205 ozone monitor (UV absorption).&quot;&quot;&quot;</span>
+
+    <span class="n">model</span> <span class="o">=</span> <span class="s2">&quot;2b_205&quot;</span>
+    <span class="n">pollutants</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;O3&quot;</span><span class="p">,)</span></div>
+
+
+
+<div class="viewcode-block" id="BB_405">
+<a class="viewcode-back" href="../../instruments.html#uataq.instruments.BB_405">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">BB_405</span><span class="p">(</span><span class="n">Instrument</span><span class="p">,</span> <span class="n">SensorMixin</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;2B Technologies Model 405 nm NO/NO2/NOx monitor.&quot;&quot;&quot;</span>
+
+    <span class="n">model</span> <span class="o">=</span> <span class="s2">&quot;2b_405&quot;</span>
+    <span class="n">pollutants</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;NO&quot;</span><span class="p">,</span> <span class="s2">&quot;NO2&quot;</span><span class="p">,</span> <span class="s2">&quot;NOx&quot;</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="CR1000">
+<a class="viewcode-back" href="../../instruments.html#uataq.instruments.CR1000">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">CR1000</span><span class="p">(</span><span class="n">Instrument</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Campbell Scientific CR1000 datalogger.</span>
+
+<span class="sd">    Not a sensor itself: it records housekeeping such as battery voltage and</span>
+<span class="sd">    enclosure temperature.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">model</span> <span class="o">=</span> <span class="s2">&quot;cr1000&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="GPS">
+<a class="viewcode-back" href="../../instruments.html#uataq.instruments.GPS">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">GPS</span><span class="p">(</span><span class="n">Instrument</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    GPS receiver providing position, and speed and course where logged.</span>
+
+<span class="sd">    Recorded speed is given as ``Speed_m_s`` (lin&#39;s NMEA knots are converted;</span>
+<span class="sd">    horel logs m/s). Receivers logging</span>
+<span class="sd">    only ``GPGGA`` sentences record neither speed nor course; both are then</span>
+<span class="sd">    estimated from the positions (:func:`uataq.gps.estimate_speed_course`) and</span>
+<span class="sd">    flagged in ``Speed_Estimated`` / ``Course_Estimated``.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">model</span> <span class="o">=</span> <span class="s2">&quot;gps&quot;</span>
+
+    <span class="c1">#: Samples on each side of the centered difference used to estimate speed</span>
+    <span class="c1">#: and course from positions. See :func:`uataq.gps.estimate_speed_course`.</span>
+    <span class="n">estimate_window</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>
+
+    <span class="c1">#: Longest interval between consecutive fixes that an estimate may span.</span>
+    <span class="n">estimate_max_gap</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;60s&quot;</span>
+
+<div class="viewcode-block" id="GPS.read_data">
+<a class="viewcode-back" href="../../instruments.html#uataq.instruments.GPS.read_data">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">read_data</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">group</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">lvl</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">time_range</span><span class="p">:</span> <span class="n">TimeRange</span> <span class="o">|</span> <span class="n">TimeRangeTypes</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">num_processes</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;max&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="n">file_pattern</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">estimate_motion</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Read GPS data, with speed in m/s and course in degrees.</span>
+
+<span class="sd">        Extends :meth:`Instrument.read_data`. Recorded speed is</span>
+<span class="sd">        ``Speed_m_s`` (lin&#39;s files hold NMEA knots, converted here; horel&#39;s</span>
+<span class="sd">        are already m/s), and course is ``Course_deg``.</span>
+
+<span class="sd">        horel data is indexed by the CR1000 logger&#39;s clock, which runs ahead</span>
+<span class="sd">        of GPS time by a drifting 1-20 s. Where the receiver&#39;s time of day was</span>
+<span class="sd">        logged (``Instrument_Time``, horel&#39;s raw ``GTIM``), the true time of</span>
+<span class="sd">        each fix is added as ``GPS_Time_UTC``. lin&#39;s ``Time_UTC`` is already</span>
+<span class="sd">        GPS time.</span>
+
+<span class="sd">        Receivers logging only ``GPGGA`` sentences record neither, in which</span>
+<span class="sd">        case both are estimated from the positions (see</span>
+<span class="sd">        :func:`uataq.gps.estimate_speed_course`) and the boolean columns</span>
+<span class="sd">        ``Speed_Estimated`` / ``Course_Estimated`` mark every value that came</span>
+<span class="sd">        from positions rather than from the receiver. Recorded values are</span>
+<span class="sd">        never overwritten.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        estimate_motion : bool</span>
+<span class="sd">            Fill missing speed and course from the positions. Default True.</span>
+<span class="sd">            Only reachable through the instrument object --</span>
+<span class="sd">            :func:`uataq.read_data` does not forward it.</span>
+
+<span class="sd">        See :meth:`Instrument.read_data` for the other parameters.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Read GPS data</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">read_data</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">lvl</span><span class="p">,</span> <span class="n">time_range</span><span class="p">,</span> <span class="n">num_processes</span><span class="p">,</span> <span class="n">file_pattern</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="s2">&quot;Speed_kt&quot;</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+            <span class="c1"># convert knots to m/s</span>
+            <span class="n">data</span><span class="p">[</span><span class="s2">&quot;Speed_kt&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">Speed_kt</span> <span class="o">*</span> <span class="mf">0.514444</span>
+            <span class="n">data</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;Speed_kt&quot;</span><span class="p">:</span> <span class="s2">&quot;Speed_m_s&quot;</span><span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">group</span> <span class="o">==</span> <span class="s2">&quot;horel&quot;</span> <span class="ow">and</span> <span class="s2">&quot;Instrument_Time&quot;</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+            <span class="c1"># horel&#39;s Time_UTC is the CR1000 logger&#39;s clock, which runs ahead</span>
+            <span class="c1"># of GPS time by a drifting 1-20 s; the receiver&#39;s own time of day</span>
+            <span class="c1"># (GTIM) gives the true time of each fix</span>
+            <span class="n">gps_time</span> <span class="o">=</span> <span class="n">gps</span><span class="o">.</span><span class="n">gps_time_from_time_of_day</span><span class="p">(</span>
+                <span class="n">data</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;Instrument_Time&quot;</span><span class="p">]</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="s2">&quot;Latitude_deg&quot;</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+                <span class="c1"># Without a fix the receiver&#39;s clock is stale (it counts from</span>
+                <span class="c1"># near midnight while the logger reads mid-afternoon)</span>
+                <span class="n">lat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span>
+                    <span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;Latitude_deg&quot;</span><span class="p">],</span> <span class="n">errors</span><span class="o">=</span><span class="s2">&quot;coerce&quot;</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span>
+                <span class="p">)</span>
+                <span class="n">gps_time</span> <span class="o">=</span> <span class="n">gps_time</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">lat</span><span class="p">))</span>
+            <span class="n">data</span><span class="p">[</span><span class="s2">&quot;GPS_Time_UTC&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">gps_time</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">estimate_motion</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">estimate_motion</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">data</span></div>
+
+
+<div class="viewcode-block" id="GPS.estimate_motion">
+<a class="viewcode-back" href="../../instruments.html#uataq.instruments.GPS.estimate_motion">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">estimate_motion</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Fill missing ``Speed_m_s`` / ``Course_deg`` from the positions.</span>
+
+<span class="sd">        Adds ``Speed_Estimated`` and ``Course_Estimated``, which are True</span>
+<span class="sd">        exactly where the value was derived from positions rather than</span>
+<span class="sd">        recorded by the receiver. Returns ``data`` unchanged if it has no</span>
+<span class="sd">        positions or no DatetimeIndex to difference against.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">{</span><span class="s2">&quot;Latitude_deg&quot;</span><span class="p">,</span> <span class="s2">&quot;Longitude_deg&quot;</span><span class="p">}</span><span class="o">.</span><span class="n">issubset</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="p">(</span>
+            <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DatetimeIndex</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="p">):</span>
+            <span class="k">return</span> <span class="n">data</span>
+
+        <span class="n">estimated</span> <span class="o">=</span> <span class="n">gps</span><span class="o">.</span><span class="n">estimate_speed_course</span><span class="p">(</span>
+            <span class="n">data</span><span class="o">.</span><span class="n">Latitude_deg</span><span class="p">,</span>
+            <span class="n">data</span><span class="o">.</span><span class="n">Longitude_deg</span><span class="p">,</span>
+            <span class="n">time</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">index</span><span class="p">,</span>
+            <span class="n">window</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">estimate_window</span><span class="p">,</span>
+            <span class="n">max_gap</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">estimate_max_gap</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;Speed_m_s&quot;</span><span class="p">,</span> <span class="s2">&quot;Course_deg&quot;</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">col</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+                <span class="n">data</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+            <span class="k">elif</span> <span class="n">data</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">dtype</span> <span class="o">!=</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">:</span>
+                <span class="c1"># An all-NA column can come back as strings (the GPGGA-only</span>
+                <span class="c1"># years), and the horel CR1000 logger reads float32; neither</span>
+                <span class="c1"># can take the float64 fill values in place under pandas 3.</span>
+                <span class="n">coerced</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">object</span><span class="p">),</span> <span class="n">errors</span><span class="o">=</span><span class="s2">&quot;coerce&quot;</span><span class="p">)</span>
+                <span class="n">data</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">coerced</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+            <span class="c1"># Positions only fill gaps; a recorded value always wins.</span>
+            <span class="n">missing</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+            <span class="n">values</span> <span class="o">=</span> <span class="n">estimated</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+            <span class="n">data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">missing</span><span class="p">,</span> <span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span><span class="n">missing</span><span class="p">]</span>
+            <span class="n">data</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">col</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">_Estimated&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">missing</span> <span class="o">&amp;</span> <span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">data</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="LGR_NO2">
+<a class="viewcode-back" href="../../instruments.html#uataq.instruments.LGR_NO2">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">LGR_NO2</span><span class="p">(</span><span class="n">Instrument</span><span class="p">,</span> <span class="n">SensorMixin</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Los Gatos Research NO2 analyzer (cavity-enhanced absorption).&quot;&quot;&quot;</span>
+
+    <span class="n">model</span> <span class="o">=</span> <span class="s2">&quot;lgr_no2&quot;</span>
+    <span class="n">pollutants</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;NO2&quot;</span><span class="p">,)</span></div>
+
+
+
+<div class="viewcode-block" id="LGR_UGGA">
+<a class="viewcode-back" href="../../instruments.html#uataq.instruments.LGR_UGGA">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">LGR_UGGA</span><span class="p">(</span><span class="n">Instrument</span><span class="p">,</span> <span class="n">SensorMixin</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Los Gatos Research Ultraportable Greenhouse Gas Analyzer.</span>
+
+<span class="sd">    Measures CO2 and CH4 by off-axis ICOS.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">model</span> <span class="o">=</span> <span class="s2">&quot;lgr_ugga&quot;</span>
+    <span class="n">pollutants</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;CO2&quot;</span><span class="p">,</span> <span class="s2">&quot;CH4&quot;</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="Licor_6262">
+<a class="viewcode-back" href="../../instruments.html#uataq.instruments.Licor_6262">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Licor_6262</span><span class="p">(</span><span class="n">Instrument</span><span class="p">,</span> <span class="n">SensorMixin</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;LI-COR LI-6262 infrared CO2/H2O gas analyzer.&quot;&quot;&quot;</span>
+
+    <span class="n">model</span> <span class="o">=</span> <span class="s2">&quot;licor_6262&quot;</span>
+    <span class="n">pollutants</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;CO2&quot;</span><span class="p">,)</span></div>
+
+
+
+<div class="viewcode-block" id="Licor_7000">
+<a class="viewcode-back" href="../../instruments.html#uataq.instruments.Licor_7000">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Licor_7000</span><span class="p">(</span><span class="n">Licor_6262</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    LI-COR LI-7000 infrared CO2/H2O gas analyzer.</span>
+
+<span class="sd">    Parsed like the LI-6262.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">model</span> <span class="o">=</span> <span class="s2">&quot;licor_7000&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="Magee_AE33">
+<a class="viewcode-back" href="../../instruments.html#uataq.instruments.Magee_AE33">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Magee_AE33</span><span class="p">(</span><span class="n">Instrument</span><span class="p">,</span> <span class="n">SensorMixin</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Magee Scientific AE33 aethalometer, measuring black carbon.&quot;&quot;&quot;</span>
+
+    <span class="n">model</span> <span class="o">=</span> <span class="s2">&quot;magee_ae33&quot;</span>
+    <span class="n">pollutants</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;BC&quot;</span><span class="p">,)</span></div>
+
+
+
+<div class="viewcode-block" id="MetOne_ES405">
+<a class="viewcode-back" href="../../instruments.html#uataq.instruments.MetOne_ES405">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">MetOne_ES405</span><span class="p">(</span><span class="n">Instrument</span><span class="p">,</span> <span class="n">SensorMixin</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Met One E-Sampler ES-405, reporting PM1, PM2.5, PM4 and PM10.</span>
+
+<span class="sd">    Replaced the ES-642 at several sites. The horel group names both models</span>
+<span class="sd">    ``esampler`` on disk, so only the configured installation and removal</span>
+<span class="sd">    dates separate them -- see :meth:`Instrument.clip_to_active`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">model</span> <span class="o">=</span> <span class="s2">&quot;metone_es405&quot;</span>
+    <span class="n">pollutants</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;PM1&quot;</span><span class="p">,</span> <span class="s2">&quot;PM2.5&quot;</span><span class="p">,</span> <span class="s2">&quot;PM4&quot;</span><span class="p">,</span> <span class="s2">&quot;PM10&quot;</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="MetOne_ES642">
+<a class="viewcode-back" href="../../instruments.html#uataq.instruments.MetOne_ES642">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">MetOne_ES642</span><span class="p">(</span><span class="n">Instrument</span><span class="p">,</span> <span class="n">SensorMixin</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Met One E-Sampler ES-642, reporting PM2.5 only.</span>
+
+<span class="sd">    Superseded by the ES-405 at several sites; see :class:`MetOne_ES405`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">model</span> <span class="o">=</span> <span class="s2">&quot;metone_es642&quot;</span>
+    <span class="n">pollutants</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;PM2.5&quot;</span><span class="p">,)</span></div>
+
+
+
+<div class="viewcode-block" id="Teledyne_T200">
+<a class="viewcode-back" href="../../instruments.html#uataq.instruments.Teledyne_T200">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Teledyne_T200</span><span class="p">(</span><span class="n">Instrument</span><span class="p">,</span> <span class="n">SensorMixin</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Teledyne API T200 chemiluminescence NO/NO2/NOx analyzer.&quot;&quot;&quot;</span>
+
+    <span class="n">model</span> <span class="o">=</span> <span class="s2">&quot;teledyne_t200&quot;</span>
+    <span class="n">pollutants</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;NO&quot;</span><span class="p">,</span> <span class="s2">&quot;NO2&quot;</span><span class="p">,</span> <span class="s2">&quot;NOx&quot;</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="Teledyne_T300">
+<a class="viewcode-back" href="../../instruments.html#uataq.instruments.Teledyne_T300">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Teledyne_T300</span><span class="p">(</span><span class="n">Instrument</span><span class="p">,</span> <span class="n">SensorMixin</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Teledyne API T300 gas-filter-correlation CO analyzer.&quot;&quot;&quot;</span>
+
+    <span class="n">model</span> <span class="o">=</span> <span class="s2">&quot;teledyne_t300&quot;</span>
+    <span class="n">pollutants</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;CO&quot;</span><span class="p">,)</span></div>
+
+
+
+<div class="viewcode-block" id="Teledyne_T400">
+<a class="viewcode-back" href="../../instruments.html#uataq.instruments.Teledyne_T400">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Teledyne_T400</span><span class="p">(</span><span class="n">Instrument</span><span class="p">,</span> <span class="n">SensorMixin</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Teledyne API T400 UV-absorption ozone analyzer.&quot;&quot;&quot;</span>
+
+    <span class="n">model</span> <span class="o">=</span> <span class="s2">&quot;teledyne_t400&quot;</span>
+    <span class="n">pollutants</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;O3&quot;</span><span class="p">,)</span></div>
+
+
+
+<div class="viewcode-block" id="Teledyne_T500u">
+<a class="viewcode-back" href="../../instruments.html#uataq.instruments.Teledyne_T500u">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Teledyne_T500u</span><span class="p">(</span><span class="n">Instrument</span><span class="p">,</span> <span class="n">SensorMixin</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Teledyne API T500U CAPS NO2 analyzer.&quot;&quot;&quot;</span>
+
+    <span class="n">model</span> <span class="o">=</span> <span class="s2">&quot;teledyne_t500u&quot;</span>
+    <span class="n">pollutants</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;NO2&quot;</span><span class="p">,)</span></div>
+
+
+
+<div class="viewcode-block" id="Teom_1400ab">
+<a class="viewcode-back" href="../../instruments.html#uataq.instruments.Teom_1400ab">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Teom_1400ab</span><span class="p">(</span><span class="n">Instrument</span><span class="p">,</span> <span class="n">SensorMixin</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Thermo/R&amp;P TEOM 1400ab tapered-element oscillating microbalance.</span>
+
+<span class="sd">    Measures PM2.5 mass.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">model</span> <span class="o">=</span> <span class="s2">&quot;teom_1400ab&quot;</span>
+    <span class="n">pollutants</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;PM2.5&quot;</span><span class="p">,)</span></div>
+
+
+
+<span class="c1">#: Instrument catalog</span>
+<span class="n">catalog</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">type</span><span class="p">[</span><span class="n">Instrument</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;2b_205&quot;</span><span class="p">:</span> <span class="n">BB_205</span><span class="p">,</span>
+    <span class="s2">&quot;2b_405&quot;</span><span class="p">:</span> <span class="n">BB_405</span><span class="p">,</span>
+    <span class="s2">&quot;cr1000&quot;</span><span class="p">:</span> <span class="n">CR1000</span><span class="p">,</span>
+    <span class="s2">&quot;gps&quot;</span><span class="p">:</span> <span class="n">GPS</span><span class="p">,</span>
+    <span class="s2">&quot;lgr_no2&quot;</span><span class="p">:</span> <span class="n">LGR_NO2</span><span class="p">,</span>
+    <span class="s2">&quot;lgr_ugga&quot;</span><span class="p">:</span> <span class="n">LGR_UGGA</span><span class="p">,</span>
+    <span class="s2">&quot;licor_6262&quot;</span><span class="p">:</span> <span class="n">Licor_6262</span><span class="p">,</span>
+    <span class="s2">&quot;licor_7000&quot;</span><span class="p">:</span> <span class="n">Licor_7000</span><span class="p">,</span>
+    <span class="s2">&quot;magee_ae33&quot;</span><span class="p">:</span> <span class="n">Magee_AE33</span><span class="p">,</span>
+    <span class="s2">&quot;metone_es405&quot;</span><span class="p">:</span> <span class="n">MetOne_ES405</span><span class="p">,</span>
+    <span class="s2">&quot;metone_es642&quot;</span><span class="p">:</span> <span class="n">MetOne_ES642</span><span class="p">,</span>
+    <span class="s2">&quot;teledyne_t200&quot;</span><span class="p">:</span> <span class="n">Teledyne_T200</span><span class="p">,</span>
+    <span class="s2">&quot;teledyne_t300&quot;</span><span class="p">:</span> <span class="n">Teledyne_T300</span><span class="p">,</span>
+    <span class="s2">&quot;teledyne_t400&quot;</span><span class="p">:</span> <span class="n">Teledyne_T400</span><span class="p">,</span>
+    <span class="s2">&quot;teledyne_t500u&quot;</span><span class="p">:</span> <span class="n">Teledyne_T500u</span><span class="p">,</span>
+    <span class="s2">&quot;teom_1400ab&quot;</span><span class="p">:</span> <span class="n">Teom_1400ab</span><span class="p">,</span>
+<span class="p">}</span>
+</pre></div>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025-2026, James Mineau.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.22.0.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

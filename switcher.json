@@ -3,5 +3,11 @@
     "name": "dev",
     "version": "dev",
     "url": "https://jmineau.github.io/uataq/dev/"
+  },
+  {
+    "name": "2026.10.0 (stable)",
+    "version": "2026.10.0",
+    "url": "https://jmineau.github.io/uataq/stable/",
+    "preferred": true
   }
 ]

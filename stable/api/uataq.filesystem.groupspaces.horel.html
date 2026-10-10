@@ -1,0 +1,1182 @@
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Horel Group &#8212; UATAQ 2026.10.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=64cc4de3f052d77215f0" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=64cc4de3f052d77215f0" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../_static/scripts/fontawesome.js?digest=64cc4de3f052d77215f0"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
+
+    <script src="../_static/documentation_options.js?v=c1b729fb"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api/uataq.filesystem.groupspaces.horel';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.22.0';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://jmineau.github.io/uataq/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '2026.10.0';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            true;
+        </script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Lin Group" href="uataq.filesystem.groupspaces.lin.html" />
+    <link rel="prev" title="File System" href="../filesystem.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="2026.10.0" />
+  
+    
+    <script src="../_static/searchtools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button type="button" class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">UATAQ 2026.10.0 documentation</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../quickstart.html">
+    Quick Start
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../general.html">
+    General Functions
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../laboratory.html">
+    Laboratory
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../filesystem.html">
+    File System
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../sites.html">
+    Sites
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../instruments.html">
+    Instruments
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../pollutants.html">
+    Pollutants
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../gps.html">
+    GPS
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../sodar.html">
+    SODAR
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../contributing.html">
+    Contributing
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button type="button" class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+      
+        <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button type="button" class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/jmineau/uataq" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button type="button" class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button type="button" class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../quickstart.html">
+    Quick Start
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../general.html">
+    General Functions
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../laboratory.html">
+    Laboratory
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../filesystem.html">
+    File System
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../sites.html">
+    Sites
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../instruments.html">
+    Instruments
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../pollutants.html">
+    Pollutants
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../gps.html">
+    GPS
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../sodar.html">
+    SODAR
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../contributing.html">
+    Contributing
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-3"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-3"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-3"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-3">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+        
+          <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button type="button" class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/jmineau/uataq" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item pst-sidebar-collapse"><button type="button" id="pst-collapse-sidebar-button" aria-expanded="true" aria-controls="pst-primary-sidebar">
+  <svg class="pst-icon" role="img" aria-hidden="true" focusable="false" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+    <path fill="currentColor" d="M3 15.5C2.36232 15.5 1.74874 15.2564 1.28478 14.8189C0.820828 14.3815 0.541576 13.7832 0.504167 13.1467L0.5 13L0.5 3C0.499965 2.36232 0.743605 1.74874 1.18107 1.28478C1.61854 0.820828 2.21676 0.541576 2.85333 0.504167L3 0.5L13 0.5C13.6377 0.499965 14.2513 0.743605 14.7152 1.18107C15.1792 1.61854 15.4584 2.21676 15.4958 2.85333L15.5 3L15.5 13C15.5 13.6377 15.2564 14.2513 14.8189 14.7152C14.3815 15.1792 13.7832 15.4584 13.1467 15.4958L13 15.5L3 15.5ZM3 13.8333L10.5 13.8333L10.5 2.16667L3 2.16667C2.79589 2.16669 2.59889 2.24163 2.44636 2.37726C2.29383 2.5129 2.19638 2.69979 2.1725 2.9025L2.16667 3L2.16667 13C2.16669 13.2041 2.24163 13.4011 2.37726 13.5536C2.5129 13.7062 2.69979 13.8036 2.9025 13.8275L3 13.8333ZM6.65583 10.325L6.5775 10.2558L4.91083 8.58917C4.76735 8.44567 4.68116 8.25476 4.66843 8.05223C4.65569 7.84971 4.71729 7.6495 4.84167 7.48917L4.91083 7.41083L6.5775 5.74417C6.72747 5.59471 6.9287 5.50794 7.14032 5.50148C7.35194 5.49502 7.55809 5.56935 7.7169 5.70937C7.8757 5.8494 7.97525 6.04463 7.99533 6.25539C8.01541 6.46616 7.95451 6.67667 7.825 6.84417L7.75583 6.9225L6.67917 8L7.75583 9.0775C7.89931 9.22099 7.98551 9.41191 7.99824 9.61443C8.01097 9.81695 7.94938 10.0172 7.825 10.1775L7.75583 10.2558C7.61234 10.3993 7.42142 10.4855 7.2189 10.4982C7.01638 10.511 6.81617 10.4494 6.65583 10.325Z"/>
+  </svg>
+  <span class="pst-collapse-sidebar-label">Collapse Sidebar</span>
+  <span class="pst-expand-sidebar-label">Expand Sidebar</span>
+</button></div>
+        <div class="sidebar-primary-item">
+
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a aria-current="page" class="current reference internal" href="#">Horel Group</a></li>
+<li class="toctree-l1"><a class="reference internal" href="uataq.filesystem.groupspaces.lin.html">Lin Group</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../filesystem.html" class="nav-link">File System</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Horel Group</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="module-uataq.filesystem.groupspaces.horel">
+<span id="horel-group"></span><h1>Horel Group<a class="headerlink" href="#module-uataq.filesystem.groupspaces.horel" title="Link to this heading">#</a></h1>
+<p>John Horel group - MesoWest, TRAX/eBUS, etc.</p>
+<p>This module contains classes and functions for working with the Horel group data in the CHPC UATAQ filesystem.</p>
+<p class="rubric">Module Attributes</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#uataq.filesystem.groupspaces.horel.HOREL_DIR" title="uataq.filesystem.groupspaces.horel.HOREL_DIR"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HOREL_DIR</span></code></a></p></td>
+<td><p>Horel group directory</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#uataq.filesystem.groupspaces.horel.UUTRAX_DIR" title="uataq.filesystem.groupspaces.horel.UUTRAX_DIR"><code class="xref py py-obj docutils literal notranslate"><span class="pre">UUTRAX_DIR</span></code></a></p></td>
+<td><p>UUTRAX directory</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#uataq.filesystem.groupspaces.horel.UUTRAX_PILOT_DIR" title="uataq.filesystem.groupspaces.horel.UUTRAX_PILOT_DIR"><code class="xref py py-obj docutils literal notranslate"><span class="pre">UUTRAX_PILOT_DIR</span></code></a></p></td>
+<td><p>UUTRAX pilot directory</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#uataq.filesystem.groupspaces.horel.MESOWEST_DIR" title="uataq.filesystem.groupspaces.horel.MESOWEST_DIR"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MESOWEST_DIR</span></code></a></p></td>
+<td><p>MesoWest operational data directory (SODAR archive is read by <a class="reference internal" href="../sodar.html#module-uataq.sodar" title="uataq.sodar"><code class="xref py py-mod docutils literal notranslate"><span class="pre">uataq.sodar</span></code></a>)</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#uataq.filesystem.groupspaces.horel.PILOT_PHASE" title="uataq.filesystem.groupspaces.horel.PILOT_PHASE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PILOT_PHASE</span></code></a></p></td>
+<td><p>Pilot phase time ranges for UUTRAX data</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#uataq.filesystem.groupspaces.horel.lvl_data_dirs" title="uataq.filesystem.groupspaces.horel.lvl_data_dirs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">lvl_data_dirs</span></code></a></p></td>
+<td><p>Data levels for UUTRAX data</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#uataq.filesystem.groupspaces.horel.column_mapping" title="uataq.filesystem.groupspaces.horel.column_mapping"><code class="xref py py-obj docutils literal notranslate"><span class="pre">column_mapping</span></code></a></p></td>
+<td><p>Horel to UATAQ column mapping</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p class="rubric">Classes</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#uataq.filesystem.groupspaces.horel.HorelCSVFile" title="uataq.filesystem.groupspaces.horel.HorelCSVFile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HorelCSVFile</span></code></a>(path, instrument)</p></td>
+<td><p>Class for parsing CSV files from the Horel group.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#uataq.filesystem.groupspaces.horel.HorelCSVFinalizedFile" title="uataq.filesystem.groupspaces.horel.HorelCSVFinalizedFile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HorelCSVFinalizedFile</span></code></a>(path, instrument)</p></td>
+<td><p>Class for parsing finalized CSV</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#uataq.filesystem.groupspaces.horel.HorelFile" title="uataq.filesystem.groupspaces.horel.HorelFile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HorelFile</span></code></a>(path, instrument)</p></td>
+<td><p>Abstract base class for Horel data files.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#uataq.filesystem.groupspaces.horel.HorelGroup" title="uataq.filesystem.groupspaces.horel.HorelGroup"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HorelGroup</span></code></a>()</p></td>
+<td><p>A class representing the Horel group data space in the CHPC UATAQ filesystem.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#uataq.filesystem.groupspaces.horel.HorelH5File" title="uataq.filesystem.groupspaces.horel.HorelH5File"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HorelH5File</span></code></a>(path, instrument)</p></td>
+<td><p>Class for parsing H5 files from the Horel group.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<dl class="py data">
+<dt class="sig sig-object py" id="uataq.filesystem.groupspaces.horel.HOREL_DIR">
+<span class="sig-prename descclassname"><span class="pre">uataq.filesystem.groupspaces.horel.</span></span><span class="sig-name descname"><span class="pre">HOREL_DIR</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><span class="pre">str</span></a></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'/uufs/chpc.utah.edu/common/home/horel-group'</span></span><a class="headerlink" href="#uataq.filesystem.groupspaces.horel.HOREL_DIR" title="Link to this definition">#</a></dt>
+<dd><p>Horel group directory</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="uataq.filesystem.groupspaces.horel.UUTRAX_DIR">
+<span class="sig-prename descclassname"><span class="pre">uataq.filesystem.groupspaces.horel.</span></span><span class="sig-name descname"><span class="pre">UUTRAX_DIR</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><span class="pre">str</span></a></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'/uufs/chpc.utah.edu/common/home/horel-group/uutrax'</span></span><a class="headerlink" href="#uataq.filesystem.groupspaces.horel.UUTRAX_DIR" title="Link to this definition">#</a></dt>
+<dd><p>UUTRAX directory</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="uataq.filesystem.groupspaces.horel.UUTRAX_PILOT_DIR">
+<span class="sig-prename descclassname"><span class="pre">uataq.filesystem.groupspaces.horel.</span></span><span class="sig-name descname"><span class="pre">UUTRAX_PILOT_DIR</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><span class="pre">str</span></a></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'/uufs/chpc.utah.edu/common/home/horel-group/uutrax_pilot'</span></span><a class="headerlink" href="#uataq.filesystem.groupspaces.horel.UUTRAX_PILOT_DIR" title="Link to this definition">#</a></dt>
+<dd><p>UUTRAX pilot directory</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="uataq.filesystem.groupspaces.horel.MESOWEST_DIR">
+<span class="sig-prename descclassname"><span class="pre">uataq.filesystem.groupspaces.horel.</span></span><span class="sig-name descname"><span class="pre">MESOWEST_DIR</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><span class="pre">str</span></a></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'/uufs/chpc.utah.edu/common/home/horel-group/oper/mesowest'</span></span><a class="headerlink" href="#uataq.filesystem.groupspaces.horel.MESOWEST_DIR" title="Link to this definition">#</a></dt>
+<dd><p>MesoWest operational data directory (SODAR archive is read by <a class="reference internal" href="../sodar.html#module-uataq.sodar" title="uataq.sodar"><code class="xref py py-mod docutils literal notranslate"><span class="pre">uataq.sodar</span></code></a>)</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="uataq.filesystem.groupspaces.horel.PILOT_PHASE">
+<span class="sig-prename descclassname"><span class="pre">uataq.filesystem.groupspaces.horel.</span></span><span class="sig-name descname"><span class="pre">PILOT_PHASE</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.15)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">TimeRange</span><span class="p"><span class="pre">]</span></span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'TRX01':</span> <span class="pre">TimeRange(start=2014-11-11</span> <span class="pre">00:00:00,</span> <span class="pre">stop=2018-11-19</span> <span class="pre">20:03:59),</span> <span class="pre">'TRX02':</span> <span class="pre">TimeRange(start=2016-02-04</span> <span class="pre">00:00:00,</span> <span class="pre">stop=2018-11-19</span> <span class="pre">18:53:53)}</span></span><a class="headerlink" href="#uataq.filesystem.groupspaces.horel.PILOT_PHASE" title="Link to this definition">#</a></dt>
+<dd><p>Pilot phase time ranges for UUTRAX data</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="uataq.filesystem.groupspaces.horel.lvl_data_dirs">
+<span class="sig-prename descclassname"><span class="pre">uataq.filesystem.groupspaces.horel.</span></span><span class="sig-name descname"><span class="pre">lvl_data_dirs</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.15)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.15)"><span class="pre">list</span></a><span class="p"><span class="pre">]</span></span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'final':</span> <span class="pre">['/uufs/chpc.utah.edu/common/home/horel-group/uutrax'],</span> <span class="pre">'qaqc':</span> <span class="pre">['/uufs/chpc.utah.edu/common/home/horel-group/uutrax'],</span> <span class="pre">'raw':</span> <span class="pre">['/uufs/chpc.utah.edu/common/home/horel-group/uutrax_pilot',</span> <span class="pre">'/uufs/chpc.utah.edu/common/home/horel-group/uutrax']}</span></span><a class="headerlink" href="#uataq.filesystem.groupspaces.horel.lvl_data_dirs" title="Link to this definition">#</a></dt>
+<dd><p>Data levels for UUTRAX data</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="uataq.filesystem.groupspaces.horel.column_mapping">
+<span class="sig-prename descclassname"><span class="pre">uataq.filesystem.groupspaces.horel.</span></span><span class="sig-name descname"><span class="pre">column_mapping</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.15)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.15)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'2b_205':</span> <span class="pre">{'2B_Air_Flow_Rate':</span> <span class="pre">'Flow_Lpm',</span> <span class="pre">'2B_Internal_Air_Pressure':</span> <span class="pre">'Internal_P_hPa',</span> <span class="pre">'2B_Internal_Air_Temperature':</span> <span class="pre">'Internal_T_C',</span> <span class="pre">'2B_Ozone_Concentration':</span> <span class="pre">'O3_ppb',</span> <span class="pre">'FL2B':</span> <span class="pre">'Flow_Lpm',</span> <span class="pre">'OZNE':</span> <span class="pre">'O3_ppb',</span> <span class="pre">'Ozone_Data_Flagged':</span> <span class="pre">'QAQC_Flag',</span> <span class="pre">'PS2B':</span> <span class="pre">'Internal_P_hPa',</span> <span class="pre">'TC2B':</span> <span class="pre">'Internal_T_C'},</span> <span class="pre">'2b_405':</span> <span class="pre">{'2B405_Air_Flow_Rate':</span> <span class="pre">'Flow_Lpm',</span> <span class="pre">'2B405_Cell_O3_Flow_Rate':</span> <span class="pre">'O3_Flow_mLpm',</span> <span class="pre">'2B405_Internal_Air_Pressure':</span> <span class="pre">'Internal_P_hPa',</span> <span class="pre">'2B405_Internal_Air_Temperature':</span> <span class="pre">'Internal_T_C',</span> <span class="pre">'2B405_NO2_Concentration':</span> <span class="pre">'NO2_ppb',</span> <span class="pre">'2B405_NOX_Concentration':</span> <span class="pre">'NOx_ppb',</span> <span class="pre">'2B405_NO_Concentration':</span> <span class="pre">'NO_ppb',</span> <span class="pre">'FLNO':</span> <span class="pre">'Flow_Lpm',</span> <span class="pre">'FO3N':</span> <span class="pre">'O3_Flow_mLpm',</span> <span class="pre">'NO1C':</span> <span class="pre">'NO_ppb',</span> <span class="pre">'NO2C':</span> <span class="pre">'NO2_ppb',</span> <span class="pre">'NOXC':</span> <span class="pre">'NOx_ppb',</span> <span class="pre">'PSNO':</span> <span class="pre">'Internal_P_hPa',</span> <span class="pre">'TCNO':</span> <span class="pre">'Internal_T_C'},</span> <span class="pre">'cr1000':</span> <span class="pre">{'Battery_Voltage':</span> <span class="pre">'Battery_Voltage_V',</span> <span class="pre">'Bus_Box_Temperature':</span> <span class="pre">'Logger_T_C',</span> <span class="pre">'Bus_Top_Relative_Humidity':</span> <span class="pre">'Ambient_RH_pct',</span> <span class="pre">'Bus_Top_Temperature':</span> <span class="pre">'Ambient_T_C',</span> <span class="pre">'TICC':</span> <span class="pre">'Logger_T_C',</span> <span class="pre">'TRNR':</span> <span class="pre">'Ambient_RH_pct',</span> <span class="pre">'TRNT':</span> <span class="pre">'Ambient_T_C',</span> <span class="pre">'Train_Box_Temperature':</span> <span class="pre">'Logger_T_C',</span> <span class="pre">'Train_Top_Relative_Humidity':</span> <span class="pre">'Ambient_RH_pct',</span> <span class="pre">'Train_Top_Temperature':</span> <span class="pre">'Ambient_T_C',</span> <span class="pre">'VOLT':</span> <span class="pre">'Battery_Voltage_V'},</span> <span class="pre">'gps':</span> <span class="pre">{'Elevation':</span> <span class="pre">'Altitude_msl',</span> <span class="pre">'GELV':</span> <span class="pre">'Altitude_msl',</span> <span class="pre">'GLAT':</span> <span class="pre">'Latitude_deg',</span> <span class="pre">'GLON':</span> <span class="pre">'Longitude_deg',</span> <span class="pre">'GPS_Data_Flagged':</span> <span class="pre">'QAQC_Flag',</span> <span class="pre">'GPS_Direction':</span> <span class="pre">'Course_deg',</span> <span class="pre">'GPS_RMC_Valid':</span> <span class="pre">'Status',</span> <span class="pre">'GPS_Speed':</span> <span class="pre">'Speed_m_s',</span> <span class="pre">'GTIM':</span> <span class="pre">'Instrument_Time',</span> <span class="pre">'Latitude':</span> <span class="pre">'Latitude_deg',</span> <span class="pre">'Longitude':</span> <span class="pre">'Longitude_deg',</span> <span class="pre">'NSAT':</span> <span class="pre">'N_Satellites',</span> <span class="pre">'RDIR':</span> <span class="pre">'Course_deg',</span> <span class="pre">'RSPD':</span> <span class="pre">'Speed_m_s',</span> <span class="pre">'RSTS':</span> <span class="pre">'Status'},</span> <span class="pre">'metone_es405':</span> <span class="pre">{'ERRR':</span> <span class="pre">'Status',</span> <span class="pre">'ES405_Air_Flow_Rate':</span> <span class="pre">'Flow_Lpm',</span> <span class="pre">'ES405_Error_Code':</span> <span class="pre">'Status',</span> <span class="pre">'ES405_Internal_Air_Pressure':</span> <span class="pre">'Internal_P_hPa',</span> <span class="pre">'ES405_Internal_Air_Temperature':</span> <span class="pre">'Internal_T_C',</span> <span class="pre">'ES405_Internal_Relative_Humidity':</span> <span class="pre">'Internal_RH_pct',</span> <span class="pre">'ES405_PM10_Concentration':</span> <span class="pre">'PM10_ugm3',</span> <span class="pre">'ES405_PM1_Concentration':</span> <span class="pre">'PM1_ugm3',</span> <span class="pre">'ES405_PM2.5_Concentration':</span> <span class="pre">'PM2.5_ugm3',</span> <span class="pre">'ES405_PM4_Concentration':</span> <span class="pre">'PM4_ugm3',</span> <span class="pre">'FLOW':</span> <span class="pre">'Flow_Lpm',</span> <span class="pre">'INRH':</span> <span class="pre">'Internal_RH_pct',</span> <span class="pre">'ITMP':</span> <span class="pre">'Internal_T_F',</span> <span class="pre">'PM01':</span> <span class="pre">'PM1_ugm3',</span> <span class="pre">'PM04':</span> <span class="pre">'PM4_ugm3',</span> <span class="pre">'PM10':</span> <span class="pre">'PM10_ugm3',</span> <span class="pre">'PM2.5_Data_Flagged':</span> <span class="pre">'QAQC_Flag',</span> <span class="pre">'PM25':</span> <span class="pre">'PM2.5_ugm3',</span> <span class="pre">'PRES':</span> <span class="pre">'Internal_P_hPa'},</span> <span class="pre">'metone_es642':</span> <span class="pre">{'ERRR':</span> <span class="pre">'Status',</span> <span class="pre">'ES642_Air_Flow_Rate':</span> <span class="pre">'Flow_Lpm',</span> <span class="pre">'ES642_Error_Code':</span> <span class="pre">'Status',</span> <span class="pre">'ES642_Internal_Air_Pressure':</span> <span class="pre">'Ambient_P_hPa',</span> <span class="pre">'ES642_Internal_Air_Temperature':</span> <span class="pre">'Ambient_T_C',</span> <span class="pre">'ES642_Internal_Relative_Humidity':</span> <span class="pre">'Internal_RH_pct',</span> <span class="pre">'ES642_PM2.5_Concentration':</span> <span class="pre">'PM2.5_ugm3',</span> <span class="pre">'FLOW':</span> <span class="pre">'Flow_Lpm',</span> <span class="pre">'INRH':</span> <span class="pre">'Internal_RH_pct',</span> <span class="pre">'ITMP':</span> <span class="pre">'Ambient_T_F',</span> <span class="pre">'PM2.5_Data_Flagged':</span> <span class="pre">'QAQC_Flag',</span> <span class="pre">'PM25':</span> <span class="pre">'PM2.5_ugm3',</span> <span class="pre">'PRES':</span> <span class="pre">'Ambient_P_hPa'}}</span></span><a class="headerlink" href="#uataq.filesystem.groupspaces.horel.column_mapping" title="Link to this definition">#</a></dt>
+<dd><p>Horel to UATAQ column mapping</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="uataq.filesystem.groupspaces.horel.HorelFile">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">uataq.filesystem.groupspaces.horel.</span></span><span class="sig-name descname"><span class="pre">HorelFile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">instrument</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/uataq/filesystem/groupspaces/horel.html#HorelFile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uataq.filesystem.groupspaces.horel.HorelFile" title="Link to this definition">#</a></dt>
+<dd><p>Abstract base class for Horel data files.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Variables<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a>) – The file path.</p></li>
+<li><p><strong>period</strong> (<em>pd.Period</em>) – The period of the data file.</p></li>
+<li><p><strong>logger</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a>) – The logger name.</p></li>
+<li><p><strong>date_slicer</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#slice" title="(in Python v3.15)"><em>slice</em></a>) – A slice object to extract the date from the file name.</p></li>
+<li><p><strong>file_freq</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a>) – The file frequency.</p></li>
+<li><p><strong>ext</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a>) – The file extension.</p></li>
+<li><p><strong>time_col</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a>) – The time column name.</p></li>
+<li><p><strong>instrument</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a>) – The instrument name.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="uataq.filesystem.groupspaces.horel.HorelFile.date_slicer">
+<span class="sig-name descname"><span class="pre">date_slicer</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#slice" title="(in Python v3.15)"><span class="pre">slice</span></a></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">slice(6,</span> <span class="pre">13,</span> <span class="pre">None)</span></span><a class="headerlink" href="#uataq.filesystem.groupspaces.horel.HorelFile.date_slicer" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="uataq.filesystem.groupspaces.horel.HorelFile.file_freq">
+<span class="sig-name descname"><span class="pre">file_freq</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><span class="pre">str</span></a></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'M'</span></span><a class="headerlink" href="#uataq.filesystem.groupspaces.horel.HorelFile.file_freq" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="uataq.filesystem.groupspaces.horel.HorelFile.time_col">
+<span class="sig-name descname"><span class="pre">time_col</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><span class="pre">str</span></a></span><a class="headerlink" href="#uataq.filesystem.groupspaces.horel.HorelFile.time_col" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uataq.filesystem.groupspaces.horel.HorelFile.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">instrument</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/uataq/filesystem/groupspaces/horel.html#HorelFile.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uataq.filesystem.groupspaces.horel.HorelFile.__init__" title="Link to this definition">#</a></dt>
+<dd><p>Initialize a HorelFile subclass object.</p>
+<p>The instrument parameter is used to filter columns based on the instrument name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a>) – The file path.</p></li>
+<li><p><strong>instrument</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a>) – The instrument name - used to filter columns.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uataq.filesystem.groupspaces.horel.HorelFile.usecols">
+<span class="sig-name descname"><span class="pre">usecols</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">col</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/uataq/filesystem/groupspaces/horel.html#HorelFile.usecols"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uataq.filesystem.groupspaces.horel.HorelFile.usecols" title="Link to this definition">#</a></dt>
+<dd><p>Check if a column should be used based on the instrument.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>col</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a>) – The column name.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if the column should be used, False otherwise.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#bool" title="(in Python v3.15)">bool</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uataq.filesystem.groupspaces.horel.HorelFile.format_time">
+<span class="sig-name descname"><span class="pre">format_time</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/uataq/filesystem/groupspaces/horel.html#HorelFile.format_time"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uataq.filesystem.groupspaces.horel.HorelFile.format_time" title="Link to this definition">#</a></dt>
+<dd><p>Format the time column in the data DataFrame.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>pd.DataFrame</em>) – The data DataFrame.</p></li>
+<li><p><strong>**kwargs</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.15)"><em>dict</em></a>) – Additional keyword arguments to pass to pd.to_datetime.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The data DataFrame with the time column formatted as Time_UTC.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pd.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uataq.filesystem.groupspaces.horel.HorelFile.convert_nodata">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">convert_nodata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nodata</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-9999.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/uataq/filesystem/groupspaces/horel.html#HorelFile.convert_nodata"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uataq.filesystem.groupspaces.horel.HorelFile.convert_nodata" title="Link to this definition">#</a></dt>
+<dd><p>Convert NoData values to NaN.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>pd.DataFrame</em>) – The data DataFrame.</p></li>
+<li><p><strong>nodata</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)"><em>float</em></a>) – The NoData value.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The data DataFrame with NoData values converted to NaN.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pd.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uataq.filesystem.groupspaces.horel.HorelFile.coerce_numeric">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">coerce_numeric</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exclude</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Time_UTC'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/uataq/filesystem/groupspaces/horel.html#HorelFile.coerce_numeric"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uataq.filesystem.groupspaces.horel.HorelFile.coerce_numeric" title="Link to this definition">#</a></dt>
+<dd><p>Coerce columns to numeric.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>pd.DataFrame</em>) – The data DataFrame.</p></li>
+<li><p><strong>exclude</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a><em> | </em><em>Sequence</em><em>[</em><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a><em>]</em>) – Columns to exclude from coercion.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The data DataFrame with columns coerced to numeric.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pd.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="uataq.filesystem.groupspaces.horel.HorelH5File">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">uataq.filesystem.groupspaces.horel.</span></span><span class="sig-name descname"><span class="pre">HorelH5File</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">instrument</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/uataq/filesystem/groupspaces/horel.html#HorelH5File"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uataq.filesystem.groupspaces.horel.HorelH5File" title="Link to this definition">#</a></dt>
+<dd><p>Class for parsing H5 files from the Horel group.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Variables<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a>) – The file path.</p></li>
+<li><p><strong>period</strong> (<em>pd.Period</em>) – The period of the data file.</p></li>
+<li><p><strong>logger</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a>) – The logger name.</p></li>
+<li><p><strong>date_slicer</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#slice" title="(in Python v3.15)"><em>slice</em></a>) – A slice object to extract the date from the file name.</p></li>
+<li><p><strong>file_freq</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a>) – The file frequency.</p></li>
+<li><p><strong>ext</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a>) – The file extension.</p></li>
+<li><p><strong>time_col</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a>) – The time column name.</p></li>
+<li><p><strong>instrument</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a>) – The instrument name.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="uataq.filesystem.groupspaces.horel.HorelH5File.logger">
+<span class="sig-name descname"><span class="pre">logger</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><span class="pre">str</span></a></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'campbellsci'</span></span><a class="headerlink" href="#uataq.filesystem.groupspaces.horel.HorelH5File.logger" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="uataq.filesystem.groupspaces.horel.HorelH5File.ext">
+<span class="sig-name descname"><span class="pre">ext</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><span class="pre">str</span></a></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'h5'</span></span><a class="headerlink" href="#uataq.filesystem.groupspaces.horel.HorelH5File.ext" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="uataq.filesystem.groupspaces.horel.HorelH5File.time_col">
+<span class="sig-name descname"><span class="pre">time_col</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><span class="pre">str</span></a></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'EPOCHTIME'</span></span><a class="headerlink" href="#uataq.filesystem.groupspaces.horel.HorelH5File.time_col" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uataq.filesystem.groupspaces.horel.HorelH5File.parse">
+<span class="sig-name descname"><span class="pre">parse</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/uataq/filesystem/groupspaces/horel.html#HorelH5File.parse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uataq.filesystem.groupspaces.horel.HorelH5File.parse" title="Link to this definition">#</a></dt>
+<dd><p>Parse the H5 file and return a DataFrame.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A DataFrame containing the parsed data.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>pd.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="uataq.filesystem.groupspaces.horel.HorelCSVFile">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">uataq.filesystem.groupspaces.horel.</span></span><span class="sig-name descname"><span class="pre">HorelCSVFile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">instrument</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/uataq/filesystem/groupspaces/horel.html#HorelCSVFile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uataq.filesystem.groupspaces.horel.HorelCSVFile" title="Link to this definition">#</a></dt>
+<dd><p>Class for parsing CSV files from the Horel group.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Variables<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a>) – The file path.</p></li>
+<li><p><strong>period</strong> (<em>pd.Period</em>) – The period of the data file.</p></li>
+<li><p><strong>logger</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a>) – The logger name.</p></li>
+<li><p><strong>date_slicer</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#slice" title="(in Python v3.15)"><em>slice</em></a>) – A slice object to extract the date from the file name.</p></li>
+<li><p><strong>file_freq</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a>) – The file frequency.</p></li>
+<li><p><strong>ext</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a>) – The file extension.</p></li>
+<li><p><strong>time_col</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a>) – The time column name.</p></li>
+<li><p><strong>instrument</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a>) – The instrument name.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="uataq.filesystem.groupspaces.horel.HorelCSVFile.logger">
+<span class="sig-name descname"><span class="pre">logger</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><span class="pre">str</span></a></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'horel-pipeline'</span></span><a class="headerlink" href="#uataq.filesystem.groupspaces.horel.HorelCSVFile.logger" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="uataq.filesystem.groupspaces.horel.HorelCSVFile.ext">
+<span class="sig-name descname"><span class="pre">ext</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><span class="pre">str</span></a></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'csv.gz'</span></span><a class="headerlink" href="#uataq.filesystem.groupspaces.horel.HorelCSVFile.ext" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="uataq.filesystem.groupspaces.horel.HorelCSVFile.time_col">
+<span class="sig-name descname"><span class="pre">time_col</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><span class="pre">str</span></a></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Timestamp'</span></span><a class="headerlink" href="#uataq.filesystem.groupspaces.horel.HorelCSVFile.time_col" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uataq.filesystem.groupspaces.horel.HorelCSVFile.parse">
+<span class="sig-name descname"><span class="pre">parse</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/uataq/filesystem/groupspaces/horel.html#HorelCSVFile.parse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uataq.filesystem.groupspaces.horel.HorelCSVFile.parse" title="Link to this definition">#</a></dt>
+<dd><p>Parse the CSV file and return a DataFrame.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A DataFrame containing the parsed data.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>pd.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="uataq.filesystem.groupspaces.horel.HorelCSVFinalizedFile">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">uataq.filesystem.groupspaces.horel.</span></span><span class="sig-name descname"><span class="pre">HorelCSVFinalizedFile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">instrument</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/uataq/filesystem/groupspaces/horel.html#HorelCSVFinalizedFile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uataq.filesystem.groupspaces.horel.HorelCSVFinalizedFile" title="Link to this definition">#</a></dt>
+<dd><p>Class for parsing finalized CSV</p>
+<dl class="field-list simple">
+<dt class="field-odd">Variables<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a>) – The file path.</p></li>
+<li><p><strong>period</strong> (<em>pd.Period</em>) – The period of the data file.</p></li>
+<li><p><strong>logger</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a>) – The logger name.</p></li>
+<li><p><strong>date_slicer</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#slice" title="(in Python v3.15)"><em>slice</em></a>) – A slice object to extract the date from the file name.</p></li>
+<li><p><strong>file_freq</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a>) – The file frequency.</p></li>
+<li><p><strong>ext</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a>) – The file extension.</p></li>
+<li><p><strong>time_col</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a>) – The time column name.</p></li>
+<li><p><strong>final_patterns</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.15)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a><em>]</em>) – A list of patterns to filter columns.</p></li>
+<li><p><strong>instrument</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a>) – The instrument name.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="uataq.filesystem.groupspaces.horel.HorelCSVFinalizedFile.final_patterns">
+<span class="sig-name descname"><span class="pre">final_patterns</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['UTC',</span> <span class="pre">'Ambient',</span> <span class="pre">'ppb',</span> <span class="pre">'ugm3',</span> <span class="pre">'deg',</span> <span class="pre">'m_s']</span></span><a class="headerlink" href="#uataq.filesystem.groupspaces.horel.HorelCSVFinalizedFile.final_patterns" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uataq.filesystem.groupspaces.horel.HorelCSVFinalizedFile.parse">
+<span class="sig-name descname"><span class="pre">parse</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/uataq/filesystem/groupspaces/horel.html#HorelCSVFinalizedFile.parse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uataq.filesystem.groupspaces.horel.HorelCSVFinalizedFile.parse" title="Link to this definition">#</a></dt>
+<dd><p>Parse the CSV file, finalize the data, and return a DataFrame.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A DataFrame containing the finalized data.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>pd.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="uataq.filesystem.groupspaces.horel.HorelGroup">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">uataq.filesystem.groupspaces.horel.</span></span><span class="sig-name descname"><span class="pre">HorelGroup</span></span><a class="reference internal" href="../_modules/uataq/filesystem/groupspaces/horel.html#HorelGroup"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uataq.filesystem.groupspaces.horel.HorelGroup" title="Link to this definition">#</a></dt>
+<dd><p>A class representing the Horel group data space in the CHPC UATAQ filesystem.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Variables<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a>) – The group name.</p></li>
+<li><p><strong>datafiles</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.15)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a><em>, </em><em>Type</em><em>[</em><a class="reference internal" href="../filesystem.html#uataq.filesystem.DataFile" title="uataq.filesystem.DataFile"><em>DataFile</em></a><em>]</em><em>]</em>) – A dictionary mapping datafile keys to DataFile classes.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="uataq.filesystem.groupspaces.horel.HorelGroup.name">
+<span class="sig-name descname"><span class="pre">name</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><span class="pre">str</span></a></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'horel'</span></span><a class="headerlink" href="#uataq.filesystem.groupspaces.horel.HorelGroup.name" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="uataq.filesystem.groupspaces.horel.HorelGroup.datafiles">
+<span class="sig-name descname"><span class="pre">datafiles</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.15)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#type" title="(in Python v3.15)"><span class="pre">type</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../filesystem.html#uataq.filesystem.DataFile" title="uataq.filesystem.core.DataFile"><span class="pre">DataFile</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'final':</span> <span class="pre">&lt;class</span> <span class="pre">'uataq.filesystem.groupspaces.horel.HorelCSVFinalizedFile'&gt;,</span> <span class="pre">'qaqc':</span> <span class="pre">&lt;class</span> <span class="pre">'uataq.filesystem.groupspaces.horel.HorelCSVFile'&gt;,</span> <span class="pre">'raw':</span> <span class="pre">&lt;class</span> <span class="pre">'uataq.filesystem.groupspaces.horel.HorelH5File'&gt;}</span></span><a class="headerlink" href="#uataq.filesystem.groupspaces.horel.HorelGroup.datafiles" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uataq.filesystem.groupspaces.horel.HorelGroup.get_highest_lvl">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">get_highest_lvl</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">SID</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">instrument</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/uataq/filesystem/groupspaces/horel.html#HorelGroup.get_highest_lvl"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uataq.filesystem.groupspaces.horel.HorelGroup.get_highest_lvl" title="Link to this definition">#</a></dt>
+<dd><p>Return “final” when the site has finalized files, else “raw”.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uataq.filesystem.groupspaces.horel.HorelGroup.get_files">
+<span class="sig-name descname"><span class="pre">get_files</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">SID</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">instrument</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lvl</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'campbellsci'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/uataq/filesystem/groupspaces/horel.html#HorelGroup.get_files"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uataq.filesystem.groupspaces.horel.HorelGroup.get_files" title="Link to this definition">#</a></dt>
+<dd><p>List horel files for the instrument.</p>
+<p>Maps UATAQ instrument names onto the horel directory names. See
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">GroupSpace.get_files()</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>[<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uataq.filesystem.groupspaces.horel.HorelGroup.get_datafile_key">
+<span class="sig-name descname"><span class="pre">get_datafile_key</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">instrument</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lvl</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/uataq/filesystem/groupspaces/horel.html#HorelGroup.get_datafile_key"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uataq.filesystem.groupspaces.horel.HorelGroup.get_datafile_key" title="Link to this definition">#</a></dt>
+<dd><p>Return the data file key.</p>
+<p>campbellsci is the only horel logger, so the key depends on the level
+alone.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uataq.filesystem.groupspaces.horel.HorelGroup.get_datafiles">
+<span class="sig-name descname"><span class="pre">get_datafiles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">SID</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">instrument</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lvl</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_range</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pattern</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/uataq/filesystem/groupspaces/horel.html#HorelGroup.get_datafiles"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uataq.filesystem.groupspaces.horel.HorelGroup.get_datafiles" title="Link to this definition">#</a></dt>
+<dd><p>Return a list of data files for a given level and time range.</p>
+<p>Extends DataFile.get_datafiles by supplying the instrument name to the DataFile subclass.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>SID</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a>) – The site ID.</p></li>
+<li><p><strong>instrument</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a>) – The instrument name.</p></li>
+<li><p><strong>lvl</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a>) – The data level.</p></li>
+<li><p><strong>logger</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a>) – The logger name.</p></li>
+<li><p><strong>time_range</strong> (<em>TimeRange</em>) – The time range.</p></li>
+<li><p><strong>pattern</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a><em> | </em><em>None</em>) – The pattern to match file names.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of data files.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.15)">list</a>[<a class="reference internal" href="../filesystem.html#uataq.filesystem.DataFile" title="uataq.filesystem.DataFile">DataFile</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uataq.filesystem.groupspaces.horel.HorelGroup.standardize_data">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">standardize_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">instrument</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/uataq/filesystem/groupspaces/horel.html#HorelGroup.standardize_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uataq.filesystem.groupspaces.horel.HorelGroup.standardize_data" title="Link to this definition">#</a></dt>
+<dd><p>Rename horel columns to UATAQ names and apply per-instrument fixes.</p>
+<p>The fixes: GPS flags, Fahrenheit temperatures. See
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">GroupSpace.standardize_data()</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v3.0.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../filesystem.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">File System</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="uataq.filesystem.groupspaces.lin.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Lin Group</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#uataq.filesystem.groupspaces.horel.HOREL_DIR"><code class="docutils literal notranslate"><span class="pre">HOREL_DIR</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#uataq.filesystem.groupspaces.horel.UUTRAX_DIR"><code class="docutils literal notranslate"><span class="pre">UUTRAX_DIR</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#uataq.filesystem.groupspaces.horel.UUTRAX_PILOT_DIR"><code class="docutils literal notranslate"><span class="pre">UUTRAX_PILOT_DIR</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#uataq.filesystem.groupspaces.horel.MESOWEST_DIR"><code class="docutils literal notranslate"><span class="pre">MESOWEST_DIR</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#uataq.filesystem.groupspaces.horel.PILOT_PHASE"><code class="docutils literal notranslate"><span class="pre">PILOT_PHASE</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#uataq.filesystem.groupspaces.horel.lvl_data_dirs"><code class="docutils literal notranslate"><span class="pre">lvl_data_dirs</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#uataq.filesystem.groupspaces.horel.column_mapping"><code class="docutils literal notranslate"><span class="pre">column_mapping</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#uataq.filesystem.groupspaces.horel.HorelFile"><code class="docutils literal notranslate"><span class="pre">HorelFile</span></code></a><ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uataq.filesystem.groupspaces.horel.HorelFile.date_slicer"><code class="docutils literal notranslate"><span class="pre">HorelFile.date_slicer</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uataq.filesystem.groupspaces.horel.HorelFile.file_freq"><code class="docutils literal notranslate"><span class="pre">HorelFile.file_freq</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uataq.filesystem.groupspaces.horel.HorelFile.time_col"><code class="docutils literal notranslate"><span class="pre">HorelFile.time_col</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uataq.filesystem.groupspaces.horel.HorelFile.__init__"><code class="docutils literal notranslate"><span class="pre">HorelFile.__init__()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uataq.filesystem.groupspaces.horel.HorelFile.usecols"><code class="docutils literal notranslate"><span class="pre">HorelFile.usecols()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uataq.filesystem.groupspaces.horel.HorelFile.format_time"><code class="docutils literal notranslate"><span class="pre">HorelFile.format_time()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uataq.filesystem.groupspaces.horel.HorelFile.convert_nodata"><code class="docutils literal notranslate"><span class="pre">HorelFile.convert_nodata()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uataq.filesystem.groupspaces.horel.HorelFile.coerce_numeric"><code class="docutils literal notranslate"><span class="pre">HorelFile.coerce_numeric()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#uataq.filesystem.groupspaces.horel.HorelH5File"><code class="docutils literal notranslate"><span class="pre">HorelH5File</span></code></a><ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uataq.filesystem.groupspaces.horel.HorelH5File.logger"><code class="docutils literal notranslate"><span class="pre">HorelH5File.logger</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uataq.filesystem.groupspaces.horel.HorelH5File.ext"><code class="docutils literal notranslate"><span class="pre">HorelH5File.ext</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uataq.filesystem.groupspaces.horel.HorelH5File.time_col"><code class="docutils literal notranslate"><span class="pre">HorelH5File.time_col</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uataq.filesystem.groupspaces.horel.HorelH5File.parse"><code class="docutils literal notranslate"><span class="pre">HorelH5File.parse()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#uataq.filesystem.groupspaces.horel.HorelCSVFile"><code class="docutils literal notranslate"><span class="pre">HorelCSVFile</span></code></a><ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uataq.filesystem.groupspaces.horel.HorelCSVFile.logger"><code class="docutils literal notranslate"><span class="pre">HorelCSVFile.logger</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uataq.filesystem.groupspaces.horel.HorelCSVFile.ext"><code class="docutils literal notranslate"><span class="pre">HorelCSVFile.ext</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uataq.filesystem.groupspaces.horel.HorelCSVFile.time_col"><code class="docutils literal notranslate"><span class="pre">HorelCSVFile.time_col</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uataq.filesystem.groupspaces.horel.HorelCSVFile.parse"><code class="docutils literal notranslate"><span class="pre">HorelCSVFile.parse()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#uataq.filesystem.groupspaces.horel.HorelCSVFinalizedFile"><code class="docutils literal notranslate"><span class="pre">HorelCSVFinalizedFile</span></code></a><ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uataq.filesystem.groupspaces.horel.HorelCSVFinalizedFile.final_patterns"><code class="docutils literal notranslate"><span class="pre">HorelCSVFinalizedFile.final_patterns</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uataq.filesystem.groupspaces.horel.HorelCSVFinalizedFile.parse"><code class="docutils literal notranslate"><span class="pre">HorelCSVFinalizedFile.parse()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#uataq.filesystem.groupspaces.horel.HorelGroup"><code class="docutils literal notranslate"><span class="pre">HorelGroup</span></code></a><ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uataq.filesystem.groupspaces.horel.HorelGroup.name"><code class="docutils literal notranslate"><span class="pre">HorelGroup.name</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uataq.filesystem.groupspaces.horel.HorelGroup.datafiles"><code class="docutils literal notranslate"><span class="pre">HorelGroup.datafiles</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uataq.filesystem.groupspaces.horel.HorelGroup.get_highest_lvl"><code class="docutils literal notranslate"><span class="pre">HorelGroup.get_highest_lvl()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uataq.filesystem.groupspaces.horel.HorelGroup.get_files"><code class="docutils literal notranslate"><span class="pre">HorelGroup.get_files()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uataq.filesystem.groupspaces.horel.HorelGroup.get_datafile_key"><code class="docutils literal notranslate"><span class="pre">HorelGroup.get_datafile_key()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uataq.filesystem.groupspaces.horel.HorelGroup.get_datafiles"><code class="docutils literal notranslate"><span class="pre">HorelGroup.get_datafiles()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uataq.filesystem.groupspaces.horel.HorelGroup.standardize_data"><code class="docutils literal notranslate"><span class="pre">HorelGroup.standardize_data()</span></code></a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  <div class="tocsection sourcelink">
+    <a href="../_sources/api/uataq.filesystem.groupspaces.horel.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025-2026, James Mineau.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.22.0.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>
