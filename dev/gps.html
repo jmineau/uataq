@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>GPS &#8212; UATAQ 2025.11.1.dev63+g64cd54919 documentation</title>
+    <title>GPS &#8212; UATAQ 2026.10.0 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="_static/documentation_options.js?v=252573ae"></script>
+    <script src="_static/documentation_options.js?v=c1b729fb"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -47,7 +47,7 @@
     <script>
         DOCUMENTATION_OPTIONS.theme_version = '0.22.0';
         DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://jmineau.github.io/uataq/switcher.json';
-        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '2026.10.0';
         DOCUMENTATION_OPTIONS.show_version_warning_banner =
             true;
         </script>
@@ -58,7 +58,7 @@
     <link rel="prev" title="Pollutants" href="pollutants.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2025.11.1.dev63+g64cd54919" />
+  <meta name="docsearch:version" content="2026.10.0" />
   
     
     <script src="_static/searchtools.js"></script>
@@ -126,7 +126,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2025.11.1.dev63+g64cd54919 documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.0 documentation</p>
   
 </a></div>
     
@@ -623,11 +623,11 @@ DatetimeIndex supplies <code class="docutils literal notranslate"><span class="p
 DatetimeIndex supplies <code class="docutils literal notranslate"><span class="pre">time</span></code> on its own.</p></li>
 <li><p><strong>time</strong> (<em>array_like</em><em>, </em><em>optional</em>) – Sample times, convertible by <a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.to_datetime.html#pandas.to_datetime" title="(in pandas v3.0.6)"><code class="xref py py-func docutils literal notranslate"><span class="pre">pandas.to_datetime()</span></code></a>. Defaults to
 the index of <code class="docutils literal notranslate"><span class="pre">latitude</span></code> when that is a Series.</p></li>
-<li><p><strong>window</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><em>int</em></a>) – Number of samples on each side of the centered difference. <code class="docutils literal notranslate"><span class="pre">1</span></code> uses
+<li><p><strong>window</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.15)"><em>int</em></a>) – Number of samples on each side of the centered difference. <code class="docutils literal notranslate"><span class="pre">1</span></code> uses
 the immediate neighbors. A larger window averages over a longer
 baseline, which suppresses position noise at the cost of smoothing
 real accelerations and turns.</p></li>
-<li><p><strong>max_gap</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em> or </em><a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.Timedelta.html#pandas.Timedelta" title="(in pandas v3.0.6)"><em>pandas.Timedelta</em></a><em>, </em><em>optional</em>) – Longest interval between <em>consecutive</em> samples that may fall inside
+<li><p><strong>max_gap</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a><em> or </em><a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.Timedelta.html#pandas.Timedelta" title="(in pandas v3.0.6)"><em>pandas.Timedelta</em></a><em>, </em><em>optional</em>) – Longest interval between <em>consecutive</em> samples that may fall inside
 the difference. Where a larger gap is spanned the estimate is NaN,
 because a straight chord across a gap is not the path travelled.
 <code class="docutils literal notranslate"><span class="pre">None</span></code> disables the check.</p></li>
@@ -687,7 +687,7 @@ NaT.</p></li>
 <li><p><strong>lon1</strong> (<em>array_like</em>) – First point, in degrees.</p></li>
 <li><p><strong>lat2</strong> (<em>array_like</em>) – Second point, in degrees.</p></li>
 <li><p><strong>lon2</strong> (<em>array_like</em>) – Second point, in degrees.</p></li>
-<li><p><strong>R</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.14)"><em>float</em></a>) – Sphere radius. The result carries its units. Default is
+<li><p><strong>R</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)"><em>float</em></a>) – Sphere radius. The result carries its units. Default is
 <a class="reference internal" href="#uataq.gps.EARTH_RADIUS_M" title="uataq.gps.EARTH_RADIUS_M"><code class="xref py py-data docutils literal notranslate"><span class="pre">EARTH_RADIUS_M</span></code></a>, so distances come back in meters.</p></li>
 </ul>
 </dd>
