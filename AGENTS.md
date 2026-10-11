@@ -303,9 +303,10 @@ public function's docstring — they hand the same alias around.
   "Locating mobile data" below), not one GPS group for the whole site.
   Anything that wraps `Site.read_data` must pass
   `group=None` through, not replace it with `get_group(None)`: `Network` did
-  that until #14, which silently dropped every BUS site and all TRAX PM. If
-  you change the default, update the documented line numbers in docs (per the
-  in-file comment).
+  that until #14, which silently dropped every BUS site and all TRAX PM. The
+  docs quote the `DEFAULT_GROUP` line from `filesystem/__init__.py` by its
+  text (`literalinclude` with `:start-at:`), so keep that line's
+  `DEFAULT_GROUP: str` spelling.
 - **Reads are planned by time (`group_dates`, #33).** `Site.read_data` calls
   `Instrument.plan_reads(group, time_range)` per instrument, which returns
   `[(group, portion), ...]`. An explicit group (or mapping entry) is one
@@ -375,7 +376,7 @@ Driven by `just` + `uv`; CI runs the same recipes.
 | `just lint` / `just format` | ruff check and format check / fix and format |
 | `just type-check` | pyrefly |
 | `just docstr` | docstring coverage of the public API, at 100% |
-| `just build-docs` | Sphinx HTML into `docs/_build` (warnings do not fail it yet) |
+| `just build-docs` | Sphinx HTML into `docs/_build`; a warning fails the build |
 | `just docs-serve` | live docs preview on port 8000 |
 | `just changelog` | draft CHANGELOG entries from the commits since the last tag |
 | `just pre-commit` | every hook on every file |
@@ -428,14 +429,19 @@ What keeps CI green:
   reason. The optional cartopy/matplotlib imports are covered by
   `ignore-missing-imports` in `pyproject.toml`. Fix real narrowing problems
   instead of suppressing them.
-- The docs build does not treat warnings as errors yet: they have known
-  problems, tracked in #49 (the quickstart's `ipython` blocks, broken
-  `literalinclude` paths, two missing labels, an ambiguous `logger`). Once
-  fixed, add `-W` back to `build-docs` (the template's default). The
-  duplicate API entries are gone: `docs/_ext/api_pages.py` (from
-  python-template) drops from a class docstring the `Methods` section and the
-  `Attributes` entries that autodoc's `:members:` documents again. Autosummary stubs generate into `docs/api/`
-  (gitignored); a `:toctree:` pointing outside `docs/` litters the repo root.
+- **The docs build fails on any warning** (`-W` in `just build-docs`, which
+  `docs.yml` runs on every pull request). It loads the intersphinx
+  inventories, so it needs network access: without it Sphinx warns and the
+  build fails. The quickstart's examples are plain `code-block`s that Sphinx
+  does not run, because they read the CHPC archive and CI does not have it;
+  when the API they show changes, run them against the archive by hand and
+  update the page. In a docstring, write a type that exists
+  (`dict[str, str]`, not `dict[group, logger]`): Sphinx tries to link every
+  name in it. `docs/_ext/api_pages.py` (from python-template) drops from a
+  class docstring the `Methods` section and the `Attributes` entries that
+  autodoc's `:members:` documents again, which would otherwise be duplicate
+  entries. Autosummary stubs generate into `docs/api/` (gitignored); a
+  `:toctree:` pointing outside `docs/` litters the repo root.
 
 ## Conventions and tooling
 

@@ -19,7 +19,6 @@ from .core import (
 
 #: Default group to read data from.
 DEFAULT_GROUP: str = "lin"
-# Update lineno in docs if this changes.
 
 #: Groups dictionary to store GroupSpace objects.
 groups: dict
