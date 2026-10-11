@@ -141,11 +141,11 @@ class Site:
 
     Methods
     -------
-    read_data(instruments='all', lvl=None, time_range=None, num_processes=1, file_pattern=None)
+    read_data(instruments='all', group=None, lvl=None, time_range=None, num_processes=1, file_pattern=None)
         Read data for each instrument for specified level.
-    read_obs(pollutants='all', format='wide', time_range=None, num_processes=1)
-        Read observations for each pollutant, combining instruments by pollutants.
-    get_recent_obs(recent=dt.timedelta(days=10), lvl='qaqc')
+    get_obs(pollutants='all', format='wide', group=None, time_range=None, num_processes=1)
+        Get observations for each pollutant, combining instruments by pollutants.
+    get_recent_obs(recent=dt.timedelta(days=10), pollutants='all', format='wide', group=None)
         Get recent observations from site instruments.
     """
 
@@ -334,10 +334,12 @@ class Site:
 
         Returns
         -------
-        Union[Dict[str, pandas.DataFrame], pandas.DataFrame]
-            A dictionary of dataframes, one for each level of data read, or a single dataframe if only one level was read.
-            The keys of the dictionary are the names of the levels ('calibrated', 'qaqc', 'raw'), and the values are the
-            corresponding dataframes. If only one level was read, the method returns the corresponding dataframe directly.
+        pandas.DataFrame
+            One dataframe indexed by ``Time_UTC``, with the final-level rows of every
+            instrument that measures the requested pollutants, sorted by time.
+            The ``wide`` format has a column for each of their measurement columns
+            (``CO2d_ppm_cal``, ``O3_ppb`` and so on); the ``long`` format has a
+            ``pollutant`` column (those names) and a ``value`` column.
         """
         frames = self._read_obs(pollutants, format, group, time_range, num_processes)
         return pd.DataFrame(pd.concat(frames.values()).sort_index())
