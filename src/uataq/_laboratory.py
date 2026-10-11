@@ -20,7 +20,12 @@ class Laboratory:
 
     Attributes
     ----------
-        site_config (str): The path to the site configuration file.
+    config : dict
+        The configuration data, keyed by site ID.
+    sites : list[str]
+        The site IDs in the configuration.
+    instruments : list[str]
+        The names of the instruments configured at any site.
 
     Methods
     -------
