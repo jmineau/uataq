@@ -6,7 +6,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>uataq.sites &#8212; UATAQ 2026.10.1.dev2+g19351eb38 documentation</title>
+    <title>uataq.sites &#8212; UATAQ 2026.10.1.dev3+g49a31786f documentation</title>
   
   
   
@@ -37,7 +37,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="../../_static/documentation_options.js?v=947ac235"></script>
+    <script src="../../_static/documentation_options.js?v=b242c92f"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -55,7 +55,7 @@
     <link rel="search" title="Search" href="../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.1.dev2+g19351eb38" />
+  <meta name="docsearch:version" content="2026.10.1.dev3+g49a31786f" />
   
     
     <script src="../../_static/searchtools.js"></script>
@@ -123,7 +123,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.1.dev2+g19351eb38 documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.1.dev3+g49a31786f documentation</p>
   
 </a></div>
     
@@ -680,11 +680,11 @@
 
 <span class="sd">    Methods</span>
 <span class="sd">    -------</span>
-<span class="sd">    read_data(instruments=&#39;all&#39;, lvl=None, time_range=None, num_processes=1, file_pattern=None)</span>
+<span class="sd">    read_data(instruments=&#39;all&#39;, group=None, lvl=None, time_range=None, num_processes=1, file_pattern=None)</span>
 <span class="sd">        Read data for each instrument for specified level.</span>
-<span class="sd">    read_obs(pollutants=&#39;all&#39;, format=&#39;wide&#39;, time_range=None, num_processes=1)</span>
-<span class="sd">        Read observations for each pollutant, combining instruments by pollutants.</span>
-<span class="sd">    get_recent_obs(recent=dt.timedelta(days=10), lvl=&#39;qaqc&#39;)</span>
+<span class="sd">    get_obs(pollutants=&#39;all&#39;, format=&#39;wide&#39;, group=None, time_range=None, num_processes=1)</span>
+<span class="sd">        Get observations for each pollutant, combining instruments by pollutants.</span>
+<span class="sd">    get_recent_obs(recent=dt.timedelta(days=10), pollutants=&#39;all&#39;, format=&#39;wide&#39;, group=None)</span>
 <span class="sd">        Get recent observations from site instruments.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -881,10 +881,12 @@
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        Union[Dict[str, pandas.DataFrame], pandas.DataFrame]</span>
-<span class="sd">            A dictionary of dataframes, one for each level of data read, or a single dataframe if only one level was read.</span>
-<span class="sd">            The keys of the dictionary are the names of the levels (&#39;calibrated&#39;, &#39;qaqc&#39;, &#39;raw&#39;), and the values are the</span>
-<span class="sd">            corresponding dataframes. If only one level was read, the method returns the corresponding dataframe directly.</span>
+<span class="sd">        pandas.DataFrame</span>
+<span class="sd">            One dataframe indexed by ``Time_UTC``, with the final-level rows of every</span>
+<span class="sd">            instrument that measures the requested pollutants, sorted by time.</span>
+<span class="sd">            The ``wide`` format has a column for each of their measurement columns</span>
+<span class="sd">            (``CO2d_ppm_cal``, ``O3_ppb`` and so on); the ``long`` format has a</span>
+<span class="sd">            ``pollutant`` column (those names) and a ``value`` column.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">frames</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_read_obs</span><span class="p">(</span><span class="n">pollutants</span><span class="p">,</span> <span class="nb">format</span><span class="p">,</span> <span class="n">group</span><span class="p">,</span> <span class="n">time_range</span><span class="p">,</span> <span class="n">num_processes</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">frames</span><span class="o">.</span><span class="n">values</span><span class="p">())</span><span class="o">.</span><span class="n">sort_index</span><span class="p">())</span></div>

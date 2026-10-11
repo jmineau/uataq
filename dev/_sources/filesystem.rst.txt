@@ -22,7 +22,7 @@ and define :class:`DataFile` subclasses  for each file format that the group use
 All :class:`GroupSpace` objects are stored in the :data:`groups` dictionary with the group name as the key.
 
    The default research group can be changed at runtime via :data:`uataq.filesystem.DEFAULT_GROUP`
-   or *permanently* (until the next update) changed in the the ``filesystem.__init__`` module:
+   or *permanently* (until the next update) changed in the ``filesystem.__init__`` module:
 
    .. literalinclude:: /../src/uataq/filesystem/__init__.py
       :language: python
