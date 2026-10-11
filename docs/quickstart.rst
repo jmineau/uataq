@@ -3,22 +3,22 @@
 Quick Start
 ===========
 
-.. ipython:: python
-    :suppress:
+.. note::
 
-    import uataq
-
-    # Set verbose to False to suppress logging
-    uataq.verbose = False
+    The examples on this page read the UATAQ archive, which is only
+    available on CHPC. They are shown as code and are not run when the
+    documentation is built.
 
 Laboratory
 ----------
 
 It all starts in the lab...
 
-.. ipython:: python
+.. code-block:: python
 
-   lab = uataq.laboratory
+    import uataq
+
+    lab = uataq.laboratory
 
 The :data:`laboratory` object is a singleton instance of the :class:`~uataq._laboratory.Laboratory`
 class which is initialized with the :doc:`UATAQ configuration file <config>`.
@@ -40,14 +40,12 @@ including building the :class:`~instruments.InstrumentEnsemble` for each site.
 The :class:`~instruments.InstrumentEnsemble` is a container object that hold different
 :class:`~instruments.Instrument` objects which provide the linkage between a :class:`~sites.Site` and the data files.
 
-.. ipython:: python
+.. code-block:: python
 
     sites = lab.sites          # list of sites
     wbb = lab.get_site('wbb')  # site object
 
-..  Force code block to end
-
-    For convenience, :meth:`uataq.laboratory.get_site` is aliased as :meth:`uataq.get_site`
+For convenience, ``lab.get_site`` is also available as :func:`uataq.get_site`.
 
 The :class:`~sites.Site` object contains the following information as attributes:
 
@@ -60,8 +58,8 @@ The :class:`~sites.Site` object contains the following information as attributes
 
 There are two primary methods for reading data from a site:
 
-1. :ref:`Reading Instrument Data` - Data for each instrument at a site is read individually and stored in a dictionary with the instrument name as the key.
-2. :ref:`Getting Observations` - Finalized observations from all instruments at a site are aggregated into a single dataframe.
+1. `Reading Instrument Data`_ - Data for each instrument at a site is read individually and stored in a dictionary with the instrument name as the key.
+2. `Getting Observations`_ - Finalized observations from all instruments at a site are aggregated into a single dataframe.
 
     :meth:`Site.read_data` and :meth:`Site.get_obs` have been wrapped in
     :meth:`uataq.read_data` and :meth:`uataq.get_obs` respectively for convenience
@@ -73,17 +71,20 @@ Reading Instrument Data
 Using a :class:`~sites.Site` object we can read the data from each instrument
 at the site for a specified processing lvl and time range:
 
-.. ipython:: python
+.. code-block:: python
 
-    data = wbb.read_data(instruments='all', lvl='qaqc', time_range='2024')
+    data = wbb.read_data(instruments='all', lvl='qaqc', time_range='2024-02')
 
 The data is returned as a dictionary of pandas dataframes, one for each instrument.
 The dataframes are indexed by time and have columns for each variable:
 
-.. ipython:: python
+.. code-block:: python
 
     lgr_ugga = data['lgr_ugga']
     lgr_ugga.head()
+
+Here ``lgr_ugga`` is indexed by ``Time_UTC`` and its columns include
+``CO2d_ppm``, ``CH4d_ppm``, ``ID`` and ``QAQC_Flag``.
 
 Getting Observations
 --------------------
@@ -91,25 +92,26 @@ Getting Observations
 Or we can only get the finalized observations for a site which aggregates
 the instruments into a single dataframe:
 
-.. ipython:: python
+.. code-block:: python
 
     obs = wbb.get_obs(pollutants=['CO2', 'CH4', 'O3', 'NO2', 'NO', 'CO'],
-                    time_range=['2024-02-08', None])
+                      time_range=['2024-02-08', '2024-02-15'])
     obs.head()
 
 Finalized observations only include data which has passed QAQC (``QAQC_Flag >= 0``)
 and that are measurements of the ambient atmosphere (``ID == -10``).
 The observations dataframe is indexed by time and aggregates pollutants into a single dataframe.
 Two formats are available: ``wide`` or ``long``.
-The ``wide`` format has columns for each pollutant and
-the ``long`` format has a ``pollutant`` column with the pollutant name
+The ``wide`` format has columns for each pollutant
+(``CO2d_ppm_cal``, ``CH4d_ppm_cal``, ``O3_ppb`` and so on; see :doc:`pollutants`) and
+the ``long`` format has a ``pollutant`` column with those names
 and a ``value`` column with the measurement value.
 
-.. ipython:: python
+.. code-block:: python
 
     obs_long = wbb.get_obs(pollutants=['CO2', 'CH4', 'O3', 'NO2', 'NO', 'CO'],
-                        time_range=['2024-02-08', None],
-                        format='long')
+                           time_range=['2024-02-08', '2024-02-15'],
+                           format='long')
     obs_long.head(10)
 
 Mobile Sites & Observations
@@ -132,15 +134,19 @@ methane from lin and ozone from horel, each joined to its own group's GPS. The
 the row's ``Time_UTC`` is on: lin rows are on GPS time, horel rows on the horel
 logger's clock, which runs a few seconds ahead.
 
-.. ipython:: python
+.. code-block:: python
 
     trx01 = lab.get_site('TRX01')
-    mobile_data = trx01.get_obs(group='horel', time_range=['2019', '2021'])
+    mobile_data = trx01.get_obs(group='horel', time_range=['2019-07-01', '2019-07-08'])
     mobile_data.head()
+
+Besides the pollutant columns (``O3_ppb`` and ``PM2.5_ugm3`` here), each row
+has its position (``Latitude_deg``, ``Longitude_deg`` and ``geometry``), its
+speed and course, and ``GPS_Group``.
 
 Or in the long format:
 
-.. ipython:: python
+.. code-block:: python
 
-    mobile_data_long = trx01.get_obs(group='horel', time_range=['2019', '2021'], format='long')
+    mobile_data_long = trx01.get_obs(group='horel', time_range=['2019-07-01', '2019-07-08'], format='long')
     mobile_data_long.head()

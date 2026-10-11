@@ -49,6 +49,6 @@ Each entry under a site's ``instruments`` accepts:
 ``notes`` (optional)
     Free text; not read by the code.
 
-.. literalinclude:: /../../src/uataq/config.json
+.. literalinclude:: /../src/uataq/config.json
     :language: json
     :caption: uataq/config.json

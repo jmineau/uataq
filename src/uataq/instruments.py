@@ -625,10 +625,12 @@ class InstrumentEnsemble:
         ----------
         SID : str
             Site ID of the ensemble.
-        configs : dict[instrument, config]
-            Dictionary of configuration settings for each instrument.
-        loggers : dict[group, logger], optional
-            Dictionary of loggers used by different research groups.
+        configs : dict[str, dict]
+            Dictionary of configuration settings for each instrument, keyed
+            by instrument name.
+        loggers : dict[str, str], optional
+            Dictionary of loggers used by different research groups, keyed
+            by group name.
         """
         self.SID = SID
         self.configs = configs
@@ -769,7 +771,9 @@ class GPS(Instrument):
             Only reachable through the instrument object --
             :func:`uataq.read_data` does not forward it.
 
-        See :meth:`Instrument.read_data` for the other parameters.
+        See Also
+        --------
+        Instrument.read_data : Describes the other parameters.
         """
         # Read GPS data
         data = super().read_data(group, lvl, time_range, num_processes, file_pattern)

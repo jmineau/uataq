@@ -7,6 +7,12 @@ follow [PEP 440](https://peps.python.org/pep-0440/): calendar-based,
 
 ## [Unreleased]
 
+### Fixed
+
+- Docs: the quickstart shows its examples again, and the configuration and
+  file system pages show the files they quote (`config.json` and the
+  `DEFAULT_GROUP` line). All three had been dropped from the built pages.
+
 ## [2026.10.0] - 2026-10-09
 
 The first release since 2025.11.0.

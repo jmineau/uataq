@@ -13,7 +13,7 @@ Laboratory
 
     laboratory
     get_site
-    ~uataq._laboratory.Laboratory
+    ~_laboratory.Laboratory
 
 Contents
 --------

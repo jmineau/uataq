@@ -40,10 +40,10 @@ test *args:
 cov *args:
     uv run pytest -n auto --maxprocesses=8 -m "not network and not slow and not chpc" --cov --cov-report=term --cov-report=xml --junitxml=junit.xml -o junit_family=legacy "$@"
 
-# Build the HTML docs (warnings do not fail the build yet: #49; the template's -W comes back once it is fixed)
+# Build the HTML docs, failing on warnings
 build-docs:
     rm -rf docs/_build docs/api
-    uv run sphinx-build -M html docs docs/_build
+    uv run sphinx-build -M html docs docs/_build -W --keep-going
 
 # Serve the docs at http://127.0.0.1:PORT, rebuilding on every save (Ctrl-C stops)
 docs-serve port="8000":
