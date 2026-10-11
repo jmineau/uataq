@@ -59,11 +59,12 @@ name for the groups currently involved in the project.
 Designing a user-friendly package is a challenge because the data is collected
 by multiple research groups, each with their own naming conventions and data formats.
 The package must be able to handle all of these different formats and provide a
-onsistent interface for the user.
+consistent interface for the user.
 
-I have defined a set of [standardized column names](columns.md) that each
+I have defined a set of standardized column names. Each
 groupspace module must define a :obj:`column_mapping` dictionary that maps the group's column
 names to the standardized names when using the ``GroupSpace.standardize_data`` method.
+The names of the concentration columns are described in :doc:`pollutants`.
 
 Contents
 --------

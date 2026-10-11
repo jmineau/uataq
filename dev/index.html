@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Utah Atmospheric Trace-gas and Air Quality (UATAQ) &#8212; UATAQ 2026.10.1.dev1+gcf64a6588 documentation</title>
+    <title>Utah Atmospheric Trace-gas and Air Quality (UATAQ) &#8212; UATAQ 2026.10.1.dev2+g19351eb38 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="_static/documentation_options.js?v=84c3f948"></script>
+    <script src="_static/documentation_options.js?v=947ac235"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -57,7 +57,7 @@
     <link rel="next" title="Installation" href="installation.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.1.dev1+gcf64a6588" />
+  <meta name="docsearch:version" content="2026.10.1.dev2+g19351eb38" />
   
     
     <script src="_static/searchtools.js"></script>
@@ -125,7 +125,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.1.dev1+gcf64a6588 documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.1.dev2+g19351eb38 documentation</p>
   
 </a></div>
     
@@ -550,10 +550,11 @@ name for the groups currently involved in the project.</p>
 <p>Designing a user-friendly package is a challenge because the data is collected
 by multiple research groups, each with their own naming conventions and data formats.
 The package must be able to handle all of these different formats and provide a
-onsistent interface for the user.</p>
-<p>I have defined a set of [standardized column names](columns.md) that each
+consistent interface for the user.</p>
+<p>I have defined a set of standardized column names. Each
 groupspace module must define a <code class="xref py py-obj docutils literal notranslate"><span class="pre">column_mapping</span></code> dictionary that maps the group’s column
-names to the standardized names when using the <code class="docutils literal notranslate"><span class="pre">GroupSpace.standardize_data</span></code> method.</p>
+names to the standardized names when using the <code class="docutils literal notranslate"><span class="pre">GroupSpace.standardize_data</span></code> method.
+The names of the concentration columns are described in <a class="reference internal" href="pollutants.html"><span class="doc">Pollutants</span></a>.</p>
 </section>
 <section id="contents">
 <h2>Contents<a class="headerlink" href="#contents" title="Link to this heading">#</a></h2>

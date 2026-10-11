@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Laboratory &#8212; UATAQ 2026.10.1.dev1+gcf64a6588 documentation</title>
+    <title>Laboratory &#8212; UATAQ 2026.10.1.dev2+g19351eb38 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="_static/documentation_options.js?v=84c3f948"></script>
+    <script src="_static/documentation_options.js?v=947ac235"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -58,7 +58,7 @@
     <link rel="prev" title="General Functions" href="general.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.1.dev1+gcf64a6588" />
+  <meta name="docsearch:version" content="2026.10.1.dev2+g19351eb38" />
   
     
     <script src="_static/searchtools.js"></script>
@@ -126,7 +126,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.1.dev1+gcf64a6588 documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.1.dev2+g19351eb38 documentation</p>
   
 </a></div>
     
@@ -605,7 +605,11 @@
 The configuration file should contain information about the sites and their instruments.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Variables<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>(</strong><strong>str</strong><strong>)</strong> (<em>site_config</em>)</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>config</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.15)"><em>dict</em></a>) – The configuration data, keyed by site ID.</p></li>
+<li><p><strong>sites</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.15)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a><em>]</em>) – The site IDs in the configuration.</p></li>
+<li><p><strong>instruments</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.15)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a><em>]</em>) – The names of the instruments configured at any site.</p></li>
+</ul>
 </dd>
 </dl>
 <dl class="py method">
