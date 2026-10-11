@@ -376,7 +376,7 @@ Driven by `just` + `uv`; CI runs the same recipes.
 | `just lint` / `just format` | ruff check and format check / fix and format |
 | `just type-check` | pyrefly |
 | `just docstr` | docstring coverage of the public API, at 100% |
-| `just build-docs` | Sphinx HTML into `docs/_build`; a warning fails the build |
+| `just build-docs` | Sphinx HTML into `docs/_build`, running every example; a warning fails the build |
 | `just docs-serve` | live docs preview on port 8000 |
 | `just changelog` | draft CHANGELOG entries from the commits since the last tag |
 | `just pre-commit` | every hook on every file |
@@ -442,6 +442,56 @@ What keeps CI green:
   autodoc's `:members:` documents again, which would otherwise be duplicate
   entries. Autosummary stubs generate into `docs/api/` (gitignored); a
   `:toctree:` pointing outside `docs/` litters the repo root.
+
+## Examples in the docs
+
+Examples run when the docs build, so they show real output, and the build fails
+when one breaks.
+
+- **A figure in a docstring:** put a `.. plot::` directive in the Examples
+  section. Its code runs (doctest `>>>` lines work), and the figure appears
+  under it.
+
+  ```rst
+  Examples
+  --------
+  .. plot::
+
+     >>> import matplotlib.pyplot as plt
+     >>> _ = plt.plot([0, 1, 2], [0, 1, 4])
+  ```
+
+- **Code in an `.rst` page:** a `.. ipython:: python` block runs, and shows each
+  line with its output, as in an IPython session. Changing a
+  `.. code-block:: python` to `.. ipython:: python` is enough to make it run. For
+  a figure, put `@savefig name.png` on the line above the plotting call.
+
+  ```rst
+  .. ipython:: python
+
+     import matplotlib.pyplot as plt
+     import uataq
+
+     uataq.__version__
+
+     @savefig squares.png width=5in
+     plt.plot([0, 1, 2], [0, 1, 4]);
+  ```
+
+  A block that raises or warns fails the build; `:okexcept:` or `:okwarning:`
+  under the directive allows one that is meant to. All `.rst` pages share one
+  session, so each page imports and defines what it uses.
+- **When they run:** `just build-docs` runs everything, as CI does;
+  `just docs-serve` reruns a page's blocks whenever that page is rebuilt.
+- **Notebooks, and code cells in Markdown pages,** are off in this project.
+  `copier update --data docs_notebooks=true` turns them on; it adds myst-nb, and
+  Jupyter with it, to the dev tools.
+- **Data:** the docs build on GitHub Actions, so an example uses synthetic data,
+  a small file in the repository, or a public download, never a machine-specific
+  path. Seed random numbers so the figures don't change from build to build.
+- **uataq's readers need the CHPC archive**, which CI does not have, so an example
+  that runs in the docs build uses synthetic data (the tests' fixtures show the
+  formats). The quickstart's examples stay plain `code-block`s for that reason.
 
 ## Conventions and tooling
 
