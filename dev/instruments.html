@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Instruments &#8212; UATAQ 2026.10.0 documentation</title>
+    <title>Instruments &#8212; UATAQ 2026.10.1.dev1+gcf64a6588 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="_static/documentation_options.js?v=c1b729fb"></script>
+    <script src="_static/documentation_options.js?v=84c3f948"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -47,7 +47,7 @@
     <script>
         DOCUMENTATION_OPTIONS.theme_version = '0.22.0';
         DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://jmineau.github.io/uataq/switcher.json';
-        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '2026.10.0';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
         DOCUMENTATION_OPTIONS.show_version_warning_banner =
             true;
         </script>
@@ -58,7 +58,7 @@
     <link rel="prev" title="Sites" href="sites.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.0" />
+  <meta name="docsearch:version" content="2026.10.1.dev1+gcf64a6588" />
   
     
     <script src="_static/searchtools.js"></script>
@@ -126,7 +126,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.0 documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.1.dev1+gcf64a6588 documentation</p>
   
 </a></div>
     
@@ -871,8 +871,10 @@ them, but the installation and removal dates can.</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>SID</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a>) – Site ID of the ensemble.</p></li>
-<li><p><strong>configs</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.15)"><em>dict</em></a><em>[</em><em>instrument</em><em>, </em><em>config</em><em>]</em>) – Dictionary of configuration settings for each instrument.</p></li>
-<li><p><strong>loggers</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.15)"><em>dict</em></a><em>[</em><em>group</em><em>, </em><a class="reference internal" href="api/uataq.filesystem.groupspaces.horel.html#uataq.filesystem.groupspaces.horel.HorelH5File.logger" title="uataq.filesystem.groupspaces.horel.HorelH5File.logger"><em>logger</em></a><em>]</em><em>, </em><em>optional</em>) – Dictionary of loggers used by different research groups.</p></li>
+<li><p><strong>configs</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.15)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.15)"><em>dict</em></a><em>]</em>) – Dictionary of configuration settings for each instrument, keyed
+by instrument name.</p></li>
+<li><p><strong>loggers</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.15)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a><em>]</em><em>, </em><em>optional</em>) – Dictionary of loggers used by different research groups, keyed
+by group name.</p></li>
 </ul>
 </dd>
 </dl>
@@ -993,15 +995,23 @@ from positions rather than from the receiver. Recorded values are
 never overwritten.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>estimate_motion</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#bool" title="(in Python v3.15)"><em>bool</em></a>) – Fill missing speed and course from the positions. Default True.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v3.0.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></a></span>
+<dd class="field-odd"><p><strong>estimate_motion</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#bool" title="(in Python v3.15)"><em>bool</em></a>) – Fill missing speed and course from the positions. Default True.
 Only reachable through the instrument object –
 <a class="reference internal" href="general.html#uataq.read_data" title="uataq.read_data"><code class="xref py py-func docutils literal notranslate"><span class="pre">uataq.read_data()</span></code></a> does not forward it.</p>
 </dd>
 </dl>
-<p>:param See <a class="reference internal" href="#uataq.instruments.Instrument.read_data" title="uataq.instruments.Instrument.read_data"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Instrument.read_data()</span></code></a> for the other parameters.:</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference internal" href="#uataq.instruments.Instrument.read_data" title="uataq.instruments.Instrument.read_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Instrument.read_data</span></code></a></dt><dd><p>Describes the other parameters.</p>
+</dd>
+</dl>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v3.0.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></a></span></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">

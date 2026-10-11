@@ -6,7 +6,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>uataq.instruments &#8212; UATAQ 2026.10.0 documentation</title>
+    <title>uataq.instruments &#8212; UATAQ 2026.10.1.dev1+gcf64a6588 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="../../_static/documentation_options.js?v=c1b729fb"></script>
+    <script src="../../_static/documentation_options.js?v=84c3f948"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -46,7 +46,7 @@
     <script>
         DOCUMENTATION_OPTIONS.theme_version = '0.22.0';
         DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://jmineau.github.io/uataq/switcher.json';
-        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '2026.10.0';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
         DOCUMENTATION_OPTIONS.show_version_warning_banner =
             true;
         </script>
@@ -55,7 +55,7 @@
     <link rel="search" title="Search" href="../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.0" />
+  <meta name="docsearch:version" content="2026.10.1.dev1+gcf64a6588" />
   
     
     <script src="../../_static/searchtools.js"></script>
@@ -123,7 +123,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.0 documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.1.dev1+gcf64a6588 documentation</p>
   
 </a></div>
     
@@ -1199,10 +1199,12 @@
 <span class="sd">        ----------</span>
 <span class="sd">        SID : str</span>
 <span class="sd">            Site ID of the ensemble.</span>
-<span class="sd">        configs : dict[instrument, config]</span>
-<span class="sd">            Dictionary of configuration settings for each instrument.</span>
-<span class="sd">        loggers : dict[group, logger], optional</span>
-<span class="sd">            Dictionary of loggers used by different research groups.</span>
+<span class="sd">        configs : dict[str, dict]</span>
+<span class="sd">            Dictionary of configuration settings for each instrument, keyed</span>
+<span class="sd">            by instrument name.</span>
+<span class="sd">        loggers : dict[str, str], optional</span>
+<span class="sd">            Dictionary of loggers used by different research groups, keyed</span>
+<span class="sd">            by group name.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">SID</span> <span class="o">=</span> <span class="n">SID</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">configs</span> <span class="o">=</span> <span class="n">configs</span>
@@ -1361,7 +1363,9 @@
 <span class="sd">            Only reachable through the instrument object --</span>
 <span class="sd">            :func:`uataq.read_data` does not forward it.</span>
 
-<span class="sd">        See :meth:`Instrument.read_data` for the other parameters.</span>
+<span class="sd">        See Also</span>
+<span class="sd">        --------</span>
+<span class="sd">        Instrument.read_data : Describes the other parameters.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Read GPS data</span>
         <span class="n">data</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">read_data</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">lvl</span><span class="p">,</span> <span class="n">time_range</span><span class="p">,</span> <span class="n">num_processes</span><span class="p">,</span> <span class="n">file_pattern</span><span class="p">)</span>

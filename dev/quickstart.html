@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Quick Start &#8212; UATAQ 2026.10.0 documentation</title>
+    <title>Quick Start &#8212; UATAQ 2026.10.1.dev1+gcf64a6588 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="_static/documentation_options.js?v=c1b729fb"></script>
+    <script src="_static/documentation_options.js?v=84c3f948"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -47,7 +47,7 @@
     <script>
         DOCUMENTATION_OPTIONS.theme_version = '0.22.0';
         DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://jmineau.github.io/uataq/switcher.json';
-        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '2026.10.0';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
         DOCUMENTATION_OPTIONS.show_version_warning_banner =
             true;
         </script>
@@ -58,7 +58,7 @@
     <link rel="prev" title="Installation" href="installation.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.0" />
+  <meta name="docsearch:version" content="2026.10.1.dev1+gcf64a6588" />
   
     
     <script src="_static/searchtools.js"></script>
@@ -126,7 +126,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.0 documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.1.dev1+gcf64a6588 documentation</p>
   
 </a></div>
     
@@ -535,9 +535,20 @@
                   
   <section id="quick-start">
 <h1>Quick Start<a class="headerlink" href="#quick-start" title="Link to this heading">#</a></h1>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The examples on this page read the UATAQ archive, which is only
+available on CHPC. They are shown as code and are not run when the
+documentation is built.</p>
+</div>
 <section id="laboratory">
 <h2>Laboratory<a class="headerlink" href="#laboratory" title="Link to this heading">#</a></h2>
 <p>It all starts in the lab…</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">uataq</span>
+
+<span class="n">lab</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">laboratory</span>
+</pre></div>
+</div>
 <p>The <a class="reference internal" href="laboratory.html#uataq.laboratory" title="uataq.laboratory"><code class="xref py py-data docutils literal notranslate"><span class="pre">laboratory</span></code></a> object is a singleton instance of the <a class="reference internal" href="laboratory.html#uataq._laboratory.Laboratory" title="uataq._laboratory.Laboratory"><code class="xref py py-class docutils literal notranslate"><span class="pre">Laboratory</span></code></a>
 class which is initialized with the <a class="reference internal" href="config.html"><span class="doc">UATAQ configuration file</span></a>.
 The configuration file is a JSON file which specifies UATAQ site characteristics
@@ -558,6 +569,11 @@ The <a class="reference internal" href="laboratory.html#uataq.laboratory" title=
 including building the <a class="reference internal" href="instruments.html#uataq.instruments.InstrumentEnsemble" title="uataq.instruments.InstrumentEnsemble"><code class="xref py py-class docutils literal notranslate"><span class="pre">InstrumentEnsemble</span></code></a> for each site.
 The <a class="reference internal" href="instruments.html#uataq.instruments.InstrumentEnsemble" title="uataq.instruments.InstrumentEnsemble"><code class="xref py py-class docutils literal notranslate"><span class="pre">InstrumentEnsemble</span></code></a> is a container object that hold different
 <a class="reference internal" href="instruments.html#uataq.instruments.Instrument" title="uataq.instruments.Instrument"><code class="xref py py-class docutils literal notranslate"><span class="pre">Instrument</span></code></a> objects which provide the linkage between a <a class="reference internal" href="sites.html#uataq.sites.Site" title="uataq.sites.Site"><code class="xref py py-class docutils literal notranslate"><span class="pre">Site</span></code></a> and the data files.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">sites</span> <span class="o">=</span> <span class="n">lab</span><span class="o">.</span><span class="n">sites</span>          <span class="c1"># list of sites</span>
+<span class="n">wbb</span> <span class="o">=</span> <span class="n">lab</span><span class="o">.</span><span class="n">get_site</span><span class="p">(</span><span class="s1">&#39;wbb&#39;</span><span class="p">)</span>  <span class="c1"># site object</span>
+</pre></div>
+</div>
+<p>For convenience, <code class="docutils literal notranslate"><span class="pre">lab.get_site</span></code> is also available as <a class="reference internal" href="laboratory.html#uataq.get_site" title="uataq.get_site"><code class="xref py py-func docutils literal notranslate"><span class="pre">uataq.get_site()</span></code></a>.</p>
 <p>The <a class="reference internal" href="sites.html#uataq.sites.Site" title="uataq.sites.Site"><code class="xref py py-class docutils literal notranslate"><span class="pre">Site</span></code></a> object contains the following information as attributes:</p>
 <blockquote>
 <div><ul class="simple">
@@ -571,8 +587,8 @@ The <a class="reference internal" href="instruments.html#uataq.instruments.Instr
 </div></blockquote>
 <p>There are two primary methods for reading data from a site:</p>
 <ol class="arabic">
-<li><p><span class="xref std std-ref">Reading Instrument Data</span> - Data for each instrument at a site is read individually and stored in a dictionary with the instrument name as the key.</p></li>
-<li><p><span class="xref std std-ref">Getting Observations</span> - Finalized observations from all instruments at a site are aggregated into a single dataframe.</p>
+<li><p><a class="reference internal" href="#reading-instrument-data">Reading Instrument Data</a> - Data for each instrument at a site is read individually and stored in a dictionary with the instrument name as the key.</p></li>
+<li><p><a class="reference internal" href="#getting-observations">Getting Observations</a> - Finalized observations from all instruments at a site are aggregated into a single dataframe.</p>
 <blockquote>
 <div><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">Site.read_data()</span></code> and <code class="xref py py-meth docutils literal notranslate"><span class="pre">Site.get_obs()</span></code> have been wrapped in
 <a class="reference internal" href="general.html#uataq.read_data" title="uataq.read_data"><code class="xref py py-meth docutils literal notranslate"><span class="pre">uataq.read_data()</span></code></a> and <a class="reference internal" href="general.html#uataq.get_obs" title="uataq.get_obs"><code class="xref py py-meth docutils literal notranslate"><span class="pre">uataq.get_obs()</span></code></a> respectively for convenience
@@ -585,20 +601,41 @@ with an added <cite>SID</cite> parameter.</p>
 <h2>Reading Instrument Data<a class="headerlink" href="#reading-instrument-data" title="Link to this heading">#</a></h2>
 <p>Using a <a class="reference internal" href="sites.html#uataq.sites.Site" title="uataq.sites.Site"><code class="xref py py-class docutils literal notranslate"><span class="pre">Site</span></code></a> object we can read the data from each instrument
 at the site for a specified processing lvl and time range:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">wbb</span><span class="o">.</span><span class="n">read_data</span><span class="p">(</span><span class="n">instruments</span><span class="o">=</span><span class="s1">&#39;all&#39;</span><span class="p">,</span> <span class="n">lvl</span><span class="o">=</span><span class="s1">&#39;qaqc&#39;</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="s1">&#39;2024-02&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
 <p>The data is returned as a dictionary of pandas dataframes, one for each instrument.
 The dataframes are indexed by time and have columns for each variable:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lgr_ugga</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;lgr_ugga&#39;</span><span class="p">]</span>
+<span class="n">lgr_ugga</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Here <code class="docutils literal notranslate"><span class="pre">lgr_ugga</span></code> is indexed by <code class="docutils literal notranslate"><span class="pre">Time_UTC</span></code> and its columns include
+<code class="docutils literal notranslate"><span class="pre">CO2d_ppm</span></code>, <code class="docutils literal notranslate"><span class="pre">CH4d_ppm</span></code>, <code class="docutils literal notranslate"><span class="pre">ID</span></code> and <code class="docutils literal notranslate"><span class="pre">QAQC_Flag</span></code>.</p>
 </section>
 <section id="getting-observations">
 <h2>Getting Observations<a class="headerlink" href="#getting-observations" title="Link to this heading">#</a></h2>
 <p>Or we can only get the finalized observations for a site which aggregates
 the instruments into a single dataframe:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">obs</span> <span class="o">=</span> <span class="n">wbb</span><span class="o">.</span><span class="n">get_obs</span><span class="p">(</span><span class="n">pollutants</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;CO2&#39;</span><span class="p">,</span> <span class="s1">&#39;CH4&#39;</span><span class="p">,</span> <span class="s1">&#39;O3&#39;</span><span class="p">,</span> <span class="s1">&#39;NO2&#39;</span><span class="p">,</span> <span class="s1">&#39;NO&#39;</span><span class="p">,</span> <span class="s1">&#39;CO&#39;</span><span class="p">],</span>
+                  <span class="n">time_range</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;2024-02-08&#39;</span><span class="p">,</span> <span class="s1">&#39;2024-02-15&#39;</span><span class="p">])</span>
+<span class="n">obs</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
 <p>Finalized observations only include data which has passed QAQC (<code class="docutils literal notranslate"><span class="pre">QAQC_Flag</span> <span class="pre">&gt;=</span> <span class="pre">0</span></code>)
 and that are measurements of the ambient atmosphere (<code class="docutils literal notranslate"><span class="pre">ID</span> <span class="pre">==</span> <span class="pre">-10</span></code>).
 The observations dataframe is indexed by time and aggregates pollutants into a single dataframe.
 Two formats are available: <code class="docutils literal notranslate"><span class="pre">wide</span></code> or <code class="docutils literal notranslate"><span class="pre">long</span></code>.
-The <code class="docutils literal notranslate"><span class="pre">wide</span></code> format has columns for each pollutant and
-the <code class="docutils literal notranslate"><span class="pre">long</span></code> format has a <code class="docutils literal notranslate"><span class="pre">pollutant</span></code> column with the pollutant name
+The <code class="docutils literal notranslate"><span class="pre">wide</span></code> format has columns for each pollutant
+(<code class="docutils literal notranslate"><span class="pre">CO2d_ppm_cal</span></code>, <code class="docutils literal notranslate"><span class="pre">CH4d_ppm_cal</span></code>, <code class="docutils literal notranslate"><span class="pre">O3_ppb</span></code> and so on; see <a class="reference internal" href="pollutants.html"><span class="doc">Pollutants</span></a>) and
+the <code class="docutils literal notranslate"><span class="pre">long</span></code> format has a <code class="docutils literal notranslate"><span class="pre">pollutant</span></code> column with those names
 and a <code class="docutils literal notranslate"><span class="pre">value</span></code> column with the measurement value.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">obs_long</span> <span class="o">=</span> <span class="n">wbb</span><span class="o">.</span><span class="n">get_obs</span><span class="p">(</span><span class="n">pollutants</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;CO2&#39;</span><span class="p">,</span> <span class="s1">&#39;CH4&#39;</span><span class="p">,</span> <span class="s1">&#39;O3&#39;</span><span class="p">,</span> <span class="s1">&#39;NO2&#39;</span><span class="p">,</span> <span class="s1">&#39;NO&#39;</span><span class="p">,</span> <span class="s1">&#39;CO&#39;</span><span class="p">],</span>
+                       <span class="n">time_range</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;2024-02-08&#39;</span><span class="p">,</span> <span class="s1">&#39;2024-02-15&#39;</span><span class="p">],</span>
+                       <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;long&#39;</span><span class="p">)</span>
+<span class="n">obs_long</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
 <section id="mobile-sites-observations">
 <h3>Mobile Sites &amp; Observations<a class="headerlink" href="#mobile-sites-observations" title="Link to this heading">#</a></h3>
 <p>Included as part of UATAQ is the TRAX/eBus project, which collects data from mobile sites.
@@ -615,7 +652,19 @@ methane from lin and ozone from horel, each joined to its own group’s GPS. The
 <code class="docutils literal notranslate"><span class="pre">GPS_Group</span></code> column says which GPS located each row. It also says which clock
 the row’s <code class="docutils literal notranslate"><span class="pre">Time_UTC</span></code> is on: lin rows are on GPS time, horel rows on the horel
 logger’s clock, which runs a few seconds ahead.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">trx01</span> <span class="o">=</span> <span class="n">lab</span><span class="o">.</span><span class="n">get_site</span><span class="p">(</span><span class="s1">&#39;TRX01&#39;</span><span class="p">)</span>
+<span class="n">mobile_data</span> <span class="o">=</span> <span class="n">trx01</span><span class="o">.</span><span class="n">get_obs</span><span class="p">(</span><span class="n">group</span><span class="o">=</span><span class="s1">&#39;horel&#39;</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;2019-07-01&#39;</span><span class="p">,</span> <span class="s1">&#39;2019-07-08&#39;</span><span class="p">])</span>
+<span class="n">mobile_data</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Besides the pollutant columns (<code class="docutils literal notranslate"><span class="pre">O3_ppb</span></code> and <code class="docutils literal notranslate"><span class="pre">PM2.5_ugm3</span></code> here), each row
+has its position (<code class="docutils literal notranslate"><span class="pre">Latitude_deg</span></code>, <code class="docutils literal notranslate"><span class="pre">Longitude_deg</span></code> and <code class="docutils literal notranslate"><span class="pre">geometry</span></code>), its
+speed and course, and <code class="docutils literal notranslate"><span class="pre">GPS_Group</span></code>.</p>
 <p>Or in the long format:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">mobile_data_long</span> <span class="o">=</span> <span class="n">trx01</span><span class="o">.</span><span class="n">get_obs</span><span class="p">(</span><span class="n">group</span><span class="o">=</span><span class="s1">&#39;horel&#39;</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;2019-07-01&#39;</span><span class="p">,</span> <span class="s1">&#39;2019-07-08&#39;</span><span class="p">],</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;long&#39;</span><span class="p">)</span>
+<span class="n">mobile_data_long</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
 </section>
 </section>
 </section>

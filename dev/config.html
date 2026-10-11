@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Configuration &#8212; UATAQ 2026.10.0 documentation</title>
+    <title>Configuration &#8212; UATAQ 2026.10.1.dev1+gcf64a6588 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="_static/documentation_options.js?v=c1b729fb"></script>
+    <script src="_static/documentation_options.js?v=84c3f948"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -47,7 +47,7 @@
     <script>
         DOCUMENTATION_OPTIONS.theme_version = '0.22.0';
         DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://jmineau.github.io/uataq/switcher.json';
-        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '2026.10.0';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
         DOCUMENTATION_OPTIONS.show_version_warning_banner =
             true;
         </script>
@@ -58,7 +58,7 @@
     <link rel="prev" title="Laboratory" href="laboratory.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.0" />
+  <meta name="docsearch:version" content="2026.10.1.dev1+gcf64a6588" />
   
     
     <script src="_static/searchtools.js"></script>
@@ -126,7 +126,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.0 documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.1.dev1+gcf64a6588 documentation</p>
   
 </a></div>
     
@@ -603,6 +603,822 @@ and 2018-11-19.</p>
 <dt><code class="docutils literal notranslate"><span class="pre">notes</span></code> (optional)</dt><dd><p>Free text; not read by the code.</p>
 </dd>
 </dl>
+<div class="literal-block-wrapper docutils container" id="id1">
+<div class="code-block-caption"><span class="caption-text">uataq/config.json</span><a class="headerlink" href="#id1" title="Link to this code">#</a></div>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;ASB&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Aline Wilmot Skaggs&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;is_active&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;latitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">40.763226</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;longitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">-111.849278</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;lin&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;campbellsci&quot;</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="nt">&quot;instruments&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;licor_6262&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2001-02-08&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;removal_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2015-08-05&quot;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;BUS01&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;BUS 18153&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;is_mobile&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;horel&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;campbellsci&quot;</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="nt">&quot;instruments&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;2b_205&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2021-09-28&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;2b_405&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2021-09-28&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;removal_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2022-05-09&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;cr1000&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2021-09-28&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;gps&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2021-09-28&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;metone_es642&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2021-09-28&quot;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;BUS02&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;BUS 18151&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;is_mobile&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;horel&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;campbellsci&quot;</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="nt">&quot;instruments&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;2b_205&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2022-02-04&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;2b_405&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2022-02-15&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;removal_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-05-17&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;cr1000&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2022-02-04&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;gps&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2022-02-04&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;metone_es642&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2022-02-04&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;removal_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2025-03-12&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;metone_es405&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2025-03-12&quot;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;BUS03&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;BUS 18152&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;is_mobile&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;horel&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;campbellsci&quot;</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="nt">&quot;instruments&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;2b_205&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2022-02-05&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;2b_405&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-01-20&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;cr1000&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2022-02-05&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;gps&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2022-02-05&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;metone_es642&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2022-02-05&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;removal_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-12-05&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;metone_es405&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-12-05&quot;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;BUS04&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;BUS 23101&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;is_mobile&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;horel&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;campbellsci&quot;</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="nt">&quot;instruments&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;2b_205&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-05-02&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;cr1000&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-05-02&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;gps&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-05-02&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;metone_es405&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-05-02&quot;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;BUS05&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;BUS 23103&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;is_mobile&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;horel&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;campbellsci&quot;</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="nt">&quot;instruments&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;2b_205&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-07-12&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;cr1000&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-07-12&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;gps&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-07-12&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;metone_es405&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-07-12&quot;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;BUS06&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;BUS 23102&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;is_mobile&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;horel&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;campbellsci&quot;</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="nt">&quot;instruments&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;2b_205&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-09-14&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;cr1000&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-09-14&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;gps&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-09-14&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;metone_es405&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-09-14&quot;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;BUS07&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;BUS 23105&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;is_mobile&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;horel&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;campbellsci&quot;</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="nt">&quot;instruments&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;2b_205&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-09-20&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;cr1000&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-09-20&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;gps&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-09-20&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;metone_es405&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-12-08&quot;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;BUS08&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;BUS 23104&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;is_mobile&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;horel&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;campbellsci&quot;</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="nt">&quot;instruments&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;2b_205&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-01-17&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;cr1000&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-01-17&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;gps&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-01-17&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;metone_es405&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-01-17&quot;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;BUS09&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;BUS 23120&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;is_mobile&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;horel&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;campbellsci&quot;</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="nt">&quot;instruments&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;2b_205&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-01-19&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;cr1000&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-01-19&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;gps&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-01-19&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;metone_es405&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-01-19&quot;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;BUS10&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;BUS 23107&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;is_mobile&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;horel&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;campbellsci&quot;</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="nt">&quot;instruments&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;2b_205&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-03-18&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;cr1000&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-03-18&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;gps&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-03-18&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;metone_es405&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-03-18&quot;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;BUS11&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;BUS 23108&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;is_mobile&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;horel&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;campbellsci&quot;</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="nt">&quot;instruments&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;2b_205&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-03-01&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;cr1000&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-03-01&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;gps&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-03-01&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;metone_es405&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-03-01&quot;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;BUS12&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;BUS 23106&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;is_mobile&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;horel&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;campbellsci&quot;</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="nt">&quot;instruments&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;2b_205&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-03-22&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;cr1000&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-03-22&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;gps&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-03-22&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;metone_es405&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-03-22&quot;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;BUS13&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;BUS 23109&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;is_mobile&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;horel&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;campbellsci&quot;</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="nt">&quot;instruments&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;2b_205&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-04-01&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;cr1000&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-04-01&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;gps&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-04-01&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;metone_es405&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-04-01&quot;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;BUS14&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;BUS 23111&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;is_mobile&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;horel&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;campbellsci&quot;</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="nt">&quot;instruments&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;2b_205&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-05-08&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;cr1000&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-05-08&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;gps&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-05-08&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;metone_es405&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-05-08&quot;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;BUS15&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;BUS 23112&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;is_mobile&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;horel&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;campbellsci&quot;</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="nt">&quot;instruments&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;2b_205&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-05-14&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;cr1000&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-05-14&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;gps&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-05-14&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;metone_es405&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-05-14&quot;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;CSP&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Castle Peak&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;latitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">40.0509</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;longitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">-110.0194</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;zagl&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;lin&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;lgr_ugga&quot;</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="nt">&quot;instruments&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;lgr_ugga&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2015-11-17&quot;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;DBK&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Daybreak&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;latitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">40.538497</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;longitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">-112.069528</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;zagl&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;lin&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;campbellsci&quot;</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="nt">&quot;instruments&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;licor_6262&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2004-01-22&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;removal_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2022-05-13&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;licor_7000&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2022-05-16&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;metone_es642&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2017-07-19&quot;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;FRU&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Fruitland&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;latitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">40.20873</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;longitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">-110.8403</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;zagl&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;lin&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;lgr_ugga&quot;</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="nt">&quot;instruments&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;lgr_ugga&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2015-03-19&quot;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;HDP&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Hidden Peak&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;latitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">40.560644</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;longitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">-111.645278</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;zagl&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">15</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;lin&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;lgr_ugga&quot;</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="nt">&quot;instruments&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;lgr_ugga&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2016-07-20&quot;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;HEB&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Heber&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;latitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">40.506808</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;longitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">-111.403636</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;zagl&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;lin&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;campbellsci&quot;</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="nt">&quot;instruments&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;licor_6262&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2015-07-28&quot;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;HPL&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Horsepool&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;latitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">40.143711</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;longitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">-109.4672</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;zagl&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;lin&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;lgr_ugga&quot;</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="nt">&quot;instruments&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;lgr_ugga&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2015-01-28&quot;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;IMC&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Intermountain Medical&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;is_active&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;latitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">40.660395</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;longitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">-111.89075</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;zagl&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">35</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;lin&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;campbellsci&quot;</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="nt">&quot;instruments&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;licor_6262&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2016-09-25&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;removal_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2020-09-15&quot;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;LDF&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;SLV Landfill&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;is_active&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;latitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">40.748783</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;longitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">-112.033941</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;zagl&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;lin&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;air-trend&quot;</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="nt">&quot;instruments&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;lgr_ugga&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-06-26&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;removal_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-09-28&quot;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;LGN&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Logan&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;is_active&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;latitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">41.761353</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;longitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">-111.822739</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;zagl&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;lin&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;campbellsci&quot;</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="nt">&quot;instruments&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;licor_6262&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2015-07-27&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;removal_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2020-03-15&quot;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;LG2&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Logan&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;is_active&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;latitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">41.758105</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;longitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">-111.813234</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;zagl&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;lin&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;campbellsci&quot;</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="nt">&quot;instruments&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;licor_6262&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2019-10-26&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;removal_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2022-05-11&quot;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;MSA&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Murray Satellite&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;is_active&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;latitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">40.763226</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;longitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">-111.849278</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;lin&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;campbellsci&quot;</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="nt">&quot;instruments&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;licor_6262&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2013-08-07&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;removal_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2016-07-26&quot;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;MUR&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Murray&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;is_active&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;latitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">40.763226</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;longitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">-111.849278</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;lin&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;campbellsci&quot;</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="nt">&quot;instruments&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;licor_6262&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2005-01-07&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;removal_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2013-08-02&quot;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;ROO&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Roosevelt&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;is_active&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;latitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">40.294169</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;longitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">-110.009</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;zagl&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;lin&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;lgr_ugga&quot;</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="nt">&quot;instruments&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;lgr_ugga&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2015-03-23&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;removal_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2019-07-16&quot;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;RPK&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Rose Park&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;latitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">40.794386</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;longitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">-111.931925</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;zagl&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;lin&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;campbellsci&quot;</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="nt">&quot;instruments&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;licor_6262&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2009-02-24&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;removal_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-09-07&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;licor_7000&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-09-07&quot;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;SUG&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Sugarhouse&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;latitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">40.739906</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;longitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">-111.857831</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;zagl&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;lin&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;campbellsci&quot;</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="nt">&quot;instruments&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;licor_6262&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2005-01-11&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;removal_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2022-02-11&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;licor_7000&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2022-06-13&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;metone_es642&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2017-06-29&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;removal_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2020-04-23&quot;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;SUN&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Suncrest&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;is_active&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;latitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">40.480978</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;longitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">-111.837047</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;zagl&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;lin&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;campbellsci&quot;</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="nt">&quot;instruments&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;licor_6262&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2015-08-11&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;removal_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2019-11-07&quot;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;TRX01&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;TRAX 1136&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;is_mobile&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;instruments&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;2b_205&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="nt">&quot;horel&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;campbellsci&quot;</span><span class="p">,</span>
+<span class="w">                    </span><span class="nt">&quot;lin&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;air-trend&quot;</span>
+<span class="w">                </span><span class="p">},</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2015-05-13&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;group_dates&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="nt">&quot;lin&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;2015-05-13&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;2017-10-28&quot;</span><span class="p">]</span>
+<span class="w">                </span><span class="p">},</span>
+<span class="w">                </span><span class="nt">&quot;notes&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;lin&#39;s last sample is 2017-10-27 18:53:22 UTC, so its group_dates stop is the next midnight. horel covers the whole installation, but only as pilot raw before 2018-11-19.&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;cr1000&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="nt">&quot;horel&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;campbellsci&quot;</span>
+<span class="w">                </span><span class="p">},</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2014-11-11&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;gps&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="nt">&quot;horel&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;campbellsci&quot;</span><span class="p">,</span>
+<span class="w">                    </span><span class="nt">&quot;lin&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;air-trend&quot;</span>
+<span class="w">                </span><span class="p">},</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2014-11-11&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;metone_es642&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="nt">&quot;horel&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;campbellsci&quot;</span>
+<span class="w">                </span><span class="p">},</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2016-02-04&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;removal_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2025-01-03&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;metone_es405&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="nt">&quot;horel&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;campbellsci&quot;</span>
+<span class="w">                </span><span class="p">},</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2025-01-06&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;lgr_ugga&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="nt">&quot;lin&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;air-trend&quot;</span>
+<span class="w">                </span><span class="p">},</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2014-12-09&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;MIU&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;lgr_ugga_manual_cal&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;model&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;lgr_ugga&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="nt">&quot;lin&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;air-trend&quot;</span>
+<span class="w">                </span><span class="p">},</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-11-18&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;MIU&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;notes&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Removed calibration tank and manually calibrated with lgr software periodically.&quot;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;TRX02&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;TRAX 1104&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;is_mobile&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;instruments&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;2b_205&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="nt">&quot;horel&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;campbellsci&quot;</span><span class="p">,</span>
+<span class="w">                    </span><span class="nt">&quot;lin&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;air-trend&quot;</span>
+<span class="w">                </span><span class="p">},</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2016-06-15&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;group_dates&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="nt">&quot;lin&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;2016-06-15&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;2017-03-29&quot;</span><span class="p">]</span>
+<span class="w">                </span><span class="p">},</span>
+<span class="w">                </span><span class="nt">&quot;notes&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;lin&#39;s last sample is 2017-03-28 17:24:31 UTC, so its group_dates stop is the next midnight. horel covers the whole installation, but only as pilot raw before 2018-11-19.&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;cr1000&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="nt">&quot;horel&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;campbellsci&quot;</span>
+<span class="w">                </span><span class="p">},</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2016-02-04&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;gps&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="nt">&quot;horel&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;campbellsci&quot;</span><span class="p">,</span>
+<span class="w">                    </span><span class="nt">&quot;lin&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;air-trend&quot;</span>
+<span class="w">                </span><span class="p">},</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2016-02-04&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;lgr_no2&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="nt">&quot;lin&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;air-trend&quot;</span>
+<span class="w">                </span><span class="p">},</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2016-06-27&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;metone_es642&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="nt">&quot;horel&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;campbellsci&quot;</span><span class="p">,</span>
+<span class="w">                    </span><span class="nt">&quot;lin&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;air-trend&quot;</span>
+<span class="w">                </span><span class="p">},</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2016-02-04&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;removal_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2025-01-03&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;group_dates&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="nt">&quot;lin&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;2016-02-04&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;2017-06-21&quot;</span><span class="p">]</span>
+<span class="w">                </span><span class="p">},</span>
+<span class="w">                </span><span class="nt">&quot;notes&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;lin&#39;s last sample is 2017-06-20 05:28:52 UTC, so its group_dates stop is the next midnight. horel covers the whole installation, but only as pilot raw before 2018-11-19.&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;metone_es405&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="nt">&quot;horel&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;campbellsci&quot;</span>
+<span class="w">                </span><span class="p">},</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2025-01-06&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;teledyne_t500u&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="nt">&quot;lin&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;air-trend&quot;</span>
+<span class="w">                </span><span class="p">},</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2020-12-22&quot;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;TRX03&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;TRAX 1034&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;is_mobile&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;horel&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;campbellsci&quot;</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="nt">&quot;instruments&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;2b_205&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2019-11-04&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;cr1000&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2019-11-04&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;gps&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2019-11-04&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;metone_es642&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2019-11-04&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;removal_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2025-01-03&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;metone_es405&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2025-01-03&quot;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;WBB&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;William Browning&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;latitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">40.766189</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;longitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">-111.847672</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;zagl&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">35</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;instruments&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;lgr_ugga&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="nt">&quot;lin&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;lgr_ugga&quot;</span>
+<span class="w">                </span><span class="p">},</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2013-10-09&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;magee_ae33&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="nt">&quot;lin&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;air-trend&quot;</span>
+<span class="w">                </span><span class="p">},</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2020-07-29&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;metone_es642&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="nt">&quot;lin&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;air-trend&quot;</span>
+<span class="w">                </span><span class="p">},</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2017-03-07&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;removal_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2022-06-07&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;teledyne_t200&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="nt">&quot;lin&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;air-trend&quot;</span>
+<span class="w">                </span><span class="p">},</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2017-01-19&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;teledyne_t300&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="nt">&quot;lin&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;air-trend&quot;</span>
+<span class="w">                </span><span class="p">},</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2017-05-03&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;teledyne_t400&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="nt">&quot;lin&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;air-trend&quot;</span>
+<span class="w">                </span><span class="p">},</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2016-08-29&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;teledyne_t500u&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="nt">&quot;lin&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;air-trend&quot;</span>
+<span class="w">                </span><span class="p">},</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2020-07-29&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;removal_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-01-25&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;teom_1400ab&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="nt">&quot;lin&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;air-trend&quot;</span>
+<span class="w">                </span><span class="p">},</span>
+<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2016-09-22&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;removal_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2017-03-01&quot;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
 </section>
 </section>
 
