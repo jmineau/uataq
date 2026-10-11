@@ -98,8 +98,12 @@ the instruments into a single dataframe:
                       time_range=['2024-02-08', '2024-02-15'])
     obs.head()
 
-Finalized observations only include data which has passed QAQC (``QAQC_Flag >= 0``)
-and that are measurements of the ambient atmosphere (``ID == -10``).
+Finalized observations only include data which has passed QAQC (``QAQC_Flag >= 0``).
+For the greenhouse gas analyzers (``lgr_ugga``, ``licor_6262`` and ``licor_7000``) they
+are also limited to measurements of the ambient atmosphere, which the ``qaqc`` and
+``calibrated`` levels mark with ``ID_CO2 == -10``. (``ID`` labels the gas being sampled
+and can be text, such as ``'~Atmosphere~Atmosphere'`` for the ``lgr_ugga``, so it cannot
+be compared with ``-10``.) The ``final`` level has neither column.
 The observations dataframe is indexed by time and aggregates pollutants into a single dataframe.
 Two formats are available: ``wide`` or ``long``.
 The ``wide`` format has columns for each pollutant

@@ -100,7 +100,7 @@ Number of Processes
 ``num_processes`` is the number of processes to use when reading data from each instrument. The default is 1.
  - If ``num_processes`` is set to 1, the data is read serially.
  - Setting ``num_processes`` to a number greater than 1 will read the data in parallel using the minimum of ``num_processes`` and the number of files for an instrument.
- - Setting ``num_processeSs`` to 'max' will use the minimum of the number of files for an instrument and the number of available CPU cores.
+ - Setting ``num_processes`` to 'max' will use the minimum of the number of files for an instrument and the number of available CPU cores.
     Warning: Frequent use of ``num_processes='max'`` may upset your fellow node users.
 
 File Pattern

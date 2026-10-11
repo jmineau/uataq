@@ -62,7 +62,9 @@ The package must be able to handle all of these different formats and provide a
 consistent interface for the user.
 
 I have defined a set of standardized column names. Each
-groupspace module must define a :obj:`column_mapping` dictionary that maps the group's column
+groupspace module must define a ``column_mapping`` dictionary (see
+:data:`lin.column_mapping <uataq.filesystem.groupspaces.lin.column_mapping>` and
+:data:`horel.column_mapping <uataq.filesystem.groupspaces.horel.column_mapping>`) that maps the group's column
 names to the standardized names when using the ``GroupSpace.standardize_data`` method.
 The names of the concentration columns are described in :doc:`pollutants`.
 
