@@ -12,6 +12,8 @@ follow [PEP 440](https://peps.python.org/pep-0440/): calendar-based,
 - Docs: the quickstart shows its examples again, and the configuration and
   file system pages show the files they quote (`config.json` and the
   `DEFAULT_GROUP` line). All three had been dropped from the built pages.
+- `Network` reads a site once when the list names it in two spellings
+  (`["WBB", "wbb"]`); it had read the site twice, doubling its rows (#62).
 
 ## [2026.10.0] - 2026-10-09
 
