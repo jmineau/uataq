@@ -6,7 +6,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>uataq &#8212; UATAQ 2026.10.1.dev5+gff0796773 documentation</title>
+    <title>uataq &#8212; UATAQ 2026.10.1.dev6+g2f5e83eb5 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="../_static/documentation_options.js?v=512f1f9f"></script>
+    <script src="../_static/documentation_options.js?v=4c962008"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -56,7 +56,7 @@
     <link rel="search" title="Search" href="../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.1.dev5+gff0796773" />
+  <meta name="docsearch:version" content="2026.10.1.dev6+g2f5e83eb5" />
   
     
     <script src="../_static/searchtools.js"></script>
@@ -124,7 +124,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.1.dev5+gff0796773 documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.1.dev6+g2f5e83eb5 documentation</p>
   
 </a></div>
     
@@ -153,6 +153,13 @@
 
 
 <li class="nav-item ">
+  <a class="nav-link nav-internal" href="../availability.html">
+    What data exists
+  </a>
+</li>
+
+
+<li class="nav-item ">
   <a class="nav-link nav-internal" href="../general.html">
     General Functions
   </a>
@@ -165,13 +172,6 @@
   </a>
 </li>
 
-
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="../filesystem.html">
-    File System
-  </a>
-</li>
-
             <li class="nav-item dropdown">
                 <button class="btn dropdown-toggle nav-item" type="button"
                 data-bs-toggle="dropdown" aria-expanded="false"
@@ -180,6 +180,13 @@
                 </button>
                 <ul id="pst-nav-more-links" class="dropdown-menu">
                     
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../filesystem.html">
+    File System
+  </a>
+</li>
+
+
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="../sites.html">
     Sites
@@ -347,6 +354,13 @@
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../quickstart.html">
     Quick Start
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../availability.html">
+    What data exists
   </a>
 </li>
 
@@ -672,6 +686,8 @@
 
 
 
+<div class="viewcode-block" id="get_recent_obs">
+<a class="viewcode-back" href="../availability.html#uataq.get_recent_obs">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_recent_obs</span><span class="p">(</span>
     <span class="n">SID</span><span class="p">,</span>
     <span class="n">recent</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">dt</span><span class="o">.</span><span class="n">timedelta</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">10</span><span class="p">),</span>
@@ -706,9 +722,12 @@
     <span class="n">site</span> <span class="o">=</span> <span class="n">get_site</span><span class="p">(</span><span class="n">SID</span><span class="p">)</span>
     <span class="n">obs</span> <span class="o">=</span> <span class="n">site</span><span class="o">.</span><span class="n">get_recent_obs</span><span class="p">(</span><span class="n">recent</span><span class="p">,</span> <span class="n">pollutants</span><span class="p">,</span> <span class="nb">format</span><span class="p">,</span> <span class="n">group</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">obs</span>
+    <span class="k">return</span> <span class="n">obs</span></div>
 
 
+
+<div class="viewcode-block" id="get_network_obs">
+<a class="viewcode-back" href="../availability.html#uataq.get_network_obs">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_network_obs</span><span class="p">(</span>
     <span class="n">sites</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span>
     <span class="n">pollutant</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -743,8 +762,10 @@
 <span class="sd">    -------</span>
 <span class="sd">    geopandas.GeoDataFrame</span>
 <span class="sd">        A GeoDataFrame with the following structure:</span>
+
 <span class="sd">        - Index: Time_UTC (datetime)</span>
-<span class="sd">        - Columns: SID, [pollutant columns], Latitude_deg, Longitude_deg, zagl, geometry</span>
+<span class="sd">        - Columns: SID, instrument, [pollutant columns], Latitude_deg,</span>
+<span class="sd">          Longitude_deg, zagl, geometry</span>
 <span class="sd">        - CRS: EPSG:4326</span>
 
 <span class="sd">    Examples</span>
@@ -763,7 +784,8 @@
 <span class="sd">    ... )</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">net</span> <span class="o">=</span> <span class="n">Network</span><span class="p">(</span><span class="n">sites</span><span class="o">=</span><span class="n">sites</span><span class="p">,</span> <span class="n">pollutant</span><span class="o">=</span><span class="n">pollutant</span><span class="p">,</span> <span class="n">group</span><span class="o">=</span><span class="n">group</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">net</span><span class="o">.</span><span class="n">get_obs</span><span class="p">(</span><span class="n">time_range</span><span class="o">=</span><span class="n">time_range</span><span class="p">,</span> <span class="n">num_processes</span><span class="o">=</span><span class="n">num_processes</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">net</span><span class="o">.</span><span class="n">get_obs</span><span class="p">(</span><span class="n">time_range</span><span class="o">=</span><span class="n">time_range</span><span class="p">,</span> <span class="n">num_processes</span><span class="o">=</span><span class="n">num_processes</span><span class="p">)</span></div>
+
 
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
