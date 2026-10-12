@@ -38,6 +38,12 @@ class TestNetworkInitialization:
         assert net.pollutant == "CO2"
         assert net.sites == ["WBB", "SUG"]
 
+    def test_network_repeated_site_is_kept_once(self):
+        """A site named twice, in two spellings, is one site object (#62)."""
+        net = Network(sites=["WBB", "wbb", "SUG", "WBB"], pollutant="CO2")
+        assert net.sites == ["WBB", "SUG"]
+        assert [site.SID for site in net.site_objects] == ["WBB", "SUG"]
+
     def test_network_empty_sites_list(self):
         """Test that empty sites list raises ValueError."""
         with pytest.raises(ValueError, match="sites cannot be empty"):

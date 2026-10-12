@@ -182,7 +182,8 @@ class Network:
         if sites == "all":
             sites = _laboratory.laboratory.sites
 
-        self.sites = [s.upper() for s in sites]
+        # Upper-case, then drop repeats ("WBB" and "wbb" name one site) and keep the order
+        self.sites = list(dict.fromkeys(s.upper() for s in sites))
         self.pollutant = pollutant.upper()
         self.group = group
 
