@@ -433,10 +433,12 @@ What keeps CI green:
   `docs.yml` runs on every pull request). It loads the intersphinx
   inventories, so it needs network access: without it Sphinx warns and the
   build fails. The quickstart's examples and those on `docs/availability.rst`
-  are plain `code-block`s that Sphinx does not run, because they read the CHPC
+  and `docs/first_month.rst` are plain `code-block`s that Sphinx does not run, because they read the CHPC
   archive and CI does not have it; when the API they show changes, run them
   against the archive by hand and update the page (the availability page's output
-  is from a CHPC run on 2026-10-11, and says so). In a docstring, write a type that exists
+  is from a CHPC run on 2026-10-11, the first-month page's from 2026-10-12, and
+  each says so; the first-month page's figure, `docs/_static/wbb_co2_daily_cycle.png`,
+  is drawn by the script shown on that page). In a docstring, write a type that exists
   (`dict[str, str]`, not `dict[group, logger]`): Sphinx tries to link every
   name in it. `docs/_ext/api_pages.py` (from python-template) drops from a
   class docstring the `Methods` section and the `Attributes` entries that
@@ -493,7 +495,8 @@ when one breaks.
 - **uataq's readers need the CHPC archive**, which CI does not have, so an example
   that runs in the docs build uses synthetic data (the tests' fixtures show the
   formats). The quickstart's examples stay plain `code-block`s for that reason, and
-  so do the availability page's (`pycon` blocks with the output of a CHPC run).
+  so do the availability and first-month pages' (`pycon` blocks with the output of
+  a CHPC run).
 
 ## Conventions and tooling
 
