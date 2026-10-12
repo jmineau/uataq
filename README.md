@@ -17,19 +17,21 @@ Full documentation is available at [https://jmineau.github.io/uataq/](https://jm
 
 ## Installation
 
-### From GitHub
+uataq reads the UATAQ data archive, which lives on CHPC, so install it there.
+You need a CHPC account in the `lin` group, which gives you read access to the
+archive. On a CHPC login node:
 
 ```bash
+module load python    # the system Python is 3.6; uataq needs 3.11 or newer
+python3 -m venv ~/venvs/uataq
+source ~/venvs/uataq/bin/activate
 pip install git+https://github.com/jmineau/uataq.git
 ```
 
-### Editable Install
-
-```bash
-git clone https://github.com/jmineau/uataq.git
-cd uataq
-pip install -e .
-```
+The [installation page](https://jmineau.github.io/uataq/dev/installation.html)
+explains each step and has a command that reads a day of data to prove it
+works. It also covers updating, Slurm jobs, and the editable and development
+installs.
 
 ## Contributing
 
