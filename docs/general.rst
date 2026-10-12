@@ -67,6 +67,8 @@ Time Range
 ^^^^^^^^^^
 
 ``time_range`` filters the returned data to the specified time range.
+Times are UTC, and so are the times in the data. To read a month in local
+time, see :doc:`first_month`.
 
 There are three primary formats for ``time_range``:
 
