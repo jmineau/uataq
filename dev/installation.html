@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Installation &#8212; UATAQ 2026.10.1.dev4+gb70d64ee3 documentation</title>
+    <title>Installation &#8212; UATAQ 2026.10.1.dev5+gff0796773 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="_static/documentation_options.js?v=24d023db"></script>
+    <script src="_static/documentation_options.js?v=512f1f9f"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -59,7 +59,7 @@
     <link rel="prev" title="Utah Atmospheric Trace-gas and Air Quality (UATAQ)" href="index.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.1.dev4+gb70d64ee3" />
+  <meta name="docsearch:version" content="2026.10.1.dev5+gff0796773" />
   
     
     <script src="_static/searchtools.js"></script>
@@ -127,7 +127,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.1.dev4+gb70d64ee3 documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.1.dev5+gff0796773 documentation</p>
   
 </a></div>
     
@@ -536,32 +536,230 @@
                   
   <section id="installation">
 <h1>Installation<a class="headerlink" href="#installation" title="Link to this heading">#</a></h1>
-<section id="from-source">
-<h2>From Source<a class="headerlink" href="#from-source" title="Link to this heading">#</a></h2>
-<p>To install from source:</p>
+<p>uataq reads the UATAQ data archive, and the archive lives on CHPC. So you
+install and use uataq on CHPC. This page takes you from a fresh login to a
+first read of real data in about five minutes.</p>
+<p>Run the commands on a <em>login node</em>, the computer you land on when you <code class="docutils literal notranslate"><span class="pre">ssh</span></code>
+in. Login nodes are for light work: installing, editing, small reads. Bigger
+jobs go to a compute node through <em>Slurm</em>, CHPC’s job scheduler (see
+<a class="reference internal" href="#install-slurm"><span class="std std-ref">Use uataq in a Slurm job</span></a>). If CHPC is new to you, start with
+<a class="reference external" href="https://www.chpc.utah.edu/documentation/">CHPC’s documentation</a>.</p>
+<section id="what-you-need">
+<h2>What you need<a class="headerlink" href="#what-you-need" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>A CHPC account in the</strong> <code class="docutils literal notranslate"><span class="pre">lin</span></code> <strong>group.</strong> The archive is stored in the Lin
+group’s space, and only members of the group can read it. The command
+<code class="docutils literal notranslate"><span class="pre">groups</span></code> lists your groups. If <code class="docutils literal notranslate"><span class="pre">lin</span></code> is not in the list, ask your advisor
+to have you added.</p></li>
+<li><p><strong>Python 3.11 or newer.</strong> The Python you get when you log in (<code class="docutils literal notranslate"><span class="pre">python3</span></code>) is
+version 3.6.8, which is too old, and <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span></code> fails on it with an
+unhelpful error (see <a class="reference internal" href="#install-errors"><span class="std std-ref">If something goes wrong</span></a>). Step 2 loads a newer Python from
+CHPC.</p></li>
+</ul>
+<p>That is all. You do not set any environment variable: uataq already knows where
+the archive is.</p>
+</section>
+<section id="install">
+<h2>Install<a class="headerlink" href="#install" title="Link to this heading">#</a></h2>
+<ol class="arabic">
+<li><p><strong>Check that you can read the archive.</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ls<span class="w"> </span>/uufs/chpc.utah.edu/common/home/lin-group20/measurements/data
+</pre></div>
+</div>
+<p>You should see one folder per site (<code class="docutils literal notranslate"><span class="pre">abrb</span></code>, <code class="docutils literal notranslate"><span class="pre">asb</span></code>, <code class="docutils literal notranslate"><span class="pre">csp</span></code>, and so on
+through <code class="docutils literal notranslate"><span class="pre">wbb</span></code>). If you get an error instead, you do not have access yet.
+See <a class="reference internal" href="#what-you-need">What you need</a>.</p>
+</li>
+<li><p><strong>Load a newer Python.</strong> CHPC installs its software as <em>modules</em>, and
+<code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">load</span></code> turns one on for your current session.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module<span class="w"> </span>load<span class="w"> </span>python
+python3<span class="w"> </span>--version
+</pre></div>
+</div>
+<p>The second command should print <code class="docutils literal notranslate"><span class="pre">Python</span> <span class="pre">3.11</span></code> or newer (<code class="docutils literal notranslate"><span class="pre">Python</span> <span class="pre">3.11.3</span></code>
+in October 2026).</p>
+</li>
+<li><p><strong>Make a virtual environment.</strong> A virtual environment is a folder with its
+own copy of Python and its own packages. What you install for uataq stays
+there and does not disturb anything else.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>~/venvs/uataq
+<span class="nb">source</span><span class="w"> </span>~/venvs/uataq/bin/activate
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">(uataq)</span></code> now appears at the start of your prompt. The folder takes about
+0.4 GB. Keep it in your home directory, not in scratch: CHPC deletes scratch
+files that go unused for 60 days.</p>
+</li>
+<li><p><strong>Install uataq.</strong> <code class="docutils literal notranslate"><span class="pre">pip</span></code> is Python’s installer. uataq is not on PyPI (the
+usual package index), so you point pip at its GitHub repository.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>git+https://github.com/jmineau/uataq.git
+</pre></div>
+</div>
+<p>pip prints a long list while it works (about two minutes). The last line
+that matters starts with <code class="docutils literal notranslate"><span class="pre">Successfully</span> <span class="pre">installed</span></code>. A notice about a new
+pip release after it is harmless.</p>
+</li>
+<li><p><strong>Check that it reads real data.</strong> This reads one day of CO2 from the WBB
+site (William Browning, on the University of Utah campus):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;import uataq; print(uataq.get_obs(&#39;WBB&#39;, &#39;CO2&#39;, time_range=&#39;2025-06-02&#39;))&quot;</span>
+</pre></div>
+</div>
+<p>It takes a couple of seconds and prints a table:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>                     CO2d_ppm_cal  CO2d_ppm_raw
+Time_UTC
+2025-06-02 00:00:01    431.852558      434.8026
+2025-06-02 00:00:11    431.612346      434.5594
+2025-06-02 00:00:21    431.812938      434.7615
+2025-06-02 00:00:30    431.939531      434.8889
+2025-06-02 00:00:40    432.130721      435.0815
+...                           ...           ...
+2025-06-02 23:59:20    429.260744      431.1932
+2025-06-02 23:59:29    429.139982      431.0713
+2025-06-02 23:59:39    429.083069      431.0138
+2025-06-02 23:59:49    429.033293      430.9635
+2025-06-02 23:59:59    429.157492      431.0887
+
+[8390 rows x 2 columns]
+</pre></div>
+</div>
+<p>If you see a table like this, the install works and you can read the
+archive. (The row count can change if the data are reprocessed.)
+<code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">uataq</span></code> alone is not a good test: it can succeed even when the
+archive is out of reach, so this step reads some data.</p>
+</li>
+</ol>
+<p>Next, read the <a class="reference internal" href="quickstart.html"><span class="doc">Quick Start</span></a>.</p>
+<section id="other-pythons">
+<h3>Other Pythons<a class="headerlink" href="#other-pythons" title="Link to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">load</span> <span class="pre">python</span></code> gives CHPC’s default Python. Any version from 3.11 up
+works. <code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">spider</span> <span class="pre">python</span></code> lists the others. The steps above were tried
+with the modules <code class="docutils literal notranslate"><span class="pre">python/3.11.3</span></code> (the default), <code class="docutils literal notranslate"><span class="pre">python/3.12.12</span></code>,
+<code class="docutils literal notranslate"><span class="pre">python/3.13.5</span></code> and <code class="docutils literal notranslate"><span class="pre">python/3.14.5</span></code>. For 3.14.5, CHPC wants
+<code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">load</span> <span class="pre">gcc/13.4.0</span> <span class="pre">python/3.14.5</span></code>.</p>
+<p>If you already use conda, make an environment with Python 3.11 or newer and
+run the same <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span></code> inside it. This works too, and the environment
+takes 0.6 GB in <code class="docutils literal notranslate"><span class="pre">~/.conda/envs</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module<span class="w"> </span>load<span class="w"> </span>miniforge3
+conda<span class="w"> </span>create<span class="w"> </span>-y<span class="w"> </span>-n<span class="w"> </span>uataq<span class="w"> </span><span class="nv">python</span><span class="o">=</span><span class="m">3</span>.12
+conda<span class="w"> </span>activate<span class="w"> </span>uataq
+pip<span class="w"> </span>install<span class="w"> </span>git+https://github.com/jmineau/uataq.git
+</pre></div>
+</div>
+</section>
+</section>
+<section id="each-time-you-log-in">
+<h2>Each time you log in<a class="headerlink" href="#each-time-you-log-in" title="Link to this heading">#</a></h2>
+<p>Activate the environment before you use uataq:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">source</span><span class="w"> </span>~/venvs/uataq/bin/activate
+</pre></div>
+</div>
+<p>You do not need <code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">load</span> <span class="pre">python</span></code> again: the environment remembers which
+Python it uses. If it ever stops working after CHPC changes its modules, delete
+the folder (<code class="docutils literal notranslate"><span class="pre">rm</span> <span class="pre">-rf</span> <span class="pre">~/venvs/uataq</span></code>) and redo steps 2 to 4.</p>
+</section>
+<section id="update-uataq-or-pin-a-version">
+<h2>Update uataq, or pin a version<a class="headerlink" href="#update-uataq-or-pin-a-version" title="Link to this heading">#</a></h2>
+<p>The install above gets the newest code. To update later, run the same command
+with <code class="docutils literal notranslate"><span class="pre">--upgrade</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>--upgrade<span class="w"> </span>git+https://github.com/jmineau/uataq.git
+</pre></div>
+</div>
+<p>For results you will publish, install a fixed release by adding its tag, and
+write the version down. <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">show</span> <span class="pre">uataq</span></code> prints the version you have.
+<a class="reference external" href="https://github.com/jmineau/uataq/releases">The releases page</a> lists the tags.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>git+https://github.com/jmineau/uataq.git@v2026.10.0
+pip<span class="w"> </span>show<span class="w"> </span>uataq
+</pre></div>
+</div>
+</section>
+<section id="use-uataq-in-a-slurm-job">
+<span id="install-slurm"></span><h2>Use uataq in a Slurm job<a class="headerlink" href="#use-uataq-in-a-slurm-job" title="Link to this heading">#</a></h2>
+<p>A day or two of one site is small enough for a login node. For a year of data,
+several sites or many processes (<code class="docutils literal notranslate"><span class="pre">num_processes</span></code>), write a job script. The
+job only has to activate the environment:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+<span class="c1">#SBATCH --account=lin-np</span>
+<span class="c1">#SBATCH --partition=lin-np</span>
+<span class="c1">#SBATCH --nodes=1</span>
+<span class="c1">#SBATCH --ntasks=1</span>
+<span class="c1">#SBATCH --mem=8G</span>
+<span class="c1">#SBATCH --time=00:30:00</span>
+
+<span class="nb">source</span><span class="w"> </span>~/venvs/uataq/bin/activate
+python<span class="w"> </span>my_script.py
+</pre></div>
+</div>
+<p>Save it as <code class="docutils literal notranslate"><span class="pre">my_job.sh</span></code> and submit it with <code class="docutils literal notranslate"><span class="pre">sbatch</span> <span class="pre">my_job.sh</span></code>. <code class="docutils literal notranslate"><span class="pre">lin-np</span></code> is
+the Lin group’s own set of compute nodes. If <code class="docutils literal notranslate"><span class="pre">sbatch</span></code> refuses the account,
+<code class="docutils literal notranslate"><span class="pre">mychpc</span> <span class="pre">batch</span></code> lists the accounts and partitions you can use. See
+<a class="reference external" href="https://www.chpc.utah.edu/documentation/software/slurm.php">CHPC’s Slurm guide</a>
+for the rest.</p>
+</section>
+<section id="install-for-development">
+<h2>Install for development<a class="headerlink" href="#install-for-development" title="Link to this heading">#</a></h2>
+<p>Use this to change uataq itself and send the change back. It sets up the
+project the way its maintainer works. Three tools do the work:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://docs.astral.sh/uv/">uv</a> installs the packages the project needs
+into a <code class="docutils literal notranslate"><span class="pre">.venv</span></code> folder inside your copy of the code, at the versions
+recorded in <code class="docutils literal notranslate"><span class="pre">uv.lock</span></code>.</p></li>
+<li><p><a class="reference external" href="https://just.systems/">just</a> runs the project’s named tasks, listed in
+its <code class="docutils literal notranslate"><span class="pre">justfile</span></code> (<code class="docutils literal notranslate"><span class="pre">just</span> <span class="pre">--list</span></code> shows them). <code class="docutils literal notranslate"><span class="pre">uv</span> <span class="pre">sync</span></code> installs it, and
+you run it as <code class="docutils literal notranslate"><span class="pre">uv</span> <span class="pre">run</span> <span class="pre">just</span></code>.</p></li>
+<li><p><a class="reference external" href="https://pre-commit.com/">pre-commit</a> checks your changes for style
+problems each time you <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">commit</span></code>, before the commit is made.</p></li>
+</ul>
+<p>uataq needs uv 0.12 or newer, and CHPC’s <code class="docutils literal notranslate"><span class="pre">uv</span></code> module is older (0.11.14 in
+October 2026). Install your own copy with pip. Do this in a shell where the
+uataq environment is not active: run <code class="docutils literal notranslate"><span class="pre">deactivate</span></code> first, or pip stops with
+<code class="docutils literal notranslate"><span class="pre">Can</span> <span class="pre">not</span> <span class="pre">perform</span> <span class="pre">a</span> <span class="pre">'--user'</span> <span class="pre">install</span></code>.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module<span class="w"> </span>load<span class="w"> </span>python
+pip<span class="w"> </span>install<span class="w"> </span>--user<span class="w"> </span>uv
+uv<span class="w"> </span>--version
+</pre></div>
+</div>
+<p>The last command should print <code class="docutils literal notranslate"><span class="pre">uv</span> <span class="pre">0.12</span></code> or newer. Then get the code and set
+it up:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/jmineau/uataq.git
+<span class="nb">cd</span><span class="w"> </span>uataq
+uv<span class="w"> </span>sync<span class="w">                       </span><span class="c1"># the packages, into .venv (about two minutes)</span>
+uv<span class="w"> </span>run<span class="w"> </span>pre-commit<span class="w"> </span>install<span class="w">     </span><span class="c1"># turn on the checks at commit time</span>
+</pre></div>
+</div>
+<p>To run the checks that CI runs (lint, types, docstrings and the tests), use a
+compute node, not the login node:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>srun<span class="w"> </span>--account<span class="o">=</span>lin-np<span class="w"> </span>--partition<span class="o">=</span>lin-np<span class="w"> </span>--nodes<span class="o">=</span><span class="m">1</span><span class="w"> </span>--ntasks<span class="o">=</span><span class="m">1</span><span class="w"> </span>--cpus-per-task<span class="o">=</span><span class="m">4</span><span class="w"> </span>--mem<span class="o">=</span>8G<span class="w"> </span>--time<span class="o">=</span><span class="m">00</span>:30:00<span class="w"> </span>uv<span class="w"> </span>run<span class="w"> </span>just<span class="w"> </span>quality-check
+</pre></div>
+</div>
+<p>It takes about a minute and ends with a line like <code class="docutils literal notranslate"><span class="pre">453</span> <span class="pre">passed</span></code>. The tests do
+not need the archive, so you can also develop on your own computer.
+<a class="reference external" href="https://github.com/jmineau/uataq/blob/main/CONTRIBUTING.md">CONTRIBUTING.md</a>
+has the rest of the workflow: branches and pull requests.</p>
+<p>To work on the code while you use it for your own analysis, install your clone
+into the environment from the steps above (an <em>editable</em> install, which runs
+the code in your folder as you change it):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">source</span><span class="w"> </span>~/venvs/uataq/bin/activate
 <span class="nb">cd</span><span class="w"> </span>uataq
 pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.
 </pre></div>
 </div>
 </section>
-<section id="development-installation">
-<h2>Development Installation<a class="headerlink" href="#development-installation" title="Link to this heading">#</a></h2>
-<p>For development, install with the development dependencies:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/jmineau/uataq.git
-<span class="nb">cd</span><span class="w"> </span>uataq
-uv<span class="w"> </span>sync<span class="w">                    </span><span class="c1"># uataq and the dev tools</span>
-uv<span class="w"> </span>run<span class="w"> </span>pre-commit<span class="w"> </span>install
-uv<span class="w"> </span>run<span class="w"> </span>just<span class="w"> </span>quality-check
-</pre></div>
-</div>
-<p>See <code class="docutils literal notranslate"><span class="pre">CONTRIBUTING.md</span></code> for the full workflow.</p>
-</section>
-<section id="requirements">
-<h2>Requirements<a class="headerlink" href="#requirements" title="Link to this heading">#</a></h2>
-<ul class="simple">
-<li><p>Python 3.11 or higher</p></li>
-</ul>
+<section id="if-something-goes-wrong">
+<span id="install-errors"></span><h2>If something goes wrong<a class="headerlink" href="#if-something-goes-wrong" title="Link to this heading">#</a></h2>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span></code> ends with <code class="docutils literal notranslate"><span class="pre">FileNotFoundError:</span> <span class="pre">...</span> <span class="pre">setup.py</span></code></dt><dd><p>You are on CHPC’s system Python 3.6, which cannot install uataq. Run
+<code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">load</span> <span class="pre">python</span></code>, delete the environment if you made it before that
+(<code class="docutils literal notranslate"><span class="pre">rm</span> <span class="pre">-rf</span> <span class="pre">~/venvs/uataq</span></code>), and redo steps 2 to 4.</p>
+</dd>
+<dt>The <code class="docutils literal notranslate"><span class="pre">ls</span></code> in step 1, or the read in step 5, fails</dt><dd><p>You are probably not in the <code class="docutils literal notranslate"><span class="pre">lin</span></code> group yet. Run <code class="docutils literal notranslate"><span class="pre">groups</span></code> and see
+<a class="reference internal" href="#what-you-need">What you need</a>.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">uv</span> <span class="pre">sync</span></code> fails with <code class="docutils literal notranslate"><span class="pre">Required</span> <span class="pre">uv</span> <span class="pre">version</span> <span class="pre">...</span> <span class="pre">does</span> <span class="pre">not</span> <span class="pre">match</span> <span class="pre">the</span> <span class="pre">running</span> <span class="pre">version</span></code></dt><dd><p>You are running CHPC’s <code class="docutils literal notranslate"><span class="pre">uv</span></code> module. Run <code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">unload</span> <span class="pre">uv</span></code>, install uv
+with pip as shown above, and open a new shell so the new copy comes first.</p>
+</dd>
+</dl>
+<p>The steps on this page were last checked in October 2026 on a Notchpeak login
+node.</p>
 </section>
 </section>
 
@@ -612,9 +810,16 @@ uv<span class="w"> </span>run<span class="w"> </span>just<span class="w"> </span
   </div>
   <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="pst-show_toc_level nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#from-source">From Source</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#development-installation">Development Installation</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#requirements">Requirements</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-you-need">What you need</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#install">Install</a><ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#other-pythons">Other Pythons</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#each-time-you-log-in">Each time you log in</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#update-uataq-or-pin-a-version">Update uataq, or pin a version</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-uataq-in-a-slurm-job">Use uataq in a Slurm job</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#install-for-development">Install for development</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#if-something-goes-wrong">If something goes wrong</a></li>
 </ul>
   </nav></div>
 
