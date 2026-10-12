@@ -273,6 +273,7 @@ class Network:
         -------
         geopandas.GeoDataFrame
             A GeoDataFrame with the following structure:
+
             - Index: Time_UTC (datetime)
             - Columns: SID, instrument, [pollutant columns], Latitude_deg,
               Longitude_deg, zagl, geometry (mobile sites also carry the GPS

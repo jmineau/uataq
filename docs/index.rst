@@ -40,6 +40,7 @@ Utah Atmospheric Trace-gas and Air Quality (UATAQ)
 
    installation
    quickstart
+   availability
    general
    laboratory
    filesystem
