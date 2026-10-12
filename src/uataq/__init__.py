@@ -202,8 +202,10 @@ def get_network_obs(
     -------
     geopandas.GeoDataFrame
         A GeoDataFrame with the following structure:
+
         - Index: Time_UTC (datetime)
-        - Columns: SID, [pollutant columns], Latitude_deg, Longitude_deg, zagl, geometry
+        - Columns: SID, instrument, [pollutant columns], Latitude_deg,
+          Longitude_deg, zagl, geometry
         - CRS: EPSG:4326
 
     Examples

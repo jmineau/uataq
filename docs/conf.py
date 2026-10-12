@@ -68,6 +68,7 @@ html_theme_options = {
 html_sidebars = {
     "installation": [],
     "quickstart": [],
+    "availability": [],
     "general": [],
     "filesystem": [],
     "sites": [],
