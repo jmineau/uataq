@@ -174,7 +174,7 @@ Gotchas:
   `Course_deg`, so lin GPS course silently never reached code expecting the
   horel name (slv's mobile reader). Unified to `Course_deg` (2026-09-22).
 
-## Locating mobile data (`MobileSite.locate`, #42)
+## Locating mobile data (`MobileSite.locate`)
 
 `MobileSite.get_obs` and `Network` (mobile sites) join each instrument's rows
 to the GPS **of the group the rows were read from**, because each group's
@@ -188,7 +188,7 @@ over the span of its pieces, and stacks the results in time.
 Why it matters: the clocks disagree. TRX01's CR1000 ran 1-20 s **ahead** of
 GPS time on dates sampled 2019-2026 (horel raw `Instrument_Time`/GTIM vs
 `Time_UTC`; it drifts and is reset, e.g. 6 s on 2024-05-15, 10 s on
-2024-06-01, 5 s on 2024-06-20, ~20 s in 2026). Before #42, post-2017 TRAX
+2024-06-01, 5 s on 2024-06-20, ~20 s in 2026). Before 2026-10, post-2017 TRAX
 ozone/PM (horel) was joined to lin's GPS on the Pi clock: on 2024-06-01 that
 put moving rows a median 120 m (p95 250 m) off the track position and dropped
 42 of 35,135 O3 rows. Joined on the CR1000 clock they sit 5 m off. The
@@ -287,6 +287,19 @@ public function's docstring — they hand the same alias around.
 - **`config.json` is the source of truth** for sites and instruments. Add
   a new site by editing config (and updating any per-instrument parser),
   not by hardcoding it.
+- **A `removal_date` is the midnight (UTC) after the instrument's last
+  sample**, the latest at any level. It is an instant and reads are
+  half-open, so a date on a day that still has data hides that day. Find
+  the last sample in the data (the last row with a value in the
+  instrument's own columns, not the last file: horel's qaqc and final
+  files hold every instrument of a platform, and horel names both MetOne
+  models `esampler`), and write it in the instrument's `notes`, as the
+  existing entries do. A date set otherwise says why in its `notes`
+  (three are: two whose last rows are an instrument being switched on, and
+  HEB's `licor_6262`, which ends on the day its replacement was
+  installed). At a swap the replacement's `installation_date` must not
+  fall before the removed instrument's `removal_date`;
+  `tests/test_config.py` lists the swaps.
 - **Group abstraction**: read paths go through `GroupSpace`. Don't bypass
   with raw filesystem walks. New groups live in
   `filesystem/groupspaces/<name>.py`.
@@ -303,11 +316,11 @@ public function's docstring — they hand the same alias around.
   "Locating mobile data" below), not one GPS group for the whole site.
   Anything that wraps `Site.read_data` must pass
   `group=None` through, not replace it with `get_group(None)`: `Network` did
-  that until #14, which silently dropped every BUS site and all TRAX PM. The
+  that until 2026-10, which silently dropped every BUS site and all TRAX PM. The
   docs quote the `DEFAULT_GROUP` line from `filesystem/__init__.py` by its
   text (`literalinclude` with `:start-at:`), so keep that line's
   `DEFAULT_GROUP: str` spelling.
-- **Reads are planned by time (`group_dates`, #33).** `Site.read_data` calls
+- **Reads are planned by time (`group_dates`).** `Site.read_data` calls
   `Instrument.plan_reads(group, time_range)` per instrument, which returns
   `[(group, portion), ...]`. An explicit group (or mapping entry) is one
   portion, the whole clipped range. With no group named, the range is cut at
@@ -342,12 +355,14 @@ public function's docstring — they hand the same alias around.
   with the ES642's meaning. A request that misses the window entirely still
   raises `InactiveInstrumentError` -- including one that only touches it
   (stop == installation, or start == removal): both ranges are half-open, so
-  that is no overlap, not an empty clipped range (#37). Checked against the
+  that is no overlap, not an empty clipped range. Checked against the
   archive: the only horel raw files this excludes are the 441 mis-attributed MetOne ones; no
-  other instrument loses a file. Five configured swaps (TRX01/02/03,
+  other instrument loses a file. Five configured MetOne swaps (TRX01/02/03,
   BUS02/03), all non-overlapping, though three share a boundary date exactly;
   the half-open row slice keeps a sample on that timestamp out of the removed
-  instrument's read (#9).
+  instrument's read. The four LI-COR 6262 to 7000 swaps (DBK, HEB, RPK, SUG)
+  are in separate lin folders, so they cannot mix files, but the same rule
+  holds.
 - **Read-only at the UATAQ data location**. Never write back to source
   data paths.
 - **`tables>3.10`** is a hard runtime dep (PyTables). The pin is for
@@ -356,10 +371,9 @@ public function's docstring — they hand the same alias around.
   out of the `import uataq` path.
 - **Time ranges are half-open `[start, stop)`** per the docs
   (`general.rst`). `uataq.sodar` and `filesystem.parse_datafiles` both
-  exclude a sample exactly at `stop` (the latter since #9; `.loc[start:stop]`
-  alone is inclusive), and so does `TimeRange.__contains__` (since #15's
-  follow-up; it used to include `stop`, so `TimeRange("2024")` contained
-  2025-01-01 00:00). A string stop is widened by one unit of its finest
+  exclude a sample exactly at `stop` (`.loc[start:stop]`
+  alone is inclusive), and so does `TimeRange.__contains__` (it used to
+  include `stop`, so `TimeRange("2024")` contained 2025-01-01 00:00). A string stop is widened by one unit of its finest
   component, fractional seconds included (`"…:45.5"` stops at `:45.6`).
 - **Laboratory instance is shared.** Don't mutate `laboratory.sites` in
   application code; it's the import-time singleton.
@@ -416,7 +430,7 @@ What keeps CI green:
   and the delete half-fails on NFS, leaving it unusable until
   `rm -rf .venv && uv sync --frozen`. (With Python 3.10 dropped, CI and a
   newer local venv now lock the same pandas, 3.x.)
-- **uataq does not set pandas options** (#40). It used to turn on
+- **uataq does not set pandas options.** It used to turn on
   `copy_on_write` at import under pandas 2, which changed pandas for the
   caller's whole session. Code must be correct with it on or off: no chained
   assignment, and `.copy()` a filtered frame before setting values on it. To
