@@ -341,6 +341,5 @@ Next
 - :doc:`quickstart`: the site and instrument objects, the ``long`` format, and
   the mobile (TRAX and bus) sites.
 - :doc:`columns`: what each column of each level holds, the ``ID`` columns,
-  the flags, and why ``_cal`` is sometimes empty (for example, in the first
-  hours of a month).
+  and the flags.
 - :doc:`pollutants`: the names of the concentration columns.
