@@ -299,7 +299,11 @@ public function's docstring — they hand the same alias around.
   HEB's `licor_6262`, which ends on the day its replacement was
   installed). At a swap the replacement's `installation_date` must not
   fall before the removed instrument's `removal_date`;
-  `tests/test_config.py` lists the swaps.
+  `tests/test_config.py` lists the swaps. At the five MetOne swaps the old
+  and new instruments logged on the same day, so the two dates are one
+  instant with a time of day (`"2025-01-06 19:30:00"`): the ES405's first
+  raw row, which ends the ES642's window after its last row and starts the
+  ES405's on its first.
 - **Group abstraction**: read paths go through `GroupSpace`. Don't bypass
   with raw filesystem walks. New groups live in
   `filesystem/groupspaces/<name>.py`.
@@ -358,11 +362,26 @@ public function's docstring — they hand the same alias around.
   that is no overlap, not an empty clipped range. Checked against the
   archive: the only horel raw files this excludes are the 441 mis-attributed MetOne ones; no
   other instrument loses a file. Five configured MetOne swaps (TRX01/02/03,
-  BUS02/03), all non-overlapping, though three share a boundary date exactly;
-  the half-open row slice keeps a sample on that timestamp out of the removed
-  instrument's read. The four LI-COR 6262 to 7000 swaps (DBK, HEB, RPK, SUG)
+  BUS02/03); at each, the ES642's `removal_date` and the ES405's
+  `installation_date` are the same instant, so the half-open row slice gives
+  a sample on it to the ES405 alone. The four LI-COR 6262 to 7000 swaps (DBK, HEB, RPK, SUG)
   are in separate lin folders, so they cannot mix files, but the same rule
   holds.
+- **horel split the month of each MetOne swap into two raw files.**
+  `{SID}_{YYYY}_{MM}_esampler.h5` holds the ES405's rows from the swap on and
+  `{SID}_{YYYY}_{MM}_esampler.h5_prior405upgrade` the ES642's rows from the
+  start of the month to the swap (BUS02 2025-03, BUS03 2024-12, TRX01/02/03
+  2025-01). TRX01/02/03's `2b` and `cr1000` folders have the same split for
+  January 2025, so their ozone and GPS rows before the swap are only in a
+  `prior405upgrade` file too. `HorelGroup.get_datafiles` adds the
+  `.h5_prior405upgrade` file to every raw read but the ES405's (the suffix is
+  `horel.PRIOR_405_SUFFIX`); the clipping above keeps each MetOne's rows apart.
+  horel's qaqc and final CSVs have none of these rows (TRX's January 2025
+  files start at the swap), so raw is the only level with them. The two files
+  of a month share no timestamp. Other suffixes in the raw folders
+  (`TRX01_2024_02_cr1000.h5_bad`, empty; `uutrax_pilot/cr1000/old/*.h5_old`)
+  are not read. Because a month can have two files, `filter_datafiles` drops
+  every file that starts at the stop of the range, not only the last one.
 - **Read-only at the UATAQ data location**. Never write back to source
   data paths.
 - **`tables>3.10`** is a hard runtime dep (PyTables). The pin is for

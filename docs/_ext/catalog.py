@@ -37,13 +37,20 @@ def _list_table(header: list[str], rows: list[list[str]], widths: str) -> str:
     return "\n".join(lines)
 
 
+def _when(time) -> str:
+    """Return a configured instant as its date, with the time of day if it has one."""
+    if time == time.normalize():
+        return f"{time:%Y-%m-%d}"
+    return f"{time:%Y-%m-%d %H:%M:%S} UTC"
+
+
 def _dates(instrument: instruments.Instrument) -> str:
     """Return when an instrument was installed, and removed if it was."""
     start, stop = instrument.active_range
     assert start is not None  # installation_date is required
     if stop is None:
-        return f"since {start:%Y-%m-%d}"
-    return f"{start:%Y-%m-%d} to {stop:%Y-%m-%d}"
+        return f"since {_when(start)}"
+    return f"{_when(start)} to {_when(stop)}"
 
 
 def _status(site) -> str:
