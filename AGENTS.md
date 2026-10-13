@@ -445,6 +445,14 @@ What keeps CI green:
   autodoc's `:members:` documents again, which would otherwise be duplicate
   entries. Autosummary stubs generate into `docs/api/` (gitignored); a
   `:toctree:` pointing outside `docs/` litters the repo root.
+- **The site and instrument tables are generated.** `docs/catalog.rst`'s
+  `.. site-catalog::` and `.. instrument-catalog::` directives
+  (`docs/_ext/catalog.py`, uataq's own, not the template's) build their tables
+  from `uataq.laboratory` and `uataq.instruments.catalog` on every build, so a
+  change to `config.json` or to an instrument class shows there with no docs
+  edit. They never read the archive. A site is "active" there when one of its
+  instruments has no `removal_date`; the site-level `is_active` key is read
+  neither by the tables nor by any code.
 
 ## Examples in the docs
 
