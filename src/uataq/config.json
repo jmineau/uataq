@@ -10,7 +10,8 @@
         "instruments": {
             "licor_6262": {
                 "installation_date": "2001-02-08",
-                "removal_date": "2015-08-05"
+                "removal_date": "2015-08-06",
+                "notes": "The last sample is 2015-08-05 14:30:00 UTC (raw and qaqc; calibrated ends 14:25:00 and final 13:05:00 that day), so the removal date is the next midnight."
             }
         }
     },
@@ -26,7 +27,8 @@
             },
             "2b_405": {
                 "installation_date": "2021-09-28",
-                "removal_date": "2022-05-09"
+                "removal_date": "2022-05-10",
+                "notes": "The last reading of NO, NO2 and NOx is 2022-05-09 14:36:25 UTC (raw, qaqc and final), after a gap from 2022-05-07 21:16:40; rows with only a zero NO2 follow until 17:42:50. The removal date is the next midnight."
             },
             "cr1000": {
                 "installation_date": "2021-09-28"
@@ -51,7 +53,8 @@
             },
             "2b_405": {
                 "installation_date": "2022-02-15",
-                "removal_date": "2023-05-17"
+                "removal_date": "2023-05-17",
+                "notes": "The last reading is 2023-05-16 12:29:00 UTC (raw, qaqc and final). The removal date stays on 2023-05-17, which leaves out three minutes of rows that day (17:00:50 to 17:03:25) from an instrument just switched on: the flow starts at zero, NO2 reads 8192 ppb once, and NO and NOx read zero throughout."
             },
             "cr1000": {
                 "installation_date": "2022-02-04"
@@ -373,7 +376,8 @@
         "instruments": {
             "licor_6262": {
                 "installation_date": "2004-01-22",
-                "removal_date": "2022-05-13"
+                "removal_date": "2022-05-14",
+                "notes": "The last sample is 2022-05-13 15:32:10 UTC (raw and qaqc; calibrated and final end 13:59:50 that day), so the removal date is the next midnight. The licor_7000 that replaced it starts on 2022-05-16."
             },
             "licor_7000": {
                 "installation_date": "2022-05-16"
@@ -462,7 +466,8 @@
         "instruments": {
             "licor_6262": {
                 "installation_date": "2016-09-25",
-                "removal_date": "2020-09-15"
+                "removal_date": "2020-09-16",
+                "notes": "The last sample is 2020-09-15 23:19:20 UTC (raw and qaqc; calibrated and final end 2020-05-06 23:59:50), so the removal date is the next midnight."
             }
         }
     },
@@ -478,7 +483,8 @@
         "instruments": {
             "lgr_ugga": {
                 "installation_date": "2023-06-26",
-                "removal_date": "2023-09-28"
+                "removal_date": "2023-09-29",
+                "notes": "The last sample is 2023-09-28 20:16:39 UTC (raw and qaqc; calibrated and final end 2023-09-12 12:53:02), so the removal date is the next midnight."
             }
         }
     },
@@ -494,7 +500,8 @@
         "instruments": {
             "licor_6262": {
                 "installation_date": "2015-07-27",
-                "removal_date": "2020-03-15"
+                "removal_date": "2020-03-16",
+                "notes": "The last sample is 2020-03-15 07:31:40 UTC (raw and qaqc; calibrated and final end 05:59:50 that day), so the removal date is the next midnight."
             }
         }
     },
@@ -510,7 +517,8 @@
         "instruments": {
             "licor_6262": {
                 "installation_date": "2019-10-26",
-                "removal_date": "2022-05-11"
+                "removal_date": "2022-05-12",
+                "notes": "The last sample is 2022-05-11 16:16:00 UTC (raw and qaqc; calibrated and final end 15:59:50 that day), so the removal date is the next midnight."
             }
         }
     },
@@ -525,7 +533,8 @@
         "instruments": {
             "licor_6262": {
                 "installation_date": "2013-08-07",
-                "removal_date": "2016-07-26"
+                "removal_date": "2016-07-27",
+                "notes": "The last sample is 2016-07-26 16:15:00 UTC (raw and qaqc; calibrated ends 2016-07-04 04:05:00 and final 2016-07-01 08:05:00), so the removal date is the next midnight."
             }
         }
     },
@@ -540,7 +549,8 @@
         "instruments": {
             "licor_6262": {
                 "installation_date": "2005-01-07",
-                "removal_date": "2013-08-02"
+                "removal_date": "2013-08-03",
+                "notes": "The last sample is 2013-08-02 17:05:00 UTC (raw and qaqc; calibrated ends 2013-07-14 18:05:00 and final 2013-06-28 10:05:00), so the removal date is the next midnight."
             }
         }
     },
@@ -556,7 +566,8 @@
         "instruments": {
             "lgr_ugga": {
                 "installation_date": "2015-03-23",
-                "removal_date": "2019-07-16"
+                "removal_date": "2019-07-17",
+                "notes": "The last sample is 2019-07-16 16:11:50 UTC (raw and qaqc; calibrated and final end 14:11:40 that day), so the removal date is the next midnight."
             }
         }
     },
@@ -590,7 +601,8 @@
         "instruments": {
             "licor_6262": {
                 "installation_date": "2005-01-11",
-                "removal_date": "2022-02-11"
+                "removal_date": "2022-02-12",
+                "notes": "The last sample is 2022-02-11 18:07:50 UTC (raw and qaqc; calibrated and final end 17:59:50 that day), so the removal date is the next midnight. The licor_7000 that replaced it starts on 2022-06-13."
             },
             "licor_7000": {
                 "installation_date": "2022-06-13",
@@ -599,7 +611,8 @@
             },
             "metone_es642": {
                 "installation_date": "2017-06-29",
-                "removal_date": "2020-04-23"
+                "removal_date": "2020-04-24",
+                "notes": "The last sample is 2020-04-23 23:12:10 UTC (raw and qaqc; final ends 00:03:50 that day), so the removal date is the next midnight."
             }
         }
     },
@@ -615,7 +628,8 @@
         "instruments": {
             "licor_6262": {
                 "installation_date": "2015-08-11",
-                "removal_date": "2019-11-07"
+                "removal_date": "2019-11-08",
+                "notes": "The last sample is 2019-11-07 18:28:10 UTC (raw and qaqc; calibrated and final end 2019-08-04 23:59:50), so the removal date is the next midnight."
             }
         }
     },
@@ -786,7 +800,8 @@
                     "lin": "air-trend"
                 },
                 "installation_date": "2017-03-07",
-                "removal_date": "2022-06-07"
+                "removal_date": "2022-06-08",
+                "notes": "The last sample is 2022-06-07 17:15:50 UTC (raw and qaqc; final ends 2021-12-05 23:37:38), so the removal date is the next midnight."
             },
             "teledyne_t200": {
                 "loggers": {
@@ -811,14 +826,16 @@
                     "lin": "air-trend"
                 },
                 "installation_date": "2020-07-29",
-                "removal_date": "2023-01-25"
+                "removal_date": "2023-01-25",
+                "notes": "The last sample before a four-week outage is 2022-12-28 18:03:14 UTC (raw and qaqc; final ends 2022-10-25 09:30:23). The removal date stays on 2023-01-25, which leaves out half an hour of rows that day (17:52:59 to 18:22:05), all flagged -126 at qaqc (warm-up after an outage)."
             },
             "teom_1400ab": {
                 "loggers": {
                     "lin": "air-trend"
                 },
                 "installation_date": "2016-09-22",
-                "removal_date": "2017-03-01"
+                "removal_date": "2017-03-02",
+                "notes": "The last sample is 2017-03-01 20:03:06 UTC (raw, qaqc and final), so the removal date is the next midnight."
             }
         }
     }
