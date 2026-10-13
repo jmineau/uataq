@@ -15,6 +15,7 @@ Horel Group
       UUTRAX_PILOT_DIR
       MESOWEST_DIR
       PILOT_PHASE
+      PRIOR_405_SUFFIX
       lvl_data_dirs
       column_mapping
    

@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Columns and flags &#8212; UATAQ 2026.10.1.dev20+gd0b430767 documentation</title>
+    <title>Columns and flags &#8212; UATAQ 2026.10.1.dev22+g40a21a649 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="_static/documentation_options.js?v=d3a58e7b"></script>
+    <script src="_static/documentation_options.js?v=ccb68a76"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -59,7 +59,7 @@
     <link rel="prev" title="What data exists" href="availability.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.1.dev20+gd0b430767" />
+  <meta name="docsearch:version" content="2026.10.1.dev22+g40a21a649" />
   
     
     <script src="_static/searchtools.js"></script>
@@ -127,7 +127,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.1.dev20+gd0b430767 documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.1.dev22+g40a21a649 documentation</p>
   
 </a></div>
     
@@ -1004,7 +1004,11 @@ are read from the same horel files. For the ozone (<code class="docutils literal
 (<code class="docutils literal notranslate"><span class="pre">metone_es642</span></code>, <code class="docutils literal notranslate"><span class="pre">metone_es405</span></code>) monitors, the horel files mark a flagged
 row with 1, and uataq turns that into <code class="docutils literal notranslate"><span class="pre">QAQC_Flag</span> <span class="pre">=</span> <span class="pre">-1</span></code>, so the flag is 0
 (passes) or -1 (flagged). The <code class="docutils literal notranslate"><span class="pre">final</span></code> level is the <code class="docutils literal notranslate"><span class="pre">qaqc</span></code> rows that pass and
-have a value. For the <code class="docutils literal notranslate"><span class="pre">2b_205</span></code> on TRX01 on 1 June 2024:</p>
+have a value. The days before a vehicle’s ES-642 was replaced by an ES-405
+(from the start of that month: December 2024 on BUS03, March 2025 on BUS02,
+January 2025 on TRX01, TRX02 and TRX03, with the trains’ ozone too) are only
+at the <code class="docutils literal notranslate"><span class="pre">raw</span></code> level: horel’s <code class="docutils literal notranslate"><span class="pre">qaqc</span></code> and <code class="docutils literal notranslate"><span class="pre">final</span></code> files do not have them.
+For the <code class="docutils literal notranslate"><span class="pre">2b_205</span></code> on TRX01 on 1 June 2024:</p>
 <div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">o3</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">read_data</span><span class="p">(</span><span class="s2">&quot;TRX01&quot;</span><span class="p">,</span> <span class="s2">&quot;2b_205&quot;</span><span class="p">,</span> <span class="n">lvl</span><span class="o">=</span><span class="s2">&quot;qaqc&quot;</span><span class="p">,</span> <span class="n">group</span><span class="o">=</span><span class="s2">&quot;horel&quot;</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="s2">&quot;2024-06-01&quot;</span><span class="p">)[</span><span class="s2">&quot;2b_205&quot;</span><span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">o3</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
 <span class="go">[&#39;O3_ppb&#39;, &#39;Flow_Lpm&#39;, &#39;Internal_T_C&#39;, &#39;Internal_P_hPa&#39;, &#39;QAQC_Flag&#39;]</span>

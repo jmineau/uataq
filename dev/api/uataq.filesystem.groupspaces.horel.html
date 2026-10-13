@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Horel Group &#8212; UATAQ 2026.10.1.dev20+gd0b430767 documentation</title>
+    <title>Horel Group &#8212; UATAQ 2026.10.1.dev22+g40a21a649 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="../_static/documentation_options.js?v=d3a58e7b"></script>
+    <script src="../_static/documentation_options.js?v=ccb68a76"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -59,7 +59,7 @@
     <link rel="prev" title="File System" href="../filesystem.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.1.dev20+gd0b430767" />
+  <meta name="docsearch:version" content="2026.10.1.dev22+g40a21a649" />
   
     
     <script src="../_static/searchtools.js"></script>
@@ -127,7 +127,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.1.dev20+gd0b430767 documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.1.dev22+g40a21a649 documentation</p>
   
 </a></div>
     
@@ -636,10 +636,13 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="#uataq.filesystem.groupspaces.horel.PILOT_PHASE" title="uataq.filesystem.groupspaces.horel.PILOT_PHASE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PILOT_PHASE</span></code></a></p></td>
 <td><p>Pilot phase time ranges for UUTRAX data</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#uataq.filesystem.groupspaces.horel.lvl_data_dirs" title="uataq.filesystem.groupspaces.horel.lvl_data_dirs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">lvl_data_dirs</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#uataq.filesystem.groupspaces.horel.PRIOR_405_SUFFIX" title="uataq.filesystem.groupspaces.horel.PRIOR_405_SUFFIX"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PRIOR_405_SUFFIX</span></code></a></p></td>
+<td><p>Suffix of the raw files horel set aside when a vehicle's MetOne ES642 was replaced by an ES405.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#uataq.filesystem.groupspaces.horel.lvl_data_dirs" title="uataq.filesystem.groupspaces.horel.lvl_data_dirs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">lvl_data_dirs</span></code></a></p></td>
 <td><p>Data levels for UUTRAX data</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#uataq.filesystem.groupspaces.horel.column_mapping" title="uataq.filesystem.groupspaces.horel.column_mapping"><code class="xref py py-obj docutils literal notranslate"><span class="pre">column_mapping</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#uataq.filesystem.groupspaces.horel.column_mapping" title="uataq.filesystem.groupspaces.horel.column_mapping"><code class="xref py py-obj docutils literal notranslate"><span class="pre">column_mapping</span></code></a></p></td>
 <td><p>Horel to UATAQ column mapping</p></td>
 </tr>
 </tbody>
@@ -694,6 +697,17 @@
 <dt class="sig sig-object py" id="uataq.filesystem.groupspaces.horel.PILOT_PHASE">
 <span class="sig-prename descclassname"><span class="pre">uataq.filesystem.groupspaces.horel.</span></span><span class="sig-name descname"><span class="pre">PILOT_PHASE</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.15)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">TimeRange</span><span class="p"><span class="pre">]</span></span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'TRX01':</span> <span class="pre">TimeRange(start=2014-11-11</span> <span class="pre">00:00:00,</span> <span class="pre">stop=2018-11-19</span> <span class="pre">20:03:59),</span> <span class="pre">'TRX02':</span> <span class="pre">TimeRange(start=2016-02-04</span> <span class="pre">00:00:00,</span> <span class="pre">stop=2018-11-19</span> <span class="pre">18:53:53)}</span></span><a class="headerlink" href="#uataq.filesystem.groupspaces.horel.PILOT_PHASE" title="Link to this definition">#</a></dt>
 <dd><p>Pilot phase time ranges for UUTRAX data</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="uataq.filesystem.groupspaces.horel.PRIOR_405_SUFFIX">
+<span class="sig-prename descclassname"><span class="pre">uataq.filesystem.groupspaces.horel.</span></span><span class="sig-name descname"><span class="pre">PRIOR_405_SUFFIX</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><span class="pre">str</span></a></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'_prior405upgrade'</span></span><a class="headerlink" href="#uataq.filesystem.groupspaces.horel.PRIOR_405_SUFFIX" title="Link to this definition">#</a></dt>
+<dd><p>Suffix of the raw files horel set aside when a vehicle’s MetOne ES642 was
+replaced by an ES405. For the month of each swap, <code class="docutils literal notranslate"><span class="pre">{name}.h5</span></code> holds the
+rows from the swap on and <code class="docutils literal notranslate"><span class="pre">{name}.h5_prior405upgrade</span></code> the rows before it:
+the ES642’s in the <code class="docutils literal notranslate"><span class="pre">esampler</span></code> folder and, for TRX01-03, the 2B ozone’s and
+the GPS’s in <code class="docutils literal notranslate"><span class="pre">2b</span></code> and <code class="docutils literal notranslate"><span class="pre">cr1000</span></code>. Raw reads take both files of the month,
+for every instrument but the ES405, which none of those rows belong to.</p>
 </dd></dl>
 
 <dl class="py data">
@@ -1036,7 +1050,9 @@ alone.</p>
 <dt class="sig sig-object py" id="uataq.filesystem.groupspaces.horel.HorelGroup.get_datafiles">
 <span class="sig-name descname"><span class="pre">get_datafiles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">SID</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">instrument</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lvl</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_range</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pattern</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/uataq/filesystem/groupspaces/horel.html#HorelGroup.get_datafiles"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uataq.filesystem.groupspaces.horel.HorelGroup.get_datafiles" title="Link to this definition">#</a></dt>
 <dd><p>Return a list of data files for a given level and time range.</p>
-<p>Extends DataFile.get_datafiles by supplying the instrument name to the DataFile subclass.</p>
+<p>Extends DataFile.get_datafiles by supplying the instrument name to the DataFile subclass.
+A raw read also takes the month’s <code class="docutils literal notranslate"><span class="pre">.h5_prior405upgrade</span></code> file, for
+every instrument but the ES405 (see <code class="docutils literal notranslate"><span class="pre">PRIOR_405_SUFFIX</span></code>).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1126,6 +1142,7 @@ alone.</p>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#uataq.filesystem.groupspaces.horel.UUTRAX_PILOT_DIR"><code class="docutils literal notranslate"><span class="pre">UUTRAX_PILOT_DIR</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#uataq.filesystem.groupspaces.horel.MESOWEST_DIR"><code class="docutils literal notranslate"><span class="pre">MESOWEST_DIR</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#uataq.filesystem.groupspaces.horel.PILOT_PHASE"><code class="docutils literal notranslate"><span class="pre">PILOT_PHASE</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#uataq.filesystem.groupspaces.horel.PRIOR_405_SUFFIX"><code class="docutils literal notranslate"><span class="pre">PRIOR_405_SUFFIX</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#uataq.filesystem.groupspaces.horel.lvl_data_dirs"><code class="docutils literal notranslate"><span class="pre">lvl_data_dirs</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#uataq.filesystem.groupspaces.horel.column_mapping"><code class="docutils literal notranslate"><span class="pre">column_mapping</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#uataq.filesystem.groupspaces.horel.HorelFile"><code class="docutils literal notranslate"><span class="pre">HorelFile</span></code></a><ul class="pst-show_toc_level nav section-nav flex-column">
