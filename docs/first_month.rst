@@ -332,6 +332,8 @@ give it as a ``Timestamp``.
 Next
 ----
 
+- :doc:`catalog`: every site and instrument, what each measures, and what the
+  names mean.
 - :doc:`availability`: which sites measure what, when they have data, and what
   the errors mean.
 - :doc:`quickstart`: the site and instrument objects, the ``long`` format, and

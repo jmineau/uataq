@@ -38,6 +38,7 @@ extensions = [
     "sphinx_autodoc_typehints",
     "sphinx_copybutton",
     "api_pages",  # _ext/api_pages.py: class pages with member tables
+    "catalog",  # _ext/catalog.py: the site and instrument tables, from config.json
 ]
 
 templates_path = ["_templates"]
@@ -71,6 +72,7 @@ html_sidebars = {
     "quickstart": [],
     "availability": [],
     "columns": [],
+    "catalog": [],
     "general": [],
     "filesystem": [],
     "sites": [],
