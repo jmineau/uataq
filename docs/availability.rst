@@ -391,9 +391,9 @@ level that was read. ``get_obs`` and ``get_recent_obs`` read the final level.
 Three cases that gave this:
 
 - A month with no final file (WBB, August 2021, above).
-- Dates after a site stopped (HDP after February 2025; SUG's CO2 ends in
-  August 2025). That includes ``get_recent_obs("HDP", pollutants="CO2")``:
-  nothing is recent at a site that stopped, so it raises the same error.
+- Dates after a site stopped sending data but before its instruments have a
+  removal date in the configuration. Once they have one, these dates raise
+  the error under `Instrument inactive`_ instead.
 - Dates in the future.
 
 The name in the brackets is the **instrument** that measures what you asked for
@@ -422,6 +422,11 @@ The instrument was not installed at the site in that range. Its window is its
 the window, such as one that ends the day the instrument was installed, counts
 as outside it. A range that overlaps the window only in part is cut down to it,
 with no error.
+
+Dates after a site was taken down give this error too: HDP after 7 February
+2025, and SUG's CO2 after 22 August 2025. That includes
+``get_recent_obs("HDP", pollutants="CO2")``: nothing is recent at a site that
+stopped.
 
 Zero rows, no error
 ^^^^^^^^^^^^^^^^^^^
