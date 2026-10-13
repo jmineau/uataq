@@ -20,6 +20,14 @@ follow [PEP 440](https://peps.python.org/pep-0440/): calendar-based,
 
 ### Fixed
 
+- Configuration: 15 removal dates fell on a day that still had data, so a read
+  dropped that day's rows and a request for that day reported the instrument
+  inactive. Each is now the midnight after the instrument's last sample, with
+  the evidence in its `notes`: ASB, DBK, IMC, LG2, LGN, MSA, MUR, SUG and SUN
+  `licor_6262`; LDF and ROO `lgr_ugga`; BUS01 `2b_405`; SUG and WBB
+  `metone_es642`; WBB `teom_1400ab`. Each date moves one day later. BUS02's
+  `2b_405` and WBB's `teledyne_t500u` keep their dates: the rows on those days
+  are an instrument being switched on, as their `notes` say.
 - Docs: the quickstart shows its examples again, and the configuration and
   file system pages show the files they quote (`config.json` and the
   `DEFAULT_GROUP` line). All three had been dropped from the built pages.
