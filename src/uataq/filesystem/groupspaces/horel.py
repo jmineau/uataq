@@ -39,6 +39,14 @@ PILOT_PHASE: dict[str, TimeRange] = {
     "TRX02": TimeRange(start="2016-02-04", stop="2018-11-19T18:53:52"),
 }
 
+#: Suffix of the raw files horel set aside when a vehicle's MetOne ES642 was
+#: replaced by an ES405. For the month of each swap, ``{name}.h5`` holds the
+#: rows from the swap on and ``{name}.h5_prior405upgrade`` the rows before it:
+#: the ES642's in the ``esampler`` folder and, for TRX01-03, the 2B ozone's and
+#: the GPS's in ``2b`` and ``cr1000``. Raw reads take both files of the month,
+#: for every instrument but the ES405, which none of those rows belong to.
+PRIOR_405_SUFFIX: str = "_prior405upgrade"
+
 #: Data levels for UUTRAX data
 lvl_data_dirs: dict[str, list] = {
     "raw": [UUTRAX_PILOT_DIR, UUTRAX_DIR],
@@ -615,6 +623,8 @@ class HorelGroup(filesystem.GroupSpace):
         Return a list of data files for a given level and time range.
 
         Extends DataFile.get_datafiles by supplying the instrument name to the DataFile subclass.
+        A raw read also takes the month's ``.h5_prior405upgrade`` file, for
+        every instrument but the ES405 (see ``PRIOR_405_SUFFIX``).
 
         Parameters
         ----------
@@ -653,9 +663,14 @@ class HorelGroup(filesystem.GroupSpace):
 
         files = self.get_files(SID, instrument, lvl, logger)
 
+        exts = (DataFileClass.ext,)
+        if lvl == "raw" and instrument != "metone_es405":
+            # The month's rows before the ES405 swap (see PRIOR_405_SUFFIX)
+            exts += (DataFileClass.ext + PRIOR_405_SUFFIX,)
+
         datafiles = []
         for path in files:
-            if path.endswith(DataFileClass.ext):
+            if path.endswith(exts):
                 try:
                     # horel subclasses take the instrument
                     # pyrefly: ignore[bad-argument-count]

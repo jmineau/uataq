@@ -4,7 +4,8 @@ Tests of the dates in the packaged config.json.
 A ``removal_date`` is an instant and reads are half-open, so a removal date on
 a day that still has data hides that day's rows. Each removal date is the
 midnight after the instrument's last sample (the evidence is in its
-``notes``), except where an earlier date is kept on purpose.
+``notes``), except where an earlier date is kept on purpose, and at a MetOne
+swap, where it is the replacement's first raw row.
 """
 
 import pandas as pd
@@ -103,6 +104,29 @@ def test_swapped_instruments_do_not_overlap(SID, removed, replacement):
     old = instrument(SID, removed).active_range
     new = instrument(SID, replacement).active_range
     assert old.stop <= new.start
+
+
+#: The MetOne swaps, from horel's raw files: the ES642's last sample (in the
+#: month's ``esampler.h5_prior405upgrade``) and the ES405's first row (in the
+#: month's plain ``esampler.h5``)
+METONE_SWAPS = {
+    "BUS02": ("2025-03-13 00:37:10", "2025-03-13 02:38:00"),
+    "BUS03": ("2024-12-05 05:47:35", "2024-12-05 06:09:00"),
+    "TRX01": ("2025-01-06 18:10:28", "2025-01-06 19:30:00"),
+    "TRX02": ("2025-01-06 20:15:50", "2025-01-07 01:03:00"),
+    "TRX03": ("2025-01-03 17:15:42", "2025-01-03 20:16:00"),
+}
+
+
+@pytest.mark.parametrize("SID", sorted(METONE_SWAPS))
+def test_metone_swap_is_the_es405s_first_row(SID):
+    """One instant removes the ES642 and installs the ES405: no gap, no overlap."""
+    last, first = (pd.Timestamp(t) for t in METONE_SWAPS[SID])
+    es642 = instrument(SID, "metone_es642")
+    es405 = instrument(SID, "metone_es405")
+    assert es642.active_range.stop == es405.active_range.start == first
+    # A read of the ES642's last day keeps its last sample
+    assert last < es642.clip_to_active(f"{last:%Y-%m-%d}").stop
 
 
 def test_every_removal_after_installation():

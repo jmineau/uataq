@@ -419,3 +419,122 @@ class TestHorelGPSRead:
         data = horel.HorelCSVFinalizedFile(write_bus(tmp_path), "gps").parse()
         # The invalid-RMC row is dropped
         assert data["Speed_m_s"].tolist() == [0.0, 5.5]
+
+
+#: The five MetOne swaps: the ES642's last raw row (in the month's
+#: ``esampler.h5_prior405upgrade`` file) and the ES405's first (in the
+#: month's plain ``esampler.h5``), as in horel's archive.
+SWAPS = {
+    "BUS02": ("2025-03-13 00:37:10", "2025-03-13 02:38:00"),
+    "BUS03": ("2024-12-05 05:47:35", "2024-12-05 06:09:00"),
+    "TRX01": ("2025-01-06 18:10:28", "2025-01-06 19:30:00"),
+    "TRX02": ("2025-01-06 20:15:50", "2025-01-07 01:03:00"),
+    "TRX03": ("2025-01-03 17:15:42", "2025-01-03 20:16:00"),
+}
+
+
+def epoch(*times) -> list[int]:
+    return [int(pd.Timestamp(t).timestamp()) for t in times]
+
+
+@pytest.mark.parametrize("SID", sorted(SWAPS))
+class TestPrior405UpgradeFiles:
+    """
+    The month of each ES642-to-ES405 swap has two raw esampler files.
+
+    ``{SID}_{YYYY}_{MM}_esampler.h5_prior405upgrade`` holds the ES642's rows up
+    to the swap and the plain ``.h5`` the ES405's from it. The ES642 reads both
+    and keeps its own rows; the ES405 reads only the plain file.
+    """
+
+    @pytest.fixture
+    def swap(self, SID, tmp_path):
+        """Write the swap month's two files, the month before, and stray files."""
+        last, first = (pd.Timestamp(t) for t in SWAPS[SID])
+        month = first.to_period("M")
+        start = month.start_time
+        before = (month - 1).start_time
+        folder = tmp_path / "uutrax" / "esampler"
+        es642 = {"PM25": [5.0, 6.0], "FLOW": [2.0, 2.0], "ITMP": [50.0, 50.0]}
+        es405 = {**es642, "PM01": [1.0, 1.0], "PM04": [7.0, 7.0], "PM10": [9.0, 9.0]}
+        name = f"{SID}_{month.strftime('%Y_%m')}_esampler"
+        write_h5(
+            folder / f"{name}.h5_prior405upgrade",
+            {"EPOCHTIME": epoch(start, last), **es642},
+        )
+        write_h5(
+            folder / f"{name}.h5",
+            {"EPOCHTIME": epoch(first, first + pd.Timedelta("1min")), **es405},
+        )
+        write_h5(
+            folder / f"{SID}_{(month - 1).strftime('%Y_%m')}_esampler.h5",
+            {"EPOCHTIME": epoch(before, before + pd.Timedelta("2s")), **es642},
+        )
+        # Other suffixes in horel's raw folders are not data to read
+        for stray in ("h5_bad", "h5_old", "h5.partial"):
+            write_h5(
+                folder / f"{name}.{stray}",
+                {"EPOCHTIME": epoch(start + pd.Timedelta("1h")), "PM25": [99.0]},
+            )
+        with patch.dict(horel.lvl_data_dirs, {"raw": [str(tmp_path / "uutrax")]}):
+            yield start, (month + 1).start_time, last, first
+
+    def test_es642_reads_the_prior_file_up_to_the_swap(self, SID, swap):
+        start, stop, last, _ = swap
+        es642 = get_site(SID).instruments["metone_es642"]
+        data = es642.read_data("horel", "raw", (start, stop))
+        assert data.index.tolist() == [start, last]
+        assert data["PM2.5_ugm3"].tolist() == [5.0, 6.0]
+        assert "PM1_ugm3" not in data.columns
+
+    def test_es405_reads_only_its_own_rows(self, SID, swap):
+        start, stop, _, first = swap
+        es405 = get_site(SID).instruments["metone_es405"]
+        data = es405.read_data("horel", "raw", (start, stop))
+        assert data.index.tolist() == [first, first + pd.Timedelta("1min")]
+        assert data["PM1_ugm3"].tolist() == [1.0, 1.0]
+
+    def test_only_the_es642_lists_the_prior_file(self, SID, swap):
+        start, stop, _, _ = swap
+        names = {}
+        for model in ("metone_es642", "metone_es405"):
+            datafiles = horel.HorelGroup().get_datafiles(
+                SID, model, "raw", "campbellsci", TimeRange(start=start, stop=stop)
+            )
+            names[model] = sorted(os.path.basename(d.path) for d in datafiles)
+        plain = f"{SID}_{start:%Y_%m}_esampler.h5"
+        assert names["metone_es642"] == [plain, plain + "_prior405upgrade"]
+        assert names["metone_es405"] == [plain]
+
+    def test_month_without_a_prior_file_is_read_as_before(self, SID, swap):
+        start, _, _, _ = swap
+        before = (start.to_period("M") - 1).start_time
+        es642 = get_site(SID).instruments["metone_es642"]
+        data = es642.read_data("horel", "raw", (before, start))
+        assert data.index.tolist() == [before, before + pd.Timedelta("2s")]
+
+
+def test_prior_and_plain_gps_rows_join_in_time(tmp_path):
+    """TRX01's GPS (cr1000) was split at the swap too; the two files meet in order."""
+    folder = tmp_path / "uutrax" / "cr1000"
+    position = {"GLAT": [40.76, 40.77], "GLON": [-111.89, -111.88]}
+    write_h5(
+        folder / "TRX01_2025_01_cr1000.h5_prior405upgrade",
+        {"EPOCHTIME": epoch("2025-01-01", "2025-01-06 18:10:28"), **position},
+    )
+    write_h5(
+        folder / "TRX01_2025_01_cr1000.h5",
+        {"EPOCHTIME": epoch("2025-01-06 19:30:00", "2025-01-06 19:30:05"), **position},
+    )
+    gps = get_site("TRX01").instruments["gps"]
+    with patch.dict(horel.lvl_data_dirs, {"raw": [str(tmp_path / "uutrax")]}):
+        data = gps.read_data(
+            "horel", "raw", ("2025-01-01", "2025-01-31"), estimate_motion=False
+        )
+    times = [
+        "2025-01-01",
+        "2025-01-06 18:10:28",
+        "2025-01-06 19:30",
+        "2025-01-06 19:30:05",
+    ]
+    assert data.index.tolist() == [pd.Timestamp(t) for t in times]
