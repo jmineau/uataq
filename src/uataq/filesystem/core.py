@@ -209,12 +209,12 @@ def filter_datafiles(
     if pattern:
         filtered_files = [file for file in filtered_files if pattern in file.path]
 
-    if (
-        len(filtered_files) > 0
-        and filtered_files[-1].period.start_time == time_range.stop
-    ):
-        # Drop the last file if it starts at the end of the time range
-        filtered_files = filtered_files[:-1]
+    # Drop the files that start at the end of the time range, which is
+    # exclusive. A period can have more than one file (horel's
+    # prior405upgrade files), so drop each, not only the last.
+    filtered_files = [
+        file for file in filtered_files if file.period.start_time != time_range.stop
+    ]
 
     if len(filtered_files) == 0:
         raise errors.ReaderError("No files found within the specified time range.")

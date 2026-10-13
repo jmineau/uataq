@@ -216,6 +216,13 @@ class TestFilterDatafiles:
         with pytest.raises(errors.ReaderError, match="No files found"):
             filesystem.filter_datafiles(self.files, TimeRange("2023"))
 
+    def test_every_file_starting_at_the_stop_is_dropped(self):
+        """Two files can cover one month (horel's prior405upgrade files)."""
+        files = [*self.files, MonthFile("/a/2024_03_prior.dat")]
+        stop = pd.Timestamp("2024-03-01")
+        out = filesystem.filter_datafiles(files, TimeRange(start=None, stop=stop))
+        assert [f.path for f in out] == ["/a/2024_01_qaqc.dat", "/a/2024_02_final.dat"]
+
 
 class TestParseDatafilesOptions:
     """Process counts and drivers."""

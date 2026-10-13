@@ -64,10 +64,12 @@
             },
             "metone_es642": {
                 "installation_date": "2022-02-04",
-                "removal_date": "2025-03-12"
+                "removal_date": "2025-03-13 02:38:00",
+                "notes": "The last sample is 2025-03-13 00:37:10 UTC, in horel's raw BUS02_2025_03_esampler.h5_prior405upgrade (horel's qaqc and final files have no ES642 values that month). The removal date is the first raw row of the metone_es405 that replaced it, 2025-03-13 02:38:00 UTC, so one instant ends this instrument and starts that one."
             },
             "metone_es405": {
-                "installation_date": "2025-03-12"
+                "installation_date": "2025-03-13 02:38:00",
+                "notes": "Replaced the metone_es642. The installation date is this instrument's first raw row, 2025-03-13 02:38:00 UTC, in BUS02_2025_03_esampler.h5, which holds only its rows; horel's qaqc and final files of that month have no ES405 columns. The metone_es642's last sample is 2025-03-13 00:37:10 UTC, so no row of one is read as the other's."
             }
         }
     },
@@ -92,10 +94,12 @@
             },
             "metone_es642": {
                 "installation_date": "2022-02-05",
-                "removal_date": "2024-12-05"
+                "removal_date": "2024-12-05 06:09:00",
+                "notes": "The last sample is 2024-12-05 05:47:35 UTC, in horel's raw BUS03_2024_12_esampler.h5_prior405upgrade (horel's qaqc and final files have no ES642 values that month). The removal date is the first raw row of the metone_es405 that replaced it, 2024-12-05 06:09:00 UTC, so one instant ends this instrument and starts that one."
             },
             "metone_es405": {
-                "installation_date": "2024-12-05"
+                "installation_date": "2024-12-05 06:09:00",
+                "notes": "Replaced the metone_es642. The installation date is this instrument's first raw row, 2024-12-05 06:09:00 UTC, in BUS03_2024_12_esampler.h5, which holds only its rows; its first qaqc value is at the same time. The metone_es642's last sample is 2024-12-05 05:47:35 UTC, so no row of one is read as the other's."
             }
         }
     },
@@ -666,13 +670,15 @@
                     "horel": "campbellsci"
                 },
                 "installation_date": "2016-02-04",
-                "removal_date": "2025-01-03"
+                "removal_date": "2025-01-06 19:30:00",
+                "notes": "The last sample is 2025-01-06 18:10:28 UTC, in horel's raw TRX01_2025_01_esampler.h5_prior405upgrade (horel's qaqc and final files have no ES642 values that month). The removal date is the first raw row of the metone_es405 that replaced it, 2025-01-06 19:30:00 UTC, so one instant ends this instrument and starts that one."
             },
             "metone_es405": {
                 "loggers": {
                     "horel": "campbellsci"
                 },
-                "installation_date": "2025-01-06"
+                "installation_date": "2025-01-06 19:30:00",
+                "notes": "Replaced the metone_es642. The installation date is this instrument's first raw row, 2025-01-06 19:30:00 UTC, in TRX01_2025_01_esampler.h5, which holds only its rows; its first qaqc value is 2025-01-07 01:15:00. The metone_es642's last sample is 2025-01-06 18:10:28 UTC, so no row of one is read as the other's."
             },
             "lgr_ugga": {
                 "loggers": {
@@ -732,17 +738,18 @@
                     "lin": "air-trend"
                 },
                 "installation_date": "2016-02-04",
-                "removal_date": "2025-01-03",
+                "removal_date": "2025-01-07 01:03:00",
                 "group_dates": {
                     "lin": ["2016-02-04", "2017-06-21"]
                 },
-                "notes": "lin's last sample is 2017-06-20 05:28:52 UTC, so its group_dates stop is the next midnight. horel covers the whole installation, but only as pilot raw before 2018-11-19."
+                "notes": "lin's last sample is 2017-06-20 05:28:52 UTC, so its group_dates stop is the next midnight. horel covers the whole installation, but only as pilot raw before 2018-11-19. horel's last sample is 2025-01-06 20:15:50 UTC, in horel's raw TRX02_2025_01_esampler.h5_prior405upgrade (horel's qaqc and final files have no ES642 values that month). The removal date is the first raw row of the metone_es405 that replaced it, 2025-01-07 01:03:00 UTC, so one instant ends this instrument and starts that one."
             },
             "metone_es405": {
                 "loggers": {
                     "horel": "campbellsci"
                 },
-                "installation_date": "2025-01-06"
+                "installation_date": "2025-01-07 01:03:00",
+                "notes": "Replaced the metone_es642. The installation date is this instrument's first raw row, 2025-01-07 01:03:00 UTC, in TRX02_2025_01_esampler.h5, which holds only its rows; its first qaqc value is 2025-01-07 05:18:00. The metone_es642's last sample is 2025-01-06 20:15:50 UTC, so no row of one is read as the other's."
             },
             "teledyne_t500u": {
                 "loggers": {
@@ -770,10 +777,12 @@
             },
             "metone_es642": {
                 "installation_date": "2019-11-04",
-                "removal_date": "2025-01-03"
+                "removal_date": "2025-01-03 20:16:00",
+                "notes": "The last sample is 2025-01-03 17:15:42 UTC, in horel's raw TRX03_2025_01_esampler.h5_prior405upgrade (horel's qaqc and final files have no ES642 values that month). The removal date is the first raw row of the metone_es405 that replaced it, 2025-01-03 20:16:00 UTC, so one instant ends this instrument and starts that one."
             },
             "metone_es405": {
-                "installation_date": "2025-01-03"
+                "installation_date": "2025-01-03 20:16:00",
+                "notes": "Replaced the metone_es642. The installation date is this instrument's first raw row, 2025-01-03 20:16:00 UTC, in TRX03_2025_01_esampler.h5, which holds only its rows; its first qaqc value is 2025-01-04 01:01:00. The metone_es642's last sample is 2025-01-03 17:15:42 UTC, so no row of one is read as the other's."
             }
         }
     },
