@@ -7,9 +7,8 @@ Columns and flags
 
     The examples on this page read the UATAQ archive, which is only available
     on CHPC. They are shown as code and are not run when the documentation is
-    built. The output under each one is from runs on CHPC on 12 October 2026,
-    except in `The start of a month`_, which is from 13 October 2026. If the
-    data are reprocessed, the numbers can change a little.
+    built. The output under each one is from runs on CHPC on 12 October 2026.
+    If the data are reprocessed, the numbers can change a little.
 
 The columns you get depend on the **instrument** and on the **data level** you
 read (``raw``, ``qaqc``, ``calibrated`` or ``final``; see :doc:`first_month` for
@@ -325,9 +324,7 @@ There are two reasons.
     dtype: int64
 
 **There was no calibration fit at that time** (``CO2d_n`` is 0). These rows are
-not flagged, so they are in the ``final`` level. This happens at the turn of a
-year and, at four sites, at the start of each month written since the archive
-was last rewritten (see `The start of a month`_). The pipeline calibrates each
+not flagged, so they are in the ``final`` level. The pipeline calibrates each
 calendar year on its own, so the hours of a new year before the first tank
 measurement have no fit. At WBB on 1 January 2025:
 
@@ -355,8 +352,10 @@ three tanks, one after another. Here is the first row with each value of
     2025-01-01 02:21:40      519.6304    519.871474       3 -0.750496  0.999997  520.00
 
 The same happens after the last tank measurement of a year (at WBB from 23:14
-on 31 December 2024). In every case seen, CO2 and CH4 were empty on the same
-rows.
+on 31 December 2024). Reading all of 2025 at WBB and CSP also found such rows
+in the first two to five hours of several months (at WBB from September, at CSP
+from July). In every case seen, CO2 and CH4 were empty on the same rows. The
+``licor_7000`` at SUG had none in 2025.
 
 To find these rows in your data:
 
@@ -365,156 +364,6 @@ To find these rows in your data:
     empty = df["CO2d_ppm_cal"].isna() & df["CO2d_ppm_raw"].notna()
 
 Their ``_raw`` value is not calibrated.
-
-The start of a month
-^^^^^^^^^^^^^^^^^^^^
-
-The ``lgr_ugga`` at four sites (WBB, CSP, HPL and FRU) has a second kind of
-empty stretch: the first hours of a month, in UTC. In the months written since
-the site's archive was last rewritten (the dates are below), ``CO2d_ppm_cal``
-and ``CH4d_ppm_cal`` are empty from the first row of the month until a few hours
-in, while the ``_raw`` columns and ``H2O_ppm`` are filled. At WBB on 1 September
-2025, the first rows, the last empty rows and the first row with a calibrated
-value:
-
-.. code-block:: pycon
-
-    >>> sep = uataq.read_data("WBB", "lgr_ugga", time_range="2025-09-01")["lgr_ugga"]
-    >>> sep.head(2)
-                         CO2d_ppm_cal  CO2d_ppm_raw  CH4d_ppm_cal  CH4d_ppm_raw   H2O_ppm
-    Time_UTC
-    2025-09-01 00:00:04           NaN      437.7226           NaN      2.005058  9110.648
-    2025-09-01 00:00:14           NaN      437.7273           NaN      2.006462  9133.776
-    >>> empty = sep["CO2d_ppm_cal"].isna() & sep["CO2d_ppm_raw"].notna()
-    >>> int(empty.sum()), sep.index[empty].min(), sep.index[empty].max()
-    (1333, Timestamp('2025-09-01 00:00:04'), Timestamp('2025-09-01 03:47:22'))
-    >>> (sep["CH4d_ppm_cal"].isna() == sep["CO2d_ppm_cal"].isna()).all()
-    np.True_
-    >>> sep[empty].tail(2)
-                         CO2d_ppm_cal  CO2d_ppm_raw  CH4d_ppm_cal  CH4d_ppm_raw   H2O_ppm
-    Time_UTC
-    2025-09-01 03:47:12           NaN      437.4495           NaN      1.989803  8913.968
-    2025-09-01 03:47:22           NaN      437.6748           NaN      1.990324  8913.212
-    >>> sep[~empty].head(2)
-                         CO2d_ppm_cal  CO2d_ppm_raw  CH4d_ppm_cal  CH4d_ppm_raw   H2O_ppm
-    Time_UTC
-    2025-09-01 03:47:32    435.516761      437.3266      1.987546      1.990496  8891.017
-    2025-09-01 03:47:41    435.825459      437.6382      1.988239      1.991194  8938.798
-
-The first 1,333 rows of the month, up to 03:47 UTC, have no calibrated value.
-The ``calibrated`` level shows why: there was no fit (``CO2d_n`` is 0, and so
-``CO2d_m`` and ``CO2d_b`` are empty), and the rows are not flagged, so ``final``
-keeps them:
-
-.. code-block:: pycon
-
-    >>> cal = uataq.read_data("WBB", "lgr_ugga", lvl="calibrated", time_range="2025-09-01")["lgr_ugga"]
-    >>> cal[["CO2d_ppm_raw", "CO2d_ppm_cal", "CO2d_n", "CO2d_m", "CO2d_b", "QAQC_Flag", "ID_CO2"]].head(2)
-                         CO2d_ppm_raw  CO2d_ppm_cal  CO2d_n  CO2d_m  CO2d_b  QAQC_Flag  ID_CO2
-    Time_UTC
-    2025-09-01 00:00:04      437.7226           NaN       0     NaN     NaN          0   -10.0
-    2025-09-01 00:00:14      437.7273           NaN       0     NaN     NaN          0   -10.0
-
-The value is missing, not wrong: on the first day of each month we read (see the
-next paragraph), every row with ``CO2d_n`` 0 has an empty ``_cal``.
-
-**Which data and when.** The stretch is in every month written since the archive
-was last rewritten: WBB from September 2025, CSP from July 2025, HPL from May
-2026 and FRU from December 2025, to 1 October 2026 (41 month starts in all).
-The earlier months have none, except at the turn of a year, because each of
-these archives was rewritten on one day (CSP on 24 June 2025, FRU on 6 November
-2025, WBB on 19 August 2025 and HPL on 20 April 2026) and a rewrite calibrates a
-year at a time. We checked this on 13 October 2026 by reading the first day of
-every month of 2025 and 2026 that has data, for the ``lgr_ugga`` at WBB, CSP,
-HPL, FRU and HDP, and for the ``licor_7000`` at DBK, RPK, HEB and SUG. HDP's
-data end in February 2025 and have only the turn of the year. So does the
-``licor_7000``: of the 53 month starts read at its four sites, the one with an
-empty stretch is January 2026 at RPK.
-
-**How long.** It starts at the first row of the month (00:00 UTC, except at HPL
-in September 2026, when the first data came at 11:22 UTC) and holds half an hour
-to six hours of data: 170 to 2,162 rows, and 33 of the 41 have 1,000 to 2,000
-(about three to five and a half hours). A month has about 250,000 rows, so the
-stretch is under 1% of it.
-
-**In local time.** 00:00 UTC is 18:00 MDT (17:00 MST) on the last day of the
-previous month, so the empty rows are the last evening of a month. A month cut
-in local time, as in :doc:`first_month`, has them at its end. At WBB on 1
-September 2025 they run from 18:00 to 21:47 MDT on 31 August:
-
-.. code-block:: pycon
-
-    >>> local = sep.index[empty].tz_localize("UTC").tz_convert("America/Denver")
-    >>> local.min(), local.max()
-    (Timestamp('2025-08-31 18:00:04-0600', tz='America/Denver'), Timestamp('2025-08-31 21:47:22-0600', tz='America/Denver'))
-
-**What to do.**
-
-- Find out whether your data have it. Count the empty rows of each month. This
-  is WBB from July 2025 to October 2026:
-
-  .. code-block:: pycon
-
-      >>> obs = uataq.get_obs("WBB", "CO2", time_range=["2025-07-01", "2026-10-31"])
-      >>> empty = obs["CO2d_ppm_cal"].isna() & obs["CO2d_ppm_raw"].notna()
-      >>> empty.groupby(obs.index.to_period("M")).sum()
-      Time_UTC
-      2025-07       0
-      2025-08       0
-      2025-09    1333
-      2025-10    1610
-      2025-11    1239
-      2025-12    1711
-      2026-01    1701
-      2026-02    1975
-      2026-03    1607
-      2026-04    1243
-      2026-05    1237
-      2026-06    1700
-      2026-07    1978
-      2026-08    1610
-      2026-09     170
-      2026-10    1516
-      Freq: M, dtype: int64
-
-  December 2025 also holds the end of the year (see above): 473 more rows than
-  the 1,238 of its first hours, from 22:42 UTC on 31 December.
-- Leave those rows out of anything that needs calibrated values. They are
-  empty, so a mean or a plot of ``_cal`` already skips them; a count of rows
-  or of hours does not.
-- Do not fill them with ``_raw``. It is not calibrated, and the difference is
-  not constant. On 1 September 2025 at WBB, over the rows that have both:
-
-  .. code-block:: pycon
-
-      >>> diff = pd.DataFrame({"CO2": sep["CO2d_ppm_raw"] - sep["CO2d_ppm_cal"], "CH4": sep["CH4d_ppm_raw"] - sep["CH4d_ppm_cal"]})
-      >>> diff.agg(["min", "median", "max"])
-                   CO2       CH4
-      min     1.702983  0.002746
-      median  1.862718  0.002989
-      max     2.167899  0.004132
-
-  That is 1.7 to 2.2 ppm of CO2 and 2.7 to 4.1 ppb of CH4 (the table is in
-  ppm).
-- To get calibrated values for those hours, the pipeline's archive has to be
-  rewritten by the people who run the pipeline. A rewrite fills the months it
-  covers, but the months written after it have the stretch again.
-
-The check above also finds other empty stretches, which are rare. They look the
-same in the data: for example 1,841 rows (from 15:56 to 21:58 UTC) on 10
-November 2023 at CSP, all with ``CO2d_n`` 0 and no flag, and the first 984 rows
-(2.7 hours) of the final data of the new ``lgr_ugga`` at LDF on 26 June 2023.
-Their causes were not looked into.
-
-**Why.** The pipeline's routine calibration step runs every 15 minutes. In the
-first hours of a UTC month it calibrates only the new month's rows, so it has no
-reference tank measurement from before the first of them, and it fits none. The
-next run only appends rows that are newer, so it does not go back to fill them
-in. A rewrite of the archive calibrates a year at a time, so it does. This is
-from the pipeline's code, read on 13 October 2026, and it is how the pipeline
-wrote the archive, not something uataq does: uataq reads the archive as it is.
-If the pipeline's calibration step or the archive changes, this section will go
-out of date.
 
 Other instruments
 -----------------
