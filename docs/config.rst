@@ -23,6 +23,9 @@ Each entry under a site's ``instruments`` accepts:
 ``installation_date`` / ``removal_date``
     When the instrument was installed at and removed from the site. Reads are
     clipped to this window. Omit ``removal_date`` while it is still installed.
+    Each is an instant in UTC: a date alone is that day's midnight, and a time
+    of day can follow it (``"2025-01-06 19:30:00"``), as at the MetOne swaps,
+    where the ES642's ``removal_date`` is the ES405's ``installation_date``.
 ``group_dates`` (optional)
     Map of research group to a ``[start, stop]`` pair: the half-open window
     ``[start, stop)`` that group's archive holds this instrument's data for.

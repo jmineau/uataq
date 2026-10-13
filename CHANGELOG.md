@@ -7,6 +7,17 @@ follow [PEP 440](https://peps.python.org/pep-0440/): calendar-based,
 
 ## [Unreleased]
 
+### Added
+
+- Raw horel reads take the `*.h5_prior405upgrade` file of a month beside its
+  `.h5`. horel split the raw files of the month of each MetOne ES642-to-ES405
+  swap (BUS02 2025-03, BUS03 2024-12, TRX01, TRX02 and TRX03 2025-01): the rows
+  before the swap are in the second file, which uataq did not read. The
+  ES642's last 3 to 13 days before each swap can now be read (raw only; horel's
+  qaqc and final files do not have them), and so can TRX01-03's raw ozone
+  (`2b_205`) and GPS from 1 January 2025 to the swap, which locate those rows.
+  The ES405 does not read these files.
+
 ### Changed
 
 - Configuration: HDP, HEB and SUG were taken down, so they are marked
@@ -28,6 +39,13 @@ follow [PEP 440](https://peps.python.org/pep-0440/): calendar-based,
   `metone_es642`; WBB `teom_1400ab`. Each date moves one day later. BUS02's
   `2b_405` and WBB's `teledyne_t500u` keep their dates: the rows on those days
   are an instrument being switched on, as their `notes` say.
+- Configuration: at the five MetOne swaps (BUS02, BUS03, TRX01, TRX02,
+  TRX03), the ES642's `removal_date` and the ES405's `installation_date` are
+  now one instant with a time of day, the ES405's first raw row (for example
+  TRX01 2025-01-06 19:30:00). The ES642's removal dates had been midnights
+  before its last row (up to four days before, at TRX01 and TRX02), so its
+  newly read rows would have been cut off; the ES405's first row is after its
+  old installation date in every case, so no ES405 row is lost.
 - Docs: the quickstart shows its examples again, and the configuration and
   file system pages show the files they quote (`config.json` and the
   `DEFAULT_GROUP` line). All three had been dropped from the built pages.

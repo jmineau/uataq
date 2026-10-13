@@ -395,7 +395,11 @@ are read from the same horel files. For the ozone (``2b_205``) and particle
 (``metone_es642``, ``metone_es405``) monitors, the horel files mark a flagged
 row with 1, and uataq turns that into ``QAQC_Flag = -1``, so the flag is 0
 (passes) or -1 (flagged). The ``final`` level is the ``qaqc`` rows that pass and
-have a value. For the ``2b_205`` on TRX01 on 1 June 2024:
+have a value. The days before a vehicle's ES-642 was replaced by an ES-405
+(from the start of that month: December 2024 on BUS03, March 2025 on BUS02,
+January 2025 on TRX01, TRX02 and TRX03, with the trains' ozone too) are only
+at the ``raw`` level: horel's ``qaqc`` and ``final`` files do not have them.
+For the ``2b_205`` on TRX01 on 1 June 2024:
 
 .. code-block:: pycon
 
