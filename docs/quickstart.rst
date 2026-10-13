@@ -106,7 +106,8 @@ For the greenhouse gas analyzers (``lgr_ugga``, ``licor_6262`` and ``licor_7000`
 are also limited to measurements of the ambient atmosphere, which the ``qaqc`` and
 ``calibrated`` levels mark with ``ID_CO2 == -10``. (``ID`` labels the gas being sampled
 and can be text, such as ``'~Atmosphere~Atmosphere'`` for the ``lgr_ugga``, so it cannot
-be compared with ``-10``.) The ``final`` level has neither column.
+be compared with ``-10``.) The ``final`` level has neither column. :doc:`columns`
+says what each column of each level holds.
 The observations dataframe is indexed by time and aggregates pollutants into a single dataframe.
 Two formats are available: ``wide`` or ``long``.
 The ``wide`` format has columns for each pollutant

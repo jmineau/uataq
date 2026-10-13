@@ -70,6 +70,7 @@ html_sidebars = {
     "first_month": [],
     "quickstart": [],
     "availability": [],
+    "columns": [],
     "general": [],
     "filesystem": [],
     "sites": [],

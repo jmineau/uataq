@@ -495,7 +495,7 @@ when one breaks.
 - **uataq's readers need the CHPC archive**, which CI does not have, so an example
   that runs in the docs build uses synthetic data (the tests' fixtures show the
   formats). The quickstart's examples stay plain `code-block`s for that reason, and
-  so do the availability and first-month pages' (`pycon` blocks with the output of
+  so do the availability, first-month and columns pages' (`pycon` blocks with the output of
   a CHPC run).
 
 ## Conventions and tooling
