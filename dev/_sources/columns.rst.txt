@@ -352,10 +352,8 @@ three tanks, one after another. Here is the first row with each value of
     2025-01-01 02:21:40      519.6304    519.871474       3 -0.750496  0.999997  520.00
 
 The same happens after the last tank measurement of a year (at WBB from 23:14
-on 31 December 2024). Reading all of 2025 at WBB and CSP also found such rows
-in the first two to five hours of several months (at WBB from September, at CSP
-from July). In every case seen, CO2 and CH4 were empty on the same rows. The
-``licor_7000`` at SUG had none in 2025.
+on 31 December 2024). In every case seen, CO2 and CH4 were empty on the same
+rows.
 
 To find these rows in your data:
 

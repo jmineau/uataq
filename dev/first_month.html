@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Your first month of data &#8212; UATAQ 2026.10.1.dev14+g4608b7647 documentation</title>
+    <title>Your first month of data &#8212; UATAQ 2026.10.1.dev18+gf32393bf7 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="_static/documentation_options.js?v=869fdeda"></script>
+    <script src="_static/documentation_options.js?v=68184d35"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -59,7 +59,7 @@
     <link rel="prev" title="Installation" href="installation.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.1.dev14+g4608b7647" />
+  <meta name="docsearch:version" content="2026.10.1.dev18+gf32393bf7" />
   
     
     <script src="_static/searchtools.js"></script>
@@ -127,7 +127,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.1.dev14+g4608b7647 documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.1.dev18+gf32393bf7 documentation</p>
   
 </a></div>
     
@@ -666,10 +666,12 @@ the same time. <a class="reference internal" href="availability.html#uataq.get_n
 <code class="docutils literal notranslate"><span class="pre">qaqc</span></code>, <code class="docutils literal notranslate"><span class="pre">calibrated</span></code> and <code class="docutils literal notranslate"><span class="pre">final</span></code>; see <em>Processing Level</em> on the
 <a class="reference internal" href="general.html"><span class="doc">general functions page</span></a> and the pipeline’s
 <a class="reference external" href="https://github.com/uataq/data-pipeline#processing-levels">description of the levels</a>).
-The <code class="docutils literal notranslate"><span class="pre">final</span></code> level is the ready-to-share level, with the pipeline’s default
-flags applied: flagged rows are dropped, and for the CO2 and CH4 analyzers so
-are the rows that measured calibration tanks. The lower levels keep those rows,
-for finer control.</p>
+The <code class="docutils literal notranslate"><span class="pre">final</span></code> level is the ready-to-share level (it can go to people outside
+the group as it is), with the pipeline’s default flags applied: flagged rows are
+dropped, and for the CO2 and CH4 analyzers so are the rows that measured
+calibration tanks. The lower levels keep those rows, for finer control. Which
+one to use depends on how clean the data need to be for what you are doing, and
+on how much control you want over the QAQC.</p>
 <p><a class="reference internal" href="general.html#uataq.get_obs" title="uataq.get_obs"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_obs()</span></code></a> <strong>always reads the final level</strong>, so the month above is final
 data. It has no <code class="docutils literal notranslate"><span class="pre">lvl</span></code> argument. To read another level, use <a class="reference internal" href="general.html#uataq.read_data" title="uataq.read_data"><code class="xref py py-func docutils literal notranslate"><span class="pre">read_data()</span></code></a>,
 which reads one or more instruments by name. With no <code class="docutils literal notranslate"><span class="pre">lvl</span></code> it reads the

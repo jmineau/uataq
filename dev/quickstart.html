@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Quick Start &#8212; UATAQ 2026.10.1.dev14+g4608b7647 documentation</title>
+    <title>Quick Start &#8212; UATAQ 2026.10.1.dev18+gf32393bf7 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="_static/documentation_options.js?v=869fdeda"></script>
+    <script src="_static/documentation_options.js?v=68184d35"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -59,7 +59,7 @@
     <link rel="prev" title="Your first month of data" href="first_month.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.1.dev14+g4608b7647" />
+  <meta name="docsearch:version" content="2026.10.1.dev18+gf32393bf7" />
   
     
     <script src="_static/searchtools.js"></script>
@@ -127,7 +127,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.1.dev14+g4608b7647 documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.1.dev18+gf32393bf7 documentation</p>
   
 </a></div>
     
@@ -659,7 +659,9 @@ with an added <cite>SID</cite> parameter.</p>
 <section id="reading-instrument-data">
 <h2>Reading Instrument Data<a class="headerlink" href="#reading-instrument-data" title="Link to this heading">#</a></h2>
 <p>Using a <a class="reference internal" href="sites.html#uataq.sites.Site" title="uataq.sites.Site"><code class="xref py py-class docutils literal notranslate"><span class="pre">Site</span></code></a> object we can read the data from each instrument
-at the site for a specified processing lvl and time range:</p>
+at the site for a specified processing lvl and time range (what each level is
+for, and how to choose one, is under <em>Processing Level</em> on the
+<a class="reference internal" href="general.html"><span class="doc">general functions page</span></a>):</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">wbb</span><span class="o">.</span><span class="n">read_data</span><span class="p">(</span><span class="n">instruments</span><span class="o">=</span><span class="s1">&#39;all&#39;</span><span class="p">,</span> <span class="n">lvl</span><span class="o">=</span><span class="s1">&#39;qaqc&#39;</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="s1">&#39;2024-02&#39;</span><span class="p">)</span>
 </pre></div>
 </div>

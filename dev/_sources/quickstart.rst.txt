@@ -72,7 +72,9 @@ Reading Instrument Data
 -----------------------
 
 Using a :class:`~sites.Site` object we can read the data from each instrument
-at the site for a specified processing lvl and time range:
+at the site for a specified processing lvl and time range (what each level is
+for, and how to choose one, is under *Processing Level* on the
+:doc:`general functions page <general>`):
 
 .. code-block:: python
 

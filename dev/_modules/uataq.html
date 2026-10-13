@@ -6,7 +6,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>uataq &#8212; UATAQ 2026.10.1.dev14+g4608b7647 documentation</title>
+    <title>uataq &#8212; UATAQ 2026.10.1.dev18+gf32393bf7 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="../_static/documentation_options.js?v=869fdeda"></script>
+    <script src="../_static/documentation_options.js?v=68184d35"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -56,7 +56,7 @@
     <link rel="search" title="Search" href="../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.1.dev14+g4608b7647" />
+  <meta name="docsearch:version" content="2026.10.1.dev18+gf32393bf7" />
   
     
     <script src="../_static/searchtools.js"></script>
@@ -124,7 +124,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.1.dev14+g4608b7647 documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.1.dev18+gf32393bf7 documentation</p>
   
 </a></div>
     
@@ -660,7 +660,13 @@
 <span class="sd">        instrument. Default None selects each instrument&#39;s group</span>
 <span class="sd">        automatically (see :meth:`uataq.instruments.Instrument.resolve_group`).</span>
 <span class="sd">    lvl : str | None</span>
-<span class="sd">        The data level.</span>
+<span class="sd">        The data level: ``&#39;raw&#39;``, ``&#39;qaqc&#39;``, ``&#39;calibrated&#39;`` or ``&#39;final&#39;``.</span>
+<span class="sd">        ``&#39;final&#39;`` is the ready-to-share level, with the pipeline&#39;s default</span>
+<span class="sd">        flags applied; the lower levels are for finer control. Which to use</span>
+<span class="sd">        depends on how clean the data need to be for what you are doing, and</span>
+<span class="sd">        on how much control you want over the QAQC. Default None reads the</span>
+<span class="sd">        highest level the instrument has. See *Processing Level* in the</span>
+<span class="sd">        general functions documentation.</span>
 <span class="sd">    time_range : str | list[Union[str, dt.datetime, None]] | tuple[Union[str, dt.datetime, None], Union[str, dt.datetime, None]] | slice | None</span>
 <span class="sd">        The time range to read data. Default is None which reads all available data.</span>
 <span class="sd">    num_processes : int | &#39;max&#39;</span>
@@ -719,7 +725,8 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    pd.DataFrame</span>
-<span class="sd">        The observations.</span>
+<span class="sd">        The observations, from the ``final`` level (see :func:`uataq.read_data`</span>
+<span class="sd">        to read another level).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">site</span> <span class="o">=</span> <span class="n">get_site</span><span class="p">(</span><span class="n">SID</span><span class="p">)</span>
     <span class="n">obs</span> <span class="o">=</span> <span class="n">site</span><span class="o">.</span><span class="n">get_obs</span><span class="p">(</span><span class="n">pollutants</span><span class="p">,</span> <span class="nb">format</span><span class="p">,</span> <span class="n">group</span><span class="p">,</span> <span class="n">time_range</span><span class="p">,</span> <span class="n">num_processes</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>

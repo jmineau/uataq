@@ -6,7 +6,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>uataq.sites &#8212; UATAQ 2026.10.1.dev14+g4608b7647 documentation</title>
+    <title>uataq.sites &#8212; UATAQ 2026.10.1.dev18+gf32393bf7 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="../../_static/documentation_options.js?v=869fdeda"></script>
+    <script src="../../_static/documentation_options.js?v=68184d35"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -56,7 +56,7 @@
     <link rel="search" title="Search" href="../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.1.dev14+g4608b7647" />
+  <meta name="docsearch:version" content="2026.10.1.dev18+gf32393bf7" />
   
     
     <script src="../../_static/searchtools.js"></script>
@@ -124,7 +124,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.1.dev14+g4608b7647 documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.1.dev18+gf32393bf7 documentation</p>
   
 </a></div>
     
@@ -838,8 +838,13 @@
 <span class="sd">            each group in turn and concatenated (see</span>
 <span class="sd">            :meth:`~uataq.instruments.Instrument.plan_reads`).</span>
 <span class="sd">        lvl : str, optional</span>
-<span class="sd">            The data level to read. Default is None which reads the highest</span>
-<span class="sd">            level available (per group, when the read is split across groups).</span>
+<span class="sd">            The data level to read: ``&#39;raw&#39;``, ``&#39;qaqc&#39;``, ``&#39;calibrated&#39;`` or</span>
+<span class="sd">            ``&#39;final&#39;``. ``&#39;final&#39;`` is the ready-to-share level, with the</span>
+<span class="sd">            pipeline&#39;s default flags applied; the lower levels are for finer</span>
+<span class="sd">            control. Which to use depends on how clean the data need to be for</span>
+<span class="sd">            what you are doing, and on how much control you want over the</span>
+<span class="sd">            QAQC. Default is None which reads the highest level available (per</span>
+<span class="sd">            group, when the read is split across groups).</span>
 <span class="sd">        time_range : TimeRange | TimeRangeTypes</span>
 <span class="sd">            The time range to read data. Default is None which reads all available data.</span>
 <span class="sd">        num_processes : int or &#39;max&#39;</span>
