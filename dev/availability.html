@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>What data exists &#8212; UATAQ 2026.10.1.dev10+g30178a7f6 documentation</title>
+    <title>What data exists &#8212; UATAQ 2026.10.1.dev14+g4608b7647 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="_static/documentation_options.js?v=d16a830a"></script>
+    <script src="_static/documentation_options.js?v=869fdeda"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -59,7 +59,7 @@
     <link rel="prev" title="Quick Start" href="quickstart.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.1.dev10+g30178a7f6" />
+  <meta name="docsearch:version" content="2026.10.1.dev14+g4608b7647" />
   
     
     <script src="_static/searchtools.js"></script>
@@ -127,7 +127,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.1.dev10+g30178a7f6 documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.1.dev14+g4608b7647 documentation</p>
   
 </a></div>
     
@@ -955,9 +955,9 @@ level that was read. <code class="docutils literal notranslate"><span class="pre
 Three cases that gave this:</p>
 <ul class="simple">
 <li><p>A month with no final file (WBB, August 2021, above).</p></li>
-<li><p>Dates after a site stopped (HDP after February 2025; SUG’s CO2 ends in
-August 2025). That includes <code class="docutils literal notranslate"><span class="pre">get_recent_obs(&quot;HDP&quot;,</span> <span class="pre">pollutants=&quot;CO2&quot;)</span></code>:
-nothing is recent at a site that stopped, so it raises the same error.</p></li>
+<li><p>Dates after a site stopped sending data but before its instruments have a
+removal date in the configuration. Once they have one, these dates raise
+the error under <a class="reference internal" href="#instrument-inactive">Instrument inactive</a> instead.</p></li>
 <li><p>Dates in the future.</p></li>
 </ul>
 <p>The name in the brackets is the <strong>instrument</strong> that measures what you asked for
@@ -983,6 +983,10 @@ and <code class="docutils literal notranslate"><span class="pre">name</span> <sp
 the window, such as one that ends the day the instrument was installed, counts
 as outside it. A range that overlaps the window only in part is cut down to it,
 with no error.</p>
+<p>Dates after a site was taken down give this error too: HDP after 7 February
+2025, and SUG’s CO2 after 22 August 2025. That includes
+<code class="docutils literal notranslate"><span class="pre">get_recent_obs(&quot;HDP&quot;,</span> <span class="pre">pollutants=&quot;CO2&quot;)</span></code>: nothing is recent at a site that
+stopped.</p>
 </section>
 <section id="zero-rows-no-error">
 <h3>Zero rows, no error<a class="headerlink" href="#zero-rows-no-error" title="Link to this heading">#</a></h3>
