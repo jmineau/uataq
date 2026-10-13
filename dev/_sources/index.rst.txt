@@ -39,6 +39,7 @@ Utah Atmospheric Trace-gas and Air Quality (UATAQ)
    :maxdepth: 1
 
    installation
+   first_month
    quickstart
    availability
    general

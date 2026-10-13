@@ -106,7 +106,7 @@ Install
    ``import uataq`` alone is not a good test: it can succeed even when the
    archive is out of reach, so this step reads some data.
 
-Next, read the :doc:`quickstart`.
+Next, read :doc:`first_month`.
 
 Other Pythons
 ^^^^^^^^^^^^^

@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Your first month of data &#8212; UATAQ 2026.10.1.dev8+g2546a27dd documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=64cc4de3f052d77215f0" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=64cc4de3f052d77215f0" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="_static/scripts/fontawesome.js?digest=64cc4de3f052d77215f0"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
+
+    <script src="_static/documentation_options.js?v=8e20ac63"></script>
+    <script src="_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'first_month';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.22.0';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://jmineau.github.io/uataq/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            true;
+        </script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Quick Start" href="quickstart.html" />
+    <link rel="prev" title="Installation" href="installation.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="2026.10.1.dev8+g2546a27dd" />
+  
+    
+    <script src="_static/searchtools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script src="searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button type="button" class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">UATAQ 2026.10.1.dev8+g2546a27dd documentation</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="#" aria-current="page">
+    Your first month of data
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="quickstart.html">
+    Quick Start
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="availability.html">
+    What data exists
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="general.html">
+    General Functions
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="laboratory.html">
+    Laboratory
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="filesystem.html">
+    File System
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="sites.html">
+    Sites
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="instruments.html">
+    Instruments
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="pollutants.html">
+    Pollutants
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="gps.html">
+    GPS
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="sodar.html">
+    SODAR
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="contributing.html">
+    Contributing
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button type="button" class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+      
+        <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button type="button" class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/jmineau/uataq" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button type="button" class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button type="button" class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="#" aria-current="page">
+    Your first month of data
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="quickstart.html">
+    Quick Start
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="availability.html">
+    What data exists
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="general.html">
+    General Functions
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="laboratory.html">
+    Laboratory
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="filesystem.html">
+    File System
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="sites.html">
+    Sites
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="instruments.html">
+    Instruments
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="pollutants.html">
+    Pollutants
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="gps.html">
+    GPS
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="sodar.html">
+    SODAR
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="contributing.html">
+    Contributing
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-3"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-3"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-3"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-3">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+        
+          <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button type="button" class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/jmineau/uataq" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Your first month of data</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="your-first-month-of-data">
+<h1>Your first month of data<a class="headerlink" href="#your-first-month-of-data" title="Link to this heading">#</a></h1>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The examples on this page read the UATAQ archive, which is only available
+on CHPC. They are shown as code and are not run when the documentation is
+built. The output under each one, and the figure, are from runs on CHPC on
+12 October 2026. If the data are reprocessed, the numbers can change a
+little.</p>
+</div>
+<p>This page takes you from an installed uataq (see <a class="reference internal" href="installation.html"><span class="doc">Installation</span></a>) to a month
+of CO2 from one site, in local time, and a plot of its daily cycle. On the way it
+shows where the numbers came from: which instrument, which data level and which
+research group. The example is CO2 at WBB (William Browning, on the University of
+Utah campus) for June 2025, in Mountain time.</p>
+<p>To pick a different site, pollutant or month, first check that there are data:
+<a class="reference internal" href="availability.html"><span class="doc">What data exists</span></a> shows how, and what the errors mean when there are none.</p>
+<section id="read-a-month">
+<h2>Read a month<a class="headerlink" href="#read-a-month" title="Link to this heading">#</a></h2>
+<p><a class="reference internal" href="general.html#uataq.get_obs" title="uataq.get_obs"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_obs()</span></code></a> takes a site, a pollutant and a time range:</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">uataq</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">obs</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">get_obs</span><span class="p">(</span><span class="s2">&quot;WBB&quot;</span><span class="p">,</span> <span class="s2">&quot;CO2&quot;</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="s2">&quot;2025-06&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">obs</span>
+<span class="go">                     CO2d_ppm_cal  CO2d_ppm_raw</span>
+<span class="go">Time_UTC</span>
+<span class="go">2025-06-01 00:00:03    432.407511      435.5981</span>
+<span class="go">2025-06-01 00:00:13    432.561390      435.7535</span>
+<span class="go">2025-06-01 00:00:23    433.129237      436.3271</span>
+<span class="go">2025-06-01 00:00:33    433.462976      436.6642</span>
+<span class="go">2025-06-01 00:00:43    433.639127      436.8421</span>
+<span class="go">...                           ...           ...</span>
+<span class="go">2025-06-30 23:59:13    427.961767      429.8449</span>
+<span class="go">2025-06-30 23:59:23    427.877508      429.7600</span>
+<span class="go">2025-06-30 23:59:33    427.763867      429.6455</span>
+<span class="go">2025-06-30 23:59:42    427.754553      429.6361</span>
+<span class="go">2025-06-30 23:59:52    427.856023      429.7383</span>
+
+<span class="go">[250687 rows x 2 columns]</span>
+</pre></div>
+</div>
+<p>It takes a few seconds. You get one table (a pandas <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code>) with a row
+about every 10 seconds. <code class="docutils literal notranslate"><span class="pre">CO2d_ppm_cal</span></code> is the calibrated CO2 dry mole fraction
+in ppm, and <code class="docutils literal notranslate"><span class="pre">CO2d_ppm_raw</span></code> is the same measurement before calibration. The
+column names are explained on the <a class="reference internal" href="pollutants.html"><span class="doc">Pollutants</span></a> page.</p>
+<p>This month is in <strong>UTC</strong>, not in local time. The next sections say where the
+numbers came from, and then how to get a month in local time.</p>
+</section>
+<section id="where-the-numbers-came-from">
+<h2>Where the numbers came from<a class="headerlink" href="#where-the-numbers-came-from" title="Link to this heading">#</a></h2>
+<p>When you use these data, write down the instrument, the data level and the
+research group they came from, and the uataq version you used. The table does
+not show them, so here is how to find each one.</p>
+<section id="the-instrument">
+<h3>The instrument<a class="headerlink" href="#the-instrument" title="Link to this heading">#</a></h3>
+<p><a class="reference internal" href="general.html#uataq.get_obs" title="uataq.get_obs"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_obs()</span></code></a> reads every instrument at the site that measures the pollutant.
+To see which ones those are:</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">wbb</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">get_site</span><span class="p">(</span><span class="s2">&quot;WBB&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">instrument</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">instrument</span> <span class="ow">in</span> <span class="n">wbb</span><span class="o">.</span><span class="n">pollutant_instruments</span><span class="p">[</span><span class="s2">&quot;CO2&quot;</span><span class="p">]]</span>
+<span class="go">[&#39;lgr_ugga&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">wbb</span><span class="o">.</span><span class="n">instruments</span><span class="p">[</span><span class="s2">&quot;lgr_ugga&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">active_range</span><span class="p">)</span>
+<span class="go">After 2013-10-09 00:00:00</span>
+</pre></div>
+</div>
+<p>So WBB’s CO2 comes from one instrument, the <code class="docutils literal notranslate"><span class="pre">lgr_ugga</span></code> (a Los Gatos Research
+greenhouse gas analyzer, which also measures CH4), installed in October 2013. A
+site can have more than one instrument for a pollutant, one after another or at
+the same time. <a class="reference internal" href="availability.html#uataq.get_network_obs" title="uataq.get_network_obs"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_network_obs()</span></code></a> returns the data with an
+<code class="docutils literal notranslate"><span class="pre">instrument</span></code> column on each row, when you need to tell them apart (see
+<a class="reference internal" href="availability.html"><span class="doc">What data exists</span></a>).</p>
+</section>
+<section id="the-data-level">
+<h3>The data level<a class="headerlink" href="#the-data-level" title="Link to this heading">#</a></h3>
+<p>The archive keeps each instrument’s data at several processing levels (<code class="docutils literal notranslate"><span class="pre">raw</span></code>,
+<code class="docutils literal notranslate"><span class="pre">qaqc</span></code>, <code class="docutils literal notranslate"><span class="pre">calibrated</span></code> and <code class="docutils literal notranslate"><span class="pre">final</span></code>; see <em>Processing Level</em> on the
+<a class="reference internal" href="general.html"><span class="doc">general functions page</span></a> and the pipeline’s
+<a class="reference external" href="https://github.com/uataq/data-pipeline#processing-levels">description of the levels</a>).
+The <code class="docutils literal notranslate"><span class="pre">final</span></code> level is the ready-to-share level, with the pipeline’s default
+flags applied: flagged rows are dropped, and for the CO2 and CH4 analyzers so
+are the rows that measured calibration tanks. The lower levels keep those rows,
+for finer control.</p>
+<p><a class="reference internal" href="general.html#uataq.get_obs" title="uataq.get_obs"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_obs()</span></code></a> <strong>always reads the final level</strong>, so the month above is final
+data. It has no <code class="docutils literal notranslate"><span class="pre">lvl</span></code> argument. To read another level, use <a class="reference internal" href="general.html#uataq.read_data" title="uataq.read_data"><code class="xref py py-func docutils literal notranslate"><span class="pre">read_data()</span></code></a>,
+which reads one or more instruments by name. With no <code class="docutils literal notranslate"><span class="pre">lvl</span></code> it reads the
+highest level the instrument has, which for the <code class="docutils literal notranslate"><span class="pre">lgr_ugga</span></code> is <code class="docutils literal notranslate"><span class="pre">final</span></code>:</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">read_data</span><span class="p">(</span><span class="s2">&quot;WBB&quot;</span><span class="p">,</span> <span class="s2">&quot;lgr_ugga&quot;</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="s2">&quot;2025-06-02&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;lgr_ugga&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<span class="go">[&#39;CO2d_ppm_cal&#39;, &#39;CO2d_ppm_raw&#39;, &#39;CH4d_ppm_cal&#39;, &#39;CH4d_ppm_raw&#39;, &#39;H2O_ppm&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;lgr_ugga&quot;</span><span class="p">])</span>
+<span class="go">8390</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">qaqc</span></code> level of the same day has every row the analyzer logged, with the
+columns that say what each row is:</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qaqc</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">read_data</span><span class="p">(</span><span class="s2">&quot;WBB&quot;</span><span class="p">,</span> <span class="s2">&quot;lgr_ugga&quot;</span><span class="p">,</span> <span class="n">lvl</span><span class="o">=</span><span class="s2">&quot;qaqc&quot;</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="s2">&quot;2025-06-02&quot;</span><span class="p">)[</span><span class="s2">&quot;lgr_ugga&quot;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">qaqc</span><span class="p">)</span>
+<span class="go">8845</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qaqc</span><span class="p">[</span><span class="s2">&quot;QAQC_Flag&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+<span class="go">QAQC_Flag</span>
+<span class="go"> 0    8586</span>
+<span class="go">-2     259</span>
+<span class="go">Name: count, dtype: int64</span>
+</pre></div>
+</div>
+<p>The 8,845 rows are the 8,390 final ones, 259 rows flagged <code class="docutils literal notranslate"><span class="pre">-2</span></code> and 196 rows
+that measured calibration tanks. <code class="docutils literal notranslate"><span class="pre">QAQC_Flag</span></code> is the pipeline’s flag: 0 is good
+and a negative number says why a row was flagged. The pipeline’s
+<a class="reference external" href="https://github.com/uataq/data-pipeline/blob/main/QAQC_Flags.md">QAQC flag page</a>
+lists what each number means. <code class="docutils literal notranslate"><span class="pre">ID_CO2</span></code> marks what the analyzer was sampling:
+<code class="docutils literal notranslate"><span class="pre">-10</span></code> is the outside air.</p>
+</section>
+<section id="the-research-group">
+<h3>The research group<a class="headerlink" href="#the-research-group" title="Link to this heading">#</a></h3>
+<p>Each instrument’s data come from one research group’s archive. WBB’s
+<code class="docutils literal notranslate"><span class="pre">lgr_ugga</span></code> is run by the <code class="docutils literal notranslate"><span class="pre">lin</span></code> group, the default (see <em>Research Group</em> on
+the <a class="reference internal" href="general.html"><span class="doc">general functions page</span></a>). Error messages name the group that
+was searched, as in <code class="docutils literal notranslate"><span class="pre">lgr_ugga</span> <span class="pre">in</span> <span class="pre">lin</span> <span class="pre">groupspace</span></code>.</p>
+</section>
+<section id="the-version">
+<h3>The version<a class="headerlink" href="#the-version" title="Link to this heading">#</a></h3>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">uataq</span><span class="o">.</span><span class="n">__version__</span>
+<span class="go">&#39;2026.10.1.dev6+g2f5e83eb5&#39;</span>
+</pre></div>
+</div>
+<p>Yours will differ. For results you will publish, install a fixed release (see <a class="reference internal" href="installation.html"><span class="doc">Installation</span></a>).</p>
+</section>
+</section>
+<section id="times-are-utc">
+<h2>Times are UTC<a class="headerlink" href="#times-are-utc" title="Link to this heading">#</a></h2>
+<p><strong>Every time in uataq is UTC</strong>: the times in the data, and the times you pass
+in <code class="docutils literal notranslate"><span class="pre">time_range</span></code>. The index is named <code class="docutils literal notranslate"><span class="pre">Time_UTC</span></code> to say so, but the time zone
+is not attached to it (pandas calls this a <em>naive</em> time):</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">obs</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">obs</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">tz</span>
+<span class="go">(&#39;Time_UTC&#39;, None)</span>
+</pre></div>
+</div>
+<p>Salt Lake City is 6 hours behind UTC in summer (Mountain Daylight Time, MDT) and
+7 hours behind in winter (Mountain Standard Time, MST). Do not subtract a fixed
+number of hours. Tell pandas the times are UTC, then convert them to the
+<code class="docutils literal notranslate"><span class="pre">America/Denver</span></code> time zone, which knows when the clocks change:</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">local</span> <span class="o">=</span> <span class="n">obs</span><span class="o">.</span><span class="n">tz_localize</span><span class="p">(</span><span class="s2">&quot;UTC&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">tz_convert</span><span class="p">(</span><span class="s2">&quot;America/Denver&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">local</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="go">                           CO2d_ppm_cal  CO2d_ppm_raw</span>
+<span class="go">Time_UTC</span>
+<span class="go">2025-05-31 18:00:03-06:00    432.407511      435.5981</span>
+<span class="go">2025-05-31 18:00:13-06:00    432.561390      435.7535</span>
+<span class="go">2025-05-31 18:00:23-06:00    433.129237      436.3271</span>
+</pre></div>
+</div>
+<p>The same measurements, now labeled in local time; <code class="docutils literal notranslate"><span class="pre">-06:00</span></code> is the offset from
+UTC. (The index keeps the name <code class="docutils literal notranslate"><span class="pre">Time_UTC</span></code>. Rename it if that confuses you:
+<code class="docutils literal notranslate"><span class="pre">local.index.name</span> <span class="pre">=</span> <span class="pre">&quot;Time_local&quot;</span></code>.)</p>
+</section>
+<section id="a-month-in-local-time">
+<h2>A month in local time<a class="headerlink" href="#a-month-in-local-time" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">time_range=&quot;2025-06&quot;</span></code> is June in UTC. In local time that is from 18:00 on
+31 May to 18:00 on 30 June:</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">local</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">local</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="go">(Timestamp(&#39;2025-05-31 18:00:03-0600&#39;, tz=&#39;America/Denver&#39;), Timestamp(&#39;2025-06-30 17:59:52-0600&#39;, tz=&#39;America/Denver&#39;))</span>
+</pre></div>
+</div>
+<p>So “June” read this way has six hours of 31 May (2,083 rows) and is missing the
+last six hours of 30 June (2,081 rows), with no warning. A daily mean or a
+daily cycle for the first and last day comes out wrong.</p>
+<p>To get June in local time, <strong>read one more day in UTC, convert, and then cut the
+local month</strong>:</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">obs</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">get_obs</span><span class="p">(</span><span class="s2">&quot;WBB&quot;</span><span class="p">,</span> <span class="s2">&quot;CO2&quot;</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;2025-06-01&quot;</span><span class="p">,</span> <span class="s2">&quot;2025-07-01&quot;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">obs</span> <span class="o">=</span> <span class="n">obs</span><span class="o">.</span><span class="n">tz_localize</span><span class="p">(</span><span class="s2">&quot;UTC&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">tz_convert</span><span class="p">(</span><span class="s2">&quot;America/Denver&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">june</span> <span class="o">=</span> <span class="n">obs</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s2">&quot;2025-06&quot;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">june</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">june</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="go">(Timestamp(&#39;2025-06-01 00:00:03-0600&#39;, tz=&#39;America/Denver&#39;), Timestamp(&#39;2025-06-30 23:59:52-0600&#39;, tz=&#39;America/Denver&#39;))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">june</span><span class="p">)</span>
+<span class="go">250685</span>
+</pre></div>
+</div>
+<p>The read runs to the end of 1 July in UTC (a string end includes the whole day
+it names; see <a class="reference internal" href="#time">Time</a> below), which covers the end of June in Mountain time.
+After the conversion, <code class="docutils literal notranslate"><span class="pre">obs.loc[&quot;2025-06&quot;]</span></code> picks the rows in June <strong>local</strong>
+time, because the index now has a time zone. 30 June now has all of its 8,324
+rows. Any month works the same way: start the read on the first day of the
+month and end it on the first day of the next.</p>
+</section>
+<section id="the-daily-cycle">
+<h2>The daily cycle<a class="headerlink" href="#the-daily-cycle" title="Link to this heading">#</a></h2>
+<p>With the month in local time, group the rows by the hour of the local day. This
+script reads June, as above, and plots the median CO2 for each hour, with the
+middle half of the values shaded. Save it as <code class="docutils literal notranslate"><span class="pre">daily_cycle.py</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">uataq</span>
+
+<span class="c1"># June 2025 in Mountain time: read one extra UTC day, convert, then cut</span>
+<span class="n">obs</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">get_obs</span><span class="p">(</span><span class="s2">&quot;WBB&quot;</span><span class="p">,</span> <span class="s2">&quot;CO2&quot;</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;2025-06-01&quot;</span><span class="p">,</span> <span class="s2">&quot;2025-07-01&quot;</span><span class="p">])</span>
+<span class="n">obs</span> <span class="o">=</span> <span class="n">obs</span><span class="o">.</span><span class="n">tz_localize</span><span class="p">(</span><span class="s2">&quot;UTC&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">tz_convert</span><span class="p">(</span><span class="s2">&quot;America/Denver&quot;</span><span class="p">)</span>
+<span class="n">june</span> <span class="o">=</span> <span class="n">obs</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s2">&quot;2025-06&quot;</span><span class="p">]</span>
+
+<span class="c1"># The 25th, 50th and 75th percentiles for each hour of the local day</span>
+<span class="n">co2</span> <span class="o">=</span> <span class="n">june</span><span class="p">[</span><span class="s2">&quot;CO2d_ppm_cal&quot;</span><span class="p">]</span>
+<span class="n">by_hour</span> <span class="o">=</span> <span class="n">co2</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">co2</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">hour</span><span class="p">)</span><span class="o">.</span><span class="n">quantile</span><span class="p">([</span><span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.75</span><span class="p">])</span><span class="o">.</span><span class="n">unstack</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">by_hour</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span>
+    <span class="n">by_hour</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">by_hour</span><span class="p">[</span><span class="mf">0.25</span><span class="p">],</span> <span class="n">by_hour</span><span class="p">[</span><span class="mf">0.75</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;25th to 75th percentile&quot;</span>
+<span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">by_hour</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">by_hour</span><span class="p">[</span><span class="mf">0.5</span><span class="p">],</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Median&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">24</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">23</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Hour of the day, Mountain Daylight Time (UTC-6)&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;CO$_2$ (ppm)&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;WBB CO$_2$, June 2025 (lgr_ugga, final level)&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;wbb_co2_daily_cycle.png&quot;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s2">&quot;tight&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>It needs matplotlib (<code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">matplotlib</span></code>). Hour 8 is the hour from 08:00
+to 08:59 local time. The script took 8 seconds and 0.2 GB of memory, which is
+fine on a login node. For more data (a year, several sites), run it in a job
+(see <a class="reference internal" href="installation.html#install-slurm"><span class="std std-ref">Use uataq in a Slurm job</span></a>). This one was run in a Slurm job, and drew:</p>
+<figure class="align-default" id="id1">
+<img alt="Median CO2 at WBB by hour of the local day in June 2025, rising from about 434 ppm at midnight to a peak of 444 ppm at 8 in the morning and falling to a low of 428 ppm at 6 in the evening." src="_images/wbb_co2_daily_cycle.png" />
+<figcaption>
+<p><span class="caption-text">CO2 at WBB in June 2025 by hour of the local day: the median (line) and the
+25th to 75th percentiles (shading), from the run above.</span><a class="headerlink" href="#id1" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>CO2 is highest around 08:00 local time and lowest around 18:00. Read in UTC, the
+same peak would show at hour 14, and the plot would be six hours off.</p>
+</section>
+<section id="time">
+<h2>Time<a class="headerlink" href="#time" title="Link to this heading">#</a></h2>
+<p>The rules for <code class="docutils literal notranslate"><span class="pre">time_range</span></code>, in short. The full list of forms is under <em>Time
+Range</em> on the <a class="reference internal" href="general.html"><span class="doc">general functions page</span></a>.</p>
+<p><strong>Times are UTC and have no time zone.</strong> A string such as <code class="docutils literal notranslate"><span class="pre">&quot;2025-06&quot;</span></code> or
+<code class="docutils literal notranslate"><span class="pre">&quot;2025-06-02T06:00&quot;</span></code> is read as UTC. A trailing <code class="docutils literal notranslate"><span class="pre">Z</span></code> or <code class="docutils literal notranslate"><span class="pre">+00:00</span></code> is
+allowed. Any other offset is an error that says so:</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">uataq</span><span class="o">.</span><span class="n">get_obs</span><span class="p">(</span><span class="s2">&quot;WBB&quot;</span><span class="p">,</span> <span class="s2">&quot;CO2&quot;</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="s2">&quot;2025-06-01T00:00-06:00&quot;</span><span class="p">)</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="w">  </span><span class="c">...</span>
+<span class="gr">ValueError</span>: <span class="n">Invalid time string &#39;2025-06-01T00:00-06:00&#39;. Expected ISO 8601 in UTC, e.g. &#39;2024&#39;, &#39;2024-01&#39;, &#39;2024-01-15&#39;, &#39;2024-01-15T12:30:45&#39;.</span>
+</pre></div>
+</div>
+<p>A pandas <code class="docutils literal notranslate"><span class="pre">Timestamp</span></code> must not carry a time zone either. One that does gives
+an error that does not say what to do:</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">start</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="s2">&quot;2025-06-01&quot;</span><span class="p">,</span> <span class="n">tz</span><span class="o">=</span><span class="s2">&quot;America/Denver&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">stop</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="s2">&quot;2025-07-01&quot;</span><span class="p">,</span> <span class="n">tz</span><span class="o">=</span><span class="s2">&quot;America/Denver&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">uataq</span><span class="o">.</span><span class="n">get_obs</span><span class="p">(</span><span class="s2">&quot;WBB&quot;</span><span class="p">,</span> <span class="s2">&quot;CO2&quot;</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="p">[</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">])</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="w">  </span><span class="c">...</span>
+<span class="gr">TypeError</span>: <span class="n">Cannot compare tz-naive and tz-aware timestamps</span>
+</pre></div>
+</div>
+<p>The same happens with <code class="docutils literal notranslate"><span class="pre">tz=&quot;UTC&quot;</span></code>. Convert the times to UTC and take the time
+zone off:</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">utc</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">tz_convert</span><span class="p">(</span><span class="s2">&quot;UTC&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">tz_localize</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">utc</span>
+<span class="go">[Timestamp(&#39;2025-06-01 06:00:00&#39;), Timestamp(&#39;2025-07-01 06:00:00&#39;)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">uataq</span><span class="o">.</span><span class="n">get_obs</span><span class="p">(</span><span class="s2">&quot;WBB&quot;</span><span class="p">,</span> <span class="s2">&quot;CO2&quot;</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="n">utc</span><span class="p">))</span>
+<span class="go">250685</span>
+</pre></div>
+</div>
+<p>That reads exactly June in local time, the same 250,685 rows as the cut above.
+Both ways are right; use the one you find clearer.</p>
+<p><strong>A string end includes the period it names, a Timestamp end does not.</strong> A
+range includes its start and stops just before its end. An end given as a string
+means the end of the period it names, so <code class="docutils literal notranslate"><span class="pre">&quot;2025-07-01&quot;</span></code> stops at midnight
+after 1 July and <code class="docutils literal notranslate"><span class="pre">&quot;2025-06-03T06&quot;</span></code> stops at 07:00. An end given as a
+<code class="docutils literal notranslate"><span class="pre">Timestamp</span></code> stops at that instant:</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">get_obs</span><span class="p">(</span><span class="s2">&quot;WBB&quot;</span><span class="p">,</span> <span class="s2">&quot;CO2&quot;</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;2025-06-02T06&quot;</span><span class="p">,</span> <span class="s2">&quot;2025-06-03T06&quot;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="go">Timestamp(&#39;2025-06-03 06:59:53&#39;)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">get_obs</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="s2">&quot;WBB&quot;</span><span class="p">,</span> <span class="s2">&quot;CO2&quot;</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="s2">&quot;2025-06-02T06&quot;</span><span class="p">),</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="s2">&quot;2025-06-03T06&quot;</span><span class="p">)]</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="go">Timestamp(&#39;2025-06-03 05:59:58&#39;)</span>
+</pre></div>
+</div>
+<p>So the string range is an hour longer. When you want an end at an exact time,
+give it as a <code class="docutils literal notranslate"><span class="pre">Timestamp</span></code>.</p>
+</section>
+<section id="next">
+<h2>Next<a class="headerlink" href="#next" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="availability.html"><span class="doc">What data exists</span></a>: which sites measure what, when they have data, and what
+the errors mean.</p></li>
+<li><p><a class="reference internal" href="quickstart.html"><span class="doc">Quick Start</span></a>: the site and instrument objects, the <code class="docutils literal notranslate"><span class="pre">long</span></code> format, and
+the mobile (TRAX and bus) sites.</p></li>
+<li><p><a class="reference internal" href="pollutants.html"><span class="doc">Pollutants</span></a>: the names of the concentration columns.</p></li>
+</ul>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="installation.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Installation</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="quickstart.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Quick Start</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#read-a-month">Read a month</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#where-the-numbers-came-from">Where the numbers came from</a><ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-instrument">The instrument</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-data-level">The data level</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-research-group">The research group</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-version">The version</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#times-are-utc">Times are UTC</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-month-in-local-time">A month in local time</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-daily-cycle">The daily cycle</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#time">Time</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#next">Next</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  <div class="tocsection sourcelink">
+    <a href="_sources/first_month.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025-2026, James Mineau.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.22.0.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

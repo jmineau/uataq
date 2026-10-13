@@ -9,6 +9,9 @@ Quick Start
     available on CHPC. They are shown as code and are not run when the
     documentation is built.
 
+For a walk-through from a site to a month of data in local time and a plot,
+start with :doc:`first_month`.
+
 Laboratory
 ----------
 
