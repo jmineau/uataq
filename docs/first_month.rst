@@ -89,10 +89,12 @@ The archive keeps each instrument's data at several processing levels (``raw``,
 ``qaqc``, ``calibrated`` and ``final``; see *Processing Level* on the
 :doc:`general functions page <general>` and the pipeline's
 `description of the levels <https://github.com/uataq/data-pipeline#processing-levels>`_).
-The ``final`` level is the ready-to-share level, with the pipeline's default
-flags applied: flagged rows are dropped, and for the CO2 and CH4 analyzers so
-are the rows that measured calibration tanks. The lower levels keep those rows,
-for finer control.
+The ``final`` level is the ready-to-share level (it can go to people outside
+the group as it is), with the pipeline's default flags applied: flagged rows are
+dropped, and for the CO2 and CH4 analyzers so are the rows that measured
+calibration tanks. The lower levels keep those rows, for finer control. Which
+one to use depends on how clean the data need to be for what you are doing, and
+on how much control you want over the QAQC.
 
 :func:`get_obs` **always reads the final level**, so the month above is final
 data. It has no ``lvl`` argument. To read another level, use :func:`read_data`,

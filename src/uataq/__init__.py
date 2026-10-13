@@ -67,7 +67,13 @@ def read_data(
         instrument. Default None selects each instrument's group
         automatically (see :meth:`uataq.instruments.Instrument.resolve_group`).
     lvl : str | None
-        The data level.
+        The data level: ``'raw'``, ``'qaqc'``, ``'calibrated'`` or ``'final'``.
+        ``'final'`` is the ready-to-share level, with the pipeline's default
+        flags applied; the lower levels are for finer control. Which to use
+        depends on how clean the data need to be for what you are doing, and
+        on how much control you want over the QAQC. Default None reads the
+        highest level the instrument has. See *Processing Level* in the
+        general functions documentation.
     time_range : str | list[Union[str, dt.datetime, None]] | tuple[Union[str, dt.datetime, None], Union[str, dt.datetime, None]] | slice | None
         The time range to read data. Default is None which reads all available data.
     num_processes : int | 'max'
@@ -123,7 +129,8 @@ def get_obs(
     Returns
     -------
     pd.DataFrame
-        The observations.
+        The observations, from the ``final`` level (see :func:`uataq.read_data`
+        to read another level).
     """
     site = get_site(SID)
     obs = site.get_obs(pollutants, format, group, time_range, num_processes, **kwargs)
