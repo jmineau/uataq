@@ -426,6 +426,11 @@
                 "installation_date": "2015-07-28",
                 "removal_date": "2025-05-13",
                 "notes": "The last sample is 2025-05-12 17:46:40 UTC (raw and qaqc; calibrated and final end 2025-05-01 21:59:50), so the removal date is the next midnight. The pipeline switched HEB to a licor_7000 on 2025-05-30."
+            },
+            "licor_7000": {
+                "installation_date": "2025-05-30",
+                "removal_date": "2025-09-17",
+                "notes": "Replaced the licor_6262. The first sample is 2025-05-30 19:31:20 UTC and the last 2025-09-16 16:03:30 UTC (raw and qaqc; calibrated and final end 13:59:50 that day), so the removal date is the next midnight."
             }
         }
     },
