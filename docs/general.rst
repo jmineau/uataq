@@ -55,15 +55,25 @@ from that group.
 
 
 Processing Level
-^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^
 
 ``lvl`` is the processing level of the data.
-Available levels are:
+Available levels, from least to most processed, are:
 
 - ``raw`` : Raw data.
-- ``qaqc`` : `QAQC flags <https://github.com/uataq/data-pipeline/blob/main/QAQC_Flags.md>`_ applied to data.
+- ``qaqc`` : `QAQC flags <https://github.com/uataq/data-pipeline/blob/main/QAQC_Flags.md>`_ applied to data. Flagged rows are kept, with their flag in ``QAQC_Flag``.
 - ``calibrated`` : Calibrated data. (Only available for instruments which receive calibration in post-processing.)
-- ``final`` : Finalized data. (Flagged data and measurements of calibration tanks are dropped.)
+- ``final`` : Finalized data, with the pipeline's default flags applied. (Flagged data and measurements of calibration tanks are dropped.)
+
+``final`` is the ready-to-share level: it can go to people outside the group
+as it is. The lower levels (``raw``, ``qaqc`` and ``calibrated``) are for finer
+control. Which one to use depends on how clean the data need to be for what you
+are doing, and on how much control you want over the QAQC.
+
+:func:`get_obs` always reads the ``final`` level. :func:`read_data` reads the
+level you give it. With no ``lvl`` it reads the highest (most processed) level
+the instrument has. :doc:`first_month` shows the same day at ``final`` and at
+``qaqc``, and :doc:`columns` says what each level holds.
 
 Time Range
 ^^^^^^^^^^

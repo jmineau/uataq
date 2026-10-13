@@ -237,8 +237,13 @@ class Site:
             each group in turn and concatenated (see
             :meth:`~uataq.instruments.Instrument.plan_reads`).
         lvl : str, optional
-            The data level to read. Default is None which reads the highest
-            level available (per group, when the read is split across groups).
+            The data level to read: ``'raw'``, ``'qaqc'``, ``'calibrated'`` or
+            ``'final'``. ``'final'`` is the ready-to-share level, with the
+            pipeline's default flags applied; the lower levels are for finer
+            control. Which to use depends on how clean the data need to be for
+            what you are doing, and on how much control you want over the
+            QAQC. Default is None which reads the highest level available (per
+            group, when the read is split across groups).
         time_range : TimeRange | TimeRangeTypes
             The time range to read data. Default is None which reads all available data.
         num_processes : int or 'max'
