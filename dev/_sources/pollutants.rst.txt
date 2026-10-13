@@ -16,6 +16,9 @@ Concentration columns follow ``{pollutant}[d|channel]_{units}[_cal|_raw]``:
    obs[concentration_columns("CO2", obs.columns)]  # CO2d_ppm_cal, not diagnostics
    parse_column("CH4d_ppm_raw")  # pollutant='CH4', units='ppm', dry=True, calibration='raw'
 
+What the other columns hold, and why ``_cal`` can be empty, is on the
+:doc:`columns` page.
+
 ``_cal`` vs ``_raw``: in lin final data ``_cal`` is the calibrated value and
 ``_raw`` the uncalibrated one, except for TRX01's ``lgr_ugga_manual_cal``
 (from 2023-11-18), which leaves ``_cal`` empty and writes the LGR-software

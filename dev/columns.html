@@ -1,0 +1,1165 @@
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Columns and flags &#8212; UATAQ 2026.10.1.dev9+g88ef29d5a documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=64cc4de3f052d77215f0" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=64cc4de3f052d77215f0" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="_static/scripts/fontawesome.js?digest=64cc4de3f052d77215f0"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
+
+    <script src="_static/documentation_options.js?v=c6b8e7c0"></script>
+    <script src="_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'columns';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.22.0';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://jmineau.github.io/uataq/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            true;
+        </script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="General Functions" href="general.html" />
+    <link rel="prev" title="What data exists" href="availability.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="2026.10.1.dev9+g88ef29d5a" />
+  
+    
+    <script src="_static/searchtools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script src="searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button type="button" class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">UATAQ 2026.10.1.dev9+g88ef29d5a documentation</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="first_month.html">
+    Your first month of data
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="quickstart.html">
+    Quick Start
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="availability.html">
+    What data exists
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="#" aria-current="page">
+    Columns and flags
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="general.html">
+    General Functions
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="laboratory.html">
+    Laboratory
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="filesystem.html">
+    File System
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="sites.html">
+    Sites
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="instruments.html">
+    Instruments
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="pollutants.html">
+    Pollutants
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="gps.html">
+    GPS
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="sodar.html">
+    SODAR
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="contributing.html">
+    Contributing
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button type="button" class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+      
+        <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button type="button" class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/jmineau/uataq" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button type="button" class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button type="button" class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="first_month.html">
+    Your first month of data
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="quickstart.html">
+    Quick Start
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="availability.html">
+    What data exists
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="#" aria-current="page">
+    Columns and flags
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="general.html">
+    General Functions
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="laboratory.html">
+    Laboratory
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="filesystem.html">
+    File System
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="sites.html">
+    Sites
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="instruments.html">
+    Instruments
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="pollutants.html">
+    Pollutants
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="gps.html">
+    GPS
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="sodar.html">
+    SODAR
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="contributing.html">
+    Contributing
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-3"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-3"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-3"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-3">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+        
+          <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button type="button" class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/jmineau/uataq" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Columns and flags</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="columns-and-flags">
+<h1>Columns and flags<a class="headerlink" href="#columns-and-flags" title="Link to this heading">#</a></h1>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The examples on this page read the UATAQ archive, which is only available
+on CHPC. They are shown as code and are not run when the documentation is
+built. The output under each one is from runs on CHPC on 12 October 2026.
+If the data are reprocessed, the numbers can change a little.</p>
+</div>
+<p>The columns you get depend on the <strong>instrument</strong> and on the <strong>data level</strong> you
+read (<code class="docutils literal notranslate"><span class="pre">raw</span></code>, <code class="docutils literal notranslate"><span class="pre">qaqc</span></code>, <code class="docutils literal notranslate"><span class="pre">calibrated</span></code> or <code class="docutils literal notranslate"><span class="pre">final</span></code>; see <a class="reference internal" href="first_month.html"><span class="doc">Your first month of data</span></a> for
+what each level is for). This page says what the columns are, level by level,
+for the instruments you are most likely to use. Each section says which
+instrument and level its examples come from.</p>
+<p>The examples print wide tables. These two pandas settings print them in full,
+whatever the width of your terminal:</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">uataq</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s2">&quot;display.width&quot;</span><span class="p">,</span> <span class="mi">120</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s2">&quot;display.max_columns&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+</pre></div>
+</div>
+<section id="in-every-table">
+<h2>In every table<a class="headerlink" href="#in-every-table" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>The index is <code class="docutils literal notranslate"><span class="pre">Time_UTC</span></code>, the time of the measurement in UTC, without a time
+zone attached. <a class="reference internal" href="first_month.html"><span class="doc">Your first month of data</span></a> shows how to convert it to local time.</p></li>
+<li><p>The concentration columns follow one naming pattern for every instrument,
+level and research group: <code class="docutils literal notranslate"><span class="pre">CO2d_ppm_cal</span></code>, <code class="docutils literal notranslate"><span class="pre">O3_ppb</span></code>, <code class="docutils literal notranslate"><span class="pre">PM2.5_ugm3</span></code> and so
+on. The
+<a class="reference internal" href="pollutants.html"><span class="doc">Pollutants</span></a> page explains the pattern of the names (the <code class="docutils literal notranslate"><span class="pre">d</span></code> means a
+dry mole fraction, the last part is the unit).</p></li>
+<li><p>uataq renames many of the instruments’ other columns to common names, so
+that a quantity has the same name across instruments and groups. For example,
+the <code class="docutils literal notranslate"><span class="pre">lgr_ugga</span></code>’s cavity pressure is <code class="docutils literal notranslate"><span class="pre">Cavity_P_torr</span></code> in the pipeline’s
+files and <code class="docutils literal notranslate"><span class="pre">Internal_P_torr</span></code> in uataq. The renaming is in
+<a class="reference internal" href="api/uataq.filesystem.groupspaces.lin.html#uataq.filesystem.groupspaces.lin.column_mapping" title="uataq.filesystem.groupspaces.lin.column_mapping"><code class="xref py py-data docutils literal notranslate"><span class="pre">lin.column_mapping</span></code></a>
+and
+<a class="reference internal" href="api/uataq.filesystem.groupspaces.horel.html#uataq.filesystem.groupspaces.horel.column_mapping" title="uataq.filesystem.groupspaces.horel.column_mapping"><code class="xref py py-data docutils literal notranslate"><span class="pre">horel.column_mapping</span></code></a>.
+Keep this in mind when you read the pipeline’s own documentation, which uses
+the names in its files.</p></li>
+</ul>
+</section>
+<section id="the-co2-and-ch4-analyzers">
+<h2>The CO2 and CH4 analyzers<a class="headerlink" href="#the-co2-and-ch4-analyzers" title="Link to this heading">#</a></h2>
+<p>This section is about the lin group’s greenhouse gas analyzers: the
+<code class="docutils literal notranslate"><span class="pre">lgr_ugga</span></code> (a Los Gatos Research analyzer, which measures CO2 and CH4) and the
+<code class="docutils literal notranslate"><span class="pre">licor_6262</span></code> and <code class="docutils literal notranslate"><span class="pre">licor_7000</span></code> (LI-COR analyzers, which measure CO2 only).
+They are the only instruments with a <code class="docutils literal notranslate"><span class="pre">calibrated</span></code> level. Each row is one
+record of the analyzer, about every 10 seconds. The examples read the
+<code class="docutils literal notranslate"><span class="pre">lgr_ugga</span></code> at WBB on 2 June 2025 and the <code class="docutils literal notranslate"><span class="pre">licor_7000</span></code> at SUG on the same day.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<colgroup>
+<col style="width: 15.0%" />
+<col style="width: 85.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Level</p></th>
+<th class="head"><p>What it has</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">final</span></code></p></td>
+<td><p>The concentrations and <code class="docutils literal notranslate"><span class="pre">H2O_ppm</span></code>, for the outside-air rows that passed
+QAQC. No <code class="docutils literal notranslate"><span class="pre">ID</span></code> or flag columns.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">calibrated</span></code></p></td>
+<td><p>Every row, with the calibrated and uncalibrated concentrations, the
+calibration fit, the <code class="docutils literal notranslate"><span class="pre">ID_CO2</span></code> (and <code class="docutils literal notranslate"><span class="pre">ID_CH4</span></code>) columns and
+<code class="docutils literal notranslate"><span class="pre">QAQC_Flag</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">qaqc</span></code></p></td>
+<td><p>Every row, with all of the analyzer’s columns, <code class="docutils literal notranslate"><span class="pre">ID</span></code>, <code class="docutils literal notranslate"><span class="pre">ID_CO2</span></code> (and
+<code class="docutils literal notranslate"><span class="pre">ID_CH4</span></code>), and <code class="docutils literal notranslate"><span class="pre">QAQC_Flag</span></code>. Not calibrated.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">raw</span></code></p></td>
+<td><p>The analyzer’s columns as they were logged, with <code class="docutils literal notranslate"><span class="pre">ID</span></code> but without
+<code class="docutils literal notranslate"><span class="pre">ID_CO2</span></code>, <code class="docutils literal notranslate"><span class="pre">ID_CH4</span></code> or <code class="docutils literal notranslate"><span class="pre">QAQC_Flag</span></code>. Reading one day of the WBB
+<code class="docutils literal notranslate"><span class="pre">lgr_ugga</span></code> at this level took 159 seconds, against 1 or 2 seconds at
+the others.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<section id="final">
+<h3>Final<a class="headerlink" href="#final" title="Link to this heading">#</a></h3>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">final</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">read_data</span><span class="p">(</span><span class="s2">&quot;WBB&quot;</span><span class="p">,</span> <span class="s2">&quot;lgr_ugga&quot;</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="s2">&quot;2025-06-02&quot;</span><span class="p">)[</span><span class="s2">&quot;lgr_ugga&quot;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">final</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="go">                     CO2d_ppm_cal  CO2d_ppm_raw  CH4d_ppm_cal  CH4d_ppm_raw   H2O_ppm</span>
+<span class="go">Time_UTC</span>
+<span class="go">2025-06-02 00:00:01    431.852558      434.8026      1.981142      1.979105  7088.775</span>
+<span class="go">2025-06-02 00:00:11    431.612346      434.5594      1.980728      1.978685  7101.099</span>
+<span class="go">2025-06-02 00:00:21    431.812938      434.7615      1.980816      1.978773  7150.829</span>
+</pre></div>
+</div>
+<div class="pst-scrollable-table-container"><table class="table">
+<colgroup>
+<col style="width: 25.0%" />
+<col style="width: 75.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Column</p></th>
+<th class="head"><p>Meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">CO2d_ppm_cal</span></code></p></td>
+<td><p>CO2 dry mole fraction in ppm, calibrated against the site’s reference
+tanks. Can be empty; see <a class="reference internal" href="#when-cal-is-empty">When _cal is empty</a>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">CO2d_ppm_raw</span></code></p></td>
+<td><p>The same measurement before calibration.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">CH4d_ppm_cal</span></code>, <code class="docutils literal notranslate"><span class="pre">CH4d_ppm_raw</span></code></p></td>
+<td><p>The same for CH4, in ppm (<code class="docutils literal notranslate"><span class="pre">lgr_ugga</span></code> only).</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">H2O_ppm</span></code></p></td>
+<td><p>Water vapor in ppm, taken from the <code class="docutils literal notranslate"><span class="pre">qaqc</span></code> level.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">licor_7000</span></code> has the same columns without the CH4 ones:</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">uataq</span><span class="o">.</span><span class="n">read_data</span><span class="p">(</span><span class="s2">&quot;SUG&quot;</span><span class="p">,</span> <span class="s2">&quot;licor_7000&quot;</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="s2">&quot;2025-06-02&quot;</span><span class="p">)[</span><span class="s2">&quot;licor_7000&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<span class="go">[&#39;CO2d_ppm_cal&#39;, &#39;CO2d_ppm_raw&#39;, &#39;H2O_ppm&#39;]</span>
+</pre></div>
+</div>
+<p><a class="reference internal" href="general.html#uataq.get_obs" title="uataq.get_obs"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_obs()</span></code></a> returns the concentration columns of this level, so
+<code class="docutils literal notranslate"><span class="pre">get_obs(&quot;WBB&quot;,</span> <span class="pre">&quot;CO2&quot;)</span></code> gives <code class="docutils literal notranslate"><span class="pre">CO2d_ppm_cal</span></code> and <code class="docutils literal notranslate"><span class="pre">CO2d_ppm_raw</span></code>.</p>
+</section>
+<section id="calibrated">
+<h3>Calibrated<a class="headerlink" href="#calibrated" title="Link to this heading">#</a></h3>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cal</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">read_data</span><span class="p">(</span><span class="s2">&quot;WBB&quot;</span><span class="p">,</span> <span class="s2">&quot;lgr_ugga&quot;</span><span class="p">,</span> <span class="n">lvl</span><span class="o">=</span><span class="s2">&quot;calibrated&quot;</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="s2">&quot;2025-06-02&quot;</span><span class="p">)[</span><span class="s2">&quot;lgr_ugga&quot;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cal</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<span class="go">[&#39;CO2d_ppm_cal&#39;, &#39;CO2d_ppm_raw&#39;, &#39;CO2d_m&#39;, &#39;CO2d_b&#39;, &#39;CO2d_n&#39;, &#39;CO2d_rsq&#39;, &#39;CO2d_rmse&#39;, &#39;ID_CO2&#39;, &#39;CH4d_ppm_cal&#39;, &#39;CH4d_ppm_raw&#39;, &#39;CH4d_m&#39;, &#39;CH4d_b&#39;, &#39;CH4d_n&#39;, &#39;CH4d_rsq&#39;, &#39;CH4d_rmse&#39;, &#39;ID_CH4&#39;, &#39;QAQC_Flag&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cal</span><span class="p">[[</span><span class="s2">&quot;CO2d_ppm_cal&quot;</span><span class="p">,</span> <span class="s2">&quot;CO2d_ppm_raw&quot;</span><span class="p">,</span> <span class="s2">&quot;CO2d_m&quot;</span><span class="p">,</span> <span class="s2">&quot;CO2d_b&quot;</span><span class="p">,</span> <span class="s2">&quot;CO2d_n&quot;</span><span class="p">,</span> <span class="s2">&quot;CO2d_rsq&quot;</span><span class="p">,</span> <span class="s2">&quot;CO2d_rmse&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="go">                     CO2d_ppm_cal  CO2d_ppm_raw    CO2d_m    CO2d_b  CO2d_n  CO2d_rsq  CO2d_rmse</span>
+<span class="go">Time_UTC</span>
+<span class="go">2025-06-02 00:00:01    431.852558      434.8026  1.010199 -1.454323       3  0.999998   0.060986</span>
+<span class="go">2025-06-02 00:00:11    431.612346      434.5594  1.010198 -1.454345       3  0.999998   0.060964</span>
+<span class="go">2025-06-02 00:00:21    431.812938      434.7615  1.010196 -1.454367       3  0.999998   0.060943</span>
+</pre></div>
+</div>
+<p>The pipeline calibrates each analyzer with the reference tanks it measures every
+few hours: it fits a straight line between the tanks’ measured and known
+values, for every row. The pipeline’s
+<a class="reference external" href="https://github.com/uataq/data-pipeline/blob/main/Calibration.md">calibration page</a>
+describes the method. The fit columns, for CO2 (the CH4 ones start with
+<code class="docutils literal notranslate"><span class="pre">CH4d_</span></code>):</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<colgroup>
+<col style="width: 25.0%" />
+<col style="width: 75.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Column</p></th>
+<th class="head"><p>Meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">CO2d_ppm_raw</span></code></p></td>
+<td><p>The uncalibrated value: the <code class="docutils literal notranslate"><span class="pre">qaqc</span></code> level’s <code class="docutils literal notranslate"><span class="pre">CO2d_ppm</span></code>. Empty on
+flagged rows (all 8,362 flush rows at WBB in June 2025), except rows
+flagged for an out-of-range reading, which keep it.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">CO2d_m</span></code>, <code class="docutils literal notranslate"><span class="pre">CO2d_b</span></code></p></td>
+<td><p>The slope and intercept of the fit. The calibrated value is
+<code class="docutils literal notranslate"><span class="pre">CO2d_ppm_cal</span> <span class="pre">=</span> <span class="pre">(CO2d_ppm_raw</span> <span class="pre">-</span> <span class="pre">CO2d_b)</span> <span class="pre">/</span> <span class="pre">CO2d_m</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">CO2d_n</span></code></p></td>
+<td><p>How many reference tanks the fit used at that time. With one tank the fit
+is a slope only (<code class="docutils literal notranslate"><span class="pre">CO2d_b</span></code> is 0). With none, there is no fit and
+<code class="docutils literal notranslate"><span class="pre">CO2d_ppm_cal</span></code> is empty.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">CO2d_rsq</span></code>, <code class="docutils literal notranslate"><span class="pre">CO2d_rmse</span></code></p></td>
+<td><p>The fit’s R² and root mean square error (in ppm). Empty when the fit used
+fewer than three tanks.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">ID_CO2</span></code>, <code class="docutils literal notranslate"><span class="pre">ID_CH4</span></code></p></td>
+<td><p>What the analyzer was sampling; see <a class="reference internal" href="#what-the-analyzer-was-sampling">What the analyzer was sampling</a>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">QAQC_Flag</span></code></p></td>
+<td><p>The <code class="docutils literal notranslate"><span class="pre">qaqc</span></code> level’s flag, unless the calibration flagged the row itself
+(see <a class="reference internal" href="#flags">Flags</a>).</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The formula holds to rounding:</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="p">((</span><span class="n">cal</span><span class="p">[</span><span class="s2">&quot;CO2d_ppm_raw&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">cal</span><span class="p">[</span><span class="s2">&quot;CO2d_b&quot;</span><span class="p">])</span> <span class="o">/</span> <span class="n">cal</span><span class="p">[</span><span class="s2">&quot;CO2d_m&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">cal</span><span class="p">[</span><span class="s2">&quot;CO2d_ppm_cal&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+<span class="go">np.float64(2.8421709430404007e-12)</span>
+</pre></div>
+</div>
+</section>
+<section id="qaqc">
+<h3>QAQC<a class="headerlink" href="#qaqc" title="Link to this heading">#</a></h3>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qaqc</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">read_data</span><span class="p">(</span><span class="s2">&quot;WBB&quot;</span><span class="p">,</span> <span class="s2">&quot;lgr_ugga&quot;</span><span class="p">,</span> <span class="n">lvl</span><span class="o">=</span><span class="s2">&quot;qaqc&quot;</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="s2">&quot;2025-06-02&quot;</span><span class="p">)[</span><span class="s2">&quot;lgr_ugga&quot;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qaqc</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<span class="go">[&#39;CH4_ppm&#39;, &#39;CH4_ppm_sd&#39;, &#39;H2O_ppm&#39;, &#39;H2O_ppm_sd&#39;, &#39;CO2_ppm&#39;, &#39;CO2_ppm_sd&#39;, &#39;CH4d_ppm&#39;, &#39;CH4d_ppm_sd&#39;, &#39;CO2d_ppm&#39;, &#39;CO2d_ppm_sd&#39;, &#39;Internal_P_torr&#39;, &#39;Internal_P_torr_sd&#39;, &#39;Internal_T_C&#39;, &#39;Internal_T_C_sd&#39;, &#39;Ambient_T_C&#39;, &#39;Ambient_T_C_sd&#39;, &#39;RingDown0_us&#39;, &#39;RingDown0_us_sd&#39;, &#39;RingDown1_us&#39;, &#39;RingDown1_us_sd&#39;, &#39;Fit_Flag&#39;, &#39;ID&#39;, &#39;ID_CO2&#39;, &#39;ID_CH4&#39;, &#39;QAQC_Flag&#39;]</span>
+</pre></div>
+</div>
+<div class="pst-scrollable-table-container"><table class="table">
+<colgroup>
+<col style="width: 25.0%" />
+<col style="width: 75.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Column</p></th>
+<th class="head"><p>Meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">CO2_ppm</span></code>, <code class="docutils literal notranslate"><span class="pre">CH4_ppm</span></code>, <code class="docutils literal notranslate"><span class="pre">H2O_ppm</span></code></p></td>
+<td><p>The mole fractions in the sampled (wet) air, in ppm, not calibrated.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">CO2d_ppm</span></code>, <code class="docutils literal notranslate"><span class="pre">CH4d_ppm</span></code></p></td>
+<td><p>The dry mole fractions, not calibrated. They are the <code class="docutils literal notranslate"><span class="pre">_raw</span></code> values of
+the <code class="docutils literal notranslate"><span class="pre">calibrated</span></code> and <code class="docutils literal notranslate"><span class="pre">final</span></code> levels.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">*_sd</span></code></p></td>
+<td><p>A standard deviation that the <code class="docutils literal notranslate"><span class="pre">lgr_ugga</span></code>’s software writes beside each
+value (<code class="docutils literal notranslate"><span class="pre">[CO2]d_ppm_sd</span></code> in the analyzer’s own files). The LI-COR
+analyzers have none.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Fit_Flag</span></code></p></td>
+<td><p>A status number that the <code class="docutils literal notranslate"><span class="pre">lgr_ugga</span></code>’s software writes with each row.
+uataq and the pipeline pass it through unchanged, and the pipeline’s
+QAQC does not use it. Every row of this day has 3.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">ID</span></code>, <code class="docutils literal notranslate"><span class="pre">ID_CO2</span></code>, <code class="docutils literal notranslate"><span class="pre">ID_CH4</span></code></p></td>
+<td><p>What the analyzer was sampling; see the next section.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">QAQC_Flag</span></code></p></td>
+<td><p>The pipeline’s flag; see <a class="reference internal" href="#flags">Flags</a>.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Internal_*</span></code>, <code class="docutils literal notranslate"><span class="pre">Ambient_T_C</span></code>, <code class="docutils literal notranslate"><span class="pre">RingDown*</span></code></p></td>
+<td><p>The analyzer’s own measurements of its state (cavity pressure and
+temperature, and so on), with their <code class="docutils literal notranslate"><span class="pre">_sd</span></code>.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">licor_6262</span></code> and <code class="docutils literal notranslate"><span class="pre">licor_7000</span></code> have other instrument columns at this
+level (flow, pressure, temperature, the logger’s battery voltage). Print
+<code class="docutils literal notranslate"><span class="pre">columns</span></code> to see them.</p>
+</section>
+<section id="what-the-analyzer-was-sampling">
+<h3>What the analyzer was sampling<a class="headerlink" href="#what-the-analyzer-was-sampling" title="Link to this heading">#</a></h3>
+<p>The analyzers do not only sample the outside air. A valve switches them to the
+reference tanks for a few minutes every few hours, and the rows logged while the
+lines are flushed after a switch are marked as well. Three columns say which is
+which.</p>
+<p><code class="docutils literal notranslate"><span class="pre">ID</span></code> is the label logged with each row. For the <code class="docutils literal notranslate"><span class="pre">lgr_ugga</span></code> it is <strong>text</strong>,
+the description set on the analyzer’s Multi Inlet Unit (the valve box).
+<code class="docutils literal notranslate"><span class="pre">ID_CO2</span></code> and <code class="docutils literal notranslate"><span class="pre">ID_CH4</span></code> are <strong>numbers</strong> that the pipeline makes from it:</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qaqc</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">&quot;ID&quot;</span><span class="p">,</span> <span class="s2">&quot;ID_CO2&quot;</span><span class="p">,</span> <span class="s2">&quot;ID_CH4&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
+<span class="go">ID                      ID_CO2   ID_CH4</span>
+<span class="go">~406.49~1.91             406.49   1.91       70</span>
+<span class="go">~478.24~2.62             478.24   2.62       63</span>
+<span class="go">~520.00~5.63             520.00   5.63       63</span>
+<span class="go">~Atmosphere~Atmosphere  -10.00   -10.00    8390</span>
+<span class="go">~flush~flush            -99.00   -99.00     259</span>
+<span class="go">dtype: int64</span>
+</pre></div>
+</div>
+<div class="pst-scrollable-table-container"><table class="table">
+<colgroup>
+<col style="width: 25.0%" />
+<col style="width: 75.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p><code class="docutils literal notranslate"><span class="pre">ID_CO2</span></code> / <code class="docutils literal notranslate"><span class="pre">ID_CH4</span></code></p></th>
+<th class="head"><p>Meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">-10</span></code></p></td>
+<td><p>The outside air (<code class="docutils literal notranslate"><span class="pre">ID</span></code> is <code class="docutils literal notranslate"><span class="pre">~Atmosphere~Atmosphere</span></code>).</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">-99</span></code></p></td>
+<td><p>A flush (<code class="docutils literal notranslate"><span class="pre">ID</span></code> is <code class="docutils literal notranslate"><span class="pre">~flush~flush</span></code>).</p></td>
+</tr>
+<tr class="row-even"><td><p>a positive number</p></td>
+<td><p>A reference tank. The number is the tank’s known CO2 (or CH4) in ppm,
+which <code class="docutils literal notranslate"><span class="pre">ID</span></code> holds as <code class="docutils literal notranslate"><span class="pre">~CO2~CH4</span></code>.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>So for the <code class="docutils literal notranslate"><span class="pre">lgr_ugga</span></code>, select the outside air with <code class="docutils literal notranslate"><span class="pre">ID_CO2</span> <span class="pre">==</span> <span class="pre">-10</span></code>.
+<code class="docutils literal notranslate"><span class="pre">ID</span> <span class="pre">==</span> <span class="pre">-10</span></code> selects no rows, because <code class="docutils literal notranslate"><span class="pre">ID</span></code> is text.</p>
+<p>For the <code class="docutils literal notranslate"><span class="pre">licor_6262</span></code> and <code class="docutils literal notranslate"><span class="pre">licor_7000</span></code>, <code class="docutils literal notranslate"><span class="pre">ID</span></code> is already a number, with the
+same codes, and <code class="docutils literal notranslate"><span class="pre">ID_CO2</span></code> is equal to it. They have no <code class="docutils literal notranslate"><span class="pre">ID_CH4</span></code>:</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">licor</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">read_data</span><span class="p">(</span><span class="s2">&quot;SUG&quot;</span><span class="p">,</span> <span class="s2">&quot;licor_7000&quot;</span><span class="p">,</span> <span class="n">lvl</span><span class="o">=</span><span class="s2">&quot;qaqc&quot;</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="s2">&quot;2025-06-02&quot;</span><span class="p">)[</span><span class="s2">&quot;licor_7000&quot;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">licor</span><span class="p">[</span><span class="s2">&quot;ID&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+<span class="go">ID</span>
+<span class="go">-10.00     7992</span>
+<span class="go">-99.00      459</span>
+<span class="go"> 398.22      60</span>
+<span class="go"> 453.73      60</span>
+<span class="go"> 487.55      60</span>
+<span class="go"> 524.29       5</span>
+<span class="go">Name: count, dtype: int64</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="n">licor</span><span class="p">[</span><span class="s2">&quot;ID&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">licor</span><span class="p">[</span><span class="s2">&quot;ID_CO2&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+<span class="go">np.True_</span>
+</pre></div>
+</div>
+<p><strong>The tank rows pass QAQC.</strong> The flush rows are flagged (<code class="docutils literal notranslate"><span class="pre">-2</span></code>), but the
+reference tank rows have flag 0, like the outside air:</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pd</span><span class="o">.</span><span class="n">crosstab</span><span class="p">(</span><span class="n">qaqc</span><span class="p">[</span><span class="s2">&quot;ID_CO2&quot;</span><span class="p">],</span> <span class="n">qaqc</span><span class="p">[</span><span class="s2">&quot;QAQC_Flag&quot;</span><span class="p">])</span>
+<span class="go">QAQC_Flag   -2     0</span>
+<span class="go">ID_CO2</span>
+<span class="go">-99.00     259     0</span>
+<span class="go">-10.00       0  8390</span>
+<span class="go"> 406.49      0    70</span>
+<span class="go"> 478.24      0    63</span>
+<span class="go"> 520.00      0    63</span>
+</pre></div>
+</div>
+<p>So <code class="docutils literal notranslate"><span class="pre">QAQC_Flag</span> <span class="pre">&gt;=</span> <span class="pre">0</span></code> alone keeps the tank rows. The <code class="docutils literal notranslate"><span class="pre">final</span></code> level is the
+<code class="docutils literal notranslate"><span class="pre">calibrated</span></code> rows of the outside air that pass QAQC:</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">kept</span> <span class="o">=</span> <span class="n">cal</span><span class="p">[(</span><span class="n">cal</span><span class="p">[</span><span class="s2">&quot;ID_CO2&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="o">-</span><span class="mi">10</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">cal</span><span class="p">[</span><span class="s2">&quot;QAQC_Flag&quot;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">kept</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">final</span><span class="p">)</span>
+<span class="go">(8390, 8390)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">kept</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">final</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<p>The same holds for the <code class="docutils literal notranslate"><span class="pre">licor_7000</span></code> at SUG that day (7,992 rows). The
+<code class="docutils literal notranslate"><span class="pre">final</span></code> level follows the <code class="docutils literal notranslate"><span class="pre">calibrated</span></code> level’s flags, which can differ from
+the <code class="docutils literal notranslate"><span class="pre">qaqc</span></code> level’s because the calibration adds flags of its own. For the
+<code class="docutils literal notranslate"><span class="pre">licor_6262</span></code> at SUG in June 2019, the calibration flagged 566 rows <code class="docutils literal notranslate"><span class="pre">-4</span></code>;
+the rule above gives the 238,632 <code class="docutils literal notranslate"><span class="pre">final</span></code> rows from the <code class="docutils literal notranslate"><span class="pre">calibrated</span></code> level,
+but 239,149 from the <code class="docutils literal notranslate"><span class="pre">qaqc</span></code> level.</p>
+</section>
+<section id="when-cal-is-empty">
+<h3>When _cal is empty<a class="headerlink" href="#when-cal-is-empty" title="Link to this heading">#</a></h3>
+<p>Some rows of the <code class="docutils literal notranslate"><span class="pre">final</span></code> level have a <code class="docutils literal notranslate"><span class="pre">_raw</span></code> value and an empty <code class="docutils literal notranslate"><span class="pre">_cal</span></code>.
+There are two reasons.</p>
+<p><strong>The instrument has no calibrated level.</strong> The pipeline then fills only the
+<code class="docutils literal notranslate"><span class="pre">_raw</span></code> columns. This is the case for TRX01’s <code class="docutils literal notranslate"><span class="pre">lgr_ugga_manual_cal</span></code> (see
+<a class="reference internal" href="pollutants.html"><span class="doc">Pollutants</span></a> for what its <code class="docutils literal notranslate"><span class="pre">_raw</span></code> holds):</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">trax</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">read_data</span><span class="p">(</span><span class="s2">&quot;TRX01&quot;</span><span class="p">,</span> <span class="s2">&quot;lgr_ugga_manual_cal&quot;</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="s2">&quot;2024-09-01&quot;</span><span class="p">)[</span><span class="s2">&quot;lgr_ugga_manual_cal&quot;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">trax</span><span class="o">.</span><span class="n">notna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<span class="go">CO2d_ppm_cal       0</span>
+<span class="go">CO2d_ppm_raw    7200</span>
+<span class="go">CH4d_ppm_cal       0</span>
+<span class="go">CH4d_ppm_raw    7200</span>
+<span class="go">H2O_ppm         7200</span>
+<span class="go">dtype: int64</span>
+</pre></div>
+</div>
+<p><strong>There was no calibration fit at that time</strong> (<code class="docutils literal notranslate"><span class="pre">CO2d_n</span></code> is 0). These rows are
+not flagged, so they are in the <code class="docutils literal notranslate"><span class="pre">final</span></code> level. The pipeline calibrates each
+calendar year on its own, so the hours of a new year before the first tank
+measurement have no fit. At WBB on 1 January 2025:</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">jan1</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">read_data</span><span class="p">(</span><span class="s2">&quot;WBB&quot;</span><span class="p">,</span> <span class="s2">&quot;lgr_ugga&quot;</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="s2">&quot;2025-01-01&quot;</span><span class="p">)[</span><span class="s2">&quot;lgr_ugga&quot;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">empty</span> <span class="o">=</span> <span class="n">jan1</span><span class="p">[</span><span class="s2">&quot;CO2d_ppm_cal&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span> <span class="o">&amp;</span> <span class="n">jan1</span><span class="p">[</span><span class="s2">&quot;CO2d_ppm_raw&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">notna</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">int</span><span class="p">(</span><span class="n">empty</span><span class="o">.</span><span class="n">sum</span><span class="p">()),</span> <span class="n">jan1</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="n">empty</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+<span class="go">(824, Timestamp(&#39;2025-01-01 02:14:01&#39;))</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">calibrated</span></code> level shows the fit starting as the analyzer measures the
+three tanks, one after another. Here is the first row with each value of
+<code class="docutils literal notranslate"><span class="pre">CO2d_n</span></code>:</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cal</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">read_data</span><span class="p">(</span><span class="s2">&quot;WBB&quot;</span><span class="p">,</span> <span class="s2">&quot;lgr_ugga&quot;</span><span class="p">,</span> <span class="n">lvl</span><span class="o">=</span><span class="s2">&quot;calibrated&quot;</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="s2">&quot;2025-01-01T02&quot;</span><span class="p">)[</span><span class="s2">&quot;lgr_ugga&quot;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cols</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;CO2d_ppm_raw&quot;</span><span class="p">,</span> <span class="s2">&quot;CO2d_ppm_cal&quot;</span><span class="p">,</span> <span class="s2">&quot;CO2d_n&quot;</span><span class="p">,</span> <span class="s2">&quot;CO2d_b&quot;</span><span class="p">,</span> <span class="s2">&quot;CO2d_rsq&quot;</span><span class="p">,</span> <span class="s2">&quot;ID_CO2&quot;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cal</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span><span class="s2">&quot;CO2d_n&quot;</span><span class="p">)[</span><span class="n">cols</span><span class="p">]</span>
+<span class="go">                     CO2d_ppm_raw  CO2d_ppm_cal  CO2d_n    CO2d_b  CO2d_rsq  ID_CO2</span>
+<span class="go">Time_UTC</span>
+<span class="go">2025-01-01 02:00:00      445.0774           NaN       0       NaN       NaN  -10.00</span>
+<span class="go">2025-01-01 02:15:48      406.0314    406.425037       1  0.000000       NaN  406.49</span>
+<span class="go">2025-01-01 02:18:44      477.9684    478.134889       2 -1.685318       NaN  478.24</span>
+<span class="go">2025-01-01 02:21:40      519.6304    519.871474       3 -0.750496  0.999997  520.00</span>
+</pre></div>
+</div>
+<p>The same happens after the last tank measurement of a year (at WBB from 23:14
+on 31 December 2024). Reading all of 2025 at WBB and CSP also found such rows
+in the first two to five hours of several months (at WBB from September, at CSP
+from July). In every case seen, CO2 and CH4 were empty on the same rows. The
+<code class="docutils literal notranslate"><span class="pre">licor_7000</span></code> at SUG had none in 2025.</p>
+<p>To find these rows in your data:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">empty</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;CO2d_ppm_cal&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span> <span class="o">&amp;</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;CO2d_ppm_raw&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">notna</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Their <code class="docutils literal notranslate"><span class="pre">_raw</span></code> value is not calibrated.</p>
+</section>
+</section>
+<section id="other-instruments">
+<h2>Other instruments<a class="headerlink" href="#other-instruments" title="Link to this heading">#</a></h2>
+<p>The lin group’s other instruments (the Teledyne analyzers, the 2B ozone
+monitor, the MetOne particle monitor, and so on) have no <code class="docutils literal notranslate"><span class="pre">calibrated</span></code> level
+and no <code class="docutils literal notranslate"><span class="pre">_cal</span></code> or <code class="docutils literal notranslate"><span class="pre">_raw</span></code> columns. Their <code class="docutils literal notranslate"><span class="pre">qaqc</span></code> level has the instrument’s
+columns and <code class="docutils literal notranslate"><span class="pre">QAQC_Flag</span></code>; their <code class="docutils literal notranslate"><span class="pre">final</span></code> level keeps the rows that pass
+QAQC and only a few columns. For the <code class="docutils literal notranslate"><span class="pre">teledyne_t400</span></code> (ozone) at
+WBB on 2 June 2025:</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ozone</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">read_data</span><span class="p">(</span><span class="s2">&quot;WBB&quot;</span><span class="p">,</span> <span class="s2">&quot;teledyne_t400&quot;</span><span class="p">,</span> <span class="n">lvl</span><span class="o">=</span><span class="s2">&quot;qaqc&quot;</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="s2">&quot;2025-06-02&quot;</span><span class="p">)[</span><span class="s2">&quot;teledyne_t400&quot;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ozone</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<span class="go">[&#39;O3_std_ppb&#39;, &#39;O3_Meas_mV&#39;, &#39;O3_Ref_mV&#39;, &#39;O3_Gen_mV&#39;, &#39;O3_Drive_mV&#39;, &#39;Photo_Power_mV&#39;, &#39;Internal_P_inHgA&#39;, &#39;Flow_mLpm&#39;, &#39;Internal_T_C&#39;, &#39;Photo_Lamp_T_C&#39;, &#39;O3_Scrub_T_C&#39;, &#39;O3_Gen_T_C&#39;, &#39;Instrument_T_C&#39;, &#39;Slope&#39;, &#39;Offset&#39;, &#39;O3_ppb&#39;, &#39;Test_mV&#39;, &#39;QAQC_Flag&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">uataq</span><span class="o">.</span><span class="n">read_data</span><span class="p">(</span><span class="s2">&quot;WBB&quot;</span><span class="p">,</span> <span class="s2">&quot;teledyne_t400&quot;</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="s2">&quot;2025-06-02&quot;</span><span class="p">)[</span><span class="s2">&quot;teledyne_t400&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<span class="go">[&#39;O3_ppb&#39;]</span>
+</pre></div>
+</div>
+<p>The pipeline lists the columns of every instrument and level in its
+<a class="reference external" href="https://github.com/uataq/data-pipeline/blob/main/config/data_config.json">data_config.json</a>,
+with the names in its files, before uataq renames them.</p>
+</section>
+<section id="the-horel-group-s-instruments">
+<h2>The horel group’s instruments<a class="headerlink" href="#the-horel-group-s-instruments" title="Link to this heading">#</a></h2>
+<p>The TRAX trains and the buses also carry instruments run by the horel group
+(ozone, particles, NOx; see <em>Research Group</em> on the
+<a class="reference internal" href="general.html"><span class="doc">general functions page</span></a>). Their <code class="docutils literal notranslate"><span class="pre">qaqc</span></code> and <code class="docutils literal notranslate"><span class="pre">final</span></code> levels
+are read from the same horel files. For the ozone (<code class="docutils literal notranslate"><span class="pre">2b_205</span></code>) and particle
+(<code class="docutils literal notranslate"><span class="pre">metone_es642</span></code>, <code class="docutils literal notranslate"><span class="pre">metone_es405</span></code>) monitors, the horel files mark a flagged
+row with 1, and uataq turns that into <code class="docutils literal notranslate"><span class="pre">QAQC_Flag</span> <span class="pre">=</span> <span class="pre">-1</span></code>, so the flag is 0
+(passes) or -1 (flagged). The <code class="docutils literal notranslate"><span class="pre">final</span></code> level is the <code class="docutils literal notranslate"><span class="pre">qaqc</span></code> rows that pass and
+have a value. For the <code class="docutils literal notranslate"><span class="pre">2b_205</span></code> on TRX01 on 1 June 2024:</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">o3</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">read_data</span><span class="p">(</span><span class="s2">&quot;TRX01&quot;</span><span class="p">,</span> <span class="s2">&quot;2b_205&quot;</span><span class="p">,</span> <span class="n">lvl</span><span class="o">=</span><span class="s2">&quot;qaqc&quot;</span><span class="p">,</span> <span class="n">group</span><span class="o">=</span><span class="s2">&quot;horel&quot;</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="s2">&quot;2024-06-01&quot;</span><span class="p">)[</span><span class="s2">&quot;2b_205&quot;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">o3</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<span class="go">[&#39;O3_ppb&#39;, &#39;Flow_Lpm&#39;, &#39;Internal_T_C&#39;, &#39;Internal_P_hPa&#39;, &#39;QAQC_Flag&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">o3</span><span class="p">[</span><span class="s2">&quot;QAQC_Flag&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+<span class="go">QAQC_Flag</span>
+<span class="go"> 0    39134</span>
+<span class="go">-1     4066</span>
+<span class="go">Name: count, dtype: int64</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">final_o3</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">read_data</span><span class="p">(</span><span class="s2">&quot;TRX01&quot;</span><span class="p">,</span> <span class="s2">&quot;2b_205&quot;</span><span class="p">,</span> <span class="n">group</span><span class="o">=</span><span class="s2">&quot;horel&quot;</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="s2">&quot;2024-06-01&quot;</span><span class="p">)[</span><span class="s2">&quot;2b_205&quot;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">kept</span> <span class="o">=</span> <span class="n">o3</span><span class="p">[(</span><span class="n">o3</span><span class="p">[</span><span class="s2">&quot;QAQC_Flag&quot;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">o3</span><span class="p">[</span><span class="s2">&quot;O3_ppb&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">notna</span><span class="p">()]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">kept</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">final_o3</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">-1</span></code> of a horel row means only that the horel group flagged it. The flag
+numbers on the pipeline’s page are the lin group’s.</p>
+</section>
+<section id="flags">
+<h2>Flags<a class="headerlink" href="#flags" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">QAQC_Flag</span></code> is in the <code class="docutils literal notranslate"><span class="pre">qaqc</span></code> and <code class="docutils literal notranslate"><span class="pre">calibrated</span></code> levels of the lin
+group’s instruments, and in the <code class="docutils literal notranslate"><span class="pre">qaqc</span></code> level of the horel group’s ozone and
+particle monitors. <strong>Zero and positive flags pass; a negative flag fails</strong>,
+and its number says why. The <code class="docutils literal notranslate"><span class="pre">final</span></code> level has no flag column: it holds only
+rows that passed.</p>
+<p>What each number means is on the pipeline’s
+<a class="reference external" href="https://github.com/uataq/data-pipeline/blob/main/QAQC_Flags.md">QAQC flag page</a>,
+grouped by instrument, with the calibration’s own flags under <em>Calibration</em>. It
+names the columns as they are in the pipeline’s files (see <a class="reference internal" href="#in-every-table">In every table</a>):
+its <code class="docutils literal notranslate"><span class="pre">Flow_CCmin</span></code>, for example, is uataq’s <code class="docutils literal notranslate"><span class="pre">Flow_mLpm</span></code>, or <code class="docutils literal notranslate"><span class="pre">Flow_Lpm</span></code> for
+the <code class="docutils literal notranslate"><span class="pre">2b_205</span></code>.</p>
+</section>
+<section id="next">
+<h2>Next<a class="headerlink" href="#next" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="pollutants.html"><span class="doc">Pollutants</span></a>: the pattern of the concentration column names, and how to
+pick them out of a table.</p></li>
+<li><p><a class="reference internal" href="first_month.html"><span class="doc">Your first month of data</span></a>: what each data level is for, and times in local time.</p></li>
+</ul>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="availability.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">What data exists</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="general.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">General Functions</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#in-every-table">In every table</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-co2-and-ch4-analyzers">The CO2 and CH4 analyzers</a><ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#final">Final</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#calibrated">Calibrated</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qaqc">QAQC</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-the-analyzer-was-sampling">What the analyzer was sampling</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#when-cal-is-empty">When _cal is empty</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#other-instruments">Other instruments</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-horel-group-s-instruments">The horel group’s instruments</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#flags">Flags</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#next">Next</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  <div class="tocsection sourcelink">
+    <a href="_sources/columns.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025-2026, James Mineau.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.22.0.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

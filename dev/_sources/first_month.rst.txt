@@ -126,7 +126,7 @@ that measured calibration tanks. ``QAQC_Flag`` is the pipeline's flag: 0 is good
 and a negative number says why a row was flagged. The pipeline's
 `QAQC flag page <https://github.com/uataq/data-pipeline/blob/main/QAQC_Flags.md>`_
 lists what each number means. ``ID_CO2`` marks what the analyzer was sampling:
-``-10`` is the outside air.
+``-10`` is the outside air. :doc:`columns` explains these columns.
 
 The research group
 ^^^^^^^^^^^^^^^^^^
@@ -336,4 +336,6 @@ Next
   the errors mean.
 - :doc:`quickstart`: the site and instrument objects, the ``long`` format, and
   the mobile (TRAX and bus) sites.
+- :doc:`columns`: what each column of each level holds, the ``ID`` columns,
+  and the flags.
 - :doc:`pollutants`: the names of the concentration columns.

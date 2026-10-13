@@ -42,6 +42,7 @@ Utah Atmospheric Trace-gas and Air Quality (UATAQ)
    first_month
    quickstart
    availability
+   columns
    general
    laboratory
    filesystem
@@ -68,7 +69,8 @@ groupspace module must define a ``column_mapping`` dictionary (see
 :data:`lin.column_mapping <uataq.filesystem.groupspaces.lin.column_mapping>` and
 :data:`horel.column_mapping <uataq.filesystem.groupspaces.horel.column_mapping>`) that maps the group's column
 names to the standardized names when using the ``GroupSpace.standardize_data`` method.
-The names of the concentration columns are described in :doc:`pollutants`.
+The names of the concentration columns are described in :doc:`pollutants`, and
+what each column of each level holds in :doc:`columns`.
 
 Contents
 --------

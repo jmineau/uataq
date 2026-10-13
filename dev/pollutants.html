@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Pollutants &#8212; UATAQ 2026.10.1.dev8+g2546a27dd documentation</title>
+    <title>Pollutants &#8212; UATAQ 2026.10.1.dev9+g88ef29d5a documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="_static/documentation_options.js?v=8e20ac63"></script>
+    <script src="_static/documentation_options.js?v=c6b8e7c0"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -59,7 +59,7 @@
     <link rel="prev" title="Instruments" href="instruments.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.1.dev8+g2546a27dd" />
+  <meta name="docsearch:version" content="2026.10.1.dev9+g88ef29d5a" />
   
     
     <script src="_static/searchtools.js"></script>
@@ -127,7 +127,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.1.dev8+g2546a27dd documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.1.dev9+g88ef29d5a documentation</p>
   
 </a></div>
     
@@ -170,8 +170,8 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="general.html">
-    General Functions
+  <a class="nav-link nav-internal" href="columns.html">
+    Columns and flags
   </a>
 </li>
 
@@ -183,6 +183,13 @@
                 </button>
                 <ul id="pst-nav-more-links" class="dropdown-menu">
                     
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="general.html">
+    General Functions
+  </a>
+</li>
+
+
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="laboratory.html">
     Laboratory
@@ -380,6 +387,13 @@
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="availability.html">
     What data exists
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="columns.html">
+    Columns and flags
   </a>
 </li>
 
@@ -593,6 +607,8 @@
 <span class="n">parse_column</span><span class="p">(</span><span class="s2">&quot;CH4d_ppm_raw&quot;</span><span class="p">)</span>  <span class="c1"># pollutant=&#39;CH4&#39;, units=&#39;ppm&#39;, dry=True, calibration=&#39;raw&#39;</span>
 </pre></div>
 </div>
+<p>What the other columns hold, and why <code class="docutils literal notranslate"><span class="pre">_cal</span></code> can be empty, is on the
+<a class="reference internal" href="columns.html"><span class="doc">Columns and flags</span></a> page.</p>
 <p><code class="docutils literal notranslate"><span class="pre">_cal</span></code> vs <code class="docutils literal notranslate"><span class="pre">_raw</span></code>: in lin final data <code class="docutils literal notranslate"><span class="pre">_cal</span></code> is the calibrated value and
 <code class="docutils literal notranslate"><span class="pre">_raw</span></code> the uncalibrated one, except for TRX01’s <code class="docutils literal notranslate"><span class="pre">lgr_ugga_manual_cal</span></code>
 (from 2023-11-18), which leaves <code class="docutils literal notranslate"><span class="pre">_cal</span></code> empty and writes the LGR-software
