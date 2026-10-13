@@ -7,6 +7,15 @@ follow [PEP 440](https://peps.python.org/pep-0440/): calendar-based,
 
 ## [Unreleased]
 
+### Changed
+
+- Configuration: HDP, HEB and SUG were taken down, and their instruments now
+  have removal dates (HDP `lgr_ugga` 2025-02-08, HEB `licor_6262` 2025-05-13,
+  SUG `licor_7000` 2025-08-23), each the midnight after the last sample in
+  the archive. A read after one now reports the instrument as inactive
+  instead of finding no files. HEB's `licor_7000`, which replaced its
+  `licor_6262` from 2025-05-30 to 2025-09-16, is added.
+
 ### Fixed
 
 - Docs: the quickstart shows its examples again, and the configuration and
