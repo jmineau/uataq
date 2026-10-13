@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>General Functions &#8212; UATAQ 2026.10.1.dev9+g88ef29d5a documentation</title>
+    <title>General Functions &#8212; UATAQ 2026.10.1.dev10+g30178a7f6 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="_static/documentation_options.js?v=c6b8e7c0"></script>
+    <script src="_static/documentation_options.js?v=d16a830a"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -56,10 +56,10 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Laboratory" href="laboratory.html" />
-    <link rel="prev" title="Columns and flags" href="columns.html" />
+    <link rel="prev" title="Sites and instruments" href="catalog.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.1.dev9+g88ef29d5a" />
+  <meta name="docsearch:version" content="2026.10.1.dev10+g30178a7f6" />
   
     
     <script src="_static/searchtools.js"></script>
@@ -127,7 +127,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.1.dev9+g88ef29d5a documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.1.dev10+g30178a7f6 documentation</p>
   
 </a></div>
     
@@ -183,6 +183,13 @@
                 </button>
                 <ul id="pst-nav-more-links" class="dropdown-menu">
                     
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="catalog.html">
+    Sites and instruments
+  </a>
+</li>
+
+
 <li class=" current active">
   <a class="nav-link dropdown-item nav-internal" href="#" aria-current="page">
     General Functions
@@ -394,6 +401,13 @@
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="columns.html">
     Columns and flags
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="catalog.html">
+    Sites and instruments
   </a>
 </li>
 
@@ -651,12 +665,14 @@ automatically (see <a class="reference internal" href="instruments.html#uataq.in
 <section id="sid">
 <h3>SID<a class="headerlink" href="#sid" title="Link to this heading">#</a></h3>
 <p><code class="docutils literal notranslate"><span class="pre">SID</span></code> is the site identifier for a UATAQ site.
-It is a capitalized string that corresponds to a key in the configuration file.</p>
+It is a key in the configuration file, such as <code class="docutils literal notranslate"><span class="pre">WBB</span></code>; case does not matter.
+The <a class="reference internal" href="catalog.html"><span class="doc">Sites and instruments</span></a> page lists them.</p>
 </section>
 <section id="instruments">
 <h3>Instruments<a class="headerlink" href="#instruments" title="Link to this heading">#</a></h3>
 <p><code class="docutils literal notranslate"><span class="pre">instruments</span></code> is a single instrument name or a list of instrument names.
-The instrument name is a string that corresponds to a key in the <code class="docutils literal notranslate"><span class="pre">lab.instruments</span></code> list.</p>
+The instrument name is a key under the site’s <code class="docutils literal notranslate"><span class="pre">instruments</span></code> in the configuration
+(listed on the <a class="reference internal" href="catalog.html"><span class="doc">Sites and instruments</span></a> page).</p>
 </section>
 <section id="pollutants">
 <h3>Pollutants<a class="headerlink" href="#pollutants" title="Link to this heading">#</a></h3>
@@ -760,12 +776,12 @@ so <code class="docutils literal notranslate"><span class="pre">['2020-01-01',</
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="columns.html"
+       href="catalog.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Columns and flags</p>
+        <p class="prev-next-title">Sites and instruments</p>
       </div>
     </a>
     <a class="right-next"

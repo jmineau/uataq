@@ -43,6 +43,7 @@ Utah Atmospheric Trace-gas and Air Quality (UATAQ)
    quickstart
    availability
    columns
+   catalog
    general
    laboratory
    filesystem

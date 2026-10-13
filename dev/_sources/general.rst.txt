@@ -21,13 +21,15 @@ SID
 ^^^
 
 ``SID`` is the site identifier for a UATAQ site.
-It is a capitalized string that corresponds to a key in the configuration file.
+It is a key in the configuration file, such as ``WBB``; case does not matter.
+The :doc:`catalog` page lists them.
 
 Instruments
 ^^^^^^^^^^^
 
 ``instruments`` is a single instrument name or a list of instrument names.
-The instrument name is a string that corresponds to a key in the ``lab.instruments`` list.
+The instrument name is a key under the site's ``instruments`` in the configuration
+(listed on the :doc:`catalog` page).
 
 Pollutants
 ^^^^^^^^^^
