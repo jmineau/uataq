@@ -14,8 +14,8 @@ import pytest
 import uataq
 from uataq import errors, filesystem
 
-#: Instruments whose removal date was moved to the midnight after their last
-#: sample (raw or qaqc, whichever is later), with that last sample
+#: Instruments whose removal date is the midnight after their last sample
+#: (raw or qaqc, whichever is later), with that last sample
 LAST_SAMPLES = {
     ("ASB", "licor_6262"): "2015-08-05 14:30:00",
     ("BUS01", "2b_405"): "2022-05-09 17:42:50",
@@ -30,6 +30,8 @@ LAST_SAMPLES = {
     ("SUG", "licor_6262"): "2022-02-11 18:07:50",
     ("SUG", "metone_es642"): "2020-04-23 23:12:10",
     ("SUN", "licor_6262"): "2019-11-07 18:28:10",
+    ("TRX02", "lgr_no2"): "2017-06-20 05:28:52.377158",
+    ("WBB", "magee_ae33"): "2024-06-19 17:41:53.764569",
     ("WBB", "metone_es642"): "2022-06-07 17:15:50.7",
     ("WBB", "teom_1400ab"): "2017-03-01 20:03:06.85",
 }
