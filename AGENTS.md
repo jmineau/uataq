@@ -193,22 +193,22 @@ one page; other pages link to it.** The front page (`docs/index.rst`) lists the
 pages in the order a student asks them, in captioned groups: Getting started,
 Guides, Reference, API reference, then Contributing. A new fact goes on the
 page that holds its kind; a new page needs a question no page answers, and goes
-in one group.
+in one group. A change that moves a fact or renames or retitles a page updates
+its row in the table below.
 
 | Fact | Page (file) |
 |---|---|
 | Install, environments, Slurm | Installation (`installation`) |
 | A first read, in local time | Your first month of data (`first_month`) |
-| When a site has data, the newest data, several sites, errors | What data exists (`what_data_exists`) |
-| `read_data` and `get_obs`, the `long` format, mobile sites | Quick Start (`quickstart`) |
+| When a site has data, the newest data | What data exists (`what_data_exists`) |
+| `read_data` and `get_obs`, the `long` format, several sites, mobile sites | Reading data (`reading_data`) |
+| Errors and empty results | When there is nothing to read (`errors`) |
 | Sites, instruments, what each measures, glossary | Sites and instruments (`sites_and_instruments`) |
 | Columns of each level, column names, `ID`, flags, what `final` keeps, empty `_cal` | Columns and flags (`columns`) |
 | Arguments: site, instruments, group, level, time range (every form), processes | Input Parameters (`input_parameters`) |
 | Config keys | Configuration (`config`) |
 | Developer notes | Contributing (`contributing`) |
 | Function and class details | the docstrings, on the API pages |
-
-A change that moves a fact or renames or retitles a page updates its row here.
 
 - **The build fails on any warning** (`-W`). It loads intersphinx inventories,
   so it needs network access. In a docstring, write types that exist
@@ -223,11 +223,11 @@ A change that moves a fact or renames or retitles a page updates its row here.
 - **A running example must not read the archive**, which CI does not have. It
   may use the packaged config (`uataq.get_site`, as on the Sites and
   instruments page), synthetic data, or a public download, and seeds any random
-  numbers. Examples that need the archive (the quickstart, what-data-exists,
-  first-month, columns and input-parameters pages) are plain `code-block` or
-  `pycon` blocks holding the output of a run on CHPC. When the API they show
-  changes, rerun them there and update the page, and its figure in
-  `docs/_static/` if it has one.
+  numbers. Examples that need the archive (the reading-data, what-data-exists,
+  errors, first-month, columns and input-parameters pages) are plain
+  `code-block` or `pycon` blocks holding the output of a run on CHPC. When the
+  API they show changes, rerun them there and update the page, and its figure
+  in `docs/_static/` if it has one.
 - **The site and instrument tables are generated.** The `site-catalog` and
   `instrument-catalog` directives in `docs/sites_and_instruments.rst`
   (`docs/_ext/catalog.py`) build them from `uataq.laboratory` and

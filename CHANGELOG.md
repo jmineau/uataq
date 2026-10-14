@@ -40,6 +40,16 @@ follow [PEP 440](https://peps.python.org/pep-0440/): calendar-based,
   paragraph on what `final` keeps is now a link to "Columns and flags". Pointers
   by section name ("see *Processing Level* on the general functions page") are
   links.
+- Docs: "Quick Start" is now "Reading data", and the error cases have their own
+  page. `docs/quickstart.rst` is `docs/reading_data.rst`, so `quickstart.html`
+  no longer exists. "When there is nothing to read", the last section of "What
+  data exists", is now the page `errors.html` with its text unchanged, so
+  `what_data_exists.html#when-there-is-nothing-to-read` no longer exists.
+  "Several sites at once" moved from "What data exists" to "Reading data"
+  (`reading_data.html#several-sites-at-once`). The `read_data` example reads
+  the default level instead of `qaqc`, and the page's opening on the
+  `laboratory` object is now the docstring of `uataq.laboratory`, shown on the
+  "Laboratory" page.
 - Configuration: HDP, HEB and SUG were taken down, so they are marked
   `is_active: false` and their instruments now have removal dates (HDP
   `lgr_ugga` 2025-02-08, HEB `licor_6262` 2025-05-30, SUG `licor_7000`

@@ -8,44 +8,28 @@ Reading data
     The examples on this page read the UATAQ archive, which is only
     available on CHPC. They are shown as code and are not run when the
     documentation is built. Where an example shows output, it is from a run on
-    CHPC on 11 October 2026.
+    CHPC on 14 October 2026.
 
 For a walk-through from a site to a month of data in local time and a plot,
-start with :doc:`first_month`.
-
-Laboratory
-----------
-
-It all starts in the lab...
-
-.. code-block:: python
-
-    import uataq
-
-    lab = uataq.laboratory
-
-The :data:`laboratory` object is a singleton instance of the :class:`~uataq._laboratory.Laboratory`
-class which is initialized with the :doc:`UATAQ configuration file <config>`.
-The configuration file is a JSON file which specifies UATAQ site characteristics
-including name, location, status, research groups collecting data, and installed instruments.
-
-The :class:`~uataq._laboratory.Laboratory` object contains the following attributes:
-
- - sites : A list of site identifiers.
- - instruments : A list of instrument names.
+start with :doc:`first_month`. This page shows the other ways to read: each
+instrument's data on its own, all of a site's observations in one table, one
+pollutant from several sites, and the mobile sites.
 
 Research Sites
 --------------
 
 The :class:`~sites.Site` object is the primary interface for accessing data from a UATAQ site.
 Each site has a unique site identifier (SID) that corresponds to a key in the configuration file.
-The :data:`lab <laboratory>` is responsible for constructing :class:`~sites.Site` objects from the configuration file,
+The :data:`laboratory` is responsible for constructing :class:`~sites.Site` objects from the configuration file,
 including building the :class:`~instruments.InstrumentEnsemble` for each site.
 The :class:`~instruments.InstrumentEnsemble` is a container object that hold different
 :class:`~instruments.Instrument` objects which provide the linkage between a :class:`~sites.Site` and the data files.
 
 .. code-block:: python
 
+    import uataq
+
+    lab = uataq.laboratory
     sites = lab.sites          # list of sites
     wbb = lab.get_site('wbb')  # site object
 
@@ -73,12 +57,16 @@ Reading Instrument Data
 -----------------------
 
 Using a :class:`~sites.Site` object we can read the data from each instrument
-at the site for a specified processing lvl and time range (what each level is
-for, and how to choose one, is under :ref:`input-level`):
+at the site for a specified time range:
 
 .. code-block:: python
 
-    data = wbb.read_data(instruments='all', lvl='qaqc', time_range='2024-02')
+    data = wbb.read_data(instruments='all', time_range='2024-02')
+
+With no ``lvl`` each instrument is read at the highest level it has, ``final``
+for these. To read another level, such as ``lvl='qaqc'`` with its flagged rows,
+pass ``lvl``: what each level is for, and how to choose one, is under
+:ref:`input-level`.
 
 The data is returned as a dictionary of pandas dataframes, one for each instrument.
 The dataframes are indexed by time and have columns for each variable:
@@ -88,8 +76,9 @@ The dataframes are indexed by time and have columns for each variable:
     lgr_ugga = data['lgr_ugga']
     lgr_ugga.head()
 
-Here ``lgr_ugga`` is indexed by ``Time_UTC`` and its columns include
-``CO2d_ppm``, ``CH4d_ppm``, ``ID`` and ``QAQC_Flag``.
+Here ``lgr_ugga`` is indexed by ``Time_UTC`` and its columns are
+``CO2d_ppm_cal``, ``CO2d_ppm_raw``, ``CH4d_ppm_cal``, ``CH4d_ppm_raw`` and
+``H2O_ppm``. The columns of each level are on the :doc:`columns` page.
 
 Getting Observations
 --------------------
