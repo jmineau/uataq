@@ -51,7 +51,8 @@ work on CHPC, where the archive is. Start with :doc:`installation`, then
    :caption: Guides
 
    what_data_exists
-   quickstart
+   reading_data
+   errors
 
 .. toctree::
    :maxdepth: 1

@@ -1,13 +1,14 @@
 .. currentmodule:: uataq
 
-Quick Start
-===========
+Reading data
+============
 
 .. note::
 
     The examples on this page read the UATAQ archive, which is only
     available on CHPC. They are shown as code and are not run when the
-    documentation is built.
+    documentation is built. Where an example shows output, it is from a run on
+    CHPC on 11 October 2026.
 
 For a walk-through from a site to a month of data in local time and a plot,
 start with :doc:`first_month`.
@@ -155,3 +156,49 @@ Or in the long format:
 
     mobile_data_long = trx01.get_obs(group='horel', time_range=['2019-07-01', '2019-07-08'], format='long')
     mobile_data_long.head()
+
+.. _several-sites:
+
+Several sites at once
+---------------------
+
+:func:`get_network_obs` reads one pollutant from several sites and stacks them in
+one table:
+
+.. code-block:: pycon
+
+    >>> obs = uataq.get_network_obs(
+    ...     ["WBB", "SUG", "RPK"], "CO2", time_range=["2025-06-01", "2025-06-08"]
+    ... )
+    >>> obs[["SID", "instrument", "CO2d_ppm_cal", "zagl"]].head(3)
+                         SID instrument  CO2d_ppm_cal  zagl
+    Time_UTC
+    2025-06-01 00:00:03  WBB   lgr_ugga    432.407511    35
+    2025-06-01 00:00:13  WBB   lgr_ugga    432.561390    35
+    2025-06-01 00:00:23  WBB   lgr_ugga    433.129237    35
+    >>> obs.groupby("SID").size()
+    SID
+    RPK    63936
+    SUG    63936
+    WBB    66821
+    dtype: int64
+
+The table is a ``geopandas.GeoDataFrame`` indexed by ``Time_UTC``. Besides the
+concentration columns (:ref:`column-names`) each row has the ``SID`` and
+``instrument`` it came from, its position (``Latitude_deg``, ``Longitude_deg``
+and ``geometry``) and ``zagl`` (height above ground level, from the site's
+configuration). It reads every instrument that measures the pollutant at the
+highest level the archive has for it, which is the final level for the
+instruments in these examples, and it takes only one pollutant per call.
+:meth:`Network.get_obs` does the same from a ``Network`` you already made.
+
+A site with nothing in the range is left out without an error. HDP stopped in
+February 2025, so asking for June 2025 returns the other two sites:
+
+.. code-block:: pycon
+
+    >>> obs = uataq.get_network_obs(["WBB", "HDP", "CSP"], "CO2", time_range="2025-06")
+    >>> sorted(obs["SID"].unique())
+    ['CSP', 'WBB']
+
+Look at the sites you got back, or ask :meth:`Network.get_availability` first.
