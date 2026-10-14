@@ -7,7 +7,7 @@ When there is nothing to read
 
     The examples on this page read the UATAQ archive, which is only available
     on CHPC. They are shown as code and are not run when the documentation is
-    built. The output under each one is from a run on CHPC on 11 October 2026.
+    built. The output under each one is from a run on CHPC on 14 October 2026.
     The archive keeps growing, so what a read returns will have moved on by the
     time you read this.
 
@@ -189,8 +189,8 @@ Network surprises
 .. code-block:: pycon
 
     >>> uataq.get_network_obs(["HDP"], "CO2", time_range="2025-06")
-    WARNING:uataq.sites:Error reading lgr_ugga@HDP data from lin groupspace: No files found within the specified time range.
-    WARNING:uataq.network:Error reading data from HDP: No data found for ['lgr_ugga'] at HDP (lgr_ugga in lin groupspace).
+    WARNING:uataq.sites:Not reading lgr_ugga@HDP: lgr_ugga@HDP is inactive in given time_range
+    WARNING:uataq.network:Error reading data from HDP: No data found for ['lgr_ugga'] at HDP (lgr_ugga not read: lgr_ugga@HDP is inactive in given time_range).
     Traceback (most recent call last):
       ...
     uataq.errors.ReaderError: No data found for CO2 in any site.
