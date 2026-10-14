@@ -201,10 +201,9 @@ in one group.
 | A first read, in local time | Your first month of data (`first_month`) |
 | When a site has data, the newest data, several sites, errors | What data exists (`what_data_exists`) |
 | `read_data` and `get_obs`, the `long` format, mobile sites | Quick Start (`quickstart`) |
-| Sites, instruments, glossary | Sites and instruments (`sites_and_instruments`) |
-| Columns of each level, `ID`, flags, what `final` keeps, empty `_cal` | Columns and flags (`columns`) |
-| The column-name pattern, `_cal` and `_raw` | Pollutants (`pollutants`) |
-| Arguments: site, instruments, group, level, time range, processes | Input Parameters (`input_parameters`) |
+| Sites, instruments, what each measures, glossary | Sites and instruments (`sites_and_instruments`) |
+| Columns of each level, column names, `ID`, flags, what `final` keeps, empty `_cal` | Columns and flags (`columns`) |
+| Arguments: site, instruments, group, level, time range (every form), processes | Input Parameters (`input_parameters`) |
 | Config keys | Configuration (`config`) |
 | Developer notes | Contributing (`contributing`) |
 | Function and class details | the docstrings, on the API pages |
@@ -222,19 +221,19 @@ A change that moves a fact or renames or retitles a page updates its row here.
   raise or warn). All `.rst` pages share one IPython session, so each page
   imports what it uses. Notebooks are off (`docs_notebooks` in copier).
 - **A running example must not read the archive**, which CI does not have. It
-  may use the packaged config (`uataq.get_site`, as on the Sites and instruments page),
-  synthetic data, or a public download, and seeds any random numbers. Examples
-  that need the archive (the quickstart, availability, first-month and columns
-  pages) are plain `code-block` or `pycon` blocks holding the output of a run
-  on CHPC. When the API they show changes, rerun them there and update the
-  page, and its figure in `docs/_static/` if it has one.
+  may use the packaged config (`uataq.get_site`, as on the Sites and
+  instruments page), synthetic data, or a public download, and seeds any random
+  numbers. Examples that need the archive (the quickstart, what-data-exists,
+  first-month, columns and input-parameters pages) are plain `code-block` or
+  `pycon` blocks holding the output of a run on CHPC. When the API they show
+  changes, rerun them there and update the page, and its figure in
+  `docs/_static/` if it has one.
 - **The site and instrument tables are generated.** The `site-catalog` and
   `instrument-catalog` directives in `docs/sites_and_instruments.rst`
   (`docs/_ext/catalog.py`) build them from `uataq.laboratory` and
-  `uataq.instruments.catalog` on every build, so a config or instrument-class
-  change needs no docs edit. A site is "active" there when one of its
-  instruments has no `removal_date`; the site-level `is_active` key is read by
-  no code.
+  `uataq.instruments.catalog` on every build, so a config or class change needs
+  no docs edit. A site is "active" there when one of its instruments has no
+  `removal_date`; the site-level `is_active` key is read by no code.
 - Autosummary stubs go to `docs/api/` (gitignored); a `:toctree:` pointing
   outside `docs/` litters the repo root. `docs/_ext/api_pages.py` (from
   python-template) keeps class members from being described twice.

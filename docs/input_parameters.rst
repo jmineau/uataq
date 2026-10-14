@@ -120,6 +120,72 @@ There are three primary formats for ``time_range``:
       so ``['2020-01-01', '2020-01-31']`` includes all of January 31st.
     - The use of ``None`` in place of a datetime-like object will set the range to be unbounded in that direction.
 
+Time zones
+^^^^^^^^^^
+
+The examples in this section read the UATAQ archive, which is only available on
+CHPC. They are shown as code and are not run when the documentation is built;
+the output is from runs on CHPC on 12 October 2026.
+
+Times have no time zone attached. A string with an offset other than ``Z`` or
+``+00:00`` is an error that says so:
+
+.. code-block:: pycon
+
+    >>> import uataq
+    >>> uataq.get_obs("WBB", "CO2", time_range="2025-06-01T00:00-06:00")
+    Traceback (most recent call last):
+      ...
+    ValueError: Invalid time string '2025-06-01T00:00-06:00'. Expected ISO 8601 in UTC, e.g. '2024', '2024-01', '2024-01-15', '2024-01-15T12:30:45'.
+
+A pandas ``Timestamp`` must not carry a time zone either. One that does gives
+an error that does not say what to do:
+
+.. code-block:: pycon
+
+    >>> import pandas as pd
+    >>> start = pd.Timestamp("2025-06-01", tz="America/Denver")
+    >>> stop = pd.Timestamp("2025-07-01", tz="America/Denver")
+    >>> uataq.get_obs("WBB", "CO2", time_range=[start, stop])
+    Traceback (most recent call last):
+      ...
+    TypeError: Cannot compare tz-naive and tz-aware timestamps
+
+The same happens with ``tz="UTC"``. Convert the times to UTC and take the time
+zone off:
+
+.. code-block:: pycon
+
+    >>> utc = [t.tz_convert("UTC").tz_localize(None) for t in (start, stop)]
+    >>> utc
+    [Timestamp('2025-06-01 06:00:00'), Timestamp('2025-07-01 06:00:00')]
+    >>> len(uataq.get_obs("WBB", "CO2", time_range=utc))
+    250685
+
+That reads exactly June in local time, the same 250,685 rows as the cut in
+:ref:`first-month-local-month`. Both ways are right; use the one you find
+clearer.
+
+Where a range ends
+^^^^^^^^^^^^^^^^^^
+
+An end given as a ``Timestamp`` stops at that instant, so the same end given as
+a string gives a longer range:
+
+.. code-block:: pycon
+
+    >>> a = uataq.get_obs("WBB", "CO2", time_range=["2025-06-02T06", "2025-06-03T06"])
+    >>> a.index[-1]
+    Timestamp('2025-06-03 06:59:53')
+    >>> b = uataq.get_obs(
+    ...     "WBB", "CO2", time_range=[pd.Timestamp("2025-06-02T06"), pd.Timestamp("2025-06-03T06")]
+    ... )
+    >>> b.index[-1]
+    Timestamp('2025-06-03 05:59:58')
+
+So the string range is an hour longer. When you want an end at an exact time,
+give it as a ``Timestamp``.
+
 .. _input-num-processes:
 
 Number of Processes
