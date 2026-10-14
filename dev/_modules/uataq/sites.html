@@ -6,7 +6,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>uataq.sites &#8212; UATAQ 2026.10.1.dev32+gf246bfccc documentation</title>
+    <title>uataq.sites &#8212; UATAQ 2026.10.1.dev33+gd0fcfd869 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="../../_static/documentation_options.js?v=45799891"></script>
+    <script src="../../_static/documentation_options.js?v=2f492537"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -56,7 +56,7 @@
     <link rel="search" title="Search" href="../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.1.dev32+gf246bfccc" />
+  <meta name="docsearch:version" content="2026.10.1.dev33+gd0fcfd869" />
   
     
     <script src="../../_static/searchtools.js"></script>
@@ -124,7 +124,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.1.dev32+gf246bfccc documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.1.dev33+gd0fcfd869 documentation</p>
   
 </a></div>
     
@@ -627,6 +627,7 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">dt</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">defaultdict</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Mapping</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Literal</span>
@@ -993,6 +994,13 @@
 <span class="sd">            The wide columns come instrument by instrument, in the order the</span>
 <span class="sd">            ``pollutants`` were asked for (a set is sorted; ``&#39;all&#39;`` follows</span>
 <span class="sd">            the site&#39;s config), and the same on every call.</span>
+
+<span class="sd">        Warns</span>
+<span class="sd">        -----</span>
+<span class="sd">        EmptyResultWarning</span>
+<span class="sd">            If the instruments have files for the range but no data in it, so</span>
+<span class="sd">            the table has no rows. A range with no files raises</span>
+<span class="sd">            :class:`~uataq.errors.ReaderError` instead.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">frames</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_read_obs</span><span class="p">(</span><span class="n">pollutants</span><span class="p">,</span> <span class="nb">format</span><span class="p">,</span> <span class="n">group</span><span class="p">,</span> <span class="n">time_range</span><span class="p">,</span> <span class="n">num_processes</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">frames</span><span class="o">.</span><span class="n">values</span><span class="p">())</span><span class="o">.</span><span class="n">sort_index</span><span class="p">())</span></div>
@@ -1049,6 +1057,8 @@
 
         <span class="c1"># Columns carry the declared case (&quot;NOx_ppb&quot;), not the uppercase request</span>
         <span class="n">declared</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_declared_pollutants</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">pollutants</span><span class="p">]</span>
+        <span class="c1"># Say which pollutants were asked for, not the instruments that measure them</span>
+        <span class="n">asked</span> <span class="o">=</span> <span class="s2">&quot;all pollutants&quot;</span> <span class="k">if</span> <span class="n">everything</span> <span class="k">else</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">declared</span><span class="p">)</span>
 
         <span class="c1"># Read data</span>
         <span class="k">try</span><span class="p">:</span>
@@ -1058,15 +1068,25 @@
         <span class="k">except</span> <span class="n">errors</span><span class="o">.</span><span class="n">ReaderError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">e</span><span class="o">.</span><span class="n">detail</span><span class="p">:</span>  <span class="c1"># not a read that found nothing</span>
                 <span class="k">raise</span>
-            <span class="c1"># Say which pollutants were asked for, not the instruments that</span>
-            <span class="c1"># measure them</span>
-            <span class="n">asked</span> <span class="o">=</span> <span class="s2">&quot;all pollutants&quot;</span> <span class="k">if</span> <span class="n">everything</span> <span class="k">else</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">declared</span><span class="p">)</span>
             <span class="k">raise</span> <span class="n">_no_data</span><span class="p">(</span><span class="n">asked</span><span class="p">,</span> <span class="n">lvl</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">SID</span><span class="p">,</span> <span class="n">e</span><span class="o">.</span><span class="n">detail</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="kc">None</span>
 
         <span class="n">pattern</span> <span class="o">=</span> <span class="s2">&quot;|&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">declared</span><span class="p">)</span>
 
         <span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Combining data by pollutant...&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="p">{</span><span class="n">name</span><span class="p">:</span> <span class="n">_reshape_obs</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">pattern</span><span class="p">,</span> <span class="nb">format</span><span class="p">)</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">df</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+        <span class="n">frames</span> <span class="o">=</span> <span class="p">{</span><span class="n">name</span><span class="p">:</span> <span class="n">_reshape_obs</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">pattern</span><span class="p">,</span> <span class="nb">format</span><span class="p">)</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">df</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span> <span class="k">for</span> <span class="n">frame</span> <span class="ow">in</span> <span class="n">frames</span><span class="o">.</span><span class="n">values</span><span class="p">()):</span>
+            <span class="c1"># An instrument with no files is not in data (read_data logged it</span>
+            <span class="c1"># and went on), so each one here has files, and none has data in</span>
+            <span class="c1"># the range</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;No </span><span class="si">{</span><span class="n">lvl</span><span class="si">}</span><span class="s2"> data found for </span><span class="si">{</span><span class="n">asked</span><span class="si">}</span><span class="s2"> at </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">SID</span><span class="si">}</span><span class="s2"> &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="n">TimeRange</span><span class="p">(</span><span class="n">time_range</span><span class="p">)</span><span class="si">}</span><span class="s2">): the files for </span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="si">}</span><span class="s2"> exist &quot;</span>
+                <span class="s2">&quot;but hold no data in that range.&quot;</span><span class="p">,</span>
+                <span class="n">errors</span><span class="o">.</span><span class="n">EmptyResultWarning</span><span class="p">,</span>
+                <span class="n">stacklevel</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>  <span class="c1"># the caller of get_obs</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">frames</span>
 
 <div class="viewcode-block" id="Site.get_recent_obs">
 <a class="viewcode-back" href="../../sites.html#uataq.sites.Site.get_recent_obs">[docs]</a>
@@ -1095,6 +1115,12 @@
 <span class="sd">        -------</span>
 <span class="sd">        pandas.DataFrame</span>
 <span class="sd">            A dataframe containing recent observations from site instruments.</span>
+
+<span class="sd">        Warns</span>
+<span class="sd">        -----</span>
+<span class="sd">        EmptyResultWarning</span>
+<span class="sd">            If nothing in the files falls in the range, so the table has no</span>
+<span class="sd">            rows (see :meth:`get_obs`).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">recent</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="n">recent</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_timedelta</span><span class="p">(</span><span class="n">recent</span><span class="p">)</span>
@@ -1244,6 +1270,12 @@
 <span class="sd">        pandas.DataFrame</span>
 <span class="sd">            A dataframe containing mobile site observations for each pollutant</span>
 <span class="sd">            with location data merged (a GeoDataFrame when ``include_gps``).</span>
+
+<span class="sd">        Warns</span>
+<span class="sd">        -----</span>
+<span class="sd">        EmptyResultWarning</span>
+<span class="sd">            If the instruments&#39; files hold no data in the range (see</span>
+<span class="sd">            :meth:`Site.get_obs`).</span>
 
 <span class="sd">        Notes</span>
 <span class="sd">        -----</span>

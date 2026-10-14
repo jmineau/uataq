@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Sites &#8212; UATAQ 2026.10.1.dev32+gf246bfccc documentation</title>
+    <title>Sites &#8212; UATAQ 2026.10.1.dev33+gd0fcfd869 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="_static/documentation_options.js?v=45799891"></script>
+    <script src="_static/documentation_options.js?v=2f492537"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -59,7 +59,7 @@
     <link rel="prev" title="Laboratory" href="laboratory.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.1.dev32+gf246bfccc" />
+  <meta name="docsearch:version" content="2026.10.1.dev33+gd0fcfd869" />
   
     
     <script src="_static/searchtools.js"></script>
@@ -127,7 +127,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.1.dev32+gf246bfccc documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.1.dev33+gd0fcfd869 documentation</p>
   
 </a></div>
     
@@ -754,6 +754,11 @@ the site’s config), and the same on every call.</p>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v3.0.6)">pandas.DataFrame</a></p>
 </dd>
+<dt class="field-even">Warns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>EmptyResultWarning</strong> – If the instruments have files for the range but no data in it, so
+the table has no rows. A range with no files raises
+<code class="xref py py-class docutils literal notranslate"><span class="pre">ReaderError</span></code> instead.</p>
+</dd>
 </dl>
 </dd></dl>
 
@@ -775,6 +780,10 @@ the site’s config), and the same on every call.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v3.0.6)">pandas.DataFrame</a></p>
+</dd>
+<dt class="field-even">Warns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>EmptyResultWarning</strong> – If nothing in the files falls in the range, so the table has no
+rows (see <a class="reference internal" href="#uataq.sites.Site.get_obs" title="uataq.sites.Site.get_obs"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_obs()</span></code></a>).</p>
 </dd>
 </dl>
 </dd></dl>
@@ -856,6 +865,10 @@ with location data merged (a GeoDataFrame when <code class="docutils literal not
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v3.0.6)">pandas.DataFrame</a></p>
+</dd>
+<dt class="field-even">Warns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>EmptyResultWarning</strong> – If the instruments’ files hold no data in the range (see
+<a class="reference internal" href="#uataq.sites.Site.get_obs" title="uataq.sites.Site.get_obs"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Site.get_obs()</span></code></a>).</p>
 </dd>
 </dl>
 <p class="rubric">Notes</p>

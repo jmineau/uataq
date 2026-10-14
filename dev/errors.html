@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>When there is nothing to read &#8212; UATAQ 2026.10.1.dev32+gf246bfccc documentation</title>
+    <title>When there is nothing to read &#8212; UATAQ 2026.10.1.dev33+gd0fcfd869 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="_static/documentation_options.js?v=45799891"></script>
+    <script src="_static/documentation_options.js?v=2f492537"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -59,7 +59,7 @@
     <link rel="prev" title="Reading data" href="reading_data.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.1.dev32+gf246bfccc" />
+  <meta name="docsearch:version" content="2026.10.1.dev33+gd0fcfd869" />
   
     
     <script src="_static/searchtools.js"></script>
@@ -127,7 +127,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.1.dev32+gf246bfccc documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.1.dev33+gd0fcfd869 documentation</p>
   
 </a></div>
     
@@ -702,13 +702,22 @@ stopped.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">wbb_obs</span><span class="p">))</span>
 <span class="go">206114</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">wbb</span><span class="o">.</span><span class="n">get_obs</span><span class="p">(</span><span class="s2">&quot;CO2&quot;</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="s2">&quot;2024-03-04&quot;</span><span class="p">)))</span>
+<span class="go">&lt;stdin&gt;:1: EmptyResultWarning: No final data found for CO2 at WBB (2024-03-04 00:00:00 to 2024-03-05 00:00:00): the files for lgr_ugga exist but hold no data in that range.</span>
 <span class="go">0</span>
 </pre></div>
 </div>
 <p>The month has a file, but there are no rows on that day, at any level (<code class="docutils literal notranslate"><span class="pre">raw</span></code>
-too): the instrument recorded nothing. You get an empty table and no warning, so
-check <code class="docutils literal notranslate"><span class="pre">len</span></code> of what you get back. To see where the gaps in a month are, look at
-the time between rows:</p>
+too): the instrument recorded nothing. The read did not fail, so you get an empty
+table and a warning, <code class="docutils literal notranslate"><span class="pre">uataq.errors.EmptyResultWarning</span></code>. It is a Python warning,
+so it shows without the log. <code class="docutils literal notranslate"><span class="pre">get_recent_obs</span></code> and <code class="docutils literal notranslate"><span class="pre">get_network_obs</span></code> warn the
+same way when their table has no rows. To silence it, for a loop over days that
+may be empty:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="n">uataq</span><span class="o">.</span><span class="n">errors</span><span class="o">.</span><span class="n">EmptyResultWarning</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>To see where the gaps in a month are, look at the time between rows:</p>
 <div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">gaps</span> <span class="o">=</span> <span class="n">wbb_obs</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">to_series</span><span class="p">()</span><span class="o">.</span><span class="n">diff</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">gaps</span><span class="p">[</span><span class="n">gaps</span> <span class="o">&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timedelta</span><span class="p">(</span><span class="s2">&quot;6h&quot;</span><span class="p">)]</span>
