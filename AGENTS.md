@@ -11,613 +11,244 @@
 
 # AGENTS.md — Developer and Agent Guide for uataq
 
-`uataq` (Utah Atmospheric Trace-gas and Air Quality) is a reader for UATAQ
-project data. It abstracts over the on-disk layout maintained by UATAQ groups
-(group spaces) and exposes a high-level Laboratory → Site → Instrument model
-plus convenience top-level functions for reading time-bounded data.
-
-Distribution and import name: `uataq` (installed from GitHub; not on PyPI).
-Source in `src/uataq/`. Built with setuptools, like the user's other packages.
+`uataq` (Utah Atmospheric Trace-gas and Air Quality) reads UATAQ data from the
+archives the research groups keep on CHPC. It hides each group's on-disk layout
+behind a Laboratory → Site → Instrument model and a few top-level functions
+(`read_data`, `get_obs`, `get_recent_obs`, `get_network_obs`). Distribution and
+import name `uataq`; installed from GitHub, not on PyPI. Contribution mechanics
+are in [CONTRIBUTING.md](CONTRIBUTING.md); longer developer notes (mobile clocks,
+the MetOne swap files, availability, SODAR) in
+[docs/contributing.rst](docs/contributing.rst).
 
 ## Module layout
 
 ```
 src/uataq/
-  __init__.py        top-level API: read_data, get_obs, get_recent_obs,
-                     get_network_obs; re-exports Laboratory, Network, etc.
-  config.json        UATAQ laboratory configuration (sites + instruments)
-                     loaded at import via `_laboratory`
-  _laboratory.py     Laboratory factory; builds sites + instruments from
-                     config.json (importlib.resources)
-  sites.py           Site classes — stationary + mobile; per-site read_data
-                     and get_obs methods
-  instruments.py     Instrument ABC + concrete subclasses; defines how each
-                     instrument's files are parsed
-  network.py         Network — multi-site aggregator (used by
-                     get_network_obs); returns GeoDataFrame. Also
-                     get_availability / plot_availability (see
-                     "Network availability" below)
-  errors.py          custom exceptions (DataFileInitializationError,
-                     ParserError, ...)
-  timerange.py       TimeRange + TimeRangeTypes (str | tuple | list | slice
-                     | None)
-  pollutants.py      UATAQ concentration-column grammar
-                     ({pollutant}[d|channel]_{units}[_cal|_raw]):
-                     concentration_columns (used by network), parse_column,
-                     POLLUTANTS (from the instrument catalog). Display
-                     metadata lives in lair.pollutants; uataq never imports
-                     lair (its import downloads the CCG filter).
-  gps.py             great-circle helpers (haversine, bearing) +
-                     estimate_speed_course(); used by instruments.GPS to fill
-                     speed/course the receiver did not record
-  sodar.py           Horel/MesoWest SODAR wind-profile reader (Sodar,
-                     list_stations). Standalone: NOT wired into config.json /
-                     Instrument / GroupSpace (see "SODAR" below). Moved here
-                     from lair.mesowest.
+  __init__.py        read_data, get_obs, get_recent_obs, get_network_obs;
+                     re-exports laboratory, get_site, Network, DEFAULT_GROUP,
+                     TimeRange and the modules below
+  config.json        sites and instruments; read at import (importlib.resources)
+  _laboratory.py     Laboratory: builds sites and instruments from config.json
+  sites.py           Site (stationary) and MobileSite (GPS-located rows)
+  instruments.py     Instrument ABC, one subclass per model, and `catalog`
+  network.py         Network: many sites, one pollutant (GeoDataFrame);
+                     get_availability / plot_availability
+  pollutants.py      column grammar {pollutant}[d|channel]_{units}[_cal|_raw]:
+                     concentration_columns, parse_column, POLLUTANTS
+  gps.py             haversine, bearing, estimate_speed_course,
+                     gps_time_from_time_of_day
+  sodar.py           Horel/MesoWest SODAR profiles (Sodar, list_stations);
+                     standalone, not in config.json, not imported by uataq
+  timerange.py       TimeRange and the TimeRangeTypes alias
+  errors.py          ReaderError and its subclasses, ParserError, ...
   filesystem/
-    __init__.py      DataFile, GroupSpace, DEFAULT_GROUP="lin",
-                     groups dict, lvls dict, list_files,
-                     filter_datafiles, parse_datafiles, get_group,
-                     cpu_count (affinity-aware; use it, not
-                     multiprocessing.cpu_count, for num_processes="max")
-    core.py          implementations of the above
-    groupspaces/     per-group disk layout adapters
-      __init__.py
-      lin.py         Lin group layout
-      horel.py       Horel group layout
-  py.typed           ships type hints
+    __init__.py      DEFAULT_GROUP, get_group; re-exports core
+    core.py          DataFile, GroupSpace, groups, lvls, list_files,
+                     filter_datafiles, parse_datafiles, cpu_count
+    groupspaces/     one module per research group's archive (lin, horel)
 tests/               pytest
-docs/                Sphinx
+docs/                Sphinx; docs/_ext/ holds two local extensions
 ```
 
-## Public API (from `uataq.__init__`)
+How a read flows: `laboratory` (a process-wide singleton built at import) holds
+the `Site`s; `get_site(SID)` returns one, and the top-level functions delegate
+to it. A `Site` asks each `Instrument` which group to read each part of the
+range from (`plan_reads`); the instrument gets its files from that group's
+`GroupSpace` (`filesystem.groups[name]`), whose `DataFile` classes parse them;
+the frames are standardized to uataq's column names and concatenated in time.
+`filesystem.lvls` ranks the levels (`raw` < `qaqc` < `calibrated` < `final`).
 
-Top-level convenience functions:
+## Invariants
 
-| Function | Returns | Notes |
-|---|---|---|
-| `read_data(SID, instruments="all", group=None, lvl=None, time_range=None, num_processes=1, file_pattern=None)` | `dict[str, pd.DataFrame]` | Raw instrument data, per-instrument |
-| `get_obs(SID, pollutants="all", format="wide", group=None, time_range=None, num_processes=1, **kwargs)` | `pd.DataFrame` | Processed observations |
-| `get_recent_obs(SID, recent=timedelta(days=10), pollutants="all", format="wide", group=None)` | `pd.DataFrame` | Last N days |
-| `get_network_obs(sites, pollutant, time_range=None, group=None, num_processes=1)` | `gpd.GeoDataFrame` | Multi-site aggregate, single pollutant; EPSG:4326, indexed by `Time_UTC` |
+- **`config.json` is the source of truth** for sites and instruments. A new
+  site or instrument is a config entry (plus a parser if the model is new),
+  never a hard-coded case. `docs/config.rst` documents its keys.
+- **`installation_date`, `removal_date` and `group_dates` are instants**
+  (`pd.to_datetime`; a date alone is midnight UTC) and windows are half-open.
+  So a `removal_date` is **the midnight after the last sample** at any level;
+  a date on a day that still has data hides that day. Take the last sample
+  from the data (the last row with a value in the instrument's own columns:
+  horel's qaqc and final files hold a whole platform) and write it in the
+  instrument's `notes`; a date set otherwise says why there. At a swap the
+  replacement's `installation_date` must not fall before the removed one's
+  `removal_date` (`tests/test_config.py` lists the swaps); at the MetOne
+  swaps both are one instant with a time of day, the ES405's first raw row.
+- **Reads are clipped to the installed window.** `Instrument.clip_to_active`
+  intersects the request with `active_range`, and the clipped range drives
+  both file selection and the row slice. Both are needed: groups reuse a file
+  name across an instrument change (horel calls both MetOne models
+  `esampler`), so a monthly file that straddles a swap holds the replacement's
+  rows. A request that misses or only touches the window raises
+  `InactiveInstrumentError`.
+- **Every read goes through a `GroupSpace`.** No raw filesystem walks outside
+  `filesystem/`.
+- **`DEFAULT_GROUP = "lin"` is a tie-breaker, not a default for everything.**
+  With `group=None`, `Instrument.resolve_group` takes the default group if it
+  operates the instrument, else its sole operator, else the first configured.
+  It is a config lookup: it never checks the archive and ignores
+  `group_dates`. Anything that wraps `Site.read_data` must pass `group=None`
+  through, never replace it with `get_group(None)`, which would send
+  horel-only instruments to lin. `docs/filesystem.rst` quotes the line by its
+  text (`literalinclude` with `:start-at:`), so keep the spelling
+  `DEFAULT_GROUP: str`.
+- **Reads are planned by time.** `Instrument.plan_reads(group, time_range)`
+  returns `[(group, portion), ...]`: one portion for a named group; with none,
+  the clipped range is cut at each `group_dates` edge and each piece goes to
+  the most preferred group covering it (default group, then `loggers` order).
+  `Site.read_data` reads each portion and concatenates them; a failing portion
+  is logged and skipped, and all failing raises `ReaderError`.
+- **A period can have two raw files.** horel split the month of each MetOne
+  swap into `{SID}_{YYYY}_{MM}_esampler.h5` and the same name plus
+  `horel.PRIOR_405_SUFFIX` (the month up to the swap), and `HorelGroup.get_datafiles`
+  adds the suffixed file to every raw read except the ES405's. So
+  `filter_datafiles` drops every file that starts at the range's stop, not
+  only the last one.
+- **One group's mobile rows are located only with that group's own GPS**,
+  because each group's instruments share their GPS's logger clock (lin: the
+  Pi, joined on `Pi_Time`; horel: the CR1000, joined on `Time_UTC`).
+  `MobileSite.locate` replays each instrument's `plan_reads` to split its frame
+  by group, and `_gps_group` raises `ValueError` rather than borrow another
+  group's GPS. Every located row carries `GPS_Group`, which says which clock
+  its `Time_UTC` is on.
+- **Time ranges are half-open `[start, stop)`** everywhere: `TimeRange`
+  (including `__contains__`), `filesystem.parse_datafiles` and `uataq.sodar`
+  exclude a sample exactly at `stop` (`.loc[start:stop]` alone is inclusive).
+  A string stop is the end of the period it names (`"2024"` stops at
+  2025-01-01). If time semantics change, change `timerange.py` and every
+  public docstring that describes them (`docs/general.rst` too).
+- **Never write to the data archives.** uataq only reads.
+- **`laboratory` is shared**: don't mutate `laboratory.sites`.
+- **`import uataq` stays light.** `uataq.sodar` (the only xarray user) is not
+  imported by `__init__`; matplotlib and cartopy are optional imports inside
+  the plotting methods. uataq never imports lair (its import downloads the CCG
+  filter); display metadata for pollutants lives in `lair.pollutants`.
+- **uataq does not set pandas options.** Code must be right with copy-on-write
+  on or off: no chained assignment, and `.copy()` a filtered frame before
+  setting values on it.
+- **Dependencies:** `tables>3.10` is pinned for numpy 2 compatibility; keep
+  it when bumping. `xarray` is a runtime dependency for `uataq.sodar` only.
+- **Logging:** modules use `logging.getLogger(__name__)`; `__init__.py`
+  attaches a `NullHandler`. No `print()` in library code.
 
-Re-exported objects:
-`sites`, `instruments`, `laboratory` (module-level Laboratory instance,
-built from `config.json`), `filesystem`, `DEFAULT_GROUP`, `get_site`,
-`Network`.
+## Development workflow
 
-`uataq.sodar` is **not** imported by `uataq/__init__.py` (keeps xarray off the
-`import uataq` path). Use `from uataq.sodar import Sodar`.
-
-## SODAR (`uataq.sodar`)
-
-Reads the Horel group's MesoWest SODAR HDF5 archive:
-`horel.MESOWEST_DIR/sodar_data/hdf5archive/` (`horel.MESOWEST_DIR` =
-`HOREL_DIR/oper/mesowest`, defined in `filesystem/groupspaces/horel.py`).
-Files: `{SID}_full_metadata_log.h5` (`/metagroup/metadata`, `/metagroup/variables`
-with `MULT` scale factors) and monthly `{SID}_{YYYY}_{MM}_sodar.h5`
-(`/obsdata/observations`: `STATION_ID`, `DATTIM` epoch s, `(n_levels,)` int
-columns `HEIGHT` [m, unscaled], `WS`/`WD`/`MXWS` [x MULT]). Stations seen:
-USDR1-5, WSLSA, WSMLI. Stray files (`USDR2_2018_12_sodar_p1.h5`,
-`all_sodar_metadata.h5`, `_Processed/`) are ignored by the exact-name regex.
-
-API (kept lair-compatible so callers only change the import):
-
-| Call | Returns |
-|---|---|
-| `Sodar(SID, mesowest_dir=None)` | reads metadata log eagerly; attrs `SID`, `sodar_dir`, `archive_dir`, `metafile`, `meta`, `variables` (indexed by `SHORTNAME`) |
-| `Sodar.get_files(lvl="raw", time_range=None)` | `list[str]` of monthly files overlapping `[start, stop)` |
-| `Sodar.parse(file, variables)` (static) | `xr.Dataset` `(Time_UTC, level)`; -9999 -> NaN; vars / `MULT`; `level` coord = 0..n-1 |
-| `Sodar.read_data(lvl="raw", time_range=None, num_processes=1)` | concat along `Time_UTC` (outer join pads if gate count changes), sorted, sliced `[start, stop)` |
-| `Sodar.get_winds_at_height(data, height)` (static) | `pd.DataFrame[direction, speed]` indexed by `Time_UTC`; level matched per timestamp |
-| `list_stations(mesowest_dir=None)` | SIDs with a metadata log |
-
-Design: standalone because SODAR stations are MesoWest stations (not UATAQ
-sites in `config.json`), output is 2-D `(time, level)` which the pandas
-`DataFile`/`parse_datafiles` pipeline can't carry (its xarray driver is a
-stub), and the `MULT` scaling lives in a per-station file outside the data
-file. Only `lvl="raw"` exists; anything else raises ValueError.
-
-Behavior vs. the old `lair.mesowest` (intentional fixes): `get_winds_at_height`
-raises ValueError (listing available heights) instead of IndexError and no
-longer reads only the first record's `HEIGHT`; the time slice is half-open
-(no extra sample at the next day's 00:00); file names parsed by regex, not
-`file[6:13]` (works for any SID length, no `USDR1`/`USDR10` prefix clash);
-`FileNotFoundError` when no files match; never `Pool(0)`. The
-`LAIR_MESOWEST_DIR` env var / `resolve_mesowest_dir` were dropped (uataq is
-CHPC-bound; use `mesowest_dir=`).
-
-## GPS (`uataq.gps` + `instruments.GPS`)
-
-Receivers logging only `GPGGA` (position, altitude, fix quality) record no
-speed or course; `GPRMC` carries both. `GPS.read_data` converts lin's recorded
-speed from knots (NMEA) to `Speed_m_s` -- horel's `RSPD`/`GPS_Speed` are already
-m/s and map straight to `Speed_m_s` (before 2026-10 they went through the knots
-conversion too, so horel speeds read ~half their true value) -- then calls
-`GPS.estimate_motion`, which fills
-missing `Speed_m_s` / `Course_deg` from the positions and adds the booleans
-`Speed_Estimated` / `Course_Estimated` (True exactly where the value came from
-positions). **Recorded values are never overwritten** — only NaNs are filled.
-Disable with `instrument.read_data(..., estimate_motion=False)`; that keyword
-is not forwarded by the top-level `uataq.read_data`.
-
-`estimate_speed_course` is a *centered* difference over `window` samples each
-side (class attrs `GPS.estimate_window` = 1, `GPS.estimate_max_gap` = "60s"):
-speed = great-circle distance / elapsed time, course = bearing along it. The
-first/last `window` samples are NaN, as is anything spanning a gap longer than
-`max_gap` (a chord across a gap is not the path travelled) or a non-increasing
-time step (duplicate timestamps give NaN, not inf).
-
-**horel's clock is not GPS time.** horel's `Time_UTC` is the CR1000 logger's
-clock, which runs 1-20 s ahead of GPS time and drifts between resets (10 s
-on 2019-03-01 and 2024-06-01, 5-6 s after 2024-06-20). The raw horel GPS
-logs the receiver's own time of day (`GTIM` → `Instrument_Time`, HHMMSS), so
-`GPS.read_data` adds `GPS_Time_UTC` for horel (`gps.gps_time_from_time_of_day`
-dates it from the logger clock, across midnight; NaT on rows without a fix,
-where the receiver's clock is stale). The index stays on the
-logger clock so it still lines up with the logger's other columns. horel's
-qaqc/final files have no `GTIM`, so final-level horel O3/PM stay on logger
-time. lin's GPS `Time_UTC` is already GPS time (the Pi clock is `Pi_Time`).
-Each group's rows are located with that group's own GPS; one group's GPS is
-never used for the other's rows.
-
-Gotchas:
-- **Position noise becomes speed noise.** ~3 m of jitter differenced over 1 s
-  looks like a few m/s. Validated on TRAX 1 Hz: 2024 matches recorded speed at
-  r=0.995 (median diff 0.00 m/s, course 0.4 deg while moving), but 2019 shows
-  r=0.82 and a 2.8 m/s p95 while parked. Widen `estimate_window` before
-  thresholding a stationary platform.
-- **All-NA columns can arrive as strings** (the GPGGA-only years, pandas 3 /
-  Arrow). `estimate_motion` coerces a non-numeric `Speed_m_s`/`Course_deg` to
-  float before filling — that TypeError was a real crash on 2016 trx01 data.
-- lin's `true_course` mapped to `True_Course` while horel mapped to
-  `Course_deg`, so lin GPS course silently never reached code expecting the
-  horel name (slv's mobile reader). Unified to `Course_deg` (2026-09-22).
-
-## Locating mobile data (`MobileSite.locate`)
-
-`MobileSite.get_obs` and `Network` (mobile sites) join each instrument's rows
-to the GPS **of the group the rows were read from**, because each group's
-instruments and GPS share a logger clock: lin's are stamped by the Pi (join
-`Pi_Time`; the GPS supplies `Time_UTC`), horel's by the CR1000 (join
-`Time_UTC`; the instrument and GPS values are one record). `locate` replays
-each instrument's `plan_reads` to cut its concatenated frame back into
-`(group, rows)` pieces (`_split_by_plan`), reads each needed GPS group once
-over the span of its pieces, and stacks the results in time.
-
-Why it matters: the clocks disagree. TRX01's CR1000 ran 1-20 s **ahead** of
-GPS time on dates sampled 2019-2026 (horel raw `Instrument_Time`/GTIM vs
-`Time_UTC`; it drifts and is reset, e.g. 6 s on 2024-05-15, 10 s on
-2024-06-01, 5 s on 2024-06-20, ~20 s in 2026). Before 2026-10, post-2017 TRAX
-ozone/PM (horel) was joined to lin's GPS on the Pi clock: on 2024-06-01 that
-put moving rows a median 120 m (p95 250 m) off the track position and dropped
-42 of 35,135 O3 rows. Joined on the CR1000 clock they sit 5 m off. The
-**timestamp** of horel rows is still CR1000 time, offset from true UTC by
-that drift: the finalized horel files carry no GPS time to correct it.
-Every located row carries `GPS_Group` (`"lin"`/`"horel"`): which GPS located
-it, and so which clock its `Time_UTC` is on (lin: GPS time; horel: CR1000).
-A no-group TRAX read mixes the two (lin GPS at 1 s with altitude, horel at
-2 s without), so filter or compare by it.
-
-**One group's rows are never located with another group's GPS** (James,
-2026-10-03): the logger clocks differ. `_gps_group` raises `ValueError` if the
-caller names another group's GPS for some rows (a mapping like
-`{"gps": "lin"}` while O3 comes from horel), or if a group logs no GPS at the
-site (no current site has one; this used to fall back to the other group's
-GPS). `group="lin"` as a plain string is fine: every instrument then comes
-from lin. A GPS group that cannot be read drops only its rows (warned);
-all failing raises ReaderError. With no group, one TRAX call can return both
-groups' GPS columns (lin's carry `Altitude_msl`, horel's final GPS does not).
-
-## Network availability (`Network.get_availability` / `plot_availability`)
-
-`Network(sites, pollutant).get_availability(time_range, freq="D", lvls=None,
-num_processes=1)` returns segments `SID, lvl, start, stop` (half-open). It
-**parses every file** rather than trusting file listings: horel qaqc/final
-CSVs are per-platform (all instruments in one file), so a file existing says
-nothing about one pollutant -- e.g. TRX01's Aug 2022 finalized CSV has -9999
-ozone for all but the last 47 min while the raw 2B h5 is full. A bin counts
-for a level when any row has a non-null `pollutants.concentration_columns(...)` value
-(`O3_ppb`, `CO2d_ppm_cal`, `BC6_ngm3`; not `O3_Meas_mV` / `O3_std_ppb` /
-`CO2d_ppm_raw`; `get_obs` passes `raw=True` to keep `_raw` -- the only
-populated column for TRX01's `lgr_ugga_manual_cal`), and takes the highest level present, so "measured but not
-in final" shows as qaqc/raw. With no `group`, **every** group operating the
-instrument is checked (TRX01/02 ozone is in lin 2015-2017 and horel after),
-ignoring `group_dates`: availability reports what each archive holds, while
-`get_obs` reads one group per portion (`plan_reads`). One pool over the whole
-network's files; each worker reduces its file to bins immediately, so memory
-is one file per worker. A bad file is logged and skipped (count reported),
-not fatal. Rows with a NaT `Time_UTC` are dropped before `standardize_data`,
-which would otherwise divide a text column. (The "stray header" these guarded
-against, e.g. lin `trx01/2b_205/qaqc/2016_05_qaqc.dat`, was every lin pipeline
-file's own header line, which `LinDatFile.parse` read in as a row -- leaving
-every lin column object dtype -- until 2026-10; it now skips the header and
-coerces the config's numeric columns.)
-
-`plot_availability(availability=None, ax=None, **kwargs)` is matplotlib
-(optional import, like `Site.plot`); bars use `LEVEL_COLORS`, one blue hue
-light (raw) to dark (final) since levels are ordinal. Compute availability
-once and pass it in to restyle. Network("all", pollutant) = every configured
-site measuring it. Full O3 (~19 sites, all years) is thousands of files: run
-it in SLURM with `num_processes="max"` from a script file with a `__main__`
-guard (Python 3.14 defaults to forkserver; a stdin script can't spawn).
-
-## Mental model
-
-```
-config.json
-   │
-   ▼
-Laboratory ──── builds ────► Site ──── owns ────► InstrumentEnsemble
-                              │                        │
-                              ▼                        ▼
-                          GroupSpace             Instrument(s)
-                          (lin / horel)          (per instrument class)
-                              │                        │
-                              └──── DataFile(s) ◄──────┘
-                                       │
-                                       ▼
-                                   pandas / geopandas
-```
-
-- **`laboratory`** is a process-global singleton built from packaged
-  `config.json` at import time.
-- **`get_site(SID)`** returns the configured `Site`; `read_data` /
-  `get_obs` / `get_recent_obs` delegate to it.
-- **`groups`** (in `uataq.filesystem`) is a dict of registered
-  `GroupSpace`s keyed by group name. `DEFAULT_GROUP = "lin"`.
-- **`lvls`** holds level conventions used by `read_data(lvl=...)`.
-
-## Time range handling
-
-`uataq.timerange.TimeRange` accepts:
-
-- a single string (parsed via pandas)
-- a `(start, end)` tuple of `str | datetime | np.datetime64 | None`
-- a list of times
-- a Python `slice`
-- `None` → all available data
-
-Type alias: `TimeRangeTypes = str | TimeRangeTuple | TimeRangeList | slice | None`.
-When changing time semantics, update both `timerange.py` and every
-public function's docstring — they hand the same alias around.
-
-## Invariants to respect
-
-- **`config.json` is the source of truth** for sites and instruments. Add
-  a new site by editing config (and updating any per-instrument parser),
-  not by hardcoding it.
-- **A `removal_date` is the midnight (UTC) after the instrument's last
-  sample**, the latest at any level. It is an instant and reads are
-  half-open, so a date on a day that still has data hides that day. Find
-  the last sample in the data (the last row with a value in the
-  instrument's own columns, not the last file: horel's qaqc and final
-  files hold every instrument of a platform, and horel names both MetOne
-  models `esampler`), and write it in the instrument's `notes`, as the
-  existing entries do. A date set otherwise says why in its `notes`
-  (three are: two whose last rows are an instrument being switched on, and
-  HEB's `licor_6262`, which ends on the day its replacement was
-  installed). At a swap the replacement's `installation_date` must not
-  fall before the removed instrument's `removal_date`;
-  `tests/test_config.py` lists the swaps. At the five MetOne swaps the old
-  and new instruments logged on the same day, so the two dates are one
-  instant with a time of day (`"2025-01-06 19:30:00"`): the ES405's first
-  raw row, which ends the ES642's window after its last row and starts the
-  ES405's on its first.
-- **Group abstraction**: read paths go through `GroupSpace`. Don't bypass
-  with raw filesystem walks. New groups live in
-  `filesystem/groupspaces/<name>.py`.
-- **`DEFAULT_GROUP = "lin"`** is the *tie-breaker*, not a blanket default.
-  `Instrument.resolve_group(group)` picks per instrument: an explicit name (or
-  a `{instrument: group}` mapping entry) is used as given; otherwise the
-  default group when it operates that instrument, else its sole operator, else
-  the first configured. It is a config lookup, not an archive search -- it
-  does not check whether that group holds data for the time range, and it
-  ignores `group_dates`. Before 2026-09-22 `group=None` always meant `"lin"`,
-  so the 75 horel-only instruments (of 114) raised ReaderError unless the
-  caller named the group. `MobileSite.get_obs` and `Network` locate each
-  instrument's rows with the GPS of the group they were read from (see
-  "Locating mobile data" below), not one GPS group for the whole site.
-  Anything that wraps `Site.read_data` must pass
-  `group=None` through, not replace it with `get_group(None)`: `Network` did
-  that until 2026-10, which silently dropped every BUS site and all TRAX PM. The
-  docs quote the `DEFAULT_GROUP` line from `filesystem/__init__.py` by its
-  text (`literalinclude` with `:start-at:`), so keep that line's
-  `DEFAULT_GROUP: str` spelling.
-- **Reads are planned by time (`group_dates`).** `Site.read_data` calls
-  `Instrument.plan_reads(group, time_range)` per instrument, which returns
-  `[(group, portion), ...]`. An explicit group (or mapping entry) is one
-  portion, the whole clipped range. With no group named, the range is cut at
-  every config `group_dates` edge inside it and each piece goes to the most
-  preferred group whose window covers it (default group, then `loggers`
-  order); uncovered pieces are skipped (debug log). Without `group_dates` it
-  is `[(resolve_group(group), clipped)]`, as before. `group_dates` is
-  `{group: [start, stop]}`, half-open, null = unbounded, parsed as instants
-  with `pd.to_datetime` (like `removal_date`, **not** TimeRange's inclusive
-  stop strings); groups not listed span the whole installation. Bad entries
-  raise ValueError at import. Set only on TRX01 `2b_205`, TRX02 `2b_205`,
-  TRX02 `metone_es642`: lin's archive stops in 2017 (stop = midnight after
-  lin's last sample, see each `notes`) while horel continues. gps is logged
-  by both throughout and has none; a mobile read picks its GPS group per
-  portion of the obs (`MobileSite.locate`). Each portion
-  is read with `Instrument.read_data(group, ...)` (single group, unchanged)
-  and the frames are concatenated in time; a portion's ReaderError is logged
-  and skipped, all failing raises ReaderError. `lvl=None` is per portion.
-  Known gap: horel's TRX data before 2018-11-19 is pilot raw only, so a
-  `final` read (all `get_obs`) has nothing between lin's stop and 2018-11-19.
-- **Reads are clipped to the instrument's installed window.**
-  `Instrument.clip_to_active` intersects the requested range with
-  `active_range` (config `installation_date` / `removal_date`) and the clipped
-  range drives **both** file selection and the row slice. Only clipping file
-  selection is not enough: a monthly file straddling a swap would still hand
-  back the replacement's rows. Groups reuse a file name across an instrument
-  change -- the horel group calls both MetOne models `esampler`
-  (`{SID}_{YYYY}_{MM}_esampler.h5`) -- so the name cannot tell them apart but
-  the dates can. Before 2026-09-22, `read_data("TRX01", "metone_es642")` with
-  no time range returned 142 files, 21 of them ES405-era, and the ES405's
-  extra `PM01`/`PM04`/`PM10` columns were dropped while `ITMP` was relabelled
-  with the ES642's meaning. A request that misses the window entirely still
-  raises `InactiveInstrumentError` -- including one that only touches it
-  (stop == installation, or start == removal): both ranges are half-open, so
-  that is no overlap, not an empty clipped range. Checked against the
-  archive: the only horel raw files this excludes are the 441 mis-attributed MetOne ones; no
-  other instrument loses a file. Five configured MetOne swaps (TRX01/02/03,
-  BUS02/03); at each, the ES642's `removal_date` and the ES405's
-  `installation_date` are the same instant, so the half-open row slice gives
-  a sample on it to the ES405 alone. The four LI-COR 6262 to 7000 swaps (DBK, HEB, RPK, SUG)
-  are in separate lin folders, so they cannot mix files, but the same rule
-  holds.
-- **horel split the month of each MetOne swap into two raw files.**
-  `{SID}_{YYYY}_{MM}_esampler.h5` holds the ES405's rows from the swap on and
-  `{SID}_{YYYY}_{MM}_esampler.h5_prior405upgrade` the ES642's rows from the
-  start of the month to the swap (BUS02 2025-03, BUS03 2024-12, TRX01/02/03
-  2025-01). TRX01/02/03's `2b` and `cr1000` folders have the same split for
-  January 2025, so their ozone and GPS rows before the swap are only in a
-  `prior405upgrade` file too. `HorelGroup.get_datafiles` adds the
-  `.h5_prior405upgrade` file to every raw read but the ES405's (the suffix is
-  `horel.PRIOR_405_SUFFIX`); the clipping above keeps each MetOne's rows apart.
-  horel's qaqc and final CSVs have none of these rows (TRX's January 2025
-  files start at the swap), so raw is the only level with them. The two files
-  of a month share no timestamp. Other suffixes in the raw folders
-  (`TRX01_2024_02_cr1000.h5_bad`, empty; `uutrax_pilot/cr1000/old/*.h5_old`)
-  are not read. Because a month can have two files, `filter_datafiles` drops
-  every file that starts at the stop of the range, not only the last one.
-- **Read-only at the UATAQ data location**. Never write back to source
-  data paths.
-- **`tables>3.10`** is a hard runtime dep (PyTables). The pin is for
-  numpy 2.0 compatibility — keep it when bumping.
-- **`xarray`** is a hard runtime dep (only `uataq.sodar` uses it). Keep it
-  out of the `import uataq` path.
-- **Time ranges are half-open `[start, stop)`** per the docs
-  (`general.rst`). `uataq.sodar` and `filesystem.parse_datafiles` both
-  exclude a sample exactly at `stop` (`.loc[start:stop]`
-  alone is inclusive), and so does `TimeRange.__contains__` (it used to
-  include `stop`, so `TimeRange("2024")` contained 2025-01-01 00:00). A string stop is widened by one unit of its finest
-  component, fractional seconds included (`"…:45.5"` stops at `:45.6`).
-- **Laboratory instance is shared.** Don't mutate `laboratory.sites` in
-  application code; it's the import-time singleton.
-
-## Dev commands
-
-Driven by `just` + `uv`; CI runs the same recipes.
+Driven by `just` and `uv`; CI runs the same recipes.
 
 | Command | What it does |
 |---|---|
-| `just sync` | `uv sync`: uataq and the dev tools |
-| `just quality-check` | `lint` + `type-check` + `docstr` + `test`: what CI checks |
+| `just sync` | `uv sync`: uataq (editable) and the dev tools |
+| `just lock` | `uv lock` after changing dependencies; commit `uv.lock` with them |
+| `just quality-check` | `lint` + `type-check` + `docstr` + `test` |
 | `just test` | pytest in parallel (up to 8 workers), skipping `network`, `slow` and `chpc`; extra args go to pytest (`-n 0` for serial) |
+| `just cov` | the same with coverage (what `tests.yml` runs) |
 | `just lint` / `just format` | ruff check and format check / fix and format |
 | `just type-check` | pyrefly |
 | `just docstr` | docstring coverage of the public API, at 100% |
 | `just build-docs` | Sphinx HTML into `docs/_build`, running every example; a warning fails the build |
 | `just docs-serve` | live docs preview on port 8000 |
+| `just pre-commit` | every pre-commit hook on every file |
 | `just changelog` | draft CHANGELOG entries from the commits since the last tag |
-| `just pre-commit` | every hook on every file |
-| `just dist` | build and check the sdist and wheel |
-| `just release X.Y.Z` | tag and push a release (the maintainer runs it, never an agent) |
-| `just clean` | wipe build artifacts, caches, coverage, docs |
+| `just dist` / `just version` | build and check the sdist and wheel / print the version |
+| `just release X.Y.Z` | tag and push a release (the maintainer runs it) |
 
-CI: `.github/workflows/` has `tests.yml` (Linux/macOS/Windows x Python
-3.11-3.14), `quality.yml`, `docs.yml` (versioned docs: it pushes the gh-pages branch, which GitHub Pages serves; `dev/`
-from main, one folder per release, `stable/`), and `publish.yml` (a
-`vYYYY.M.PATCH` tag builds the release and creates the GitHub Release from its
-CHANGELOG section; uataq is not on PyPI). The version comes from git tags
-(setuptools-scm); never tag or push unless the maintainer asks. The tooling
-comes from [jmineau/python-template](https://github.com/jmineau/python-template)
-via copier (`.copier-answers.yml`); `copier update` pulls in template changes.
+CI (`.github/workflows/`): `tests.yml` runs `just cov` on Linux, macOS and
+Windows × Python 3.11–3.14; `quality.yml` runs lint, type-check and docstr on
+3.11; `docs.yml` builds the docs for every pull request and publishes `dev/`,
+each release and `stable/` to `gh-pages`; `publish.yml` makes a GitHub Release
+from a `vYYYY.M.PATCH` tag. The version comes from git tags (setuptools-scm);
+release steps are in CONTRIBUTING.md. Tooling comes from
+[jmineau/python-template](https://github.com/jmineau/python-template) via
+copier: change it there and run `copier update`.
+
+Conventions: Python 3.11+; ruff rules in `pyproject.toml`; numpy-style
+docstrings with a one-line imperative summary on the second line (D213; tests
+need none and are not held to the imperative); Conventional Commits, which
+`just changelog` groups.
+
 What keeps CI green:
 
-- `just test` and `just cov` (what `tests.yml` runs) skip `chpc`. Tests needing the real CHPC archive
-  carry `@pytest.mark.chpc` (the marker is declared in `pyproject.toml`); the
-  `TestNetworkDataRetrieval` class is the current set. Off-cluster they cannot
-  pass, so mark new ones rather than letting the job go red. `test_sodar.py`
-  separately uses a `skipif` on the archive path.
-- `quality.yml` gates on **three** steps: `just lint` (ruff check and format
-  check over the whole repo, tests included), `just type-check` (pyrefly, 0
-  errors), and `just docstr` at **100%**, so a new public function without a
-  docstring turns the job red.
-- Intentional lint violations carry an inline `# noqa` with the reason: the
-  `E402` imports in `uataq/__init__.py` must follow the NullHandler, and the
-  `E402,F403` star import in `groupspaces/__init__.py` must follow the
-  `__all__` built from the directory listing.
-- **Reproduce CI's Python before pushing a typing change.** The quality
-  workflow runs on the oldest supported Python (3.11), and the local venv may
-  be newer. Use a scratch env so the project venv is left alone:
-  `UV_PROJECT_ENVIRONMENT=$TMPDIR/venv311 uv sync --frozen --python 3.11` then
-  `UV_PROJECT_ENVIRONMENT=$TMPDIR/venv311 uv run --no-sync pyrefly check`.
-  Never pass `--python` to a bare `uv run` in the repo: it recreates `.venv`,
-  and the delete half-fails on NFS, leaving it unusable until
-  `rm -rf .venv && uv sync --frozen`. (With Python 3.10 dropped, CI and a
-  newer local venv now lock the same pandas, 3.x.)
-- **uataq does not set pandas options.** It used to turn on
-  `copy_on_write` at import under pandas 2, which changed pandas for the
-  caller's whole session. Code must be correct with it on or off: no chained
-  assignment, and `.copy()` a filtered frame before setting values on it. To
-  audit, run the suite in the 3.11 env above with a `-p` plugin that sets
-  `pd.options.mode.copy_on_write = "warn"` (it flags every place where on and
-  off differ), and again with it off under
-  `-W error::pandas.errors.SettingWithCopyWarning`.
-- Where pyrefly is wrong rather than the code (pandas-stubs overloads,
-  pytables nodes), suppress inline with `# pyrefly: ignore[<code>]` and a
-  reason. The optional cartopy/matplotlib imports are covered by
-  `ignore-missing-imports` in `pyproject.toml`. Fix real narrowing problems
-  instead of suppressing them.
-- **The docs build fails on any warning** (`-W` in `just build-docs`, which
-  `docs.yml` runs on every pull request). It loads the intersphinx
-  inventories, so it needs network access: without it Sphinx warns and the
-  build fails. The quickstart's examples and those on `docs/availability.rst`
-  and `docs/first_month.rst` are plain `code-block`s that Sphinx does not run, because they read the CHPC
-  archive and CI does not have it; when the API they show changes, run them
-  against the archive by hand and update the page (the availability page's output
-  is from a CHPC run on 2026-10-11, the first-month page's from 2026-10-12, and
-  each says so; the first-month page's figure, `docs/_static/wbb_co2_daily_cycle.png`,
-  is drawn by the script shown on that page). In a docstring, write a type that exists
+- **Tests that need the real archive carry `@pytest.mark.chpc`** (declared in
+  `pyproject.toml`; `just test` and CI skip it), or a `skipif` on the archive
+  path (`tests/test_sodar.py`). Off-cluster they cannot pass, so mark new ones.
+- **Parser tests run off-cluster** on a few synthetic lines written to
+  `tmp_path` in the real format, never on checked-in archive data:
+  `tests/test_horel.py` has `write_h5` and `write_csv_gz`, `tests/test_lin.py`
+  has `write_ugga` and patches `lin.DATA_CONFIG` entries.
+- **Suppress only with a reason**: an inline `# noqa` (as on the `E402`
+  imports in `uataq/__init__.py`) or, where pyrefly is wrong rather than the
+  code (pandas-stubs overloads, PyTables nodes), `# pyrefly: ignore[<code>]`.
+  Fix real narrowing problems instead.
+- **CI type-checks on Python 3.11.** If CI disagrees with your newer local
+  `.venv`, check in a separate environment so `.venv` is left alone:
+  `UV_PROJECT_ENVIRONMENT=<dir> uv sync --frozen --python 3.11`, then
+  `UV_PROJECT_ENVIRONMENT=<dir> uv run --no-sync pyrefly check`. Never pass
+  `--python` to a bare `uv run` in the repo: it recreates `.venv`.
+- **`just docstr` is at 100%**: a public function, class or module without a
+  docstring turns the quality job red.
+
+## Docs
+
+- **The build fails on any warning** (`-W`). It loads intersphinx inventories,
+  so it needs network access. In a docstring, write types that exist
   (`dict[str, str]`, not `dict[group, logger]`): Sphinx tries to link every
-  name in it. `docs/_ext/api_pages.py` (from python-template) drops from a
-  class docstring the `Methods` section and the `Attributes` entries that
-  autodoc's `:members:` documents again, which would otherwise be duplicate
-  entries. Autosummary stubs generate into `docs/api/` (gitignored); a
-  `:toctree:` pointing outside `docs/` litters the repo root.
-- **The site and instrument tables are generated.** `docs/catalog.rst`'s
-  `.. site-catalog::` and `.. instrument-catalog::` directives
-  (`docs/_ext/catalog.py`, uataq's own, not the template's) build their tables
-  from `uataq.laboratory` and `uataq.instruments.catalog` on every build, so a
-  change to `config.json` or to an instrument class shows there with no docs
-  edit. They never read the archive. A site is "active" there when one of its
-  instruments has no `removal_date`; the site-level `is_active` key is read
-  neither by the tables nor by any code.
+  name.
+- **Examples run when the docs build**, and a broken one fails it: a
+  `.. plot::` directive in a docstring's Examples section (`>>>` lines work),
+  or a `.. ipython:: python` block in an `.rst` page (`@savefig name.png`
+  above a plot keeps it; `:okexcept:` / `:okwarning:` allow a block meant to
+  raise or warn). All `.rst` pages share one IPython session, so each page
+  imports what it uses. Notebooks are off (`docs_notebooks` in copier).
+- **A running example must not read the archive**, which CI does not have. It
+  may use the packaged config (`uataq.get_site`, as on the catalog page),
+  synthetic data, or a public download, and seeds any random numbers. Examples
+  that need the archive (the quickstart, availability, first-month and columns
+  pages) are plain `code-block` or `pycon` blocks holding the output of a run
+  on CHPC. When the API they show changes, rerun them there and update the
+  page, and its figure in `docs/_static/` if it has one.
+- **The site and instrument tables are generated.** The `site-catalog` and
+  `instrument-catalog` directives in `docs/catalog.rst` (`docs/_ext/catalog.py`)
+  build them from `uataq.laboratory` and `uataq.instruments.catalog` on every
+  build, so a config or instrument-class change needs no docs edit. A site is
+  "active" there when one of its instruments has no `removal_date`; the
+  site-level `is_active` key is read by no code.
+- Autosummary stubs go to `docs/api/` (gitignored); a `:toctree:` pointing
+  outside `docs/` litters the repo root. `docs/_ext/api_pages.py` (from
+  python-template) keeps class members from being described twice.
 
-## Examples in the docs
+## Common changes
 
-Examples run when the docs build, so they show real output, and the build fails
-when one breaks.
+**A new instrument.** An `Instrument` subclass in `instruments.py` (and a
+`DataFile` in the group's module if the format is new), its entry in
+`config.json` with dates and `notes`, and parser tests on synthetic lines.
 
-- **A figure in a docstring:** put a `.. plot::` directive in the Examples
-  section. Its code runs (doctest `>>>` lines work), and the figure appears
-  under it.
-
-  ```rst
-  Examples
-  --------
-  .. plot::
-
-     >>> import matplotlib.pyplot as plt
-     >>> _ = plt.plot([0, 1, 2], [0, 1, 4])
-  ```
-
-- **Code in an `.rst` page:** a `.. ipython:: python` block runs, and shows each
-  line with its output, as in an IPython session. Changing a
-  `.. code-block:: python` to `.. ipython:: python` is enough to make it run. For
-  a figure, put `@savefig name.png` on the line above the plotting call.
-
-  ```rst
-  .. ipython:: python
-
-     import matplotlib.pyplot as plt
-     import uataq
-
-     uataq.__version__
-
-     @savefig squares.png width=5in
-     plt.plot([0, 1, 2], [0, 1, 4]);
-  ```
-
-  A block that raises or warns fails the build; `:okexcept:` or `:okwarning:`
-  under the directive allows one that is meant to. All `.rst` pages share one
-  session, so each page imports and defines what it uses.
-- **When they run:** `just build-docs` runs everything, as CI does;
-  `just docs-serve` reruns a page's blocks whenever that page is rebuilt.
-- **Notebooks, and code cells in Markdown pages,** are off in this project.
-  `copier update --data docs_notebooks=true` turns them on; it adds myst-nb, and
-  Jupyter with it, to the dev tools.
-- **Data:** the docs build on GitHub Actions, so an example uses synthetic data,
-  a small file in the repository, or a public download, never a machine-specific
-  path. Seed random numbers so the figures don't change from build to build.
-- **uataq's readers need the CHPC archive**, which CI does not have, so an example
-  that runs in the docs build uses synthetic data (the tests' fixtures show the
-  formats). The quickstart's examples stay plain `code-block`s for that reason, and
-  so do the availability, first-month and columns pages' (`pycon` blocks with the output of
-  a CHPC run).
-
-## Conventions and tooling
-
-- **Build backend**: setuptools with setuptools-scm (the version is the git
-  tag). `config.json` and `py.typed` ship as package data (`pyproject.toml`).
-- **Python**: 3.11+ (`requires-python`; ruff takes its target from it).
-- **Linting**: ruff selects `E, F, UP, B, SIM, I, D, D213, NPY, RUF100` and
-  ignores `E501, D105, D200, D212, D400`. Docstrings follow the numpy
-  convention (pydocstyle), with the summary on the second line (D213), one
-  line long and in the imperative. Tests need no docstrings, but the ones they
-  have follow the same format (see `pyproject.toml`).
-- **Types**: pyrefly (`[tool.pyrefly]` in `pyproject.toml`). `py.typed` shipped.
-- **Logging**: library uses `logging.getLogger(__name__)`; `__init__.py`
-  attaches a `NullHandler`. Don't `print()` in library code.
-
-## Common workflows
-
-### Read one site's data
-```python
-import uataq
-
-df_by_instr = uataq.read_data("WBB", instruments="all", time_range="2024-01")
-```
-
-### Get observations (wide format, default)
-```python
-obs = uataq.get_obs("WBB", pollutants=["CO2", "CH4"], time_range="2024-01")
-```
-
-### Network aggregate (single pollutant, multiple sites)
-```python
-obs = uataq.get_network_obs(
-    sites=["WBB", "SUG", "RPK"],
-    pollutant="CO2",
-    time_range="2024-01",
-)
-# Returns geopandas.GeoDataFrame:
-#   index = Time_UTC
-#   columns = SID, instrument, [pollutant columns], Latitude_deg, Longitude_deg, zagl, geometry
-#   CRS = EPSG:4326
-```
-
-### SODAR wind profiles (Horel/MesoWest archive)
-```python
-from uataq.sodar import Sodar
-
-usdr1 = Sodar("USDR1")
-data = usdr1.read_data(time_range=["2019-01-01", "2019-01-31"])  # xr.Dataset
-winds = Sodar.get_winds_at_height(data, 100)  # direction/speed at 100 m
-```
-
-### Adding a new instrument
-1. Implement parser as an `Instrument` subclass in `instruments.py`.
-2. Add the instrument to the relevant site entry in `config.json`.
-3. Add tests reading a sample file (under `tests/`). Write a few synthetic
-   lines shaped like the real format into `tmp_path` rather than checking in
-   archive data: `tests/test_horel.py` has `write_h5` / `write_csv_gz`,
-   `tests/test_lin.py` has `write_ugga` and patches `lin.DATA_CONFIG`
-   entries, so the parser tests run off-cluster.
-
-### Adding a new group space
-1. Add `filesystem/groupspaces/<name>.py` mirroring the layout of
-   `lin.py` / `horel.py`.
-2. Register it in `filesystem/groupspaces/__init__.py` so it ends up in
-   the `groups` dict.
+**A new group space.** Add `filesystem/groupspaces/<name>.py` with a
+`GroupSpace` subclass and its `DataFile` classes, modeled on `lin.py` and
+`horel.py`, and register it at the bottom of that module:
+`filesystem.groups["<name>"] = <Name>Group()`. Nothing else needs to import
+it: `groupspaces/__init__.py` star-imports every non-underscore module in the
+folder. Add the module to the `autosummary` list in `docs/filesystem.rst`.
 
 ## Gotchas
 
-- `laboratory` is built at import. Heavy import → slow first `import uataq`.
-  Don't add expensive logic to `_laboratory.py`'s import path.
-- `read_data(instruments="all")` returns a dict; `get_obs("wide")` returns
-  a single DataFrame. Don't confuse the two when wrapping.
-- `get_network_obs` is single-pollutant on purpose — multi-pollutant
-  aggregates across mixed sites are ill-defined.
-- `lvls` and `groups` are module-level dicts in `uataq.filesystem`. They
-  are populated by the `groupspaces` subpackage's import side effects —
-  don't reorder imports in `filesystem/__init__.py` without checking.
-- `filesystem/groupspaces/__init__.py` does `from . import *` over **every**
-  non-underscore `.py` in that dir, so only put group-space modules there
-  (that's why SODAR lives in `uataq/sodar.py`, not `groupspaces/`).
-- Tests needing the real CHPC archive carry `@pytest.mark.chpc` (declared in
-  `pyproject.toml`; `just test` and CI skip it), or a
-  `pytest.mark.skipif(not os.path.isdir(...))` on the archive path.
+- **`import uataq` reads the lin pipeline's `data_config.json`**: from the
+  archive on CHPC, otherwise fetched from the `uataq/data-pipeline` repository
+  on GitHub. Off-cluster, importing uataq (and so the test suite) needs
+  network access.
+- **Only group-space modules go in `filesystem/groupspaces/`**: anything else
+  there would be imported as one. That is why SODAR is `uataq/sodar.py`.
+- **`filesystem.groups` is filled by importing the group-space modules**, so
+  don't reorder the imports in `filesystem/__init__.py` without checking.
+- `read_data` returns a dict of frames, one per instrument; `get_obs` returns
+  one frame. Don't confuse them when wrapping.
+- `get_network_obs` and `Network` take one pollutant on purpose: several
+  pollutants across mixed sites have no common shape.
+- GPS speed and course estimated from positions only fill NaNs (flagged in
+  `Speed_Estimated` / `Course_Estimated`). All-NA columns can arrive as
+  strings, so `estimate_motion` coerces them first. The top-level
+  `uataq.read_data` does not forward `estimate_motion=False`.
+- **Use `filesystem.cpu_count()`**, not `multiprocessing.cpu_count()`, for
+  `num_processes="max"`: it respects the CPU affinity a scheduler sets. A
+  script that uses `num_processes > 1` needs a `__main__` guard (Python 3.14
+  defaults to forkserver).
+- `Network.get_availability` parses every file, so a whole network is
+  thousands of files: run it on a compute node.
