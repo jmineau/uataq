@@ -73,8 +73,7 @@ Reading Instrument Data
 
 Using a :class:`~sites.Site` object we can read the data from each instrument
 at the site for a specified processing lvl and time range (what each level is
-for, and how to choose one, is under *Processing Level* on the
-:doc:`general functions page <general>`):
+for, and how to choose one, is under :ref:`input-level`):
 
 .. code-block:: python
 
@@ -103,17 +102,13 @@ the instruments into a single dataframe:
                       time_range=['2024-02-08', '2024-02-15'])
     obs.head()
 
-Finalized observations only include data which has passed QAQC (``QAQC_Flag >= 0``).
-For the greenhouse gas analyzers (``lgr_ugga``, ``licor_6262`` and ``licor_7000``) they
-are also limited to measurements of the ambient atmosphere, which the ``qaqc`` and
-``calibrated`` levels mark with ``ID_CO2 == -10``. (``ID`` labels the gas being sampled
-and can be text, such as ``'~Atmosphere~Atmosphere'`` for the ``lgr_ugga``, so it cannot
-be compared with ``-10``.) The ``final`` level has neither column. :doc:`columns`
-says what each column of each level holds.
+:ref:`What the final level keeps <what-final-keeps>` is explained on the
+:doc:`columns` page, with the check that proves it. That page also says what
+each column of each level holds.
 The observations dataframe is indexed by time and aggregates pollutants into a single dataframe.
 Two formats are available: ``wide`` or ``long``.
 The ``wide`` format has columns for each pollutant
-(``CO2d_ppm_cal``, ``CH4d_ppm_cal``, ``O3_ppb`` and so on; see :doc:`pollutants`) and
+(``CO2d_ppm_cal``, ``CH4d_ppm_cal``, ``O3_ppb`` and so on; see :ref:`column-names`) and
 the ``long`` format has a ``pollutant`` column with those names
 and a ``value`` column with the measurement value.
 

@@ -33,9 +33,7 @@ In every table
   zone attached. :doc:`first_month` shows how to convert it to local time.
 - The concentration columns follow one naming pattern for every instrument,
   level and research group: ``CO2d_ppm_cal``, ``O3_ppb``, ``PM2.5_ugm3`` and so
-  on. The
-  :doc:`pollutants` page explains the pattern of the names (the ``d`` means a
-  dry mole fraction, the last part is the unit).
+  on. `Column names`_ explains the pattern.
 - uataq renames many of the instruments' other columns to common names, so
   that a quantity has the same name across instruments and groups. For example,
   the ``lgr_ugga``'s cavity pressure is ``Cavity_P_torr`` in the pipeline's
@@ -45,6 +43,34 @@ In every table
   :data:`horel.column_mapping <uataq.filesystem.groupspaces.horel.column_mapping>`.
   Keep this in mind when you read the pipeline's own documentation, which uses
   the names in its files.
+
+.. _column-names:
+
+Column names
+------------
+
+Concentration columns follow ``{pollutant}[d|channel]_{units}[_cal|_raw]``:
+``O3_ppb``, ``CO2d_ppm_cal`` (dry mole fraction, calibrated), ``CH4d_ppm_raw``,
+``PM2.5_ugm3``, ``BC6_ngm3`` (aethalometer channel 6).
+
+.. code-block:: python
+
+   import uataq
+   from uataq.pollutants import concentration_columns, parse_column
+
+   obs = uataq.get_obs("WBB", "CO2", time_range="2024-01")
+   obs[concentration_columns("CO2", obs.columns)]  # CO2d_ppm_cal, not diagnostics
+   parse_column("CH4d_ppm_raw")  # pollutant='CH4', units='ppm', dry=True, calibration='raw'
+
+The two functions are documented on the :doc:`pollutants` page.
+
+``_cal`` vs ``_raw``: in lin final data ``_cal`` is the calibrated value and
+``_raw`` the uncalibrated one, except for TRX01's ``lgr_ugga_manual_cal``. That
+exception, and the rows where ``_cal`` is empty, are explained under
+:ref:`when-cal-is-empty`.
+
+Labels, units and expected ranges for plotting are instrument-independent and
+live in ``lair.pollutants`` (``get_pollutant("CH4").label()``).
 
 The CO2 and CH4 analyzers
 -------------------------
@@ -270,6 +296,8 @@ same codes, and ``ID_CO2`` is equal to it. They have no ``ID_CH4``:
     >>> (licor["ID"] == licor["ID_CO2"]).all()
     np.True_
 
+.. _what-final-keeps:
+
 **The tank rows pass QAQC.** The flush rows are flagged (``-2``), but the
 reference tank rows have flag 0, like the outside air:
 
@@ -302,6 +330,8 @@ the ``qaqc`` level's because the calibration adds flags of its own. For the
 the rule above gives the 238,632 ``final`` rows from the ``calibrated`` level,
 but 239,149 from the ``qaqc`` level.
 
+.. _when-cal-is-empty:
+
 When _cal is empty
 ^^^^^^^^^^^^^^^^^^
 
@@ -309,8 +339,9 @@ Some rows of the ``final`` level have a ``_raw`` value and an empty ``_cal``.
 There are two reasons.
 
 **The instrument has no calibrated level.** The pipeline then fills only the
-``_raw`` columns. This is the case for TRX01's ``lgr_ugga_manual_cal`` (see
-:doc:`pollutants` for what its ``_raw`` holds):
+``_raw`` columns. This is the case for TRX01's :term:`lgr_ugga_manual_cal`,
+whose ``_raw`` columns hold the value the LGR software calibrated, not an
+uncalibrated one:
 
 .. code-block:: pycon
 
@@ -389,8 +420,7 @@ The horel group's instruments
 -----------------------------
 
 The TRAX trains and the buses also carry instruments run by the horel group
-(ozone, particles, NOx; see *Research Group* on the
-:doc:`general functions page <general>`). Their ``qaqc`` and ``final`` levels
+(ozone, particles, NOx; see :ref:`input-group`). Their ``qaqc`` and ``final`` levels
 are read from the same horel files. For the ozone (``2b_205``) and particle
 (``metone_es642``, ``metone_es405``) monitors, the horel files mark a flagged
 row with 1, and uataq turns that into ``QAQC_Flag = -1``, so the flag is 0
@@ -438,6 +468,6 @@ the ``2b_205``.
 Next
 ----
 
-- :doc:`pollutants`: the pattern of the concentration column names, and how to
-  pick them out of a table.
+- :doc:`pollutants`: the functions that pick the concentration columns out of a
+  table and parse their names.
 - :doc:`first_month`: what each data level is for, and times in local time.

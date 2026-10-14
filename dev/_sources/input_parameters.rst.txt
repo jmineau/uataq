@@ -1,7 +1,10 @@
 .. currentmodule:: uataq
 
-General Functions
-=================
+Input Parameters
+================
+
+What each argument of :func:`read_data` and :func:`get_obs` means is written
+once, here: the two functions come first, then one section for each argument.
 
 .. autosummary::
 
@@ -14,31 +17,36 @@ General Functions
 
 .. autofunction:: get_obs
 
-Input Parameters
-----------------
+.. _input-sid:
 
 SID
-^^^
+---
 
 ``SID`` is the site identifier for a UATAQ site.
 It is a key in the configuration file, such as ``WBB``; case does not matter.
-The :doc:`catalog` page lists them.
+The :doc:`sites_and_instruments` page lists them.
+
+.. _input-instruments:
 
 Instruments
-^^^^^^^^^^^
+-----------
 
 ``instruments`` is a single instrument name or a list of instrument names.
 The instrument name is a key under the site's ``instruments`` in the configuration
-(listed on the :doc:`catalog` page).
+(listed on the :doc:`sites_and_instruments` page).
+
+.. _input-pollutants:
 
 Pollutants
-^^^^^^^^^^
+----------
 
 ``pollutants`` is a single pollutant name or a list of pollutant names.
 The pollutant name is a capitalized molecule abbreviation.
 
+.. _input-group:
+
 Research Group
-^^^^^^^^^^^^^^
+--------------
 
 ``group`` is the research group that collected the data.
 It is a string that corresponds to a key in the ``uataq.filesystem.groups`` dictionary,
@@ -54,8 +62,10 @@ October 2017 and from horel after that. Naming a group reads the whole range
 from that group.
 
 
+.. _input-level:
+
 Processing Level
-^^^^^^^^^^^^^^^^
+----------------
 
 ``lvl`` is the processing level of the data.
 Available levels, from least to most processed, are:
@@ -75,8 +85,10 @@ level you give it. With no ``lvl`` it reads the highest (most processed) level
 the instrument has. :doc:`first_month` shows the same day at ``final`` and at
 ``qaqc``, and :doc:`columns` says what each level holds.
 
+.. _input-time-range:
+
 Time Range
-^^^^^^^^^^
+----------
 
 ``time_range`` filters the returned data to the specified time range.
 Times are UTC, and so are the times in the data. To read a month in local
@@ -108,8 +120,76 @@ There are three primary formats for ``time_range``:
       so ``['2020-01-01', '2020-01-31']`` includes all of January 31st.
     - The use of ``None`` in place of a datetime-like object will set the range to be unbounded in that direction.
 
+Time zones
+^^^^^^^^^^
+
+The examples in this section read the UATAQ archive, which is only available on
+CHPC. They are shown as code and are not run when the documentation is built;
+the output is from runs on CHPC on 12 October 2026.
+
+Times have no time zone attached. A string with an offset other than ``Z`` or
+``+00:00`` is an error that says so:
+
+.. code-block:: pycon
+
+    >>> import uataq
+    >>> uataq.get_obs("WBB", "CO2", time_range="2025-06-01T00:00-06:00")
+    Traceback (most recent call last):
+      ...
+    ValueError: Invalid time string '2025-06-01T00:00-06:00'. Expected ISO 8601 in UTC, e.g. '2024', '2024-01', '2024-01-15', '2024-01-15T12:30:45'.
+
+A pandas ``Timestamp`` must not carry a time zone either. One that does gives
+an error that does not say what to do:
+
+.. code-block:: pycon
+
+    >>> import pandas as pd
+    >>> start = pd.Timestamp("2025-06-01", tz="America/Denver")
+    >>> stop = pd.Timestamp("2025-07-01", tz="America/Denver")
+    >>> uataq.get_obs("WBB", "CO2", time_range=[start, stop])
+    Traceback (most recent call last):
+      ...
+    TypeError: Cannot compare tz-naive and tz-aware timestamps
+
+The same happens with ``tz="UTC"``. Convert the times to UTC and take the time
+zone off:
+
+.. code-block:: pycon
+
+    >>> utc = [t.tz_convert("UTC").tz_localize(None) for t in (start, stop)]
+    >>> utc
+    [Timestamp('2025-06-01 06:00:00'), Timestamp('2025-07-01 06:00:00')]
+    >>> len(uataq.get_obs("WBB", "CO2", time_range=utc))
+    250685
+
+That reads exactly June in local time, the same 250,685 rows as the cut in
+:ref:`first-month-local-month`. Both ways are right; use the one you find
+clearer.
+
+Where a range ends
+^^^^^^^^^^^^^^^^^^
+
+An end given as a ``Timestamp`` stops at that instant, so the same end given as
+a string gives a longer range:
+
+.. code-block:: pycon
+
+    >>> a = uataq.get_obs("WBB", "CO2", time_range=["2025-06-02T06", "2025-06-03T06"])
+    >>> a.index[-1]
+    Timestamp('2025-06-03 06:59:53')
+    >>> b = uataq.get_obs(
+    ...     "WBB", "CO2", time_range=[pd.Timestamp("2025-06-02T06"), pd.Timestamp("2025-06-03T06")]
+    ... )
+    >>> b.index[-1]
+    Timestamp('2025-06-03 05:59:58')
+
+So the string range is an hour longer. When you want an end at an exact time,
+give it as a ``Timestamp``.
+
+.. _input-num-processes:
+
 Number of Processes
-^^^^^^^^^^^^^^^^^^^
+-------------------
 
 ``num_processes`` is the number of processes to use when reading data from each instrument. The default is 1.
  - If ``num_processes`` is set to 1, the data is read serially.
@@ -117,7 +197,9 @@ Number of Processes
  - Setting ``num_processes`` to 'max' will use the minimum of the number of files for an instrument and the number of available CPU cores.
     Warning: Frequent use of ``num_processes='max'`` may upset your fellow node users.
 
+.. _input-file-pattern:
+
 File Pattern
-^^^^^^^^^^^^
+------------
 
 ``file_pattern`` is a string that is used to filter the files. The primary use for this parameter is to filter raw lin gps data by nmea sentence type. The default is ``None``.

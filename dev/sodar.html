@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>SODAR &#8212; UATAQ 2026.10.1.dev26+g69e7849ae documentation</title>
+    <title>SODAR &#8212; UATAQ 2026.10.1.dev28+g2e434911d documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="_static/documentation_options.js?v=ac76cd2f"></script>
+    <script src="_static/documentation_options.js?v=197551ba"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -59,7 +59,7 @@
     <link rel="prev" title="GPS" href="gps.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.1.dev26+g69e7849ae" />
+  <meta name="docsearch:version" content="2026.10.1.dev28+g2e434911d" />
   
     
     <script src="_static/searchtools.js"></script>
@@ -127,7 +127,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.1.dev26+g69e7849ae documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.1.dev28+g2e434911d documentation</p>
   
 </a></div>
     
@@ -156,7 +156,7 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="availability.html">
+  <a class="nav-link nav-internal" href="what_data_exists.html">
     What data exists
   </a>
 </li>
@@ -170,7 +170,7 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="catalog.html">
+  <a class="nav-link nav-internal" href="sites_and_instruments.html">
     Sites and instruments
   </a>
 </li>
@@ -191,8 +191,8 @@
 
 
 <li class=" ">
-  <a class="nav-link dropdown-item nav-internal" href="general.html">
-    General Functions
+  <a class="nav-link dropdown-item nav-internal" href="input_parameters.html">
+    Input Parameters
   </a>
 </li>
 
@@ -392,7 +392,7 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="availability.html">
+  <a class="nav-link nav-internal" href="what_data_exists.html">
     What data exists
   </a>
 </li>
@@ -406,7 +406,7 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="catalog.html">
+  <a class="nav-link nav-internal" href="sites_and_instruments.html">
     Sites and instruments
   </a>
 </li>
@@ -420,8 +420,8 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="general.html">
-    General Functions
+  <a class="nav-link nav-internal" href="input_parameters.html">
+    Input Parameters
   </a>
 </li>
 
@@ -619,7 +619,7 @@ group archives as monthly HDF5 files under
 <code class="docutils literal notranslate"><span class="pre">mesowest_dir=...</span></code> to read a copy elsewhere.</p>
 <p>SODAR stations are MesoWest stations, not UATAQ sites, so they are not part of
 the <a class="reference internal" href="config.html"><span class="doc">configuration</span></a> and are read directly with <a class="reference internal" href="#uataq.sodar.Sodar" title="uataq.sodar.Sodar"><code class="xref py py-class docutils literal notranslate"><span class="pre">Sodar</span></code></a>
-rather than through <a class="reference internal" href="general.html#uataq.read_data" title="uataq.read_data"><code class="xref py py-func docutils literal notranslate"><span class="pre">uataq.read_data()</span></code></a>. Profiles are returned as an
+rather than through <a class="reference internal" href="input_parameters.html#uataq.read_data" title="uataq.read_data"><code class="xref py py-func docutils literal notranslate"><span class="pre">uataq.read_data()</span></code></a>. Profiles are returned as an
 <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2026.9.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a> with dimensions <code class="docutils literal notranslate"><span class="pre">(Time_UTC,</span> <span class="pre">level)</span></code>.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">uataq.sodar</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sodar</span>

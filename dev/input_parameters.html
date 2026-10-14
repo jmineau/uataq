@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>General Functions &#8212; UATAQ 2026.10.1.dev26+g69e7849ae documentation</title>
+    <title>Input Parameters &#8212; UATAQ 2026.10.1.dev28+g2e434911d documentation</title>
   
   
   
@@ -39,12 +39,12 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="_static/documentation_options.js?v=ac76cd2f"></script>
+    <script src="_static/documentation_options.js?v=197551ba"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="_static/copybutton.js?v=f281be69"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'general';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'input_parameters';</script>
     <script>
         DOCUMENTATION_OPTIONS.theme_version = '0.22.0';
         DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://jmineau.github.io/uataq/switcher.json';
@@ -59,7 +59,7 @@
     <link rel="prev" title="Columns and flags" href="columns.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.1.dev26+g69e7849ae" />
+  <meta name="docsearch:version" content="2026.10.1.dev28+g2e434911d" />
   
     
     <script src="_static/searchtools.js"></script>
@@ -127,7 +127,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.1.dev26+g69e7849ae documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.1.dev28+g2e434911d documentation</p>
   
 </a></div>
     
@@ -156,7 +156,7 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="availability.html">
+  <a class="nav-link nav-internal" href="what_data_exists.html">
     What data exists
   </a>
 </li>
@@ -170,7 +170,7 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="catalog.html">
+  <a class="nav-link nav-internal" href="sites_and_instruments.html">
     Sites and instruments
   </a>
 </li>
@@ -192,7 +192,7 @@
 
 <li class=" current active">
   <a class="nav-link dropdown-item nav-internal" href="#" aria-current="page">
-    General Functions
+    Input Parameters
   </a>
 </li>
 
@@ -392,7 +392,7 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="availability.html">
+  <a class="nav-link nav-internal" href="what_data_exists.html">
     What data exists
   </a>
 </li>
@@ -406,7 +406,7 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="catalog.html">
+  <a class="nav-link nav-internal" href="sites_and_instruments.html">
     Sites and instruments
   </a>
 </li>
@@ -421,7 +421,7 @@
 
 <li class="nav-item current active">
   <a class="nav-link nav-internal" href="#" aria-current="page">
-    General Functions
+    Input Parameters
   </a>
 </li>
 
@@ -587,7 +587,7 @@
         <i class="fa-solid fa-home"></i>
       </a>
     </li>
-    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">General Functions</span></li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Input Parameters</span></li>
   </ul>
 </nav>
 </div>
@@ -604,8 +604,10 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="general-functions">
-<h1>General Functions<a class="headerlink" href="#general-functions" title="Link to this heading">#</a></h1>
+  <section id="input-parameters">
+<h1>Input Parameters<a class="headerlink" href="#input-parameters" title="Link to this heading">#</a></h1>
+<p>What each argument of <a class="reference internal" href="#uataq.read_data" title="uataq.read_data"><code class="xref py py-func docutils literal notranslate"><span class="pre">read_data()</span></code></a> and <a class="reference internal" href="#uataq.get_obs" title="uataq.get_obs"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_obs()</span></code></a> means is written
+once, here: the two functions come first, then one section for each argument.</p>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#uataq.read_data" title="uataq.read_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_data</span></code></a>(SID[, instruments, group, lvl, ...])</p></td>
@@ -636,8 +638,7 @@ automatically (see <a class="reference internal" href="instruments.html#uataq.in
 flags applied; the lower levels are for finer control. Which to use
 depends on how clean the data need to be for what you are doing, and
 on how much control you want over the QAQC. Default None reads the
-highest level the instrument has. See <em>Processing Level</em> in the
-general functions documentation.</p></li>
+highest level the instrument has. See <a class="reference internal" href="#input-level"><span class="std std-ref">Processing Level</span></a>.</p></li>
 <li><p><strong>time_range</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a><em> | </em><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.15)"><em>list</em></a><em>[</em><em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a><em>, </em><em>dt.datetime</em><em>, </em><em>None</em><em>]</em><em>] </em><em>| </em><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#tuple" title="(in Python v3.15)"><em>tuple</em></a><em>[</em><em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a><em>, </em><em>dt.datetime</em><em>, </em><em>None</em><em>]</em><em>, </em><em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a><em>, </em><em>dt.datetime</em><em>, </em><em>None</em><em>]</em><em>] </em><em>| </em><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#slice" title="(in Python v3.15)"><em>slice</em></a><em> | </em><em>None</em>) – The time range to read data. Default is None which reads all available data.</p></li>
 <li><p><strong>num_processes</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.15)"><em>int</em></a><em> | </em><em>'max'</em>) – The number of processes to use. Default is 1.</p></li>
 <li><p><strong>file_pattern</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a><em> | </em><em>None</em>) – A string pattern to filter the file paths.</p></li>
@@ -681,27 +682,25 @@ to read another level).</p>
 </dl>
 </dd></dl>
 
-<section id="input-parameters">
-<h2>Input Parameters<a class="headerlink" href="#input-parameters" title="Link to this heading">#</a></h2>
 <section id="sid">
-<h3>SID<a class="headerlink" href="#sid" title="Link to this heading">#</a></h3>
+<span id="input-sid"></span><h2>SID<a class="headerlink" href="#sid" title="Link to this heading">#</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">SID</span></code> is the site identifier for a UATAQ site.
 It is a key in the configuration file, such as <code class="docutils literal notranslate"><span class="pre">WBB</span></code>; case does not matter.
-The <a class="reference internal" href="catalog.html"><span class="doc">Sites and instruments</span></a> page lists them.</p>
+The <a class="reference internal" href="sites_and_instruments.html"><span class="doc">Sites and instruments</span></a> page lists them.</p>
 </section>
 <section id="instruments">
-<h3>Instruments<a class="headerlink" href="#instruments" title="Link to this heading">#</a></h3>
+<span id="input-instruments"></span><h2>Instruments<a class="headerlink" href="#instruments" title="Link to this heading">#</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">instruments</span></code> is a single instrument name or a list of instrument names.
 The instrument name is a key under the site’s <code class="docutils literal notranslate"><span class="pre">instruments</span></code> in the configuration
-(listed on the <a class="reference internal" href="catalog.html"><span class="doc">Sites and instruments</span></a> page).</p>
+(listed on the <a class="reference internal" href="sites_and_instruments.html"><span class="doc">Sites and instruments</span></a> page).</p>
 </section>
 <section id="pollutants">
-<h3>Pollutants<a class="headerlink" href="#pollutants" title="Link to this heading">#</a></h3>
+<span id="input-pollutants"></span><h2>Pollutants<a class="headerlink" href="#pollutants" title="Link to this heading">#</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">pollutants</span></code> is a single pollutant name or a list of pollutant names.
 The pollutant name is a capitalized molecule abbreviation.</p>
 </section>
 <section id="research-group">
-<h3>Research Group<a class="headerlink" href="#research-group" title="Link to this heading">#</a></h3>
+<span id="input-group"></span><h2>Research Group<a class="headerlink" href="#research-group" title="Link to this heading">#</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">group</span></code> is the research group that collected the data.
 It is a string that corresponds to a key in the <code class="docutils literal notranslate"><span class="pre">uataq.filesystem.groups</span></code> dictionary,
 or a mapping of instrument name to group name to choose per instrument.</p>
@@ -715,7 +714,7 @@ October 2017 and from horel after that. Naming a group reads the whole range
 from that group.</p>
 </section>
 <section id="processing-level">
-<h3>Processing Level<a class="headerlink" href="#processing-level" title="Link to this heading">#</a></h3>
+<span id="input-level"></span><h2>Processing Level<a class="headerlink" href="#processing-level" title="Link to this heading">#</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">lvl</span></code> is the processing level of the data.
 Available levels, from least to most processed, are:</p>
 <ul class="simple">
@@ -734,7 +733,7 @@ the instrument has. <a class="reference internal" href="first_month.html"><span 
 <code class="docutils literal notranslate"><span class="pre">qaqc</span></code>, and <a class="reference internal" href="columns.html"><span class="doc">Columns and flags</span></a> says what each level holds.</p>
 </section>
 <section id="time-range">
-<h3>Time Range<a class="headerlink" href="#time-range" title="Link to this heading">#</a></h3>
+<span id="input-time-range"></span><h2>Time Range<a class="headerlink" href="#time-range" title="Link to this heading">#</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">time_range</span></code> filters the returned data to the specified time range.
 Times are UTC, and so are the times in the data. To read a month in local
 time, see <a class="reference internal" href="first_month.html"><span class="doc">Your first month of data</span></a>.</p>
@@ -771,9 +770,64 @@ so <code class="docutils literal notranslate"><span class="pre">['2020-01-01',</
 </dl>
 </li>
 </ol>
+<section id="time-zones">
+<h3>Time zones<a class="headerlink" href="#time-zones" title="Link to this heading">#</a></h3>
+<p>The examples in this section read the UATAQ archive, which is only available on
+CHPC. They are shown as code and are not run when the documentation is built;
+the output is from runs on CHPC on 12 October 2026.</p>
+<p>Times have no time zone attached. A string with an offset other than <code class="docutils literal notranslate"><span class="pre">Z</span></code> or
+<code class="docutils literal notranslate"><span class="pre">+00:00</span></code> is an error that says so:</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">uataq</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">uataq</span><span class="o">.</span><span class="n">get_obs</span><span class="p">(</span><span class="s2">&quot;WBB&quot;</span><span class="p">,</span> <span class="s2">&quot;CO2&quot;</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="s2">&quot;2025-06-01T00:00-06:00&quot;</span><span class="p">)</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="w">  </span><span class="c">...</span>
+<span class="gr">ValueError</span>: <span class="n">Invalid time string &#39;2025-06-01T00:00-06:00&#39;. Expected ISO 8601 in UTC, e.g. &#39;2024&#39;, &#39;2024-01&#39;, &#39;2024-01-15&#39;, &#39;2024-01-15T12:30:45&#39;.</span>
+</pre></div>
+</div>
+<p>A pandas <code class="docutils literal notranslate"><span class="pre">Timestamp</span></code> must not carry a time zone either. One that does gives
+an error that does not say what to do:</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">start</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="s2">&quot;2025-06-01&quot;</span><span class="p">,</span> <span class="n">tz</span><span class="o">=</span><span class="s2">&quot;America/Denver&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">stop</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="s2">&quot;2025-07-01&quot;</span><span class="p">,</span> <span class="n">tz</span><span class="o">=</span><span class="s2">&quot;America/Denver&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">uataq</span><span class="o">.</span><span class="n">get_obs</span><span class="p">(</span><span class="s2">&quot;WBB&quot;</span><span class="p">,</span> <span class="s2">&quot;CO2&quot;</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="p">[</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">])</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="w">  </span><span class="c">...</span>
+<span class="gr">TypeError</span>: <span class="n">Cannot compare tz-naive and tz-aware timestamps</span>
+</pre></div>
+</div>
+<p>The same happens with <code class="docutils literal notranslate"><span class="pre">tz=&quot;UTC&quot;</span></code>. Convert the times to UTC and take the time
+zone off:</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">utc</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">tz_convert</span><span class="p">(</span><span class="s2">&quot;UTC&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">tz_localize</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">utc</span>
+<span class="go">[Timestamp(&#39;2025-06-01 06:00:00&#39;), Timestamp(&#39;2025-07-01 06:00:00&#39;)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">uataq</span><span class="o">.</span><span class="n">get_obs</span><span class="p">(</span><span class="s2">&quot;WBB&quot;</span><span class="p">,</span> <span class="s2">&quot;CO2&quot;</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="n">utc</span><span class="p">))</span>
+<span class="go">250685</span>
+</pre></div>
+</div>
+<p>That reads exactly June in local time, the same 250,685 rows as the cut in
+<a class="reference internal" href="first_month.html#first-month-local-month"><span class="std std-ref">A month in local time</span></a>. Both ways are right; use the one you find
+clearer.</p>
+</section>
+<section id="where-a-range-ends">
+<h3>Where a range ends<a class="headerlink" href="#where-a-range-ends" title="Link to this heading">#</a></h3>
+<p>An end given as a <code class="docutils literal notranslate"><span class="pre">Timestamp</span></code> stops at that instant, so the same end given as
+a string gives a longer range:</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">get_obs</span><span class="p">(</span><span class="s2">&quot;WBB&quot;</span><span class="p">,</span> <span class="s2">&quot;CO2&quot;</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;2025-06-02T06&quot;</span><span class="p">,</span> <span class="s2">&quot;2025-06-03T06&quot;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="go">Timestamp(&#39;2025-06-03 06:59:53&#39;)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">get_obs</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="s2">&quot;WBB&quot;</span><span class="p">,</span> <span class="s2">&quot;CO2&quot;</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="s2">&quot;2025-06-02T06&quot;</span><span class="p">),</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="s2">&quot;2025-06-03T06&quot;</span><span class="p">)]</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="go">Timestamp(&#39;2025-06-03 05:59:58&#39;)</span>
+</pre></div>
+</div>
+<p>So the string range is an hour longer. When you want an end at an exact time,
+give it as a <code class="docutils literal notranslate"><span class="pre">Timestamp</span></code>.</p>
+</section>
 </section>
 <section id="number-of-processes">
-<h3>Number of Processes<a class="headerlink" href="#number-of-processes" title="Link to this heading">#</a></h3>
+<span id="input-num-processes"></span><h2>Number of Processes<a class="headerlink" href="#number-of-processes" title="Link to this heading">#</a></h2>
 <dl class="simple">
 <dt><code class="docutils literal notranslate"><span class="pre">num_processes</span></code> is the number of processes to use when reading data from each instrument. The default is 1.</dt><dd><ul class="simple">
 <li><p>If <code class="docutils literal notranslate"><span class="pre">num_processes</span></code> is set to 1, the data is read serially.</p></li>
@@ -788,9 +842,8 @@ so <code class="docutils literal notranslate"><span class="pre">['2020-01-01',</
 </dl>
 </section>
 <section id="file-pattern">
-<h3>File Pattern<a class="headerlink" href="#file-pattern" title="Link to this heading">#</a></h3>
+<span id="input-file-pattern"></span><h2>File Pattern<a class="headerlink" href="#file-pattern" title="Link to this heading">#</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">file_pattern</span></code> is a string that is used to filter the files. The primary use for this parameter is to filter raw lin gps data by nmea sentence type. The default is <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
-</section>
 </section>
 </section>
 
@@ -843,24 +896,25 @@ so <code class="docutils literal notranslate"><span class="pre">['2020-01-01',</
     <ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#uataq.read_data"><code class="docutils literal notranslate"><span class="pre">read_data()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#uataq.get_obs"><code class="docutils literal notranslate"><span class="pre">get_obs()</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#input-parameters">Input Parameters</a><ul class="pst-show_toc_level nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sid">SID</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#instruments">Instruments</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pollutants">Pollutants</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#research-group">Research Group</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#processing-level">Processing Level</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#time-range">Time Range</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#number-of-processes">Number of Processes</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#file-pattern">File Pattern</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sid">SID</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#instruments">Instruments</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pollutants">Pollutants</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#research-group">Research Group</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#processing-level">Processing Level</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#time-range">Time Range</a><ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#time-zones">Time zones</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#where-a-range-ends">Where a range ends</a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#number-of-processes">Number of Processes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#file-pattern">File Pattern</a></li>
 </ul>
   </nav></div>
 
   <div class="sidebar-secondary-item">
 
   <div class="tocsection sourcelink">
-    <a href="_sources/general.rst.txt">
+    <a href="_sources/input_parameters.rst.txt">
       <i class="fa-solid fa-file-lines"></i> Show Source
     </a>
   </div>

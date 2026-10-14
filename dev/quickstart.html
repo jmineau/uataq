@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Quick Start &#8212; UATAQ 2026.10.1.dev26+g69e7849ae documentation</title>
+    <title>Quick Start &#8212; UATAQ 2026.10.1.dev28+g2e434911d documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="_static/documentation_options.js?v=ac76cd2f"></script>
+    <script src="_static/documentation_options.js?v=197551ba"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -55,11 +55,11 @@
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Sites and instruments" href="catalog.html" />
-    <link rel="prev" title="What data exists" href="availability.html" />
+    <link rel="next" title="Sites and instruments" href="sites_and_instruments.html" />
+    <link rel="prev" title="What data exists" href="what_data_exists.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.1.dev26+g69e7849ae" />
+  <meta name="docsearch:version" content="2026.10.1.dev28+g2e434911d" />
   
     
     <script src="_static/searchtools.js"></script>
@@ -127,7 +127,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.1.dev26+g69e7849ae documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.1.dev28+g2e434911d documentation</p>
   
 </a></div>
     
@@ -156,7 +156,7 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="availability.html">
+  <a class="nav-link nav-internal" href="what_data_exists.html">
     What data exists
   </a>
 </li>
@@ -170,7 +170,7 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="catalog.html">
+  <a class="nav-link nav-internal" href="sites_and_instruments.html">
     Sites and instruments
   </a>
 </li>
@@ -191,8 +191,8 @@
 
 
 <li class=" ">
-  <a class="nav-link dropdown-item nav-internal" href="general.html">
-    General Functions
+  <a class="nav-link dropdown-item nav-internal" href="input_parameters.html">
+    Input Parameters
   </a>
 </li>
 
@@ -392,7 +392,7 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="availability.html">
+  <a class="nav-link nav-internal" href="what_data_exists.html">
     What data exists
   </a>
 </li>
@@ -406,7 +406,7 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="catalog.html">
+  <a class="nav-link nav-internal" href="sites_and_instruments.html">
     Sites and instruments
   </a>
 </li>
@@ -420,8 +420,8 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="general.html">
-    General Functions
+  <a class="nav-link nav-internal" href="input_parameters.html">
+    Input Parameters
   </a>
 </li>
 
@@ -664,7 +664,7 @@ The <a class="reference internal" href="instruments.html#uataq.instruments.Instr
 <li><p><a class="reference internal" href="#getting-observations">Getting Observations</a> - Finalized observations from all instruments at a site are aggregated into a single dataframe.</p>
 <blockquote>
 <div><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">Site.read_data()</span></code> and <code class="xref py py-meth docutils literal notranslate"><span class="pre">Site.get_obs()</span></code> have been wrapped in
-<a class="reference internal" href="general.html#uataq.read_data" title="uataq.read_data"><code class="xref py py-meth docutils literal notranslate"><span class="pre">uataq.read_data()</span></code></a> and <a class="reference internal" href="general.html#uataq.get_obs" title="uataq.get_obs"><code class="xref py py-meth docutils literal notranslate"><span class="pre">uataq.get_obs()</span></code></a> respectively for convenience
+<a class="reference internal" href="input_parameters.html#uataq.read_data" title="uataq.read_data"><code class="xref py py-meth docutils literal notranslate"><span class="pre">uataq.read_data()</span></code></a> and <a class="reference internal" href="input_parameters.html#uataq.get_obs" title="uataq.get_obs"><code class="xref py py-meth docutils literal notranslate"><span class="pre">uataq.get_obs()</span></code></a> respectively for convenience
 with an added <cite>SID</cite> parameter.</p>
 </div></blockquote>
 </li>
@@ -674,8 +674,7 @@ with an added <cite>SID</cite> parameter.</p>
 <h2>Reading Instrument Data<a class="headerlink" href="#reading-instrument-data" title="Link to this heading">#</a></h2>
 <p>Using a <a class="reference internal" href="sites.html#uataq.sites.Site" title="uataq.sites.Site"><code class="xref py py-class docutils literal notranslate"><span class="pre">Site</span></code></a> object we can read the data from each instrument
 at the site for a specified processing lvl and time range (what each level is
-for, and how to choose one, is under <em>Processing Level</em> on the
-<a class="reference internal" href="general.html"><span class="doc">general functions page</span></a>):</p>
+for, and how to choose one, is under <a class="reference internal" href="input_parameters.html#input-level"><span class="std std-ref">Processing Level</span></a>):</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">wbb</span><span class="o">.</span><span class="n">read_data</span><span class="p">(</span><span class="n">instruments</span><span class="o">=</span><span class="s1">&#39;all&#39;</span><span class="p">,</span> <span class="n">lvl</span><span class="o">=</span><span class="s1">&#39;qaqc&#39;</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="s1">&#39;2024-02&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -697,17 +696,13 @@ the instruments into a single dataframe:</p>
 <span class="n">obs</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>Finalized observations only include data which has passed QAQC (<code class="docutils literal notranslate"><span class="pre">QAQC_Flag</span> <span class="pre">&gt;=</span> <span class="pre">0</span></code>).
-For the greenhouse gas analyzers (<code class="docutils literal notranslate"><span class="pre">lgr_ugga</span></code>, <code class="docutils literal notranslate"><span class="pre">licor_6262</span></code> and <code class="docutils literal notranslate"><span class="pre">licor_7000</span></code>) they
-are also limited to measurements of the ambient atmosphere, which the <code class="docutils literal notranslate"><span class="pre">qaqc</span></code> and
-<code class="docutils literal notranslate"><span class="pre">calibrated</span></code> levels mark with <code class="docutils literal notranslate"><span class="pre">ID_CO2</span> <span class="pre">==</span> <span class="pre">-10</span></code>. (<code class="docutils literal notranslate"><span class="pre">ID</span></code> labels the gas being sampled
-and can be text, such as <code class="docutils literal notranslate"><span class="pre">'~Atmosphere~Atmosphere'</span></code> for the <code class="docutils literal notranslate"><span class="pre">lgr_ugga</span></code>, so it cannot
-be compared with <code class="docutils literal notranslate"><span class="pre">-10</span></code>.) The <code class="docutils literal notranslate"><span class="pre">final</span></code> level has neither column. <a class="reference internal" href="columns.html"><span class="doc">Columns and flags</span></a>
-says what each column of each level holds.
+<p><a class="reference internal" href="columns.html#what-final-keeps"><span class="std std-ref">What the final level keeps</span></a> is explained on the
+<a class="reference internal" href="columns.html"><span class="doc">Columns and flags</span></a> page, with the check that proves it. That page also says what
+each column of each level holds.
 The observations dataframe is indexed by time and aggregates pollutants into a single dataframe.
 Two formats are available: <code class="docutils literal notranslate"><span class="pre">wide</span></code> or <code class="docutils literal notranslate"><span class="pre">long</span></code>.
 The <code class="docutils literal notranslate"><span class="pre">wide</span></code> format has columns for each pollutant
-(<code class="docutils literal notranslate"><span class="pre">CO2d_ppm_cal</span></code>, <code class="docutils literal notranslate"><span class="pre">CH4d_ppm_cal</span></code>, <code class="docutils literal notranslate"><span class="pre">O3_ppb</span></code> and so on; see <a class="reference internal" href="pollutants.html"><span class="doc">Pollutants</span></a>) and
+(<code class="docutils literal notranslate"><span class="pre">CO2d_ppm_cal</span></code>, <code class="docutils literal notranslate"><span class="pre">CH4d_ppm_cal</span></code>, <code class="docutils literal notranslate"><span class="pre">O3_ppb</span></code> and so on; see <a class="reference internal" href="columns.html#column-names"><span class="std std-ref">Column names</span></a>) and
 the <code class="docutils literal notranslate"><span class="pre">long</span></code> format has a <code class="docutils literal notranslate"><span class="pre">pollutant</span></code> column with those names
 and a <code class="docutils literal notranslate"><span class="pre">value</span></code> column with the measurement value.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">obs_long</span> <span class="o">=</span> <span class="n">wbb</span><span class="o">.</span><span class="n">get_obs</span><span class="p">(</span><span class="n">pollutants</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;CO2&#39;</span><span class="p">,</span> <span class="s1">&#39;CH4&#39;</span><span class="p">,</span> <span class="s1">&#39;O3&#39;</span><span class="p">,</span> <span class="s1">&#39;NO2&#39;</span><span class="p">,</span> <span class="s1">&#39;NO&#39;</span><span class="p">,</span> <span class="s1">&#39;CO&#39;</span><span class="p">],</span>
@@ -760,7 +755,7 @@ speed and course, and <code class="docutils literal notranslate"><span class="pr
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="availability.html"
+       href="what_data_exists.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
@@ -769,7 +764,7 @@ speed and course, and <code class="docutils literal notranslate"><span class="pr
       </div>
     </a>
     <a class="right-next"
-       href="catalog.html"
+       href="sites_and_instruments.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>

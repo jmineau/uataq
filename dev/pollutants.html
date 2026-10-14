@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Pollutants &#8212; UATAQ 2026.10.1.dev26+g69e7849ae documentation</title>
+    <title>Pollutants &#8212; UATAQ 2026.10.1.dev28+g2e434911d documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="_static/documentation_options.js?v=ac76cd2f"></script>
+    <script src="_static/documentation_options.js?v=197551ba"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -59,7 +59,7 @@
     <link rel="prev" title="Instruments" href="instruments.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.1.dev26+g69e7849ae" />
+  <meta name="docsearch:version" content="2026.10.1.dev28+g2e434911d" />
   
     
     <script src="_static/searchtools.js"></script>
@@ -127,7 +127,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.1.dev26+g69e7849ae documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.1.dev28+g2e434911d documentation</p>
   
 </a></div>
     
@@ -156,7 +156,7 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="availability.html">
+  <a class="nav-link nav-internal" href="what_data_exists.html">
     What data exists
   </a>
 </li>
@@ -170,7 +170,7 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="catalog.html">
+  <a class="nav-link nav-internal" href="sites_and_instruments.html">
     Sites and instruments
   </a>
 </li>
@@ -191,8 +191,8 @@
 
 
 <li class=" ">
-  <a class="nav-link dropdown-item nav-internal" href="general.html">
-    General Functions
+  <a class="nav-link dropdown-item nav-internal" href="input_parameters.html">
+    Input Parameters
   </a>
 </li>
 
@@ -392,7 +392,7 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="availability.html">
+  <a class="nav-link nav-internal" href="what_data_exists.html">
     What data exists
   </a>
 </li>
@@ -406,7 +406,7 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="catalog.html">
+  <a class="nav-link nav-internal" href="sites_and_instruments.html">
     Sites and instruments
   </a>
 </li>
@@ -420,8 +420,8 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="general.html">
-    General Functions
+  <a class="nav-link nav-internal" href="input_parameters.html">
+    Input Parameters
   </a>
 </li>
 
@@ -606,26 +606,8 @@
                   
   <section id="pollutants">
 <h1>Pollutants<a class="headerlink" href="#pollutants" title="Link to this heading">#</a></h1>
-<p>How UATAQ names concentration columns, and how to pick them out.</p>
-<p>Concentration columns follow <code class="docutils literal notranslate"><span class="pre">{pollutant}[d|channel]_{units}[_cal|_raw]</span></code>:
-<code class="docutils literal notranslate"><span class="pre">O3_ppb</span></code>, <code class="docutils literal notranslate"><span class="pre">CO2d_ppm_cal</span></code> (dry mole fraction, calibrated), <code class="docutils literal notranslate"><span class="pre">CH4d_ppm_raw</span></code>,
-<code class="docutils literal notranslate"><span class="pre">PM2.5_ugm3</span></code>, <code class="docutils literal notranslate"><span class="pre">BC6_ngm3</span></code> (aethalometer channel 6).</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">uataq</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">uataq.pollutants</span><span class="w"> </span><span class="kn">import</span> <span class="n">concentration_columns</span><span class="p">,</span> <span class="n">parse_column</span>
-
-<span class="n">obs</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">get_obs</span><span class="p">(</span><span class="s2">&quot;WBB&quot;</span><span class="p">,</span> <span class="s2">&quot;CO2&quot;</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="s2">&quot;2024-01&quot;</span><span class="p">)</span>
-<span class="n">obs</span><span class="p">[</span><span class="n">concentration_columns</span><span class="p">(</span><span class="s2">&quot;CO2&quot;</span><span class="p">,</span> <span class="n">obs</span><span class="o">.</span><span class="n">columns</span><span class="p">)]</span>  <span class="c1"># CO2d_ppm_cal, not diagnostics</span>
-<span class="n">parse_column</span><span class="p">(</span><span class="s2">&quot;CH4d_ppm_raw&quot;</span><span class="p">)</span>  <span class="c1"># pollutant=&#39;CH4&#39;, units=&#39;ppm&#39;, dry=True, calibration=&#39;raw&#39;</span>
-</pre></div>
-</div>
-<p>What the other columns hold, and why <code class="docutils literal notranslate"><span class="pre">_cal</span></code> can be empty, is on the
+<p>What the column names mean, with examples, is under <a class="reference internal" href="columns.html#column-names"><span class="std std-ref">Column names</span></a> on the
 <a class="reference internal" href="columns.html"><span class="doc">Columns and flags</span></a> page.</p>
-<p><code class="docutils literal notranslate"><span class="pre">_cal</span></code> vs <code class="docutils literal notranslate"><span class="pre">_raw</span></code>: in lin final data <code class="docutils literal notranslate"><span class="pre">_cal</span></code> is the calibrated value and
-<code class="docutils literal notranslate"><span class="pre">_raw</span></code> the uncalibrated one, except for TRX01’s <code class="docutils literal notranslate"><span class="pre">lgr_ugga_manual_cal</span></code>
-(from 2023-11-18), which leaves <code class="docutils literal notranslate"><span class="pre">_cal</span></code> empty and writes the LGR-software
-calibrated value to <code class="docutils literal notranslate"><span class="pre">_raw</span></code>.</p>
-<p>Labels, units and expected ranges for plotting are instrument-independent and
-live in <code class="docutils literal notranslate"><span class="pre">lair.pollutants</span></code> (<code class="docutils literal notranslate"><span class="pre">get_pollutant(&quot;CH4&quot;).label()</span></code>).</p>
 <p id="module-uataq.pollutants">How UATAQ names pollutant columns.</p>
 <p>UATAQ concentration columns follow <code class="docutils literal notranslate"><span class="pre">{pollutant}[d|channel]_{units}[_cal|_raw]</span></code>:
 <code class="docutils literal notranslate"><span class="pre">O3_ppb</span></code>, <code class="docutils literal notranslate"><span class="pre">CO2d_ppm_cal</span></code> (dry mole fraction, calibrated), <code class="docutils literal notranslate"><span class="pre">CH4d_ppm_raw</span></code>

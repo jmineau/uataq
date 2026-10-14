@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Columns and flags &#8212; UATAQ 2026.10.1.dev26+g69e7849ae documentation</title>
+    <title>Columns and flags &#8212; UATAQ 2026.10.1.dev28+g2e434911d documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="_static/documentation_options.js?v=ac76cd2f"></script>
+    <script src="_static/documentation_options.js?v=197551ba"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -55,11 +55,11 @@
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="General Functions" href="general.html" />
-    <link rel="prev" title="Sites and instruments" href="catalog.html" />
+    <link rel="next" title="Input Parameters" href="input_parameters.html" />
+    <link rel="prev" title="Sites and instruments" href="sites_and_instruments.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.1.dev26+g69e7849ae" />
+  <meta name="docsearch:version" content="2026.10.1.dev28+g2e434911d" />
   
     
     <script src="_static/searchtools.js"></script>
@@ -127,7 +127,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.1.dev26+g69e7849ae documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.1.dev28+g2e434911d documentation</p>
   
 </a></div>
     
@@ -156,7 +156,7 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="availability.html">
+  <a class="nav-link nav-internal" href="what_data_exists.html">
     What data exists
   </a>
 </li>
@@ -170,7 +170,7 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="catalog.html">
+  <a class="nav-link nav-internal" href="sites_and_instruments.html">
     Sites and instruments
   </a>
 </li>
@@ -191,8 +191,8 @@
 
 
 <li class=" ">
-  <a class="nav-link dropdown-item nav-internal" href="general.html">
-    General Functions
+  <a class="nav-link dropdown-item nav-internal" href="input_parameters.html">
+    Input Parameters
   </a>
 </li>
 
@@ -392,7 +392,7 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="availability.html">
+  <a class="nav-link nav-internal" href="what_data_exists.html">
     What data exists
   </a>
 </li>
@@ -406,7 +406,7 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="catalog.html">
+  <a class="nav-link nav-internal" href="sites_and_instruments.html">
     Sites and instruments
   </a>
 </li>
@@ -420,8 +420,8 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="general.html">
-    General Functions
+  <a class="nav-link nav-internal" href="input_parameters.html">
+    Input Parameters
   </a>
 </li>
 
@@ -633,9 +633,7 @@ whatever the width of your terminal:</p>
 zone attached. <a class="reference internal" href="first_month.html"><span class="doc">Your first month of data</span></a> shows how to convert it to local time.</p></li>
 <li><p>The concentration columns follow one naming pattern for every instrument,
 level and research group: <code class="docutils literal notranslate"><span class="pre">CO2d_ppm_cal</span></code>, <code class="docutils literal notranslate"><span class="pre">O3_ppb</span></code>, <code class="docutils literal notranslate"><span class="pre">PM2.5_ugm3</span></code> and so
-on. The
-<a class="reference internal" href="pollutants.html"><span class="doc">Pollutants</span></a> page explains the pattern of the names (the <code class="docutils literal notranslate"><span class="pre">d</span></code> means a
-dry mole fraction, the last part is the unit).</p></li>
+on. <a class="reference internal" href="#id1">Column names</a> explains the pattern.</p></li>
 <li><p>uataq renames many of the instruments’ other columns to common names, so
 that a quantity has the same name across instruments and groups. For example,
 the <code class="docutils literal notranslate"><span class="pre">lgr_ugga</span></code>’s cavity pressure is <code class="docutils literal notranslate"><span class="pre">Cavity_P_torr</span></code> in the pipeline’s
@@ -646,6 +644,27 @@ and
 Keep this in mind when you read the pipeline’s own documentation, which uses
 the names in its files.</p></li>
 </ul>
+</section>
+<section id="column-names">
+<span id="id1"></span><h2>Column names<a class="headerlink" href="#column-names" title="Link to this heading">#</a></h2>
+<p>Concentration columns follow <code class="docutils literal notranslate"><span class="pre">{pollutant}[d|channel]_{units}[_cal|_raw]</span></code>:
+<code class="docutils literal notranslate"><span class="pre">O3_ppb</span></code>, <code class="docutils literal notranslate"><span class="pre">CO2d_ppm_cal</span></code> (dry mole fraction, calibrated), <code class="docutils literal notranslate"><span class="pre">CH4d_ppm_raw</span></code>,
+<code class="docutils literal notranslate"><span class="pre">PM2.5_ugm3</span></code>, <code class="docutils literal notranslate"><span class="pre">BC6_ngm3</span></code> (aethalometer channel 6).</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">uataq</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">uataq.pollutants</span><span class="w"> </span><span class="kn">import</span> <span class="n">concentration_columns</span><span class="p">,</span> <span class="n">parse_column</span>
+
+<span class="n">obs</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">get_obs</span><span class="p">(</span><span class="s2">&quot;WBB&quot;</span><span class="p">,</span> <span class="s2">&quot;CO2&quot;</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="s2">&quot;2024-01&quot;</span><span class="p">)</span>
+<span class="n">obs</span><span class="p">[</span><span class="n">concentration_columns</span><span class="p">(</span><span class="s2">&quot;CO2&quot;</span><span class="p">,</span> <span class="n">obs</span><span class="o">.</span><span class="n">columns</span><span class="p">)]</span>  <span class="c1"># CO2d_ppm_cal, not diagnostics</span>
+<span class="n">parse_column</span><span class="p">(</span><span class="s2">&quot;CH4d_ppm_raw&quot;</span><span class="p">)</span>  <span class="c1"># pollutant=&#39;CH4&#39;, units=&#39;ppm&#39;, dry=True, calibration=&#39;raw&#39;</span>
+</pre></div>
+</div>
+<p>The two functions are documented on the <a class="reference internal" href="pollutants.html"><span class="doc">Pollutants</span></a> page.</p>
+<p><code class="docutils literal notranslate"><span class="pre">_cal</span></code> vs <code class="docutils literal notranslate"><span class="pre">_raw</span></code>: in lin final data <code class="docutils literal notranslate"><span class="pre">_cal</span></code> is the calibrated value and
+<code class="docutils literal notranslate"><span class="pre">_raw</span></code> the uncalibrated one, except for TRX01’s <code class="docutils literal notranslate"><span class="pre">lgr_ugga_manual_cal</span></code>. That
+exception, and the rows where <code class="docutils literal notranslate"><span class="pre">_cal</span></code> is empty, are explained under
+<a class="reference internal" href="#when-cal-is-empty"><span class="std std-ref">When _cal is empty</span></a>.</p>
+<p>Labels, units and expected ranges for plotting are instrument-independent and
+live in <code class="docutils literal notranslate"><span class="pre">lair.pollutants</span></code> (<code class="docutils literal notranslate"><span class="pre">get_pollutant(&quot;CH4&quot;).label()</span></code>).</p>
 </section>
 <section id="the-co2-and-ch4-analyzers">
 <h2>The CO2 and CH4 analyzers<a class="headerlink" href="#the-co2-and-ch4-analyzers" title="Link to this heading">#</a></h2>
@@ -712,7 +731,7 @@ the others.</p></td>
 <tbody>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">CO2d_ppm_cal</span></code></p></td>
 <td><p>CO2 dry mole fraction in ppm, calibrated against the site’s reference
-tanks. Can be empty; see <a class="reference internal" href="#when-cal-is-empty">When _cal is empty</a>.</p></td>
+tanks. Can be empty; see <a class="reference internal" href="#id2">When _cal is empty</a>.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">CO2d_ppm_raw</span></code></p></td>
 <td><p>The same measurement before calibration.</p></td>
@@ -731,7 +750,7 @@ tanks. Can be empty; see <a class="reference internal" href="#when-cal-is-empty"
 <span class="go">[&#39;CO2d_ppm_cal&#39;, &#39;CO2d_ppm_raw&#39;, &#39;H2O_ppm&#39;]</span>
 </pre></div>
 </div>
-<p><a class="reference internal" href="general.html#uataq.get_obs" title="uataq.get_obs"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_obs()</span></code></a> returns the concentration columns of this level, so
+<p><a class="reference internal" href="input_parameters.html#uataq.get_obs" title="uataq.get_obs"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_obs()</span></code></a> returns the concentration columns of this level, so
 <code class="docutils literal notranslate"><span class="pre">get_obs(&quot;WBB&quot;,</span> <span class="pre">&quot;CO2&quot;)</span></code> gives <code class="docutils literal notranslate"><span class="pre">CO2d_ppm_cal</span></code> and <code class="docutils literal notranslate"><span class="pre">CO2d_ppm_raw</span></code>.</p>
 </section>
 <section id="calibrated">
@@ -911,7 +930,7 @@ same codes, and <code class="docutils literal notranslate"><span class="pre">ID_
 <span class="go">np.True_</span>
 </pre></div>
 </div>
-<p><strong>The tank rows pass QAQC.</strong> The flush rows are flagged (<code class="docutils literal notranslate"><span class="pre">-2</span></code>), but the
+<p id="what-final-keeps"><strong>The tank rows pass QAQC.</strong> The flush rows are flagged (<code class="docutils literal notranslate"><span class="pre">-2</span></code>), but the
 reference tank rows have flag 0, like the outside air:</p>
 <div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pd</span><span class="o">.</span><span class="n">crosstab</span><span class="p">(</span><span class="n">qaqc</span><span class="p">[</span><span class="s2">&quot;ID_CO2&quot;</span><span class="p">],</span> <span class="n">qaqc</span><span class="p">[</span><span class="s2">&quot;QAQC_Flag&quot;</span><span class="p">])</span>
 <span class="go">QAQC_Flag   -2     0</span>
@@ -940,12 +959,13 @@ the rule above gives the 238,632 <code class="docutils literal notranslate"><spa
 but 239,149 from the <code class="docutils literal notranslate"><span class="pre">qaqc</span></code> level.</p>
 </section>
 <section id="when-cal-is-empty">
-<h3>When _cal is empty<a class="headerlink" href="#when-cal-is-empty" title="Link to this heading">#</a></h3>
+<span id="id2"></span><h3>When _cal is empty<a class="headerlink" href="#when-cal-is-empty" title="Link to this heading">#</a></h3>
 <p>Some rows of the <code class="docutils literal notranslate"><span class="pre">final</span></code> level have a <code class="docutils literal notranslate"><span class="pre">_raw</span></code> value and an empty <code class="docutils literal notranslate"><span class="pre">_cal</span></code>.
 There are two reasons.</p>
 <p><strong>The instrument has no calibrated level.</strong> The pipeline then fills only the
-<code class="docutils literal notranslate"><span class="pre">_raw</span></code> columns. This is the case for TRX01’s <code class="docutils literal notranslate"><span class="pre">lgr_ugga_manual_cal</span></code> (see
-<a class="reference internal" href="pollutants.html"><span class="doc">Pollutants</span></a> for what its <code class="docutils literal notranslate"><span class="pre">_raw</span></code> holds):</p>
+<code class="docutils literal notranslate"><span class="pre">_raw</span></code> columns. This is the case for TRX01’s <a class="reference internal" href="sites_and_instruments.html#term-lgr_ugga_manual_cal"><span class="xref std std-term">lgr_ugga_manual_cal</span></a>,
+whose <code class="docutils literal notranslate"><span class="pre">_raw</span></code> columns hold the value the LGR software calibrated, not an
+uncalibrated one:</p>
 <div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">trax</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">read_data</span><span class="p">(</span><span class="s2">&quot;TRX01&quot;</span><span class="p">,</span> <span class="s2">&quot;lgr_ugga_manual_cal&quot;</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="s2">&quot;2024-09-01&quot;</span><span class="p">)[</span><span class="s2">&quot;lgr_ugga_manual_cal&quot;</span><span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">trax</span><span class="o">.</span><span class="n">notna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
 <span class="go">CO2d_ppm_cal       0</span>
@@ -1012,8 +1032,7 @@ with the names in its files, before uataq renames them.</p>
 <section id="the-horel-group-s-instruments">
 <h2>The horel group’s instruments<a class="headerlink" href="#the-horel-group-s-instruments" title="Link to this heading">#</a></h2>
 <p>The TRAX trains and the buses also carry instruments run by the horel group
-(ozone, particles, NOx; see <em>Research Group</em> on the
-<a class="reference internal" href="general.html"><span class="doc">general functions page</span></a>). Their <code class="docutils literal notranslate"><span class="pre">qaqc</span></code> and <code class="docutils literal notranslate"><span class="pre">final</span></code> levels
+(ozone, particles, NOx; see <a class="reference internal" href="input_parameters.html#input-group"><span class="std std-ref">Research Group</span></a>). Their <code class="docutils literal notranslate"><span class="pre">qaqc</span></code> and <code class="docutils literal notranslate"><span class="pre">final</span></code> levels
 are read from the same horel files. For the ozone (<code class="docutils literal notranslate"><span class="pre">2b_205</span></code>) and particle
 (<code class="docutils literal notranslate"><span class="pre">metone_es642</span></code>, <code class="docutils literal notranslate"><span class="pre">metone_es405</span></code>) monitors, the horel files mark a flagged
 row with 1, and uataq turns that into <code class="docutils literal notranslate"><span class="pre">QAQC_Flag</span> <span class="pre">=</span> <span class="pre">-1</span></code>, so the flag is 0
@@ -1057,8 +1076,8 @@ the <code class="docutils literal notranslate"><span class="pre">2b_205</span></
 <section id="next">
 <h2>Next<a class="headerlink" href="#next" title="Link to this heading">#</a></h2>
 <ul class="simple">
-<li><p><a class="reference internal" href="pollutants.html"><span class="doc">Pollutants</span></a>: the pattern of the concentration column names, and how to
-pick them out of a table.</p></li>
+<li><p><a class="reference internal" href="pollutants.html"><span class="doc">Pollutants</span></a>: the functions that pick the concentration columns out of a
+table and parse their names.</p></li>
 <li><p><a class="reference internal" href="first_month.html"><span class="doc">Your first month of data</span></a>: what each data level is for, and times in local time.</p></li>
 </ul>
 </section>
@@ -1075,7 +1094,7 @@ pick them out of a table.</p></li>
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="catalog.html"
+       href="sites_and_instruments.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
@@ -1084,11 +1103,11 @@ pick them out of a table.</p></li>
       </div>
     </a>
     <a class="right-next"
-       href="general.html"
+       href="input_parameters.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">General Functions</p>
+        <p class="prev-next-title">Input Parameters</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -1112,6 +1131,7 @@ pick them out of a table.</p></li>
   <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#in-every-table">In every table</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#column-names">Column names</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-co2-and-ch4-analyzers">The CO2 and CH4 analyzers</a><ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#final">Final</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#calibrated">Calibrated</a></li>

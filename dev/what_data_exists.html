@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>What data exists &#8212; UATAQ 2026.10.1.dev26+g69e7849ae documentation</title>
+    <title>What data exists &#8212; UATAQ 2026.10.1.dev28+g2e434911d documentation</title>
   
   
   
@@ -39,12 +39,12 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="_static/documentation_options.js?v=ac76cd2f"></script>
+    <script src="_static/documentation_options.js?v=197551ba"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="_static/copybutton.js?v=f281be69"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'availability';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'what_data_exists';</script>
     <script>
         DOCUMENTATION_OPTIONS.theme_version = '0.22.0';
         DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://jmineau.github.io/uataq/switcher.json';
@@ -59,7 +59,7 @@
     <link rel="prev" title="Your first month of data" href="first_month.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.1.dev26+g69e7849ae" />
+  <meta name="docsearch:version" content="2026.10.1.dev28+g2e434911d" />
   
     
     <script src="_static/searchtools.js"></script>
@@ -127,7 +127,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.1.dev26+g69e7849ae documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.1.dev28+g2e434911d documentation</p>
   
 </a></div>
     
@@ -170,7 +170,7 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="catalog.html">
+  <a class="nav-link nav-internal" href="sites_and_instruments.html">
     Sites and instruments
   </a>
 </li>
@@ -191,8 +191,8 @@
 
 
 <li class=" ">
-  <a class="nav-link dropdown-item nav-internal" href="general.html">
-    General Functions
+  <a class="nav-link dropdown-item nav-internal" href="input_parameters.html">
+    Input Parameters
   </a>
 </li>
 
@@ -406,7 +406,7 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="catalog.html">
+  <a class="nav-link nav-internal" href="sites_and_instruments.html">
     Sites and instruments
   </a>
 </li>
@@ -420,8 +420,8 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="general.html">
-    General Functions
+  <a class="nav-link nav-internal" href="input_parameters.html">
+    Input Parameters
   </a>
 </li>
 
@@ -614,10 +614,12 @@ built. The output under each one is from a run on CHPC on 11 October 2026.
 The archive keeps growing, so the dates at the end of the data, and how
 long a call takes, will have moved on by the time you read this.</p>
 </div>
-<p>Before you read data, find out what there is: which sites measure your
-pollutant, when they have data, and whether anything is recent. This page shows
-the calls that answer those questions, and then what the errors mean when the
-answer is “nothing”.</p>
+<p>Before you read data, find out what there is. The <a class="reference internal" href="sites_and_instruments.html"><span class="doc">Sites and instruments</span></a>
+page says which sites and instruments exist, what each measures and when each
+was installed, as tables and <a class="reference internal" href="sites_and_instruments.html#sites-in-code"><span class="std std-ref">in code</span></a>. That is what the
+sites were set up to measure, and it does not say there is data. This page shows
+the calls that answer the next questions, when the sites have data and whether
+anything is recent, and then what the errors mean when the answer is “nothing”.</p>
 <div class="pst-scrollable-table-container"><table class="table">
 <colgroup>
 <col style="width: 50.0%" />
@@ -630,10 +632,10 @@ answer is “nothing”.</p>
 </thead>
 <tbody>
 <tr class="row-even"><td><p>Which sites measure CH4?</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">Network(&quot;all&quot;,</span> <span class="pre">&quot;CH4&quot;)</span></code></p></td>
+<td><p>The <a class="reference internal" href="sites_and_instruments.html"><span class="doc">Sites and instruments</span></a> tables, or <code class="docutils literal notranslate"><span class="pre">Network(&quot;all&quot;,</span> <span class="pre">&quot;CH4&quot;)</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p>What a site measures, and since when</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">get_site(&quot;WBB&quot;).pollutants</span></code> and <code class="docutils literal notranslate"><span class="pre">.instruments</span></code></p></td>
+<td><p>The same tables, or <code class="docutils literal notranslate"><span class="pre">get_site(&quot;WBB&quot;).pollutants</span></code> and <code class="docutils literal notranslate"><span class="pre">.instruments</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p>When a site has data, and at which level</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">Network(...).get_availability(...)</span></code></p></td>
@@ -650,59 +652,14 @@ answer is “nothing”.</p>
 </tbody>
 </table>
 </div>
-<section id="which-sites-and-pollutants">
-<h2>Which sites and pollutants<a class="headerlink" href="#which-sites-and-pollutants" title="Link to this heading">#</a></h2>
-<p>A site is a place where measurements are made. It has a site ID (<code class="docutils literal notranslate"><span class="pre">SID</span></code>), such
-as <code class="docutils literal notranslate"><span class="pre">WBB</span></code> for William Browning. Some sites are fixed, like <code class="docutils literal notranslate"><span class="pre">WBB</span></code>, and some are
-mobile (the <code class="docutils literal notranslate"><span class="pre">TRX</span></code> and <code class="docutils literal notranslate"><span class="pre">BUS</span></code> sites). The <a class="reference internal" href="laboratory.html"><span class="doc">laboratory</span></a> lists
-them all:</p>
-<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">uataq</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">lab</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">laboratory</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">lab</span><span class="o">.</span><span class="n">sites</span><span class="p">),</span> <span class="s2">&quot;sites&quot;</span><span class="p">)</span>
-<span class="go">36 sites</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">lab</span><span class="o">.</span><span class="n">sites</span>
-<span class="go">[&#39;ASB&#39;, &#39;BUS01&#39;, &#39;BUS02&#39;, &#39;BUS03&#39;, &#39;BUS04&#39;, &#39;BUS05&#39;, &#39;BUS06&#39;, &#39;BUS07&#39;, &#39;BUS08&#39;, &#39;BUS09&#39;, &#39;BUS10&#39;, &#39;BUS11&#39;, &#39;BUS12&#39;, &#39;BUS13&#39;, &#39;BUS14&#39;, &#39;BUS15&#39;, &#39;CSP&#39;, &#39;DBK&#39;, &#39;FRU&#39;, &#39;HDP&#39;, &#39;HEB&#39;, &#39;HPL&#39;, &#39;IMC&#39;, &#39;LDF&#39;, &#39;LGN&#39;, &#39;LG2&#39;, &#39;MSA&#39;, &#39;MUR&#39;, &#39;ROO&#39;, &#39;RPK&#39;, &#39;SUG&#39;, &#39;SUN&#39;, &#39;TRX01&#39;, &#39;TRX02&#39;, &#39;TRX03&#39;, &#39;WBB&#39;]</span>
-</pre></div>
-</div>
-<p>Each site knows the pollutants it measures:</p>
-<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">wbb</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">get_site</span><span class="p">(</span><span class="s2">&quot;WBB&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">sorted</span><span class="p">(</span><span class="n">wbb</span><span class="o">.</span><span class="n">pollutants</span><span class="p">)</span>
-<span class="go">[&#39;BC&#39;, &#39;CH4&#39;, &#39;CO&#39;, &#39;CO2&#39;, &#39;NO&#39;, &#39;NO2&#39;, &#39;NOX&#39;, &#39;O3&#39;, &#39;PM2.5&#39;]</span>
-</pre></div>
-</div>
-<p>Pollutant names are upper case (<code class="docutils literal notranslate"><span class="pre">NOx</span></code> is <code class="docutils literal notranslate"><span class="pre">'NOX'</span></code> here), but you can type
-them in any case when you read data. To go the other way and find the sites that
-measure a pollutant, make a <a class="reference internal" href="#uataq.Network" title="uataq.Network"><code class="xref py py-class docutils literal notranslate"><span class="pre">Network</span></code></a> of <code class="docutils literal notranslate"><span class="pre">&quot;all&quot;</span></code> sites. A <code class="docutils literal notranslate"><span class="pre">Network</span></code>
-is a list of sites and one pollutant; it is how the package asks a question
-across sites.</p>
-<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">uataq</span><span class="w"> </span><span class="kn">import</span> <span class="n">Network</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">Network</span><span class="p">(</span><span class="s2">&quot;all&quot;</span><span class="p">,</span> <span class="s2">&quot;CH4&quot;</span><span class="p">)</span>
-<span class="go">Network(sites=[&#39;CSP&#39;, &#39;FRU&#39;, &#39;HDP&#39;, &#39;HPL&#39;, &#39;LDF&#39;, &#39;ROO&#39;, &#39;TRX01&#39;, &#39;WBB&#39;], pollutant=&#39;CH4&#39;)</span>
-</pre></div>
-</div>
-<p>These lists are what the sites were set up to measure. They do not say there is
-data, and they include sites and instruments that no longer run (<code class="docutils literal notranslate"><span class="pre">LDF</span></code> and
-<code class="docutils literal notranslate"><span class="pre">ROO</span></code> have closed). An instrument has a window in which it was installed:</p>
-<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">instrument</span> <span class="ow">in</span> <span class="n">wbb</span><span class="o">.</span><span class="n">instruments</span><span class="p">:</span>
-<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">instrument</span><span class="o">.</span><span class="n">name</span><span class="si">:</span><span class="s2">15</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">instrument</span><span class="o">.</span><span class="n">active_range</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="gp">...</span>
-<span class="go">lgr_ugga        After 2013-10-09 00:00:00</span>
-<span class="go">magee_ae33      After 2020-07-29 00:00:00</span>
-<span class="go">metone_es642    2017-03-07 00:00:00 to 2022-06-07 00:00:00</span>
-<span class="go">teledyne_t200   After 2017-01-19 00:00:00</span>
-<span class="go">teledyne_t300   After 2017-05-03 00:00:00</span>
-<span class="go">teledyne_t400   After 2016-08-29 00:00:00</span>
-<span class="go">teledyne_t500u  2020-07-29 00:00:00 to 2023-01-25 00:00:00</span>
-<span class="go">teom_1400ab     2016-09-22 00:00:00 to 2017-03-01 00:00:00</span>
-</pre></div>
-</div>
-<p>That is why <code class="docutils literal notranslate"><span class="pre">PM2.5</span></code> is in WBB’s list although WBB’s two PM2.5 instruments
-(<code class="docutils literal notranslate"><span class="pre">metone_es642</span></code> and <code class="docutils literal notranslate"><span class="pre">teom_1400ab</span></code>) were removed years ago. The window says
-when an instrument was there, not when it recorded data. For that, ask for the
-availability.</p>
-</section>
 <section id="when-a-site-has-data">
 <h2>When a site has data<a class="headerlink" href="#when-a-site-has-data" title="Link to this heading">#</a></h2>
+<p>The examples on this page start from these lines:</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">uataq</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">uataq</span><span class="w"> </span><span class="kn">import</span> <span class="n">Network</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">wbb</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">get_site</span><span class="p">(</span><span class="s2">&quot;WBB&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
 <p><a class="reference internal" href="#uataq.Network.get_availability" title="uataq.Network.get_availability"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Network.get_availability()</span></code></a> tells you when sites have data for a pollutant.
 Give it a time range and it returns a table with one row for each stretch of
 time that has data:</p>
@@ -761,8 +718,7 @@ either end of the range can reach past it. <code class="docutils literal notrans
 <section id="levels">
 <h3>Levels<a class="headerlink" href="#levels" title="Link to this heading">#</a></h3>
 <p>By default the call checks all four data levels (<code class="docutils literal notranslate"><span class="pre">raw</span></code>, <code class="docutils literal notranslate"><span class="pre">qaqc</span></code>,
-<code class="docutils literal notranslate"><span class="pre">calibrated</span></code> and <code class="docutils literal notranslate"><span class="pre">final</span></code>; see <em>Processing Level</em> on the <a class="reference internal" href="general.html"><span class="doc">general functions page</span></a>) and
-gives each bin the <strong>highest</strong> level that has data in it. A stretch labeled
+<code class="docutils literal notranslate"><span class="pre">calibrated</span></code> and <code class="docutils literal notranslate"><span class="pre">final</span></code>; see <a class="reference internal" href="input_parameters.html#input-level"><span class="std std-ref">Processing Level</span></a>) and gives each bin the <strong>highest</strong> level that has data in it. A stretch labeled
 <code class="docutils literal notranslate"><span class="pre">qaqc</span></code> was therefore measured, but the final level has nothing for it. WBB
 has no final CO2 for August 2021:</p>
 <div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">co2</span><span class="o">.</span><span class="n">get_availability</span><span class="p">(</span><span class="s2">&quot;2021&quot;</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="s2">&quot;M&quot;</span><span class="p">,</span> <span class="n">lvls</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;qaqc&quot;</span><span class="p">,</span> <span class="s2">&quot;final&quot;</span><span class="p">])</span>
@@ -772,7 +728,7 @@ has no final CO2 for August 2021:</p>
 <span class="go">2  WBB  final 2021-09-01 2022-01-01</span>
 </pre></div>
 </div>
-<p><a class="reference internal" href="general.html#uataq.get_obs" title="uataq.get_obs"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_obs()</span></code></a> always reads the final level, so it has nothing to return for
+<p><a class="reference internal" href="input_parameters.html#uataq.get_obs" title="uataq.get_obs"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_obs()</span></code></a> always reads the final level, so it has nothing to return for
 that month (see <a class="reference internal" href="#when-there-is-nothing-to-read">When there is nothing to read</a>).</p>
 </section>
 <section id="how-long-it-takes">
@@ -876,7 +832,7 @@ data and light bars are qaqc data with nothing in final.</span><a class="headerl
 <section id="the-newest-data">
 <h2>The newest data<a class="headerlink" href="#the-newest-data" title="Link to this heading">#</a></h2>
 <p><a class="reference internal" href="#uataq.get_recent_obs" title="uataq.get_recent_obs"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_recent_obs()</span></code></a> returns the last few days of a site. It reads the same
-level as <a class="reference internal" href="general.html#uataq.get_obs" title="uataq.get_obs"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_obs()</span></code></a>, and returns the same kind of table. The default is
+level as <a class="reference internal" href="input_parameters.html#uataq.get_obs" title="uataq.get_obs"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_obs()</span></code></a>, and returns the same kind of table. The default is
 10 days:</p>
 <div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">obs</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">get_recent_obs</span><span class="p">(</span><span class="s2">&quot;WBB&quot;</span><span class="p">,</span> <span class="n">pollutants</span><span class="o">=</span><span class="s2">&quot;CO2&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">obs</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
@@ -926,7 +882,7 @@ one table:</p>
 </pre></div>
 </div>
 <p>The table is a <code class="docutils literal notranslate"><span class="pre">geopandas.GeoDataFrame</span></code> indexed by <code class="docutils literal notranslate"><span class="pre">Time_UTC</span></code>. Besides the
-concentration columns (<a class="reference internal" href="pollutants.html"><span class="doc">Pollutants</span></a>) each row has the <code class="docutils literal notranslate"><span class="pre">SID</span></code> and
+concentration columns (<a class="reference internal" href="columns.html#column-names"><span class="std std-ref">Column names</span></a>) each row has the <code class="docutils literal notranslate"><span class="pre">SID</span></code> and
 <code class="docutils literal notranslate"><span class="pre">instrument</span></code> it came from, its position (<code class="docutils literal notranslate"><span class="pre">Latitude_deg</span></code>, <code class="docutils literal notranslate"><span class="pre">Longitude_deg</span></code>
 and <code class="docutils literal notranslate"><span class="pre">geometry</span></code>) and <code class="docutils literal notranslate"><span class="pre">zagl</span></code> (height above ground level, from the site’s
 configuration). It reads every instrument that measures the pollutant at the
@@ -977,7 +933,7 @@ the error under <a class="reference internal" href="#instrument-inactive">Instru
 <p>The name in the brackets is the <strong>instrument</strong> that measures what you asked for
 (<code class="docutils literal notranslate"><span class="pre">lgr_ugga</span></code> measures CO2 and CH4), not the pollutant, and the message does not
 say which dates do exist. <code class="docutils literal notranslate"><span class="pre">lin</span></code> is the research group whose archive was
-searched (see <em>Research Group</em> on the <a class="reference internal" href="general.html"><span class="doc">general functions page</span></a>). When the message lists several
+searched (see <a class="reference internal" href="input_parameters.html#input-group"><span class="std std-ref">Research Group</span></a>). When the message lists several
 instruments, <code class="docutils literal notranslate"><span class="pre">name</span> <span class="pre">in</span> <span class="pre">lin</span> <span class="pre">groupspace</span></code> means it was looked for and not found,
 and <code class="docutils literal notranslate"><span class="pre">name</span> <span class="pre">not</span> <span class="pre">read:</span> <span class="pre">...</span></code> means it was skipped, with the reason.</p>
 <p>To find the dates that do exist, use <a class="reference internal" href="#uataq.Network.get_availability" title="uataq.Network.get_availability"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Network.get_availability()</span></code></a>, and add
@@ -993,10 +949,10 @@ and <code class="docutils literal notranslate"><span class="pre">name</span> <sp
 </pre></div>
 </div>
 <p>The instrument was not installed at the site in that range. Its window is its
-<code class="docutils literal notranslate"><span class="pre">active_range</span></code> (see <a class="reference internal" href="#which-sites-and-pollutants">Which sites and pollutants</a>). A range that only touches
-the window, such as one that ends the day the instrument was installed, counts
-as outside it. A range that overlaps the window only in part is cut down to it,
-with no error.</p>
+<code class="docutils literal notranslate"><span class="pre">active_range</span></code> (see <a class="reference internal" href="sites_and_instruments.html#sites-in-code"><span class="std std-ref">The same in code</span></a>, on the
+<a class="reference internal" href="sites_and_instruments.html"><span class="doc">Sites and instruments</span></a> page). A range that only touches the window, such
+as one that ends the day the instrument was installed, counts as outside it. A
+range that overlaps the window only in part is cut down to it, with no error.</p>
 <p>Dates after a site was taken down give this error too: HDP after 7 February
 2025, and SUG’s CO2 after 22 August 2025. That includes
 <code class="docutils literal notranslate"><span class="pre">get_recent_obs(&quot;HDP&quot;,</span> <span class="pre">pollutants=&quot;CO2&quot;)</span></code>: nothing is recent at a site that
@@ -1111,7 +1067,7 @@ a <code class="docutils literal notranslate"><span class="pre">Network</span></c
 whose “Valid sites” is just the list you typed, not a list of valid sites. Use
 <code class="docutils literal notranslate"><span class="pre">Network(&quot;all&quot;,</span> <span class="pre">&quot;CO2&quot;)</span></code> to see the real ones. List each site once: a site
 named twice is read twice, and its rows come back twice.</p>
-<p>If the error is about <code class="docutils literal notranslate"><span class="pre">time_range</span></code> itself, see <em>Time Range</em> on the <a class="reference internal" href="general.html"><span class="doc">general functions page</span></a>.</p>
+<p>If the error is about <code class="docutils literal notranslate"><span class="pre">time_range</span></code> itself, see <a class="reference internal" href="input_parameters.html#input-time-range"><span class="std std-ref">Time Range</span></a>.</p>
 </section>
 </section>
 <section id="reference">
@@ -1400,7 +1356,6 @@ the plot without re-reading the archive.</p></li>
   </div>
   <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="pst-show_toc_level nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#which-sites-and-pollutants">Which sites and pollutants</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#when-a-site-has-data">When a site has data</a><ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bins">Bins</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#levels">Levels</a></li>
@@ -1438,7 +1393,7 @@ the plot without re-reading the archive.</p></li>
   <div class="sidebar-secondary-item">
 
   <div class="tocsection sourcelink">
-    <a href="_sources/availability.rst.txt">
+    <a href="_sources/what_data_exists.rst.txt">
       <i class="fa-solid fa-file-lines"></i> Show Source
     </a>
   </div>

@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Your first month of data &#8212; UATAQ 2026.10.1.dev26+g69e7849ae documentation</title>
+    <title>Your first month of data &#8212; UATAQ 2026.10.1.dev28+g2e434911d documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="_static/documentation_options.js?v=ac76cd2f"></script>
+    <script src="_static/documentation_options.js?v=197551ba"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -55,11 +55,11 @@
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="What data exists" href="availability.html" />
+    <link rel="next" title="What data exists" href="what_data_exists.html" />
     <link rel="prev" title="Installation" href="installation.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.1.dev26+g69e7849ae" />
+  <meta name="docsearch:version" content="2026.10.1.dev28+g2e434911d" />
   
     
     <script src="_static/searchtools.js"></script>
@@ -127,7 +127,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.1.dev26+g69e7849ae documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.1.dev28+g2e434911d documentation</p>
   
 </a></div>
     
@@ -156,7 +156,7 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="availability.html">
+  <a class="nav-link nav-internal" href="what_data_exists.html">
     What data exists
   </a>
 </li>
@@ -170,7 +170,7 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="catalog.html">
+  <a class="nav-link nav-internal" href="sites_and_instruments.html">
     Sites and instruments
   </a>
 </li>
@@ -191,8 +191,8 @@
 
 
 <li class=" ">
-  <a class="nav-link dropdown-item nav-internal" href="general.html">
-    General Functions
+  <a class="nav-link dropdown-item nav-internal" href="input_parameters.html">
+    Input Parameters
   </a>
 </li>
 
@@ -392,7 +392,7 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="availability.html">
+  <a class="nav-link nav-internal" href="what_data_exists.html">
     What data exists
   </a>
 </li>
@@ -406,7 +406,7 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="catalog.html">
+  <a class="nav-link nav-internal" href="sites_and_instruments.html">
     Sites and instruments
   </a>
 </li>
@@ -420,8 +420,8 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="general.html">
-    General Functions
+  <a class="nav-link nav-internal" href="input_parameters.html">
+    Input Parameters
   </a>
 </li>
 
@@ -620,10 +620,10 @@ shows where the numbers came from: which instrument, which data level and which
 research group. The example is CO2 at WBB (William Browning, on the University of
 Utah campus) for June 2025, in Mountain time.</p>
 <p>To pick a different site, pollutant or month, first check that there are data:
-<a class="reference internal" href="availability.html"><span class="doc">What data exists</span></a> shows how, and what the errors mean when there are none.</p>
+<a class="reference internal" href="what_data_exists.html"><span class="doc">What data exists</span></a> shows how, and what the errors mean when there are none.</p>
 <section id="read-a-month">
 <h2>Read a month<a class="headerlink" href="#read-a-month" title="Link to this heading">#</a></h2>
-<p><a class="reference internal" href="general.html#uataq.get_obs" title="uataq.get_obs"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_obs()</span></code></a> takes a site, a pollutant and a time range:</p>
+<p><a class="reference internal" href="input_parameters.html#uataq.get_obs" title="uataq.get_obs"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_obs()</span></code></a> takes a site, a pollutant and a time range:</p>
 <div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">uataq</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">obs</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">get_obs</span><span class="p">(</span><span class="s2">&quot;WBB&quot;</span><span class="p">,</span> <span class="s2">&quot;CO2&quot;</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="s2">&quot;2025-06&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">obs</span>
@@ -647,7 +647,7 @@ Utah campus) for June 2025, in Mountain time.</p>
 <p>It takes a few seconds. You get one table (a pandas <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code>) with a row
 about every 10 seconds. <code class="docutils literal notranslate"><span class="pre">CO2d_ppm_cal</span></code> is the calibrated CO2 dry mole fraction
 in ppm, and <code class="docutils literal notranslate"><span class="pre">CO2d_ppm_raw</span></code> is the same measurement before calibration. The
-column names are explained on the <a class="reference internal" href="pollutants.html"><span class="doc">Pollutants</span></a> page.</p>
+column names are explained under <a class="reference internal" href="columns.html#column-names"><span class="std std-ref">Column names</span></a> on the <a class="reference internal" href="columns.html"><span class="doc">Columns and flags</span></a> page.</p>
 <p>This month is in <strong>UTC</strong>, not in local time. The next sections say where the
 numbers came from, and then how to get a month in local time.</p>
 </section>
@@ -658,7 +658,7 @@ research group they came from, and the uataq version you used. The table does
 not show them, so here is how to find each one.</p>
 <section id="the-instrument">
 <h3>The instrument<a class="headerlink" href="#the-instrument" title="Link to this heading">#</a></h3>
-<p><a class="reference internal" href="general.html#uataq.get_obs" title="uataq.get_obs"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_obs()</span></code></a> reads every instrument at the site that measures the pollutant.
+<p><a class="reference internal" href="input_parameters.html#uataq.get_obs" title="uataq.get_obs"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_obs()</span></code></a> reads every instrument at the site that measures the pollutant.
 To see which ones those are:</p>
 <div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">wbb</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">get_site</span><span class="p">(</span><span class="s2">&quot;WBB&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">instrument</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">instrument</span> <span class="ow">in</span> <span class="n">wbb</span><span class="o">.</span><span class="n">pollutant_instruments</span><span class="p">[</span><span class="s2">&quot;CO2&quot;</span><span class="p">]]</span>
@@ -670,15 +670,15 @@ To see which ones those are:</p>
 <p>So WBB’s CO2 comes from one instrument, the <code class="docutils literal notranslate"><span class="pre">lgr_ugga</span></code> (a Los Gatos Research
 greenhouse gas analyzer, which also measures CH4), installed in October 2013. A
 site can have more than one instrument for a pollutant, one after another or at
-the same time. <a class="reference internal" href="availability.html#uataq.get_network_obs" title="uataq.get_network_obs"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_network_obs()</span></code></a> returns the data with an
+the same time. <a class="reference internal" href="what_data_exists.html#uataq.get_network_obs" title="uataq.get_network_obs"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_network_obs()</span></code></a> returns the data with an
 <code class="docutils literal notranslate"><span class="pre">instrument</span></code> column on each row, when you need to tell them apart (see
-<a class="reference internal" href="availability.html"><span class="doc">What data exists</span></a>).</p>
+<a class="reference internal" href="what_data_exists.html"><span class="doc">What data exists</span></a>).</p>
 </section>
 <section id="the-data-level">
 <h3>The data level<a class="headerlink" href="#the-data-level" title="Link to this heading">#</a></h3>
 <p>The archive keeps each instrument’s data at several processing levels (<code class="docutils literal notranslate"><span class="pre">raw</span></code>,
-<code class="docutils literal notranslate"><span class="pre">qaqc</span></code>, <code class="docutils literal notranslate"><span class="pre">calibrated</span></code> and <code class="docutils literal notranslate"><span class="pre">final</span></code>; see <em>Processing Level</em> on the
-<a class="reference internal" href="general.html"><span class="doc">general functions page</span></a> and the pipeline’s
+<code class="docutils literal notranslate"><span class="pre">qaqc</span></code>, <code class="docutils literal notranslate"><span class="pre">calibrated</span></code> and <code class="docutils literal notranslate"><span class="pre">final</span></code>; see <a class="reference internal" href="input_parameters.html#input-level"><span class="std std-ref">Processing Level</span></a> and the
+pipeline’s
 <a class="reference external" href="https://github.com/uataq/data-pipeline#processing-levels">description of the levels</a>).
 The <code class="docutils literal notranslate"><span class="pre">final</span></code> level is the ready-to-share level (it can go to people outside
 the group as it is), with the pipeline’s default flags applied: flagged rows are
@@ -686,8 +686,8 @@ dropped, and for the CO2 and CH4 analyzers so are the rows that measured
 calibration tanks. The lower levels keep those rows, for finer control. Which
 one to use depends on how clean the data need to be for what you are doing, and
 on how much control you want over the QAQC.</p>
-<p><a class="reference internal" href="general.html#uataq.get_obs" title="uataq.get_obs"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_obs()</span></code></a> <strong>always reads the final level</strong>, so the month above is final
-data. It has no <code class="docutils literal notranslate"><span class="pre">lvl</span></code> argument. To read another level, use <a class="reference internal" href="general.html#uataq.read_data" title="uataq.read_data"><code class="xref py py-func docutils literal notranslate"><span class="pre">read_data()</span></code></a>,
+<p><a class="reference internal" href="input_parameters.html#uataq.get_obs" title="uataq.get_obs"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_obs()</span></code></a> <strong>always reads the final level</strong>, so the month above is final
+data. It has no <code class="docutils literal notranslate"><span class="pre">lvl</span></code> argument. To read another level, use <a class="reference internal" href="input_parameters.html#uataq.read_data" title="uataq.read_data"><code class="xref py py-func docutils literal notranslate"><span class="pre">read_data()</span></code></a>,
 which reads one or more instruments by name. With no <code class="docutils literal notranslate"><span class="pre">lvl</span></code> it reads the
 highest level the instrument has, which for the <code class="docutils literal notranslate"><span class="pre">lgr_ugga</span></code> is <code class="docutils literal notranslate"><span class="pre">final</span></code>:</p>
 <div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">read_data</span><span class="p">(</span><span class="s2">&quot;WBB&quot;</span><span class="p">,</span> <span class="s2">&quot;lgr_ugga&quot;</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="s2">&quot;2025-06-02&quot;</span><span class="p">)</span>
@@ -719,9 +719,9 @@ lists what each number means. <code class="docutils literal notranslate"><span c
 <section id="the-research-group">
 <h3>The research group<a class="headerlink" href="#the-research-group" title="Link to this heading">#</a></h3>
 <p>Each instrument’s data come from one research group’s archive. WBB’s
-<code class="docutils literal notranslate"><span class="pre">lgr_ugga</span></code> is run by the <code class="docutils literal notranslate"><span class="pre">lin</span></code> group, the default (see <em>Research Group</em> on
-the <a class="reference internal" href="general.html"><span class="doc">general functions page</span></a>). Error messages name the group that
-was searched, as in <code class="docutils literal notranslate"><span class="pre">lgr_ugga</span> <span class="pre">in</span> <span class="pre">lin</span> <span class="pre">groupspace</span></code>.</p>
+<code class="docutils literal notranslate"><span class="pre">lgr_ugga</span></code> is run by the <code class="docutils literal notranslate"><span class="pre">lin</span></code> group, the default (see <a class="reference internal" href="input_parameters.html#input-group"><span class="std std-ref">Research Group</span></a>).
+Error messages name the group that was searched, as in
+<code class="docutils literal notranslate"><span class="pre">lgr_ugga</span> <span class="pre">in</span> <span class="pre">lin</span> <span class="pre">groupspace</span></code>.</p>
 </section>
 <section id="the-version">
 <h3>The version<a class="headerlink" href="#the-version" title="Link to this heading">#</a></h3>
@@ -735,8 +735,9 @@ was searched, as in <code class="docutils literal notranslate"><span class="pre"
 <section id="times-are-utc">
 <h2>Times are UTC<a class="headerlink" href="#times-are-utc" title="Link to this heading">#</a></h2>
 <p><strong>Every time in uataq is UTC</strong>: the times in the data, and the times you pass
-in <code class="docutils literal notranslate"><span class="pre">time_range</span></code>. The index is named <code class="docutils literal notranslate"><span class="pre">Time_UTC</span></code> to say so, but the time zone
-is not attached to it (pandas calls this a <em>naive</em> time):</p>
+in <code class="docutils literal notranslate"><span class="pre">time_range</span></code> (every form it takes is under <a class="reference internal" href="input_parameters.html#input-time-range"><span class="std std-ref">Time Range</span></a>). The
+index is named <code class="docutils literal notranslate"><span class="pre">Time_UTC</span></code> to say so, but the time zone is not attached to it
+(pandas calls this a <em>naive</em> time):</p>
 <div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">obs</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">obs</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">tz</span>
 <span class="go">(&#39;Time_UTC&#39;, None)</span>
 </pre></div>
@@ -759,7 +760,7 @@ UTC. (The index keeps the name <code class="docutils literal notranslate"><span 
 <code class="docutils literal notranslate"><span class="pre">local.index.name</span> <span class="pre">=</span> <span class="pre">&quot;Time_local&quot;</span></code>.)</p>
 </section>
 <section id="a-month-in-local-time">
-<h2>A month in local time<a class="headerlink" href="#a-month-in-local-time" title="Link to this heading">#</a></h2>
+<span id="first-month-local-month"></span><h2>A month in local time<a class="headerlink" href="#a-month-in-local-time" title="Link to this heading">#</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">time_range=&quot;2025-06&quot;</span></code> is June in UTC. In local time that is from 18:00 on
 31 May to 18:00 on 30 June:</p>
 <div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">local</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">local</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
@@ -781,8 +782,8 @@ local month</strong>:</p>
 </pre></div>
 </div>
 <p>The read runs to the end of 1 July in UTC (a string end includes the whole day
-it names; see <a class="reference internal" href="#time">Time</a> below), which covers the end of June in Mountain time.
-After the conversion, <code class="docutils literal notranslate"><span class="pre">obs.loc[&quot;2025-06&quot;]</span></code> picks the rows in June <strong>local</strong>
+it names; see <a class="reference internal" href="input_parameters.html#input-time-range"><span class="std std-ref">Time Range</span></a>), which covers the end of June in Mountain
+time. After the conversion, <code class="docutils literal notranslate"><span class="pre">obs.loc[&quot;2025-06&quot;]</span></code> picks the rows in June <strong>local</strong>
 time, because the index now has a time zone. 30 June now has all of its 8,324
 rows. Any month works the same way: start the read on the first day of the
 month and end it on the first day of the next.</p>
@@ -835,71 +836,19 @@ fine on a login node. For more data (a year, several sites), run it in a job
 <p>CO2 is highest around 08:00 local time and lowest around 18:00. Read in UTC, the
 same peak would show at hour 14, and the plot would be six hours off.</p>
 </section>
-<section id="time">
-<h2>Time<a class="headerlink" href="#time" title="Link to this heading">#</a></h2>
-<p>The rules for <code class="docutils literal notranslate"><span class="pre">time_range</span></code>, in short. The full list of forms is under <em>Time
-Range</em> on the <a class="reference internal" href="general.html"><span class="doc">general functions page</span></a>.</p>
-<p><strong>Times are UTC and have no time zone.</strong> A string such as <code class="docutils literal notranslate"><span class="pre">&quot;2025-06&quot;</span></code> or
-<code class="docutils literal notranslate"><span class="pre">&quot;2025-06-02T06:00&quot;</span></code> is read as UTC. A trailing <code class="docutils literal notranslate"><span class="pre">Z</span></code> or <code class="docutils literal notranslate"><span class="pre">+00:00</span></code> is
-allowed. Any other offset is an error that says so:</p>
-<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">uataq</span><span class="o">.</span><span class="n">get_obs</span><span class="p">(</span><span class="s2">&quot;WBB&quot;</span><span class="p">,</span> <span class="s2">&quot;CO2&quot;</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="s2">&quot;2025-06-01T00:00-06:00&quot;</span><span class="p">)</span>
-<span class="gt">Traceback (most recent call last):</span>
-<span class="w">  </span><span class="c">...</span>
-<span class="gr">ValueError</span>: <span class="n">Invalid time string &#39;2025-06-01T00:00-06:00&#39;. Expected ISO 8601 in UTC, e.g. &#39;2024&#39;, &#39;2024-01&#39;, &#39;2024-01-15&#39;, &#39;2024-01-15T12:30:45&#39;.</span>
-</pre></div>
-</div>
-<p>A pandas <code class="docutils literal notranslate"><span class="pre">Timestamp</span></code> must not carry a time zone either. One that does gives
-an error that does not say what to do:</p>
-<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">start</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="s2">&quot;2025-06-01&quot;</span><span class="p">,</span> <span class="n">tz</span><span class="o">=</span><span class="s2">&quot;America/Denver&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">stop</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="s2">&quot;2025-07-01&quot;</span><span class="p">,</span> <span class="n">tz</span><span class="o">=</span><span class="s2">&quot;America/Denver&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">uataq</span><span class="o">.</span><span class="n">get_obs</span><span class="p">(</span><span class="s2">&quot;WBB&quot;</span><span class="p">,</span> <span class="s2">&quot;CO2&quot;</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="p">[</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">])</span>
-<span class="gt">Traceback (most recent call last):</span>
-<span class="w">  </span><span class="c">...</span>
-<span class="gr">TypeError</span>: <span class="n">Cannot compare tz-naive and tz-aware timestamps</span>
-</pre></div>
-</div>
-<p>The same happens with <code class="docutils literal notranslate"><span class="pre">tz=&quot;UTC&quot;</span></code>. Convert the times to UTC and take the time
-zone off:</p>
-<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">utc</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">tz_convert</span><span class="p">(</span><span class="s2">&quot;UTC&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">tz_localize</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">)]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">utc</span>
-<span class="go">[Timestamp(&#39;2025-06-01 06:00:00&#39;), Timestamp(&#39;2025-07-01 06:00:00&#39;)]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">uataq</span><span class="o">.</span><span class="n">get_obs</span><span class="p">(</span><span class="s2">&quot;WBB&quot;</span><span class="p">,</span> <span class="s2">&quot;CO2&quot;</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="n">utc</span><span class="p">))</span>
-<span class="go">250685</span>
-</pre></div>
-</div>
-<p>That reads exactly June in local time, the same 250,685 rows as the cut above.
-Both ways are right; use the one you find clearer.</p>
-<p><strong>A string end includes the period it names, a Timestamp end does not.</strong> A
-range includes its start and stops just before its end. An end given as a string
-means the end of the period it names, so <code class="docutils literal notranslate"><span class="pre">&quot;2025-07-01&quot;</span></code> stops at midnight
-after 1 July and <code class="docutils literal notranslate"><span class="pre">&quot;2025-06-03T06&quot;</span></code> stops at 07:00. An end given as a
-<code class="docutils literal notranslate"><span class="pre">Timestamp</span></code> stops at that instant:</p>
-<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">get_obs</span><span class="p">(</span><span class="s2">&quot;WBB&quot;</span><span class="p">,</span> <span class="s2">&quot;CO2&quot;</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;2025-06-02T06&quot;</span><span class="p">,</span> <span class="s2">&quot;2025-06-03T06&quot;</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-<span class="go">Timestamp(&#39;2025-06-03 06:59:53&#39;)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">get_obs</span><span class="p">(</span>
-<span class="gp">... </span>    <span class="s2">&quot;WBB&quot;</span><span class="p">,</span> <span class="s2">&quot;CO2&quot;</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="s2">&quot;2025-06-02T06&quot;</span><span class="p">),</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="s2">&quot;2025-06-03T06&quot;</span><span class="p">)]</span>
-<span class="gp">... </span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-<span class="go">Timestamp(&#39;2025-06-03 05:59:58&#39;)</span>
-</pre></div>
-</div>
-<p>So the string range is an hour longer. When you want an end at an exact time,
-give it as a <code class="docutils literal notranslate"><span class="pre">Timestamp</span></code>.</p>
-</section>
 <section id="next">
 <h2>Next<a class="headerlink" href="#next" title="Link to this heading">#</a></h2>
 <ul class="simple">
-<li><p><a class="reference internal" href="catalog.html"><span class="doc">Sites and instruments</span></a>: every site and instrument, what each measures, and what the
-names mean.</p></li>
-<li><p><a class="reference internal" href="availability.html"><span class="doc">What data exists</span></a>: which sites measure what, when they have data, and what
-the errors mean.</p></li>
+<li><p><a class="reference internal" href="sites_and_instruments.html"><span class="doc">Sites and instruments</span></a>: every site and instrument, what each measures,
+and what the names mean.</p></li>
+<li><p><a class="reference internal" href="what_data_exists.html"><span class="doc">What data exists</span></a>: which sites measure what, when they have data, and
+what the errors mean.</p></li>
 <li><p><a class="reference internal" href="quickstart.html"><span class="doc">Quick Start</span></a>: the site and instrument objects, the <code class="docutils literal notranslate"><span class="pre">long</span></code> format, and
 the mobile (TRAX and bus) sites.</p></li>
-<li><p><a class="reference internal" href="columns.html"><span class="doc">Columns and flags</span></a>: what each column of each level holds, the <code class="docutils literal notranslate"><span class="pre">ID</span></code> columns,
-and the flags.</p></li>
-<li><p><a class="reference internal" href="pollutants.html"><span class="doc">Pollutants</span></a>: the names of the concentration columns.</p></li>
+<li><p><a class="reference internal" href="columns.html"><span class="doc">Columns and flags</span></a>: what each column of each level holds, the column names, the
+<code class="docutils literal notranslate"><span class="pre">ID</span></code> columns, and the flags.</p></li>
+<li><p><a class="reference internal" href="input_parameters.html"><span class="doc">Input Parameters</span></a>: what each argument of <a class="reference internal" href="input_parameters.html#uataq.read_data" title="uataq.read_data"><code class="xref py py-func docutils literal notranslate"><span class="pre">read_data()</span></code></a> and
+<a class="reference internal" href="input_parameters.html#uataq.get_obs" title="uataq.get_obs"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_obs()</span></code></a> means, and every form of <code class="docutils literal notranslate"><span class="pre">time_range</span></code>.</p></li>
 </ul>
 </section>
 </section>
@@ -924,7 +873,7 @@ and the flags.</p></li>
       </div>
     </a>
     <a class="right-next"
-       href="availability.html"
+       href="what_data_exists.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
@@ -962,7 +911,6 @@ and the flags.</p></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#times-are-utc">Times are UTC</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-month-in-local-time">A month in local time</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-daily-cycle">The daily cycle</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#time">Time</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#next">Next</a></li>
 </ul>
   </nav></div>

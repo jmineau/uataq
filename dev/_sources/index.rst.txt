@@ -50,16 +50,16 @@ work on CHPC, where the archive is. Start with :doc:`installation`, then
    :maxdepth: 1
    :caption: Guides
 
-   availability
+   what_data_exists
    quickstart
 
 .. toctree::
    :maxdepth: 1
    :caption: Reference
 
-   catalog
+   sites_and_instruments
    columns
-   general
+   input_parameters
    config
 
 .. toctree::

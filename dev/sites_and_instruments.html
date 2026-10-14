@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Sites and instruments &#8212; UATAQ 2026.10.1.dev26+g69e7849ae documentation</title>
+    <title>Sites and instruments &#8212; UATAQ 2026.10.1.dev28+g2e434911d documentation</title>
   
   
   
@@ -39,12 +39,12 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="_static/documentation_options.js?v=ac76cd2f"></script>
+    <script src="_static/documentation_options.js?v=197551ba"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="_static/copybutton.js?v=f281be69"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'catalog';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'sites_and_instruments';</script>
     <script>
         DOCUMENTATION_OPTIONS.theme_version = '0.22.0';
         DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://jmineau.github.io/uataq/switcher.json';
@@ -59,7 +59,7 @@
     <link rel="prev" title="Quick Start" href="quickstart.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.1.dev26+g69e7849ae" />
+  <meta name="docsearch:version" content="2026.10.1.dev28+g2e434911d" />
   
     
     <script src="_static/searchtools.js"></script>
@@ -127,7 +127,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.1.dev26+g69e7849ae documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.1.dev28+g2e434911d documentation</p>
   
 </a></div>
     
@@ -156,7 +156,7 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="availability.html">
+  <a class="nav-link nav-internal" href="what_data_exists.html">
     What data exists
   </a>
 </li>
@@ -191,8 +191,8 @@
 
 
 <li class=" ">
-  <a class="nav-link dropdown-item nav-internal" href="general.html">
-    General Functions
+  <a class="nav-link dropdown-item nav-internal" href="input_parameters.html">
+    Input Parameters
   </a>
 </li>
 
@@ -392,7 +392,7 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="availability.html">
+  <a class="nav-link nav-internal" href="what_data_exists.html">
     What data exists
   </a>
 </li>
@@ -420,8 +420,8 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="general.html">
-    General Functions
+  <a class="nav-link nav-internal" href="input_parameters.html">
+    Input Parameters
   </a>
 </li>
 
@@ -610,14 +610,14 @@
 <a class="reference internal" href="config.html"><span class="doc">configuration</span></a> each time the documentation is built, so they
 always match the version of uataq they document. They say what the
 configuration says, not what the archive holds: to see which days have data,
-use <a class="reference internal" href="availability.html"><span class="doc">What data exists</span></a>. The words in the headings are explained in the
+use <a class="reference internal" href="what_data_exists.html"><span class="doc">What data exists</span></a>. The words in the headings are explained in the
 <a class="reference internal" href="#glossary"><span class="std std-ref">glossary</span></a> at the end of the page.</p>
 <p>In both site tables:</p>
 <ul class="simple">
 <li><p><strong>Active</strong> is “yes” when at least one instrument at the site has no removal
 date in the configuration. Otherwise it gives the date the last instrument
 was removed. A site can stop sending data before its instruments are marked
-removed, so check with <a class="reference internal" href="availability.html"><span class="doc">What data exists</span></a> before you plan on recent data.</p></li>
+removed, so check with <a class="reference internal" href="what_data_exists.html"><span class="doc">What data exists</span></a> before you plan on recent data.</p></li>
 <li><p><strong>Groups</strong> are the research <a class="reference internal" href="#term-group"><span class="xref std std-term">groups</span></a> whose archives hold the
 site’s data.</p></li>
 <li><p><strong>Pollutants</strong> are every pollutant measured at the site, by its instruments
@@ -1286,21 +1286,23 @@ reads it and the pollutants it measures. The class pages are under
 </div>
 </section>
 <section id="the-same-in-code">
-<h2>The same in code<a class="headerlink" href="#the-same-in-code" title="Link to this heading">#</a></h2>
+<span id="sites-in-code"></span><h2>The same in code<a class="headerlink" href="#the-same-in-code" title="Link to this heading">#</a></h2>
 <p>Everything in these tables comes from objects you can use yourself. This block
 runs when the documentation is built, so its output is current:</p>
 <div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [1]: </span><span class="kn">import</span><span class="w"> </span><span class="nn">uataq</span>
 
-<span class="gp">In [2]: </span><span class="n">site</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">get_site</span><span class="p">(</span><span class="s2">&quot;WBB&quot;</span><span class="p">)</span>
+<span class="gp">In [2]: </span><span class="kn">from</span><span class="w"> </span><span class="nn">uataq</span><span class="w"> </span><span class="kn">import</span> <span class="n">Network</span>
 
-<span class="gp">In [3]: </span><span class="n">site</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">],</span> <span class="n">site</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;zagl&quot;</span><span class="p">]</span>
-<span class="gh">Out[3]: </span><span class="go">(&#39;William Browning&#39;, 35)</span>
+<span class="gp">In [3]: </span><span class="n">site</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">get_site</span><span class="p">(</span><span class="s2">&quot;WBB&quot;</span><span class="p">)</span>
 
-<span class="gp">In [4]: </span><span class="nb">sorted</span><span class="p">(</span><span class="n">site</span><span class="o">.</span><span class="n">pollutants</span><span class="p">)</span>
-<span class="gh">Out[4]: </span><span class="go">[&#39;BC&#39;, &#39;CH4&#39;, &#39;CO&#39;, &#39;CO2&#39;, &#39;NO&#39;, &#39;NO2&#39;, &#39;NOX&#39;, &#39;O3&#39;, &#39;PM2.5&#39;]</span>
+<span class="gp">In [4]: </span><span class="n">site</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">],</span> <span class="n">site</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;zagl&quot;</span><span class="p">]</span>
+<span class="gh">Out[4]: </span><span class="go">(&#39;William Browning&#39;, 35)</span>
 
-<span class="gp">In [5]: </span><span class="p">[</span><span class="n">instrument</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">instrument</span> <span class="ow">in</span> <span class="n">site</span><span class="o">.</span><span class="n">instruments</span><span class="p">]</span>
-<span class="gh">Out[5]: </span>
+<span class="gp">In [5]: </span><span class="nb">sorted</span><span class="p">(</span><span class="n">site</span><span class="o">.</span><span class="n">pollutants</span><span class="p">)</span>
+<span class="gh">Out[5]: </span><span class="go">[&#39;BC&#39;, &#39;CH4&#39;, &#39;CO&#39;, &#39;CO2&#39;, &#39;NO&#39;, &#39;NO2&#39;, &#39;NOX&#39;, &#39;O3&#39;, &#39;PM2.5&#39;]</span>
+
+<span class="gp">In [6]: </span><span class="p">[</span><span class="n">instrument</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">instrument</span> <span class="ow">in</span> <span class="n">site</span><span class="o">.</span><span class="n">instruments</span><span class="p">]</span>
+<span class="gh">Out[6]: </span>
 <span class="go">[&#39;lgr_ugga&#39;,</span>
 <span class="go"> &#39;magee_ae33&#39;,</span>
 <span class="go"> &#39;metone_es642&#39;,</span>
@@ -1310,22 +1312,45 @@ runs when the documentation is built, so its output is current:</p>
 <span class="go"> &#39;teledyne_t500u&#39;,</span>
 <span class="go"> &#39;teom_1400ab&#39;]</span>
 
-<span class="gp">In [6]: </span><span class="n">site</span><span class="o">.</span><span class="n">instruments</span><span class="p">[</span><span class="s2">&quot;teledyne_t400&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">active_range</span>
-<span class="gh">Out[6]: </span><span class="go">TimeRange(start=2016-08-29 00:00:00, stop=None)</span>
+<span class="gp">In [7]: </span><span class="n">site</span><span class="o">.</span><span class="n">instruments</span><span class="p">[</span><span class="s2">&quot;teledyne_t400&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">active_range</span>
+<span class="gh">Out[7]: </span><span class="go">TimeRange(start=2016-08-29 00:00:00, stop=None)</span>
 
-<span class="gp">In [7]: </span><span class="nb">type</span><span class="p">(</span><span class="n">site</span><span class="o">.</span><span class="n">instruments</span><span class="p">[</span><span class="s2">&quot;teledyne_t400&quot;</span><span class="p">])</span><span class="o">.</span><span class="vm">__name__</span>
-<span class="gh">Out[7]: </span><span class="go">&#39;Teledyne_T400&#39;</span>
+<span class="gp">In [8]: </span><span class="nb">type</span><span class="p">(</span><span class="n">site</span><span class="o">.</span><span class="n">instruments</span><span class="p">[</span><span class="s2">&quot;teledyne_t400&quot;</span><span class="p">])</span><span class="o">.</span><span class="vm">__name__</span>
+<span class="gh">Out[8]: </span><span class="go">&#39;Teledyne_T400&#39;</span>
 </pre></div>
 </div>
 <p><code class="docutils literal notranslate"><span class="pre">uataq.laboratory.sites</span></code> lists every site ID, and <code class="docutils literal notranslate"><span class="pre">site.config</span></code> holds the
 site’s entry of the configuration.</p>
+<p>Pollutant names are upper case (<code class="docutils literal notranslate"><span class="pre">NOx</span></code> is <code class="docutils literal notranslate"><span class="pre">'NOX'</span></code> here), but you can type
+them in any case when you read data. To go the other way and find the sites that
+measure a pollutant, make a <a class="reference internal" href="what_data_exists.html#uataq.Network" title="uataq.Network"><code class="xref py py-class docutils literal notranslate"><span class="pre">Network</span></code></a> of <code class="docutils literal notranslate"><span class="pre">&quot;all&quot;</span></code> sites. A <code class="docutils literal notranslate"><span class="pre">Network</span></code>
+is a list of sites and one pollutant; it is how the package asks a question
+across sites:</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [9]: </span><span class="n">Network</span><span class="p">(</span><span class="s2">&quot;all&quot;</span><span class="p">,</span> <span class="s2">&quot;CH4&quot;</span><span class="p">)</span>
+<span class="gh">Out[9]: </span><span class="go">Network(sites=[&#39;CSP&#39;, &#39;FRU&#39;, &#39;HDP&#39;, &#39;HPL&#39;, &#39;LDF&#39;, &#39;ROO&#39;, &#39;TRX01&#39;, &#39;WBB&#39;], pollutant=&#39;CH4&#39;)</span>
+</pre></div>
+</div>
+<p>An instrument’s window, its <code class="docutils literal notranslate"><span class="pre">active_range</span></code>, says when it was installed, not
+when it recorded data. That is why <code class="docutils literal notranslate"><span class="pre">PM2.5</span></code> is in WBB’s list although both of
+WBB’s PM2.5 instruments, <code class="docutils literal notranslate"><span class="pre">metone_es642</span></code> and <code class="docutils literal notranslate"><span class="pre">teom_1400ab</span></code>, have an end date:</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [10]: </span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">i</span><span class="o">.</span><span class="n">name</span><span class="si">:</span><span class="s2">15</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">i</span><span class="o">.</span><span class="n">active_range</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">site</span><span class="o">.</span><span class="n">instruments</span><span class="p">))</span>
+<span class="go">lgr_ugga        After 2013-10-09 00:00:00</span>
+<span class="go">magee_ae33      2020-07-29 00:00:00 to 2024-06-20 00:00:00</span>
+<span class="go">metone_es642    2017-03-07 00:00:00 to 2022-06-08 00:00:00</span>
+<span class="go">teledyne_t200   After 2017-01-19 00:00:00</span>
+<span class="go">teledyne_t300   After 2017-05-03 00:00:00</span>
+<span class="go">teledyne_t400   After 2016-08-29 00:00:00</span>
+<span class="go">teledyne_t500u  2020-07-29 00:00:00 to 2023-01-25 00:00:00</span>
+<span class="go">teom_1400ab     2016-09-22 00:00:00 to 2017-03-02 00:00:00</span>
+</pre></div>
+</div>
 </section>
 <section id="glossary">
 <span id="id1"></span><h2>Glossary<a class="headerlink" href="#glossary" title="Link to this heading">#</a></h2>
 <dl class="simple glossary">
 <dt id="term-SID">SID<a class="headerlink" href="#term-SID" title="Link to this term">#</a></dt><dd><p>The site ID: the key of a site in the configuration, such as <code class="docutils literal notranslate"><span class="pre">WBB</span></code>
-or <code class="docutils literal notranslate"><span class="pre">TRX01</span></code>. It is the first argument of <a class="reference internal" href="general.html#uataq.read_data" title="uataq.read_data"><code class="xref py py-func docutils literal notranslate"><span class="pre">read_data()</span></code></a>,
-<a class="reference internal" href="general.html#uataq.get_obs" title="uataq.get_obs"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_obs()</span></code></a> and <a class="reference internal" href="laboratory.html#uataq.get_site" title="uataq.get_site"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_site()</span></code></a>, which turn it to upper case, so
+or <code class="docutils literal notranslate"><span class="pre">TRX01</span></code>. It is the first argument of <a class="reference internal" href="input_parameters.html#uataq.read_data" title="uataq.read_data"><code class="xref py py-func docutils literal notranslate"><span class="pre">read_data()</span></code></a>,
+<a class="reference internal" href="input_parameters.html#uataq.get_obs" title="uataq.get_obs"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_obs()</span></code></a> and <a class="reference internal" href="laboratory.html#uataq.get_site" title="uataq.get_site"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_site()</span></code></a>, which turn it to upper case, so
 <code class="docutils literal notranslate"><span class="pre">&quot;wbb&quot;</span></code> works too. Each site also has a longer <code class="docutils literal notranslate"><span class="pre">name</span></code> (the Name
 column above).</p>
 </dd>
@@ -1338,7 +1363,7 @@ measurement from the site’s <code class="docutils literal notranslate"><span c
 configuration.</p>
 </dd>
 <dt id="term-zagl">zagl<a class="headerlink" href="#term-zagl" title="Link to this term">#</a></dt><dd><p>The height above ground level of a fixed site’s measurements, in
-meters, from the site’s configuration. <a class="reference internal" href="availability.html#uataq.get_network_obs" title="uataq.get_network_obs"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_network_obs()</span></code></a> gives
+meters, from the site’s configuration. <a class="reference internal" href="what_data_exists.html#uataq.get_network_obs" title="uataq.get_network_obs"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_network_obs()</span></code></a> gives
 it in a column of the same name. Mobile sites have none.</p>
 </dd>
 <dt id="term-group">group<a class="headerlink" href="#term-group" title="Link to this term">#</a></dt><dd><p>The research group whose archive holds an instrument’s data: <code class="docutils literal notranslate"><span class="pre">lin</span></code>
@@ -1346,9 +1371,9 @@ it in a column of the same name. Mobile sites have none.</p>
 instruments) or <code class="docutils literal notranslate"><span class="pre">horel</span></code> (John Horel’s group: the buses and the
 other TRAX instruments). Some TRAX instruments are in both archives,
 for different years. <code class="docutils literal notranslate"><span class="pre">group=None</span></code>,
-the default of every read, picks the group for you; see “Research
-Group” on the <a class="reference internal" href="general.html"><span class="doc">General Functions</span></a> page. <code class="docutils literal notranslate"><span class="pre">uataq.filesystem.groups</span></code> holds
-the two groups’ readers.</p>
+the default of every read, picks the group for you; see
+<a class="reference internal" href="input_parameters.html#input-group"><span class="std std-ref">Research Group</span></a>. <code class="docutils literal notranslate"><span class="pre">uataq.filesystem.groups</span></code> holds the two groups’
+readers.</p>
 </dd>
 <dt id="term-logger">logger<a class="headerlink" href="#term-logger" title="Link to this term">#</a></dt><dd><p>How a group records an instrument, which sets the format of its
 <code class="docutils literal notranslate"><span class="pre">raw</span></code> files. The configuration gives it per site or per instrument,
@@ -1369,7 +1394,7 @@ is one file per day, named by its date.</p>
 <dt id="term-instrument-name">instrument name<a class="headerlink" href="#term-instrument-name" title="Link to this term">#</a></dt><dd><p>The key of an instrument under a site’s <code class="docutils literal notranslate"><span class="pre">instruments</span></code> in the
 configuration, such as <code class="docutils literal notranslate"><span class="pre">lgr_ugga</span></code> or <code class="docutils literal notranslate"><span class="pre">teledyne_t400</span></code>. It is what
 you pass to <code class="docutils literal notranslate"><span class="pre">read_data(...,</span> <span class="pre">instruments=...)</span></code>, the key of the
-dictionary <a class="reference internal" href="general.html#uataq.read_data" title="uataq.read_data"><code class="xref py py-func docutils literal notranslate"><span class="pre">read_data()</span></code></a> returns, and the name of the instrument’s
+dictionary <a class="reference internal" href="input_parameters.html#uataq.read_data" title="uataq.read_data"><code class="xref py py-func docutils literal notranslate"><span class="pre">read_data()</span></code></a> returns, and the name of the instrument’s
 folder in the lin archive. uataq reads it with the class that
 <a class="reference internal" href="instruments.html#uataq.instruments.catalog" title="uataq.instruments.catalog"><code class="xref py py-data docutils literal notranslate"><span class="pre">uataq.instruments.catalog</span></code></a> gives for the entry’s <code class="docutils literal notranslate"><span class="pre">model</span></code>, or
 for the name itself when the entry has no <code class="docutils literal notranslate"><span class="pre">model</span></code>. The class says
@@ -1379,11 +1404,10 @@ which pollutants the instrument measures.</p>
 2023-11-18. The note in the configuration says: “Removed calibration
 tank and manually calibrated with lgr software periodically.” It has
 <code class="docutils literal notranslate"><span class="pre">&quot;model&quot;:</span> <span class="pre">&quot;lgr_ugga&quot;</span></code>, so it is read like any <code class="docutils literal notranslate"><span class="pre">lgr_ugga</span></code>, from a
-folder of its own in the lin archive. Its <code class="docutils literal notranslate"><span class="pre">_cal</span></code> columns are empty
-and its <code class="docutils literal notranslate"><span class="pre">_raw</span></code> columns hold the value the LGR software calibrated
-(see <a class="reference internal" href="pollutants.html"><span class="doc">Pollutants</span></a> and <a class="reference internal" href="columns.html"><span class="doc">Columns and flags</span></a>). The configuration also
-lists TRX01’s <code class="docutils literal notranslate"><span class="pre">lgr_ugga</span></code> with no removal date; to see which of the
-two has data in a period, use <a class="reference internal" href="availability.html"><span class="doc">What data exists</span></a>.</p>
+folder of its own in the lin archive. For what its <code class="docutils literal notranslate"><span class="pre">_cal</span></code> and
+<code class="docutils literal notranslate"><span class="pre">_raw</span></code> columns hold, see <a class="reference internal" href="columns.html#when-cal-is-empty"><span class="std std-ref">When _cal is empty</span></a>. The
+configuration also lists TRX01’s <code class="docutils literal notranslate"><span class="pre">lgr_ugga</span></code> with no removal date; to
+see which of the two has data in a period, use <a class="reference internal" href="what_data_exists.html"><span class="doc">What data exists</span></a>.</p>
 </dd>
 </dl>
 </section>
@@ -1447,7 +1471,7 @@ two has data in a period, use <a class="reference internal" href="availability.h
   <div class="sidebar-secondary-item">
 
   <div class="tocsection sourcelink">
-    <a href="_sources/catalog.rst.txt">
+    <a href="_sources/sites_and_instruments.rst.txt">
       <i class="fa-solid fa-file-lines"></i> Show Source
     </a>
   </div>
