@@ -730,7 +730,9 @@
                 "loggers": {
                     "lin": "air-trend"
                 },
-                "installation_date": "2016-06-27"
+                "installation_date": "2016-06-27",
+                "removal_date": "2017-06-21",
+                "notes": "The last sample is 2017-06-20 05:28:52 UTC (raw, qaqc and final), so the removal date is the next midnight. The teledyne_t500u that measures NO2 on TRX02 now starts on 2020-12-22."
             },
             "metone_es642": {
                 "loggers": {
@@ -802,7 +804,9 @@
                 "loggers": {
                     "lin": "air-trend"
                 },
-                "installation_date": "2020-07-29"
+                "installation_date": "2020-07-29",
+                "removal_date": "2024-06-20",
+                "notes": "The last sample is 2024-06-19 17:41:53 UTC (raw, qaqc and final), so the removal date is the next midnight. The pipeline config dropped it on 2024-06-24 (\"sending magee back to edf\")."
             },
             "metone_es642": {
                 "loggers": {

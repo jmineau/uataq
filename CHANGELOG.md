@@ -28,6 +28,14 @@ follow [PEP 440](https://peps.python.org/pep-0440/): calendar-based,
   A read after one now reports the instrument as inactive instead of finding
   no files. HEB's `licor_7000`, which replaced its `licor_6262` from
   2025-05-30 to 2025-09-16, is added.
+- Configuration: WBB's `magee_ae33` and TRX02's `lgr_no2` now have removal
+  dates, 2024-06-20 and 2017-06-21, the midnight after their last samples
+  (2024-06-19 17:41:53 and 2017-06-20 05:28:52 UTC, at raw, qaqc and final).
+  No row is read differently: neither has data after its last sample. A
+  `get_obs` of WBB's BC, or of TRX02's NO2 before its `teledyne_t500u` was
+  installed (2020-12-22), for a range wholly after the date now raises
+  `ReaderError` saying the instrument is inactive, instead of returning an
+  empty frame.
 
 ### Fixed
 
