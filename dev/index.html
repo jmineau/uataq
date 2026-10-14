@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Utah Atmospheric Trace-gas and Air Quality (UATAQ) &#8212; UATAQ 2026.10.1.dev24+g7128c0d07 documentation</title>
+    <title>Utah Atmospheric Trace-gas and Air Quality (UATAQ) &#8212; UATAQ 2026.10.1.dev25+gdea2cdf01 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="_static/documentation_options.js?v=d10b92e5"></script>
+    <script src="_static/documentation_options.js?v=ecd66044"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -58,7 +58,7 @@
     <link rel="next" title="Installation" href="installation.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.1.dev24+g7128c0d07" />
+  <meta name="docsearch:version" content="2026.10.1.dev25+gdea2cdf01" />
   
     
     <script src="_static/searchtools.js"></script>
@@ -126,7 +126,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.1.dev24+g7128c0d07 documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.1.dev25+gdea2cdf01 documentation</p>
   
 </a></div>
     
@@ -155,13 +155,6 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="quickstart.html">
-    Quick Start
-  </a>
-</li>
-
-
-<li class="nav-item ">
   <a class="nav-link nav-internal" href="availability.html">
     What data exists
   </a>
@@ -169,8 +162,15 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="columns.html">
-    Columns and flags
+  <a class="nav-link nav-internal" href="quickstart.html">
+    Quick Start
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="catalog.html">
+    Sites and instruments
   </a>
 </li>
 
@@ -183,8 +183,8 @@
                 <ul id="pst-nav-more-links" class="dropdown-menu">
                     
 <li class=" ">
-  <a class="nav-link dropdown-item nav-internal" href="catalog.html">
-    Sites and instruments
+  <a class="nav-link dropdown-item nav-internal" href="columns.html">
+    Columns and flags
   </a>
 </li>
 
@@ -197,15 +197,15 @@
 
 
 <li class=" ">
-  <a class="nav-link dropdown-item nav-internal" href="laboratory.html">
-    Laboratory
+  <a class="nav-link dropdown-item nav-internal" href="config.html">
+    Configuration
   </a>
 </li>
 
 
 <li class=" ">
-  <a class="nav-link dropdown-item nav-internal" href="filesystem.html">
-    File System
+  <a class="nav-link dropdown-item nav-internal" href="laboratory.html">
+    Laboratory
   </a>
 </li>
 
@@ -227,6 +227,13 @@
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="pollutants.html">
     Pollutants
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="filesystem.html">
+    File System
   </a>
 </li>
 
@@ -386,13 +393,6 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="quickstart.html">
-    Quick Start
-  </a>
-</li>
-
-
-<li class="nav-item ">
   <a class="nav-link nav-internal" href="availability.html">
     What data exists
   </a>
@@ -400,8 +400,8 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="columns.html">
-    Columns and flags
+  <a class="nav-link nav-internal" href="quickstart.html">
+    Quick Start
   </a>
 </li>
 
@@ -414,6 +414,13 @@
 
 
 <li class="nav-item ">
+  <a class="nav-link nav-internal" href="columns.html">
+    Columns and flags
+  </a>
+</li>
+
+
+<li class="nav-item ">
   <a class="nav-link nav-internal" href="general.html">
     General Functions
   </a>
@@ -421,15 +428,15 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="laboratory.html">
-    Laboratory
+  <a class="nav-link nav-internal" href="config.html">
+    Configuration
   </a>
 </li>
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="filesystem.html">
-    File System
+  <a class="nav-link nav-internal" href="laboratory.html">
+    Laboratory
   </a>
 </li>
 
@@ -451,6 +458,13 @@
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="pollutants.html">
     Pollutants
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="filesystem.html">
+    File System
   </a>
 </li>
 
@@ -585,65 +599,51 @@
 </a>
 <a class="reference external image-reference" href="https://pyrefly.org"><img alt="Pyrefly" src="https://img.shields.io/badge/types-pyrefly-blue.svg" />
 </a>
+<p>uataq reads UATAQ data: the greenhouse-gas and air-quality measurements from
+fixed sites and from TRAX trains and buses, out of the archives that the Lin and
+Horel research groups keep on CHPC. It is written for members of the groups who
+work on CHPC, where the archive is. Start with <a class="reference internal" href="installation.html"><span class="doc">Installation</span></a>, then
+<a class="reference internal" href="first_month.html"><span class="doc">Your first month of data</span></a>.</p>
 <div class="toctree-wrapper compound">
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Getting started</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="first_month.html">Your first month of data</a></li>
-<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start</a></li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="availability.html">What data exists</a></li>
-<li class="toctree-l1"><a class="reference internal" href="columns.html">Columns and flags</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start</a></li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="catalog.html">Sites and instruments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="columns.html">Columns and flags</a></li>
 <li class="toctree-l1"><a class="reference internal" href="general.html">General Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="config.html">Configuration</a></li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">API reference</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="laboratory.html">Laboratory</a></li>
-<li class="toctree-l1"><a class="reference internal" href="filesystem.html">File System</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sites.html">Sites</a></li>
 <li class="toctree-l1"><a class="reference internal" href="instruments.html">Instruments</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pollutants.html">Pollutants</a></li>
+<li class="toctree-l1"><a class="reference internal" href="filesystem.html">File System</a></li>
 <li class="toctree-l1"><a class="reference internal" href="gps.html">GPS</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sodar.html">SODAR</a></li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
 </ul>
 </div>
-<section id="naming-convention">
-<h2>Naming Convention<a class="headerlink" href="#naming-convention" title="Link to this heading">#</a></h2>
-<p>I chose <em>UATAQ</em> as the name for the package because it is the most encompassing
-name for the groups currently involved in the project.</p>
-<p>Designing a user-friendly package is a challenge because the data is collected
-by multiple research groups, each with their own naming conventions and data formats.
-The package must be able to handle all of these different formats and provide a
-consistent interface for the user.</p>
-<p>I have defined a set of standardized column names. Each
-groupspace module must define a <code class="docutils literal notranslate"><span class="pre">column_mapping</span></code> dictionary (see
-<a class="reference internal" href="api/uataq.filesystem.groupspaces.lin.html#uataq.filesystem.groupspaces.lin.column_mapping" title="uataq.filesystem.groupspaces.lin.column_mapping"><code class="xref py py-data docutils literal notranslate"><span class="pre">lin.column_mapping</span></code></a> and
-<a class="reference internal" href="api/uataq.filesystem.groupspaces.horel.html#uataq.filesystem.groupspaces.horel.column_mapping" title="uataq.filesystem.groupspaces.horel.column_mapping"><code class="xref py py-data docutils literal notranslate"><span class="pre">horel.column_mapping</span></code></a>) that maps the group’s column
-names to the standardized names when using the <code class="docutils literal notranslate"><span class="pre">GroupSpace.standardize_data</span></code> method.
-The names of the concentration columns are described in <a class="reference internal" href="pollutants.html"><span class="doc">Pollutants</span></a>, and
-what each column of each level holds in <a class="reference internal" href="columns.html"><span class="doc">Columns and flags</span></a>.</p>
-</section>
-<section id="contents">
-<h2>Contents<a class="headerlink" href="#contents" title="Link to this heading">#</a></h2>
-<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
-<tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="laboratory.html#uataq.laboratory" title="uataq.laboratory"><code class="xref py py-obj docutils literal notranslate"><span class="pre">laboratory</span></code></a></p></td>
-<td><p>UATAQ Laboratory object.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="laboratory.html#uataq.get_site" title="uataq.get_site"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_site</span></code></a>(SID)</p></td>
-<td><p>Return site object from config file</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="general.html#uataq.read_data" title="uataq.read_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_data</span></code></a>(SID[, instruments, group, lvl, ...])</p></td>
-<td><p>Read data from an instrument at a site.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="general.html#uataq.get_obs" title="uataq.get_obs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_obs</span></code></a>(SID[, pollutants, format, group, ...])</p></td>
-<td><p>Get observations from a site.</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-</section>
-</section>
-<section id="contributing">
-<h1>Contributing<a class="headerlink" href="#contributing" title="Link to this heading">#</a></h1>
-<p>See the <a class="reference external" href="https://github.com/jmineau/uataq/blob/main/CONTRIBUTING.md">CONTRIBUTING.md</a> file for guidelines on how to contribute to this project.</p>
 </section>
 <section id="indices-and-tables">
 <h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Link to this heading">#</a></h1>
@@ -693,11 +693,8 @@ what each column of each level holds in <a class="reference internal" href="colu
   <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Utah Atmospheric Trace-gas and Air Quality (UATAQ)</a><ul class="pst-show_toc_level nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#naming-convention">Naming Convention</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#contents">Contents</a></li>
 </ul>
 </li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#contributing">Contributing</a></li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#indices-and-tables">Indices and tables</a></li>
 </ul>
 
