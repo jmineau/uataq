@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Quick Start &#8212; UATAQ 2026.10.1.dev28+g2e434911d documentation</title>
+    <title>Reading data &#8212; UATAQ 2026.10.1.dev31+g9c6a2fb39 documentation</title>
   
   
   
@@ -39,12 +39,12 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="_static/documentation_options.js?v=197551ba"></script>
+    <script src="_static/documentation_options.js?v=5a32928d"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="_static/copybutton.js?v=f281be69"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'quickstart';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'reading_data';</script>
     <script>
         DOCUMENTATION_OPTIONS.theme_version = '0.22.0';
         DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://jmineau.github.io/uataq/switcher.json';
@@ -55,11 +55,11 @@
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Sites and instruments" href="sites_and_instruments.html" />
+    <link rel="next" title="When there is nothing to read" href="errors.html" />
     <link rel="prev" title="What data exists" href="what_data_exists.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.1.dev28+g2e434911d" />
+  <meta name="docsearch:version" content="2026.10.1.dev31+g9c6a2fb39" />
   
     
     <script src="_static/searchtools.js"></script>
@@ -127,7 +127,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.1.dev28+g2e434911d documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.1.dev31+g9c6a2fb39 documentation</p>
   
 </a></div>
     
@@ -164,14 +164,14 @@
 
 <li class="nav-item current active">
   <a class="nav-link nav-internal" href="#" aria-current="page">
-    Quick Start
+    Reading data
   </a>
 </li>
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="sites_and_instruments.html">
-    Sites and instruments
+  <a class="nav-link nav-internal" href="errors.html">
+    When there is nothing to read
   </a>
 </li>
 
@@ -183,6 +183,13 @@
                 </button>
                 <ul id="pst-nav-more-links" class="dropdown-menu">
                     
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="sites_and_instruments.html">
+    Sites and instruments
+  </a>
+</li>
+
+
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="columns.html">
     Columns and flags
@@ -400,7 +407,14 @@
 
 <li class="nav-item current active">
   <a class="nav-link nav-internal" href="#" aria-current="page">
-    Quick Start
+    Reading data
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="errors.html">
+    When there is nothing to read
   </a>
 </li>
 
@@ -587,7 +601,7 @@
         <i class="fa-solid fa-home"></i>
       </a>
     </li>
-    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Quick Start</span></li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Reading data</span></li>
   </ul>
 </nav>
 </div>
@@ -604,45 +618,31 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="quick-start">
-<h1>Quick Start<a class="headerlink" href="#quick-start" title="Link to this heading">#</a></h1>
+  <section id="reading-data">
+<h1>Reading data<a class="headerlink" href="#reading-data" title="Link to this heading">#</a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>The examples on this page read the UATAQ archive, which is only
 available on CHPC. They are shown as code and are not run when the
-documentation is built.</p>
+documentation is built. Where an example shows output, it is from a run on
+CHPC on 14 October 2026.</p>
 </div>
 <p>For a walk-through from a site to a month of data in local time and a plot,
-start with <a class="reference internal" href="first_month.html"><span class="doc">Your first month of data</span></a>.</p>
-<section id="laboratory">
-<h2>Laboratory<a class="headerlink" href="#laboratory" title="Link to this heading">#</a></h2>
-<p>It all starts in the lab…</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">uataq</span>
-
-<span class="n">lab</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">laboratory</span>
-</pre></div>
-</div>
-<p>The <a class="reference internal" href="laboratory.html#uataq.laboratory" title="uataq.laboratory"><code class="xref py py-data docutils literal notranslate"><span class="pre">laboratory</span></code></a> object is a singleton instance of the <a class="reference internal" href="laboratory.html#uataq._laboratory.Laboratory" title="uataq._laboratory.Laboratory"><code class="xref py py-class docutils literal notranslate"><span class="pre">Laboratory</span></code></a>
-class which is initialized with the <a class="reference internal" href="config.html"><span class="doc">UATAQ configuration file</span></a>.
-The configuration file is a JSON file which specifies UATAQ site characteristics
-including name, location, status, research groups collecting data, and installed instruments.</p>
-<p>The <a class="reference internal" href="laboratory.html#uataq._laboratory.Laboratory" title="uataq._laboratory.Laboratory"><code class="xref py py-class docutils literal notranslate"><span class="pre">Laboratory</span></code></a> object contains the following attributes:</p>
-<blockquote>
-<div><ul class="simple">
-<li><p>sites : A list of site identifiers.</p></li>
-<li><p>instruments : A list of instrument names.</p></li>
-</ul>
-</div></blockquote>
-</section>
+start with <a class="reference internal" href="first_month.html"><span class="doc">Your first month of data</span></a>. This page shows the other ways to read: each
+instrument’s data on its own, all of a site’s observations in one table, one
+pollutant from several sites, and the mobile sites.</p>
 <section id="research-sites">
 <h2>Research Sites<a class="headerlink" href="#research-sites" title="Link to this heading">#</a></h2>
 <p>The <a class="reference internal" href="sites.html#uataq.sites.Site" title="uataq.sites.Site"><code class="xref py py-class docutils literal notranslate"><span class="pre">Site</span></code></a> object is the primary interface for accessing data from a UATAQ site.
 Each site has a unique site identifier (SID) that corresponds to a key in the configuration file.
-The <a class="reference internal" href="laboratory.html#uataq.laboratory" title="uataq.laboratory"><code class="xref py py-data docutils literal notranslate"><span class="pre">lab</span></code></a> is responsible for constructing <a class="reference internal" href="sites.html#uataq.sites.Site" title="uataq.sites.Site"><code class="xref py py-class docutils literal notranslate"><span class="pre">Site</span></code></a> objects from the configuration file,
+The <a class="reference internal" href="laboratory.html#uataq.laboratory" title="uataq.laboratory"><code class="xref py py-data docutils literal notranslate"><span class="pre">laboratory</span></code></a> is responsible for constructing <a class="reference internal" href="sites.html#uataq.sites.Site" title="uataq.sites.Site"><code class="xref py py-class docutils literal notranslate"><span class="pre">Site</span></code></a> objects from the configuration file,
 including building the <a class="reference internal" href="instruments.html#uataq.instruments.InstrumentEnsemble" title="uataq.instruments.InstrumentEnsemble"><code class="xref py py-class docutils literal notranslate"><span class="pre">InstrumentEnsemble</span></code></a> for each site.
 The <a class="reference internal" href="instruments.html#uataq.instruments.InstrumentEnsemble" title="uataq.instruments.InstrumentEnsemble"><code class="xref py py-class docutils literal notranslate"><span class="pre">InstrumentEnsemble</span></code></a> is a container object that hold different
 <a class="reference internal" href="instruments.html#uataq.instruments.Instrument" title="uataq.instruments.Instrument"><code class="xref py py-class docutils literal notranslate"><span class="pre">Instrument</span></code></a> objects which provide the linkage between a <a class="reference internal" href="sites.html#uataq.sites.Site" title="uataq.sites.Site"><code class="xref py py-class docutils literal notranslate"><span class="pre">Site</span></code></a> and the data files.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">sites</span> <span class="o">=</span> <span class="n">lab</span><span class="o">.</span><span class="n">sites</span>          <span class="c1"># list of sites</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">uataq</span>
+
+<span class="n">lab</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">laboratory</span>
+<span class="n">sites</span> <span class="o">=</span> <span class="n">lab</span><span class="o">.</span><span class="n">sites</span>          <span class="c1"># list of sites</span>
 <span class="n">wbb</span> <span class="o">=</span> <span class="n">lab</span><span class="o">.</span><span class="n">get_site</span><span class="p">(</span><span class="s1">&#39;wbb&#39;</span><span class="p">)</span>  <span class="c1"># site object</span>
 </pre></div>
 </div>
@@ -673,19 +673,23 @@ with an added <cite>SID</cite> parameter.</p>
 <section id="reading-instrument-data">
 <h2>Reading Instrument Data<a class="headerlink" href="#reading-instrument-data" title="Link to this heading">#</a></h2>
 <p>Using a <a class="reference internal" href="sites.html#uataq.sites.Site" title="uataq.sites.Site"><code class="xref py py-class docutils literal notranslate"><span class="pre">Site</span></code></a> object we can read the data from each instrument
-at the site for a specified processing lvl and time range (what each level is
-for, and how to choose one, is under <a class="reference internal" href="input_parameters.html#input-level"><span class="std std-ref">Processing Level</span></a>):</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">wbb</span><span class="o">.</span><span class="n">read_data</span><span class="p">(</span><span class="n">instruments</span><span class="o">=</span><span class="s1">&#39;all&#39;</span><span class="p">,</span> <span class="n">lvl</span><span class="o">=</span><span class="s1">&#39;qaqc&#39;</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="s1">&#39;2024-02&#39;</span><span class="p">)</span>
+at the site for a specified time range:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">wbb</span><span class="o">.</span><span class="n">read_data</span><span class="p">(</span><span class="n">instruments</span><span class="o">=</span><span class="s1">&#39;all&#39;</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="s1">&#39;2024-02&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
+<p>With no <code class="docutils literal notranslate"><span class="pre">lvl</span></code> each instrument is read at the highest level it has, <code class="docutils literal notranslate"><span class="pre">final</span></code>
+for these. To read another level, such as <code class="docutils literal notranslate"><span class="pre">lvl='qaqc'</span></code> with its flagged rows,
+pass <code class="docutils literal notranslate"><span class="pre">lvl</span></code>: what each level is for, and how to choose one, is under
+<a class="reference internal" href="input_parameters.html#input-level"><span class="std std-ref">Processing Level</span></a>.</p>
 <p>The data is returned as a dictionary of pandas dataframes, one for each instrument.
 The dataframes are indexed by time and have columns for each variable:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lgr_ugga</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;lgr_ugga&#39;</span><span class="p">]</span>
 <span class="n">lgr_ugga</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>Here <code class="docutils literal notranslate"><span class="pre">lgr_ugga</span></code> is indexed by <code class="docutils literal notranslate"><span class="pre">Time_UTC</span></code> and its columns include
-<code class="docutils literal notranslate"><span class="pre">CO2d_ppm</span></code>, <code class="docutils literal notranslate"><span class="pre">CH4d_ppm</span></code>, <code class="docutils literal notranslate"><span class="pre">ID</span></code> and <code class="docutils literal notranslate"><span class="pre">QAQC_Flag</span></code>.</p>
+<p>Here <code class="docutils literal notranslate"><span class="pre">lgr_ugga</span></code> is indexed by <code class="docutils literal notranslate"><span class="pre">Time_UTC</span></code> and its columns are
+<code class="docutils literal notranslate"><span class="pre">CO2d_ppm_cal</span></code>, <code class="docutils literal notranslate"><span class="pre">CO2d_ppm_raw</span></code>, <code class="docutils literal notranslate"><span class="pre">CH4d_ppm_cal</span></code>, <code class="docutils literal notranslate"><span class="pre">CH4d_ppm_raw</span></code> and
+<code class="docutils literal notranslate"><span class="pre">H2O_ppm</span></code>. The columns of each level are on the <a class="reference internal" href="columns.html"><span class="doc">Columns and flags</span></a> page.</p>
 </section>
 <section id="getting-observations">
 <h2>Getting Observations<a class="headerlink" href="#getting-observations" title="Link to this heading">#</a></h2>
@@ -742,6 +746,44 @@ speed and course, and <code class="docutils literal notranslate"><span class="pr
 </div>
 </section>
 </section>
+<section id="several-sites-at-once">
+<span id="several-sites"></span><h2>Several sites at once<a class="headerlink" href="#several-sites-at-once" title="Link to this heading">#</a></h2>
+<p><a class="reference internal" href="what_data_exists.html#uataq.get_network_obs" title="uataq.get_network_obs"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_network_obs()</span></code></a> reads one pollutant from several sites and stacks them in
+one table:</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">obs</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">get_network_obs</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="p">[</span><span class="s2">&quot;WBB&quot;</span><span class="p">,</span> <span class="s2">&quot;SUG&quot;</span><span class="p">,</span> <span class="s2">&quot;RPK&quot;</span><span class="p">],</span> <span class="s2">&quot;CO2&quot;</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;2025-06-01&quot;</span><span class="p">,</span> <span class="s2">&quot;2025-06-08&quot;</span><span class="p">]</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">obs</span><span class="p">[[</span><span class="s2">&quot;SID&quot;</span><span class="p">,</span> <span class="s2">&quot;instrument&quot;</span><span class="p">,</span> <span class="s2">&quot;CO2d_ppm_cal&quot;</span><span class="p">,</span> <span class="s2">&quot;zagl&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="go">                     SID instrument  CO2d_ppm_cal  zagl</span>
+<span class="go">Time_UTC</span>
+<span class="go">2025-06-01 00:00:03  WBB   lgr_ugga    432.407511    35</span>
+<span class="go">2025-06-01 00:00:13  WBB   lgr_ugga    432.561390    35</span>
+<span class="go">2025-06-01 00:00:23  WBB   lgr_ugga    433.129237    35</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">obs</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;SID&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
+<span class="go">SID</span>
+<span class="go">RPK    63936</span>
+<span class="go">SUG    63936</span>
+<span class="go">WBB    66821</span>
+<span class="go">dtype: int64</span>
+</pre></div>
+</div>
+<p>The table is a <code class="docutils literal notranslate"><span class="pre">geopandas.GeoDataFrame</span></code> indexed by <code class="docutils literal notranslate"><span class="pre">Time_UTC</span></code>. Besides the
+concentration columns (<a class="reference internal" href="columns.html#column-names"><span class="std std-ref">Column names</span></a>) each row has the <code class="docutils literal notranslate"><span class="pre">SID</span></code> and
+<code class="docutils literal notranslate"><span class="pre">instrument</span></code> it came from, its position (<code class="docutils literal notranslate"><span class="pre">Latitude_deg</span></code>, <code class="docutils literal notranslate"><span class="pre">Longitude_deg</span></code>
+and <code class="docutils literal notranslate"><span class="pre">geometry</span></code>) and <code class="docutils literal notranslate"><span class="pre">zagl</span></code> (height above ground level, from the site’s
+configuration). It reads every instrument that measures the pollutant at the
+highest level the archive has for it, which is the final level for the
+instruments in these examples, and it takes only one pollutant per call.
+<a class="reference internal" href="what_data_exists.html#uataq.Network.get_obs" title="uataq.Network.get_obs"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Network.get_obs()</span></code></a> does the same from a <code class="docutils literal notranslate"><span class="pre">Network</span></code> you already made.</p>
+<p>A site with nothing in the range is left out without an error. HDP stopped in
+February 2025, so asking for June 2025 returns the other two sites:</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">obs</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">get_network_obs</span><span class="p">([</span><span class="s2">&quot;WBB&quot;</span><span class="p">,</span> <span class="s2">&quot;HDP&quot;</span><span class="p">,</span> <span class="s2">&quot;CSP&quot;</span><span class="p">],</span> <span class="s2">&quot;CO2&quot;</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="s2">&quot;2025-06&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">sorted</span><span class="p">(</span><span class="n">obs</span><span class="p">[</span><span class="s2">&quot;SID&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span>
+<span class="go">[&#39;CSP&#39;, &#39;WBB&#39;]</span>
+</pre></div>
+</div>
+<p>Look at the sites you got back, or ask <a class="reference internal" href="what_data_exists.html#uataq.Network.get_availability" title="uataq.Network.get_availability"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Network.get_availability()</span></code></a> first.</p>
+</section>
 </section>
 
 
@@ -764,11 +806,11 @@ speed and course, and <code class="docutils literal notranslate"><span class="pr
       </div>
     </a>
     <a class="right-next"
-       href="sites_and_instruments.html"
+       href="errors.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Sites and instruments</p>
+        <p class="prev-next-title">When there is nothing to read</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -791,20 +833,20 @@ speed and course, and <code class="docutils literal notranslate"><span class="pr
   </div>
   <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="pst-show_toc_level nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#laboratory">Laboratory</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#research-sites">Research Sites</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reading-instrument-data">Reading Instrument Data</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#getting-observations">Getting Observations</a><ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mobile-sites-observations">Mobile Sites &amp; Observations</a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#several-sites-at-once">Several sites at once</a></li>
 </ul>
   </nav></div>
 
   <div class="sidebar-secondary-item">
 
   <div class="tocsection sourcelink">
-    <a href="_sources/quickstart.rst.txt">
+    <a href="_sources/reading_data.rst.txt">
       <i class="fa-solid fa-file-lines"></i> Show Source
     </a>
   </div>

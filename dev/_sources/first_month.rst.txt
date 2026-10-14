@@ -18,7 +18,8 @@ research group. The example is CO2 at WBB (William Browning, on the University o
 Utah campus) for June 2025, in Mountain time.
 
 To pick a different site, pollutant or month, first check that there are data:
-:doc:`what_data_exists` shows how, and what the errors mean when there are none.
+:doc:`what_data_exists` shows how, and :doc:`errors` says what the errors mean
+when there are none.
 
 Read a month
 ------------
@@ -80,7 +81,7 @@ greenhouse gas analyzer, which also measures CH4), installed in October 2013. A
 site can have more than one instrument for a pollutant, one after another or at
 the same time. :func:`get_network_obs` returns the data with an
 ``instrument`` column on each row, when you need to tell them apart (see
-:doc:`what_data_exists`).
+:ref:`several-sites`).
 
 The data level
 ^^^^^^^^^^^^^^
@@ -275,10 +276,10 @@ Next
 
 - :doc:`sites_and_instruments`: every site and instrument, what each measures,
   and what the names mean.
-- :doc:`what_data_exists`: which sites measure what, when they have data, and
-  what the errors mean.
-- :doc:`quickstart`: the site and instrument objects, the ``long`` format, and
-  the mobile (TRAX and bus) sites.
+- :doc:`what_data_exists`: when the sites have data, and what is the newest.
+- :doc:`reading_data`: the site and instrument objects, the ``long`` format,
+  several sites at once, and the mobile (TRAX and bus) sites.
+- :doc:`errors`: what the errors mean when a read finds nothing, and what to do.
 - :doc:`columns`: what each column of each level holds, the column names, the
   ``ID`` columns, and the flags.
 - :doc:`input_parameters`: what each argument of :func:`read_data` and

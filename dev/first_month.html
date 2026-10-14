@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Your first month of data &#8212; UATAQ 2026.10.1.dev28+g2e434911d documentation</title>
+    <title>Your first month of data &#8212; UATAQ 2026.10.1.dev31+g9c6a2fb39 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="_static/documentation_options.js?v=197551ba"></script>
+    <script src="_static/documentation_options.js?v=5a32928d"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -59,7 +59,7 @@
     <link rel="prev" title="Installation" href="installation.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.1.dev28+g2e434911d" />
+  <meta name="docsearch:version" content="2026.10.1.dev31+g9c6a2fb39" />
   
     
     <script src="_static/searchtools.js"></script>
@@ -127,7 +127,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.1.dev28+g2e434911d documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.1.dev31+g9c6a2fb39 documentation</p>
   
 </a></div>
     
@@ -163,15 +163,15 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="quickstart.html">
-    Quick Start
+  <a class="nav-link nav-internal" href="reading_data.html">
+    Reading data
   </a>
 </li>
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="sites_and_instruments.html">
-    Sites and instruments
+  <a class="nav-link nav-internal" href="errors.html">
+    When there is nothing to read
   </a>
 </li>
 
@@ -183,6 +183,13 @@
                 </button>
                 <ul id="pst-nav-more-links" class="dropdown-menu">
                     
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="sites_and_instruments.html">
+    Sites and instruments
+  </a>
+</li>
+
+
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="columns.html">
     Columns and flags
@@ -399,8 +406,15 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="quickstart.html">
-    Quick Start
+  <a class="nav-link nav-internal" href="reading_data.html">
+    Reading data
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="errors.html">
+    When there is nothing to read
   </a>
 </li>
 
@@ -620,7 +634,8 @@ shows where the numbers came from: which instrument, which data level and which
 research group. The example is CO2 at WBB (William Browning, on the University of
 Utah campus) for June 2025, in Mountain time.</p>
 <p>To pick a different site, pollutant or month, first check that there are data:
-<a class="reference internal" href="what_data_exists.html"><span class="doc">What data exists</span></a> shows how, and what the errors mean when there are none.</p>
+<a class="reference internal" href="what_data_exists.html"><span class="doc">What data exists</span></a> shows how, and <a class="reference internal" href="errors.html"><span class="doc">When there is nothing to read</span></a> says what the errors mean
+when there are none.</p>
 <section id="read-a-month">
 <h2>Read a month<a class="headerlink" href="#read-a-month" title="Link to this heading">#</a></h2>
 <p><a class="reference internal" href="input_parameters.html#uataq.get_obs" title="uataq.get_obs"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_obs()</span></code></a> takes a site, a pollutant and a time range:</p>
@@ -672,7 +687,7 @@ greenhouse gas analyzer, which also measures CH4), installed in October 2013. A
 site can have more than one instrument for a pollutant, one after another or at
 the same time. <a class="reference internal" href="what_data_exists.html#uataq.get_network_obs" title="uataq.get_network_obs"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_network_obs()</span></code></a> returns the data with an
 <code class="docutils literal notranslate"><span class="pre">instrument</span></code> column on each row, when you need to tell them apart (see
-<a class="reference internal" href="what_data_exists.html"><span class="doc">What data exists</span></a>).</p>
+<a class="reference internal" href="reading_data.html#several-sites"><span class="std std-ref">Several sites at once</span></a>).</p>
 </section>
 <section id="the-data-level">
 <h3>The data level<a class="headerlink" href="#the-data-level" title="Link to this heading">#</a></h3>
@@ -841,10 +856,10 @@ same peak would show at hour 14, and the plot would be six hours off.</p>
 <ul class="simple">
 <li><p><a class="reference internal" href="sites_and_instruments.html"><span class="doc">Sites and instruments</span></a>: every site and instrument, what each measures,
 and what the names mean.</p></li>
-<li><p><a class="reference internal" href="what_data_exists.html"><span class="doc">What data exists</span></a>: which sites measure what, when they have data, and
-what the errors mean.</p></li>
-<li><p><a class="reference internal" href="quickstart.html"><span class="doc">Quick Start</span></a>: the site and instrument objects, the <code class="docutils literal notranslate"><span class="pre">long</span></code> format, and
-the mobile (TRAX and bus) sites.</p></li>
+<li><p><a class="reference internal" href="what_data_exists.html"><span class="doc">What data exists</span></a>: when the sites have data, and what is the newest.</p></li>
+<li><p><a class="reference internal" href="reading_data.html"><span class="doc">Reading data</span></a>: the site and instrument objects, the <code class="docutils literal notranslate"><span class="pre">long</span></code> format,
+several sites at once, and the mobile (TRAX and bus) sites.</p></li>
+<li><p><a class="reference internal" href="errors.html"><span class="doc">When there is nothing to read</span></a>: what the errors mean when a read finds nothing, and what to do.</p></li>
 <li><p><a class="reference internal" href="columns.html"><span class="doc">Columns and flags</span></a>: what each column of each level holds, the column names, the
 <code class="docutils literal notranslate"><span class="pre">ID</span></code> columns, and the flags.</p></li>
 <li><p><a class="reference internal" href="input_parameters.html"><span class="doc">Input Parameters</span></a>: what each argument of <a class="reference internal" href="input_parameters.html#uataq.read_data" title="uataq.read_data"><code class="xref py py-func docutils literal notranslate"><span class="pre">read_data()</span></code></a> and

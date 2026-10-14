@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Laboratory &#8212; UATAQ 2026.10.1.dev28+g2e434911d documentation</title>
+    <title>Laboratory &#8212; UATAQ 2026.10.1.dev31+g9c6a2fb39 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="_static/documentation_options.js?v=197551ba"></script>
+    <script src="_static/documentation_options.js?v=5a32928d"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -59,7 +59,7 @@
     <link rel="prev" title="Configuration" href="config.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.1.dev28+g2e434911d" />
+  <meta name="docsearch:version" content="2026.10.1.dev31+g9c6a2fb39" />
   
     
     <script src="_static/searchtools.js"></script>
@@ -127,7 +127,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.1.dev28+g2e434911d documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.1.dev31+g9c6a2fb39 documentation</p>
   
 </a></div>
     
@@ -163,15 +163,15 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="quickstart.html">
-    Quick Start
+  <a class="nav-link nav-internal" href="reading_data.html">
+    Reading data
   </a>
 </li>
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="sites_and_instruments.html">
-    Sites and instruments
+  <a class="nav-link nav-internal" href="errors.html">
+    When there is nothing to read
   </a>
 </li>
 
@@ -183,6 +183,13 @@
                 </button>
                 <ul id="pst-nav-more-links" class="dropdown-menu">
                     
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="sites_and_instruments.html">
+    Sites and instruments
+  </a>
+</li>
+
+
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="columns.html">
     Columns and flags
@@ -399,8 +406,15 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="quickstart.html">
-    Quick Start
+  <a class="nav-link nav-internal" href="reading_data.html">
+    Reading data
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="errors.html">
+    When there is nothing to read
   </a>
 </li>
 
@@ -626,7 +640,11 @@
 <dt class="sig sig-object py" id="uataq.laboratory">
 <span class="sig-prename descclassname"><span class="pre">uataq.</span></span><span class="sig-name descname"><span class="pre">laboratory</span></span><span class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">uataq._laboratory.Laboratory()</span></span><a class="headerlink" href="#uataq.laboratory" title="Link to this definition">#</a></dt>
 <dd><p>UATAQ Laboratory object.</p>
-<p>Built from <a class="reference internal" href="config.html"><span class="doc">UATAQ configuration</span></a>.</p>
+<p>The laboratory is a singleton instance of the
+<a class="reference internal" href="#uataq._laboratory.Laboratory" title="uataq._laboratory.Laboratory"><code class="xref py py-class docutils literal notranslate"><span class="pre">Laboratory</span></code></a> class, which is initialized with the
+<a class="reference internal" href="config.html"><span class="doc">UATAQ configuration file</span></a>. The configuration file is a JSON
+file which specifies UATAQ site characteristics including name, location,
+status, research groups collecting data, and installed instruments.</p>
 </dd></dl>
 
 <dl class="py function">
