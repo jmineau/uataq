@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Sites &#8212; UATAQ 2026.10.1.dev31+g9c6a2fb39 documentation</title>
+    <title>Sites &#8212; UATAQ 2026.10.1.dev32+gf246bfccc documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="_static/documentation_options.js?v=5a32928d"></script>
+    <script src="_static/documentation_options.js?v=45799891"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -59,7 +59,7 @@
     <link rel="prev" title="Laboratory" href="laboratory.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.1.dev31+g9c6a2fb39" />
+  <meta name="docsearch:version" content="2026.10.1.dev32+gf246bfccc" />
   
     
     <script src="_static/searchtools.js"></script>
@@ -127,7 +127,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.1.dev31+g9c6a2fb39 documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.1.dev32+gf246bfccc documentation</p>
   
 </a></div>
     
@@ -717,7 +717,9 @@ group, when the read is split across groups).</p></li>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.15)">dict</a>[<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)">str</a>, <a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v3.0.6)">pandas.DataFrame</a>]</p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>ReaderError</strong> – If no data is found for the specified instruments.</p>
+<dd class="field-even"><p><strong>ReaderError</strong> – If no data is found for the specified instruments. The message
+    says, for each, why it gave none: the files it looked for, and the
+    first and last period it has files for.</p>
 </dd>
 </dl>
 </dd></dl>

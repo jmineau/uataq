@@ -40,10 +40,10 @@ No data found
 .. code-block:: pycon
 
     >>> wbb.get_obs("CO2", time_range="2021-08")
-    WARNING:uataq.sites:Error reading lgr_ugga@WBB data from lin groupspace: No files found within the specified time range.
+    WARNING:uataq.sites:Error reading lgr_ugga@WBB data from lin groupspace: No files found within the specified time range (files run from 2014-02 to 2026-10, with gaps).
     Traceback (most recent call last):
       ...
-    uataq.errors.ReaderError: No data found for ['lgr_ugga'] at WBB (lgr_ugga in lin groupspace).
+    uataq.errors.ReaderError: No final data found for CO2 at WBB: lgr_ugga in lin groupspace: No files found within the specified time range (files run from 2014-02 to 2026-10, with gaps).
 
 Nothing in the archive holds data for that instrument, in that range, at the
 level that was read. ``get_obs`` and ``get_recent_obs`` read the final level.
@@ -55,15 +55,19 @@ Three cases that gave this:
   the error under `Instrument inactive`_ instead.
 - Dates in the future.
 
-The name in the brackets is the **instrument** that measures what you asked for
-(``lgr_ugga`` measures CO2 and CH4), not the pollutant, and the message does not
-say which dates do exist. ``lin`` is the research group whose archive was
-searched (see :ref:`input-group`). When the message lists several
-instruments, ``name in lin groupspace`` means it was looked for and not found,
-and ``name not read: ...`` means it was skipped, with the reason.
+The message names what you asked for (``CO2``), the level that was read and the
+site. Then it says, for each **instrument** that measures it (``lgr_ugga``
+measures CO2 and CH4), what was found. ``lin`` is the research group whose
+archive was searched (see :ref:`input-group`). The brackets say which files
+exist: the first and last period they cover (a month at the final level), and
+"with gaps" when a period in between has none, as August 2021 has none here.
+When the message lists several instruments, ``name in lin groupspace`` means it
+was looked for and not found, and ``name not read: ...`` means it was skipped,
+with the reason.
 
-To find the dates that do exist, use :meth:`Network.get_availability`, and add
-``"qaqc"`` to ``lvls`` to see whether the instrument measured at all.
+A file can hold no rows, so the periods are not the days with data. To see those,
+use :meth:`Network.get_availability`, and add ``"qaqc"`` to ``lvls`` to see
+whether the instrument measured at all.
 
 Instrument inactive
 -------------------
@@ -74,7 +78,7 @@ Instrument inactive
     WARNING:uataq.sites:Not reading lgr_ugga@WBB: lgr_ugga@WBB is inactive in given time_range
     Traceback (most recent call last):
       ...
-    uataq.errors.ReaderError: No data found for ['lgr_ugga'] at WBB (lgr_ugga not read: lgr_ugga@WBB is inactive in given time_range).
+    uataq.errors.ReaderError: No final data found for CO2 at WBB: lgr_ugga not read: lgr_ugga@WBB is inactive in given time_range.
 
 The instrument was not installed at the site in that range. Its window is its
 ``active_range`` (see :ref:`The same in code <sites-in-code>`, on the
@@ -190,7 +194,7 @@ Network surprises
 
     >>> uataq.get_network_obs(["HDP"], "CO2", time_range="2025-06")
     WARNING:uataq.sites:Not reading lgr_ugga@HDP: lgr_ugga@HDP is inactive in given time_range
-    WARNING:uataq.network:Error reading data from HDP: No data found for ['lgr_ugga'] at HDP (lgr_ugga not read: lgr_ugga@HDP is inactive in given time_range).
+    WARNING:uataq.network:Error reading data from HDP: No data found for ['lgr_ugga'] at HDP: lgr_ugga not read: lgr_ugga@HDP is inactive in given time_range.
     Traceback (most recent call last):
       ...
     uataq.errors.ReaderError: No data found for CO2 in any site.

@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>When there is nothing to read &#8212; UATAQ 2026.10.1.dev31+g9c6a2fb39 documentation</title>
+    <title>When there is nothing to read &#8212; UATAQ 2026.10.1.dev32+gf246bfccc documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="_static/documentation_options.js?v=5a32928d"></script>
+    <script src="_static/documentation_options.js?v=45799891"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -59,7 +59,7 @@
     <link rel="prev" title="Reading data" href="reading_data.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.1.dev31+g9c6a2fb39" />
+  <meta name="docsearch:version" content="2026.10.1.dev32+gf246bfccc" />
   
     
     <script src="_static/searchtools.js"></script>
@@ -127,7 +127,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.1.dev31+g9c6a2fb39 documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.1.dev32+gf246bfccc documentation</p>
   
 </a></div>
     
@@ -648,10 +648,10 @@ warning, and Python shows nothing from a library unless you ask:</p>
 <section id="no-data-found">
 <h2>No data found<a class="headerlink" href="#no-data-found" title="Link to this heading">#</a></h2>
 <div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">wbb</span><span class="o">.</span><span class="n">get_obs</span><span class="p">(</span><span class="s2">&quot;CO2&quot;</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="s2">&quot;2021-08&quot;</span><span class="p">)</span>
-<span class="go">WARNING:uataq.sites:Error reading lgr_ugga@WBB data from lin groupspace: No files found within the specified time range.</span>
+<span class="go">WARNING:uataq.sites:Error reading lgr_ugga@WBB data from lin groupspace: No files found within the specified time range (files run from 2014-02 to 2026-10, with gaps).</span>
 <span class="gt">Traceback (most recent call last):</span>
 <span class="w">  </span><span class="c">...</span>
-<span class="gr">uataq.errors.ReaderError</span>: <span class="n">No data found for [&#39;lgr_ugga&#39;] at WBB (lgr_ugga in lin groupspace).</span>
+<span class="gr">uataq.errors.ReaderError</span>: <span class="n">No final data found for CO2 at WBB: lgr_ugga in lin groupspace: No files found within the specified time range (files run from 2014-02 to 2026-10, with gaps).</span>
 </pre></div>
 </div>
 <p>Nothing in the archive holds data for that instrument, in that range, at the
@@ -664,14 +664,18 @@ removal date in the configuration. Once they have one, these dates raise
 the error under <a class="reference internal" href="#instrument-inactive">Instrument inactive</a> instead.</p></li>
 <li><p>Dates in the future.</p></li>
 </ul>
-<p>The name in the brackets is the <strong>instrument</strong> that measures what you asked for
-(<code class="docutils literal notranslate"><span class="pre">lgr_ugga</span></code> measures CO2 and CH4), not the pollutant, and the message does not
-say which dates do exist. <code class="docutils literal notranslate"><span class="pre">lin</span></code> is the research group whose archive was
-searched (see <a class="reference internal" href="input_parameters.html#input-group"><span class="std std-ref">Research Group</span></a>). When the message lists several
-instruments, <code class="docutils literal notranslate"><span class="pre">name</span> <span class="pre">in</span> <span class="pre">lin</span> <span class="pre">groupspace</span></code> means it was looked for and not found,
-and <code class="docutils literal notranslate"><span class="pre">name</span> <span class="pre">not</span> <span class="pre">read:</span> <span class="pre">...</span></code> means it was skipped, with the reason.</p>
-<p>To find the dates that do exist, use <a class="reference internal" href="what_data_exists.html#uataq.Network.get_availability" title="uataq.Network.get_availability"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Network.get_availability()</span></code></a>, and add
-<code class="docutils literal notranslate"><span class="pre">&quot;qaqc&quot;</span></code> to <code class="docutils literal notranslate"><span class="pre">lvls</span></code> to see whether the instrument measured at all.</p>
+<p>The message names what you asked for (<code class="docutils literal notranslate"><span class="pre">CO2</span></code>), the level that was read and the
+site. Then it says, for each <strong>instrument</strong> that measures it (<code class="docutils literal notranslate"><span class="pre">lgr_ugga</span></code>
+measures CO2 and CH4), what was found. <code class="docutils literal notranslate"><span class="pre">lin</span></code> is the research group whose
+archive was searched (see <a class="reference internal" href="input_parameters.html#input-group"><span class="std std-ref">Research Group</span></a>). The brackets say which files
+exist: the first and last period they cover (a month at the final level), and
+“with gaps” when a period in between has none, as August 2021 has none here.
+When the message lists several instruments, <code class="docutils literal notranslate"><span class="pre">name</span> <span class="pre">in</span> <span class="pre">lin</span> <span class="pre">groupspace</span></code> means it
+was looked for and not found, and <code class="docutils literal notranslate"><span class="pre">name</span> <span class="pre">not</span> <span class="pre">read:</span> <span class="pre">...</span></code> means it was skipped,
+with the reason.</p>
+<p>A file can hold no rows, so the periods are not the days with data. To see those,
+use <a class="reference internal" href="what_data_exists.html#uataq.Network.get_availability" title="uataq.Network.get_availability"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Network.get_availability()</span></code></a>, and add <code class="docutils literal notranslate"><span class="pre">&quot;qaqc&quot;</span></code> to <code class="docutils literal notranslate"><span class="pre">lvls</span></code> to see
+whether the instrument measured at all.</p>
 </section>
 <section id="instrument-inactive">
 <h2>Instrument inactive<a class="headerlink" href="#instrument-inactive" title="Link to this heading">#</a></h2>
@@ -679,7 +683,7 @@ and <code class="docutils literal notranslate"><span class="pre">name</span> <sp
 <span class="go">WARNING:uataq.sites:Not reading lgr_ugga@WBB: lgr_ugga@WBB is inactive in given time_range</span>
 <span class="gt">Traceback (most recent call last):</span>
 <span class="w">  </span><span class="c">...</span>
-<span class="gr">uataq.errors.ReaderError</span>: <span class="n">No data found for [&#39;lgr_ugga&#39;] at WBB (lgr_ugga not read: lgr_ugga@WBB is inactive in given time_range).</span>
+<span class="gr">uataq.errors.ReaderError</span>: <span class="n">No final data found for CO2 at WBB: lgr_ugga not read: lgr_ugga@WBB is inactive in given time_range.</span>
 </pre></div>
 </div>
 <p>The instrument was not installed at the site in that range. Its window is its
@@ -779,7 +783,7 @@ instrument has. A level that is not one of <code class="docutils literal notrans
 <h2>Network surprises<a class="headerlink" href="#network-surprises" title="Link to this heading">#</a></h2>
 <div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">uataq</span><span class="o">.</span><span class="n">get_network_obs</span><span class="p">([</span><span class="s2">&quot;HDP&quot;</span><span class="p">],</span> <span class="s2">&quot;CO2&quot;</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="s2">&quot;2025-06&quot;</span><span class="p">)</span>
 <span class="go">WARNING:uataq.sites:Not reading lgr_ugga@HDP: lgr_ugga@HDP is inactive in given time_range</span>
-<span class="go">WARNING:uataq.network:Error reading data from HDP: No data found for [&#39;lgr_ugga&#39;] at HDP (lgr_ugga not read: lgr_ugga@HDP is inactive in given time_range).</span>
+<span class="go">WARNING:uataq.network:Error reading data from HDP: No data found for [&#39;lgr_ugga&#39;] at HDP: lgr_ugga not read: lgr_ugga@HDP is inactive in given time_range.</span>
 <span class="gt">Traceback (most recent call last):</span>
 <span class="w">  </span><span class="c">...</span>
 <span class="gr">uataq.errors.ReaderError</span>: <span class="n">No data found for CO2 in any site.</span>

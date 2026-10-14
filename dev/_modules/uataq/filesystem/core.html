@@ -6,7 +6,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>uataq.filesystem.core &#8212; UATAQ 2026.10.1.dev31+g9c6a2fb39 documentation</title>
+    <title>uataq.filesystem.core &#8212; UATAQ 2026.10.1.dev32+gf246bfccc documentation</title>
   
   
   
@@ -38,7 +38,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="../../../_static/documentation_options.js?v=5a32928d"></script>
+    <script src="../../../_static/documentation_options.js?v=45799891"></script>
     <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -56,7 +56,7 @@
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.1.dev31+g9c6a2fb39" />
+  <meta name="docsearch:version" content="2026.10.1.dev32+gf246bfccc" />
   
     
     <script src="../../../_static/searchtools.js"></script>
@@ -124,7 +124,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.1.dev31+g9c6a2fb39 documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.1.dev32+gf246bfccc documentation</p>
   
 </a></div>
     
@@ -803,6 +803,25 @@
 
 
 
+<span class="k">def</span><span class="w"> </span><span class="nf">_describe_periods</span><span class="p">(</span><span class="n">files</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">DataFile</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Say which periods the files cover, for an error message.</span>
+
+<span class="sd">    The first and last period, and &quot;with gaps&quot; when a period between them has</span>
+<span class="sd">    no file. It reads each file&#39;s period, which the file name already gave.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">periods</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">({</span><span class="n">file</span><span class="o">.</span><span class="n">period</span> <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">files</span><span class="p">})</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">periods</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;there are no files&quot;</span>
+    <span class="n">first</span><span class="p">,</span> <span class="n">last</span> <span class="o">=</span> <span class="n">periods</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">periods</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">first</span> <span class="o">==</span> <span class="n">last</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;the only file is from </span><span class="si">{</span><span class="n">first</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="n">covered</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;files run from </span><span class="si">{</span><span class="n">first</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="n">last</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">periods</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">last</span><span class="o">.</span><span class="n">ordinal</span> <span class="o">-</span> <span class="n">first</span><span class="o">.</span><span class="n">ordinal</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">covered</span> <span class="o">+=</span> <span class="s2">&quot;, with gaps&quot;</span>
+    <span class="k">return</span> <span class="n">covered</span>
+
+
 <div class="viewcode-block" id="filter_datafiles">
 <a class="viewcode-back" href="../../../filesystem.html#uataq.filesystem.filter_datafiles">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">filter_datafiles</span><span class="p">(</span>
@@ -824,8 +843,18 @@
 <span class="sd">    -------</span>
 <span class="sd">    list[DataFile]</span>
 <span class="sd">        A list of DataFile objects that match the given time range.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ReaderError</span>
+<span class="sd">        If no file is in the time range. The message gives the first and last</span>
+<span class="sd">        period the files cover.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Filtering files to time range: </span><span class="si">{</span><span class="n">time_range</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Filter by pattern</span>
+    <span class="k">if</span> <span class="n">pattern</span><span class="p">:</span>
+        <span class="n">files</span> <span class="o">=</span> <span class="p">[</span><span class="n">file</span> <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">files</span> <span class="k">if</span> <span class="n">pattern</span> <span class="ow">in</span> <span class="n">file</span><span class="o">.</span><span class="n">path</span><span class="p">]</span>
 
     <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
         <span class="p">{</span>
@@ -838,10 +867,6 @@
     <span class="c1"># Filter by time range</span>
     <span class="n">filtered_files</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">time_range</span><span class="o">.</span><span class="n">start</span> <span class="p">:</span> <span class="n">time_range</span><span class="o">.</span><span class="n">stop</span><span class="p">,</span> <span class="s2">&quot;file&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
 
-    <span class="c1"># Filter by pattern</span>
-    <span class="k">if</span> <span class="n">pattern</span><span class="p">:</span>
-        <span class="n">filtered_files</span> <span class="o">=</span> <span class="p">[</span><span class="n">file</span> <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">filtered_files</span> <span class="k">if</span> <span class="n">pattern</span> <span class="ow">in</span> <span class="n">file</span><span class="o">.</span><span class="n">path</span><span class="p">]</span>
-
     <span class="c1"># Drop the files that start at the end of the time range, which is</span>
     <span class="c1"># exclusive. A period can have more than one file (horel&#39;s</span>
     <span class="c1"># prior405upgrade files), so drop each, not only the last.</span>
@@ -850,7 +875,10 @@
     <span class="p">]</span>
 
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">filtered_files</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">ReaderError</span><span class="p">(</span><span class="s2">&quot;No files found within the specified time range.&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">ReaderError</span><span class="p">(</span>
+            <span class="s2">&quot;No files found within the specified time range &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="n">_describe_periods</span><span class="p">(</span><span class="n">files</span><span class="p">)</span><span class="si">}</span><span class="s2">).&quot;</span>
+        <span class="p">)</span>
 
     <span class="k">return</span> <span class="n">filtered_files</span></div>
 
