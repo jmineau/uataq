@@ -18,7 +18,7 @@ research group. The example is CO2 at WBB (William Browning, on the University o
 Utah campus) for June 2025, in Mountain time.
 
 To pick a different site, pollutant or month, first check that there are data:
-:doc:`availability` shows how, and what the errors mean when there are none.
+:doc:`what_data_exists` shows how, and what the errors mean when there are none.
 
 Read a month
 ------------
@@ -80,14 +80,14 @@ greenhouse gas analyzer, which also measures CH4), installed in October 2013. A
 site can have more than one instrument for a pollutant, one after another or at
 the same time. :func:`get_network_obs` returns the data with an
 ``instrument`` column on each row, when you need to tell them apart (see
-:doc:`availability`).
+:doc:`what_data_exists`).
 
 The data level
 ^^^^^^^^^^^^^^
 
 The archive keeps each instrument's data at several processing levels (``raw``,
-``qaqc``, ``calibrated`` and ``final``; see *Processing Level* on the
-:doc:`general functions page <general>` and the pipeline's
+``qaqc``, ``calibrated`` and ``final``; see :ref:`input-level` and the
+pipeline's
 `description of the levels <https://github.com/uataq/data-pipeline#processing-levels>`_).
 The ``final`` level is the ready-to-share level (it can go to people outside
 the group as it is), with the pipeline's default flags applied: flagged rows are
@@ -134,9 +134,9 @@ The research group
 ^^^^^^^^^^^^^^^^^^
 
 Each instrument's data come from one research group's archive. WBB's
-``lgr_ugga`` is run by the ``lin`` group, the default (see *Research Group* on
-the :doc:`general functions page <general>`). Error messages name the group that
-was searched, as in ``lgr_ugga in lin groupspace``.
+``lgr_ugga`` is run by the ``lin`` group, the default (see :ref:`input-group`).
+Error messages name the group that was searched, as in
+``lgr_ugga in lin groupspace``.
 
 The version
 ^^^^^^^^^^^
@@ -270,8 +270,8 @@ same peak would show at hour 14, and the plot would be six hours off.
 Time
 ----
 
-The rules for ``time_range``, in short. The full list of forms is under *Time
-Range* on the :doc:`general functions page <general>`.
+The rules for ``time_range``, in short. The full list of forms is under
+:ref:`input-time-range`.
 
 **Times are UTC and have no time zone.** A string such as ``"2025-06"`` or
 ``"2025-06-02T06:00"`` is read as UTC. A trailing ``Z`` or ``+00:00`` is
@@ -334,10 +334,10 @@ give it as a ``Timestamp``.
 Next
 ----
 
-- :doc:`catalog`: every site and instrument, what each measures, and what the
-  names mean.
-- :doc:`availability`: which sites measure what, when they have data, and what
-  the errors mean.
+- :doc:`sites_and_instruments`: every site and instrument, what each measures,
+  and what the names mean.
+- :doc:`what_data_exists`: which sites measure what, when they have data, and
+  what the errors mean.
 - :doc:`quickstart`: the site and instrument objects, the ``long`` format, and
   the mobile (TRAX and bus) sites.
 - :doc:`columns`: what each column of each level holds, the ``ID`` columns,

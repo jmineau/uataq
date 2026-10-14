@@ -167,8 +167,7 @@ Levels
 ^^^^^^
 
 By default the call checks all four data levels (``raw``, ``qaqc``,
-``calibrated`` and ``final``; see *Processing Level* on the :doc:`general functions page <general>`) and
-gives each bin the **highest** level that has data in it. A stretch labeled
+``calibrated`` and ``final``; see :ref:`input-level`) and gives each bin the **highest** level that has data in it. A stretch labeled
 ``qaqc`` was therefore measured, but the final level has nothing for it. WBB
 has no final CO2 for August 2021:
 
@@ -399,7 +398,7 @@ Three cases that gave this:
 The name in the brackets is the **instrument** that measures what you asked for
 (``lgr_ugga`` measures CO2 and CH4), not the pollutant, and the message does not
 say which dates do exist. ``lin`` is the research group whose archive was
-searched (see *Research Group* on the :doc:`general functions page <general>`). When the message lists several
+searched (see :ref:`input-group`). When the message lists several
 instruments, ``name in lin groupspace`` means it was looked for and not found,
 and ``name not read: ...`` means it was skipped, with the reason.
 
@@ -555,7 +554,7 @@ whose "Valid sites" is just the list you typed, not a list of valid sites. Use
 ``Network("all", "CO2")`` to see the real ones. List each site once: a site
 named twice is read twice, and its rows come back twice.
 
-If the error is about ``time_range`` itself, see *Time Range* on the :doc:`general functions page <general>`.
+If the error is about ``time_range`` itself, see :ref:`input-time-range`.
 
 Reference
 ---------

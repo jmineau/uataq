@@ -389,8 +389,7 @@ The horel group's instruments
 -----------------------------
 
 The TRAX trains and the buses also carry instruments run by the horel group
-(ozone, particles, NOx; see *Research Group* on the
-:doc:`general functions page <general>`). Their ``qaqc`` and ``final`` levels
+(ozone, particles, NOx; see :ref:`input-group`). Their ``qaqc`` and ``final`` levels
 are read from the same horel files. For the ozone (``2b_205``) and particle
 (``metone_es642``, ``metone_es405``) monitors, the horel files mark a flagged
 row with 1, and uataq turns that into ``QAQC_Flag = -1``, so the flag is 0

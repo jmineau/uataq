@@ -1,7 +1,10 @@
 .. currentmodule:: uataq
 
-General Functions
-=================
+Input Parameters
+================
+
+What each argument of :func:`read_data` and :func:`get_obs` means is written
+once, here: the two functions come first, then one section for each argument.
 
 .. autosummary::
 
@@ -14,31 +17,36 @@ General Functions
 
 .. autofunction:: get_obs
 
-Input Parameters
-----------------
+.. _input-sid:
 
 SID
-^^^
+---
 
 ``SID`` is the site identifier for a UATAQ site.
 It is a key in the configuration file, such as ``WBB``; case does not matter.
-The :doc:`catalog` page lists them.
+The :doc:`sites_and_instruments` page lists them.
+
+.. _input-instruments:
 
 Instruments
-^^^^^^^^^^^
+-----------
 
 ``instruments`` is a single instrument name or a list of instrument names.
 The instrument name is a key under the site's ``instruments`` in the configuration
-(listed on the :doc:`catalog` page).
+(listed on the :doc:`sites_and_instruments` page).
+
+.. _input-pollutants:
 
 Pollutants
-^^^^^^^^^^
+----------
 
 ``pollutants`` is a single pollutant name or a list of pollutant names.
 The pollutant name is a capitalized molecule abbreviation.
 
+.. _input-group:
+
 Research Group
-^^^^^^^^^^^^^^
+--------------
 
 ``group`` is the research group that collected the data.
 It is a string that corresponds to a key in the ``uataq.filesystem.groups`` dictionary,
@@ -54,8 +62,10 @@ October 2017 and from horel after that. Naming a group reads the whole range
 from that group.
 
 
+.. _input-level:
+
 Processing Level
-^^^^^^^^^^^^^^^^
+----------------
 
 ``lvl`` is the processing level of the data.
 Available levels, from least to most processed, are:
@@ -75,8 +85,10 @@ level you give it. With no ``lvl`` it reads the highest (most processed) level
 the instrument has. :doc:`first_month` shows the same day at ``final`` and at
 ``qaqc``, and :doc:`columns` says what each level holds.
 
+.. _input-time-range:
+
 Time Range
-^^^^^^^^^^
+----------
 
 ``time_range`` filters the returned data to the specified time range.
 Times are UTC, and so are the times in the data. To read a month in local
@@ -108,8 +120,10 @@ There are three primary formats for ``time_range``:
       so ``['2020-01-01', '2020-01-31']`` includes all of January 31st.
     - The use of ``None`` in place of a datetime-like object will set the range to be unbounded in that direction.
 
+.. _input-num-processes:
+
 Number of Processes
-^^^^^^^^^^^^^^^^^^^
+-------------------
 
 ``num_processes`` is the number of processes to use when reading data from each instrument. The default is 1.
  - If ``num_processes`` is set to 1, the data is read serially.
@@ -117,7 +131,9 @@ Number of Processes
  - Setting ``num_processes`` to 'max' will use the minimum of the number of files for an instrument and the number of available CPU cores.
     Warning: Frequent use of ``num_processes='max'`` may upset your fellow node users.
 
+.. _input-file-pattern:
+
 File Pattern
-^^^^^^^^^^^^
+------------
 
 ``file_pattern`` is a string that is used to filter the files. The primary use for this parameter is to filter raw lin gps data by nmea sentence type. The default is ``None``.
