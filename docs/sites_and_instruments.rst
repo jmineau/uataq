@@ -7,7 +7,7 @@ The tables on this page are made from the package's
 :doc:`configuration <config>` each time the documentation is built, so they
 always match the version of uataq they document. They say what the
 configuration says, not what the archive holds: to see which days have data,
-use :doc:`availability`. The words in the headings are explained in the
+use :doc:`what_data_exists`. The words in the headings are explained in the
 :ref:`glossary <glossary>` at the end of the page.
 
 In both site tables:
@@ -15,7 +15,7 @@ In both site tables:
 - **Active** is "yes" when at least one instrument at the site has no removal
   date in the configuration. Otherwise it gives the date the last instrument
   was removed. A site can stop sending data before its instruments are marked
-  removed, so check with :doc:`availability` before you plan on recent data.
+  removed, so check with :doc:`what_data_exists` before you plan on recent data.
 - **Groups** are the research :term:`groups <group>` whose archives hold the
   site's data.
 - **Pollutants** are every pollutant measured at the site, by its instruments
@@ -101,9 +101,9 @@ Glossary
         instruments) or ``horel`` (John Horel's group: the buses and the
         other TRAX instruments). Some TRAX instruments are in both archives,
         for different years. ``group=None``,
-        the default of every read, picks the group for you; see "Research
-        Group" on the :doc:`general` page. ``uataq.filesystem.groups`` holds
-        the two groups' readers.
+        the default of every read, picks the group for you; see
+        :ref:`input-group`. ``uataq.filesystem.groups`` holds the two groups'
+        readers.
 
     logger
         How a group records an instrument, which sets the format of its
@@ -142,4 +142,4 @@ Glossary
         and its ``_raw`` columns hold the value the LGR software calibrated
         (see :doc:`pollutants` and :doc:`columns`). The configuration also
         lists TRX01's ``lgr_ugga`` with no removal date; to see which of the
-        two has data in a period, use :doc:`availability`.
+        two has data in a period, use :doc:`what_data_exists`.
