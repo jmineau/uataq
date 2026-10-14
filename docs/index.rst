@@ -1,5 +1,3 @@
-.. currentmodule:: uataq
-
 Utah Atmospheric Trace-gas and Air Quality (UATAQ)
 ==================================================
 
@@ -35,58 +33,51 @@ Utah Atmospheric Trace-gas and Air Quality (UATAQ)
    :target: https://pyrefly.org
    :alt: Pyrefly
 
+uataq reads UATAQ data: the greenhouse-gas and air-quality measurements from
+fixed sites and from TRAX trains and buses, out of the archives that the Lin and
+Horel research groups keep on CHPC. It is written for members of the groups who
+work on CHPC, where the archive is. Start with :doc:`installation`, then
+:doc:`first_month`.
+
 .. toctree::
    :maxdepth: 1
+   :caption: Getting started
 
    installation
    first_month
-   quickstart
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Guides
+
    availability
-   columns
+   quickstart
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Reference
+
    catalog
+   columns
    general
+   config
+
+.. toctree::
+   :maxdepth: 1
+   :caption: API reference
+
    laboratory
-   filesystem
    sites
    instruments
    pollutants
+   filesystem
    gps
    sodar
+
+.. toctree::
+   :maxdepth: 1
+
    contributing
-
-Naming Convention
------------------
-
-I chose *UATAQ* as the name for the package because it is the most encompassing
-name for the groups currently involved in the project.
-
-Designing a user-friendly package is a challenge because the data is collected
-by multiple research groups, each with their own naming conventions and data formats.
-The package must be able to handle all of these different formats and provide a
-consistent interface for the user.
-
-I have defined a set of standardized column names. Each
-groupspace module must define a ``column_mapping`` dictionary (see
-:data:`lin.column_mapping <uataq.filesystem.groupspaces.lin.column_mapping>` and
-:data:`horel.column_mapping <uataq.filesystem.groupspaces.horel.column_mapping>`) that maps the group's column
-names to the standardized names when using the ``GroupSpace.standardize_data`` method.
-The names of the concentration columns are described in :doc:`pollutants`, and
-what each column of each level holds in :doc:`columns`.
-
-Contents
---------
-
-.. autosummary::
-
-   laboratory
-   get_site
-   read_data
-   get_obs
-
-Contributing
-============
-
-See the `CONTRIBUTING.md <https://github.com/jmineau/uataq/blob/main/CONTRIBUTING.md>`_ file for guidelines on how to contribute to this project.
 
 Indices and tables
 ==================

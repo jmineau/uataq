@@ -65,20 +65,10 @@ html_theme_options = {
     "show_version_warning_banner": True,  # point old versions at stable
 }
 
-# Hide primary (left) sidebar on specific pages
-html_sidebars = {
-    "installation": [],
-    "first_month": [],
-    "quickstart": [],
-    "availability": [],
-    "columns": [],
-    "catalog": [],
-    "general": [],
-    "filesystem": [],
-    "sites": [],
-    "instruments": [],
-    "sodar": [],
-}
+# No left sidebar on the pages in docs/ itself: none has sub-pages, so the
+# sidebar would be empty, and a new page needs no line here. "*" does not
+# match "/", so the generated pages under docs/api/ keep theirs.
+html_sidebars = {"*": []}
 
 # -- Extension configuration -------------------------------------------------
 

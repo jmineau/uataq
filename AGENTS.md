@@ -188,6 +188,29 @@ What keeps CI green:
 
 ## Docs
 
+**Each page answers one question a student has, and each fact is written on
+one page; other pages link to it.** The front page (`docs/index.rst`) lists the
+pages in the order a student asks them, in captioned groups: Getting started,
+Guides, Reference, API reference, then Contributing. A new fact goes on the
+page that holds its kind; a new page needs a question no page answers, and goes
+in one group.
+
+| Fact | Page (file) |
+|---|---|
+| Install, environments, Slurm | Installation (`installation`) |
+| A first read, in local time | Your first month of data (`first_month`) |
+| When a site has data, the newest data, several sites, errors | What data exists (`availability`) |
+| `read_data` and `get_obs`, the `long` format, mobile sites | Quick Start (`quickstart`) |
+| Sites, instruments, glossary | Sites and instruments (`catalog`) |
+| Columns of each level, `ID`, flags, what `final` keeps, empty `_cal` | Columns and flags (`columns`) |
+| The column-name pattern, `_cal` and `_raw` | Pollutants (`pollutants`) |
+| Arguments: site, instruments, group, level, time range, processes | General Functions (`general`) |
+| Config keys | Configuration (`config`) |
+| Developer notes | Contributing (`contributing`) |
+| Function and class details | the docstrings, on the API pages |
+
+A change that moves a fact or renames or retitles a page updates its row here.
+
 - **The build fails on any warning** (`-W`). It loads intersphinx inventories,
   so it needs network access. In a docstring, write types that exist
   (`dict[str, str]`, not `dict[group, logger]`): Sphinx tries to link every
@@ -222,8 +245,9 @@ What keeps CI green:
 `config.json` with dates and `notes`, and parser tests on synthetic lines.
 
 **A new group space.** Add `filesystem/groupspaces/<name>.py` with a
-`GroupSpace` subclass and its `DataFile` classes, modeled on `lin.py` and
-`horel.py`, and register it at the bottom of that module:
+`GroupSpace` subclass, its `DataFile` classes and a `column_mapping` dict (the
+group's column names to uataq's, applied by its `standardize_data`), modeled on
+`lin.py` and `horel.py`, and register it at the bottom of that module:
 `filesystem.groups["<name>"] = <Name>Group()`. Nothing else needs to import
 it: `groupspaces/__init__.py` star-imports every non-underscore module in the
 folder. Add the module to the `autosummary` list in `docs/filesystem.rst`.

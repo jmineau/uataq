@@ -3,12 +3,6 @@
 Laboratory
 ==========
 
-.. toctree::
-    :maxdepth: 1
-    :hidden:
-
-    config
-
 .. autosummary::
 
     laboratory
