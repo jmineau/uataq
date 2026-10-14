@@ -28,6 +28,11 @@ class TestCustomExceptions:
         with pytest.raises(errors.ReaderError):
             raise errors.ReaderError("test message")
 
+    def test_reader_error_has_no_detail_unless_given(self):
+        """``detail`` is for a read that found no data; every other error lacks it."""
+        assert errors.ReaderError("test message").detail == ""
+        assert errors.InactiveInstrumentError("x").detail == ""
+
 
 class TestInactiveInstrumentError:
     """Test InactiveInstrumentError with custom message."""

@@ -172,6 +172,25 @@ class DataFile(metaclass=ABCMeta):
         raise NotImplementedError
 
 
+def _describe_periods(files: list[DataFile]) -> str:
+    """
+    Say which periods the files cover, for an error message.
+
+    The first and last period, and "with gaps" when a period between them has
+    no file. It reads each file's period, which the file name already gave.
+    """
+    periods = sorted({file.period for file in files})
+    if not periods:
+        return "there are no files"
+    first, last = periods[0], periods[-1]
+    if first == last:
+        return f"the only file is from {first}"
+    covered = f"files run from {first} to {last}"
+    if len(periods) < last.ordinal - first.ordinal + 1:
+        covered += ", with gaps"
+    return covered
+
+
 def filter_datafiles(
     files: list[DataFile], time_range: TimeRange, pattern: str | None = None
 ) -> list[DataFile]:
@@ -191,8 +210,18 @@ def filter_datafiles(
     -------
     list[DataFile]
         A list of DataFile objects that match the given time range.
+
+    Raises
+    ------
+    ReaderError
+        If no file is in the time range. The message gives the first and last
+        period the files cover.
     """
     _logger.info(f"Filtering files to time range: {time_range}")
+
+    # Filter by pattern
+    if pattern:
+        files = [file for file in files if pattern in file.path]
 
     df = pd.DataFrame(
         {
@@ -205,10 +234,6 @@ def filter_datafiles(
     # Filter by time range
     filtered_files = df.loc[time_range.start : time_range.stop, "file"].tolist()
 
-    # Filter by pattern
-    if pattern:
-        filtered_files = [file for file in filtered_files if pattern in file.path]
-
     # Drop the files that start at the end of the time range, which is
     # exclusive. A period can have more than one file (horel's
     # prior405upgrade files), so drop each, not only the last.
@@ -217,7 +242,10 @@ def filter_datafiles(
     ]
 
     if len(filtered_files) == 0:
-        raise errors.ReaderError("No files found within the specified time range.")
+        raise errors.ReaderError(
+            "No files found within the specified time range "
+            f"({_describe_periods(files)})."
+        )
 
     return filtered_files
 

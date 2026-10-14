@@ -848,3 +848,150 @@ class TestGetObsColumnOrder:
 
         assert len(orders) == 1, orders
         assert "lgr_ugga_CO2_ppb" in orders.pop().split()
+
+
+FILES_RUN = "No files found within the specified time range (files run from 2021-09 to 2026-07, with gaps)."
+
+
+class TestNoDataMessage:
+    """A read that finds nothing says what was asked for, and what exists (#63)."""
+
+    @pytest.fixture
+    def site(self):
+        import uataq
+
+        return uataq.get_site("BUS01")  # horel only; 2b_205 measures O3
+
+    @staticmethod
+    def no_files(site, *names, message=FILES_RUN):
+        """Make these instruments find no file in the range."""
+        return [
+            patch.object(
+                site.instruments[name],
+                "read_data",
+                side_effect=errors.ReaderError(message),
+            )
+            for name in names
+        ]
+
+    def test_get_obs_names_the_pollutant_level_site_and_dates(self, site):
+        with self.no_files(site, "2b_205")[0], pytest.raises(errors.ReaderError) as e:
+            site.get_obs("O3", time_range="2023-01")
+
+        assert str(e.value) == (
+            f"No final data found for O3 at BUS01: 2b_205 in horel groupspace: {FILES_RUN[:-1]}."
+        )
+        assert "['2b_205']" not in str(e.value)  # not the instrument list
+
+    def test_get_obs_names_the_pollutant_in_the_case_it_is_declared(self, site):
+        """``nox`` asks for NOx; 2b_405 declares it so."""
+        with self.no_files(site, "2b_405")[0], pytest.raises(errors.ReaderError) as e:
+            site.get_obs("nox", time_range="2022-01")
+
+        assert "No final data found for NOx at BUS01" in str(e.value)
+
+    def test_get_obs_with_several_pollutants_names_each(self, site):
+        patches = self.no_files(site, "2b_205", "2b_405")
+        with patches[0], patches[1], pytest.raises(errors.ReaderError) as e:
+            site.get_obs(["O3", "NO2"], format="long", time_range="2022-01")
+
+        assert "No final data found for O3, NO2 at BUS01" in str(e.value)
+        assert "2b_205 in horel groupspace" in str(e.value)
+        assert "2b_405 in horel groupspace" in str(e.value)
+
+    def test_get_obs_of_everything(self, site):
+        patches = self.no_files(site, "2b_205", "2b_405", "metone_es642")
+        with patches[0], patches[1], patches[2], pytest.raises(errors.ReaderError) as e:
+            site.get_obs(time_range="2022-01")
+
+        assert "No final data found for all pollutants at BUS01" in str(e.value)
+
+    def test_an_inactive_instrument_is_named_with_its_reason(self, site):
+        """BUS01's 2b_405 was removed on 2022-05-10."""
+        with pytest.raises(errors.ReaderError) as e:
+            site.get_obs("NO2", time_range="2023-01")
+
+        assert str(e.value) == (
+            "No final data found for NO2 at BUS01: "
+            "2b_405 not read: 2b_405@BUS01 is inactive in given time_range."
+        )
+
+    def test_read_data_names_the_instruments_and_the_level_asked_for(self, site):
+        with self.no_files(site, "2b_205")[0], pytest.raises(errors.ReaderError) as e:
+            site.read_data("2b_205", lvl="Final", time_range="2023-01")
+
+        assert str(e.value).startswith(
+            "No final data found for ['2b_205'] at BUS01: 2b_205 in horel groupspace: "
+        )
+
+    def test_read_data_without_a_level_does_not_name_one(self, site):
+        with self.no_files(site, "2b_205")[0], pytest.raises(errors.ReaderError) as e:
+            site.read_data("2b_205", time_range="2023-01")
+
+        assert str(e.value).startswith("No data found for ['2b_205'] at BUS01: ")
+
+    def test_reasons_are_kept_for_the_caller(self, site):
+        with self.no_files(site, "2b_205")[0], pytest.raises(errors.ReaderError) as e:
+            site.read_data("2b_205", time_range="2023-01")
+
+        assert e.value.detail == f"2b_205 in horel groupspace: {FILES_RUN[:-1]}"
+
+    def test_a_group_that_does_not_operate_the_instrument_is_the_reason(self, site):
+        with pytest.raises(errors.ReaderError) as e:
+            site.get_obs("O3", group="lin", time_range="2023-01")
+
+        assert str(e.value) == (
+            "No final data found for O3 at BUS01: "
+            "2b_205 in lin groupspace: lin group invalid for 2b_205@BUS01."
+        )
+
+    def test_other_reader_errors_pass_through_get_obs(self, site):
+        """An error that is not a read finding nothing keeps its own message."""
+        with (
+            patch.object(
+                site.instruments["2b_205"],
+                "plan_reads",
+                side_effect=errors.InvalidGroupError("no group reads it"),
+            ),
+            pytest.raises(errors.InvalidGroupError) as e,
+        ):
+            site.get_obs("O3", time_range="2023-01")
+
+        assert str(e.value) == "no group reads it"
+        assert e.value.detail == ""
+
+    def test_each_group_of_a_split_read_is_named(self):
+        """TRX01 ozone is lin's before 2017-10-28 and horel's after."""
+        import uataq
+
+        trx = uataq.get_site("TRX01")
+        with (
+            self.no_files(trx, "2b_205", message="no files")[0],
+            pytest.raises(errors.ReaderError) as e,
+        ):
+            trx.get_obs("O3", time_range=["2017-10-01", "2017-12-01"])
+
+        assert "No final data found for O3 at TRX01: 2b_205 in lin groupspace" in str(
+            e.value
+        )
+        assert "horel groupspace" in str(e.value)
+
+    def test_through_the_files_on_disk(self, tmp_path, monkeypatch):
+        """No file in the month: the real message, built from file names alone."""
+        import uataq
+        from uataq.filesystem.groupspaces import lin
+
+        monkeypatch.setattr(lin, "DATA_DIR", str(tmp_path))
+        final = tmp_path / "wbb" / "lgr_ugga" / "final"
+        final.mkdir(parents=True)
+        for month in ["2021_07", "2021_09", "2021_10"]:
+            (final / f"{month}_final.dat").touch()
+
+        with pytest.raises(errors.ReaderError) as e:
+            uataq.get_site("WBB").get_obs("CO2", time_range="2021-08")
+
+        assert str(e.value) == (
+            "No final data found for CO2 at WBB: lgr_ugga in lin groupspace: "
+            "No files found within the specified time range "
+            "(files run from 2021-07 to 2021-10, with gaps)."
+        )
