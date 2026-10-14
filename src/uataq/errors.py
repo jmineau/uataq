@@ -1,5 +1,5 @@
 """
-Custom exceptions for UATAQ.
+Custom exceptions and warnings for UATAQ.
 """
 
 
@@ -70,3 +70,14 @@ class PollutantNotMeasured(Exception):
     def __init__(self, SID, pollutant):
         msg = f"{pollutant} not measured at {SID}"
         super().__init__(msg)
+
+
+class EmptyResultWarning(UserWarning):
+    """
+    Warned when a read finds files for the range but no data in them.
+
+    ``get_obs`` and ``get_recent_obs`` issue it for a table with no rows, and
+    so does ``Network.get_obs``. The read did not fail: the archive has files
+    for the range, and nothing in them falls inside it. Silence it with
+    ``warnings.filterwarnings("ignore", category=uataq.errors.EmptyResultWarning)``.
+    """

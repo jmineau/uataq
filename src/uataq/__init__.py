@@ -134,6 +134,12 @@ def get_obs(
     pd.DataFrame
         The observations, from the ``final`` level (see :func:`uataq.read_data`
         to read another level).
+
+    Warns
+    -----
+    EmptyResultWarning
+        If the site has files for the range but no data in them, so the table
+        has no rows.
     """
     site = get_site(SID)
     obs = site.get_obs(pollutants, format, group, time_range, num_processes, **kwargs)
@@ -171,6 +177,12 @@ def get_recent_obs(
     -------
     pd.DataFrame
         The recent observations.
+
+    Warns
+    -----
+    EmptyResultWarning
+        If nothing in the site's files falls in the range, so the table has no
+        rows.
     """
     site = get_site(SID)
     obs = site.get_recent_obs(recent, pollutants, format, group)
@@ -217,6 +229,11 @@ def get_network_obs(
         - Columns: SID, instrument, [pollutant columns], Latitude_deg,
           Longitude_deg, zagl, geometry
         - CRS: EPSG:4326
+
+    Warns
+    -----
+    EmptyResultWarning
+        If the sites have files for the range but the table has no rows.
 
     Examples
     --------

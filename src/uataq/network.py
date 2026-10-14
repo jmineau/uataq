@@ -4,6 +4,7 @@ Classes for combining and analyzing data across multiple sites.
 
 import logging
 import multiprocessing
+import warnings
 from collections import defaultdict
 from typing import Literal
 
@@ -298,16 +299,23 @@ class Network:
         ------
         ReaderError
             If no data is found for any site.
+
+        Warns
+        -----
+        EmptyResultWarning
+            If the sites have files for the range but the table has no rows.
         """
         _logger.info(
             f"Reading {self.pollutant} data from {len(self.site_objects)} sites..."
         )
 
         dataframes = []
+        read = []  # the SIDs of the sites that read
         for site in self.site_objects:
             try:
                 site_data = self._read_site_data(site, time_range, num_processes)
                 dataframes.append(site_data)
+                read.append(site.SID)
             except errors.ReaderError as e:
                 _logger.warning(f"Error reading data from {site.SID}: {e}")
 
@@ -317,6 +325,15 @@ class Network:
         # Concatenate all site dataframes
         _logger.info("Concatenating data from all sites...")
         combined = pd.concat(dataframes, axis=0, sort=False)
+
+        if combined.empty:
+            warnings.warn(
+                f"No data found for {self.pollutant} at {', '.join(read)} "
+                f"({TimeRange(time_range)}): files exist for that range, "
+                "but the table has no rows.",
+                errors.EmptyResultWarning,
+                stacklevel=2,
+            )
 
         # Convert to GeoDataFrame
         _logger.info("Creating GeoDataFrame with spatial geometry...")
