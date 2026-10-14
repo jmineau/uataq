@@ -20,6 +20,13 @@ follow [PEP 440](https://peps.python.org/pep-0440/): calendar-based,
 
 ### Changed
 
+- Docs: the front page says what uataq is, who it is for and where to start,
+  and lists the pages in groups (Getting started, Guides, Reference, API
+  reference, then Contributing). Its "Naming Convention" section, its table of
+  four functions and its second "Contributing" heading are gone: the column
+  renaming is in "Columns and flags", the four functions are documented on
+  "Laboratory" and "General Functions", and the Contributing page stays. "Configuration" moved from under "Laboratory"
+  to the Reference group. No address changed.
 - Configuration: HDP, HEB and SUG were taken down, so they are marked
   `is_active: false` and their instruments now have removal dates (HDP
   `lgr_ugga` 2025-02-08, HEB `licor_6262` 2025-05-30, SUG `licor_7000`
