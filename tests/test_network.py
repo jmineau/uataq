@@ -3,6 +3,7 @@ Tests for the Network class.
 """
 
 import logging
+import warnings
 from unittest.mock import MagicMock, patch
 
 import geopandas as gpd
@@ -326,6 +327,51 @@ class TestNetworkGetObsErrors:
             pytest.raises(errors.ReaderError, match="No data found for CO2"),
         ):
             net.get_obs()
+
+
+class TestNetworkEmptyResult:
+    """Files for the range with no rows in them: an empty table and a warning (#63)."""
+
+    @staticmethod
+    def read_data(rows_at=()):
+        """Stand in for Site.read_data: rows at the sites named, none elsewhere."""
+
+        def read_data(self, instruments, **kwargs):
+            times = pd.date_range("2024-03-04", periods=2 * (self.SID in rows_at))
+            frame = pd.DataFrame(
+                {"CO2d_ppm_cal": [420.0, 421.0][: len(times)]}, index=times
+            )
+            return {name: frame for name in instruments}
+
+        return read_data
+
+    def test_every_site_empty_warns(self):
+        net = Network(["WBB", "SUG"], "CO2")
+        with (
+            patch.object(sites.Site, "read_data", self.read_data()),
+            pytest.warns(errors.EmptyResultWarning) as caught,
+        ):
+            obs = net.get_obs("2024-03-04")
+
+        assert len(obs) == 0
+        assert [str(w.message) for w in caught] == [
+            "No data found for CO2 at WBB, SUG "
+            "(2024-03-04 00:00:00 to 2024-03-05 00:00:00): "
+            "files exist for that range, but the table has no rows."
+        ]
+        assert caught[0].filename == __file__
+
+    def test_one_site_with_rows_does_not_warn(self):
+        net = Network(["WBB", "SUG"], "CO2")
+        with (
+            patch.object(sites.Site, "read_data", self.read_data(rows_at={"SUG"})),
+            warnings.catch_warnings(record=True) as caught,
+        ):
+            warnings.simplefilter("always")
+            obs = net.get_obs("2024-03-04")
+
+        assert set(obs["SID"]) == {"SUG"}
+        assert caught == []
 
 
 class TestReadSiteData:

@@ -78,6 +78,16 @@ follow [PEP 440](https://peps.python.org/pep-0440/): calendar-based,
   leaves the level out, and the warning for each instrument and `Network`'s
   warning for a site carry the same periods. `ReaderError.detail` holds what
   follows the colon (#63).
+- A read with files for the range but no rows in them now warns. `get_obs`
+  of WBB's CO2 for 2024-03-04, a day with no rows in the March 2024 file,
+  returned an empty table and said nothing. It still returns the empty table,
+  and now warns `No final data found for CO2 at WBB (2024-03-04 00:00:00 to
+  2024-03-05 00:00:00): the files for lgr_ugga exist but hold no data in that
+  range.` `get_recent_obs` and `Network.get_obs` (and so `get_network_obs`)
+  warn the same way when their table has no rows. It is a Python warning,
+  `uataq.errors.EmptyResultWarning` (a `UserWarning`), so it shows without
+  turning the log on. A table with rows from any instrument or site does not
+  warn, and `read_data` is unchanged (#63).
 
 ### Fixed
 

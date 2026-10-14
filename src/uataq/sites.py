@@ -5,6 +5,7 @@ Classes and functions for working with UATAQ sites.
 import datetime as dt
 import json
 import logging
+import warnings
 from collections import defaultdict
 from collections.abc import Mapping
 from typing import Literal
@@ -361,6 +362,13 @@ class Site:
             The wide columns come instrument by instrument, in the order the
             ``pollutants`` were asked for (a set is sorted; ``'all'`` follows
             the site's config), and the same on every call.
+
+        Warns
+        -----
+        EmptyResultWarning
+            If the instruments have files for the range but no data in it, so
+            the table has no rows. A range with no files raises
+            :class:`~uataq.errors.ReaderError` instead.
         """
         frames = self._read_obs(pollutants, format, group, time_range, num_processes)
         return pd.DataFrame(pd.concat(frames.values()).sort_index())
@@ -416,6 +424,8 @@ class Site:
 
         # Columns carry the declared case ("NOx_ppb"), not the uppercase request
         declared = [self._declared_pollutants.get(p, p) for p in pollutants]
+        # Say which pollutants were asked for, not the instruments that measure them
+        asked = "all pollutants" if everything else ", ".join(declared)
 
         # Read data
         try:
@@ -425,15 +435,25 @@ class Site:
         except errors.ReaderError as e:
             if not e.detail:  # not a read that found nothing
                 raise
-            # Say which pollutants were asked for, not the instruments that
-            # measure them
-            asked = "all pollutants" if everything else ", ".join(declared)
             raise _no_data(asked, lvl, self.SID, e.detail) from None
 
         pattern = "|".join(declared)
 
         _logger.info("Combining data by pollutant...")
-        return {name: _reshape_obs(df, pattern, format) for name, df in data.items()}
+        frames = {name: _reshape_obs(df, pattern, format) for name, df in data.items()}
+
+        if not any(len(frame) for frame in frames.values()):
+            # An instrument with no files is not in data (read_data logged it
+            # and went on), so each one here has files, and none has data in
+            # the range
+            warnings.warn(
+                f"No {lvl} data found for {asked} at {self.SID} "
+                f"({TimeRange(time_range)}): the files for {', '.join(data)} exist "
+                "but hold no data in that range.",
+                errors.EmptyResultWarning,
+                stacklevel=3,  # the caller of get_obs
+            )
+        return frames
 
     def get_recent_obs(
         self,
@@ -460,6 +480,12 @@ class Site:
         -------
         pandas.DataFrame
             A dataframe containing recent observations from site instruments.
+
+        Warns
+        -----
+        EmptyResultWarning
+            If nothing in the files falls in the range, so the table has no
+            rows (see :meth:`get_obs`).
         """
         if isinstance(recent, str):
             recent = pd.to_timedelta(recent)
@@ -600,6 +626,12 @@ class MobileSite(Site):
         pandas.DataFrame
             A dataframe containing mobile site observations for each pollutant
             with location data merged (a GeoDataFrame when ``include_gps``).
+
+        Warns
+        -----
+        EmptyResultWarning
+            If the instruments' files hold no data in the range (see
+            :meth:`Site.get_obs`).
 
         Notes
         -----

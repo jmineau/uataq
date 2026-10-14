@@ -7,6 +7,7 @@ import os
 import subprocess
 import sys
 import textwrap
+import warnings
 from datetime import datetime
 from types import SimpleNamespace
 from unittest.mock import MagicMock, patch
@@ -14,7 +15,7 @@ from unittest.mock import MagicMock, patch
 import pandas as pd
 import pytest
 
-from uataq import errors, sites
+from uataq import errors, instruments, sites
 from uataq.timerange import TimeRange
 
 
@@ -995,3 +996,218 @@ class TestNoDataMessage:
             "No files found within the specified time range "
             "(files run from 2021-07 to 2021-10, with gaps)."
         )
+
+
+def no_rows(*args, **kwargs):
+    """Stand in for Instrument.read_data when the files hold nothing in the range."""
+    return pd.DataFrame(
+        {"O3_ppb": pd.Series(dtype=float)}, index=pd.DatetimeIndex([], name="Time_UTC")
+    )
+
+
+def two_rows(*args, **kwargs):
+    """Stand in for Instrument.read_data when the files hold two rows in the range."""
+    index = pd.DatetimeIndex(["2024-03-04 00:00", "2024-03-04 00:01"], name="Time_UTC")
+    return pd.DataFrame({"O3_ppb": [41.0, 42.0]}, index=index)
+
+
+class TestEmptyResultWarning:
+    """A range with files but no rows warns, and says what was asked (#63)."""
+
+    @pytest.fixture
+    def wbb(self):
+        import uataq
+
+        return uataq.get_site("WBB")  # lin only; teledyne_t400 measures O3
+
+    @staticmethod
+    def read(instrument, read_data):
+        """Make ``instrument`` read ``read_data`` instead of the archive."""
+        return patch.object(instrument, "read_data", read_data)
+
+    def test_get_obs_warns_and_returns_no_rows(self, wbb):
+        with (
+            self.read(wbb.instruments["teledyne_t400"], no_rows),
+            pytest.warns(errors.EmptyResultWarning) as caught,
+        ):
+            obs = wbb.get_obs("O3", time_range="2024-03-04")
+
+        assert len(obs) == 0
+        assert [str(w.message) for w in caught] == [
+            "No final data found for O3 at WBB "
+            "(2024-03-04 00:00:00 to 2024-03-05 00:00:00): "
+            "the files for teledyne_t400 exist but hold no data in that range."
+        ]
+
+    def test_the_warning_points_at_the_line_that_called_get_obs(self, wbb):
+        with (
+            self.read(wbb.instruments["teledyne_t400"], no_rows),
+            pytest.warns(errors.EmptyResultWarning) as caught,
+        ):
+            wbb.get_obs("O3", time_range="2024-03-04")
+
+        assert caught[0].filename == __file__
+
+    def test_the_long_format_warns_too(self, wbb):
+        with (
+            self.read(wbb.instruments["teledyne_t400"], no_rows),
+            pytest.warns(errors.EmptyResultWarning, match="No final data found"),
+        ):
+            obs = wbb.get_obs("O3", format="long", time_range="2024-03-04")
+
+        assert len(obs) == 0
+
+    def test_every_pollutant_asked_for_is_named(self, wbb):
+        with (
+            self.read(wbb.instruments["teledyne_t400"], no_rows),
+            self.read(wbb.instruments["lgr_ugga"], no_rows),
+            pytest.warns(errors.EmptyResultWarning) as caught,
+        ):
+            wbb.get_obs(["O3", "CO2"], time_range="2024-03-04")
+
+        message = str(caught[0].message)
+        assert message.startswith("No final data found for O3, CO2 at WBB")
+        assert "the files for teledyne_t400, lgr_ugga exist" in message
+
+    def test_all_pollutants_is_said_so(self, wbb):
+        # the instruments installed on 2024-03-04; the rest are inactive then
+        with (
+            patch.object(instruments.Instrument, "read_data", no_rows),
+            pytest.warns(errors.EmptyResultWarning, match="for all pollutants at WBB"),
+        ):
+            wbb.get_obs(time_range="2024-03-04")
+
+    def test_rows_with_no_value_for_the_pollutant_warn(self, wbb):
+        """Rows that are all NaN in the columns asked for are dropped: nothing left."""
+
+        def nan_rows(*args, **kwargs):
+            return two_rows().assign(O3_ppb=float("nan"))
+
+        with (
+            self.read(wbb.instruments["teledyne_t400"], nan_rows),
+            pytest.warns(errors.EmptyResultWarning, match="No final data found for O3"),
+        ):
+            obs = wbb.get_obs("O3", time_range="2024-03-04")
+
+        assert len(obs) == 0
+
+    def test_its_own_category_silences_it(self, wbb):
+        with (
+            self.read(wbb.instruments["teledyne_t400"], no_rows),
+            warnings.catch_warnings(record=True) as caught,
+        ):
+            warnings.simplefilter("always")
+            warnings.filterwarnings("ignore", category=errors.EmptyResultWarning)
+            obs = wbb.get_obs("O3", time_range="2024-03-04")
+
+        assert len(obs) == 0
+        assert caught == []
+
+    def test_a_range_with_rows_does_not_warn(self, wbb):
+        with (
+            self.read(wbb.instruments["teledyne_t400"], two_rows),
+            warnings.catch_warnings(record=True) as caught,
+        ):
+            warnings.simplefilter("always")
+            obs = wbb.get_obs("O3", time_range="2024-03-04")
+
+        assert len(obs) == 2
+        assert caught == []
+
+    def test_one_instrument_without_rows_does_not_warn(self, wbb):
+        """Only a table with no rows at all warns: the other instrument has data."""
+        with (
+            self.read(wbb.instruments["teledyne_t400"], two_rows),
+            self.read(wbb.instruments["lgr_ugga"], no_rows),
+            warnings.catch_warnings(record=True) as caught,
+        ):
+            warnings.simplefilter("always")
+            obs = wbb.get_obs(["O3", "CO2"], time_range="2024-03-04")
+
+        assert len(obs) == 2
+        assert caught == []
+
+    def test_get_recent_obs_warns(self, wbb):
+        with (
+            self.read(wbb.instruments["lgr_ugga"], no_rows),
+            pytest.warns(
+                errors.EmptyResultWarning,
+                match=r"No final data found for CO2 at WBB \(After 20\d\d-",
+            ),
+        ):
+            obs = wbb.get_recent_obs("1h", "CO2")
+
+        assert len(obs) == 0
+
+    @pytest.mark.parametrize("include_gps", [True, False])
+    def test_a_mobile_site_warns_with_and_without_gps(self, include_gps):
+        import uataq
+
+        trx = uataq.get_site("TRX01")
+        with (
+            self.read(trx.instruments["2b_205"], no_rows),
+            pytest.warns(errors.EmptyResultWarning, match="O3 at TRX01") as caught,
+        ):
+            obs = trx.get_obs("O3", include_gps=include_gps, time_range="2024-06-04")
+
+        assert len(obs) == 0
+        assert len(caught) == 1
+
+    def test_an_empty_portion_of_a_split_read_does_not_warn(self):
+        """A range cut at a group_dates edge may be empty on one side only."""
+        import uataq
+
+        def read_data(group, lvl=None, time_range=None, *args, **kwargs):
+            # TRX01 ozone: lin's portion (before 2017-10-28) is empty, horel's is not
+            if group == "lin":
+                return no_rows()
+            start = TimeRange(time_range).start
+            index = pd.DatetimeIndex([start, start + pd.Timedelta(hours=1)])
+            return pd.DataFrame({"O3_ppb": [2.0, 2.0]}, index=index.rename("Time_UTC"))
+
+        trx = uataq.get_site("TRX01")
+        span = (datetime(2017, 10, 20), datetime(2017, 10, 30))
+        with (
+            self.read(trx.instruments["2b_205"], read_data),
+            warnings.catch_warnings(record=True) as caught,
+        ):
+            warnings.simplefilter("always")
+            obs = trx.get_obs("O3", include_gps=False, time_range=span)
+
+        assert obs["O3_ppb"].tolist() == [2.0, 2.0]
+        assert caught == []
+
+    def test_through_the_files_on_disk(self, tmp_path, monkeypatch):
+        """A month's file with rows on other days: the real read, slice and warning."""
+        import uataq
+        from uataq.filesystem.groupspaces import lin
+
+        monkeypatch.setattr(lin, "DATA_DIR", str(tmp_path))
+        final = tmp_path / "wbb" / "teledyne_t400" / "final"
+        final.mkdir(parents=True)
+        (final / "2024_06_final.dat").write_text(
+            "Time_UTC,O3_ppb\n2024-06-01 00:00:01,47.2\n2024-06-01 00:00:03,47.1\n"
+        )
+        wbb = uataq.get_site("WBB")
+        config = {"final": {"col_names": ["Time_UTC", "O3_ppb"], "col_types": "Td"}}
+
+        with (
+            patch.dict(lin.DATA_CONFIG, {"teledyne_t400": config}),
+            pytest.warns(errors.EmptyResultWarning) as caught,
+        ):
+            empty = wbb.get_obs("O3", time_range="2024-06-04")
+        assert len(empty) == 0
+        assert [str(w.message) for w in caught] == [
+            "No final data found for O3 at WBB "
+            "(2024-06-04 00:00:00 to 2024-06-05 00:00:00): "
+            "the files for teledyne_t400 exist but hold no data in that range."
+        ]
+
+        with (
+            patch.dict(lin.DATA_CONFIG, {"teledyne_t400": config}),
+            warnings.catch_warnings(record=True) as caught,
+        ):
+            warnings.simplefilter("always")
+            obs = wbb.get_obs("O3", time_range="2024-06-01")
+        assert obs["O3_ppb"].tolist() == [47.2, 47.1]
+        assert caught == []

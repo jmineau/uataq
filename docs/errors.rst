@@ -100,12 +100,23 @@ Zero rows, no error
     >>> print(len(wbb_obs))
     206114
     >>> print(len(wbb.get_obs("CO2", time_range="2024-03-04")))
+    <stdin>:1: EmptyResultWarning: No final data found for CO2 at WBB (2024-03-04 00:00:00 to 2024-03-05 00:00:00): the files for lgr_ugga exist but hold no data in that range.
     0
 
 The month has a file, but there are no rows on that day, at any level (``raw``
-too): the instrument recorded nothing. You get an empty table and no warning, so
-check ``len`` of what you get back. To see where the gaps in a month are, look at
-the time between rows:
+too): the instrument recorded nothing. The read did not fail, so you get an empty
+table and a warning, ``uataq.errors.EmptyResultWarning``. It is a Python warning,
+so it shows without the log. ``get_recent_obs`` and ``get_network_obs`` warn the
+same way when their table has no rows. To silence it, for a loop over days that
+may be empty:
+
+.. code-block:: python
+
+    import warnings
+
+    warnings.filterwarnings("ignore", category=uataq.errors.EmptyResultWarning)
+
+To see where the gaps in a month are, look at the time between rows:
 
 .. code-block:: pycon
 
