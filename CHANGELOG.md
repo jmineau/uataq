@@ -66,6 +66,13 @@ follow [PEP 440](https://peps.python.org/pep-0440/): calendar-based,
   `DEFAULT_GROUP` line). All three had been dropped from the built pages.
 - `Network` reads a site once when the list names it in two spellings
   (`["WBB", "wbb"]`); it had read the site twice, doubling its rows (#62).
+- `Site.get_obs` (and `uataq.get_obs`) returns its columns in the same order on
+  every call. It joined the instruments in the order of a set, which changes
+  with each Python session (`PYTHONHASHSEED`), so `obs.iloc[:, 0]` was a
+  different column from one session to the next, and so was the order of rows
+  that share a timestamp. The instruments now follow the order of the
+  pollutants asked for (a set of pollutants is sorted; `"all"` follows the
+  site's config). Selecting columns by name was never affected (#74).
 
 ## [2026.10.0] - 2026-10-09
 

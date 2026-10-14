@@ -345,6 +345,9 @@ class Site:
             The ``wide`` format has a column for each of their measurement columns
             (``CO2d_ppm_cal``, ``O3_ppb`` and so on); the ``long`` format has a
             ``pollutant`` column (those names) and a ``value`` column.
+            The wide columns come instrument by instrument, in the order the
+            ``pollutants`` were asked for (a set is sorted; ``'all'`` follows
+            the site's config), and the same on every call.
         """
         frames = self._read_obs(pollutants, format, group, time_range, num_processes)
         return pd.DataFrame(pd.concat(frames.values()).sort_index())
@@ -370,10 +373,14 @@ class Site:
             raise ValueError(f"Invalid format '{format}'. Must be 'wide' or 'long'.")
 
         if pollutants == "all":
-            pollutants = self.pollutants
+            # In the config's order (self.pollutants is a set); the lookup is a
+            # defaultdict, so skip a key that only a miss left behind
+            pollutants = [p for p, found in self.pollutant_instruments.items() if found]
         elif isinstance(pollutants, str):
             pollutants = [pollutants.upper()]
-        else:  # list, tuple or set
+        elif isinstance(pollutants, set):  # no order of its own: sort it
+            pollutants = sorted(p.upper() for p in pollutants)
+        else:  # list or tuple: keep the order asked for
             pollutants = [p.upper() for p in pollutants]
 
         if any(p not in self.pollutants for p in pollutants):
@@ -381,12 +388,17 @@ class Site:
                 f"Invalid pollutant(s): '{set(pollutants) - set(self.pollutants)}'"
             )
 
-        # Get instruments for each pollutant
-        instruments_to_read = {
-            instrument.name
-            for pollutant in pollutants
-            for instrument in self.pollutant_instruments[pollutant]
-        }
+        # Get instruments for each pollutant: in the order the pollutants were
+        # asked for, and each pollutant's in the config's. A list, not a set:
+        # get_obs joins the instruments' columns in this order, and a set's
+        # order changes with PYTHONHASHSEED (#74).
+        instruments_to_read = list(
+            dict.fromkeys(
+                instrument.name
+                for pollutant in pollutants
+                for instrument in self.pollutant_instruments[pollutant]
+            )
+        )
 
         # Read data
         data = self.read_data(
