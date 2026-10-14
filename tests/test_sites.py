@@ -3,6 +3,10 @@ Tests for the Site class and related functionality.
 """
 
 import logging
+import os
+import subprocess
+import sys
+import textwrap
 from datetime import datetime
 from types import SimpleNamespace
 from unittest.mock import MagicMock, patch
@@ -587,7 +591,7 @@ class TestPollutantCase:
         with patch.object(sites.Site, "read_data", return_value=data) as read_data:
             obs = sites.Site.get_obs(site, "NOx")
 
-        assert read_data.call_args.args[0] == {"2b_405"}
+        assert read_data.call_args.args[0] == ["2b_405"]
         # "NOX" must still select the declared-case NOx_ppb column
         assert list(obs.columns) == ["NOx_ppb"]
 
@@ -693,7 +697,8 @@ class TestSiteGetObs:
     def test_all_reads_every_pollutant_instrument(self, site):
         with patch.object(sites.Site, "read_data", return_value=self.data()) as read:
             sites.Site.get_obs(site, "all")
-        assert read.call_args.args[0] == {"2b_205", "2b_405", "metone_es642"}
+        # The config's order: BUS01 lists 2b_205, 2b_405, then metone_es642
+        assert read.call_args.args[0] == ["2b_205", "2b_405", "metone_es642"]
         assert read.call_args.args[2] == "final"
 
     def test_long_format(self, site):
@@ -735,3 +740,111 @@ class TestSiteGetObs:
         pollutants, format, group, (start, stop) = get_obs.call_args.args
         assert (pollutants, format, group, stop) == ("O3", "long", "horel", None)
         assert before - pd.Timedelta("2D") <= start <= after - pd.Timedelta("2D")
+
+
+class TestGetObsColumnOrder:
+    """get_obs gives its columns in the same order in every session (#74)."""
+
+    times = pd.DatetimeIndex(["2024-06-01 00:00", "2024-06-01 00:01"], name="Time_UTC")
+    columns = {
+        "2b_205": {"O3_ppb": [40.0, 41.0]},
+        "2b_405": {"NO_ppb": [1.0, 2.0], "NO2_ppb": [3.0, 4.0]},
+        "metone_es642": {"PM2.5_ugm3": [5.0, 6.0]},
+    }
+
+    @pytest.fixture
+    def site(self):
+        import uataq
+
+        return uataq.get_site("BUS01")
+
+    def read_data(self, instruments, group, lvl, time_range, num_processes):
+        """Return a frame per instrument in the order asked, as Site.read_data does."""
+        return {
+            name: pd.DataFrame(self.columns[name], self.times) for name in instruments
+        }
+
+    @pytest.mark.parametrize(
+        ("pollutants", "instruments"),
+        [
+            (["O3", "NO2"], ["2b_205", "2b_405"]),
+            (["NO2", "O3"], ["2b_405", "2b_205"]),
+            (("PM2.5", "NO", "O3"), ["metone_es642", "2b_405", "2b_205"]),
+            # an instrument measuring two of them is read once, where it first appears
+            (["NO", "O3", "NO2"], ["2b_405", "2b_205"]),
+            (["no2", "o3"], ["2b_405", "2b_205"]),
+            ("all", ["2b_205", "2b_405", "metone_es642"]),
+            # a set has no order of its own, so it is sorted
+            ({"O3", "NO2", "PM2.5"}, ["2b_405", "2b_205", "metone_es642"]),
+        ],
+    )
+    def test_instruments_are_read_in_a_fixed_order(self, site, pollutants, instruments):
+        with patch.object(
+            sites.Site, "read_data", side_effect=self.read_data
+        ) as read_data:
+            obs = sites.Site.get_obs(site, pollutants)
+
+        assert read_data.call_args.args[0] == instruments
+        # The columns follow, instrument by instrument (those the pollutants match)
+        expected = [c for name in instruments for c in self.columns[name]]
+        assert list(obs.columns) == [c for c in expected if c in obs.columns]
+        assert len(obs.columns) > 0
+
+    def test_all_skips_a_pollutant_that_was_only_looked_up(self, site):
+        """pollutant_instruments is a defaultdict: a miss leaves an empty key."""
+        fresh = sites.Site(site.SID, site.config, site.instruments)
+        assert fresh.pollutant_instruments["CO2"] == []  # BUS01 measures no CO2
+        with patch.object(
+            sites.Site, "read_data", side_effect=self.read_data
+        ) as read_data:
+            sites.Site.get_obs(fresh, "all")
+        assert read_data.call_args.args[0] == ["2b_205", "2b_405", "metone_es642"]
+
+    def test_order_does_not_depend_on_the_hash_seed(self):
+        """Columns and rows on one timestamp are the same under four hash seeds."""
+        code = textwrap.dedent(
+            """
+            from unittest.mock import patch
+
+            import pandas as pd
+
+            import uataq
+            from uataq import sites
+
+            site = uataq.get_site("WBB")
+            times = pd.DatetimeIndex(["2024-06-01"], name="Time_UTC")
+
+
+            def read_data(instruments, group, lvl, time_range, num_processes):
+                # a column per instrument and pollutant, so the order shows
+                return {
+                    name: pd.DataFrame(
+                        {
+                            f"{name}_{p}_ppb": [1.0]
+                            for p in site.instruments[name].pollutants
+                        },
+                        times,
+                    )
+                    for name in instruments
+                }
+
+
+            with patch.object(sites.Site, "read_data", side_effect=read_data):
+                obs = sites.Site.get_obs(site, "all")
+            print(*obs.columns)
+            print(*obs.notna().idxmax(axis=1))  # each row's first filled column
+            """
+        )
+        orders = set()
+        for seed in range(4):
+            result = subprocess.run(
+                [sys.executable, "-c", code],
+                env={**os.environ, "PYTHONHASHSEED": str(seed)},
+                capture_output=True,
+                text=True,
+                check=True,
+            )
+            orders.add(result.stdout.strip())
+
+        assert len(orders) == 1, orders
+        assert "lgr_ugga_CO2_ppb" in orders.pop().split()
