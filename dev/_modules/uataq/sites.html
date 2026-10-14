@@ -6,7 +6,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>uataq.sites &#8212; UATAQ 2026.10.1.dev25+gdea2cdf01 documentation</title>
+    <title>uataq.sites &#8212; UATAQ 2026.10.1.dev26+g69e7849ae documentation</title>
   
   
   
@@ -38,7 +38,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="../../_static/documentation_options.js?v=ecd66044"></script>
+    <script src="../../_static/documentation_options.js?v=ac76cd2f"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -56,7 +56,7 @@
     <link rel="search" title="Search" href="../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.1.dev25+gdea2cdf01" />
+  <meta name="docsearch:version" content="2026.10.1.dev26+g69e7849ae" />
   
     
     <script src="../../_static/searchtools.js"></script>
@@ -124,7 +124,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.1.dev25+gdea2cdf01 documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.1.dev26+g69e7849ae documentation</p>
   
 </a></div>
     
@@ -963,6 +963,9 @@
 <span class="sd">            The ``wide`` format has a column for each of their measurement columns</span>
 <span class="sd">            (``CO2d_ppm_cal``, ``O3_ppb`` and so on); the ``long`` format has a</span>
 <span class="sd">            ``pollutant`` column (those names) and a ``value`` column.</span>
+<span class="sd">            The wide columns come instrument by instrument, in the order the</span>
+<span class="sd">            ``pollutants`` were asked for (a set is sorted; ``&#39;all&#39;`` follows</span>
+<span class="sd">            the site&#39;s config), and the same on every call.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">frames</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_read_obs</span><span class="p">(</span><span class="n">pollutants</span><span class="p">,</span> <span class="nb">format</span><span class="p">,</span> <span class="n">group</span><span class="p">,</span> <span class="n">time_range</span><span class="p">,</span> <span class="n">num_processes</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">frames</span><span class="o">.</span><span class="n">values</span><span class="p">())</span><span class="o">.</span><span class="n">sort_index</span><span class="p">())</span></div>
@@ -989,10 +992,14 @@
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid format &#39;</span><span class="si">{</span><span class="nb">format</span><span class="si">}</span><span class="s2">&#39;. Must be &#39;wide&#39; or &#39;long&#39;.&quot;</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">pollutants</span> <span class="o">==</span> <span class="s2">&quot;all&quot;</span><span class="p">:</span>
-            <span class="n">pollutants</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pollutants</span>
+            <span class="c1"># In the config&#39;s order (self.pollutants is a set); the lookup is a</span>
+            <span class="c1"># defaultdict, so skip a key that only a miss left behind</span>
+            <span class="n">pollutants</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span> <span class="k">for</span> <span class="n">p</span><span class="p">,</span> <span class="n">found</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pollutant_instruments</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">found</span><span class="p">]</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pollutants</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="n">pollutants</span> <span class="o">=</span> <span class="p">[</span><span class="n">pollutants</span><span class="o">.</span><span class="n">upper</span><span class="p">()]</span>
-        <span class="k">else</span><span class="p">:</span>  <span class="c1"># list, tuple or set</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pollutants</span><span class="p">,</span> <span class="nb">set</span><span class="p">):</span>  <span class="c1"># no order of its own: sort it</span>
+            <span class="n">pollutants</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">pollutants</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>  <span class="c1"># list or tuple: keep the order asked for</span>
             <span class="n">pollutants</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">pollutants</span><span class="p">]</span>
 
         <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">p</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pollutants</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">pollutants</span><span class="p">):</span>
@@ -1000,12 +1007,17 @@
                 <span class="sa">f</span><span class="s2">&quot;Invalid pollutant(s): &#39;</span><span class="si">{</span><span class="nb">set</span><span class="p">(</span><span class="n">pollutants</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pollutants</span><span class="p">)</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
             <span class="p">)</span>
 
-        <span class="c1"># Get instruments for each pollutant</span>
-        <span class="n">instruments_to_read</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="n">instrument</span><span class="o">.</span><span class="n">name</span>
-            <span class="k">for</span> <span class="n">pollutant</span> <span class="ow">in</span> <span class="n">pollutants</span>
-            <span class="k">for</span> <span class="n">instrument</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pollutant_instruments</span><span class="p">[</span><span class="n">pollutant</span><span class="p">]</span>
-        <span class="p">}</span>
+        <span class="c1"># Get instruments for each pollutant: in the order the pollutants were</span>
+        <span class="c1"># asked for, and each pollutant&#39;s in the config&#39;s. A list, not a set:</span>
+        <span class="c1"># get_obs joins the instruments&#39; columns in this order, and a set&#39;s</span>
+        <span class="c1"># order changes with PYTHONHASHSEED (#74).</span>
+        <span class="n">instruments_to_read</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span>
+            <span class="nb">dict</span><span class="o">.</span><span class="n">fromkeys</span><span class="p">(</span>
+                <span class="n">instrument</span><span class="o">.</span><span class="n">name</span>
+                <span class="k">for</span> <span class="n">pollutant</span> <span class="ow">in</span> <span class="n">pollutants</span>
+                <span class="k">for</span> <span class="n">instrument</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pollutant_instruments</span><span class="p">[</span><span class="n">pollutant</span><span class="p">]</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
 
         <span class="c1"># Read data</span>
         <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_data</span><span class="p">(</span>

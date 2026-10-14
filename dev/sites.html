@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Sites &#8212; UATAQ 2026.10.1.dev25+gdea2cdf01 documentation</title>
+    <title>Sites &#8212; UATAQ 2026.10.1.dev26+g69e7849ae documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="_static/documentation_options.js?v=ecd66044"></script>
+    <script src="_static/documentation_options.js?v=ac76cd2f"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -59,7 +59,7 @@
     <link rel="prev" title="Laboratory" href="laboratory.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.1.dev25+gdea2cdf01" />
+  <meta name="docsearch:version" content="2026.10.1.dev26+g69e7849ae" />
   
     
     <script src="_static/searchtools.js"></script>
@@ -127,7 +127,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.1.dev25+gdea2cdf01 documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.1.dev26+g69e7849ae documentation</p>
   
 </a></div>
     
@@ -730,7 +730,10 @@ automatically (see <a class="reference internal" href="instruments.html#uataq.in
 instrument that measures the requested pollutants, sorted by time.
 The <code class="docutils literal notranslate"><span class="pre">wide</span></code> format has a column for each of their measurement columns
 (<code class="docutils literal notranslate"><span class="pre">CO2d_ppm_cal</span></code>, <code class="docutils literal notranslate"><span class="pre">O3_ppb</span></code> and so on); the <code class="docutils literal notranslate"><span class="pre">long</span></code> format has a
-<code class="docutils literal notranslate"><span class="pre">pollutant</span></code> column (those names) and a <code class="docutils literal notranslate"><span class="pre">value</span></code> column.</p>
+<code class="docutils literal notranslate"><span class="pre">pollutant</span></code> column (those names) and a <code class="docutils literal notranslate"><span class="pre">value</span></code> column.
+The wide columns come instrument by instrument, in the order the
+<code class="docutils literal notranslate"><span class="pre">pollutants</span></code> were asked for (a set is sorted; <code class="docutils literal notranslate"><span class="pre">'all'</span></code> follows
+the site’s config), and the same on every call.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v3.0.6)">pandas.DataFrame</a></p>
