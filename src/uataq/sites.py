@@ -28,6 +28,20 @@ def _describe_plan(plan: instruments.ReadPlan) -> str:
     return " and ".join(f"{group} groupspace ({portion})" for group, portion in plan)
 
 
+def _no_data(asked: str, lvl: str | None, SID: str, detail: str) -> errors.ReaderError:
+    """
+    Build the error for a read at a site that found no data.
+
+    ``asked`` is what the caller asked for: the instruments of a ``read_data``,
+    the pollutants of a ``get_obs``. ``detail`` says what became of each
+    instrument, and ``lvl`` is the level that was read, if one was named.
+    """
+    level = f"{lvl.lower()} " if lvl else ""
+    error = errors.ReaderError(f"No {level}data found for {asked} at {SID}: {detail}.")
+    error.detail = detail
+    return error
+
+
 def _read_plan(
     instrument: instruments.Instrument,
     plan: instruments.ReadPlan,
@@ -259,7 +273,9 @@ class Site:
         Raises
         ------
         ReaderError
-            If no data is found for the specified instruments.
+            If no data is found for the specified instruments. The message
+            says, for each, why it gave none: the files it looked for, and the
+            first and last period it has files for.
         """
         # Format instruments
         if instruments == "all":
@@ -271,7 +287,7 @@ class Site:
 
         # Read data for each instrument and store in dictionary
         data = {}
-        groups_read = {}
+        notes = []  # what became of each instrument that gave no data
         for name in instruments:
             if name not in self.instruments:
                 raise errors.InstrumentNotFoundError(name, self.instruments)
@@ -288,9 +304,8 @@ class Site:
             except errors.ReaderError as e:
                 # Inactive in the range, or no group's archive covers it
                 _logger.warning(f"Not reading {instrument}: {e}")
-                groups_read[name] = f"{name} not read: {e}"
+                notes.append(f"{name} not read: {str(e).rstrip('.')}")
                 continue
-            groups_read[name] = f"{name} in {_describe_plan(plan)}"
 
             try:
                 data[name] = _read_plan(
@@ -300,12 +315,10 @@ class Site:
                 _logger.warning(
                     f"Error reading {instrument} data from {_describe_plan(plan)}: {e}"
                 )
+                notes.append(f"{name} in {_describe_plan(plan)}: {str(e).rstrip('.')}")
 
         if not data:
-            read_from = "; ".join(groups_read.values())
-            raise errors.ReaderError(
-                f"No data found for {instruments} at {self.SID} ({read_from})."
-            )
+            raise _no_data(f"{instruments}", lvl, self.SID, "; ".join(notes))
 
         return data
 
@@ -372,7 +385,8 @@ class Site:
         if format not in ("wide", "long"):
             raise ValueError(f"Invalid format '{format}'. Must be 'wide' or 'long'.")
 
-        if pollutants == "all":
+        everything = pollutants == "all"
+        if everything:
             # In the config's order (self.pollutants is a set); the lookup is a
             # defaultdict, so skip a key that only a miss left behind
             pollutants = [p for p, found in self.pollutant_instruments.items() if found]
@@ -400,13 +414,23 @@ class Site:
             )
         )
 
-        # Read data
-        data = self.read_data(
-            instruments_to_read, group, lvl, time_range, num_processes
-        )
-
         # Columns carry the declared case ("NOx_ppb"), not the uppercase request
-        pattern = "|".join(self._declared_pollutants.get(p, p) for p in pollutants)
+        declared = [self._declared_pollutants.get(p, p) for p in pollutants]
+
+        # Read data
+        try:
+            data = self.read_data(
+                instruments_to_read, group, lvl, time_range, num_processes
+            )
+        except errors.ReaderError as e:
+            if not e.detail:  # not a read that found nothing
+                raise
+            # Say which pollutants were asked for, not the instruments that
+            # measure them
+            asked = "all pollutants" if everything else ", ".join(declared)
+            raise _no_data(asked, lvl, self.SID, e.detail) from None
+
+        pattern = "|".join(declared)
 
         _logger.info("Combining data by pollutant...")
         return {name: _reshape_obs(df, pattern, format) for name, df in data.items()}

@@ -22,7 +22,16 @@ class ReaderError(Exception):
 
     Caught per instrument by :meth:`uataq.sites.Site.read_data`, which warns
     and moves on.
+
+    Attributes
+    ----------
+    detail : str
+        When a read found no data at a site, the part of the message that says
+        what became of each instrument (``Site.get_obs`` puts it behind the
+        pollutants it was asked for). Empty for every other error.
     """
+
+    detail: str = ""
 
 
 class InactiveInstrumentError(ReaderError):

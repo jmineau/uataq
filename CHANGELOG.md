@@ -66,6 +66,18 @@ follow [PEP 440](https://peps.python.org/pep-0440/): calendar-based,
   installed (2020-12-22), for a range wholly after the date now raises
   `ReaderError` saying the instrument is inactive, instead of returning an
   empty frame.
+- The error for a read that finds no data at a site says what you asked for and
+  which files exist. `Site.get_obs("CO2", time_range="2021-08")` at WBB, which
+  has no final file that month, raised `No data found for ['lgr_ugga'] at WBB
+  (lgr_ugga in lin groupspace).` It now raises `No final data found for CO2 at
+  WBB: lgr_ugga in lin groupspace: No files found within the specified time
+  range (files run from 2014-02 to 2026-10, with gaps).` The first and last
+  period come from the files the read had already listed, so the error costs
+  no extra read. `read_data` names
+  its instruments where `get_obs` names the pollutants, a read with no `lvl`
+  leaves the level out, and the warning for each instrument and `Network`'s
+  warning for a site carry the same periods. `ReaderError.detail` holds what
+  follows the colon (#63).
 
 ### Fixed
 

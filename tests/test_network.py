@@ -293,6 +293,30 @@ class TestNetworkGetObsErrors:
         assert set(obs["SID"]) == {"WBB"}
         assert "SUG" in caplog.text
 
+    def test_the_log_says_which_files_a_site_has(self, caplog):
+        """A site's reason, with the periods it has files for, is in the warning."""
+        net = Network(["WBB"], "CO2")
+        site = net.site_objects[0]
+        message = (
+            "No files found within the specified time range "
+            "(files run from 2014-02 to 2026-10, with gaps)."
+        )
+        with (
+            patch.object(
+                site.instruments["lgr_ugga"],
+                "read_data",
+                side_effect=errors.ReaderError(message),
+            ),
+            caplog.at_level(logging.WARNING, logger="uataq"),
+            pytest.raises(errors.ReaderError, match="No data found for CO2 in any"),
+        ):
+            net.get_obs("2021-08")
+
+        assert (
+            "Error reading data from WBB: No data found for ['lgr_ugga'] at WBB: "
+            f"lgr_ugga in lin groupspace: {message[:-1]}."
+        ) in caplog.text
+
     def test_no_readable_site(self):
         net = Network(["WBB", "SUG"], "CO2")
         with (

@@ -216,6 +216,38 @@ class TestFilterDatafiles:
         with pytest.raises(errors.ReaderError, match="No files found"):
             filesystem.filter_datafiles(self.files, TimeRange("2023"))
 
+    @pytest.mark.parametrize(
+        ("names", "time_range", "periods"),
+        [
+            # the periods the files cover, first to last
+            (["2024_01", "2024_02", "2024_03"], "2023", "files run from 2024-01 to 2024-03"),
+            # a month in the middle has no file
+            (["2024_01", "2024_03"], "2024-02", "files run from 2024-01 to 2024-03, with gaps"),
+            (["2024_01"], "2023", "the only file is from 2024-01"),
+            ([], "2023", "there are no files"),
+        ],
+    )  # fmt: skip
+    def test_nothing_in_range_says_which_periods_exist(
+        self, names, time_range, periods
+    ):
+        files = [MonthFile(f"/a/{name}_final.dat") for name in names]
+        with pytest.raises(errors.ReaderError) as excinfo:
+            filesystem.filter_datafiles(files, TimeRange(time_range))
+        assert str(excinfo.value) == (
+            f"No files found within the specified time range ({periods})."
+        )
+
+    def test_periods_in_the_message_are_those_that_match_the_pattern(self):
+        with pytest.raises(errors.ReaderError) as excinfo:
+            filesystem.filter_datafiles(self.files, TimeRange("2023"), pattern="final")
+        assert "files run from 2024-02 to 2024-03" in str(excinfo.value)
+
+    def test_two_files_in_one_period_are_not_a_gap(self):
+        """Horel's prior405upgrade files repeat a month."""
+        files = [*self.files, MonthFile("/a/2024_03_prior.dat")]
+        with pytest.raises(errors.ReaderError, match=r"2024-01 to 2024-03\)"):
+            filesystem.filter_datafiles(files, TimeRange("2023"))
+
     def test_every_file_starting_at_the_stop_is_dropped(self):
         """Two files can cover one month (horel's prior405upgrade files)."""
         files = [*self.files, MonthFile("/a/2024_03_prior.dat")]
