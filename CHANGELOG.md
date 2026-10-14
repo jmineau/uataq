@@ -27,6 +27,19 @@ follow [PEP 440](https://peps.python.org/pep-0440/): calendar-based,
   renaming is in "Columns and flags", the four functions are documented on
   "Laboratory" and "General Functions", and the Contributing page stays. "Configuration" moved from under "Laboratory"
   to the Reference group. No address changed.
+- Docs: each fact is written on one page, and three pages are renamed to match
+  their titles, with no redirects. `docs/general.rst` is now
+  `docs/input_parameters.rst` (retitled "Input Parameters", each section
+  labeled), `docs/availability.rst` is `docs/what_data_exists.rst` and
+  `docs/catalog.rst` is `docs/sites_and_instruments.rst`, so `general.html`,
+  `availability.html` and `catalog.html` no longer exist. Moved: the column-name
+  pattern and `_cal` against `_raw` from "Pollutants" to "Columns and flags"
+  ("Column names"); the "Time" section of "Your first month of data" to "Input
+  Parameters" ("Time Range"); "Which sites and pollutants" from "What data
+  exists" to "Sites and instruments" ("The same in code"). Quick Start's
+  paragraph on what `final` keeps is now a link to "Columns and flags". Pointers
+  by section name ("see *Processing Level* on the general functions page") are
+  links.
 - Configuration: HDP, HEB and SUG were taken down, so they are marked
   `is_active: false` and their instruments now have removal dates (HDP
   `lgr_ugga` 2025-02-08, HEB `licor_6262` 2025-05-30, SUG `licor_7000`

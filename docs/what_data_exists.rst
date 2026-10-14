@@ -11,10 +11,12 @@ What data exists
     The archive keeps growing, so the dates at the end of the data, and how
     long a call takes, will have moved on by the time you read this.
 
-Before you read data, find out what there is: which sites measure your
-pollutant, when they have data, and whether anything is recent. This page shows
-the calls that answer those questions, and then what the errors mean when the
-answer is "nothing".
+Before you read data, find out what there is. The :doc:`sites_and_instruments`
+page says which sites and instruments exist, what each measures and when each
+was installed, as tables and :ref:`in code <sites-in-code>`. That is what the
+sites were set up to measure, and it does not say there is data. This page shows
+the calls that answer the next questions, when the sites have data and whether
+anything is recent, and then what the errors mean when the answer is "nothing".
 
 .. list-table::
    :header-rows: 1
@@ -23,9 +25,9 @@ answer is "nothing".
    * - I want to know
      - Use
    * - Which sites measure CH4?
-     - ``Network("all", "CH4")``
+     - The :doc:`sites_and_instruments` tables, or ``Network("all", "CH4")``
    * - What a site measures, and since when
-     - ``get_site("WBB").pollutants`` and ``.instruments``
+     - The same tables, or ``get_site("WBB").pollutants`` and ``.instruments``
    * - When a site has data, and at which level
      - ``Network(...).get_availability(...)``
    * - The newest data at a site
@@ -35,68 +37,16 @@ answer is "nothing".
    * - Why a read failed or came back empty
      - `When there is nothing to read`_
 
-Which sites and pollutants
---------------------------
+When a site has data
+--------------------
 
-A site is a place where measurements are made. It has a site ID (``SID``), such
-as ``WBB`` for William Browning. Some sites are fixed, like ``WBB``, and some are
-mobile (the ``TRX`` and ``BUS`` sites). The :doc:`laboratory <laboratory>` lists
-them all:
+The examples on this page start from these lines:
 
 .. code-block:: pycon
 
     >>> import uataq
-    >>> lab = uataq.laboratory
-    >>> print(len(lab.sites), "sites")
-    36 sites
-    >>> lab.sites
-    ['ASB', 'BUS01', 'BUS02', 'BUS03', 'BUS04', 'BUS05', 'BUS06', 'BUS07', 'BUS08', 'BUS09', 'BUS10', 'BUS11', 'BUS12', 'BUS13', 'BUS14', 'BUS15', 'CSP', 'DBK', 'FRU', 'HDP', 'HEB', 'HPL', 'IMC', 'LDF', 'LGN', 'LG2', 'MSA', 'MUR', 'ROO', 'RPK', 'SUG', 'SUN', 'TRX01', 'TRX02', 'TRX03', 'WBB']
-
-Each site knows the pollutants it measures:
-
-.. code-block:: pycon
-
-    >>> wbb = uataq.get_site("WBB")
-    >>> sorted(wbb.pollutants)
-    ['BC', 'CH4', 'CO', 'CO2', 'NO', 'NO2', 'NOX', 'O3', 'PM2.5']
-
-Pollutant names are upper case (``NOx`` is ``'NOX'`` here), but you can type
-them in any case when you read data. To go the other way and find the sites that
-measure a pollutant, make a :class:`Network` of ``"all"`` sites. A ``Network``
-is a list of sites and one pollutant; it is how the package asks a question
-across sites.
-
-.. code-block:: pycon
-
     >>> from uataq import Network
-    >>> Network("all", "CH4")
-    Network(sites=['CSP', 'FRU', 'HDP', 'HPL', 'LDF', 'ROO', 'TRX01', 'WBB'], pollutant='CH4')
-
-These lists are what the sites were set up to measure. They do not say there is
-data, and they include sites and instruments that no longer run (``LDF`` and
-``ROO`` have closed). An instrument has a window in which it was installed:
-
-.. code-block:: pycon
-
-    >>> for instrument in wbb.instruments:
-    ...     print(f"{instrument.name:15} {instrument.active_range}")
-    ...
-    lgr_ugga        After 2013-10-09 00:00:00
-    magee_ae33      After 2020-07-29 00:00:00
-    metone_es642    2017-03-07 00:00:00 to 2022-06-07 00:00:00
-    teledyne_t200   After 2017-01-19 00:00:00
-    teledyne_t300   After 2017-05-03 00:00:00
-    teledyne_t400   After 2016-08-29 00:00:00
-    teledyne_t500u  2020-07-29 00:00:00 to 2023-01-25 00:00:00
-    teom_1400ab     2016-09-22 00:00:00 to 2017-03-01 00:00:00
-
-That is why ``PM2.5`` is in WBB's list although WBB's two PM2.5 instruments
-(``metone_es642`` and ``teom_1400ab``) were removed years ago. The window says
-when an instrument was there, not when it recorded data. For that, ask for the
-availability.
-
-When a site has data
---------------------
+    >>> wbb = uataq.get_site("WBB")
 
 :meth:`Network.get_availability` tells you when sites have data for a pollutant.
 Give it a time range and it returns a table with one row for each stretch of
@@ -337,7 +287,7 @@ one table:
     dtype: int64
 
 The table is a ``geopandas.GeoDataFrame`` indexed by ``Time_UTC``. Besides the
-concentration columns (:doc:`pollutants`) each row has the ``SID`` and
+concentration columns (:ref:`column-names`) each row has the ``SID`` and
 ``instrument`` it came from, its position (``Latitude_deg``, ``Longitude_deg``
 and ``geometry``) and ``zagl`` (height above ground level, from the site's
 configuration). It reads every instrument that measures the pollutant at the
@@ -417,10 +367,10 @@ Instrument inactive
     uataq.errors.ReaderError: No data found for ['lgr_ugga'] at WBB (lgr_ugga not read: lgr_ugga@WBB is inactive in given time_range).
 
 The instrument was not installed at the site in that range. Its window is its
-``active_range`` (see `Which sites and pollutants`_). A range that only touches
-the window, such as one that ends the day the instrument was installed, counts
-as outside it. A range that overlaps the window only in part is cut down to it,
-with no error.
+``active_range`` (see :ref:`The same in code <sites-in-code>`, on the
+:doc:`sites_and_instruments` page). A range that only touches the window, such
+as one that ends the day the instrument was installed, counts as outside it. A
+range that overlaps the window only in part is cut down to it, with no error.
 
 Dates after a site was taken down give this error too: HDP after 7 February
 2025, and SUG's CO2 after 22 August 2025. That includes

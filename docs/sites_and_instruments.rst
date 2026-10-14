@@ -47,6 +47,8 @@ reads it and the pollutants it measures. The class pages are under
 
 .. instrument-catalog::
 
+.. _sites-in-code:
+
 The same in code
 ----------------
 
@@ -56,6 +58,7 @@ runs when the documentation is built, so its output is current:
 .. ipython:: python
 
     import uataq
+    from uataq import Network
 
     site = uataq.get_site("WBB")
     site.config["name"], site.config["zagl"]
@@ -66,6 +69,24 @@ runs when the documentation is built, so its output is current:
 
 ``uataq.laboratory.sites`` lists every site ID, and ``site.config`` holds the
 site's entry of the configuration.
+
+Pollutant names are upper case (``NOx`` is ``'NOX'`` here), but you can type
+them in any case when you read data. To go the other way and find the sites that
+measure a pollutant, make a :class:`Network` of ``"all"`` sites. A ``Network``
+is a list of sites and one pollutant; it is how the package asks a question
+across sites:
+
+.. ipython:: python
+
+    Network("all", "CH4")
+
+An instrument's window, its ``active_range``, says when it was installed, not
+when it recorded data. That is why ``PM2.5`` is in WBB's list although both of
+WBB's PM2.5 instruments, ``metone_es642`` and ``teom_1400ab``, have an end date:
+
+.. ipython:: python
+
+    print("\n".join(f"{i.name:15} {i.active_range}" for i in site.instruments))
 
 .. _glossary:
 
@@ -138,8 +159,7 @@ Glossary
         2023-11-18. The note in the configuration says: "Removed calibration
         tank and manually calibrated with lgr software periodically." It has
         ``"model": "lgr_ugga"``, so it is read like any ``lgr_ugga``, from a
-        folder of its own in the lin archive. Its ``_cal`` columns are empty
-        and its ``_raw`` columns hold the value the LGR software calibrated
-        (see :doc:`pollutants` and :doc:`columns`). The configuration also
-        lists TRX01's ``lgr_ugga`` with no removal date; to see which of the
-        two has data in a period, use :doc:`what_data_exists`.
+        folder of its own in the lin archive. For what its ``_cal`` and
+        ``_raw`` columns hold, see :ref:`when-cal-is-empty`. The
+        configuration also lists TRX01's ``lgr_ugga`` with no removal date; to
+        see which of the two has data in a period, use :doc:`what_data_exists`.
