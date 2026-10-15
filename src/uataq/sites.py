@@ -276,7 +276,7 @@ class Site:
 
         Raises
         ------
-        ReaderError
+        uataq.errors.ReaderError
             If no data is found for the specified instruments. The message
             says, for each, why it gave none: the files it looked for, and the
             first and last period it has files for.
@@ -667,7 +667,8 @@ class MobileSite(Site):
         ----------
         frames : Mapping[str, pandas.DataFrame]
             Data per instrument name, indexed by ``Time_UTC``, as read with
-            ``group`` and ``time_range`` (e.g. from :meth:`read_data`).
+            ``group`` and ``time_range`` (e.g. from
+            :meth:`~uataq.sites.Site.read_data`).
         group : str | Mapping[str, str] | None
             The group selection the frames were read with. It is used to
             replay each instrument's read plan, so it must be the same one.
@@ -688,7 +689,7 @@ class MobileSite(Site):
 
         Raises
         ------
-        ReaderError
+        uataq.errors.ReaderError
             If no GPS data could be read for any of the rows.
         ValueError
             If rows would be located with another group's GPS.
