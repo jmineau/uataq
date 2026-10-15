@@ -236,7 +236,7 @@ its row in the table below.
   `uataq.instruments.catalog` on every build, so a config or class change needs
   no docs edit. A site is "active" there when one of its instruments has no
   `removal_date`; the site-level `is_active` key is read by no code.
-- **The API reference is generated**, except `laboratory.rst` and `sites.rst`:
+- **The API reference is generated**:
   `docs/functions_and_modules.rst` lists the functions and modules, and each
   module, class, function and class member gets a page in `docs/api/`
   (gitignored; a `:toctree:` pointing outside `docs/` litters the repo root).
@@ -246,7 +246,8 @@ its row in the table below.
   in `__init__` is described in the class docstring's Attributes section
   instead. `docs/_templates/autosummary/` and `docs/_ext/api_pages.py` (from
   python-template) build the pages. In a docstring, write a `:doc:` path from
-  the docs root (`/columns`).
+  the docs root (`/columns`). A data attribute whose repr is long
+  (`uataq.laboratory`) ends its `#:` comment with `:meta hide-value:`.
 
 ## Common changes
 

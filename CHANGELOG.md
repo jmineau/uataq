@@ -70,8 +70,19 @@ follow [PEP 440](https://peps.python.org/pep-0440/): calendar-based,
   `#uataq.get_recent_obs`, `#uataq.get_network_obs` and `#uataq.Network`), to
   `api/uataq.read_data.html`, `api/uataq.get_obs.html` and so on. `TimeRange`
   (`api/uataq.timerange.html`) and the exceptions and warning
-  (`api/uataq.errors.html`), which had no page, are documented. The
-  "Laboratory" and "Sites" pages are as they were.
+  (`api/uataq.errors.html`), which had no page, are documented.
+- Docs: the "Laboratory" and "Sites" pages are generated like the rest of the
+  API reference, so `laboratory.html` and `sites.html` no longer exist.
+  `laboratory`, `get_site` and the `Laboratory` class have pages under `api/`
+  (`api/uataq.laboratory.html`, `api/uataq.get_site.html` and
+  `api/uataq.Laboratory.html`; the class is documented as `uataq.Laboratory`,
+  no longer as `uataq._laboratory.Laboratory`), and `Site` and `MobileSite` are
+  listed on the module page `api/uataq.sites.html`, each with its own page
+  (`api/uataq.sites.Site.html`). The anchors `laboratory.html#uataq.laboratory`,
+  `#uataq.get_site`, `#uataq._laboratory.Laboratory`,
+  `sites.html#uataq.sites.Site` and `#uataq.sites.MobileSite` moved to those
+  pages. `uataq.laboratory` hides its value, which would be the whole
+  configuration. `Site.pollutant_instruments` has a docstring.
 - `Instrument.model`, `SensorMixin.pollutants`, `Sodar.model` and
   `Sodar.species_measured` have docstrings, and the Attributes of
   `LinDatFile` and `LGR_UGGA_File` name the ones their `__init__` sets
