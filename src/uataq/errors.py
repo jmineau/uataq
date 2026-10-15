@@ -81,3 +81,15 @@ class EmptyResultWarning(UserWarning):
     for the range, and nothing in them falls inside it. Silence it with
     ``warnings.filterwarnings("ignore", category=uataq.errors.EmptyResultWarning)``.
     """
+
+
+class DroppedPollutantWarning(UserWarning):
+    """
+    Warned when a read of several pollutants leaves one out for want of data.
+
+    ``get_obs`` and ``get_recent_obs`` issue it when none of the instruments
+    that measure a pollutant you asked for gave data (no files for the range,
+    or not installed then), so the table has no column for it. The read did not
+    fail: the other pollutants are returned. Silence it with
+    ``warnings.filterwarnings("ignore", category=uataq.errors.DroppedPollutantWarning)``.
+    """

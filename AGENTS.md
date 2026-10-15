@@ -40,7 +40,8 @@ src/uataq/
   sodar.py           Horel/MesoWest SODAR profiles (Sodar, list_stations);
                      standalone, not in config.json, not imported by uataq
   timerange.py       TimeRange and the TimeRangeTypes alias
-  errors.py          ReaderError and its subclasses, ParserError, EmptyResultWarning, ...
+  errors.py          ReaderError and its subclasses, ParserError, EmptyResultWarning,
+                     DroppedPollutantWarning, ...
   filesystem/
     __init__.py      DEFAULT_GROUP, get_group; re-exports core
     core.py          DataFile, GroupSpace, groups, lvls, list_files,
@@ -128,8 +129,8 @@ the frames are standardized to uataq's column names and concatenated in time.
 - **Logging:** modules use `logging.getLogger(__name__)`; `__init__.py`
   attaches a `NullHandler`. No `print()` in library code. Logging is off
   until the user turns it on, so what a user must see anyway (a table with no
-  rows) is a `warnings.warn` of a category defined in `errors.py`
-  (`EmptyResultWarning`).
+  rows, a pollutant left out) is a `warnings.warn` of a category defined in
+  `errors.py` (`EmptyResultWarning`, `DroppedPollutantWarning`).
 
 ## Development workflow
 
