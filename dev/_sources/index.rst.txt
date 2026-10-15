@@ -68,8 +68,6 @@ work on CHPC, where the archive is. Start with :doc:`installation`, then
    :caption: API reference
 
    functions_and_modules
-   laboratory
-   sites
 
 .. toctree::
    :maxdepth: 1

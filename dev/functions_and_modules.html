@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Functions and modules &#8212; UATAQ 2026.10.1.dev40+g76841d336 documentation</title>
+    <title>Functions and modules &#8212; UATAQ 2026.10.1.dev43+ga06dc06d6 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="_static/documentation_options.js?v=52133aba"></script>
+    <script src="_static/documentation_options.js?v=1f6d9641"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -59,7 +59,7 @@
     <link rel="prev" title="Configuration" href="config.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.1.dev40+g76841d336" />
+  <meta name="docsearch:version" content="2026.10.1.dev43+ga06dc06d6" />
   
     
     <script src="_static/searchtools.js"></script>
@@ -127,7 +127,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.1.dev40+g76841d336 documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.1.dev43+ga06dc06d6 documentation</p>
   
 </a></div>
     
@@ -214,20 +214,6 @@
 <li class=" current active">
   <a class="nav-link dropdown-item nav-internal" href="#" aria-current="page">
     Functions and modules
-  </a>
-</li>
-
-
-<li class=" ">
-  <a class="nav-link dropdown-item nav-internal" href="laboratory.html">
-    Laboratory
-  </a>
-</li>
-
-
-<li class=" ">
-  <a class="nav-link dropdown-item nav-internal" href="sites.html">
-    Sites
   </a>
 </li>
 
@@ -427,20 +413,6 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="laboratory.html">
-    Laboratory
-  </a>
-</li>
-
-
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="sites.html">
-    Sites
-  </a>
-</li>
-
-
-<li class="nav-item ">
   <a class="nav-link nav-internal" href="contributing.html">
     Contributing
   </a>
@@ -591,34 +563,49 @@ inherits from the classes it extends.</p>
 </table>
 </div>
 </section>
-<section id="the-laboratory-and-its-sites">
-<h2>The laboratory and its sites<a class="headerlink" href="#the-laboratory-and-its-sites" title="Link to this heading">#</a></h2>
-<p><code class="docutils literal notranslate"><span class="pre">laboratory</span></code> and <code class="docutils literal notranslate"><span class="pre">get_site</span></code> are on <a class="reference internal" href="laboratory.html"><span class="doc">Laboratory</span></a>, and <code class="docutils literal notranslate"><span class="pre">Site</span></code> and
-<code class="docutils literal notranslate"><span class="pre">MobileSite</span></code> on <a class="reference internal" href="sites.html"><span class="doc">Sites</span></a>.</p>
+<section id="the-laboratory">
+<h2>The laboratory<a class="headerlink" href="#the-laboratory" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/uataq.laboratory.html#uataq.laboratory" title="uataq.laboratory"><code class="xref py py-obj docutils literal notranslate"><span class="pre">laboratory</span></code></a></p></td>
+<td><p>UATAQ Laboratory object.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/uataq.get_site.html#uataq.get_site" title="uataq.get_site"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_site</span></code></a></p></td>
+<td><p>Return site object from config file</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/uataq.Laboratory.html#uataq.Laboratory" title="uataq.Laboratory"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Laboratory</span></code></a></p></td>
+<td><p>Factory class for creating site objects from config file.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
 </section>
 <section id="modules">
 <h2>Modules<a class="headerlink" href="#modules" title="Link to this heading">#</a></h2>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/uataq.instruments.html#module-uataq.instruments" title="uataq.instruments"><code class="xref py py-obj docutils literal notranslate"><span class="pre">instruments</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/uataq.sites.html#module-uataq.sites" title="uataq.sites"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sites</span></code></a></p></td>
+<td><p>Classes and functions for working with UATAQ sites.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/uataq.instruments.html#module-uataq.instruments" title="uataq.instruments"><code class="xref py py-obj docutils literal notranslate"><span class="pre">instruments</span></code></a></p></td>
 <td><p>UATAQ instruments as classes.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/uataq.pollutants.html#module-uataq.pollutants" title="uataq.pollutants"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pollutants</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/uataq.pollutants.html#module-uataq.pollutants" title="uataq.pollutants"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pollutants</span></code></a></p></td>
 <td><p>How UATAQ names pollutant columns.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/uataq.filesystem.html#module-uataq.filesystem" title="uataq.filesystem"><code class="xref py py-obj docutils literal notranslate"><span class="pre">filesystem</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/uataq.filesystem.html#module-uataq.filesystem" title="uataq.filesystem"><code class="xref py py-obj docutils literal notranslate"><span class="pre">filesystem</span></code></a></p></td>
 <td><p>Access to the UATAQ filesystem through <code class="docutils literal notranslate"><span class="pre">DataFile</span></code> and <code class="docutils literal notranslate"><span class="pre">GroupSpace</span></code> objects.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/uataq.gps.html#module-uataq.gps" title="uataq.gps"><code class="xref py py-obj docutils literal notranslate"><span class="pre">gps</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/uataq.gps.html#module-uataq.gps" title="uataq.gps"><code class="xref py py-obj docutils literal notranslate"><span class="pre">gps</span></code></a></p></td>
 <td><p>GPS helpers: great-circle geometry and motion estimated from positions.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/uataq.sodar.html#module-uataq.sodar" title="uataq.sodar"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sodar</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/uataq.sodar.html#module-uataq.sodar" title="uataq.sodar"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sodar</span></code></a></p></td>
 <td><p>SODAR wind profiles from the Horel group MesoWest archive.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/uataq.timerange.html#module-uataq.timerange" title="uataq.timerange"><code class="xref py py-obj docutils literal notranslate"><span class="pre">timerange</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/uataq.timerange.html#module-uataq.timerange" title="uataq.timerange"><code class="xref py py-obj docutils literal notranslate"><span class="pre">timerange</span></code></a></p></td>
 <td><p>Time range handling.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/uataq.errors.html#module-uataq.errors" title="uataq.errors"><code class="xref py py-obj docutils literal notranslate"><span class="pre">errors</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/uataq.errors.html#module-uataq.errors" title="uataq.errors"><code class="xref py py-obj docutils literal notranslate"><span class="pre">errors</span></code></a></p></td>
 <td><p>Custom exceptions and warnings for UATAQ.</p></td>
 </tr>
 </tbody>
@@ -675,7 +662,7 @@ inherits from the classes it extends.</p>
   <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reading-data">Reading data</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-laboratory-and-its-sites">The laboratory and its sites</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-laboratory">The laboratory</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modules">Modules</a></li>
 </ul>
   </nav></div>

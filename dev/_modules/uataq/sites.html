@@ -6,7 +6,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>uataq.sites &#8212; UATAQ 2026.10.1.dev40+g76841d336 documentation</title>
+    <title>uataq.sites &#8212; UATAQ 2026.10.1.dev43+ga06dc06d6 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="../../_static/documentation_options.js?v=52133aba"></script>
+    <script src="../../_static/documentation_options.js?v=1f6d9641"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -56,7 +56,7 @@
     <link rel="search" title="Search" href="../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.1.dev40+g76841d336" />
+  <meta name="docsearch:version" content="2026.10.1.dev43+ga06dc06d6" />
   
     
     <script src="../../_static/searchtools.js"></script>
@@ -124,7 +124,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.1.dev40+g76841d336 documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.1.dev43+ga06dc06d6 documentation</p>
   
 </a></div>
     
@@ -211,20 +211,6 @@
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="../../functions_and_modules.html">
     Functions and modules
-  </a>
-</li>
-
-
-<li class=" ">
-  <a class="nav-link dropdown-item nav-internal" href="../../laboratory.html">
-    Laboratory
-  </a>
-</li>
-
-
-<li class=" ">
-  <a class="nav-link dropdown-item nav-internal" href="../../sites.html">
-    Sites
   </a>
 </li>
 
@@ -417,20 +403,6 @@
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../../functions_and_modules.html">
     Functions and modules
-  </a>
-</li>
-
-
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../laboratory.html">
-    Laboratory
-  </a>
-</li>
-
-
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../sites.html">
-    Sites
   </a>
 </li>
 
@@ -702,7 +674,7 @@
 
 
 <div class="viewcode-block" id="Site">
-<a class="viewcode-back" href="../../sites.html#uataq.sites.Site">[docs]</a>
+<a class="viewcode-back" href="../../api/uataq.sites.Site.html#uataq.sites.Site">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Site</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A class representing a site where atmospheric measurements are taken.</span>
@@ -721,6 +693,9 @@
 <span class="sd">        The loggers used by research groups that record data at a site.</span>
 <span class="sd">    pollutants : set of str</span>
 <span class="sd">        The pollutants measured at the site.</span>
+<span class="sd">    pollutant_instruments : dict[str, list[Instrument]]</span>
+<span class="sd">        The instruments that measure each pollutant, keyed by the pollutant&#39;s</span>
+<span class="sd">        upper-case name, as in ``pollutants``.</span>
 
 <span class="sd">    Methods</span>
 <span class="sd">    -------</span>
@@ -733,7 +708,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="Site.__init__">
-<a class="viewcode-back" href="../../sites.html#uataq.sites.Site.__init__">[docs]</a>
+<a class="viewcode-back" href="../../api/uataq.sites.Site.html#uataq.sites.Site.__init__">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">SID</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">instruments</span><span class="p">:</span> <span class="n">instruments</span><span class="o">.</span><span class="n">InstrumentEnsemble</span>
     <span class="p">):</span>
@@ -798,7 +773,7 @@
         <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">SID</span><span class="si">}</span><span class="s2">&quot;</span>
 
 <div class="viewcode-block" id="Site.read_data">
-<a class="viewcode-back" href="../../sites.html#uataq.sites.Site.read_data">[docs]</a>
+<a class="viewcode-back" href="../../api/uataq.sites.Site.read_data.html#uataq.sites.Site.read_data">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">read_data</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">instruments</span><span class="p">:</span> <span class="n">_all_or_mult_strs</span> <span class="o">=</span> <span class="s2">&quot;all&quot;</span><span class="p">,</span>
@@ -846,7 +821,7 @@
 
 <span class="sd">        Raises</span>
 <span class="sd">        ------</span>
-<span class="sd">        ReaderError</span>
+<span class="sd">        uataq.errors.ReaderError</span>
 <span class="sd">            If no data is found for the specified instruments. The message</span>
 <span class="sd">            says, for each, why it gave none: the files it looked for, and the</span>
 <span class="sd">            first and last period it has files for.</span>
@@ -898,7 +873,7 @@
 
 
 <div class="viewcode-block" id="Site.get_obs">
-<a class="viewcode-back" href="../../sites.html#uataq.sites.Site.get_obs">[docs]</a>
+<a class="viewcode-back" href="../../api/uataq.sites.Site.get_obs.html#uataq.sites.Site.get_obs">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_obs</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">pollutants</span><span class="p">:</span> <span class="n">_all_or_mult_strs</span> <span class="o">=</span> <span class="s2">&quot;all&quot;</span><span class="p">,</span>
@@ -1033,7 +1008,7 @@
         <span class="k">return</span> <span class="n">frames</span>
 
 <div class="viewcode-block" id="Site.get_recent_obs">
-<a class="viewcode-back" href="../../sites.html#uataq.sites.Site.get_recent_obs">[docs]</a>
+<a class="viewcode-back" href="../../api/uataq.sites.Site.get_recent_obs.html#uataq.sites.Site.get_recent_obs">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_recent_obs</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">recent</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">dt</span><span class="o">.</span><span class="n">timedelta</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">10</span><span class="p">),</span>
@@ -1075,7 +1050,7 @@
 
 
 <div class="viewcode-block" id="MobileSite">
-<a class="viewcode-back" href="../../sites.html#uataq.sites.MobileSite">[docs]</a>
+<a class="viewcode-back" href="../../api/uataq.sites.MobileSite.html#uataq.sites.MobileSite">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">MobileSite</span><span class="p">(</span><span class="n">Site</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A class representing a mobile site where atmospheric measurements are taken.</span>
@@ -1102,7 +1077,7 @@
     <span class="n">_pilot_sites</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;trx01&quot;</span><span class="p">,</span> <span class="s2">&quot;trx02&quot;</span><span class="p">]</span>
 
 <div class="viewcode-block" id="MobileSite.merge_gps">
-<a class="viewcode-back" href="../../sites.html#uataq.sites.MobileSite.merge_gps">[docs]</a>
+<a class="viewcode-back" href="../../api/uataq.sites.MobileSite.merge_gps.html#uataq.sites.MobileSite.merge_gps">[docs]</a>
     <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">merge_gps</span><span class="p">(</span>
         <span class="n">obs</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span>
@@ -1174,7 +1149,7 @@
 
 
 <div class="viewcode-block" id="MobileSite.get_obs">
-<a class="viewcode-back" href="../../sites.html#uataq.sites.MobileSite.get_obs">[docs]</a>
+<a class="viewcode-back" href="../../api/uataq.sites.MobileSite.get_obs.html#uataq.sites.MobileSite.get_obs">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_obs</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">pollutants</span><span class="p">:</span> <span class="n">_all_or_mult_strs</span> <span class="o">=</span> <span class="s2">&quot;all&quot;</span><span class="p">,</span>
@@ -1239,7 +1214,7 @@
 
 
 <div class="viewcode-block" id="MobileSite.locate">
-<a class="viewcode-back" href="../../sites.html#uataq.sites.MobileSite.locate">[docs]</a>
+<a class="viewcode-back" href="../../api/uataq.sites.MobileSite.locate.html#uataq.sites.MobileSite.locate">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">locate</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">frames</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">],</span>
@@ -1255,7 +1230,8 @@
 <span class="sd">        ----------</span>
 <span class="sd">        frames : Mapping[str, pandas.DataFrame]</span>
 <span class="sd">            Data per instrument name, indexed by ``Time_UTC``, as read with</span>
-<span class="sd">            ``group`` and ``time_range`` (e.g. from :meth:`read_data`).</span>
+<span class="sd">            ``group`` and ``time_range`` (e.g. from</span>
+<span class="sd">            :meth:`~uataq.sites.Site.read_data`).</span>
 <span class="sd">        group : str | Mapping[str, str] | None</span>
 <span class="sd">            The group selection the frames were read with. It is used to</span>
 <span class="sd">            replay each instrument&#39;s read plan, so it must be the same one.</span>
@@ -1276,7 +1252,7 @@
 
 <span class="sd">        Raises</span>
 <span class="sd">        ------</span>
-<span class="sd">        ReaderError</span>
+<span class="sd">        uataq.errors.ReaderError</span>
 <span class="sd">            If no GPS data could be read for any of the rows.</span>
 <span class="sd">        ValueError</span>
 <span class="sd">            If rows would be located with another group&#39;s GPS.</span>
@@ -1401,7 +1377,7 @@
         <span class="k">return</span> <span class="n">gpd</span><span class="o">.</span><span class="n">GeoDataFrame</span><span class="p">(</span><span class="n">merged</span><span class="p">)</span>
 
 <div class="viewcode-block" id="MobileSite.plot">
-<a class="viewcode-back" href="../../sites.html#uataq.sites.MobileSite.plot">[docs]</a>
+<a class="viewcode-back" href="../../api/uataq.sites.MobileSite.plot.html#uataq.sites.MobileSite.plot">[docs]</a>
     <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">plot</span><span class="p">(</span><span class="n">obs</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>

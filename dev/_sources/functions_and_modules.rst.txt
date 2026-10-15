@@ -22,11 +22,16 @@ What each argument means is written once, on :doc:`input_parameters`.
    get_network_obs
    Network
 
-The laboratory and its sites
-----------------------------
+The laboratory
+--------------
 
-``laboratory`` and ``get_site`` are on :doc:`laboratory`, and ``Site`` and
-``MobileSite`` on :doc:`sites`.
+.. autosummary::
+   :toctree: api
+   :nosignatures:
+
+   laboratory
+   get_site
+   Laboratory
 
 Modules
 -------
@@ -35,6 +40,7 @@ Modules
    :toctree: api
    :recursive:
 
+   sites
    instruments
    pollutants
    filesystem

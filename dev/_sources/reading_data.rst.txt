@@ -49,7 +49,8 @@ There are two primary methods for reading data from a site:
 1. `Reading Instrument Data`_ - Data for each instrument at a site is read individually and stored in a dictionary with the instrument name as the key.
 2. `Getting Observations`_ - Finalized observations from all instruments at a site are aggregated into a single dataframe.
 
-    :meth:`Site.read_data` and :meth:`Site.get_obs` have been wrapped in
+    :meth:`Site.read_data <uataq.sites.Site.read_data>` and
+    :meth:`Site.get_obs <uataq.sites.Site.get_obs>` have been wrapped in
     :meth:`uataq.read_data` and :meth:`uataq.get_obs` respectively for convenience
     with an added `SID` parameter.
 

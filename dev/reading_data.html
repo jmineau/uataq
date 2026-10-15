@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Reading data &#8212; UATAQ 2026.10.1.dev40+g76841d336 documentation</title>
+    <title>Reading data &#8212; UATAQ 2026.10.1.dev43+ga06dc06d6 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="_static/documentation_options.js?v=52133aba"></script>
+    <script src="_static/documentation_options.js?v=1f6d9641"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -59,7 +59,7 @@
     <link rel="prev" title="What data exists" href="what_data_exists.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.1.dev40+g76841d336" />
+  <meta name="docsearch:version" content="2026.10.1.dev43+ga06dc06d6" />
   
     
     <script src="_static/searchtools.js"></script>
@@ -127,7 +127,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.1.dev40+g76841d336 documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.1.dev43+ga06dc06d6 documentation</p>
   
 </a></div>
     
@@ -214,20 +214,6 @@
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="functions_and_modules.html">
     Functions and modules
-  </a>
-</li>
-
-
-<li class=" ">
-  <a class="nav-link dropdown-item nav-internal" href="laboratory.html">
-    Laboratory
-  </a>
-</li>
-
-
-<li class=" ">
-  <a class="nav-link dropdown-item nav-internal" href="sites.html">
-    Sites
   </a>
 </li>
 
@@ -427,20 +413,6 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="laboratory.html">
-    Laboratory
-  </a>
-</li>
-
-
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="sites.html">
-    Sites
-  </a>
-</li>
-
-
-<li class="nav-item ">
   <a class="nav-link nav-internal" href="contributing.html">
     Contributing
   </a>
@@ -577,12 +549,12 @@ instrument’s data on its own, all of a site’s observations in one table, one
 pollutant from several sites, and the mobile sites.</p>
 <section id="research-sites">
 <h2>Research Sites<a class="headerlink" href="#research-sites" title="Link to this heading">#</a></h2>
-<p>The <a class="reference internal" href="sites.html#uataq.sites.Site" title="uataq.sites.Site"><code class="xref py py-class docutils literal notranslate"><span class="pre">Site</span></code></a> object is the primary interface for accessing data from a UATAQ site.
+<p>The <a class="reference internal" href="api/uataq.sites.Site.html#uataq.sites.Site" title="uataq.sites.Site"><code class="xref py py-class docutils literal notranslate"><span class="pre">Site</span></code></a> object is the primary interface for accessing data from a UATAQ site.
 Each site has a unique site identifier (SID) that corresponds to a key in the configuration file.
-The <a class="reference internal" href="laboratory.html#uataq.laboratory" title="uataq.laboratory"><code class="xref py py-data docutils literal notranslate"><span class="pre">laboratory</span></code></a> is responsible for constructing <a class="reference internal" href="sites.html#uataq.sites.Site" title="uataq.sites.Site"><code class="xref py py-class docutils literal notranslate"><span class="pre">Site</span></code></a> objects from the configuration file,
+The <a class="reference internal" href="api/uataq.laboratory.html#uataq.laboratory" title="uataq.laboratory"><code class="xref py py-data docutils literal notranslate"><span class="pre">laboratory</span></code></a> is responsible for constructing <a class="reference internal" href="api/uataq.sites.Site.html#uataq.sites.Site" title="uataq.sites.Site"><code class="xref py py-class docutils literal notranslate"><span class="pre">Site</span></code></a> objects from the configuration file,
 including building the <a class="reference internal" href="api/uataq.instruments.InstrumentEnsemble.html#uataq.instruments.InstrumentEnsemble" title="uataq.instruments.InstrumentEnsemble"><code class="xref py py-class docutils literal notranslate"><span class="pre">InstrumentEnsemble</span></code></a> for each site.
 The <a class="reference internal" href="api/uataq.instruments.InstrumentEnsemble.html#uataq.instruments.InstrumentEnsemble" title="uataq.instruments.InstrumentEnsemble"><code class="xref py py-class docutils literal notranslate"><span class="pre">InstrumentEnsemble</span></code></a> is a container object that hold different
-<a class="reference internal" href="api/uataq.instruments.Instrument.html#uataq.instruments.Instrument" title="uataq.instruments.Instrument"><code class="xref py py-class docutils literal notranslate"><span class="pre">Instrument</span></code></a> objects which provide the linkage between a <a class="reference internal" href="sites.html#uataq.sites.Site" title="uataq.sites.Site"><code class="xref py py-class docutils literal notranslate"><span class="pre">Site</span></code></a> and the data files.</p>
+<a class="reference internal" href="api/uataq.instruments.Instrument.html#uataq.instruments.Instrument" title="uataq.instruments.Instrument"><code class="xref py py-class docutils literal notranslate"><span class="pre">Instrument</span></code></a> objects which provide the linkage between a <a class="reference internal" href="api/uataq.sites.Site.html#uataq.sites.Site" title="uataq.sites.Site"><code class="xref py py-class docutils literal notranslate"><span class="pre">Site</span></code></a> and the data files.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">uataq</span>
 
 <span class="n">lab</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">laboratory</span>
@@ -590,8 +562,8 @@ The <a class="reference internal" href="api/uataq.instruments.InstrumentEnsemble
 <span class="n">wbb</span> <span class="o">=</span> <span class="n">lab</span><span class="o">.</span><span class="n">get_site</span><span class="p">(</span><span class="s1">&#39;wbb&#39;</span><span class="p">)</span>  <span class="c1"># site object</span>
 </pre></div>
 </div>
-<p>For convenience, <code class="docutils literal notranslate"><span class="pre">lab.get_site</span></code> is also available as <a class="reference internal" href="laboratory.html#uataq.get_site" title="uataq.get_site"><code class="xref py py-func docutils literal notranslate"><span class="pre">uataq.get_site()</span></code></a>.</p>
-<p>The <a class="reference internal" href="sites.html#uataq.sites.Site" title="uataq.sites.Site"><code class="xref py py-class docutils literal notranslate"><span class="pre">Site</span></code></a> object contains the following information as attributes:</p>
+<p>For convenience, <code class="docutils literal notranslate"><span class="pre">lab.get_site</span></code> is also available as <a class="reference internal" href="api/uataq.get_site.html#uataq.get_site" title="uataq.get_site"><code class="xref py py-func docutils literal notranslate"><span class="pre">uataq.get_site()</span></code></a>.</p>
+<p>The <a class="reference internal" href="api/uataq.sites.Site.html#uataq.sites.Site" title="uataq.sites.Site"><code class="xref py py-class docutils literal notranslate"><span class="pre">Site</span></code></a> object contains the following information as attributes:</p>
 <blockquote>
 <div><ul class="simple">
 <li><p>SID : The site identifier.</p></li>
@@ -607,7 +579,8 @@ The <a class="reference internal" href="api/uataq.instruments.InstrumentEnsemble
 <li><p><a class="reference internal" href="#reading-instrument-data">Reading Instrument Data</a> - Data for each instrument at a site is read individually and stored in a dictionary with the instrument name as the key.</p></li>
 <li><p><a class="reference internal" href="#getting-observations">Getting Observations</a> - Finalized observations from all instruments at a site are aggregated into a single dataframe.</p>
 <blockquote>
-<div><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">Site.read_data()</span></code> and <code class="xref py py-meth docutils literal notranslate"><span class="pre">Site.get_obs()</span></code> have been wrapped in
+<div><p><a class="reference internal" href="api/uataq.sites.Site.read_data.html#uataq.sites.Site.read_data" title="uataq.sites.Site.read_data"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Site.read_data</span></code></a> and
+<a class="reference internal" href="api/uataq.sites.Site.get_obs.html#uataq.sites.Site.get_obs" title="uataq.sites.Site.get_obs"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Site.get_obs</span></code></a> have been wrapped in
 <a class="reference internal" href="api/uataq.read_data.html#uataq.read_data" title="uataq.read_data"><code class="xref py py-meth docutils literal notranslate"><span class="pre">uataq.read_data()</span></code></a> and <a class="reference internal" href="api/uataq.get_obs.html#uataq.get_obs" title="uataq.get_obs"><code class="xref py py-meth docutils literal notranslate"><span class="pre">uataq.get_obs()</span></code></a> respectively for convenience
 with an added <cite>SID</cite> parameter.</p>
 </div></blockquote>
@@ -616,7 +589,7 @@ with an added <cite>SID</cite> parameter.</p>
 </section>
 <section id="reading-instrument-data">
 <h2>Reading Instrument Data<a class="headerlink" href="#reading-instrument-data" title="Link to this heading">#</a></h2>
-<p>Using a <a class="reference internal" href="sites.html#uataq.sites.Site" title="uataq.sites.Site"><code class="xref py py-class docutils literal notranslate"><span class="pre">Site</span></code></a> object we can read the data from each instrument
+<p>Using a <a class="reference internal" href="api/uataq.sites.Site.html#uataq.sites.Site" title="uataq.sites.Site"><code class="xref py py-class docutils literal notranslate"><span class="pre">Site</span></code></a> object we can read the data from each instrument
 at the site for a specified time range:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">wbb</span><span class="o">.</span><span class="n">read_data</span><span class="p">(</span><span class="n">instruments</span><span class="o">=</span><span class="s1">&#39;all&#39;</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="s1">&#39;2024-02&#39;</span><span class="p">)</span>
 </pre></div>
@@ -662,15 +635,15 @@ and a <code class="docutils literal notranslate"><span class="pre">value</span><
 <section id="mobile-sites-observations">
 <h3>Mobile Sites &amp; Observations<a class="headerlink" href="#mobile-sites-observations" title="Link to this heading">#</a></h3>
 <p>Included as part of UATAQ is the TRAX/eBus project, which collects data from mobile sites.
-The <a class="reference internal" href="sites.html#uataq.sites.MobileSite" title="uataq.sites.MobileSite"><code class="xref py py-class docutils literal notranslate"><span class="pre">MobileSite</span></code></a> object is a subclass of the <a class="reference internal" href="sites.html#uataq.sites.Site" title="uataq.sites.Site"><code class="xref py py-class docutils literal notranslate"><span class="pre">Site</span></code></a> object.
-The <a class="reference internal" href="laboratory.html#uataq.laboratory" title="uataq.laboratory"><code class="xref py py-obj docutils literal notranslate"><span class="pre">laboratory</span></code></a> determines whether to build a <a class="reference internal" href="sites.html#uataq.sites.Site" title="uataq.sites.Site"><code class="xref py py-class docutils literal notranslate"><span class="pre">Site</span></code></a> or
-<a class="reference internal" href="sites.html#uataq.sites.MobileSite" title="uataq.sites.MobileSite"><code class="xref py py-class docutils literal notranslate"><span class="pre">MobileSite</span></code></a> object based on the <code class="docutils literal notranslate"><span class="pre">is_mobile</span></code> attribute in the configuration file.</p>
+The <a class="reference internal" href="api/uataq.sites.MobileSite.html#uataq.sites.MobileSite" title="uataq.sites.MobileSite"><code class="xref py py-class docutils literal notranslate"><span class="pre">MobileSite</span></code></a> object is a subclass of the <a class="reference internal" href="api/uataq.sites.Site.html#uataq.sites.Site" title="uataq.sites.Site"><code class="xref py py-class docutils literal notranslate"><span class="pre">Site</span></code></a> object.
+The <a class="reference internal" href="api/uataq.laboratory.html#uataq.laboratory" title="uataq.laboratory"><code class="xref py py-obj docutils literal notranslate"><span class="pre">laboratory</span></code></a> determines whether to build a <a class="reference internal" href="api/uataq.sites.Site.html#uataq.sites.Site" title="uataq.sites.Site"><code class="xref py py-class docutils literal notranslate"><span class="pre">Site</span></code></a> or
+<a class="reference internal" href="api/uataq.sites.MobileSite.html#uataq.sites.MobileSite" title="uataq.sites.MobileSite"><code class="xref py py-class docutils literal notranslate"><span class="pre">MobileSite</span></code></a> object based on the <code class="docutils literal notranslate"><span class="pre">is_mobile</span></code> attribute in the configuration file.</p>
 <p>Mobile sites provide the same functionality as fixed sites, but merge location
-data with observations when using the <a class="reference internal" href="sites.html#uataq.sites.MobileSite.get_obs" title="uataq.sites.MobileSite.get_obs"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_obs()</span></code></a> method
+data with observations when using the <a class="reference internal" href="api/uataq.sites.MobileSite.get_obs.html#uataq.sites.MobileSite.get_obs" title="uataq.sites.MobileSite.get_obs"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_obs()</span></code></a> method
 and return a geodataframe.</p>
 <p>Each instrument’s rows are located with the GPS of the research group they were
 read from, since that GPS was stamped by the same logger clock (see
-<a class="reference internal" href="sites.html#uataq.sites.MobileSite.locate" title="uataq.sites.MobileSite.locate"><code class="xref py py-meth docutils literal notranslate"><span class="pre">locate()</span></code></a>). With no <code class="docutils literal notranslate"><span class="pre">group</span></code> given, a TRAX read can take
+<a class="reference internal" href="api/uataq.sites.MobileSite.locate.html#uataq.sites.MobileSite.locate" title="uataq.sites.MobileSite.locate"><code class="xref py py-meth docutils literal notranslate"><span class="pre">locate()</span></code></a>). With no <code class="docutils literal notranslate"><span class="pre">group</span></code> given, a TRAX read can take
 methane from lin and ozone from horel, each joined to its own group’s GPS. The
 <code class="docutils literal notranslate"><span class="pre">GPS_Group</span></code> column says which GPS located each row. It also says which clock
 the row’s <code class="docutils literal notranslate"><span class="pre">Time_UTC</span></code> is on: lin rows are on GPS time, horel rows on the horel

@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Contributing &#8212; UATAQ 2026.10.1.dev40+g76841d336 documentation</title>
+    <title>Contributing &#8212; UATAQ 2026.10.1.dev43+ga06dc06d6 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="_static/documentation_options.js?v=52133aba"></script>
+    <script src="_static/documentation_options.js?v=1f6d9641"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -55,10 +55,10 @@
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="Sites" href="sites.html" />
+    <link rel="prev" title="uataq.errors.ReaderError" href="api/uataq.errors.ReaderError.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.1.dev40+g76841d336" />
+  <meta name="docsearch:version" content="2026.10.1.dev43+ga06dc06d6" />
   
     
     <script src="_static/searchtools.js"></script>
@@ -126,7 +126,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.1.dev40+g76841d336 documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.1.dev43+ga06dc06d6 documentation</p>
   
 </a></div>
     
@@ -213,20 +213,6 @@
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="functions_and_modules.html">
     Functions and modules
-  </a>
-</li>
-
-
-<li class=" ">
-  <a class="nav-link dropdown-item nav-internal" href="laboratory.html">
-    Laboratory
-  </a>
-</li>
-
-
-<li class=" ">
-  <a class="nav-link dropdown-item nav-internal" href="sites.html">
-    Sites
   </a>
 </li>
 
@@ -425,20 +411,6 @@
 </li>
 
 
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="laboratory.html">
-    Laboratory
-  </a>
-</li>
-
-
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="sites.html">
-    Sites
-  </a>
-</li>
-
-
 <li class="nav-item current active">
   <a class="nav-link nav-internal" href="#" aria-current="page">
     Contributing
@@ -586,7 +558,7 @@ stays on the logger clock, so it still lines up with the logger’s other
 columns. horel’s qaqc and final files have no <code class="docutils literal notranslate"><span class="pre">GTIM</span></code>: their ozone and
 particulate rows stay on logger time, and nothing in them can correct it.</p></li>
 </ul>
-<p><a class="reference internal" href="sites.html#uataq.sites.MobileSite.locate" title="uataq.sites.MobileSite.locate"><code class="xref py py-meth docutils literal notranslate"><span class="pre">locate()</span></code></a> therefore joins each group’s rows to that
+<p><a class="reference internal" href="api/uataq.sites.MobileSite.locate.html#uataq.sites.MobileSite.locate" title="uataq.sites.MobileSite.locate"><code class="xref py py-meth docutils literal notranslate"><span class="pre">locate()</span></code></a> therefore joins each group’s rows to that
 group’s own GPS on its own clock: lin’s on <code class="docutils literal notranslate"><span class="pre">Pi_Time</span></code>, horel’s on <code class="docutils literal notranslate"><span class="pre">Time_UTC</span></code>
 (there the instrument and GPS values are one record). Joining horel’s rows to lin’s
 GPS on the Pi clock would place them that many seconds along the track, and drop
@@ -688,12 +660,12 @@ file. Only <code class="docutils literal notranslate"><span class="pre">lvl=&quo
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="sites.html"
+       href="api/uataq.errors.ReaderError.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Sites</p>
+        <p class="prev-next-title">uataq.errors.ReaderError</p>
       </div>
     </a>
 </div>
