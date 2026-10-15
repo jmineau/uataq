@@ -261,12 +261,3 @@ The last row is the newest data the archive holds at that level. This run was at
 02:15 UTC on 12 October, and the newest WBB CO2 row was from 00:42 UTC the same
 day, so the data were about an hour and a half behind. A site that has stopped
 reporting has nothing recent and raises an error (HDP, under :doc:`errors`).
-
-Reference
----------
-
-.. autofunction:: get_recent_obs
-
-.. autofunction:: get_network_obs
-
-.. autoclass:: Network
