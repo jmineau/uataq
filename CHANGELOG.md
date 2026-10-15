@@ -125,6 +125,19 @@ follow [PEP 440](https://peps.python.org/pep-0440/): calendar-based,
   `uataq.errors.EmptyResultWarning` (a `UserWarning`), so it shows without
   turning the log on. A table with rows from any instrument or site does not
   warn, and `read_data` is unchanged (#63).
+- A read of several pollutants now warns when it leaves one out. `get_obs(["CO2",
+  "O3"], time_range="2021-08")` at WBB, which has no final CO2 file that month,
+  returned only the O3 column and said nothing. It still returns that table,
+  and now warns
+  `No final data found for CO2 at WBB (2021-08-01 00:00:00 to 2021-09-01
+  00:00:00): lgr_ugga gave none, so the table leaves out CO2.` The warning names
+  every pollutant left out and the instruments that gave none, whether they had
+  no files for the range or were not installed then. It is a Python warning,
+  `uataq.errors.DroppedPollutantWarning` (a `UserWarning`, apart from
+  `EmptyResultWarning` so each can be silenced alone). `get_recent_obs` and
+  `MobileSite.get_obs` warn the same way. A pollutant that another instrument
+  still measured is not left out, `get_obs()` with no pollutants named does not
+  warn, and a read where no pollutant has data still raises the error (#63).
 
 ### Fixed
 
