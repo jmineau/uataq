@@ -50,6 +50,29 @@ follow [PEP 440](https://peps.python.org/pep-0440/): calendar-based,
   the default level instead of `qaqc`, and the page's opening on the
   `laboratory` object is now the docstring of `uataq.laboratory`, shown on the
   "Laboratory" page.
+- Docs: the API reference is generated, with a page for each module, class,
+  function and class member, as in the docs of the other packages
+  (`docs/api.rst`). `gps.html`, `instruments.html`, `pollutants.html`,
+  `sodar.html` and `filesystem.html` no longer exist: the module pages are
+  `api/uataq.gps.html`, `api/uataq.instruments.html`,
+  `api/uataq.pollutants.html`, `api/uataq.sodar.html` and
+  `api/uataq.filesystem.html`, and each class and function is under `api/`
+  (`api/uataq.instruments.GPS.html`). What the GPS, Pollutants and File System
+  pages said by hand is the docstring of the module, shown at the top of its
+  page. The File System page's `DataFile`, `GroupSpace` and functions are now
+  under `uataq.filesystem.core`, and the group spaces' pages under
+  `api/uataq.filesystem.groupspaces.horel.html` and `.lin.html` have one page
+  for each class. `read_data` and `get_obs` moved from "Input Parameters"
+  (`input_parameters.html#uataq.read_data` and `#uataq.get_obs`), and
+  `get_recent_obs`, `get_network_obs` and `Network` from the closing
+  "Reference" section of "What data exists" (`what_data_exists.html#reference`,
+  `#uataq.get_recent_obs`, `#uataq.get_network_obs` and `#uataq.Network`), to
+  `api/uataq.read_data.html`, `api/uataq.get_obs.html` and so on. The
+  "Laboratory" and "Sites" pages are as they were.
+- `Instrument.model`, `SensorMixin.pollutants`, `Sodar.model` and
+  `Sodar.species_measured` have docstrings, and the Attributes of
+  `LinDatFile` and `LGR_UGGA_File` name the ones their `__init__` sets
+  (`instrument` and `lvl`; `meta`).
 - Configuration: HDP, HEB and SUG were taken down, so they are marked
   `is_active: false` and their instruments now have removal dates (HDP
   `lgr_ugga` 2025-02-08, HEB `licor_6262` 2025-05-30, SUG `licor_7000`

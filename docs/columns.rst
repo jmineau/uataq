@@ -62,7 +62,7 @@ Concentration columns follow ``{pollutant}[d|channel]_{units}[_cal|_raw]``:
    obs[concentration_columns("CO2", obs.columns)]  # CO2d_ppm_cal, not diagnostics
    parse_column("CH4d_ppm_raw")  # pollutant='CH4', units='ppm', dry=True, calibration='raw'
 
-The two functions are documented on the :doc:`pollutants` page.
+The two functions are documented on the :mod:`uataq.pollutants` page.
 
 ``_cal`` vs ``_raw``: in lin final data ``_cal`` is the calibrated value and
 ``_raw`` the uncalibrated one, except for TRX01's ``lgr_ugga_manual_cal``. That
@@ -468,6 +468,6 @@ the ``2b_205``.
 Next
 ----
 
-- :doc:`pollutants`: the functions that pick the concentration columns out of a
+- :mod:`uataq.pollutants`: the functions that pick the concentration columns out of a
   table and parse their names.
 - :doc:`first_month`: what each data level is for, and times in local time.

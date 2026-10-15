@@ -88,9 +88,7 @@ the frames are standardized to uataq's column names and concatenated in time.
   It is a config lookup: it never checks the archive and ignores
   `group_dates`. Anything that wraps `Site.read_data` must pass `group=None`
   through, never replace it with `get_group(None)`, which would send
-  horel-only instruments to lin. `docs/filesystem.rst` quotes the line by its
-  text (`literalinclude` with `:start-at:`), so keep the spelling
-  `DEFAULT_GROUP: str`.
+  horel-only instruments to lin.
 - **Reads are planned by time.** `Instrument.plan_reads(group, time_range)`
   returns `[(group, portion), ...]`: one portion for a named group; with none,
   the clipped range is cut at each `group_dates` edge and each piece goes to
@@ -211,7 +209,7 @@ its row in the table below.
 | Arguments: site, instruments, group, level, time range (every form), processes | Input Parameters (`input_parameters`) |
 | Config keys | Configuration (`config`) |
 | Developer notes | Contributing (`contributing`) |
-| Function and class details | the docstrings, on the API pages |
+| Function and class details, what a module is for | the docstrings, on the generated API pages (`api`) |
 
 - **The build fails on any warning** (`-W`). It loads intersphinx inventories,
   so it needs network access. In a docstring, write types that exist
@@ -228,7 +226,8 @@ its row in the table below.
   instruments page), synthetic data, or a public download, and seeds any random
   numbers. Examples that need the archive (the reading-data, what-data-exists,
   errors, first-month, columns and input-parameters pages) are plain
-  `code-block` or `pycon` blocks holding the output of a run on CHPC. When the
+  `code-block` or `pycon` blocks holding the output of a run on CHPC (in a
+  docstring, `>>>` lines without `.. plot::` are not run: `uataq.gps`). When the
   API they show changes, rerun them there and update the page, and its figure
   in `docs/_static/` if it has one.
 - **The site and instrument tables are generated.** The `site-catalog` and
@@ -237,9 +236,16 @@ its row in the table below.
   `uataq.instruments.catalog` on every build, so a config or class change needs
   no docs edit. A site is "active" there when one of its instruments has no
   `removal_date`; the site-level `is_active` key is read by no code.
-- Autosummary stubs go to `docs/api/` (gitignored); a `:toctree:` pointing
-  outside `docs/` litters the repo root. `docs/_ext/api_pages.py` (from
-  python-template) keeps class members from being described twice.
+- **The API reference is generated**, except `laboratory.rst` and `sites.rst`:
+  `docs/api.rst` lists the functions and modules, and each module, class,
+  function and class member gets a page in `docs/api/` (gitignored; a
+  `:toctree:` pointing outside `docs/` litters the repo root). A module's
+  docstring is its page's text. A class member gets its own page when it has a
+  docstring (a `#:` comment on a class-level attribute); one set in `__init__`
+  is described in the class docstring's Attributes section instead.
+  `docs/_templates/autosummary/` and `docs/_ext/api_pages.py` (from
+  python-template) build the pages. In a docstring, write a `:doc:` path from
+  the docs root (`/columns`).
 
 ## Common changes
 
@@ -253,7 +259,7 @@ group's column names to uataq's, applied by its `standardize_data`), modeled on
 `lin.py` and `horel.py`, and register it at the bottom of that module:
 `filesystem.groups["<name>"] = <Name>Group()`. Nothing else needs to import
 it: `groupspaces/__init__.py` star-imports every non-underscore module in the
-folder. Add the module to the `autosummary` list in `docs/filesystem.rst`.
+folder. Its API page appears by itself (`docs/api.rst` lists `filesystem` recursively).
 
 ## Gotchas
 
