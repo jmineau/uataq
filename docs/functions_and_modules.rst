@@ -40,3 +40,5 @@ Modules
    filesystem
    gps
    sodar
+   timerange
+   errors

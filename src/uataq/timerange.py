@@ -14,9 +14,20 @@ import numpy as np
 import pandas as pd
 
 # Type Aliases for TimeRange inputs
+
+#: One end of a time range. It is a string, a ``datetime``, a
+#: ``numpy.datetime64``, or None for no bound.
 TimeObject: TypeAlias = str | dt.datetime | np.datetime64 | None
+
+#: A ``(start, stop)`` tuple of two time objects.
 TimeRangeTuple: TypeAlias = tuple[TimeObject, TimeObject]
+
+#: A ``[start, stop]`` list of two time objects.
 TimeRangeList: TypeAlias = list[TimeObject]
+
+#: Every form of the ``time_range`` argument. It is a string, a tuple or list
+#: of two time objects, a slice, or None for everything. See
+#: :ref:`input-time-range`.
 TimeRangeTypes = str | TimeRangeTuple | TimeRangeList | slice | None
 
 # Each component needs the one before it, so "2024-1-5" fails instead of
