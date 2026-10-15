@@ -209,7 +209,7 @@ its row in the table below.
 | Arguments: site, instruments, group, level, time range (every form), processes | Input Parameters (`input_parameters`) |
 | Config keys | Configuration (`config`) |
 | Developer notes | Contributing (`contributing`) |
-| Function and class details, what a module is for | the docstrings, on the generated API pages (`api`) |
+| Function and class details, what a module is for | the docstrings, on the generated API pages (`functions_and_modules`) |
 
 - **The build fails on any warning** (`-W`). It loads intersphinx inventories,
   so it needs network access. In a docstring, write types that exist
@@ -237,14 +237,14 @@ its row in the table below.
   no docs edit. A site is "active" there when one of its instruments has no
   `removal_date`; the site-level `is_active` key is read by no code.
 - **The API reference is generated**, except `laboratory.rst` and `sites.rst`:
-  `docs/api.rst` lists the functions and modules, and each module, class,
-  function and class member gets a page in `docs/api/` (gitignored; a
-  `:toctree:` pointing outside `docs/` litters the repo root). A module's
-  docstring is its page's text. A class member gets its own page when it has a
-  docstring (a `#:` comment on a class-level attribute, whose first line holds
-  no colon: napoleon reads it as `type: description`); one set in `__init__` is
-  described in the class docstring's Attributes section instead.
-  `docs/_templates/autosummary/` and `docs/_ext/api_pages.py` (from
+  `docs/functions_and_modules.rst` lists the functions and modules, and each
+  module, class, function and class member gets a page in `docs/api/`
+  (gitignored; a `:toctree:` pointing outside `docs/` litters the repo root).
+  A module's docstring is its page's text. A class member gets its own page
+  when it has a docstring (a `#:` comment on a class-level attribute, whose
+  first line holds no colon: napoleon reads it as `type: description`); one set
+  in `__init__` is described in the class docstring's Attributes section
+  instead. `docs/_templates/autosummary/` and `docs/_ext/api_pages.py` (from
   python-template) build the pages. In a docstring, write a `:doc:` path from
   the docs root (`/columns`).
 
@@ -260,7 +260,7 @@ group's column names to uataq's, applied by its `standardize_data`), modeled on
 `lin.py` and `horel.py`, and register it at the bottom of that module:
 `filesystem.groups["<name>"] = <Name>Group()`. Nothing else needs to import
 it: `groupspaces/__init__.py` star-imports every non-underscore module in the
-folder. Its API page appears by itself (`docs/api.rst` lists `filesystem` recursively).
+folder. Its API page appears by itself ("Functions and modules" lists `filesystem` recursively).
 
 ## Gotchas
 
