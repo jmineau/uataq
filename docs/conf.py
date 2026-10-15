@@ -65,9 +65,10 @@ html_theme_options = {
     "show_version_warning_banner": True,  # point old versions at stable
 }
 
-# No left sidebar on the pages in docs/ itself: the front page and api.rst list
-# their pages in the page, and a new page needs no line here. "*" does not
-# match "/", so the generated pages under docs/api/ keep theirs.
+# No left sidebar on the pages in docs/ itself: the front page and the
+# "Functions and modules" page list their pages in the page, and a new page
+# needs no line here. "*" does not match "/", so the generated pages under
+# docs/api/ keep theirs.
 html_sidebars = {"*": []}
 
 # -- Extension configuration -------------------------------------------------

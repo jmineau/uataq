@@ -51,9 +51,10 @@ follow [PEP 440](https://peps.python.org/pep-0440/): calendar-based,
   `laboratory` object is now the docstring of `uataq.laboratory`, shown on the
   "Laboratory" page.
 - Docs: the API reference is generated, with a page for each module, class,
-  function and class member, as in the docs of the other packages
-  (`docs/api.rst`). `gps.html`, `instruments.html`, `pollutants.html`,
-  `sodar.html` and `filesystem.html` no longer exist: the module pages are
+  function and class member, as in the docs of the other packages (the page
+  "Functions and modules", `functions_and_modules.html`, lists them).
+  `gps.html`, `instruments.html`, `pollutants.html`, `sodar.html` and
+  `filesystem.html` no longer exist: the module pages are
   `api/uataq.gps.html`, `api/uataq.instruments.html`,
   `api/uataq.pollutants.html`, `api/uataq.sodar.html` and
   `api/uataq.filesystem.html`, and each class and function is under `api/`

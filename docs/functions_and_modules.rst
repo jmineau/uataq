@@ -1,5 +1,5 @@
-API reference
-=============
+Functions and modules
+=====================
 
 Each class and function has a page of its own. A class page lists its
 attributes and methods, each with a page of its own, and links to what it
