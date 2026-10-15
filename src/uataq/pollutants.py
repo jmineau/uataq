@@ -4,7 +4,9 @@ How UATAQ names pollutant columns.
 UATAQ concentration columns follow ``{pollutant}[d|channel]_{units}[_cal|_raw]``:
 ``O3_ppb``, ``CO2d_ppm_cal`` (dry mole fraction, calibrated), ``CH4d_ppm_raw``
 (uncalibrated), ``PM2.5_ugm3``, ``BC6_ngm3`` (aethalometer channel 6). This
-module picks those columns out of a DataFrame and parses their names.
+module picks those columns out of a DataFrame and parses their names. What the
+column names mean, with examples, is under :ref:`column-names` on the
+:doc:`columns </columns>` page.
 
 Display metadata (long names, LaTeX labels, expected ranges) is
 instrument-independent and lives in ``lair.pollutants``; uataq does not import
