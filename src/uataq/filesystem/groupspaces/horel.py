@@ -562,7 +562,7 @@ class HorelGroup(filesystem.GroupSpace):
         List horel files for the instrument.
 
         Maps UATAQ instrument names onto the horel directory names. See
-        :meth:`GroupSpace.get_files`.
+        :meth:`~uataq.filesystem.core.GroupSpace.get_files`.
         """
         # Map UATAQ instrument names to Horel instrument names to find the correct directories
         instrument_mapper = {
@@ -689,7 +689,7 @@ class HorelGroup(filesystem.GroupSpace):
         Rename horel columns to UATAQ names and apply per-instrument fixes.
 
         The fixes: GPS flags, Fahrenheit temperatures. See
-        :meth:`GroupSpace.standardize_data`.
+        :meth:`~uataq.filesystem.core.GroupSpace.standardize_data`.
         """
         mapping = column_mapping[instrument]
 

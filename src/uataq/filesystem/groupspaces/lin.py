@@ -351,6 +351,10 @@ class LinDatFile(filesystem.DataFile):
         The file frequency.
     ext : str
         The file extension.
+    instrument : str
+        The instrument name, read from the file path.
+    lvl : str
+        The data level, read from the file path.
 
     Methods
     -------
@@ -458,6 +462,8 @@ class LGR_UGGA_File(filesystem.DataFile):
         The analyzer's serial number (``SN`` in the header).
     version : str
         The analyzer's software version (``VC`` in the header).
+    meta : dict[str, str]
+        The header's values by key: ``VC``, ``BD`` and ``SN``.
     file_freq : str
         The file frequency.
     ext : str
@@ -835,7 +841,7 @@ class LinGroup(filesystem.GroupSpace):
         """
         List lin files for the instrument and level.
 
-        See :meth:`GroupSpace.get_files`. Raw ``lgr_ugga`` files need their own
+        See :meth:`~uataq.filesystem.core.GroupSpace.get_files`. Raw ``lgr_ugga`` files need their own
         handling because they sit in subdirectories alongside other files.
         """
         # Raw lgr_ugga files are stored subdirectories with other files
@@ -866,7 +872,7 @@ class LinGroup(filesystem.GroupSpace):
         """
         Return the lin data files overlapping the time range.
 
-        See :meth:`GroupSpace.get_datafiles`. Raw files need extra handling:
+        See :meth:`~uataq.filesystem.core.GroupSpace.get_datafiles`. Raw files need extra handling:
         ``lgr_ugga`` file names do not line up with their contents, so the
         range is widened by a day on each side, and GPS defaults to the
         ``gpgga`` sentence files.
@@ -900,7 +906,7 @@ class LinGroup(filesystem.GroupSpace):
         Rename lin columns to UATAQ names and apply per-instrument fixes.
 
         The fixes: GPS degree-minute coordinates, status flags, unit
-        conversions. See :meth:`GroupSpace.standardize_data`.
+        conversions. See :meth:`~uataq.filesystem.core.GroupSpace.standardize_data`.
         """
         mapping = column_mapping.get(instrument, {})
 
