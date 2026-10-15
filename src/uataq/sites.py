@@ -153,6 +153,9 @@ class Site:
         The loggers used by research groups that record data at a site.
     pollutants : set of str
         The pollutants measured at the site.
+    pollutant_instruments : dict[str, list[Instrument]]
+        The instruments that measure each pollutant, keyed by the pollutant's
+        upper-case name, as in ``pollutants``.
 
     Methods
     -------
