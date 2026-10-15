@@ -42,7 +42,7 @@ Instruments
 
 One row per :term:`instrument name` in the configuration, with the class that
 reads it and the pollutants it measures. The class pages are under
-:doc:`instruments`, and what the columns of each level hold is on the
+:mod:`uataq.instruments`, and what the columns of each level hold is on the
 :doc:`columns` page.
 
 .. instrument-catalog::

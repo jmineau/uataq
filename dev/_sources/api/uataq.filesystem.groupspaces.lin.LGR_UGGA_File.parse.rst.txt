@@ -1,0 +1,6 @@
+uataq.filesystem.groupspaces.lin.LGR\_UGGA\_File.parse
+======================================================
+
+.. currentmodule:: uataq.filesystem.groupspaces.lin
+
+.. automethod:: LGR_UGGA_File.parse

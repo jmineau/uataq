@@ -1,0 +1,6 @@
+uataq.filesystem.core.GroupSpace.get\_highest\_lvl
+==================================================
+
+.. currentmodule:: uataq.filesystem.core
+
+.. automethod:: GroupSpace.get_highest_lvl

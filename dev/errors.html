@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>When there is nothing to read &#8212; UATAQ 2026.10.1.dev33+gd0fcfd869 documentation</title>
+    <title>When there is nothing to read &#8212; UATAQ 2026.10.1.dev38+g1c934f94f documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="_static/documentation_options.js?v=2f492537"></script>
+    <script src="_static/documentation_options.js?v=669483d3"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -59,7 +59,7 @@
     <link rel="prev" title="Reading data" href="reading_data.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.1.dev33+gd0fcfd869" />
+  <meta name="docsearch:version" content="2026.10.1.dev38+g1c934f94f" />
   
     
     <script src="_static/searchtools.js"></script>
@@ -127,7 +127,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.1.dev33+gd0fcfd869 documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.1.dev38+g1c934f94f documentation</p>
   
 </a></div>
     
@@ -212,6 +212,13 @@
 
 
 <li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="api.html">
+    API reference
+  </a>
+</li>
+
+
+<li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="laboratory.html">
     Laboratory
   </a>
@@ -221,41 +228,6 @@
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="sites.html">
     Sites
-  </a>
-</li>
-
-
-<li class=" ">
-  <a class="nav-link dropdown-item nav-internal" href="instruments.html">
-    Instruments
-  </a>
-</li>
-
-
-<li class=" ">
-  <a class="nav-link dropdown-item nav-internal" href="pollutants.html">
-    Pollutants
-  </a>
-</li>
-
-
-<li class=" ">
-  <a class="nav-link dropdown-item nav-internal" href="filesystem.html">
-    File System
-  </a>
-</li>
-
-
-<li class=" ">
-  <a class="nav-link dropdown-item nav-internal" href="gps.html">
-    GPS
-  </a>
-</li>
-
-
-<li class=" ">
-  <a class="nav-link dropdown-item nav-internal" href="sodar.html">
-    SODAR
   </a>
 </li>
 
@@ -448,6 +420,13 @@
 
 
 <li class="nav-item ">
+  <a class="nav-link nav-internal" href="api.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
   <a class="nav-link nav-internal" href="laboratory.html">
     Laboratory
   </a>
@@ -457,41 +436,6 @@
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="sites.html">
     Sites
-  </a>
-</li>
-
-
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="instruments.html">
-    Instruments
-  </a>
-</li>
-
-
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="pollutants.html">
-    Pollutants
-  </a>
-</li>
-
-
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="filesystem.html">
-    File System
-  </a>
-</li>
-
-
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="gps.html">
-    GPS
-  </a>
-</li>
-
-
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="sodar.html">
-    SODAR
   </a>
 </li>
 
@@ -674,7 +618,7 @@ When the message lists several instruments, <code class="docutils literal notran
 was looked for and not found, and <code class="docutils literal notranslate"><span class="pre">name</span> <span class="pre">not</span> <span class="pre">read:</span> <span class="pre">...</span></code> means it was skipped,
 with the reason.</p>
 <p>A file can hold no rows, so the periods are not the days with data. To see those,
-use <a class="reference internal" href="what_data_exists.html#uataq.Network.get_availability" title="uataq.Network.get_availability"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Network.get_availability()</span></code></a>, and add <code class="docutils literal notranslate"><span class="pre">&quot;qaqc&quot;</span></code> to <code class="docutils literal notranslate"><span class="pre">lvls</span></code> to see
+use <a class="reference internal" href="api/uataq.Network.get_availability.html#uataq.Network.get_availability" title="uataq.Network.get_availability"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Network.get_availability()</span></code></a>, and add <code class="docutils literal notranslate"><span class="pre">&quot;qaqc&quot;</span></code> to <code class="docutils literal notranslate"><span class="pre">lvls</span></code> to see
 whether the instrument measured at all.</p>
 </section>
 <section id="instrument-inactive">
@@ -783,7 +727,7 @@ have (<code class="docutils literal notranslate"><span class="pre">InstrumentNot
 </pre></div>
 </div>
 <p>The archive has no folder for that level for that instrument: not every
-instrument has every level. Run <a class="reference internal" href="what_data_exists.html#uataq.Network.get_availability" title="uataq.Network.get_availability"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Network.get_availability()</span></code></a> with the levels
+instrument has every level. Run <a class="reference internal" href="api/uataq.Network.get_availability.html#uataq.Network.get_availability" title="uataq.Network.get_availability"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Network.get_availability()</span></code></a> with the levels
 you are curious about, or leave <code class="docutils literal notranslate"><span class="pre">lvl</span></code> out, which reads the highest level the
 instrument has. A level that is not one of <code class="docutils literal notranslate"><span class="pre">raw</span></code>, <code class="docutils literal notranslate"><span class="pre">qaqc</span></code>, <code class="docutils literal notranslate"><span class="pre">calibrated</span></code> or
 <code class="docutils literal notranslate"><span class="pre">final</span></code> raises <code class="docutils literal notranslate"><span class="pre">AssertionError:</span> <span class="pre">Invalid</span> <span class="pre">data</span> <span class="pre">level</span></code> and lists the four.</p>

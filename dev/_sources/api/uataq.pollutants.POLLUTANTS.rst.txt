@@ -1,0 +1,6 @@
+uataq.pollutants.POLLUTANTS
+===========================
+
+.. currentmodule:: uataq.pollutants
+
+.. autodata:: POLLUTANTS

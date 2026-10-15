@@ -67,13 +67,9 @@ work on CHPC, where the archive is. Start with :doc:`installation`, then
    :maxdepth: 1
    :caption: API reference
 
+   api
    laboratory
    sites
-   instruments
-   pollutants
-   filesystem
-   gps
-   sodar
 
 .. toctree::
    :maxdepth: 1

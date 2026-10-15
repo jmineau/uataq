@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Columns and flags &#8212; UATAQ 2026.10.1.dev33+gd0fcfd869 documentation</title>
+    <title>Columns and flags &#8212; UATAQ 2026.10.1.dev38+g1c934f94f documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="_static/documentation_options.js?v=2f492537"></script>
+    <script src="_static/documentation_options.js?v=669483d3"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -59,7 +59,7 @@
     <link rel="prev" title="Sites and instruments" href="sites_and_instruments.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.1.dev33+gd0fcfd869" />
+  <meta name="docsearch:version" content="2026.10.1.dev38+g1c934f94f" />
   
     
     <script src="_static/searchtools.js"></script>
@@ -127,7 +127,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.1.dev33+gd0fcfd869 documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.1.dev38+g1c934f94f documentation</p>
   
 </a></div>
     
@@ -212,6 +212,13 @@
 
 
 <li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="api.html">
+    API reference
+  </a>
+</li>
+
+
+<li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="laboratory.html">
     Laboratory
   </a>
@@ -221,41 +228,6 @@
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="sites.html">
     Sites
-  </a>
-</li>
-
-
-<li class=" ">
-  <a class="nav-link dropdown-item nav-internal" href="instruments.html">
-    Instruments
-  </a>
-</li>
-
-
-<li class=" ">
-  <a class="nav-link dropdown-item nav-internal" href="pollutants.html">
-    Pollutants
-  </a>
-</li>
-
-
-<li class=" ">
-  <a class="nav-link dropdown-item nav-internal" href="filesystem.html">
-    File System
-  </a>
-</li>
-
-
-<li class=" ">
-  <a class="nav-link dropdown-item nav-internal" href="gps.html">
-    GPS
-  </a>
-</li>
-
-
-<li class=" ">
-  <a class="nav-link dropdown-item nav-internal" href="sodar.html">
-    SODAR
   </a>
 </li>
 
@@ -448,6 +420,13 @@
 
 
 <li class="nav-item ">
+  <a class="nav-link nav-internal" href="api.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
   <a class="nav-link nav-internal" href="laboratory.html">
     Laboratory
   </a>
@@ -457,41 +436,6 @@
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="sites.html">
     Sites
-  </a>
-</li>
-
-
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="instruments.html">
-    Instruments
-  </a>
-</li>
-
-
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="pollutants.html">
-    Pollutants
-  </a>
-</li>
-
-
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="filesystem.html">
-    File System
-  </a>
-</li>
-
-
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="gps.html">
-    GPS
-  </a>
-</li>
-
-
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="sodar.html">
-    SODAR
   </a>
 </li>
 
@@ -652,9 +596,9 @@ on. <a class="reference internal" href="#id1">Column names</a> explains the patt
 that a quantity has the same name across instruments and groups. For example,
 the <code class="docutils literal notranslate"><span class="pre">lgr_ugga</span></code>’s cavity pressure is <code class="docutils literal notranslate"><span class="pre">Cavity_P_torr</span></code> in the pipeline’s
 files and <code class="docutils literal notranslate"><span class="pre">Internal_P_torr</span></code> in uataq. The renaming is in
-<a class="reference internal" href="api/uataq.filesystem.groupspaces.lin.html#uataq.filesystem.groupspaces.lin.column_mapping" title="uataq.filesystem.groupspaces.lin.column_mapping"><code class="xref py py-data docutils literal notranslate"><span class="pre">lin.column_mapping</span></code></a>
+<a class="reference internal" href="api/uataq.filesystem.groupspaces.lin.column_mapping.html#uataq.filesystem.groupspaces.lin.column_mapping" title="uataq.filesystem.groupspaces.lin.column_mapping"><code class="xref py py-data docutils literal notranslate"><span class="pre">lin.column_mapping</span></code></a>
 and
-<a class="reference internal" href="api/uataq.filesystem.groupspaces.horel.html#uataq.filesystem.groupspaces.horel.column_mapping" title="uataq.filesystem.groupspaces.horel.column_mapping"><code class="xref py py-data docutils literal notranslate"><span class="pre">horel.column_mapping</span></code></a>.
+<a class="reference internal" href="api/uataq.filesystem.groupspaces.horel.column_mapping.html#uataq.filesystem.groupspaces.horel.column_mapping" title="uataq.filesystem.groupspaces.horel.column_mapping"><code class="xref py py-data docutils literal notranslate"><span class="pre">horel.column_mapping</span></code></a>.
 Keep this in mind when you read the pipeline’s own documentation, which uses
 the names in its files.</p></li>
 </ul>
@@ -672,7 +616,7 @@ the names in its files.</p></li>
 <span class="n">parse_column</span><span class="p">(</span><span class="s2">&quot;CH4d_ppm_raw&quot;</span><span class="p">)</span>  <span class="c1"># pollutant=&#39;CH4&#39;, units=&#39;ppm&#39;, dry=True, calibration=&#39;raw&#39;</span>
 </pre></div>
 </div>
-<p>The two functions are documented on the <a class="reference internal" href="pollutants.html"><span class="doc">Pollutants</span></a> page.</p>
+<p>The two functions are documented on the <a class="reference internal" href="api/uataq.pollutants.html#module-uataq.pollutants" title="uataq.pollutants"><code class="xref py py-mod docutils literal notranslate"><span class="pre">uataq.pollutants</span></code></a> page.</p>
 <p><code class="docutils literal notranslate"><span class="pre">_cal</span></code> vs <code class="docutils literal notranslate"><span class="pre">_raw</span></code>: in lin final data <code class="docutils literal notranslate"><span class="pre">_cal</span></code> is the calibrated value and
 <code class="docutils literal notranslate"><span class="pre">_raw</span></code> the uncalibrated one, except for TRX01’s <code class="docutils literal notranslate"><span class="pre">lgr_ugga_manual_cal</span></code>. That
 exception, and the rows where <code class="docutils literal notranslate"><span class="pre">_cal</span></code> is empty, are explained under
@@ -764,7 +708,7 @@ tanks. Can be empty; see <a class="reference internal" href="#id2">When _cal is 
 <span class="go">[&#39;CO2d_ppm_cal&#39;, &#39;CO2d_ppm_raw&#39;, &#39;H2O_ppm&#39;]</span>
 </pre></div>
 </div>
-<p><a class="reference internal" href="input_parameters.html#uataq.get_obs" title="uataq.get_obs"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_obs()</span></code></a> returns the concentration columns of this level, so
+<p><a class="reference internal" href="api/uataq.get_obs.html#uataq.get_obs" title="uataq.get_obs"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_obs()</span></code></a> returns the concentration columns of this level, so
 <code class="docutils literal notranslate"><span class="pre">get_obs(&quot;WBB&quot;,</span> <span class="pre">&quot;CO2&quot;)</span></code> gives <code class="docutils literal notranslate"><span class="pre">CO2d_ppm_cal</span></code> and <code class="docutils literal notranslate"><span class="pre">CO2d_ppm_raw</span></code>.</p>
 </section>
 <section id="calibrated">
@@ -1090,7 +1034,7 @@ the <code class="docutils literal notranslate"><span class="pre">2b_205</span></
 <section id="next">
 <h2>Next<a class="headerlink" href="#next" title="Link to this heading">#</a></h2>
 <ul class="simple">
-<li><p><a class="reference internal" href="pollutants.html"><span class="doc">Pollutants</span></a>: the functions that pick the concentration columns out of a
+<li><p><a class="reference internal" href="api/uataq.pollutants.html#module-uataq.pollutants" title="uataq.pollutants"><code class="xref py py-mod docutils literal notranslate"><span class="pre">uataq.pollutants</span></code></a>: the functions that pick the concentration columns out of a
 table and parse their names.</p></li>
 <li><p><a class="reference internal" href="first_month.html"><span class="doc">Your first month of data</span></a>: what each data level is for, and times in local time.</p></li>
 </ul>

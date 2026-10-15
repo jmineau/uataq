@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Reading data &#8212; UATAQ 2026.10.1.dev33+gd0fcfd869 documentation</title>
+    <title>Reading data &#8212; UATAQ 2026.10.1.dev38+g1c934f94f documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="_static/documentation_options.js?v=2f492537"></script>
+    <script src="_static/documentation_options.js?v=669483d3"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -59,7 +59,7 @@
     <link rel="prev" title="What data exists" href="what_data_exists.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.1.dev33+gd0fcfd869" />
+  <meta name="docsearch:version" content="2026.10.1.dev38+g1c934f94f" />
   
     
     <script src="_static/searchtools.js"></script>
@@ -127,7 +127,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.1.dev33+gd0fcfd869 documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.1.dev38+g1c934f94f documentation</p>
   
 </a></div>
     
@@ -212,6 +212,13 @@
 
 
 <li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="api.html">
+    API reference
+  </a>
+</li>
+
+
+<li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="laboratory.html">
     Laboratory
   </a>
@@ -221,41 +228,6 @@
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="sites.html">
     Sites
-  </a>
-</li>
-
-
-<li class=" ">
-  <a class="nav-link dropdown-item nav-internal" href="instruments.html">
-    Instruments
-  </a>
-</li>
-
-
-<li class=" ">
-  <a class="nav-link dropdown-item nav-internal" href="pollutants.html">
-    Pollutants
-  </a>
-</li>
-
-
-<li class=" ">
-  <a class="nav-link dropdown-item nav-internal" href="filesystem.html">
-    File System
-  </a>
-</li>
-
-
-<li class=" ">
-  <a class="nav-link dropdown-item nav-internal" href="gps.html">
-    GPS
-  </a>
-</li>
-
-
-<li class=" ">
-  <a class="nav-link dropdown-item nav-internal" href="sodar.html">
-    SODAR
   </a>
 </li>
 
@@ -448,6 +420,13 @@
 
 
 <li class="nav-item ">
+  <a class="nav-link nav-internal" href="api.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
   <a class="nav-link nav-internal" href="laboratory.html">
     Laboratory
   </a>
@@ -457,41 +436,6 @@
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="sites.html">
     Sites
-  </a>
-</li>
-
-
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="instruments.html">
-    Instruments
-  </a>
-</li>
-
-
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="pollutants.html">
-    Pollutants
-  </a>
-</li>
-
-
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="filesystem.html">
-    File System
-  </a>
-</li>
-
-
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="gps.html">
-    GPS
-  </a>
-</li>
-
-
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="sodar.html">
-    SODAR
   </a>
 </li>
 
@@ -636,9 +580,9 @@ pollutant from several sites, and the mobile sites.</p>
 <p>The <a class="reference internal" href="sites.html#uataq.sites.Site" title="uataq.sites.Site"><code class="xref py py-class docutils literal notranslate"><span class="pre">Site</span></code></a> object is the primary interface for accessing data from a UATAQ site.
 Each site has a unique site identifier (SID) that corresponds to a key in the configuration file.
 The <a class="reference internal" href="laboratory.html#uataq.laboratory" title="uataq.laboratory"><code class="xref py py-data docutils literal notranslate"><span class="pre">laboratory</span></code></a> is responsible for constructing <a class="reference internal" href="sites.html#uataq.sites.Site" title="uataq.sites.Site"><code class="xref py py-class docutils literal notranslate"><span class="pre">Site</span></code></a> objects from the configuration file,
-including building the <a class="reference internal" href="instruments.html#uataq.instruments.InstrumentEnsemble" title="uataq.instruments.InstrumentEnsemble"><code class="xref py py-class docutils literal notranslate"><span class="pre">InstrumentEnsemble</span></code></a> for each site.
-The <a class="reference internal" href="instruments.html#uataq.instruments.InstrumentEnsemble" title="uataq.instruments.InstrumentEnsemble"><code class="xref py py-class docutils literal notranslate"><span class="pre">InstrumentEnsemble</span></code></a> is a container object that hold different
-<a class="reference internal" href="instruments.html#uataq.instruments.Instrument" title="uataq.instruments.Instrument"><code class="xref py py-class docutils literal notranslate"><span class="pre">Instrument</span></code></a> objects which provide the linkage between a <a class="reference internal" href="sites.html#uataq.sites.Site" title="uataq.sites.Site"><code class="xref py py-class docutils literal notranslate"><span class="pre">Site</span></code></a> and the data files.</p>
+including building the <a class="reference internal" href="api/uataq.instruments.InstrumentEnsemble.html#uataq.instruments.InstrumentEnsemble" title="uataq.instruments.InstrumentEnsemble"><code class="xref py py-class docutils literal notranslate"><span class="pre">InstrumentEnsemble</span></code></a> for each site.
+The <a class="reference internal" href="api/uataq.instruments.InstrumentEnsemble.html#uataq.instruments.InstrumentEnsemble" title="uataq.instruments.InstrumentEnsemble"><code class="xref py py-class docutils literal notranslate"><span class="pre">InstrumentEnsemble</span></code></a> is a container object that hold different
+<a class="reference internal" href="api/uataq.instruments.Instrument.html#uataq.instruments.Instrument" title="uataq.instruments.Instrument"><code class="xref py py-class docutils literal notranslate"><span class="pre">Instrument</span></code></a> objects which provide the linkage between a <a class="reference internal" href="sites.html#uataq.sites.Site" title="uataq.sites.Site"><code class="xref py py-class docutils literal notranslate"><span class="pre">Site</span></code></a> and the data files.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">uataq</span>
 
 <span class="n">lab</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">laboratory</span>
@@ -664,7 +608,7 @@ The <a class="reference internal" href="instruments.html#uataq.instruments.Instr
 <li><p><a class="reference internal" href="#getting-observations">Getting Observations</a> - Finalized observations from all instruments at a site are aggregated into a single dataframe.</p>
 <blockquote>
 <div><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">Site.read_data()</span></code> and <code class="xref py py-meth docutils literal notranslate"><span class="pre">Site.get_obs()</span></code> have been wrapped in
-<a class="reference internal" href="input_parameters.html#uataq.read_data" title="uataq.read_data"><code class="xref py py-meth docutils literal notranslate"><span class="pre">uataq.read_data()</span></code></a> and <a class="reference internal" href="input_parameters.html#uataq.get_obs" title="uataq.get_obs"><code class="xref py py-meth docutils literal notranslate"><span class="pre">uataq.get_obs()</span></code></a> respectively for convenience
+<a class="reference internal" href="api/uataq.read_data.html#uataq.read_data" title="uataq.read_data"><code class="xref py py-meth docutils literal notranslate"><span class="pre">uataq.read_data()</span></code></a> and <a class="reference internal" href="api/uataq.get_obs.html#uataq.get_obs" title="uataq.get_obs"><code class="xref py py-meth docutils literal notranslate"><span class="pre">uataq.get_obs()</span></code></a> respectively for convenience
 with an added <cite>SID</cite> parameter.</p>
 </div></blockquote>
 </li>
@@ -748,7 +692,7 @@ speed and course, and <code class="docutils literal notranslate"><span class="pr
 </section>
 <section id="several-sites-at-once">
 <span id="several-sites"></span><h2>Several sites at once<a class="headerlink" href="#several-sites-at-once" title="Link to this heading">#</a></h2>
-<p><a class="reference internal" href="what_data_exists.html#uataq.get_network_obs" title="uataq.get_network_obs"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_network_obs()</span></code></a> reads one pollutant from several sites and stacks them in
+<p><a class="reference internal" href="api/uataq.get_network_obs.html#uataq.get_network_obs" title="uataq.get_network_obs"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_network_obs()</span></code></a> reads one pollutant from several sites and stacks them in
 one table:</p>
 <div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">obs</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">get_network_obs</span><span class="p">(</span>
 <span class="gp">... </span>    <span class="p">[</span><span class="s2">&quot;WBB&quot;</span><span class="p">,</span> <span class="s2">&quot;SUG&quot;</span><span class="p">,</span> <span class="s2">&quot;RPK&quot;</span><span class="p">],</span> <span class="s2">&quot;CO2&quot;</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;2025-06-01&quot;</span><span class="p">,</span> <span class="s2">&quot;2025-06-08&quot;</span><span class="p">]</span>
@@ -774,7 +718,7 @@ and <code class="docutils literal notranslate"><span class="pre">geometry</span>
 configuration). It reads every instrument that measures the pollutant at the
 highest level the archive has for it, which is the final level for the
 instruments in these examples, and it takes only one pollutant per call.
-<a class="reference internal" href="what_data_exists.html#uataq.Network.get_obs" title="uataq.Network.get_obs"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Network.get_obs()</span></code></a> does the same from a <code class="docutils literal notranslate"><span class="pre">Network</span></code> you already made.</p>
+<a class="reference internal" href="api/uataq.Network.get_obs.html#uataq.Network.get_obs" title="uataq.Network.get_obs"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Network.get_obs()</span></code></a> does the same from a <code class="docutils literal notranslate"><span class="pre">Network</span></code> you already made.</p>
 <p>A site with nothing in the range is left out without an error. HDP stopped in
 February 2025, so asking for June 2025 returns the other two sites:</p>
 <div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">obs</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">get_network_obs</span><span class="p">([</span><span class="s2">&quot;WBB&quot;</span><span class="p">,</span> <span class="s2">&quot;HDP&quot;</span><span class="p">,</span> <span class="s2">&quot;CSP&quot;</span><span class="p">],</span> <span class="s2">&quot;CO2&quot;</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="s2">&quot;2025-06&quot;</span><span class="p">)</span>
@@ -782,7 +726,7 @@ February 2025, so asking for June 2025 returns the other two sites:</p>
 <span class="go">[&#39;CSP&#39;, &#39;WBB&#39;]</span>
 </pre></div>
 </div>
-<p>Look at the sites you got back, or ask <a class="reference internal" href="what_data_exists.html#uataq.Network.get_availability" title="uataq.Network.get_availability"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Network.get_availability()</span></code></a> first.</p>
+<p>Look at the sites you got back, or ask <a class="reference internal" href="api/uataq.Network.get_availability.html#uataq.Network.get_availability" title="uataq.Network.get_availability"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Network.get_availability()</span></code></a> first.</p>
 </section>
 </section>
 

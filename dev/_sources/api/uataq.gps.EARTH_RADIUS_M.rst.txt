@@ -1,0 +1,6 @@
+uataq.gps.EARTH\_RADIUS\_M
+==========================
+
+.. currentmodule:: uataq.gps
+
+.. autodata:: EARTH_RADIUS_M

@@ -1,0 +1,37 @@
+uataq.filesystem.core
+=====================
+
+.. automodule:: uataq.filesystem.core
+   :no-members:
+
+
+
+
+.. rubric:: Functions
+
+.. autosummary::
+   :toctree:
+   :nosignatures:
+
+   cpu_count
+   filter_datafiles
+   list_files
+   parse_datafiles
+
+
+
+.. rubric:: Classes
+
+.. autosummary::
+   :toctree:
+   :nosignatures:
+
+   DataFile
+   GroupSpace
+
+
+
+
+
+
+

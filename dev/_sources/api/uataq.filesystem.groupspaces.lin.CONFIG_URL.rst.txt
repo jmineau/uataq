@@ -1,0 +1,6 @@
+uataq.filesystem.groupspaces.lin.CONFIG\_URL
+============================================
+
+.. currentmodule:: uataq.filesystem.groupspaces.lin
+
+.. autodata:: CONFIG_URL

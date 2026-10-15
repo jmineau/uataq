@@ -1,0 +1,6 @@
+uataq.instruments.catalog
+=========================
+
+.. currentmodule:: uataq.instruments
+
+.. autodata:: catalog

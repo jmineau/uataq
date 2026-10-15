@@ -6,7 +6,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>uataq.network &#8212; UATAQ 2026.10.1.dev33+gd0fcfd869 documentation</title>
+    <title>uataq.network &#8212; UATAQ 2026.10.1.dev38+g1c934f94f documentation</title>
   
   
   
@@ -38,7 +38,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="../../_static/documentation_options.js?v=2f492537"></script>
+    <script src="../../_static/documentation_options.js?v=669483d3"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -56,7 +56,7 @@
     <link rel="search" title="Search" href="../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.1.dev33+gd0fcfd869" />
+  <meta name="docsearch:version" content="2026.10.1.dev38+g1c934f94f" />
   
     
     <script src="../../_static/searchtools.js"></script>
@@ -124,7 +124,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.1.dev33+gd0fcfd869 documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.1.dev38+g1c934f94f documentation</p>
   
 </a></div>
     
@@ -209,6 +209,13 @@
 
 
 <li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../api.html">
+    API reference
+  </a>
+</li>
+
+
+<li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="../../laboratory.html">
     Laboratory
   </a>
@@ -218,41 +225,6 @@
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="../../sites.html">
     Sites
-  </a>
-</li>
-
-
-<li class=" ">
-  <a class="nav-link dropdown-item nav-internal" href="../../instruments.html">
-    Instruments
-  </a>
-</li>
-
-
-<li class=" ">
-  <a class="nav-link dropdown-item nav-internal" href="../../pollutants.html">
-    Pollutants
-  </a>
-</li>
-
-
-<li class=" ">
-  <a class="nav-link dropdown-item nav-internal" href="../../filesystem.html">
-    File System
-  </a>
-</li>
-
-
-<li class=" ">
-  <a class="nav-link dropdown-item nav-internal" href="../../gps.html">
-    GPS
-  </a>
-</li>
-
-
-<li class=" ">
-  <a class="nav-link dropdown-item nav-internal" href="../../sodar.html">
-    SODAR
   </a>
 </li>
 
@@ -443,6 +415,13 @@
 
 
 <li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../api.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
   <a class="nav-link nav-internal" href="../../laboratory.html">
     Laboratory
   </a>
@@ -452,41 +431,6 @@
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../../sites.html">
     Sites
-  </a>
-</li>
-
-
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../instruments.html">
-    Instruments
-  </a>
-</li>
-
-
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../pollutants.html">
-    Pollutants
-  </a>
-</li>
-
-
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../filesystem.html">
-    File System
-  </a>
-</li>
-
-
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../gps.html">
-    GPS
-  </a>
-</li>
-
-
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../sodar.html">
-    SODAR
   </a>
 </li>
 
@@ -744,7 +688,7 @@
 
 
 <div class="viewcode-block" id="Network">
-<a class="viewcode-back" href="../../what_data_exists.html#uataq.Network">[docs]</a>
+<a class="viewcode-back" href="../../api/uataq.Network.html#uataq.Network">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Network</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Container for combining and analyzing data across multiple sites for a single pollutant.</span>
@@ -775,7 +719,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="Network.__init__">
-<a class="viewcode-back" href="../../what_data_exists.html#uataq.Network.__init__">[docs]</a>
+<a class="viewcode-back" href="../../api/uataq.Network.html#uataq.Network.__init__">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">sites</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">|</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;all&quot;</span><span class="p">],</span>
@@ -873,7 +817,7 @@
         <span class="k">return</span> <span class="n">valid_sites</span>
 
 <div class="viewcode-block" id="Network.get_obs">
-<a class="viewcode-back" href="../../what_data_exists.html#uataq.Network.get_obs">[docs]</a>
+<a class="viewcode-back" href="../../api/uataq.Network.get_obs.html#uataq.Network.get_obs">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_obs</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">time_range</span><span class="p">:</span> <span class="n">TimeRange</span> <span class="o">|</span> <span class="n">TimeRangeTypes</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -988,7 +932,7 @@
         <span class="p">]</span>
 
 <div class="viewcode-block" id="Network.get_availability">
-<a class="viewcode-back" href="../../what_data_exists.html#uataq.Network.get_availability">[docs]</a>
+<a class="viewcode-back" href="../../api/uataq.Network.get_availability.html#uataq.Network.get_availability">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_availability</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">time_range</span><span class="p">:</span> <span class="n">TimeRange</span> <span class="o">|</span> <span class="n">TimeRangeTypes</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -1107,7 +1051,7 @@
 
 
 <div class="viewcode-block" id="Network.plot_availability">
-<a class="viewcode-back" href="../../what_data_exists.html#uataq.Network.plot_availability">[docs]</a>
+<a class="viewcode-back" href="../../api/uataq.Network.plot_availability.html#uataq.Network.plot_availability">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">plot_availability</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">availability</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>

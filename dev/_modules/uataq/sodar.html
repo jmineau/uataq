@@ -6,7 +6,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>uataq.sodar &#8212; UATAQ 2026.10.1.dev33+gd0fcfd869 documentation</title>
+    <title>uataq.sodar &#8212; UATAQ 2026.10.1.dev38+g1c934f94f documentation</title>
   
   
   
@@ -38,7 +38,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="../../_static/documentation_options.js?v=2f492537"></script>
+    <script src="../../_static/documentation_options.js?v=669483d3"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -56,7 +56,7 @@
     <link rel="search" title="Search" href="../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.1.dev33+gd0fcfd869" />
+  <meta name="docsearch:version" content="2026.10.1.dev38+g1c934f94f" />
   
     
     <script src="../../_static/searchtools.js"></script>
@@ -124,7 +124,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.1.dev33+gd0fcfd869 documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.1.dev38+g1c934f94f documentation</p>
   
 </a></div>
     
@@ -209,6 +209,13 @@
 
 
 <li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../api.html">
+    API reference
+  </a>
+</li>
+
+
+<li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="../../laboratory.html">
     Laboratory
   </a>
@@ -218,41 +225,6 @@
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="../../sites.html">
     Sites
-  </a>
-</li>
-
-
-<li class=" ">
-  <a class="nav-link dropdown-item nav-internal" href="../../instruments.html">
-    Instruments
-  </a>
-</li>
-
-
-<li class=" ">
-  <a class="nav-link dropdown-item nav-internal" href="../../pollutants.html">
-    Pollutants
-  </a>
-</li>
-
-
-<li class=" ">
-  <a class="nav-link dropdown-item nav-internal" href="../../filesystem.html">
-    File System
-  </a>
-</li>
-
-
-<li class=" ">
-  <a class="nav-link dropdown-item nav-internal" href="../../gps.html">
-    GPS
-  </a>
-</li>
-
-
-<li class=" ">
-  <a class="nav-link dropdown-item nav-internal" href="../../sodar.html">
-    SODAR
   </a>
 </li>
 
@@ -443,6 +415,13 @@
 
 
 <li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../api.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
   <a class="nav-link nav-internal" href="../../laboratory.html">
     Laboratory
   </a>
@@ -452,41 +431,6 @@
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../../sites.html">
     Sites
-  </a>
-</li>
-
-
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../instruments.html">
-    Instruments
-  </a>
-</li>
-
-
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../pollutants.html">
-    Pollutants
-  </a>
-</li>
-
-
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../filesystem.html">
-    File System
-  </a>
-</li>
-
-
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../gps.html">
-    GPS
-  </a>
-</li>
-
-
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../sodar.html">
-    SODAR
   </a>
 </li>
 
@@ -635,7 +579,7 @@
 <span class="sd">``mesowest_dir=...`` to read a copy elsewhere.</span>
 
 <span class="sd">SODAR stations are MesoWest stations, not UATAQ sites, so they are not part of</span>
-<span class="sd">the :doc:`configuration &lt;config&gt;` and are read directly with :class:`Sodar`</span>
+<span class="sd">the :doc:`configuration &lt;/config&gt;` and are read directly with :class:`Sodar`</span>
 <span class="sd">rather than through :func:`uataq.read_data`. Profiles are returned as an</span>
 <span class="sd">:class:`xarray.Dataset` with dimensions ``(Time_UTC, level)``.</span>
 
@@ -679,7 +623,7 @@
 
 
 <div class="viewcode-block" id="list_stations">
-<a class="viewcode-back" href="../../sodar.html#uataq.sodar.list_stations">[docs]</a>
+<a class="viewcode-back" href="../../api/uataq.sodar.list_stations.html#uataq.sodar.list_stations">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">list_stations</span><span class="p">(</span><span class="n">mesowest_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    List the SODAR station IDs available in the archive.</span>
@@ -727,7 +671,7 @@
 
 
 <div class="viewcode-block" id="Sodar">
-<a class="viewcode-back" href="../../sodar.html#uataq.sodar.Sodar">[docs]</a>
+<a class="viewcode-back" href="../../api/uataq.sodar.Sodar.html#uataq.sodar.Sodar">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Sodar</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Horel group SODAR wind profiler.</span>
@@ -762,11 +706,13 @@
 <span class="sd">        If the archive directory or the station&#39;s metadata log does not exist.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
+    <span class="c1">#: Model name, as in an instrument&#39;s ``model`` (SODAR is not configured).</span>
     <span class="n">model</span> <span class="o">=</span> <span class="s2">&quot;sodar&quot;</span>
+    <span class="c1">#: What the SODAR measures.</span>
     <span class="n">species_measured</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;wind&quot;</span><span class="p">,)</span>
 
 <div class="viewcode-block" id="Sodar.__init__">
-<a class="viewcode-back" href="../../sodar.html#uataq.sodar.Sodar.__init__">[docs]</a>
+<a class="viewcode-back" href="../../api/uataq.sodar.Sodar.html#uataq.sodar.Sodar.__init__">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">SID</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">mesowest_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the Sodar and read the station&#39;s metadata log.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">SID</span> <span class="o">=</span> <span class="n">SID</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
@@ -809,7 +755,7 @@
             <span class="p">)</span>
 
 <div class="viewcode-block" id="Sodar.get_files">
-<a class="viewcode-back" href="../../sodar.html#uataq.sodar.Sodar.get_files">[docs]</a>
+<a class="viewcode-back" href="../../api/uataq.sodar.Sodar.get_files.html#uataq.sodar.Sodar.get_files">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_files</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">lvl</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;raw&quot;</span><span class="p">,</span> <span class="n">time_range</span><span class="p">:</span> <span class="n">TimeRange</span> <span class="o">|</span> <span class="n">TimeRangeTypes</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
@@ -852,7 +798,7 @@
 
 
 <div class="viewcode-block" id="Sodar.parse">
-<a class="viewcode-back" href="../../sodar.html#uataq.sodar.Sodar.parse">[docs]</a>
+<a class="viewcode-back" href="../../api/uataq.sodar.Sodar.parse.html#uataq.sodar.Sodar.parse">[docs]</a>
     <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">parse</span><span class="p">(</span><span class="n">file</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">variables</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -914,7 +860,7 @@
 
 
 <div class="viewcode-block" id="Sodar.read_data">
-<a class="viewcode-back" href="../../sodar.html#uataq.sodar.Sodar.read_data">[docs]</a>
+<a class="viewcode-back" href="../../api/uataq.sodar.Sodar.read_data.html#uataq.sodar.Sodar.read_data">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">read_data</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">lvl</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;raw&quot;</span><span class="p">,</span>
@@ -976,7 +922,7 @@
 
 
 <div class="viewcode-block" id="Sodar.get_winds_at_height">
-<a class="viewcode-back" href="../../sodar.html#uataq.sodar.Sodar.get_winds_at_height">[docs]</a>
+<a class="viewcode-back" href="../../api/uataq.sodar.Sodar.get_winds_at_height.html#uataq.sodar.Sodar.get_winds_at_height">[docs]</a>
     <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_winds_at_height</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">,</span> <span class="n">height</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>

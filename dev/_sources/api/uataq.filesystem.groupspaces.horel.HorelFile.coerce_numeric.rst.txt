@@ -1,0 +1,6 @@
+uataq.filesystem.groupspaces.horel.HorelFile.coerce\_numeric
+============================================================
+
+.. currentmodule:: uataq.filesystem.groupspaces.horel
+
+.. automethod:: HorelFile.coerce_numeric

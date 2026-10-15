@@ -1,0 +1,6 @@
+uataq.gps.haversine
+===================
+
+.. currentmodule:: uataq.gps
+
+.. autofunction:: haversine

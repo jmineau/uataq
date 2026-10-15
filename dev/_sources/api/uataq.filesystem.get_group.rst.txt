@@ -1,0 +1,6 @@
+uataq.filesystem.get\_group
+===========================
+
+.. currentmodule:: uataq.filesystem
+
+.. autofunction:: get_group

@@ -1,0 +1,26 @@
+uataq.filesystem.groupspaces
+============================
+
+.. automodule:: uataq.filesystem.groupspaces
+   :no-members:
+
+
+
+
+
+
+
+
+
+
+
+
+
+.. rubric:: Modules
+
+.. autosummary::
+   :toctree:
+   :recursive:
+
+   horel
+   lin

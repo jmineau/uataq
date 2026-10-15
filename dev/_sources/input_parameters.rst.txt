@@ -11,12 +11,6 @@ once, here: the two functions come first, then one section for each argument.
   read_data
   get_obs
 
-.. rubric:: Functions
-
-.. autofunction:: read_data
-
-.. autofunction:: get_obs
-
 .. _input-sid:
 
 SID

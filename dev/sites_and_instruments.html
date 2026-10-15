@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Sites and instruments &#8212; UATAQ 2026.10.1.dev33+gd0fcfd869 documentation</title>
+    <title>Sites and instruments &#8212; UATAQ 2026.10.1.dev38+g1c934f94f documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="_static/documentation_options.js?v=2f492537"></script>
+    <script src="_static/documentation_options.js?v=669483d3"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -59,7 +59,7 @@
     <link rel="prev" title="When there is nothing to read" href="errors.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.1.dev33+gd0fcfd869" />
+  <meta name="docsearch:version" content="2026.10.1.dev38+g1c934f94f" />
   
     
     <script src="_static/searchtools.js"></script>
@@ -127,7 +127,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.1.dev33+gd0fcfd869 documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.1.dev38+g1c934f94f documentation</p>
   
 </a></div>
     
@@ -212,6 +212,13 @@
 
 
 <li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="api.html">
+    API reference
+  </a>
+</li>
+
+
+<li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="laboratory.html">
     Laboratory
   </a>
@@ -221,41 +228,6 @@
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="sites.html">
     Sites
-  </a>
-</li>
-
-
-<li class=" ">
-  <a class="nav-link dropdown-item nav-internal" href="instruments.html">
-    Instruments
-  </a>
-</li>
-
-
-<li class=" ">
-  <a class="nav-link dropdown-item nav-internal" href="pollutants.html">
-    Pollutants
-  </a>
-</li>
-
-
-<li class=" ">
-  <a class="nav-link dropdown-item nav-internal" href="filesystem.html">
-    File System
-  </a>
-</li>
-
-
-<li class=" ">
-  <a class="nav-link dropdown-item nav-internal" href="gps.html">
-    GPS
-  </a>
-</li>
-
-
-<li class=" ">
-  <a class="nav-link dropdown-item nav-internal" href="sodar.html">
-    SODAR
   </a>
 </li>
 
@@ -448,6 +420,13 @@
 
 
 <li class="nav-item ">
+  <a class="nav-link nav-internal" href="api.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
   <a class="nav-link nav-internal" href="laboratory.html">
     Laboratory
   </a>
@@ -457,41 +436,6 @@
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="sites.html">
     Sites
-  </a>
-</li>
-
-
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="instruments.html">
-    Instruments
-  </a>
-</li>
-
-
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="pollutants.html">
-    Pollutants
-  </a>
-</li>
-
-
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="filesystem.html">
-    File System
-  </a>
-</li>
-
-
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="gps.html">
-    GPS
-  </a>
-</li>
-
-
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="sodar.html">
-    SODAR
   </a>
 </li>
 
@@ -1174,7 +1118,7 @@ measurement comes from the site’s <code class="docutils literal notranslate"><
 <h2>Instruments<a class="headerlink" href="#instruments" title="Link to this heading">#</a></h2>
 <p>One row per <a class="reference internal" href="#term-instrument-name"><span class="xref std std-term">instrument name</span></a> in the configuration, with the class that
 reads it and the pollutants it measures. The class pages are under
-<a class="reference internal" href="instruments.html"><span class="doc">Instruments</span></a>, and what the columns of each level hold is on the
+<a class="reference internal" href="api/uataq.instruments.html#module-uataq.instruments" title="uataq.instruments"><code class="xref py py-mod docutils literal notranslate"><span class="pre">uataq.instruments</span></code></a>, and what the columns of each level hold is on the
 <a class="reference internal" href="columns.html"><span class="doc">Columns and flags</span></a> page.</p>
 <div class="pst-scrollable-table-container"><table class="table">
 <colgroup>
@@ -1194,103 +1138,103 @@ reads it and the pollutants it measures. The class pages are under
 </thead>
 <tbody>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">2b_205</span></code></p></td>
-<td><p><a class="reference internal" href="instruments.html#uataq.instruments.BB_205" title="uataq.instruments.BB_205"><code class="xref py py-class docutils literal notranslate"><span class="pre">BB_205</span></code></a></p></td>
+<td><p><a class="reference internal" href="api/uataq.instruments.BB_205.html#uataq.instruments.BB_205" title="uataq.instruments.BB_205"><code class="xref py py-class docutils literal notranslate"><span class="pre">BB_205</span></code></a></p></td>
 <td><p>2B Technologies Model 205 ozone monitor (UV absorption).</p></td>
 <td><p>O3</p></td>
 <td><p>BUS01, BUS02, BUS03, BUS04, BUS05, BUS06, BUS07, BUS08, BUS09, BUS10, BUS11, BUS12, BUS13, BUS14, BUS15, TRX01, TRX02, TRX03</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">2b_405</span></code></p></td>
-<td><p><a class="reference internal" href="instruments.html#uataq.instruments.BB_405" title="uataq.instruments.BB_405"><code class="xref py py-class docutils literal notranslate"><span class="pre">BB_405</span></code></a></p></td>
+<td><p><a class="reference internal" href="api/uataq.instruments.BB_405.html#uataq.instruments.BB_405" title="uataq.instruments.BB_405"><code class="xref py py-class docutils literal notranslate"><span class="pre">BB_405</span></code></a></p></td>
 <td><p>2B Technologies Model 405 nm NO/NO2/NOx monitor.</p></td>
 <td><p>NO, NO2, NOx</p></td>
 <td><p>BUS01, BUS02, BUS03</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">cr1000</span></code></p></td>
-<td><p><a class="reference internal" href="instruments.html#uataq.instruments.CR1000" title="uataq.instruments.CR1000"><code class="xref py py-class docutils literal notranslate"><span class="pre">CR1000</span></code></a></p></td>
+<td><p><a class="reference internal" href="api/uataq.instruments.CR1000.html#uataq.instruments.CR1000" title="uataq.instruments.CR1000"><code class="xref py py-class docutils literal notranslate"><span class="pre">CR1000</span></code></a></p></td>
 <td><p>Campbell Scientific CR1000 datalogger.</p></td>
 <td></td>
 <td><p>BUS01, BUS02, BUS03, BUS04, BUS05, BUS06, BUS07, BUS08, BUS09, BUS10, BUS11, BUS12, BUS13, BUS14, BUS15, TRX01, TRX02, TRX03</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">gps</span></code></p></td>
-<td><p><a class="reference internal" href="instruments.html#uataq.instruments.GPS" title="uataq.instruments.GPS"><code class="xref py py-class docutils literal notranslate"><span class="pre">GPS</span></code></a></p></td>
+<td><p><a class="reference internal" href="api/uataq.instruments.GPS.html#uataq.instruments.GPS" title="uataq.instruments.GPS"><code class="xref py py-class docutils literal notranslate"><span class="pre">GPS</span></code></a></p></td>
 <td><p>GPS receiver providing position, and speed and course where logged.</p></td>
 <td></td>
 <td><p>BUS01, BUS02, BUS03, BUS04, BUS05, BUS06, BUS07, BUS08, BUS09, BUS10, BUS11, BUS12, BUS13, BUS14, BUS15, TRX01, TRX02, TRX03</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">lgr_no2</span></code></p></td>
-<td><p><a class="reference internal" href="instruments.html#uataq.instruments.LGR_NO2" title="uataq.instruments.LGR_NO2"><code class="xref py py-class docutils literal notranslate"><span class="pre">LGR_NO2</span></code></a></p></td>
+<td><p><a class="reference internal" href="api/uataq.instruments.LGR_NO2.html#uataq.instruments.LGR_NO2" title="uataq.instruments.LGR_NO2"><code class="xref py py-class docutils literal notranslate"><span class="pre">LGR_NO2</span></code></a></p></td>
 <td><p>Los Gatos Research NO2 analyzer (cavity-enhanced absorption).</p></td>
 <td><p>NO2</p></td>
 <td><p>TRX02</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">lgr_ugga</span></code></p></td>
-<td><p><a class="reference internal" href="instruments.html#uataq.instruments.LGR_UGGA" title="uataq.instruments.LGR_UGGA"><code class="xref py py-class docutils literal notranslate"><span class="pre">LGR_UGGA</span></code></a></p></td>
+<td><p><a class="reference internal" href="api/uataq.instruments.LGR_UGGA.html#uataq.instruments.LGR_UGGA" title="uataq.instruments.LGR_UGGA"><code class="xref py py-class docutils literal notranslate"><span class="pre">LGR_UGGA</span></code></a></p></td>
 <td><p>Los Gatos Research Ultraportable Greenhouse Gas Analyzer.</p></td>
 <td><p>CO2, CH4</p></td>
 <td><p>CSP, FRU, HDP, HPL, LDF, ROO, TRX01, WBB</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">lgr_ugga_manual_cal</span></code></p></td>
-<td><p><a class="reference internal" href="instruments.html#uataq.instruments.LGR_UGGA" title="uataq.instruments.LGR_UGGA"><code class="xref py py-class docutils literal notranslate"><span class="pre">LGR_UGGA</span></code></a> (<code class="docutils literal notranslate"><span class="pre">model</span></code>: <code class="docutils literal notranslate"><span class="pre">lgr_ugga</span></code>)</p></td>
+<td><p><a class="reference internal" href="api/uataq.instruments.LGR_UGGA.html#uataq.instruments.LGR_UGGA" title="uataq.instruments.LGR_UGGA"><code class="xref py py-class docutils literal notranslate"><span class="pre">LGR_UGGA</span></code></a> (<code class="docutils literal notranslate"><span class="pre">model</span></code>: <code class="docutils literal notranslate"><span class="pre">lgr_ugga</span></code>)</p></td>
 <td><p>Los Gatos Research Ultraportable Greenhouse Gas Analyzer.</p></td>
 <td><p>CO2, CH4</p></td>
 <td><p>TRX01</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">licor_6262</span></code></p></td>
-<td><p><a class="reference internal" href="instruments.html#uataq.instruments.Licor_6262" title="uataq.instruments.Licor_6262"><code class="xref py py-class docutils literal notranslate"><span class="pre">Licor_6262</span></code></a></p></td>
+<td><p><a class="reference internal" href="api/uataq.instruments.Licor_6262.html#uataq.instruments.Licor_6262" title="uataq.instruments.Licor_6262"><code class="xref py py-class docutils literal notranslate"><span class="pre">Licor_6262</span></code></a></p></td>
 <td><p>LI-COR LI-6262 infrared CO2/H2O gas analyzer.</p></td>
 <td><p>CO2</p></td>
 <td><p>ASB, DBK, HEB, IMC, LGN, LG2, MSA, MUR, RPK, SUG, SUN</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">licor_7000</span></code></p></td>
-<td><p><a class="reference internal" href="instruments.html#uataq.instruments.Licor_7000" title="uataq.instruments.Licor_7000"><code class="xref py py-class docutils literal notranslate"><span class="pre">Licor_7000</span></code></a></p></td>
+<td><p><a class="reference internal" href="api/uataq.instruments.Licor_7000.html#uataq.instruments.Licor_7000" title="uataq.instruments.Licor_7000"><code class="xref py py-class docutils literal notranslate"><span class="pre">Licor_7000</span></code></a></p></td>
 <td><p>LI-COR LI-7000 infrared CO2/H2O gas analyzer.</p></td>
 <td><p>CO2</p></td>
 <td><p>DBK, HEB, RPK, SUG</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">magee_ae33</span></code></p></td>
-<td><p><a class="reference internal" href="instruments.html#uataq.instruments.Magee_AE33" title="uataq.instruments.Magee_AE33"><code class="xref py py-class docutils literal notranslate"><span class="pre">Magee_AE33</span></code></a></p></td>
+<td><p><a class="reference internal" href="api/uataq.instruments.Magee_AE33.html#uataq.instruments.Magee_AE33" title="uataq.instruments.Magee_AE33"><code class="xref py py-class docutils literal notranslate"><span class="pre">Magee_AE33</span></code></a></p></td>
 <td><p>Magee Scientific AE33 aethalometer, measuring black carbon.</p></td>
 <td><p>BC</p></td>
 <td><p>WBB</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">metone_es405</span></code></p></td>
-<td><p><a class="reference internal" href="instruments.html#uataq.instruments.MetOne_ES405" title="uataq.instruments.MetOne_ES405"><code class="xref py py-class docutils literal notranslate"><span class="pre">MetOne_ES405</span></code></a></p></td>
+<td><p><a class="reference internal" href="api/uataq.instruments.MetOne_ES405.html#uataq.instruments.MetOne_ES405" title="uataq.instruments.MetOne_ES405"><code class="xref py py-class docutils literal notranslate"><span class="pre">MetOne_ES405</span></code></a></p></td>
 <td><p>Met One E-Sampler ES-405, reporting PM1, PM2.5, PM4 and PM10.</p></td>
 <td><p>PM1, PM2.5, PM4, PM10</p></td>
 <td><p>BUS02, BUS03, BUS04, BUS05, BUS06, BUS07, BUS08, BUS09, BUS10, BUS11, BUS12, BUS13, BUS14, BUS15, TRX01, TRX02, TRX03</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">metone_es642</span></code></p></td>
-<td><p><a class="reference internal" href="instruments.html#uataq.instruments.MetOne_ES642" title="uataq.instruments.MetOne_ES642"><code class="xref py py-class docutils literal notranslate"><span class="pre">MetOne_ES642</span></code></a></p></td>
+<td><p><a class="reference internal" href="api/uataq.instruments.MetOne_ES642.html#uataq.instruments.MetOne_ES642" title="uataq.instruments.MetOne_ES642"><code class="xref py py-class docutils literal notranslate"><span class="pre">MetOne_ES642</span></code></a></p></td>
 <td><p>Met One E-Sampler ES-642, reporting PM2.5 only.</p></td>
 <td><p>PM2.5</p></td>
 <td><p>BUS01, BUS02, BUS03, DBK, SUG, TRX01, TRX02, TRX03, WBB</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">teledyne_t200</span></code></p></td>
-<td><p><a class="reference internal" href="instruments.html#uataq.instruments.Teledyne_T200" title="uataq.instruments.Teledyne_T200"><code class="xref py py-class docutils literal notranslate"><span class="pre">Teledyne_T200</span></code></a></p></td>
+<td><p><a class="reference internal" href="api/uataq.instruments.Teledyne_T200.html#uataq.instruments.Teledyne_T200" title="uataq.instruments.Teledyne_T200"><code class="xref py py-class docutils literal notranslate"><span class="pre">Teledyne_T200</span></code></a></p></td>
 <td><p>Teledyne API T200 chemiluminescence NO/NO2/NOx analyzer.</p></td>
 <td><p>NO, NO2, NOx</p></td>
 <td><p>WBB</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">teledyne_t300</span></code></p></td>
-<td><p><a class="reference internal" href="instruments.html#uataq.instruments.Teledyne_T300" title="uataq.instruments.Teledyne_T300"><code class="xref py py-class docutils literal notranslate"><span class="pre">Teledyne_T300</span></code></a></p></td>
+<td><p><a class="reference internal" href="api/uataq.instruments.Teledyne_T300.html#uataq.instruments.Teledyne_T300" title="uataq.instruments.Teledyne_T300"><code class="xref py py-class docutils literal notranslate"><span class="pre">Teledyne_T300</span></code></a></p></td>
 <td><p>Teledyne API T300 gas-filter-correlation CO analyzer.</p></td>
 <td><p>CO</p></td>
 <td><p>WBB</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">teledyne_t400</span></code></p></td>
-<td><p><a class="reference internal" href="instruments.html#uataq.instruments.Teledyne_T400" title="uataq.instruments.Teledyne_T400"><code class="xref py py-class docutils literal notranslate"><span class="pre">Teledyne_T400</span></code></a></p></td>
+<td><p><a class="reference internal" href="api/uataq.instruments.Teledyne_T400.html#uataq.instruments.Teledyne_T400" title="uataq.instruments.Teledyne_T400"><code class="xref py py-class docutils literal notranslate"><span class="pre">Teledyne_T400</span></code></a></p></td>
 <td><p>Teledyne API T400 UV-absorption ozone analyzer.</p></td>
 <td><p>O3</p></td>
 <td><p>WBB</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">teledyne_t500u</span></code></p></td>
-<td><p><a class="reference internal" href="instruments.html#uataq.instruments.Teledyne_T500u" title="uataq.instruments.Teledyne_T500u"><code class="xref py py-class docutils literal notranslate"><span class="pre">Teledyne_T500u</span></code></a></p></td>
+<td><p><a class="reference internal" href="api/uataq.instruments.Teledyne_T500u.html#uataq.instruments.Teledyne_T500u" title="uataq.instruments.Teledyne_T500u"><code class="xref py py-class docutils literal notranslate"><span class="pre">Teledyne_T500u</span></code></a></p></td>
 <td><p>Teledyne API T500U CAPS NO2 analyzer.</p></td>
 <td><p>NO2</p></td>
 <td><p>TRX02, WBB</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">teom_1400ab</span></code></p></td>
-<td><p><a class="reference internal" href="instruments.html#uataq.instruments.Teom_1400ab" title="uataq.instruments.Teom_1400ab"><code class="xref py py-class docutils literal notranslate"><span class="pre">Teom_1400ab</span></code></a></p></td>
+<td><p><a class="reference internal" href="api/uataq.instruments.Teom_1400ab.html#uataq.instruments.Teom_1400ab" title="uataq.instruments.Teom_1400ab"><code class="xref py py-class docutils literal notranslate"><span class="pre">Teom_1400ab</span></code></a></p></td>
 <td><p>Thermo/R&amp;P TEOM 1400ab tapered-element oscillating microbalance.</p></td>
 <td><p>PM2.5</p></td>
 <td><p>WBB</p></td>
@@ -1337,7 +1281,7 @@ runs when the documentation is built, so its output is current:</p>
 site’s entry of the configuration.</p>
 <p>Pollutant names are upper case (<code class="docutils literal notranslate"><span class="pre">NOx</span></code> is <code class="docutils literal notranslate"><span class="pre">'NOX'</span></code> here), but you can type
 them in any case when you read data. To go the other way and find the sites that
-measure a pollutant, make a <a class="reference internal" href="what_data_exists.html#uataq.Network" title="uataq.Network"><code class="xref py py-class docutils literal notranslate"><span class="pre">Network</span></code></a> of <code class="docutils literal notranslate"><span class="pre">&quot;all&quot;</span></code> sites. A <code class="docutils literal notranslate"><span class="pre">Network</span></code>
+measure a pollutant, make a <a class="reference internal" href="api/uataq.Network.html#uataq.Network" title="uataq.Network"><code class="xref py py-class docutils literal notranslate"><span class="pre">Network</span></code></a> of <code class="docutils literal notranslate"><span class="pre">&quot;all&quot;</span></code> sites. A <code class="docutils literal notranslate"><span class="pre">Network</span></code>
 is a list of sites and one pollutant; it is how the package asks a question
 across sites:</p>
 <div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [9]: </span><span class="n">Network</span><span class="p">(</span><span class="s2">&quot;all&quot;</span><span class="p">,</span> <span class="s2">&quot;CH4&quot;</span><span class="p">)</span>
@@ -1363,8 +1307,8 @@ WBB’s PM2.5 instruments, <code class="docutils literal notranslate"><span clas
 <span id="id1"></span><h2>Glossary<a class="headerlink" href="#glossary" title="Link to this heading">#</a></h2>
 <dl class="simple glossary">
 <dt id="term-SID">SID<a class="headerlink" href="#term-SID" title="Link to this term">#</a></dt><dd><p>The site ID: the key of a site in the configuration, such as <code class="docutils literal notranslate"><span class="pre">WBB</span></code>
-or <code class="docutils literal notranslate"><span class="pre">TRX01</span></code>. It is the first argument of <a class="reference internal" href="input_parameters.html#uataq.read_data" title="uataq.read_data"><code class="xref py py-func docutils literal notranslate"><span class="pre">read_data()</span></code></a>,
-<a class="reference internal" href="input_parameters.html#uataq.get_obs" title="uataq.get_obs"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_obs()</span></code></a> and <a class="reference internal" href="laboratory.html#uataq.get_site" title="uataq.get_site"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_site()</span></code></a>, which turn it to upper case, so
+or <code class="docutils literal notranslate"><span class="pre">TRX01</span></code>. It is the first argument of <a class="reference internal" href="api/uataq.read_data.html#uataq.read_data" title="uataq.read_data"><code class="xref py py-func docutils literal notranslate"><span class="pre">read_data()</span></code></a>,
+<a class="reference internal" href="api/uataq.get_obs.html#uataq.get_obs" title="uataq.get_obs"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_obs()</span></code></a> and <a class="reference internal" href="laboratory.html#uataq.get_site" title="uataq.get_site"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_site()</span></code></a>, which turn it to upper case, so
 <code class="docutils literal notranslate"><span class="pre">&quot;wbb&quot;</span></code> works too. Each site also has a longer <code class="docutils literal notranslate"><span class="pre">name</span></code> (the Name
 column above).</p>
 </dd>
@@ -1377,7 +1321,7 @@ measurement from the site’s <code class="docutils literal notranslate"><span c
 configuration.</p>
 </dd>
 <dt id="term-zagl">zagl<a class="headerlink" href="#term-zagl" title="Link to this term">#</a></dt><dd><p>The height above ground level of a fixed site’s measurements, in
-meters, from the site’s configuration. <a class="reference internal" href="what_data_exists.html#uataq.get_network_obs" title="uataq.get_network_obs"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_network_obs()</span></code></a> gives
+meters, from the site’s configuration. <a class="reference internal" href="api/uataq.get_network_obs.html#uataq.get_network_obs" title="uataq.get_network_obs"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_network_obs()</span></code></a> gives
 it in a column of the same name. Mobile sites have none.</p>
 </dd>
 <dt id="term-group">group<a class="headerlink" href="#term-group" title="Link to this term">#</a></dt><dd><p>The research group whose archive holds an instrument’s data: <code class="docutils literal notranslate"><span class="pre">lin</span></code>
@@ -1408,9 +1352,9 @@ is one file per day, named by its date.</p>
 <dt id="term-instrument-name">instrument name<a class="headerlink" href="#term-instrument-name" title="Link to this term">#</a></dt><dd><p>The key of an instrument under a site’s <code class="docutils literal notranslate"><span class="pre">instruments</span></code> in the
 configuration, such as <code class="docutils literal notranslate"><span class="pre">lgr_ugga</span></code> or <code class="docutils literal notranslate"><span class="pre">teledyne_t400</span></code>. It is what
 you pass to <code class="docutils literal notranslate"><span class="pre">read_data(...,</span> <span class="pre">instruments=...)</span></code>, the key of the
-dictionary <a class="reference internal" href="input_parameters.html#uataq.read_data" title="uataq.read_data"><code class="xref py py-func docutils literal notranslate"><span class="pre">read_data()</span></code></a> returns, and the name of the instrument’s
+dictionary <a class="reference internal" href="api/uataq.read_data.html#uataq.read_data" title="uataq.read_data"><code class="xref py py-func docutils literal notranslate"><span class="pre">read_data()</span></code></a> returns, and the name of the instrument’s
 folder in the lin archive. uataq reads it with the class that
-<a class="reference internal" href="instruments.html#uataq.instruments.catalog" title="uataq.instruments.catalog"><code class="xref py py-data docutils literal notranslate"><span class="pre">uataq.instruments.catalog</span></code></a> gives for the entry’s <code class="docutils literal notranslate"><span class="pre">model</span></code>, or
+<a class="reference internal" href="api/uataq.instruments.catalog.html#uataq.instruments.catalog" title="uataq.instruments.catalog"><code class="xref py py-data docutils literal notranslate"><span class="pre">uataq.instruments.catalog</span></code></a> gives for the entry’s <code class="docutils literal notranslate"><span class="pre">model</span></code>, or
 for the name itself when the entry has no <code class="docutils literal notranslate"><span class="pre">model</span></code>. The class says
 which pollutants the instrument measures.</p>
 </dd>

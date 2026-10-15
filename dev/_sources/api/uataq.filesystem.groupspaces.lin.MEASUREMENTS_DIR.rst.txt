@@ -1,0 +1,6 @@
+uataq.filesystem.groupspaces.lin.MEASUREMENTS\_DIR
+==================================================
+
+.. currentmodule:: uataq.filesystem.groupspaces.lin
+
+.. autodata:: MEASUREMENTS_DIR
