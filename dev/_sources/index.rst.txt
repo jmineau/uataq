@@ -67,7 +67,7 @@ work on CHPC, where the archive is. Start with :doc:`installation`, then
    :maxdepth: 1
    :caption: API reference
 
-   api
+   functions_and_modules
    laboratory
    sites
 

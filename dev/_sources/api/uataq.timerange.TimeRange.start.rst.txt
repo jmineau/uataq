@@ -1,0 +1,6 @@
+uataq.timerange.TimeRange.start
+===============================
+
+.. currentmodule:: uataq.timerange
+
+.. autoproperty:: TimeRange.start

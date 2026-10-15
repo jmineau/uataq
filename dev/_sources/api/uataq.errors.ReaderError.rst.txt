@@ -1,0 +1,6 @@
+uataq.errors.ReaderError
+========================
+
+.. currentmodule:: uataq.errors
+
+.. autoexception:: ReaderError
