@@ -68,7 +68,9 @@ follow [PEP 440](https://peps.python.org/pep-0440/): calendar-based,
   `get_recent_obs`, `get_network_obs` and `Network` from the closing
   "Reference" section of "What data exists" (`what_data_exists.html#reference`,
   `#uataq.get_recent_obs`, `#uataq.get_network_obs` and `#uataq.Network`), to
-  `api/uataq.read_data.html`, `api/uataq.get_obs.html` and so on. The
+  `api/uataq.read_data.html`, `api/uataq.get_obs.html` and so on. `TimeRange`
+  (`api/uataq.timerange.html`) and the exceptions and warning
+  (`api/uataq.errors.html`), which had no page, are documented. The
   "Laboratory" and "Sites" pages are as they were.
 - `Instrument.model`, `SensorMixin.pollutants`, `Sodar.model` and
   `Sodar.species_measured` have docstrings, and the Attributes of
