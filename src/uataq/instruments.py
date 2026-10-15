@@ -21,11 +21,12 @@ import pandas as pd
 from uataq import errors, filesystem, gps
 from uataq.timerange import TimeRange, TimeRangeTypes
 
-#: How a caller picks a research group: a name, a per-instrument mapping, or
-#: None for automatic selection. See :meth:`Instrument.resolve_group`.
+#: How a caller picks a research group. It is a name, a per-instrument
+#: mapping, or None for automatic selection. See
+#: :meth:`Instrument.resolve_group`.
 GroupSelection = str | Mapping[str, str] | None
 
-#: A read plan: which group to read each portion of a time range from. See
+#: A read plan says which group to read each portion of a time range from. See
 #: :meth:`Instrument.plan_reads`.
 ReadPlan = list[tuple[str, TimeRange]]
 
@@ -66,6 +67,8 @@ class Instrument(metaclass=ABCMeta):
         Read and parse group data files for the given level and time range using multiple processes.
     """
 
+    #: Model of the instrument, the key of :data:`catalog` that names its class,
+    #: such as ``"lgr_ugga"``. Each subclass sets its own.
     model: str
 
     def __init__(self, SID: str, name: str, loggers: dict, config: dict):
@@ -684,9 +687,12 @@ class SensorMixin:
 
     Attributes
     ----------
-        pollutants (tuple): Tuple of pollutants measured by the instrument.
+    pollutants : tuple[str, ...]
+        The pollutants the instrument measures.
     """
 
+    #: The pollutants the instrument measures, such as ``("CO2", "CH4")``.
+    #: Each subclass sets its own.
     pollutants: tuple[str, ...]
 
 

@@ -13,7 +13,7 @@ The archive is located through the Horel group space
 ``mesowest_dir=...`` to read a copy elsewhere.
 
 SODAR stations are MesoWest stations, not UATAQ sites, so they are not part of
-the :doc:`configuration <config>` and are read directly with :class:`Sodar`
+the :doc:`configuration </config>` and are read directly with :class:`Sodar`
 rather than through :func:`uataq.read_data`. Profiles are returned as an
 :class:`xarray.Dataset` with dimensions ``(Time_UTC, level)``.
 
@@ -135,7 +135,9 @@ class Sodar:
         If the archive directory or the station's metadata log does not exist.
     """
 
+    #: Model name, as in an instrument's ``model`` (SODAR is not configured).
     model = "sodar"
+    #: What the SODAR measures.
     species_measured = ("wind",)
 
     def __init__(self, SID: str, mesowest_dir: str | None = None):
