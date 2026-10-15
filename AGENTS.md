@@ -241,8 +241,9 @@ its row in the table below.
   function and class member gets a page in `docs/api/` (gitignored; a
   `:toctree:` pointing outside `docs/` litters the repo root). A module's
   docstring is its page's text. A class member gets its own page when it has a
-  docstring (a `#:` comment on a class-level attribute); one set in `__init__`
-  is described in the class docstring's Attributes section instead.
+  docstring (a `#:` comment on a class-level attribute, whose first line holds
+  no colon: napoleon reads it as `type: description`); one set in `__init__` is
+  described in the class docstring's Attributes section instead.
   `docs/_templates/autosummary/` and `docs/_ext/api_pages.py` (from
   python-template) build the pages. In a docstring, write a `:doc:` path from
   the docs root (`/columns`).
