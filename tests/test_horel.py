@@ -335,13 +335,11 @@ class TestHorelGroup:
         assert horel.HorelGroup.get_highest_lvl("TRX02", "2b_205") == "raw"
         assert horel.HorelGroup.get_highest_lvl("BUS02", "2b_205") == "raw"
 
-    def test_levels(self, archive):
-        """Raw always; qaqc and final once the site has finalized files."""
+    def test_levels(self):
+        """Horel keeps raw, qaqc and final for every instrument."""
         group = horel.HorelGroup()
         assert group.get_lvls("TRX01", "2b_205") == ["raw", "qaqc", "final"]
-        assert group.get_lvls("BUS01", "2b_205") == ["raw", "qaqc", "final"]
-        assert group.get_lvls("TRX02", "2b_205") == ["raw"]
-        assert group.get_lvls("BUS02", "2b_205") == ["raw"]
+        assert group.get_lvls("BUS02", "metone_es642") == ["raw", "qaqc", "final"]
 
     def test_raw_files_span_pilot_and_main_archives(self, archive):
         """Both MetOne models live in the esampler dir."""
@@ -366,19 +364,14 @@ class TestHorelGroup:
         with pytest.raises(ValueError, match="Invalid data level"):
             horel.HorelGroup().get_files("TRX01", "2b_205", "calibrated")
 
-    def test_an_instrument_is_told_which_levels_horel_has(self, archive):
-        """No calibrated level, and no qaqc or final where nothing is finalized."""
+    def test_an_instrument_is_told_which_levels_horel_has(self):
+        """Horel has no calibrated level, and does not look for a folder to say so."""
         bus01 = get_site("BUS01").instruments["2b_205"]
         with pytest.raises(ReaderError) as e:
             bus01.get_datafiles("horel", "calibrated", "2024-06")
         assert str(e.value) == (
             "2b_205@BUS01 has no calibrated level (it has raw, qaqc and final)."
         )
-
-        bus02 = get_site("BUS02").instruments["2b_205"]
-        with pytest.raises(ReaderError) as e:
-            bus02.get_datafiles("horel", "final", "2024-06")
-        assert str(e.value) == "2b_205@BUS02 has no final level (it has raw)."
 
     def test_datafile_class_depends_on_level_only(self):
         group = horel.HorelGroup()
