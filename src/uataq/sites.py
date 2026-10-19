@@ -364,7 +364,8 @@ class Site:
             ``pollutant`` column (those names) and a ``value`` column.
             The wide columns come instrument by instrument, in the order the
             ``pollutants`` were asked for (a set is sorted; ``'all'`` follows
-            the site's config), and the same on every call.
+            the site's config), and the same on every call. Rows on one
+            timestamp come in that order too.
 
         Warns
         -----
@@ -381,7 +382,7 @@ class Site:
             :class:`~uataq.errors.ReaderError` instead.
         """
         frames = self._read_obs(pollutants, format, group, time_range, num_processes)
-        return pd.DataFrame(pd.concat(frames.values()).sort_index())
+        return pd.DataFrame(pd.concat(frames.values()).sort_index(kind="stable"))
 
     def _read_obs(
         self,
