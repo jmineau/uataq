@@ -155,6 +155,13 @@ follow [PEP 440](https://peps.python.org/pep-0440/): calendar-based,
   that share a timestamp. The instruments now follow the order of the
   pollutants asked for (a set of pollutants is sorted; `"all"` follows the
   site's config). Selecting columns by name was never affected (#74).
+- `Network.get_availability` counts a `_raw` value as data, as `Network.get_obs`
+  keeps it. It looked only at the calibrated columns, so TRX01's
+  `lgr_ugga_manual_cal`, whose final files fill only `_raw`, showed as `qaqc`
+  (from 2023-11-18 to 2024-03-26 and from 2024-08-21), though `get_obs`
+  returned its rows. In the CO2 figure of the docs, TRX01's final data now run to
+  July 2026, and a few months at LG2 (October 2019), RPK (December 2012) and
+  TRX01 that showed as `qaqc` are `final` (#89).
 
 ## [2026.10.0] - 2026-10-09
 
