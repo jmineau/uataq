@@ -125,6 +125,20 @@ follow [PEP 440](https://peps.python.org/pep-0440/): calendar-based,
   `uataq.errors.EmptyResultWarning` (a `UserWarning`), so it shows without
   turning the log on. A table with rows from any instrument or site does not
   warn, and `read_data` is unchanged (#63).
+- A read at a level the instrument does not have says which levels it has.
+  `read_data("WBB", "teledyne_t400", lvl="calibrated")`, where the archive has
+  no `calibrated` folder for that instrument, raised `FileNotFoundError` for
+  the folder; horel, which has no `calibrated` level at all, raised
+  `ValueError: DataFile class not found for key: calibrated in horel group.`
+  Both now raise `ReaderError: No calibrated data found for ['teledyne_t400'] at
+  WBB: teledyne_t400 in lin groupspace: teledyne_t400@WBB has no calibrated
+  level (it has raw, qaqc and final).` Because it is a `ReaderError`,
+  `Site.read_data` of several instruments logs the ones without the level and
+  returns the others, where the first `FileNotFoundError` used to end the read.
+  `Instrument.get_files` and `Instrument.get_datafiles` raise it too. A
+  `GroupSpace` has a new method, `get_lvls(SID, instrument)`, that lists the
+  levels it keeps, from least to most processed; `get_highest_lvl` is now the
+  last of them, defined once on `GroupSpace` (#63).
 
 ### Fixed
 

@@ -784,6 +784,8 @@ class LinGroup(filesystem.GroupSpace):
 
     Methods
     -------
+    get_lvls(SID, instrument)
+        Get the levels of data for a given site and instrument.
     get_highest_lvl(SID, instrument)
         Get the highest level of data for a given site and instrument.
     data_path(SID, instrument, lvl)
@@ -809,12 +811,11 @@ class LinGroup(filesystem.GroupSpace):
     data_config = deepcopy(DATA_CONFIG)
 
     @staticmethod
-    def get_highest_lvl(SID: str, instrument: str) -> str:
-        """Return the most processed level present on disk for the instrument."""
+    def get_lvls(SID: str, instrument: str) -> list[str]:
+        """Return the levels with a folder on disk for the instrument, lowest first."""
         path = os.path.join(DATA_DIR, SID.lower(), instrument)
         inst_lvls = [d for d in os.listdir(path) if d in filesystem.lvls]
-        lvl = max(inst_lvls, key=lambda d: filesystem.lvls[d])
-        return lvl
+        return sorted(inst_lvls, key=filesystem.lvls.__getitem__)
 
     @staticmethod
     def data_path(SID, instrument, lvl) -> str:

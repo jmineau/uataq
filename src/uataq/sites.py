@@ -279,7 +279,8 @@ class Site:
         uataq.errors.ReaderError
             If no data is found for the specified instruments. The message
             says, for each, why it gave none: the files it looked for, and the
-            first and last period it has files for.
+            first and last period it has files for, or the levels it has when
+            it has none at ``lvl``.
         """
         # Format instruments
         if instruments == "all":
