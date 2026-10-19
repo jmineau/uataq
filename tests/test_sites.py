@@ -1478,3 +1478,110 @@ class TestDroppedPollutantWarning:
             "(2024-06-04 00:00:00 to 2024-06-05 00:00:00): "
             "lgr_ugga gave none, so the table leaves out CO2."
         ]
+
+
+class TestGetObsLevelKeyword:
+    """``get_obs`` always reads the final level, so a level keyword is an error."""
+
+    @pytest.mark.parametrize("name", ["lvl", "level"])
+    def test_a_fixed_site_raises_and_reads_nothing(self, name):
+        import uataq
+
+        site = uataq.get_site("WBB")
+        with (
+            patch.object(sites.Site, "read_data") as read,
+            pytest.raises(TypeError) as excinfo,
+        ):
+            site.get_obs("CO2", **{name: "qaqc"})
+
+        read.assert_not_called()
+        assert str(excinfo.value) == (
+            f"get_obs() got an unexpected keyword argument '{name}'. get_obs "
+            "always reads the final level; to read another, call "
+            "read_data(..., lvl='qaqc')."
+        )
+
+    @pytest.mark.parametrize("include_gps", [True, False])
+    def test_a_mobile_site_raises_with_and_without_gps(self, include_gps):
+        import uataq
+
+        site = uataq.get_site("TRX01")
+        with (
+            patch.object(sites.Site, "read_data") as read,
+            pytest.raises(TypeError, match="'lvl'.*final level"),
+        ):
+            site.get_obs("O3", include_gps=include_gps, lvl="raw")
+
+        read.assert_not_called()
+
+    def test_the_top_level_function_raises(self):
+        import uataq
+
+        with (
+            patch.object(sites.Site, "read_data") as read,
+            pytest.raises(TypeError, match="'level'.*read_data"),
+        ):
+            uataq.get_obs("WBB", "CO2", level="calibrated")
+
+        read.assert_not_called()
+
+    def test_the_value_given_is_in_the_hint(self):
+        import uataq
+
+        with pytest.raises(TypeError, match=r"read_data\(\.\.\., lvl='raw'\)"):
+            uataq.get_site("WBB").get_obs("CO2", lvl="raw")
+
+
+class TestUnmeasuredPollutant:
+    """The error for a pollutant the site does not measure says what it does."""
+
+    @pytest.fixture
+    def csp(self):
+        import uataq
+
+        return uataq.get_site("CSP")
+
+    def message(self, site, pollutants):
+        with (
+            patch.object(sites.Site, "read_data") as read,
+            pytest.raises(ValueError) as excinfo,
+        ):
+            site.get_obs(pollutants)
+        read.assert_not_called()
+        return str(excinfo.value)
+
+    def test_a_pollutant_measured_elsewhere_is_not_measured_here(self, csp):
+        assert self.message(csp, "O3") == (
+            "Not measured at CSP: O3. CSP measures CH4, CO2."
+        )
+
+    def test_a_misspelling_is_invalid(self, csp):
+        assert self.message(csp, "NH3") == (
+            "Invalid pollutant(s): NH3. CSP measures CH4, CO2."
+        )
+
+    def test_the_two_are_told_apart_in_one_message(self, csp):
+        assert self.message(csp, ["co2", "nh3", "o3"]) == (
+            "Invalid pollutant(s): NH3. Not measured at CSP: O3. CSP measures CH4, CO2."
+        )
+
+    def test_names_are_in_the_spelling_of_the_columns(self, csp):
+        # typed in any case; NOx is declared with a lower-case x
+        assert self.message(csp, "nox") == (
+            "Not measured at CSP: NOx. CSP measures CH4, CO2."
+        )
+        import uataq
+
+        message = self.message(uataq.get_site("WBB"), "pm10")
+        assert "Not measured at WBB: PM10." in message
+        assert "NO, NO2, NOx, O3, PM2.5." in message
+
+    def test_a_name_asked_twice_is_named_once(self, csp):
+        assert self.message(csp, ["o3", "O3"]).startswith("Not measured at CSP: O3. ")
+
+    def test_a_mobile_site_says_the_same(self):
+        import uataq
+
+        assert self.message(uataq.get_site("BUS01"), ["O3", "CO2"]) == (
+            "Not measured at BUS01: CO2. BUS01 measures NO, NO2, NOx, O3, PM2.5."
+        )
