@@ -125,6 +125,14 @@ follow [PEP 440](https://peps.python.org/pep-0440/): calendar-based,
   `uataq.errors.EmptyResultWarning` (a `UserWarning`), so it shows without
   turning the log on. A table with rows from any instrument or site does not
   warn, and `read_data` is unchanged (#63).
+- Docs: "Input Parameters" no longer says pollutant names are capitalized (case
+  does not matter, and the three spellings of NOx are written out);
+  "Configuration" lists the site keys (`name`, `latitude`, `longitude`, `zagl`,
+  `is_mobile`, `is_active`, `loggers`); "Your first month of data" says
+  `America/Denver` is the zone for every site; "Sites and instruments" says that
+  `cr1000` and `gps` have no pollutants and that `repr(site)` shows the
+  instruments' `notes`; "Installation" no longer lists `abrb`, which is not a
+  site, among the site folders.
 
 ### Fixed
 
