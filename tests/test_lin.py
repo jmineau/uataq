@@ -452,6 +452,13 @@ class TestLinGroup:
         assert lin.LinGroup.get_highest_lvl("WBB", "lgr_ugga") == "final"
         assert lin.LinGroup.get_highest_lvl("TRX01", "2b_205") == "qaqc"
 
+    def test_levels_are_the_level_folders_lowest_first(self, data_dir):
+        for d in ["final", "raw", "qaqc", "raw_frozen_multiLGRproblem_230202"]:
+            (data_dir / "wbb" / "lgr_ugga" / d).mkdir(parents=True)
+        (data_dir / "wbb" / "lgr_ugga" / "notes.txt").touch()
+
+        assert lin.LinGroup.get_lvls("WBB", "lgr_ugga") == ["raw", "qaqc", "final"]
+
     def test_data_path_lowercases_the_site(self, data_dir):
         assert lin.LinGroup.data_path("WBB", "lgr_ugga", "final") == str(
             data_dir / "wbb" / "lgr_ugga" / "final"

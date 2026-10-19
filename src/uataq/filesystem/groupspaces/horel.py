@@ -525,6 +525,8 @@ class HorelGroup(filesystem.GroupSpace):
 
     Methods
     -------
+    get_lvls(SID, instrument)
+        Get the data levels for a given site and instrument.
     get_highest_lvl(SID, instrument)
         Get the highest data level for a given site and instrument.
     get_files(SID, instrument, lvl, logger)
@@ -544,8 +546,8 @@ class HorelGroup(filesystem.GroupSpace):
     }
 
     @staticmethod
-    def get_highest_lvl(SID: str, instrument: str) -> str:
-        """Return "final" when the site has finalized files, else "raw"."""
+    def get_lvls(SID: str, instrument: str) -> list[str]:
+        """Return raw, qaqc and final when the site has finalized files, else raw."""
         finalized_dir = (
             "csv_finalized_ebus" if SID.startswith("BUS") else "csv_finalized"
         )
@@ -553,7 +555,7 @@ class HorelGroup(filesystem.GroupSpace):
         site_files = filesystem.list_files(
             os.path.join(UUTRAX_DIR, finalized_dir), pattern=f"{SID.upper()}*"
         )
-        return "final" if len(site_files) > 0 else "raw"
+        return list(lvl_data_dirs) if len(site_files) > 0 else ["raw"]
 
     def get_files(
         self, SID: str, instrument: str, lvl: str, logger: str = "campbellsci"
