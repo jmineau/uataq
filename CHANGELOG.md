@@ -137,8 +137,10 @@ follow [PEP 440](https://peps.python.org/pep-0440/): calendar-based,
   returns the others, where the first `FileNotFoundError` used to end the read.
   `Instrument.get_files` and `Instrument.get_datafiles` raise it too. A
   `GroupSpace` has a new method, `get_lvls(SID, instrument)`, that lists the
-  levels it keeps, from least to most processed; `get_highest_lvl` is now the
-  last of them, defined once on `GroupSpace` (#63).
+  levels it keeps, from least to most processed. lin lists the level folders of
+  the instrument and horel keeps `raw`, `qaqc` and `final`. `get_highest_lvl` is
+  the last of them, except for horel, which still looks for the site's
+  finalized files (#63).
 
 ### Fixed
 
