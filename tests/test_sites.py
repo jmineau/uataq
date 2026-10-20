@@ -518,9 +518,11 @@ class TestMobileSiteLocate:
         calls = []
         self.get_obs(calls)
 
+        # lin's GPS reaches a margin further, for the Pi's clock (#94)
+        margin = sites._PI_CLOCK_MARGIN
         spans = {group: (tr.start, tr.stop) for group, tr in calls}
         assert spans == {
-            "lin": (self.SPAN[0], self.LIN_STOP),
+            "lin": (self.SPAN[0] - margin, self.LIN_STOP + margin),
             "horel": (self.LIN_STOP, self.SPAN[1]),
         }
 
@@ -575,6 +577,63 @@ class TestMobileSiteLocate:
         gps._named_group.return_value = "horel"
         site = SimpleNamespace(instruments={"gps": gps}, SID="TRX01")
         assert sites.MobileSite._gps_group(site, "horel", {"gps": "horel"}) == "horel"  # pyrefly: ignore[bad-argument-type]  # duck-typed site
+
+
+class TestLocateWithPiClockOff:
+    """
+    lin rows are located when the Pi's clock is off GPS time (#94).
+
+    The join is on the Pi's clock, but a GPS read selects fixes by GPS time.
+    On 2016-11-09 TRX01's Pi ran about 4,110 s behind GPS time, so the fixes
+    of the rows in the last 4,110 s of a range have a GPS time past its end.
+    """
+
+    SPAN = (datetime(2016, 11, 9, 0), datetime(2016, 11, 9, 6))
+    OFFSET = pd.Timedelta(seconds=4110)
+
+    def gps(self):
+        pi = pd.date_range("2016-11-08 22:00", "2016-11-09 08:00", freq="10min")
+        return pd.DataFrame(
+            {
+                "Pi_Time": pi.strftime("%Y-%m-%d %H:%M:%S.%f"),
+                "Latitude_deg": 40.7,
+                "Longitude_deg": -111.9,
+            },
+            index=pd.DatetimeIndex(pi + self.OFFSET, name="Time_UTC"),
+        )
+
+    def locate(self, calls):
+        import uataq
+
+        site = uataq.get_site("TRX01")
+        gps = self.gps()
+
+        def read_data(instruments, group=None, lvl=None, time_range=None, *a, **k):
+            # Select fixes by GPS time, half-open, as a real read does
+            start, stop = TimeRange(time_range)
+            calls.append((start, stop))
+            index = pd.DatetimeIndex(gps.index)
+            return {"gps": gps[(index >= start) & (index < stop)]}
+
+        # Rows on the Pi's clock, one every 10 minutes across the range
+        pi = pd.date_range(*self.SPAN, freq="10min", inclusive="left")
+        rows = pd.DataFrame(
+            {"CH4d_ppm_cal": 2.0}, index=pd.DatetimeIndex(pi, name="Time_UTC")
+        )
+        with patch.object(site, "read_data", read_data):
+            return rows, site.locate({"lgr_ugga": rows}, time_range=self.SPAN)
+
+    def test_rows_near_the_end_are_located(self):
+        rows, located = self.locate([])
+        # 36 rows; the last 6 (Pi 05:00 on) have fixes past 06:00 GPS time
+        assert len(located) == len(rows) == 36
+        assert located.index.max() == pd.Timestamp("2016-11-09 06:58:30")
+
+    def test_gps_read_reaches_the_margin(self):
+        calls = []
+        self.locate(calls)
+        margin = sites._PI_CLOCK_MARGIN
+        assert calls == [(self.SPAN[0] - margin, self.SPAN[1] + margin)]
 
 
 class TestPollutantCase:
