@@ -155,6 +155,13 @@ follow [PEP 440](https://peps.python.org/pep-0440/): calendar-based,
   that share a timestamp. The instruments now follow the order of the
   pollutants asked for (a set of pollutants is sorted; `"all"` follows the
   site's config). Selecting columns by name was never affected (#74).
+- Raw lin air-trend files (TRAX, WBB, LDF and the other sites' raw `.csv`
+  files) keep the rows whose time has no fraction of a second. The logger
+  leaves out the fraction when it is exactly 0 (`2026-10-18T11:05:03` among
+  `2026-10-18T00:00:06.116312`), and the times were parsed with a format
+  inferred from the first row, so a row of the other shape was dropped: 862
+  of 1.45 billion rows across the archive. A file starting with a whole
+  second would have lost nearly every row (#95).
 
 ## [2026.10.0] - 2026-10-09
 

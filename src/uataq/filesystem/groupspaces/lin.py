@@ -750,8 +750,10 @@ class AirTrendFile(filesystem.DataFile):
             low_memory=False,
         )
 
-        # Format time
-        data["time"] = pd.to_datetime(data.time, errors="coerce")
+        # Format time. The logger writes isoformat(), which leaves out the
+        # fraction when the microseconds are 0; without a format pandas infers
+        # one from the first row, and a row of the other shape becomes NaT.
+        data["time"] = pd.to_datetime(data.time, errors="coerce", format="ISO8601")
         data.rename(columns={"time": "Time_UTC"}, inplace=True)
 
         # Coerce numeric columns
