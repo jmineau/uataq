@@ -543,6 +543,14 @@ class MobileSite(Site):
         Returns
         -------
         pd.DataFrame: The merged data with added location information.
+
+        Notes
+        -----
+        Both times are floored to whole seconds and the rows joined where the
+        seconds match, so an observation with no fix in its second is dropped.
+        When two fixes fall in the same second, the observation keeps the one
+        nearest to it in time (the first on a tie), so no observation appears
+        twice.
         """
 
         def truncate(time):
@@ -569,6 +577,12 @@ class MobileSite(Site):
         obs.dropna(how="all", inplace=True)
         gps.dropna(subset=[gps_on, "Latitude_deg", "Longitude_deg"], inplace=True)
 
+        # Number the observations and keep both exact times, to choose
+        # between two fixes that fall in one second
+        obs["_obs_row"] = np.arange(len(obs))
+        obs["_obs_time"] = obs[obs_on]
+        gps["_gps_time"] = gps[gps_on]
+
         # Truncate time to seconds
         obs[obs_on] = truncate(obs[obs_on])
         gps[gps_on] = truncate(gps[gps_on])
@@ -576,6 +590,18 @@ class MobileSite(Site):
         # Perform merge
         obs = obs.merge(
             gps, how="inner", left_on=obs_on, right_on=gps_on, suffixes=("", "_gps")
+        )
+
+        # Two fixes can share a second (the Pi stamps fixes with jitter), and
+        # each would copy the observation: keep the fix nearest to it in time
+        # (the first on a tie), so each observation appears once (#93). The
+        # merge keeps the observations' order; sorting by row restores it.
+        gap = (obs["_obs_time"] - obs["_gps_time"]).abs()
+        obs = (
+            obs.assign(_gap=gap)
+            .sort_values(["_obs_row", "_gap"], kind="stable")
+            .drop_duplicates("_obs_row")
+            .drop(columns=["_obs_row", "_obs_time", "_gps_time", "_gap"])
         )
 
         # Set Time_UTC as index

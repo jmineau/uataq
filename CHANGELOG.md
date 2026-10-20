@@ -155,6 +155,15 @@ follow [PEP 440](https://peps.python.org/pep-0440/): calendar-based,
   that share a timestamp. The instruments now follow the order of the
   pollutants asked for (a set of pollutants is sorted; `"all"` follows the
   site's config). Selecting columns by name was never affected (#74).
+- `MobileSite.merge_gps` (and so `MobileSite.get_obs`, `MobileSite.locate`
+  and `Network` for mobile sites) returns each observation once. When two GPS
+  fixes fell in the same second of the joining clock (the Pi stamps lin's
+  fixes with jitter, so one logged late in a second and the next early in the
+  following one can share it), every observation in that second came out
+  twice, once with each fix, and nothing marked the copies: 2,194 extra rows
+  in TRX01's methane for March 2015 (1,692,767 rows for 1,690,573
+  observations). The observation now keeps the fix nearest to it in time
+  (#93).
 
 ## [2026.10.0] - 2026-10-09
 
