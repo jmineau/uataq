@@ -392,6 +392,38 @@ class TestAirTrendFile:
         # character columns stay text
         assert data["n_s"].tolist() == ["N", "N"]
 
+    @pytest.mark.parametrize(
+        "times",
+        [
+            ["2026-10-18T00:00:06.116312", "2026-10-18T00:00:07"],
+            ["2026-10-18T00:00:07", "2026-10-18T00:00:08.116312"],
+        ],
+        ids=["fraction-first", "whole-second-first"],
+    )
+    def test_times_with_and_without_a_fraction(self, tmp_path, times):
+        """
+        A time with no fraction of a second is read beside ones with it (#95).
+
+        The logger writes isoformat(), which leaves out the fraction when the
+        microseconds are 0. An inferred format dropped the rows of the other
+        shape than the first row's.
+        """
+        path = self.write(
+            tmp_path,
+            "metone_es642",
+            "2026-10-18.csv",
+            "time,pm25_mgm3\n" + "".join(f"{t},000.012\n" for t in times),
+        )
+        config = {
+            "metone_es642": {
+                "air_trend": {"col_names": ["time", "pm25_mgm3"], "col_types": "Td"}
+            }
+        }
+        with patch.object(lin, "DATA_CONFIG", config):
+            data = lin.AirTrendFile(path).parse()
+
+        assert data["Time_UTC"].tolist() == [pd.Timestamp(t) for t in times]
+
     def test_variant_instrument_uses_its_base_config(self, tmp_path):
         """lgr_ugga_manual_cal files have the lgr_ugga layout."""
         path = self.write(tmp_path, "lgr_ugga_manual_cal", "2024-08-27.csv", "")
