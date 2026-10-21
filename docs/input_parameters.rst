@@ -58,10 +58,11 @@ from that group.
 
 .. _input-level:
 
-Processing Level
-----------------
+Data Level
+----------
 
-``lvl`` is the processing level of the data.
+``lvl`` is the data level: how far the pipeline has processed the data (the
+pipeline's own documentation calls them processing levels).
 Available levels, from least to most processed, are:
 
 - ``raw`` : Raw data.
