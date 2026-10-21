@@ -155,6 +155,11 @@ follow [PEP 440](https://peps.python.org/pep-0440/): calendar-based,
   that share a timestamp. The instruments now follow the order of the
   pollutants asked for (a set of pollutants is sorted; `"all"` follows the
   site's config). Selecting columns by name was never affected (#74).
+- `Network`'s error when none of its sites measures the pollutant listed the
+  sites you gave as "Valid sites": `Network(["CSP"], "O3")` raised `No sites
+  found that measure pollutant 'O3'. Valid sites: ['CSP']`, though CSP does not
+  measure O3. It now lists the sites in the configuration that do: `... Sites
+  that measure it: BUS01, ..., TRX03, WBB.`, and says so when none does (#100).
 
 ## [2026.10.0] - 2026-10-09
 

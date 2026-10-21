@@ -70,6 +70,29 @@ class TestNetworkInitialization:
         with pytest.raises(ValueError, match="No sites found"):
             Network(sites=["NONEXISTENT"], pollutant="CO2")
 
+    def test_no_valid_sites_lists_the_sites_that_measure_it(self):
+        """The error lists the configured sites that measure it, not those given (#100)."""
+        with pytest.raises(ValueError) as caught:
+            Network(sites=["CSP"], pollutant="O3")  # CSP measures CO2 and CH4
+
+        message = str(caught.value)
+        assert message.startswith(
+            "No sites found that measure pollutant 'O3'. Sites that measure it: "
+        )
+        listed = message.split(": ", 1)[1].rstrip(".").split(", ")
+        assert "WBB" in listed
+        assert "CSP" not in listed
+        assert all("O3" in get_site(sid).pollutants for sid in listed)
+
+    def test_no_valid_sites_for_a_pollutant_no_site_measures(self):
+        with pytest.raises(ValueError) as caught:
+            Network(sites=["WBB"], pollutant="nh3")
+
+        assert str(caught.value) == (
+            "No sites found that measure pollutant 'NH3'. "
+            "No site in the configuration measures it."
+        )
+
 
 class TestNetworkGroupSelection:
     """Network reads let each instrument pick its own group (#14)."""
