@@ -17,7 +17,7 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from uataq import errors
+from uataq import errors, filesystem
 from uataq.filesystem.groupspaces import lin
 from uataq.timerange import TimeRange
 
@@ -516,6 +516,112 @@ class TestLinGroup:
             "2024-06-03",
             "2024-06-04",
         ]
+
+    @pytest.fixture
+    def ugga_days(self, data_dir):
+        """
+        Raw LGR files for 2024-06-01 to 06-10, in both name styles.
+
+        Two files on 06-05 (the software restarted), a file whose header is
+        unreadable on 06-08 and one whose name has no date.
+        """
+        raw = data_dir / "wbb" / "lgr_ugga" / "raw"
+        row = [ugga_row("06/01/2024 00:00:00.000", tail=("3", "3", "atmosphere"))]
+        for day in pd.date_range("2024-06-01", "2024-06-10"):
+            name = day.strftime("gga_%Y-%m-%d_f0000.txt")
+            if day.day % 2:
+                name = day.strftime("gga%d%b%Y_f0000.txt")
+            write_ugga(raw / f"{day:%Y-%m-%d}" / name, "2f90039", row, header_cols=24)
+        write_ugga(raw / "2024-06-05" / "gga_2024-06-05_f0001.txt", "2f90039", row, 24)
+        (raw / "2024-06-08" / "gga_2024-06-08_f0000.txt").write_text("garbage\n")
+        write_ugga(raw / "latest" / "gga_latest_f0000.txt", "2f90039", row, 24)
+        return raw
+
+    @staticmethod
+    def full_listing(time_range: TimeRange) -> list[str]:
+        """The files the base class keeps: every header read, then filtered."""
+        one_day = pd.Timedelta(days=1)
+        start = time_range.start - one_day if time_range.start else None
+        stop = time_range.stop + one_day if time_range.stop else None
+        files = filesystem.GroupSpace.get_datafiles(
+            lin.LinGroup(),
+            "WBB",
+            "lgr_ugga",
+            "raw",
+            "lgr_ugga",
+            TimeRange(start=start, stop=stop),
+        )
+        return [f.path for f in files]
+
+    @pytest.mark.parametrize(
+        "time_range",
+        [
+            "2024-06-03",
+            "2024-06-05",  # the day with two files
+            "2024-06-01",  # the first file
+            "2024-06-10",  # the last file
+            "2024-05-31",  # the day before the first
+            "2024-06-11",  # the day after the last
+            ["2024-06-03 12:00", "2024-06-04 06:00"],
+            ["2024-06-04", "2024-06-04 00:00:01"],
+            ["2024-06-02", "2024-06-09"],  # the unreadable file inside
+            "2024-06",
+            [None, "2024-06-03"],
+            ["2024-06-08", None],
+            None,
+        ],
+    )
+    def test_raw_ugga_keeps_the_files_a_full_listing_keeps(self, ugga_days, time_range):
+        """
+        Picking files by the day in their name first keeps the same files.
+
+        Two files of one day may come in the other order: the base filter's
+        sort does not keep the order of equal days either.
+        """
+        time_range = TimeRange(time_range)
+        datafiles = lin.LinGroup().get_datafiles(
+            "WBB", "lgr_ugga", "raw", "lgr_ugga", time_range
+        )
+        paths = [d.path for d in datafiles]
+        assert sorted(paths) == sorted(self.full_listing(time_range))
+        assert [d.period for d in datafiles] == sorted(d.period for d in datafiles)
+
+    def test_raw_ugga_no_file_in_range_raises_the_same_error(self, ugga_days):
+        time_range = TimeRange("2024-07")
+        with pytest.raises(errors.ReaderError) as full:
+            self.full_listing(time_range)
+        with pytest.raises(errors.ReaderError) as picked:
+            lin.LinGroup().get_datafiles(
+                "WBB", "lgr_ugga", "raw", "lgr_ugga", time_range
+            )
+        assert str(picked.value) == str(full.value)
+        assert "files run from 2024-06-01 to 2024-06-10" in str(picked.value)
+
+    def test_raw_ugga_reads_only_the_headers_in_range(
+        self, ugga_days, monkeypatch, caplog
+    ):
+        """
+        A read opens the files of the days it covers, not every file.
+
+        So an unreadable file outside the range is not reported either; the
+        file whose name has no date is still opened, and reported.
+        """
+        opened = []
+        get_meta = lin.LGR_UGGA_File.get_meta
+
+        def spy(path):
+            opened.append(os.path.basename(os.path.dirname(path)))
+            return get_meta(path)
+
+        monkeypatch.setattr(lin.LGR_UGGA_File, "get_meta", staticmethod(spy))
+
+        with caplog.at_level(logging.WARNING, logger="uataq"):
+            lin.LinGroup().get_datafiles(
+                "WBB", "lgr_ugga", "raw", "lgr_ugga", TimeRange("2024-06-03")
+            )
+        assert sorted(opened) == ["2024-06-02", "2024-06-03", "2024-06-04", "latest"]
+        assert "gga_latest_f0000.txt" in caplog.text
+        assert "2024-06-08" not in caplog.text
 
     def test_bad_file_is_skipped_with_a_warning(self, data_dir, caplog):
         """One unreadable file name doesn't stop the read."""
