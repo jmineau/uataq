@@ -6,7 +6,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>uataq &#8212; UATAQ 2026.10.1.dev51+gba83a9c38 documentation</title>
+    <title>uataq &#8212; UATAQ 2026.10.1.dev52+g38caac521 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="../_static/documentation_options.js?v=ac5c3d02"></script>
+    <script src="../_static/documentation_options.js?v=e3416750"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -56,7 +56,7 @@
     <link rel="search" title="Search" href="../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.1.dev51+gba83a9c38" />
+  <meta name="docsearch:version" content="2026.10.1.dev52+g38caac521" />
   
     
     <script src="../_static/searchtools.js"></script>
@@ -124,7 +124,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.1.dev51+gba83a9c38 documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.1.dev52+g38caac521 documentation</p>
   
 </a></div>
     
@@ -682,6 +682,9 @@
 <span class="sd">    EmptyResultWarning</span>
 <span class="sd">        If the site has files for the range but no data in them, so the table</span>
 <span class="sd">        has no rows.</span>
+<span class="sd">    DroppedPollutantWarning</span>
+<span class="sd">        If you name several pollutants and one of them has no data in the</span>
+<span class="sd">        range, so the table leaves it out.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">site</span> <span class="o">=</span> <span class="n">get_site</span><span class="p">(</span><span class="n">SID</span><span class="p">)</span>
     <span class="n">obs</span> <span class="o">=</span> <span class="n">site</span><span class="o">.</span><span class="n">get_obs</span><span class="p">(</span><span class="n">pollutants</span><span class="p">,</span> <span class="nb">format</span><span class="p">,</span> <span class="n">group</span><span class="p">,</span> <span class="n">time_range</span><span class="p">,</span> <span class="n">num_processes</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
@@ -728,6 +731,9 @@
 <span class="sd">    EmptyResultWarning</span>
 <span class="sd">        If nothing in the site&#39;s files falls in the range, so the table has no</span>
 <span class="sd">        rows.</span>
+<span class="sd">    DroppedPollutantWarning</span>
+<span class="sd">        If you name several pollutants and one of them has no data in the</span>
+<span class="sd">        range, so the table leaves it out.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">site</span> <span class="o">=</span> <span class="n">get_site</span><span class="p">(</span><span class="n">SID</span><span class="p">)</span>
     <span class="n">obs</span> <span class="o">=</span> <span class="n">site</span><span class="o">.</span><span class="n">get_recent_obs</span><span class="p">(</span><span class="n">recent</span><span class="p">,</span> <span class="n">pollutants</span><span class="p">,</span> <span class="nb">format</span><span class="p">,</span> <span class="n">group</span><span class="p">)</span>

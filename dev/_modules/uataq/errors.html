@@ -6,7 +6,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>uataq.errors &#8212; UATAQ 2026.10.1.dev51+gba83a9c38 documentation</title>
+    <title>uataq.errors &#8212; UATAQ 2026.10.1.dev52+g38caac521 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="../../_static/documentation_options.js?v=ac5c3d02"></script>
+    <script src="../../_static/documentation_options.js?v=e3416750"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -56,7 +56,7 @@
     <link rel="search" title="Search" href="../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.1.dev51+gba83a9c38" />
+  <meta name="docsearch:version" content="2026.10.1.dev52+g38caac521" />
   
     
     <script src="../../_static/searchtools.js"></script>
@@ -124,7 +124,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.1.dev51+gba83a9c38 documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.1.dev52+g38caac521 documentation</p>
   
 </a></div>
     
@@ -650,6 +650,21 @@
 <span class="sd">    so does ``Network.get_obs``. The read did not fail: the archive has files</span>
 <span class="sd">    for the range, and nothing in them falls inside it. Silence it with</span>
 <span class="sd">    ``warnings.filterwarnings(&quot;ignore&quot;, category=uataq.errors.EmptyResultWarning)``.</span>
+<span class="sd">    &quot;&quot;&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="DroppedPollutantWarning">
+<a class="viewcode-back" href="../../api/uataq.errors.DroppedPollutantWarning.html#uataq.errors.DroppedPollutantWarning">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">DroppedPollutantWarning</span><span class="p">(</span><span class="ne">UserWarning</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Warned when a read of several pollutants leaves one out for want of data.</span>
+
+<span class="sd">    ``get_obs`` and ``get_recent_obs`` issue it when none of the instruments</span>
+<span class="sd">    that measure a pollutant you asked for gave data (no files for the range,</span>
+<span class="sd">    or not installed then), so the table has no column for it. The read did not</span>
+<span class="sd">    fail: the other pollutants are returned. Silence it with</span>
+<span class="sd">    ``warnings.filterwarnings(&quot;ignore&quot;, category=uataq.errors.DroppedPollutantWarning)``.</span>
 <span class="sd">    &quot;&quot;&quot;</span></div>
 
 </pre></div>

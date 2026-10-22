@@ -6,7 +6,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>uataq.sites &#8212; UATAQ 2026.10.1.dev51+gba83a9c38 documentation</title>
+    <title>uataq.sites &#8212; UATAQ 2026.10.1.dev52+g38caac521 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="../../_static/documentation_options.js?v=ac5c3d02"></script>
+    <script src="../../_static/documentation_options.js?v=e3416750"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -56,7 +56,7 @@
     <link rel="search" title="Search" href="../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.1.dev51+gba83a9c38" />
+  <meta name="docsearch:version" content="2026.10.1.dev52+g38caac521" />
   
     
     <script src="../../_static/searchtools.js"></script>
@@ -124,7 +124,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.1.dev51+gba83a9c38 documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.1.dev52+g38caac521 documentation</p>
   
 </a></div>
     
@@ -934,6 +934,13 @@
 <span class="sd">            If the instruments have files for the range but no data in it, so</span>
 <span class="sd">            the table has no rows. A range with no files raises</span>
 <span class="sd">            :class:`~uataq.errors.ReaderError` instead.</span>
+<span class="sd">        DroppedPollutantWarning</span>
+<span class="sd">            If you name several pollutants and none of the instruments that</span>
+<span class="sd">            measure one of them gave data (no files for the range, or not</span>
+<span class="sd">            installed then), so the table leaves it out. It names the</span>
+<span class="sd">            pollutants and the instruments. ``pollutants=&#39;all&#39;`` does not warn,</span>
+<span class="sd">            and when none of the pollutants has data the read raises</span>
+<span class="sd">            :class:`~uataq.errors.ReaderError` instead.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">frames</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_read_obs</span><span class="p">(</span><span class="n">pollutants</span><span class="p">,</span> <span class="nb">format</span><span class="p">,</span> <span class="n">group</span><span class="p">,</span> <span class="n">time_range</span><span class="p">,</span> <span class="n">num_processes</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">frames</span><span class="o">.</span><span class="n">values</span><span class="p">())</span><span class="o">.</span><span class="n">sort_index</span><span class="p">())</span></div>
@@ -1003,6 +1010,26 @@
                 <span class="k">raise</span>
             <span class="k">raise</span> <span class="n">_no_data</span><span class="p">(</span><span class="n">asked</span><span class="p">,</span> <span class="n">lvl</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">SID</span><span class="p">,</span> <span class="n">e</span><span class="o">.</span><span class="n">detail</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="kc">None</span>
 
+        <span class="c1"># read_data logged each instrument it could not read and went on: a</span>
+        <span class="c1"># pollutant with none of its instruments in data is left out of the table</span>
+        <span class="n">left_out</span> <span class="o">=</span> <span class="p">{</span>  <span class="c1"># the pollutant as declared: the names of its instruments</span>
+            <span class="n">name</span><span class="p">:</span> <span class="p">[</span><span class="n">i</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pollutant_instruments</span><span class="p">[</span><span class="n">pollutant</span><span class="p">]]</span>
+            <span class="k">for</span> <span class="n">pollutant</span><span class="p">,</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">pollutants</span><span class="p">,</span> <span class="n">declared</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="n">data</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pollutant_instruments</span><span class="p">[</span><span class="n">pollutant</span><span class="p">])</span>
+        <span class="p">}</span>
+        <span class="c1"># Only for pollutants that were named: &#39;all&#39; covers every pollutant the</span>
+        <span class="c1"># site ever measured, and an instrument not installed in the range is</span>
+        <span class="c1"># expected to give none</span>
+        <span class="k">if</span> <span class="n">left_out</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">everything</span><span class="p">:</span>
+            <span class="n">gave_none</span> <span class="o">=</span> <span class="nb">dict</span><span class="o">.</span><span class="n">fromkeys</span><span class="p">(</span><span class="n">n</span> <span class="k">for</span> <span class="n">names</span> <span class="ow">in</span> <span class="n">left_out</span><span class="o">.</span><span class="n">values</span><span class="p">()</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">names</span><span class="p">)</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;No </span><span class="si">{</span><span class="n">lvl</span><span class="si">}</span><span class="s2"> data found for </span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">left_out</span><span class="p">)</span><span class="si">}</span><span class="s2"> at </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">SID</span><span class="si">}</span><span class="s2"> &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="n">TimeRange</span><span class="p">(</span><span class="n">time_range</span><span class="p">)</span><span class="si">}</span><span class="s2">): </span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">gave_none</span><span class="p">)</span><span class="si">}</span><span class="s2"> gave none, &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;so the table leaves out </span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">left_out</span><span class="p">)</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">,</span>
+                <span class="n">errors</span><span class="o">.</span><span class="n">DroppedPollutantWarning</span><span class="p">,</span>
+                <span class="n">stacklevel</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>  <span class="c1"># the caller of get_obs</span>
+            <span class="p">)</span>
+
         <span class="n">pattern</span> <span class="o">=</span> <span class="s2">&quot;|&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">declared</span><span class="p">)</span>
 
         <span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Combining data by pollutant...&quot;</span><span class="p">)</span>
@@ -1054,6 +1081,9 @@
 <span class="sd">        EmptyResultWarning</span>
 <span class="sd">            If nothing in the files falls in the range, so the table has no</span>
 <span class="sd">            rows (see :meth:`get_obs`).</span>
+<span class="sd">        DroppedPollutantWarning</span>
+<span class="sd">            If you name several pollutants and one of them has no data in the</span>
+<span class="sd">            range (see :meth:`get_obs`).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">recent</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="n">recent</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_timedelta</span><span class="p">(</span><span class="n">recent</span><span class="p">)</span>
@@ -1235,6 +1265,9 @@
 <span class="sd">        EmptyResultWarning</span>
 <span class="sd">            If the instruments&#39; files hold no data in the range (see</span>
 <span class="sd">            :meth:`Site.get_obs`).</span>
+<span class="sd">        DroppedPollutantWarning</span>
+<span class="sd">            If you name several pollutants and one of them has no data in the</span>
+<span class="sd">            range (see :meth:`Site.get_obs`).</span>
 
 <span class="sd">        Notes</span>
 <span class="sd">        -----</span>

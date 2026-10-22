@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>When there is nothing to read &#8212; UATAQ 2026.10.1.dev51+gba83a9c38 documentation</title>
+    <title>When there is nothing to read &#8212; UATAQ 2026.10.1.dev52+g38caac521 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="_static/documentation_options.js?v=ac5c3d02"></script>
+    <script src="_static/documentation_options.js?v=e3416750"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -59,7 +59,7 @@
     <link rel="prev" title="Reading data" href="reading_data.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.1.dev51+gba83a9c38" />
+  <meta name="docsearch:version" content="2026.10.1.dev52+g38caac521" />
   
     
     <script src="_static/searchtools.js"></script>
@@ -127,7 +127,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.1.dev51+gba83a9c38 documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.1.dev52+g38caac521 documentation</p>
   
 </a></div>
     
@@ -540,7 +540,7 @@
 <p class="admonition-title">Note</p>
 <p>The examples on this page read the UATAQ archive, which is only available
 on CHPC. They are shown as code and are not run when the documentation is
-built. The output under each one is from a run on CHPC on 14 October 2026.
+built. The output under each one is from a run on CHPC on 15 October 2026.
 The archive keeps growing, so what a read returns will have moved on by the
 time you read this.</p>
 </div>
@@ -649,14 +649,28 @@ may be empty:</p>
 <section id="one-of-several-pollutants-missing">
 <h2>One of several pollutants missing<a class="headerlink" href="#one-of-several-pollutants-missing" title="Link to this heading">#</a></h2>
 <div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">both</span> <span class="o">=</span> <span class="n">wbb</span><span class="o">.</span><span class="n">get_obs</span><span class="p">([</span><span class="s2">&quot;CO2&quot;</span><span class="p">,</span> <span class="s2">&quot;O3&quot;</span><span class="p">],</span> <span class="n">time_range</span><span class="o">=</span><span class="s2">&quot;2021-08&quot;</span><span class="p">)</span>
+<span class="go">WARNING:uataq.sites:Error reading lgr_ugga@WBB data from lin groupspace: No files found within the specified time range (files run from 2014-02 to 2026-10, with gaps).</span>
+<span class="go">&lt;stdin&gt;:1: DroppedPollutantWarning: No final data found for CO2 at WBB (2021-08-01 00:00:00 to 2021-09-01 00:00:00): lgr_ugga gave none, so the table leaves out CO2.</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">both</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
 <span class="go">[&#39;O3_ppb&#39;]</span>
 </pre></div>
 </div>
 <p>When you ask for several pollutants, the ones with data come back and the ones
-without are dropped. There is no error, and no warning unless the log is on.
-It raises <code class="docutils literal notranslate"><span class="pre">ReaderError</span></code> only when none of them has data. Check the columns you
-got.</p>
+without are left out. A warning, <code class="docutils literal notranslate"><span class="pre">uataq.errors.DroppedPollutantWarning</span></code>, names
+each of them and the instruments that gave none. It is a Python warning, so it
+shows without the log. To see why an instrument gave none, ask for that
+pollutant alone: the error is the one under <a class="reference internal" href="#no-data-found">No data found</a>. A read of several
+raises that error only when none of them has data. To silence the warning:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="n">uataq</span><span class="o">.</span><span class="n">errors</span><span class="o">.</span><span class="n">DroppedPollutantWarning</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>A pollutant is left out only when none of the instruments that measure it gave
+data (in 2022, WBB’s NO2 comes from two). <code class="docutils literal notranslate"><span class="pre">get_recent_obs</span></code> warns the same way.
+<code class="docutils literal notranslate"><span class="pre">get_obs()</span></code> with no pollutants named does not: “all” includes every pollutant
+the site ever measured, and an instrument removed from the site is expected to
+give none, so check the columns you got.</p>
 <p>To go through many sites or months and skip the empty ones, catch the error:</p>
 <div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">uataq.errors</span><span class="w"> </span><span class="kn">import</span> <span class="n">ReaderError</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">sid</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;WBB&quot;</span><span class="p">,</span> <span class="s2">&quot;SUG&quot;</span><span class="p">,</span> <span class="s2">&quot;HDP&quot;</span><span class="p">]:</span>

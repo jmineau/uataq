@@ -18,6 +18,7 @@
    :nosignatures:
 
    DataFileInitializationError
+   DroppedPollutantWarning
    EmptyResultWarning
    InactiveInstrumentError
    InstrumentNotFoundError

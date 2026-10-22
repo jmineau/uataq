@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>uataq.errors &#8212; UATAQ 2026.10.1.dev51+gba83a9c38 documentation</title>
+    <title>uataq.errors &#8212; UATAQ 2026.10.1.dev52+g38caac521 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="../_static/documentation_options.js?v=ac5c3d02"></script>
+    <script src="../_static/documentation_options.js?v=e3416750"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -59,7 +59,7 @@
     <link rel="prev" title="uataq.timerange.TimeRange.parse_iso" href="uataq.timerange.TimeRange.parse_iso.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.1.dev51+gba83a9c38" />
+  <meta name="docsearch:version" content="2026.10.1.dev52+g38caac521" />
   
     
     <script src="../_static/searchtools.js"></script>
@@ -127,7 +127,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.1.dev51+gba83a9c38 documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.1.dev52+g38caac521 documentation</p>
   
 </a></div>
     
@@ -688,6 +688,7 @@
 </details></li>
 <li class="toctree-l1 current active has-children"><a aria-current="page" class="current reference internal" href="#">uataq.errors</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="uataq.errors.DataFileInitializationError.html">uataq.errors.DataFileInitializationError</a></li>
+<li class="toctree-l2"><a class="reference internal" href="uataq.errors.DroppedPollutantWarning.html">uataq.errors.DroppedPollutantWarning</a></li>
 <li class="toctree-l2"><a class="reference internal" href="uataq.errors.EmptyResultWarning.html">uataq.errors.EmptyResultWarning</a></li>
 <li class="toctree-l2"><a class="reference internal" href="uataq.errors.InactiveInstrumentError.html">uataq.errors.InactiveInstrumentError</a></li>
 <li class="toctree-l2"><a class="reference internal" href="uataq.errors.InstrumentNotFoundError.html">uataq.errors.InstrumentNotFoundError</a></li>
@@ -766,25 +767,28 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="uataq.errors.DataFileInitializationError.html#uataq.errors.DataFileInitializationError" title="uataq.errors.DataFileInitializationError"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFileInitializationError</span></code></a></p></td>
 <td><p>Raised when a data file cannot be set up.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="uataq.errors.EmptyResultWarning.html#uataq.errors.EmptyResultWarning" title="uataq.errors.EmptyResultWarning"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EmptyResultWarning</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="uataq.errors.DroppedPollutantWarning.html#uataq.errors.DroppedPollutantWarning" title="uataq.errors.DroppedPollutantWarning"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DroppedPollutantWarning</span></code></a></p></td>
+<td><p>Warned when a read of several pollutants leaves one out for want of data.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="uataq.errors.EmptyResultWarning.html#uataq.errors.EmptyResultWarning" title="uataq.errors.EmptyResultWarning"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EmptyResultWarning</span></code></a></p></td>
 <td><p>Warned when a read finds files for the range but no data in them.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="uataq.errors.InactiveInstrumentError.html#uataq.errors.InactiveInstrumentError" title="uataq.errors.InactiveInstrumentError"><code class="xref py py-obj docutils literal notranslate"><span class="pre">InactiveInstrumentError</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="uataq.errors.InactiveInstrumentError.html#uataq.errors.InactiveInstrumentError" title="uataq.errors.InactiveInstrumentError"><code class="xref py py-obj docutils literal notranslate"><span class="pre">InactiveInstrumentError</span></code></a></p></td>
 <td><p>Raised when the requested time range misses the instrument's installation.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="uataq.errors.InstrumentNotFoundError.html#uataq.errors.InstrumentNotFoundError" title="uataq.errors.InstrumentNotFoundError"><code class="xref py py-obj docutils literal notranslate"><span class="pre">InstrumentNotFoundError</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="uataq.errors.InstrumentNotFoundError.html#uataq.errors.InstrumentNotFoundError" title="uataq.errors.InstrumentNotFoundError"><code class="xref py py-obj docutils literal notranslate"><span class="pre">InstrumentNotFoundError</span></code></a></p></td>
 <td><p>Raised when a site does not have the requested instrument.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="uataq.errors.InvalidGroupError.html#uataq.errors.InvalidGroupError" title="uataq.errors.InvalidGroupError"><code class="xref py py-obj docutils literal notranslate"><span class="pre">InvalidGroupError</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="uataq.errors.InvalidGroupError.html#uataq.errors.InvalidGroupError" title="uataq.errors.InvalidGroupError"><code class="xref py py-obj docutils literal notranslate"><span class="pre">InvalidGroupError</span></code></a></p></td>
 <td><p>Raised when a research group cannot read the instrument.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="uataq.errors.ParserError.html#uataq.errors.ParserError" title="uataq.errors.ParserError"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ParserError</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="uataq.errors.ParserError.html#uataq.errors.ParserError" title="uataq.errors.ParserError"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ParserError</span></code></a></p></td>
 <td><p>Raised when a data file's contents cannot be parsed.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="uataq.errors.PollutantNotMeasured.html#uataq.errors.PollutantNotMeasured" title="uataq.errors.PollutantNotMeasured"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PollutantNotMeasured</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="uataq.errors.PollutantNotMeasured.html#uataq.errors.PollutantNotMeasured" title="uataq.errors.PollutantNotMeasured"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PollutantNotMeasured</span></code></a></p></td>
 <td><p>Raised when a site measures none of the requested pollutants.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="uataq.errors.ReaderError.html#uataq.errors.ReaderError" title="uataq.errors.ReaderError"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ReaderError</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="uataq.errors.ReaderError.html#uataq.errors.ReaderError" title="uataq.errors.ReaderError"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ReaderError</span></code></a></p></td>
 <td><p>Base class for failures to read data.</p></td>
 </tr>
 </tbody>
