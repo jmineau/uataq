@@ -425,3 +425,64 @@ class TestActiveRangeBoundaries:
         """Site.read_data goes through plan_reads, which must raise too."""
         with pytest.raises(errors.InactiveInstrumentError):
             self.make().plan_reads("horel", (self.REMOVAL, None))
+
+
+@pytest.mark.parametrize(
+    ("words", "prose"),
+    [
+        ([], "none"),
+        (["raw"], "raw"),
+        (["raw", "qaqc"], "raw and qaqc"),
+        (["raw", "qaqc", "final"], "raw, qaqc and final"),
+    ],
+)
+def test_levels_in_prose(words, prose):
+    assert instruments._in_prose(words) == prose
+
+
+class TestLevelTheInstrumentLacks:
+    """A level with no folder says which levels the instrument has (#63)."""
+
+    @pytest.fixture
+    def t400(self, tmp_path, monkeypatch):
+        """WBB's ozone monitor over a lin tree with raw, qaqc and final folders."""
+        import uataq
+        from uataq.filesystem.groupspaces import lin
+
+        monkeypatch.setattr(lin, "DATA_DIR", str(tmp_path))
+        for lvl in ["raw", "qaqc", "final"]:
+            (tmp_path / "wbb" / "teledyne_t400" / lvl).mkdir(parents=True)
+        return uataq.get_site("WBB").instruments["teledyne_t400"]
+
+    def test_get_datafiles_names_the_levels_it_has(self, t400):
+        with pytest.raises(errors.ReaderError) as e:
+            t400.get_datafiles("lin", "calibrated", "2025-06")
+
+        assert str(e.value) == (
+            "teledyne_t400@WBB has no calibrated level (it has raw, qaqc and final)."
+        )
+
+    def test_get_files_names_the_levels_it_has(self, t400):
+        with pytest.raises(errors.ReaderError, match=r"has no calibrated level"):
+            t400.get_files("lin", "calibrated")
+
+    def test_read_data_names_the_levels_it_has(self, t400):
+        with pytest.raises(errors.ReaderError, match=r"\(it has raw, qaqc and final\)"):
+            t400.read_data("lin", "Calibrated", "2025-06")
+
+    def test_a_level_it_has_is_not_refused(self, t400, tmp_path):
+        """The folder is there: an empty one is a read with no files, as before."""
+        assert t400.get_files("lin", "final") == []
+        with pytest.raises(errors.ReaderError, match="No files found"):
+            t400.get_datafiles("lin", "final", "2025-06")
+
+    def test_the_highest_level_is_the_last_it_has(self, t400):
+        assert t400.get_highest_lvl("lin") == "final"
+
+    def test_a_level_that_does_not_exist_is_still_an_assertion(self, t400):
+        with pytest.raises(AssertionError, match="Invalid data level"):
+            t400.read_data("lin", "gold", "2025-06")
+
+    def test_an_inactive_instrument_is_reported_inactive_first(self, t400):
+        with pytest.raises(errors.InactiveInstrumentError):
+            t400.get_datafiles("lin", "calibrated", "2010")
