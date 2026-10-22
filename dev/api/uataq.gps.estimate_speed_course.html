@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>uataq.gps.estimate_speed_course &#8212; UATAQ 2026.10.1.dev43+ga06dc06d6 documentation</title>
+    <title>uataq.gps.estimate_speed_course &#8212; UATAQ 2026.10.1.dev44+g55ac74d4e documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="../_static/documentation_options.js?v=1f6d9641"></script>
+    <script src="../_static/documentation_options.js?v=bd36f74f"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -59,7 +59,7 @@
     <link rel="prev" title="uataq.gps.bearing" href="uataq.gps.bearing.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.1.dev43+ga06dc06d6" />
+  <meta name="docsearch:version" content="2026.10.1.dev44+g55ac74d4e" />
   
     
     <script src="../_static/searchtools.js"></script>
@@ -127,7 +127,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.1.dev43+ga06dc06d6 documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.1.dev44+g55ac74d4e documentation</p>
   
 </a></div>
     
@@ -776,13 +776,13 @@ distance over the elapsed time; course is the bearing along it.</p>
 DatetimeIndex supplies <code class="docutils literal notranslate"><span class="pre">time</span></code> on its own.</p></li>
 <li><p><strong>longitude</strong> (<em>array_like</em>) – Positions in degrees, <strong>ordered in time</strong>. A pandas Series with a
 DatetimeIndex supplies <code class="docutils literal notranslate"><span class="pre">time</span></code> on its own.</p></li>
-<li><p><strong>time</strong> (<em>array_like</em><em>, </em><em>optional</em>) – Sample times, convertible by <a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.to_datetime.html#pandas.to_datetime" title="(in pandas v3.0.6)"><code class="xref py py-func docutils literal notranslate"><span class="pre">pandas.to_datetime()</span></code></a>. Defaults to
+<li><p><strong>time</strong> (<em>array_like</em><em>, </em><em>optional</em>) – Sample times, convertible by <a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.to_datetime.html#pandas.to_datetime" title="(in pandas v3.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">pandas.to_datetime()</span></code></a>. Defaults to
 the index of <code class="docutils literal notranslate"><span class="pre">latitude</span></code> when that is a Series.</p></li>
 <li><p><strong>window</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.15)"><em>int</em></a>) – Number of samples on each side of the centered difference. <code class="docutils literal notranslate"><span class="pre">1</span></code> uses
 the immediate neighbors. A larger window averages over a longer
 baseline, which suppresses position noise at the cost of smoothing
 real accelerations and turns.</p></li>
-<li><p><strong>max_gap</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a><em> or </em><a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.Timedelta.html#pandas.Timedelta" title="(in pandas v3.0.6)"><em>pandas.Timedelta</em></a><em>, </em><em>optional</em>) – Longest interval between <em>consecutive</em> samples that may fall inside
+<li><p><strong>max_gap</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a><em> or </em><a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.Timedelta.html#pandas.Timedelta" title="(in pandas v3.1)"><em>pandas.Timedelta</em></a><em>, </em><em>optional</em>) – Longest interval between <em>consecutive</em> samples that may fall inside
 the difference. Where a larger gap is spanned the estimate is NaN,
 because a straight chord across a gap is not the path travelled.
 <code class="docutils literal notranslate"><span class="pre">None</span></code> disables the check.</p></li>
@@ -794,7 +794,7 @@ because a straight chord across a gap is not the path travelled.
 samples spanning a gap or a non-increasing time step.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v3.0.6)">pandas.DataFrame</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v3.1)">pandas.DataFrame</a></p>
 </dd>
 </dl>
 <p class="rubric">Notes</p>
