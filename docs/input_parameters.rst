@@ -35,7 +35,10 @@ Pollutants
 ----------
 
 ``pollutants`` is a single pollutant name or a list of pollutant names.
-The pollutant name is a capitalized molecule abbreviation.
+The pollutant name is a molecule abbreviation, such as ``CO2``, ``O3`` or
+``PM2.5``. Case does not matter: ``"nox"``, ``"NOx"`` and ``"NOX"`` all read
+NOx. A site's ``pollutants`` spell it ``'NOX'`` (upper case), and the columns of
+the table spell it ``NOx_ppb`` (see :ref:`column-names`).
 
 .. _input-group:
 
