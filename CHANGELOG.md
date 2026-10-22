@@ -171,6 +171,15 @@ follow [PEP 440](https://peps.python.org/pep-0440/): calendar-based,
   that share a timestamp. The instruments now follow the order of the
   pollutants asked for (a set of pollutants is sorted; `"all"` follows the
   site's config). Selecting columns by name was never affected (#74).
+- Mobile reads (`MobileSite.get_obs`, `MobileSite.locate`, and `Network` for
+  mobile sites) keep the lin rows near the ends of a time range when the Pi's
+  clock is off GPS time. lin rows are joined to lin's GPS on the Pi's clock,
+  but the GPS was read over the rows' range in GPS time, so the fixes of the
+  rows near the ends were never read and those rows were dropped without a
+  warning: on TRX01 from 2016-11-09 00:00 to 06:00, when the Pi ran about 70
+  minutes behind, 15,792 rows with methane could be located and 14,399 were.
+  lin's GPS is now read a week past the rows' range on each side; the Pi has
+  been up to 5 days off (TRX01, 2022-11) (#94).
 - `Network.get_availability` counts a `_raw` value as data, as `Network.get_obs`
   keeps it. It looked only at the calibrated columns, so TRX01's
   `lgr_ugga_manual_cal`, whose final files fill only `_raw`, showed as `qaqc`
