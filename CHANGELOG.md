@@ -138,6 +138,33 @@ follow [PEP 440](https://peps.python.org/pep-0440/): calendar-based,
   `MobileSite.get_obs` warn the same way. A pollutant that another instrument
   still measured is not left out, `get_obs()` with no pollutants named does not
   warn, and a read where no pollutant has data still raises the error (#63).
+- Raw `lgr_ugga` files are parsed with pandas' C engine instead of its
+  python engine, about three times faster: 0.2 s to 0.07 s for a day's file,
+  and 76 to 26 minutes of CPU for the whole archive (19,554 files at six
+  sites). Every one of those files gives the same table as before.
+- A raw `lgr_ugga` read (WBB, CSP, FRU, HDP, HPL, ROO) opens only the files
+  of the days in its range, plus the day on either side as before. It opened
+  every raw file the site has to read its header, before the range was
+  applied: a one-day read at WBB, the first on a node, took nearly 5 minutes,
+  4 of them opening its 4,472 files; it now takes about 30 s, most of it
+  listing the folders. The same files are read and the same rows returned; a
+  file outside the range whose header cannot be read is no longer reported.
+- A read at a level the instrument does not have says which levels it has.
+  `read_data("WBB", "teledyne_t400", lvl="calibrated")`, where the archive has
+  no `calibrated` folder for that instrument, raised `FileNotFoundError` for
+  the folder; horel, which has no `calibrated` level at all, raised
+  `ValueError: DataFile class not found for key: calibrated in horel group.`
+  Both now raise `ReaderError: No calibrated data found for ['teledyne_t400'] at
+  WBB: teledyne_t400 in lin groupspace: teledyne_t400@WBB has no calibrated
+  level (it has raw, qaqc and final).` Because it is a `ReaderError`,
+  `Site.read_data` of several instruments logs the ones without the level and
+  returns the others, where the first `FileNotFoundError` used to end the read.
+  `Instrument.get_files` and `Instrument.get_datafiles` raise it too. A
+  `GroupSpace` has a new method, `get_lvls(SID, instrument)`, that lists the
+  levels it keeps, from least to most processed. lin lists the level folders of
+  the instrument and horel keeps `raw`, `qaqc` and `final`. `get_highest_lvl` is
+  the last of them, except for horel, which still looks for the site's
+  finalized files (#63).
 
 ### Fixed
 
@@ -168,6 +195,38 @@ follow [PEP 440](https://peps.python.org/pep-0440/): calendar-based,
   that share a timestamp. The instruments now follow the order of the
   pollutants asked for (a set of pollutants is sorted; `"all"` follows the
   site's config). Selecting columns by name was never affected (#74).
+- `MobileSite.merge_gps` (and so `MobileSite.get_obs`, `MobileSite.locate`
+  and `Network` for mobile sites) returns each observation once. When two GPS
+  fixes fell in the same second of the joining clock (the Pi stamps lin's
+  fixes with jitter, so one logged late in a second and the next early in the
+  following one can share it), every observation in that second came out
+  twice, once with each fix, and nothing marked the copies: 2,194 extra rows
+  in TRX01's methane for March 2015 (1,692,767 rows for 1,690,573
+  observations). The observation now keeps the fix nearest to it in time
+  (#93).
+- Mobile reads (`MobileSite.get_obs`, `MobileSite.locate`, and `Network` for
+  mobile sites) keep the lin rows near the ends of a time range when the Pi's
+  clock is off GPS time. lin rows are joined to lin's GPS on the Pi's clock,
+  but the GPS was read over the rows' range in GPS time, so the fixes of the
+  rows near the ends were never read and those rows were dropped without a
+  warning: on TRX01 from 2016-11-09 00:00 to 06:00, when the Pi ran about 70
+  minutes behind, 15,792 rows with methane could be located and 14,399 were.
+  lin's GPS is now read a week past the rows' range on each side; the Pi has
+  been up to 5 days off (TRX01, 2022-11) (#94).
+- `Network.get_availability` counts a `_raw` value as data, as `Network.get_obs`
+  keeps it. It looked only at the calibrated columns, so TRX01's
+  `lgr_ugga_manual_cal`, whose final files fill only `_raw`, showed as `qaqc`
+  (from 2023-11-18 to 2024-03-26 and from 2024-08-21), though `get_obs`
+  returned its rows. In the CO2 figure of the docs, TRX01's final data now run to
+  July 2026, and a few months at LG2 (October 2019), RPK (December 2012) and
+  TRX01 that showed as `qaqc` are `final` (#89).
+- Raw lin air-trend files (TRAX, WBB, LDF and the other sites' raw `.csv`
+  files) keep the rows whose time has no fraction of a second. The logger
+  leaves out the fraction when it is exactly 0 (`2026-10-18T11:05:03` among
+  `2026-10-18T00:00:06.116312`), and the times were parsed with a format
+  inferred from the first row, so a row of the other shape was dropped: 862
+  of 1.45 billion rows across the archive. A file starting with a whole
+  second would have lost nearly every row (#95).
 
 ## [2026.10.0] - 2026-10-09
 

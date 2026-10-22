@@ -17,7 +17,7 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from uataq import errors
+from uataq import errors, filesystem
 from uataq.filesystem.groupspaces import lin
 from uataq.timerange import TimeRange
 
@@ -297,6 +297,55 @@ class TestLGRUGGAFile:
         data = lin.LGR_UGGA_File(path).parse()
         assert len(data) == 1
 
+    @pytest.mark.parametrize("header_cols", [23, 24])
+    @pytest.mark.parametrize(
+        "end",
+        [
+            "",  # complete
+            "  04/01/2016 21:19:26.512,   1.9e+00,   1.0e-03\n",  # cut off
+            "  04/01/2016 21:19:26.512,   1.9e+00,   1.0e-03",  # cut off, no newline
+            "  04/01/2016 21:19:26.512,   1.916606e+00,   1.399528e",  # mid-number
+            "\0" * 20,  # NUL bytes, as a power cut leaves them
+            "\n",  # a blank line
+            "   \n",  # a line of spaces
+        ],
+        ids=[
+            "complete",
+            "cut",
+            "cut-no-newline",
+            "mid-number",
+            "nul",
+            "blank",
+            "spaces",
+        ],
+    )
+    def test_file_ends_keep_the_complete_rows(self, tmp_path, end, header_cols):
+        """
+        Every complete row is kept, whatever follows the last one.
+
+        A row cut off by a power cut (even mid-number), or its NUL bytes, is
+        dropped; a blank last line is no row, so no row is dropped for it.
+        """
+        tail = ("3", "V:1 Atmosphere") if header_cols == 23 else ("3", "3", "atm")
+        times = [
+            "04/01/2016 21:18:56.498",
+            "04/01/2016 21:19:06.512",
+            "04/01/2016 21:19:16.512",
+        ]
+        rows = [ugga_row(t, tail=tail) for t in times]
+        path = write_ugga(
+            tmp_path / "gga01Apr2016_f0000.txt", "904M", rows, header_cols
+        )
+        with open(path, "a") as f:
+            f.write(end)
+
+        data = lin.LGR_UGGA_File(path).parse()
+
+        assert data["Time_UTC"].tolist() == list(
+            pd.to_datetime(times, format="%m/%d/%Y %H:%M:%S.%f")
+        )
+        assert list(data.columns) == UGGA_NAMES
+
     def test_header_without_delimiters(self, tmp_path):
         path = tmp_path / "gga01Apr2016_f0000.txt"
         path.write_text("VC:904M BD:May 23 2013 SN:LGR-13-0221\nno delimiters\nrow\n")
@@ -392,6 +441,38 @@ class TestAirTrendFile:
         # character columns stay text
         assert data["n_s"].tolist() == ["N", "N"]
 
+    @pytest.mark.parametrize(
+        "times",
+        [
+            ["2026-10-18T00:00:06.116312", "2026-10-18T00:00:07"],
+            ["2026-10-18T00:00:07", "2026-10-18T00:00:08.116312"],
+        ],
+        ids=["fraction-first", "whole-second-first"],
+    )
+    def test_times_with_and_without_a_fraction(self, tmp_path, times):
+        """
+        A time with no fraction of a second is read beside ones with it (#95).
+
+        The logger writes isoformat(), which leaves out the fraction when the
+        microseconds are 0. An inferred format dropped the rows of the other
+        shape than the first row's.
+        """
+        path = self.write(
+            tmp_path,
+            "metone_es642",
+            "2026-10-18.csv",
+            "time,pm25_mgm3\n" + "".join(f"{t},000.012\n" for t in times),
+        )
+        config = {
+            "metone_es642": {
+                "air_trend": {"col_names": ["time", "pm25_mgm3"], "col_types": "Td"}
+            }
+        }
+        with patch.object(lin, "DATA_CONFIG", config):
+            data = lin.AirTrendFile(path).parse()
+
+        assert data["Time_UTC"].tolist() == [pd.Timestamp(t) for t in times]
+
     def test_variant_instrument_uses_its_base_config(self, tmp_path):
         """lgr_ugga_manual_cal files have the lgr_ugga layout."""
         path = self.write(tmp_path, "lgr_ugga_manual_cal", "2024-08-27.csv", "")
@@ -451,6 +532,13 @@ class TestLinGroup:
 
         assert lin.LinGroup.get_highest_lvl("WBB", "lgr_ugga") == "final"
         assert lin.LinGroup.get_highest_lvl("TRX01", "2b_205") == "qaqc"
+
+    def test_levels_are_the_level_folders_lowest_first(self, data_dir):
+        for d in ["final", "raw", "qaqc", "raw_frozen_multiLGRproblem_230202"]:
+            (data_dir / "wbb" / "lgr_ugga" / d).mkdir(parents=True)
+        (data_dir / "wbb" / "lgr_ugga" / "notes.txt").touch()
+
+        assert lin.LinGroup.get_lvls("WBB", "lgr_ugga") == ["raw", "qaqc", "final"]
 
     def test_data_path_lowercases_the_site(self, data_dir):
         assert lin.LinGroup.data_path("WBB", "lgr_ugga", "final") == str(
@@ -516,6 +604,112 @@ class TestLinGroup:
             "2024-06-03",
             "2024-06-04",
         ]
+
+    @pytest.fixture
+    def ugga_days(self, data_dir):
+        """
+        Raw LGR files for 2024-06-01 to 06-10, in both name styles.
+
+        Two files on 06-05 (the software restarted), a file whose header is
+        unreadable on 06-08 and one whose name has no date.
+        """
+        raw = data_dir / "wbb" / "lgr_ugga" / "raw"
+        row = [ugga_row("06/01/2024 00:00:00.000", tail=("3", "3", "atmosphere"))]
+        for day in pd.date_range("2024-06-01", "2024-06-10"):
+            name = day.strftime("gga_%Y-%m-%d_f0000.txt")
+            if day.day % 2:
+                name = day.strftime("gga%d%b%Y_f0000.txt")
+            write_ugga(raw / f"{day:%Y-%m-%d}" / name, "2f90039", row, header_cols=24)
+        write_ugga(raw / "2024-06-05" / "gga_2024-06-05_f0001.txt", "2f90039", row, 24)
+        (raw / "2024-06-08" / "gga_2024-06-08_f0000.txt").write_text("garbage\n")
+        write_ugga(raw / "latest" / "gga_latest_f0000.txt", "2f90039", row, 24)
+        return raw
+
+    @staticmethod
+    def full_listing(time_range: TimeRange) -> list[str]:
+        """The files the base class keeps: every header read, then filtered."""
+        one_day = pd.Timedelta(days=1)
+        start = time_range.start - one_day if time_range.start else None
+        stop = time_range.stop + one_day if time_range.stop else None
+        files = filesystem.GroupSpace.get_datafiles(
+            lin.LinGroup(),
+            "WBB",
+            "lgr_ugga",
+            "raw",
+            "lgr_ugga",
+            TimeRange(start=start, stop=stop),
+        )
+        return [f.path for f in files]
+
+    @pytest.mark.parametrize(
+        "time_range",
+        [
+            "2024-06-03",
+            "2024-06-05",  # the day with two files
+            "2024-06-01",  # the first file
+            "2024-06-10",  # the last file
+            "2024-05-31",  # the day before the first
+            "2024-06-11",  # the day after the last
+            ["2024-06-03 12:00", "2024-06-04 06:00"],
+            ["2024-06-04", "2024-06-04 00:00:01"],
+            ["2024-06-02", "2024-06-09"],  # the unreadable file inside
+            "2024-06",
+            [None, "2024-06-03"],
+            ["2024-06-08", None],
+            None,
+        ],
+    )
+    def test_raw_ugga_keeps_the_files_a_full_listing_keeps(self, ugga_days, time_range):
+        """
+        Picking files by the day in their name first keeps the same files.
+
+        Two files of one day may come in the other order: the base filter's
+        sort does not keep the order of equal days either.
+        """
+        time_range = TimeRange(time_range)
+        datafiles = lin.LinGroup().get_datafiles(
+            "WBB", "lgr_ugga", "raw", "lgr_ugga", time_range
+        )
+        paths = [d.path for d in datafiles]
+        assert sorted(paths) == sorted(self.full_listing(time_range))
+        assert [d.period for d in datafiles] == sorted(d.period for d in datafiles)
+
+    def test_raw_ugga_no_file_in_range_raises_the_same_error(self, ugga_days):
+        time_range = TimeRange("2024-07")
+        with pytest.raises(errors.ReaderError) as full:
+            self.full_listing(time_range)
+        with pytest.raises(errors.ReaderError) as picked:
+            lin.LinGroup().get_datafiles(
+                "WBB", "lgr_ugga", "raw", "lgr_ugga", time_range
+            )
+        assert str(picked.value) == str(full.value)
+        assert "files run from 2024-06-01 to 2024-06-10" in str(picked.value)
+
+    def test_raw_ugga_reads_only_the_headers_in_range(
+        self, ugga_days, monkeypatch, caplog
+    ):
+        """
+        A read opens the files of the days it covers, not every file.
+
+        So an unreadable file outside the range is not reported either; the
+        file whose name has no date is still opened, and reported.
+        """
+        opened = []
+        get_meta = lin.LGR_UGGA_File.get_meta
+
+        def spy(path):
+            opened.append(os.path.basename(os.path.dirname(path)))
+            return get_meta(path)
+
+        monkeypatch.setattr(lin.LGR_UGGA_File, "get_meta", staticmethod(spy))
+
+        with caplog.at_level(logging.WARNING, logger="uataq"):
+            lin.LinGroup().get_datafiles(
+                "WBB", "lgr_ugga", "raw", "lgr_ugga", TimeRange("2024-06-03")
+            )
+        assert sorted(opened) == ["2024-06-02", "2024-06-03", "2024-06-04", "latest"]
+        assert "gga_latest_f0000.txt" in caplog.text
+        assert "2024-06-08" not in caplog.text
 
     def test_bad_file_is_skipped_with_a_warning(self, data_dir, caplog):
         """One unreadable file name doesn't stop the read."""
