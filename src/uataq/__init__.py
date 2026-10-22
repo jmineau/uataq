@@ -142,6 +142,9 @@ def get_obs(
     EmptyResultWarning
         If the site has files for the range but no data in them, so the table
         has no rows.
+    DroppedPollutantWarning
+        If you name several pollutants and one of them has no data in the
+        range, so the table leaves it out.
     """
     site = get_site(SID)
     obs = site.get_obs(pollutants, format, group, time_range, num_processes, **kwargs)
@@ -185,6 +188,9 @@ def get_recent_obs(
     EmptyResultWarning
         If nothing in the site's files falls in the range, so the table has no
         rows.
+    DroppedPollutantWarning
+        If you name several pollutants and one of them has no data in the
+        range, so the table leaves it out.
     """
     site = get_site(SID)
     obs = site.get_recent_obs(recent, pollutants, format, group)

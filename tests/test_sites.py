@@ -1363,6 +1363,233 @@ class TestEmptyResultWarning:
         assert caught == []
 
 
+class TestDroppedPollutantWarning:
+    """A pollutant with no data is left out of a read of several, and the warning says so (#63)."""
+
+    RANGE = "(2024-03-04 00:00:00 to 2024-03-05 00:00:00)"
+
+    @pytest.fixture
+    def wbb(self):
+        import uataq
+
+        return uataq.get_site("WBB")  # CO2 and CH4: lgr_ugga; O3: teledyne_t400
+
+    @staticmethod
+    def no_files(instrument):
+        """Make ``instrument`` find no file in the range."""
+        error = errors.ReaderError(
+            "No files found within the specified time range "
+            "(files run from 2014-02 to 2024-02, with gaps)."
+        )
+        return patch.object(instrument, "read_data", side_effect=error)
+
+    @staticmethod
+    def rows(instrument):
+        """Make ``instrument`` read two rows."""
+        return patch.object(instrument, "read_data", two_rows)
+
+    def test_the_pollutant_with_no_data_is_named(self, wbb):
+        with (
+            self.no_files(wbb.instruments["lgr_ugga"]),
+            self.rows(wbb.instruments["teledyne_t400"]),
+            pytest.warns(errors.DroppedPollutantWarning) as caught,
+        ):
+            obs = wbb.get_obs(["CO2", "O3"], time_range="2024-03-04")
+
+        assert obs.columns.tolist() == ["O3_ppb"]  # what is returned is unchanged
+        assert [str(w.message) for w in caught] == [
+            f"No final data found for CO2 at WBB {self.RANGE}: "
+            "lgr_ugga gave none, so the table leaves out CO2."
+        ]
+
+    def test_the_warning_points_at_the_line_that_called_get_obs(self, wbb):
+        with (
+            self.no_files(wbb.instruments["lgr_ugga"]),
+            self.rows(wbb.instruments["teledyne_t400"]),
+            pytest.warns(errors.DroppedPollutantWarning) as caught,
+        ):
+            wbb.get_obs(["CO2", "O3"], time_range="2024-03-04")
+
+        assert caught[0].filename == __file__
+
+    def test_the_long_format_warns_too(self, wbb):
+        with (
+            self.no_files(wbb.instruments["lgr_ugga"]),
+            self.rows(wbb.instruments["teledyne_t400"]),
+            pytest.warns(errors.DroppedPollutantWarning, match="for CO2 at WBB"),
+        ):
+            obs = wbb.get_obs(["CO2", "O3"], format="long", time_range="2024-03-04")
+
+        assert set(obs["pollutant"]) == {"O3_ppb"}
+
+    def test_every_pollutant_left_out_is_named_once(self, wbb):
+        """CO2 and CH4 are measured by one instrument, which is named once."""
+        with (
+            self.no_files(wbb.instruments["lgr_ugga"]),
+            self.rows(wbb.instruments["teledyne_t400"]),
+            pytest.warns(errors.DroppedPollutantWarning) as caught,
+        ):
+            wbb.get_obs(["CO2", "CH4", "O3"], time_range="2024-03-04")
+
+        assert [str(w.message) for w in caught] == [
+            f"No final data found for CO2, CH4 at WBB {self.RANGE}: "
+            "lgr_ugga gave none, so the table leaves out CO2, CH4."
+        ]
+
+    def test_each_instrument_that_gave_none_is_named(self, wbb):
+        with (
+            self.no_files(wbb.instruments["lgr_ugga"]),
+            self.no_files(wbb.instruments["teledyne_t300"]),
+            self.rows(wbb.instruments["teledyne_t400"]),
+            pytest.warns(errors.DroppedPollutantWarning) as caught,
+        ):
+            wbb.get_obs(["co2", "CO", "O3"], time_range="2024-03-04")
+
+        assert [str(w.message) for w in caught] == [
+            f"No final data found for CO2, CO at WBB {self.RANGE}: "
+            "lgr_ugga, teledyne_t300 gave none, so the table leaves out CO2, CO."
+        ]
+
+    def test_an_instrument_not_installed_then_is_one_that_gave_none(self, wbb):
+        """WBB's ae33 was removed on 2024-06-20, so it reads nothing after that."""
+        with (
+            self.rows(wbb.instruments["teledyne_t400"]),
+            pytest.warns(errors.DroppedPollutantWarning, match="magee_ae33 gave none"),
+        ):
+            obs = wbb.get_obs(["BC", "O3"], time_range="2024-07-04")
+
+        assert obs.columns.tolist() == ["O3_ppb"]
+
+    def test_get_recent_obs_warns(self, wbb):
+        with (
+            self.no_files(wbb.instruments["lgr_ugga"]),
+            self.rows(wbb.instruments["teledyne_t400"]),
+            pytest.warns(errors.DroppedPollutantWarning, match="for CO2 at WBB"),
+        ):
+            wbb.get_recent_obs("1h", ["CO2", "O3"])
+
+    @pytest.mark.parametrize("include_gps", [True, False])
+    def test_a_mobile_site_warns_with_and_without_gps(self, include_gps):
+        import uataq
+
+        trx = uataq.get_site("TRX01")  # PM1: metone_es405; O3: 2b_205
+        with (
+            self.no_files(trx.instruments["metone_es405"]),
+            self.rows(trx.instruments["2b_205"]),
+            # the GPS is not under test: skip locating the rows
+            patch.object(
+                sites.MobileSite,
+                "locate",
+                lambda self, frames, *args, **kwargs: pd.concat(frames.values()),
+            ),
+            pytest.warns(
+                errors.DroppedPollutantWarning, match="PM1 at TRX01"
+            ) as caught,
+        ):
+            obs = trx.get_obs(
+                ["PM1", "O3"], include_gps=include_gps, time_range="2025-03-04"
+            )
+
+        assert obs.columns.tolist() == ["O3_ppb"]
+        assert len(caught) == 1
+
+    def test_its_own_category_silences_it(self, wbb):
+        with (
+            self.no_files(wbb.instruments["lgr_ugga"]),
+            self.rows(wbb.instruments["teledyne_t400"]),
+            warnings.catch_warnings(record=True) as caught,
+        ):
+            warnings.simplefilter("always")
+            warnings.filterwarnings("ignore", category=errors.DroppedPollutantWarning)
+            obs = wbb.get_obs(["CO2", "O3"], time_range="2024-03-04")
+
+        assert obs.columns.tolist() == ["O3_ppb"]
+        assert caught == []
+
+    def test_all_pollutants_with_data_does_not_warn(self, wbb):
+        with (
+            self.rows(wbb.instruments["lgr_ugga"]),
+            self.rows(wbb.instruments["teledyne_t400"]),
+            warnings.catch_warnings(record=True) as caught,
+        ):
+            warnings.simplefilter("always")
+            obs = wbb.get_obs(["CO2", "O3"], time_range="2024-03-04")
+
+        assert len(obs) == 4
+        assert caught == []
+
+    def test_a_pollutant_another_instrument_still_measures_is_not_left_out(self, wbb):
+        """NO2 is measured by two instruments in 2022; one gave data, so it is in the table."""
+        with (
+            self.no_files(wbb.instruments["teledyne_t200"]),
+            self.rows(wbb.instruments["teledyne_t500u"]),
+            self.rows(wbb.instruments["teledyne_t400"]),
+            warnings.catch_warnings(record=True) as caught,
+        ):
+            warnings.simplefilter("always")
+            obs = wbb.get_obs(["NO2", "O3"], time_range="2022-03-04")
+
+        assert len(obs) == 4
+        assert caught == []
+
+    def test_all_pollutants_does_not_warn(self, wbb):
+        """``'all'`` names none, and removed instruments are expected to give none."""
+        with (
+            # the instruments installed on 2024-03-04 read two rows, lgr_ugga none
+            patch.object(instruments.Instrument, "read_data", two_rows),
+            self.no_files(wbb.instruments["lgr_ugga"]),
+            warnings.catch_warnings(record=True) as caught,
+        ):
+            warnings.simplefilter("always")
+            obs = wbb.get_obs(time_range="2024-03-04")
+
+        assert "O3_ppb" in obs.columns
+        assert not [w for w in caught if w.category is errors.DroppedPollutantWarning]
+
+    def test_one_pollutant_with_no_data_is_still_an_error(self, wbb):
+        """A read that finds nothing raises, as before, with no warning."""
+        with (
+            self.no_files(wbb.instruments["lgr_ugga"]),
+            warnings.catch_warnings(record=True) as caught,
+        ):
+            warnings.simplefilter("always")
+            with pytest.raises(errors.ReaderError, match="No final data found for CO2"):
+                wbb.get_obs("CO2", time_range="2024-03-04")
+            with pytest.raises(errors.ReaderError, match="No final data found for CO2"):
+                wbb.get_obs(["CO2", "CH4"], time_range="2024-03-04")
+
+        assert caught == []
+
+    def test_through_the_files_on_disk(self, tmp_path, monkeypatch):
+        """No CO2 file in the month, an ozone file with rows: the real read and warning."""
+        import uataq
+        from uataq.filesystem.groupspaces import lin
+
+        monkeypatch.setattr(lin, "DATA_DIR", str(tmp_path))
+        o3 = tmp_path / "wbb" / "teledyne_t400" / "final"
+        o3.mkdir(parents=True)
+        (o3 / "2024_06_final.dat").write_text(
+            "Time_UTC,O3_ppb\n2024-06-04 00:00:01,47.2\n2024-06-04 00:00:03,47.1\n"
+        )
+        co2 = tmp_path / "wbb" / "lgr_ugga" / "final"
+        co2.mkdir(parents=True)
+        (co2 / "2024_05_final.dat").touch()
+        config = {"final": {"col_names": ["Time_UTC", "O3_ppb"], "col_types": "Td"}}
+
+        with (
+            patch.dict(lin.DATA_CONFIG, {"teledyne_t400": config}),
+            pytest.warns(errors.DroppedPollutantWarning) as caught,
+        ):
+            obs = uataq.get_site("WBB").get_obs(["CO2", "O3"], time_range="2024-06-04")
+
+        assert obs["O3_ppb"].tolist() == [47.2, 47.1]
+        assert [str(w.message) for w in caught] == [
+            "No final data found for CO2 at WBB "
+            "(2024-06-04 00:00:00 to 2024-06-05 00:00:00): "
+            "lgr_ugga gave none, so the table leaves out CO2."
+        ]
+
+
 class TestLevelTheInstrumentLacks:
     """A read at a level an instrument does not have names the levels it has (#63)."""
 
