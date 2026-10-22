@@ -241,6 +241,11 @@ follow [PEP 440](https://peps.python.org/pep-0440/): calendar-based,
   inferred from the first row, so a row of the other shape was dropped: 862
   of 1.45 billion rows across the archive. A file starting with a whole
   second would have lost nearly every row (#95).
+- `Network`'s error when none of its sites measures the pollutant listed the
+  sites you gave as "Valid sites": `Network(["CSP"], "O3")` raised `No sites
+  found that measure pollutant 'O3'. Valid sites: ['CSP']`, though CSP does not
+  measure O3. It now lists the sites in the configuration that do: `... Sites
+  that measure it: BUS01, ..., TRX03, WBB.`, and says so when none does (#100).
 - `Site.get_obs` (and `uataq.get_obs`, `get_recent_obs`) sorts its rows with a
   stable sort, so rows on one timestamp stay in the instrument order, the order
   the pollutants were asked for. The default sort of pandas (numpy's quicksort)
