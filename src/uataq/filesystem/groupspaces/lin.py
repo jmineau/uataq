@@ -638,20 +638,25 @@ class LGR_UGGA_File(filesystem.DataFile):
             col_names.insert(22, "fillvalue")
             col_types["fillvalue"] = float
 
-        # Check for incomplete final row (probably power issue)
-        footer = 1 if last_line.count(",") < 22 else 0
+        # Leave out the last line when it is no complete row (an end-of-file
+        # mark, or a row cut off by a power cut): it can end mid-number, which
+        # would fail the float columns.
+        source: str | io.BytesIO = self.path
+        if last_line.count(",") < 22:
+            with open(self.path, "rb") as f:
+                text = f.read()
+            body = text[:-1] if text.endswith(b"\n") else text
+            source = io.BytesIO(text[: body.rfind(b"\n") + 1])
 
         # Read file assigning cols and dtypes
         data = pd.read_csv(
-            self.path,
+            source,
             header=1,
             names=col_names,
             dtype=col_types,
             on_bad_lines="skip",
             na_values=["TO", ""],
             skipinitialspace=True,
-            skipfooter=footer,
-            engine="python",
         )
 
         # Update columns now that data has been read in

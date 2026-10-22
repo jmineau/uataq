@@ -125,6 +125,10 @@ follow [PEP 440](https://peps.python.org/pep-0440/): calendar-based,
   `uataq.errors.EmptyResultWarning` (a `UserWarning`), so it shows without
   turning the log on. A table with rows from any instrument or site does not
   warn, and `read_data` is unchanged (#63).
+- Raw `lgr_ugga` files are parsed with pandas' C engine instead of its
+  python engine, about three times faster: 0.2 s to 0.07 s for a day's file,
+  and 76 to 26 minutes of CPU for the whole archive (19,554 files at six
+  sites). Every one of those files gives the same table as before.
 - A raw `lgr_ugga` read (WBB, CSP, FRU, HDP, HPL, ROO) opens only the files
   of the days in its range, plus the day on either side as before. It opened
   every raw file the site has to read its header, before the range was

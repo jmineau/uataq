@@ -297,6 +297,55 @@ class TestLGRUGGAFile:
         data = lin.LGR_UGGA_File(path).parse()
         assert len(data) == 1
 
+    @pytest.mark.parametrize("header_cols", [23, 24])
+    @pytest.mark.parametrize(
+        "end",
+        [
+            "",  # complete
+            "  04/01/2016 21:19:26.512,   1.9e+00,   1.0e-03\n",  # cut off
+            "  04/01/2016 21:19:26.512,   1.9e+00,   1.0e-03",  # cut off, no newline
+            "  04/01/2016 21:19:26.512,   1.916606e+00,   1.399528e",  # mid-number
+            "\0" * 20,  # NUL bytes, as a power cut leaves them
+            "\n",  # a blank line
+            "   \n",  # a line of spaces
+        ],
+        ids=[
+            "complete",
+            "cut",
+            "cut-no-newline",
+            "mid-number",
+            "nul",
+            "blank",
+            "spaces",
+        ],
+    )
+    def test_file_ends_keep_the_complete_rows(self, tmp_path, end, header_cols):
+        """
+        Every complete row is kept, whatever follows the last one.
+
+        A row cut off by a power cut (even mid-number), or its NUL bytes, is
+        dropped; a blank last line is no row, so no row is dropped for it.
+        """
+        tail = ("3", "V:1 Atmosphere") if header_cols == 23 else ("3", "3", "atm")
+        times = [
+            "04/01/2016 21:18:56.498",
+            "04/01/2016 21:19:06.512",
+            "04/01/2016 21:19:16.512",
+        ]
+        rows = [ugga_row(t, tail=tail) for t in times]
+        path = write_ugga(
+            tmp_path / "gga01Apr2016_f0000.txt", "904M", rows, header_cols
+        )
+        with open(path, "a") as f:
+            f.write(end)
+
+        data = lin.LGR_UGGA_File(path).parse()
+
+        assert data["Time_UTC"].tolist() == list(
+            pd.to_datetime(times, format="%m/%d/%Y %H:%M:%S.%f")
+        )
+        assert list(data.columns) == UGGA_NAMES
+
     def test_header_without_delimiters(self, tmp_path):
         path = tmp_path / "gga01Apr2016_f0000.txt"
         path.write_text("VC:904M BD:May 23 2013 SN:LGR-13-0221\nno delimiters\nrow\n")
