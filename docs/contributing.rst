@@ -32,6 +32,14 @@ group's own GPS on its own clock: lin's on ``Pi_Time``, horel's on ``Time_UTC``
 GPS on the Pi clock would place them that many seconds along the track, and drop
 the rows with no lin GPS record at their second.
 
+The Pi's clock has itself been hours to days off GPS time (on TRX01 about 70
+minutes behind all of 2016-11-09 and 10, and up to 5 days in 2022-11). A GPS read
+selects fixes by ``Time_UTC``, GPS time, while lin's rows were selected by the Pi's
+clock, so ``locate`` reads lin's GPS a week past the rows' range on each side
+(``_PI_CLOCK_MARGIN`` in ``sites.py``); otherwise the rows near the ends of a range
+would find no fix and be dropped. A located lin row's ``Time_UTC`` can then fall
+outside the requested range by as much as the Pi was off.
+
 Each located row carries ``GPS_Group`` (``"lin"`` or ``"horel"``): which GPS located
 it, and so which clock its ``Time_UTC`` is on. A TRAX read with no group can mix
 the two groups' GPS, which log at different rates and with different columns, so
