@@ -165,7 +165,8 @@ class Site:
     loggers : set of str
         The loggers used by research groups that record data at a site.
     pollutants : set of str
-        The pollutants measured at the site.
+        The pollutants measured at the site, in upper case (``'NOX'`` for NOx).
+        ``get_obs`` takes them in any case.
     pollutant_instruments : dict[str, list[Instrument]]
         The instruments that measure each pollutant, keyed by the pollutant's
         upper-case name, as in ``pollutants``.
@@ -378,7 +379,8 @@ class Site:
             ``pollutant`` column (those names) and a ``value`` column.
             The wide columns come instrument by instrument, in the order the
             ``pollutants`` were asked for (a set is sorted; ``'all'`` follows
-            the site's config), and the same on every call.
+            the site's config), and the same on every call. Rows on one
+            timestamp come in that order too.
 
         Warns
         -----
@@ -386,9 +388,16 @@ class Site:
             If the instruments have files for the range but no data in it, so
             the table has no rows. A range with no files raises
             :class:`~uataq.errors.ReaderError` instead.
+        DroppedPollutantWarning
+            If you name several pollutants and none of the instruments that
+            measure one of them gave data (no files for the range, or not
+            installed then), so the table leaves it out. It names the
+            pollutants and the instruments. ``pollutants='all'`` does not warn,
+            and when none of the pollutants has data the read raises
+            :class:`~uataq.errors.ReaderError` instead.
         """
         frames = self._read_obs(pollutants, format, group, time_range, num_processes)
-        return pd.DataFrame(pd.concat(frames.values()).sort_index())
+        return pd.DataFrame(pd.concat(frames.values()).sort_index(kind="stable"))
 
     def _read_obs(
         self,
@@ -454,6 +463,26 @@ class Site:
                 raise
             raise _no_data(asked, lvl, self.SID, e.detail) from None
 
+        # read_data logged each instrument it could not read and went on: a
+        # pollutant with none of its instruments in data is left out of the table
+        left_out = {  # the pollutant as declared: the names of its instruments
+            name: [i.name for i in self.pollutant_instruments[pollutant]]
+            for pollutant, name in zip(pollutants, declared, strict=True)
+            if not any(i.name in data for i in self.pollutant_instruments[pollutant])
+        }
+        # Only for pollutants that were named: 'all' covers every pollutant the
+        # site ever measured, and an instrument not installed in the range is
+        # expected to give none
+        if left_out and not everything:
+            gave_none = dict.fromkeys(n for names in left_out.values() for n in names)
+            warnings.warn(
+                f"No {lvl} data found for {', '.join(left_out)} at {self.SID} "
+                f"({TimeRange(time_range)}): {', '.join(gave_none)} gave none, "
+                f"so the table leaves out {', '.join(left_out)}.",
+                errors.DroppedPollutantWarning,
+                stacklevel=3,  # the caller of get_obs
+            )
+
         pattern = "|".join(declared)
 
         _logger.info("Combining data by pollutant...")
@@ -503,6 +532,9 @@ class Site:
         EmptyResultWarning
             If nothing in the files falls in the range, so the table has no
             rows (see :meth:`get_obs`).
+        DroppedPollutantWarning
+            If you name several pollutants and one of them has no data in the
+            range (see :meth:`get_obs`).
         """
         if isinstance(recent, str):
             recent = pd.to_timedelta(recent)
@@ -675,6 +707,9 @@ class MobileSite(Site):
         EmptyResultWarning
             If the instruments' files hold no data in the range (see
             :meth:`Site.get_obs`).
+        DroppedPollutantWarning
+            If you name several pollutants and one of them has no data in the
+            range (see :meth:`Site.get_obs`).
 
         Notes
         -----

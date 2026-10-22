@@ -24,9 +24,9 @@ follow [PEP 440](https://peps.python.org/pep-0440/): calendar-based,
   and lists the pages in groups (Getting started, Guides, Reference, API
   reference, then Contributing). Its "Naming Convention" section, its table of
   four functions and its second "Contributing" heading are gone: the column
-  renaming is in "Columns and flags", the four functions are documented on
-  "Laboratory" and "General Functions", and the Contributing page stays. "Configuration" moved from under "Laboratory"
-  to the Reference group. No address changed.
+  renaming is in "Columns and flags", the four functions are in the API
+  reference, and the Contributing page stays. "Configuration" moved from under
+  "Laboratory" to the Reference group.
 - Docs: each fact is written on one page, and three pages are renamed to match
   their titles, with no redirects. `docs/general.rst` is now
   `docs/input_parameters.rst` (retitled "Input Parameters", each section
@@ -83,6 +83,12 @@ follow [PEP 440](https://peps.python.org/pep-0440/): calendar-based,
   `sites.html#uataq.sites.Site` and `#uataq.sites.MobileSite` moved to those
   pages. `uataq.laboratory` hides its value, which would be the whole
   configuration. `Site.pollutant_instruments` has a docstring.
+- Docs: the levels are called "data levels" on every page and docstring.
+  "Input Parameters" retitles its "Processing Level" section "Data Level" (the
+  anchor `input_parameters.html#processing-level` is now `#data-level`) and
+  says the pipeline's documentation calls them processing levels. "Reading
+  data" says the mobile sites are on TRAX trains and buses, as the front page
+  does.
 - `Instrument.model`, `SensorMixin.pollutants`, `Sodar.model` and
   `Sodar.species_measured` have docstrings, and the Attributes of
   `LinDatFile` and `LGR_UGGA_File` name the ones their `__init__` sets
@@ -125,6 +131,19 @@ follow [PEP 440](https://peps.python.org/pep-0440/): calendar-based,
   `uataq.errors.EmptyResultWarning` (a `UserWarning`), so it shows without
   turning the log on. A table with rows from any instrument or site does not
   warn, and `read_data` is unchanged (#63).
+- A read of several pollutants now warns when it leaves one out. `get_obs(["CO2",
+  "O3"], time_range="2021-08")` at WBB, which has no final CO2 file that month,
+  returned only the O3 column and said nothing. It still returns that table,
+  and now warns
+  `No final data found for CO2 at WBB (2021-08-01 00:00:00 to 2021-09-01
+  00:00:00): lgr_ugga gave none, so the table leaves out CO2.` The warning names
+  every pollutant left out and the instruments that gave none, whether they had
+  no files for the range or were not installed then. It is a Python warning,
+  `uataq.errors.DroppedPollutantWarning` (a `UserWarning`, apart from
+  `EmptyResultWarning` so each can be silenced alone). `get_recent_obs` and
+  `MobileSite.get_obs` warn the same way. A pollutant that another instrument
+  still measured is not left out, `get_obs()` with no pollutants named does not
+  warn, and a read where no pollutant has data still raises the error (#63).
 - Raw `lgr_ugga` files are parsed with pandas' C engine instead of its
   python engine, about three times faster: 0.2 s to 0.07 s for a day's file,
   and 76 to 26 minutes of CPU for the whole archive (19,554 files at six
@@ -152,6 +171,14 @@ follow [PEP 440](https://peps.python.org/pep-0440/): calendar-based,
   the instrument and horel keeps `raw`, `qaqc` and `final`. `get_highest_lvl` is
   the last of them, except for horel, which still looks for the site's
   finalized files (#63).
+- Docs: "Input Parameters" no longer says pollutant names are capitalized (case
+  does not matter, and the three spellings of NOx are written out);
+  "Configuration" lists the site keys (`name`, `latitude`, `longitude`, `zagl`,
+  `is_mobile`, `is_active`, `loggers`); "Your first month of data" says
+  `America/Denver` is the zone for every site; "Sites and instruments" says that
+  `cr1000` and `gps` have no pollutants and that `repr(site)` shows the
+  instruments' `notes`; "Installation" no longer lists `abrb`, which is not a
+  site, among the site folders.
 
 ### Fixed
 
@@ -219,6 +246,11 @@ follow [PEP 440](https://peps.python.org/pep-0440/): calendar-based,
   found that measure pollutant 'O3'. Valid sites: ['CSP']`, though CSP does not
   measure O3. It now lists the sites in the configuration that do: `... Sites
   that measure it: BUS01, ..., TRX03, WBB.`, and says so when none does (#100).
+- `Site.get_obs` (and `uataq.get_obs`, `get_recent_obs`) sorts its rows with a
+  stable sort, so rows on one timestamp stay in the instrument order, the order
+  the pollutants were asked for. The default sort of pandas (numpy's quicksort)
+  does not promise that, and swapped tied rows even though the instruments were
+  joined in a fixed order (#74).
 
 ## [2026.10.0] - 2026-10-09
 

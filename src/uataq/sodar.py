@@ -189,7 +189,7 @@ class Sodar:
         Parameters
         ----------
         lvl : str, optional
-            Processing level. Only ``'raw'`` is available.
+            Data level. Only ``'raw'`` is available.
         time_range : TimeRange | TimeRangeTypes, optional
             Keep files whose month overlaps ``[start, stop)``. Default is None
             which lists all files.
@@ -291,7 +291,7 @@ class Sodar:
         Parameters
         ----------
         lvl : str, optional
-            Processing level. Only ``'raw'`` is available.
+            Data level. Only ``'raw'`` is available.
         time_range : TimeRange | TimeRangeTypes, optional
             Time range to read, ``start <= Time_UTC < stop`` (see
             :class:`uataq.timerange.TimeRange`). A date string as the stop

@@ -12,6 +12,33 @@ as tables.
     installation/removal, must be reflected in the configuration
     file for the lab to be able to properly access the data.
 
+Site keys
+---------
+
+Each site is an entry of the configuration, keyed by its :term:`SID` (``WBB``).
+It accepts:
+
+``name``
+    The site's name, such as ``"William Browning"``.
+``latitude`` / ``longitude``
+    A fixed site's position, in degrees (longitude is negative in Utah). A mobile
+    site has neither: its ``gps`` gives the position of each measurement.
+``zagl``
+    The height above ground level of a fixed site's measurements, in meters.
+``is_mobile``
+    ``true`` for a site on a vehicle (a TRAX train or a bus), which
+    :func:`~uataq.get_site` returns as a :class:`~uataq.sites.MobileSite`. Omit it
+    for a fixed site.
+``is_active``
+    ``false`` marks a site that has been taken down. Nothing reads it: whether a
+    site is active is decided by its instruments' ``removal_date``.
+``loggers``
+    The same map as an instrument's ``loggers`` (below), for every instrument at
+    the site that does not give its own.
+``instruments``
+    The site's instruments, keyed by instrument name; each takes the keys
+    below. Required.
+
 Instrument keys
 ---------------
 

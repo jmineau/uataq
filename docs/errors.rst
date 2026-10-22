@@ -7,7 +7,7 @@ When there is nothing to read
 
     The examples on this page read the UATAQ archive, which is only available
     on CHPC. They are shown as code and are not run when the documentation is
-    built. The output under each one is from a run on CHPC on 14 October 2026.
+    built. The output under each one is from a run on CHPC on 15 October 2026.
     The archive keeps growing, so what a read returns will have moved on by the
     time you read this.
 
@@ -137,13 +137,29 @@ One of several pollutants missing
 .. code-block:: pycon
 
     >>> both = wbb.get_obs(["CO2", "O3"], time_range="2021-08")
+    WARNING:uataq.sites:Error reading lgr_ugga@WBB data from lin groupspace: No files found within the specified time range (files run from 2014-02 to 2026-10, with gaps).
+    <stdin>:1: DroppedPollutantWarning: No final data found for CO2 at WBB (2021-08-01 00:00:00 to 2021-09-01 00:00:00): lgr_ugga gave none, so the table leaves out CO2.
     >>> both.columns.tolist()
     ['O3_ppb']
 
 When you ask for several pollutants, the ones with data come back and the ones
-without are dropped. There is no error, and no warning unless the log is on.
-It raises ``ReaderError`` only when none of them has data. Check the columns you
-got.
+without are left out. A warning, ``uataq.errors.DroppedPollutantWarning``, names
+each of them and the instruments that gave none. It is a Python warning, so it
+shows without the log. To see why an instrument gave none, ask for that
+pollutant alone: the error is the one under `No data found`_. A read of several
+raises that error only when none of them has data. To silence the warning:
+
+.. code-block:: python
+
+    import warnings
+
+    warnings.filterwarnings("ignore", category=uataq.errors.DroppedPollutantWarning)
+
+A pollutant is left out only when none of the instruments that measure it gave
+data (in 2022, WBB's NO2 comes from two). ``get_recent_obs`` warns the same way.
+``get_obs()`` with no pollutants named does not: "all" includes every pollutant
+the site ever measured, and an instrument removed from the site is expected to
+give none, so check the columns you got.
 
 To go through many sites or months and skip the empty ones, catch the error:
 

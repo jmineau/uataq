@@ -78,7 +78,7 @@ def read_data(
         flags applied; the lower levels are for finer control. Which to use
         depends on how clean the data need to be for what you are doing, and
         on how much control you want over the QAQC. Default None reads the
-        highest level the instrument has. See :ref:`Processing Level <input-level>`.
+        highest level the instrument has. See :ref:`Data Level <input-level>`.
     time_range : str | list[Union[str, dt.datetime, None]] | tuple[Union[str, dt.datetime, None], Union[str, dt.datetime, None]] | slice | None
         The time range to read data. Default is None which reads all available data.
     num_processes : int | 'max'
@@ -142,6 +142,9 @@ def get_obs(
     EmptyResultWarning
         If the site has files for the range but no data in them, so the table
         has no rows.
+    DroppedPollutantWarning
+        If you name several pollutants and one of them has no data in the
+        range, so the table leaves it out.
     """
     site = get_site(SID)
     obs = site.get_obs(pollutants, format, group, time_range, num_processes, **kwargs)
@@ -185,6 +188,9 @@ def get_recent_obs(
     EmptyResultWarning
         If nothing in the site's files falls in the range, so the table has no
         rows.
+    DroppedPollutantWarning
+        If you name several pollutants and one of them has no data in the
+        range, so the table leaves it out.
     """
     site = get_site(SID)
     obs = site.get_recent_obs(recent, pollutants, format, group)
