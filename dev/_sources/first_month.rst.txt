@@ -149,6 +149,8 @@ The version
 
 Yours will differ. For results you will publish, install a fixed release (see :doc:`installation`).
 
+.. _first-month-utc:
+
 Times are UTC
 -------------
 
@@ -162,10 +164,12 @@ index is named ``Time_UTC`` to say so, but the time zone is not attached to it
     >>> obs.index.name, obs.index.tz
     ('Time_UTC', None)
 
-Salt Lake City is 6 hours behind UTC in summer (Mountain Daylight Time, MDT) and
-7 hours behind in winter (Mountain Standard Time, MST). Do not subtract a fixed
-number of hours. Tell pandas the times are UTC, then convert them to the
-``America/Denver`` time zone, which knows when the clocks change:
+Every uataq site is in Utah (the mobile sites run on trains and buses in the
+Salt Lake Valley), and Utah is 6 hours behind UTC in summer (Mountain Daylight
+Time, MDT) and 7 hours behind in winter (Mountain Standard Time, MST). Do not
+subtract a fixed number of hours. Tell pandas the times are UTC, then convert
+them to the ``America/Denver`` time zone, which knows when the clocks change and
+is the right one for every site:
 
 .. code-block:: pycon
 

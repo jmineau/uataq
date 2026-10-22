@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Input Parameters &#8212; UATAQ 2026.10.1.dev52+g38caac521 documentation</title>
+    <title>Input Parameters &#8212; UATAQ 2026.10.1.dev54+gded903115 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="_static/documentation_options.js?v=e3416750"></script>
+    <script src="_static/documentation_options.js?v=f20965fc"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -59,7 +59,7 @@
     <link rel="prev" title="Columns and flags" href="columns.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.1.dev52+g38caac521" />
+  <meta name="docsearch:version" content="2026.10.1.dev54+gded903115" />
   
     
     <script src="_static/searchtools.js"></script>
@@ -127,7 +127,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.1.dev52+g38caac521 documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.1.dev54+gded903115 documentation</p>
   
 </a></div>
     
@@ -564,7 +564,10 @@ The instrument name is a key under the site’s <code class="docutils literal no
 <section id="pollutants">
 <span id="input-pollutants"></span><h2>Pollutants<a class="headerlink" href="#pollutants" title="Link to this heading">#</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">pollutants</span></code> is a single pollutant name or a list of pollutant names.
-The pollutant name is a capitalized molecule abbreviation.</p>
+The pollutant name is a molecule abbreviation, such as <code class="docutils literal notranslate"><span class="pre">CO2</span></code>, <code class="docutils literal notranslate"><span class="pre">O3</span></code> or
+<code class="docutils literal notranslate"><span class="pre">PM2.5</span></code>. Case does not matter: <code class="docutils literal notranslate"><span class="pre">&quot;nox&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;NOx&quot;</span></code> and <code class="docutils literal notranslate"><span class="pre">&quot;NOX&quot;</span></code> all read
+NOx. A site’s <code class="docutils literal notranslate"><span class="pre">pollutants</span></code> spell it <code class="docutils literal notranslate"><span class="pre">'NOX'</span></code> (upper case), and the columns of
+the table spell it <code class="docutils literal notranslate"><span class="pre">NOx_ppb</span></code> (see <a class="reference internal" href="columns.html#column-names"><span class="std std-ref">Column names</span></a>).</p>
 </section>
 <section id="research-group">
 <span id="input-group"></span><h2>Research Group<a class="headerlink" href="#research-group" title="Link to this heading">#</a></h2>

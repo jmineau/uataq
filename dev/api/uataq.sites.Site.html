@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>uataq.sites.Site &#8212; UATAQ 2026.10.1.dev52+g38caac521 documentation</title>
+    <title>uataq.sites.Site &#8212; UATAQ 2026.10.1.dev54+gded903115 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="../_static/documentation_options.js?v=e3416750"></script>
+    <script src="../_static/documentation_options.js?v=f20965fc"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -59,7 +59,7 @@
     <link rel="prev" title="uataq.sites.MobileSite.plot" href="uataq.sites.MobileSite.plot.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.1.dev52+g38caac521" />
+  <meta name="docsearch:version" content="2026.10.1.dev54+gded903115" />
   
     
     <script src="../_static/searchtools.js"></script>
@@ -127,7 +127,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.1.dev52+g38caac521 documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.1.dev54+gded903115 documentation</p>
   
 </a></div>
     
@@ -775,7 +775,8 @@
 <li><p><strong>instruments</strong> (<a class="reference internal" href="uataq.instruments.InstrumentEnsemble.html#uataq.instruments.InstrumentEnsemble" title="uataq.instruments.InstrumentEnsemble"><em>InstrumentEnsemble</em></a>) – An instance of the InstrumentEnsemble class representing the instruments at the site.</p></li>
 <li><p><strong>groups</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#set" title="(in Python v3.15)"><em>set</em></a><em> of </em><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a>) – The research groups that collect data at the site.</p></li>
 <li><p><strong>loggers</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#set" title="(in Python v3.15)"><em>set</em></a><em> of </em><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a>) – The loggers used by research groups that record data at a site.</p></li>
-<li><p><strong>pollutants</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#set" title="(in Python v3.15)"><em>set</em></a><em> of </em><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a>) – The pollutants measured at the site.</p></li>
+<li><p><strong>pollutants</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#set" title="(in Python v3.15)"><em>set</em></a><em> of </em><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a>) – The pollutants measured at the site, in upper case (<code class="docutils literal notranslate"><span class="pre">'NOX'</span></code> for NOx).
+<code class="docutils literal notranslate"><span class="pre">get_obs</span></code> takes them in any case.</p></li>
 <li><p><strong>pollutant_instruments</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.15)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.15)"><em>list</em></a><em>[</em><a class="reference internal" href="uataq.instruments.Instrument.html#uataq.instruments.Instrument" title="uataq.instruments.Instrument"><em>Instrument</em></a><em>]</em><em>]</em>) – The instruments that measure each pollutant, keyed by the pollutant’s
 upper-case name, as in <code class="docutils literal notranslate"><span class="pre">pollutants</span></code>.</p></li>
 </ul>

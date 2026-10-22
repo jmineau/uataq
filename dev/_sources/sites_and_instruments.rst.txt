@@ -8,7 +8,8 @@ The tables on this page are made from the package's
 always match the version of uataq they document. They say what the
 configuration says, not what the archive holds: to see which days have data,
 use :doc:`what_data_exists`. The words in the headings are explained in the
-:ref:`glossary <glossary>` at the end of the page.
+:ref:`glossary <glossary>` at the end of the page. Every site is in Utah, so the
+local time of all of them is ``America/Denver`` (see :ref:`first-month-utc`).
 
 In both site tables:
 
@@ -45,6 +46,11 @@ reads it and the pollutants it measures. The class pages are under
 :mod:`uataq.instruments`, and what the columns of each level hold is on the
 :doc:`columns` page.
 
+``cr1000`` and ``gps`` have no pollutants: one is a datalogger that records
+housekeeping (battery voltage, enclosure temperature), the other a GPS receiver.
+``get_obs`` never reads them, ``read_data`` does, and a :term:`mobile site`'s
+``get_obs`` uses its ``gps`` to place each measurement.
+
 .. instrument-catalog::
 
 .. _sites-in-code:
@@ -68,7 +74,9 @@ runs when the documentation is built, so its output is current:
     type(site.instruments["teledyne_t400"]).__name__
 
 ``uataq.laboratory.sites`` lists every site ID, and ``site.config`` holds the
-site's entry of the configuration.
+site's own keys (see :doc:`config`). ``repr(site)``, which is what a notebook
+shows for ``site``, prints the whole entry, with the ``notes`` of the instruments
+that have one: why its dates are what they are, and where its data end.
 
 Pollutant names are upper case (``NOx`` is ``'NOX'`` here), but you can type
 them in any case when you read data. To go the other way and find the sites that

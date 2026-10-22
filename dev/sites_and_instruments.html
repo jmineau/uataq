@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Sites and instruments &#8212; UATAQ 2026.10.1.dev52+g38caac521 documentation</title>
+    <title>Sites and instruments &#8212; UATAQ 2026.10.1.dev54+gded903115 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="_static/documentation_options.js?v=e3416750"></script>
+    <script src="_static/documentation_options.js?v=f20965fc"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -59,7 +59,7 @@
     <link rel="prev" title="When there is nothing to read" href="errors.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.1.dev52+g38caac521" />
+  <meta name="docsearch:version" content="2026.10.1.dev54+gded903115" />
   
     
     <script src="_static/searchtools.js"></script>
@@ -127,7 +127,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.1.dev52+g38caac521 documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.1.dev54+gded903115 documentation</p>
   
 </a></div>
     
@@ -541,7 +541,8 @@
 always match the version of uataq they document. They say what the
 configuration says, not what the archive holds: to see which days have data,
 use <a class="reference internal" href="what_data_exists.html"><span class="doc">What data exists</span></a>. The words in the headings are explained in the
-<a class="reference internal" href="#glossary"><span class="std std-ref">glossary</span></a> at the end of the page.</p>
+<a class="reference internal" href="#glossary"><span class="std std-ref">glossary</span></a> at the end of the page. Every site is in Utah, so the
+local time of all of them is <code class="docutils literal notranslate"><span class="pre">America/Denver</span></code> (see <a class="reference internal" href="first_month.html#first-month-utc"><span class="std std-ref">Times are UTC</span></a>).</p>
 <p>In both site tables:</p>
 <ul class="simple">
 <li><p><strong>Active</strong> is “yes” when at least one instrument at the site has no removal
@@ -1092,6 +1093,10 @@ measurement comes from the site’s <code class="docutils literal notranslate"><
 reads it and the pollutants it measures. The class pages are under
 <a class="reference internal" href="api/uataq.instruments.html#module-uataq.instruments" title="uataq.instruments"><code class="xref py py-mod docutils literal notranslate"><span class="pre">uataq.instruments</span></code></a>, and what the columns of each level hold is on the
 <a class="reference internal" href="columns.html"><span class="doc">Columns and flags</span></a> page.</p>
+<p><code class="docutils literal notranslate"><span class="pre">cr1000</span></code> and <code class="docutils literal notranslate"><span class="pre">gps</span></code> have no pollutants: one is a datalogger that records
+housekeeping (battery voltage, enclosure temperature), the other a GPS receiver.
+<code class="docutils literal notranslate"><span class="pre">get_obs</span></code> never reads them, <code class="docutils literal notranslate"><span class="pre">read_data</span></code> does, and a <a class="reference internal" href="#term-mobile-site"><span class="xref std std-term">mobile site</span></a>’s
+<code class="docutils literal notranslate"><span class="pre">get_obs</span></code> uses its <code class="docutils literal notranslate"><span class="pre">gps</span></code> to place each measurement.</p>
 <div class="pst-scrollable-table-container"><table class="table">
 <colgroup>
 <col style="width: 14.0%" />
@@ -1250,7 +1255,9 @@ runs when the documentation is built, so its output is current:</p>
 </pre></div>
 </div>
 <p><code class="docutils literal notranslate"><span class="pre">uataq.laboratory.sites</span></code> lists every site ID, and <code class="docutils literal notranslate"><span class="pre">site.config</span></code> holds the
-site’s entry of the configuration.</p>
+site’s own keys (see <a class="reference internal" href="config.html"><span class="doc">Configuration</span></a>). <code class="docutils literal notranslate"><span class="pre">repr(site)</span></code>, which is what a notebook
+shows for <code class="docutils literal notranslate"><span class="pre">site</span></code>, prints the whole entry, with the <code class="docutils literal notranslate"><span class="pre">notes</span></code> of the instruments
+that have one: why its dates are what they are, and where its data end.</p>
 <p>Pollutant names are upper case (<code class="docutils literal notranslate"><span class="pre">NOx</span></code> is <code class="docutils literal notranslate"><span class="pre">'NOX'</span></code> here), but you can type
 them in any case when you read data. To go the other way and find the sites that
 measure a pollutant, make a <a class="reference internal" href="api/uataq.Network.html#uataq.Network" title="uataq.Network"><code class="xref py py-class docutils literal notranslate"><span class="pre">Network</span></code></a> of <code class="docutils literal notranslate"><span class="pre">&quot;all&quot;</span></code> sites. A <code class="docutils literal notranslate"><span class="pre">Network</span></code>

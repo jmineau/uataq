@@ -35,9 +35,10 @@ Install
 
       ls /uufs/chpc.utah.edu/common/home/lin-group20/measurements/data
 
-   You should see one folder per site (``abrb``, ``asb``, ``csp``, and so on
-   through ``wbb``). If you get an error instead, you do not have access yet.
-   See `What you need`_.
+   You should see a folder for each site the lin group records (``asb``,
+   ``csp``, ``dbk``, and so on through ``wbb``), and a few other folders that
+   are not uataq sites. If you get an error instead, you do not have access
+   yet. See `What you need`_.
 
 2. **Load a newer Python.** CHPC installs its software as *modules*, and
    ``module load`` turns one on for your current session.

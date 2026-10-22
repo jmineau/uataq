@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Configuration &#8212; UATAQ 2026.10.1.dev52+g38caac521 documentation</title>
+    <title>Configuration &#8212; UATAQ 2026.10.1.dev54+gded903115 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="_static/documentation_options.js?v=e3416750"></script>
+    <script src="_static/documentation_options.js?v=f20965fc"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -59,7 +59,7 @@
     <link rel="prev" title="Input Parameters" href="input_parameters.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.1.dev52+g38caac521" />
+  <meta name="docsearch:version" content="2026.10.1.dev54+gded903115" />
   
     
     <script src="_static/searchtools.js"></script>
@@ -127,7 +127,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.1.dev52+g38caac521 documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.1.dev54+gded903115 documentation</p>
   
 </a></div>
     
@@ -546,6 +546,33 @@ as tables.</p>
 installation/removal, must be reflected in the configuration
 file for the lab to be able to properly access the data.</p>
 </div>
+<section id="site-keys">
+<h2>Site keys<a class="headerlink" href="#site-keys" title="Link to this heading">#</a></h2>
+<p>Each site is an entry of the configuration, keyed by its <a class="reference internal" href="sites_and_instruments.html#term-SID"><span class="xref std std-term">SID</span></a> (<code class="docutils literal notranslate"><span class="pre">WBB</span></code>).
+It accepts:</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">name</span></code></dt><dd><p>The site’s name, such as <code class="docutils literal notranslate"><span class="pre">&quot;William</span> <span class="pre">Browning&quot;</span></code>.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">latitude</span></code> / <code class="docutils literal notranslate"><span class="pre">longitude</span></code></dt><dd><p>A fixed site’s position, in degrees (longitude is negative in Utah). A mobile
+site has neither: its <code class="docutils literal notranslate"><span class="pre">gps</span></code> gives the position of each measurement.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">zagl</span></code></dt><dd><p>The height above ground level of a fixed site’s measurements, in meters.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">is_mobile</span></code></dt><dd><p><code class="docutils literal notranslate"><span class="pre">true</span></code> for a site on a vehicle (a TRAX train or a bus), which
+<a class="reference internal" href="api/uataq.get_site.html#uataq.get_site" title="uataq.get_site"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_site()</span></code></a> returns as a <a class="reference internal" href="api/uataq.sites.MobileSite.html#uataq.sites.MobileSite" title="uataq.sites.MobileSite"><code class="xref py py-class docutils literal notranslate"><span class="pre">MobileSite</span></code></a>. Omit it
+for a fixed site.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">is_active</span></code></dt><dd><p><code class="docutils literal notranslate"><span class="pre">false</span></code> marks a site that has been taken down. Nothing reads it: whether a
+site is active is decided by its instruments’ <code class="docutils literal notranslate"><span class="pre">removal_date</span></code>.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">loggers</span></code></dt><dd><p>The same map as an instrument’s <code class="docutils literal notranslate"><span class="pre">loggers</span></code> (below), for every instrument at
+the site that does not give its own.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">instruments</span></code></dt><dd><p>The site’s instruments, keyed by instrument name; each takes the keys
+below. Required.</p>
+</dd>
+</dl>
+</section>
 <section id="instrument-keys">
 <h2>Instrument keys<a class="headerlink" href="#instrument-keys" title="Link to this heading">#</a></h2>
 <p>Each entry under a site’s <code class="docutils literal notranslate"><span class="pre">instruments</span></code> accepts:</p>
@@ -1495,6 +1522,7 @@ and 2018-11-19.</p>
   </div>
   <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#site-keys">Site keys</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#instrument-keys">Instrument keys</a></li>
 </ul>
   </nav></div>

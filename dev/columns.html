@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Columns and flags &#8212; UATAQ 2026.10.1.dev52+g38caac521 documentation</title>
+    <title>Columns and flags &#8212; UATAQ 2026.10.1.dev54+gded903115 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="_static/documentation_options.js?v=e3416750"></script>
+    <script src="_static/documentation_options.js?v=f20965fc"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -59,7 +59,7 @@
     <link rel="prev" title="Sites and instruments" href="sites_and_instruments.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.1.dev52+g38caac521" />
+  <meta name="docsearch:version" content="2026.10.1.dev54+gded903115" />
   
     
     <script src="_static/searchtools.js"></script>
@@ -127,7 +127,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.1.dev52+g38caac521 documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.1.dev54+gded903115 documentation</p>
   
 </a></div>
     
@@ -891,7 +891,7 @@ but 239,149 from the <code class="docutils literal notranslate"><span class="pre
 <section id="when-cal-is-empty">
 <span id="id2"></span><h3>When _cal is empty<a class="headerlink" href="#when-cal-is-empty" title="Link to this heading">#</a></h3>
 <p>Some rows of the <code class="docutils literal notranslate"><span class="pre">final</span></code> level have a <code class="docutils literal notranslate"><span class="pre">_raw</span></code> value and an empty <code class="docutils literal notranslate"><span class="pre">_cal</span></code>.
-There are two reasons.</p>
+There are two causes you can see in the data.</p>
 <p><strong>The instrument has no calibrated level.</strong> The pipeline then fills only the
 <code class="docutils literal notranslate"><span class="pre">_raw</span></code> columns. This is the case for TRX01’s <a class="reference internal" href="sites_and_instruments.html#term-lgr_ugga_manual_cal"><span class="xref std std-term">lgr_ugga_manual_cal</span></a>,
 whose <code class="docutils literal notranslate"><span class="pre">_raw</span></code> columns hold the value the LGR software calibrated, not an
@@ -907,9 +907,9 @@ uncalibrated one:</p>
 </pre></div>
 </div>
 <p><strong>There was no calibration fit at that time</strong> (<code class="docutils literal notranslate"><span class="pre">CO2d_n</span></code> is 0). These rows are
-not flagged, so they are in the <code class="docutils literal notranslate"><span class="pre">final</span></code> level. The pipeline calibrates each
-calendar year on its own, so the hours of a new year before the first tank
-measurement have no fit. At WBB on 1 January 2025:</p>
+not flagged, so they are in the <code class="docutils literal notranslate"><span class="pre">final</span></code> level. A row gets a fit only after
+the analyzer has measured the tanks, and the first tank measurement of a new
+year comes some hours in. At WBB on 1 January 2025:</p>
 <div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">jan1</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">read_data</span><span class="p">(</span><span class="s2">&quot;WBB&quot;</span><span class="p">,</span> <span class="s2">&quot;lgr_ugga&quot;</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="s2">&quot;2025-01-01&quot;</span><span class="p">)[</span><span class="s2">&quot;lgr_ugga&quot;</span><span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">empty</span> <span class="o">=</span> <span class="n">jan1</span><span class="p">[</span><span class="s2">&quot;CO2d_ppm_cal&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span> <span class="o">&amp;</span> <span class="n">jan1</span><span class="p">[</span><span class="s2">&quot;CO2d_ppm_raw&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">notna</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">int</span><span class="p">(</span><span class="n">empty</span><span class="o">.</span><span class="n">sum</span><span class="p">()),</span> <span class="n">jan1</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="n">empty</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
@@ -931,8 +931,9 @@ three tanks, one after another. Here is the first row with each value of
 </pre></div>
 </div>
 <p>The same happens after the last tank measurement of a year (at WBB from 23:14
-on 31 December 2024). In every case seen, CO2 and CH4 were empty on the same
-rows.</p>
+on 31 December 2024). Rows can lack a fit at other times too; CO2 and CH4 are
+empty on the same rows. Find them with the line below rather than assuming
+where they are.</p>
 <p>To find these rows in your data:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">empty</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;CO2d_ppm_cal&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span> <span class="o">&amp;</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;CO2d_ppm_raw&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">notna</span><span class="p">()</span>
 </pre></div>

@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Your first month of data &#8212; UATAQ 2026.10.1.dev52+g38caac521 documentation</title>
+    <title>Your first month of data &#8212; UATAQ 2026.10.1.dev54+gded903115 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="_static/documentation_options.js?v=e3416750"></script>
+    <script src="_static/documentation_options.js?v=f20965fc"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -59,7 +59,7 @@
     <link rel="prev" title="Installation" href="installation.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.1.dev52+g38caac521" />
+  <meta name="docsearch:version" content="2026.10.1.dev54+gded903115" />
   
     
     <script src="_static/searchtools.js"></script>
@@ -127,7 +127,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.1.dev52+g38caac521 documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.1.dev54+gded903115 documentation</p>
   
 </a></div>
     
@@ -664,7 +664,7 @@ Error messages name the group that was searched, as in
 </section>
 </section>
 <section id="times-are-utc">
-<h2>Times are UTC<a class="headerlink" href="#times-are-utc" title="Link to this heading">#</a></h2>
+<span id="first-month-utc"></span><h2>Times are UTC<a class="headerlink" href="#times-are-utc" title="Link to this heading">#</a></h2>
 <p><strong>Every time in uataq is UTC</strong>: the times in the data, and the times you pass
 in <code class="docutils literal notranslate"><span class="pre">time_range</span></code> (every form it takes is under <a class="reference internal" href="input_parameters.html#input-time-range"><span class="std std-ref">Time Range</span></a>). The
 index is named <code class="docutils literal notranslate"><span class="pre">Time_UTC</span></code> to say so, but the time zone is not attached to it
@@ -673,10 +673,12 @@ index is named <code class="docutils literal notranslate"><span class="pre">Time
 <span class="go">(&#39;Time_UTC&#39;, None)</span>
 </pre></div>
 </div>
-<p>Salt Lake City is 6 hours behind UTC in summer (Mountain Daylight Time, MDT) and
-7 hours behind in winter (Mountain Standard Time, MST). Do not subtract a fixed
-number of hours. Tell pandas the times are UTC, then convert them to the
-<code class="docutils literal notranslate"><span class="pre">America/Denver</span></code> time zone, which knows when the clocks change:</p>
+<p>Every uataq site is in Utah (the mobile sites run on trains and buses in the
+Salt Lake Valley), and Utah is 6 hours behind UTC in summer (Mountain Daylight
+Time, MDT) and 7 hours behind in winter (Mountain Standard Time, MST). Do not
+subtract a fixed number of hours. Tell pandas the times are UTC, then convert
+them to the <code class="docutils literal notranslate"><span class="pre">America/Denver</span></code> time zone, which knows when the clocks change and
+is the right one for every site:</p>
 <div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">local</span> <span class="o">=</span> <span class="n">obs</span><span class="o">.</span><span class="n">tz_localize</span><span class="p">(</span><span class="s2">&quot;UTC&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">tz_convert</span><span class="p">(</span><span class="s2">&quot;America/Denver&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">local</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
 <span class="go">                           CO2d_ppm_cal  CO2d_ppm_raw</span>
