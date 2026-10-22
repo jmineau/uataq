@@ -64,8 +64,7 @@ from that group.
 Data Level
 ----------
 
-``lvl`` is the data level: how far the pipeline has processed the data (the
-pipeline's own documentation calls them processing levels).
+``lvl`` is the data level: how far the pipeline has processed the data.
 Available levels, from least to most processed, are:
 
 - ``raw`` : Raw data.
