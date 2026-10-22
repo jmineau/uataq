@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>What data exists &#8212; UATAQ 2026.10.1.dev46+g96955914d documentation</title>
+    <title>What data exists &#8212; UATAQ 2026.10.1.dev47+g29855228c documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="_static/documentation_options.js?v=494f636e"></script>
+    <script src="_static/documentation_options.js?v=0158c264"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -59,7 +59,7 @@
     <link rel="prev" title="Your first month of data" href="first_month.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.1.dev46+g96955914d" />
+  <meta name="docsearch:version" content="2026.10.1.dev47+g29855228c" />
   
     
     <script src="_static/searchtools.js"></script>
@@ -127,7 +127,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.1.dev46+g96955914d documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.1.dev47+g29855228c documentation</p>
   
 </a></div>
     
@@ -661,6 +661,10 @@ has no final CO2 for August 2021:</p>
 </div>
 <p><a class="reference internal" href="api/uataq.get_obs.html#uataq.get_obs" title="uataq.get_obs"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_obs()</span></code></a> always reads the final level, so it has nothing to return for
 that month (see <a class="reference internal" href="errors.html"><span class="doc">When there is nothing to read</span></a>).</p>
+<p>A level has data in a bin when a row has a value in a <code class="docutils literal notranslate"><span class="pre">_cal</span></code> or a <code class="docutils literal notranslate"><span class="pre">_raw</span></code>
+column (see <a class="reference internal" href="columns.html#column-names"><span class="std std-ref">Column names</span></a>), the columns <a class="reference internal" href="api/uataq.Network.get_obs.html#uataq.Network.get_obs" title="uataq.Network.get_obs"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Network.get_obs()</span></code></a> returns.
+TRX01’s <code class="docutils literal notranslate"><span class="pre">lgr_ugga_manual_cal</span></code> fills only <code class="docutils literal notranslate"><span class="pre">_raw</span></code>, and its months
+count as <code class="docutils literal notranslate"><span class="pre">final</span></code>.</p>
 </section>
 <section id="how-long-it-takes">
 <h3>How long it takes<a class="headerlink" href="#how-long-it-takes" title="Link to this heading">#</a></h3>
@@ -743,7 +747,7 @@ from the Python environment where uataq is installed:</p>
 python<span class="w"> </span>availability.py
 </pre></div>
 </div>
-<p>That job took 6 minutes, and the figure below is what it drew.</p>
+<p>That job took 7 minutes, and the figure below is what it drew.</p>
 </section>
 <section id="a-picture">
 <h3>A picture<a class="headerlink" href="#a-picture" title="Link to this heading">#</a></h3>
