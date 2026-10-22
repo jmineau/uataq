@@ -179,6 +179,8 @@ class Network:
         ------
         ValueError
             If sites is empty or if no sites measure the specified pollutant.
+            The message then lists the sites in the configuration that do
+            measure it.
         """
         if not sites:
             raise ValueError("sites cannot be empty.")
@@ -194,9 +196,18 @@ class Network:
         self.site_objects = self._validate_sites()
 
         if not self.site_objects:
+            # Point to the sites in the configuration that do measure it
+            measuring = [
+                sid
+                for sid in _laboratory.laboratory.sites
+                if self.pollutant in _laboratory.get_site(sid).pollutants
+            ]
+            if measuring:
+                where = f"Sites that measure it: {', '.join(measuring)}."
+            else:
+                where = "No site in the configuration measures it."
             raise ValueError(
-                f"No sites found that measure pollutant '{self.pollutant}'. "
-                f"Valid sites: {self.sites}"
+                f"No sites found that measure pollutant '{self.pollutant}'. {where}"
             )
 
         _logger.info(

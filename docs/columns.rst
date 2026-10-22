@@ -336,7 +336,7 @@ When _cal is empty
 ^^^^^^^^^^^^^^^^^^
 
 Some rows of the ``final`` level have a ``_raw`` value and an empty ``_cal``.
-There are two reasons.
+There are two causes you can see in the data.
 
 **The instrument has no calibrated level.** The pipeline then fills only the
 ``_raw`` columns. This is the case for TRX01's :term:`lgr_ugga_manual_cal`,
@@ -355,9 +355,9 @@ uncalibrated one:
     dtype: int64
 
 **There was no calibration fit at that time** (``CO2d_n`` is 0). These rows are
-not flagged, so they are in the ``final`` level. The pipeline calibrates each
-calendar year on its own, so the hours of a new year before the first tank
-measurement have no fit. At WBB on 1 January 2025:
+not flagged, so they are in the ``final`` level. A row gets a fit only after
+the analyzer has measured the tanks, and the first tank measurement of a new
+year comes some hours in. At WBB on 1 January 2025:
 
 .. code-block:: pycon
 
@@ -383,8 +383,9 @@ three tanks, one after another. Here is the first row with each value of
     2025-01-01 02:21:40      519.6304    519.871474       3 -0.750496  0.999997  520.00
 
 The same happens after the last tank measurement of a year (at WBB from 23:14
-on 31 December 2024). In every case seen, CO2 and CH4 were empty on the same
-rows.
+on 31 December 2024). Rows can lack a fit at other times too; CO2 and CH4 are
+empty on the same rows. Find them with the line below rather than assuming
+where they are.
 
 To find these rows in your data:
 
