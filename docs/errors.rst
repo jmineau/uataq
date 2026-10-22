@@ -188,15 +188,31 @@ A level the instrument does not have
 .. code-block:: pycon
 
     >>> uataq.read_data("WBB", "teledyne_t400", lvl="calibrated", time_range="2025-06")
+    WARNING:uataq.sites:Error reading teledyne_t400@WBB data from lin groupspace: teledyne_t400@WBB has no calibrated level (it has raw, qaqc and final).
     Traceback (most recent call last):
       ...
-    FileNotFoundError: [Errno 2] No such file or directory: '.../wbb/teledyne_t400/calibrated'
+    uataq.errors.ReaderError: No calibrated data found for ['teledyne_t400'] at WBB: teledyne_t400 in lin groupspace: teledyne_t400@WBB has no calibrated level (it has raw, qaqc and final).
 
-The archive has no folder for that level for that instrument: not every
-instrument has every level. Run :meth:`Network.get_availability` with the levels
-you are curious about, or leave ``lvl`` out, which reads the highest level the
-instrument has. A level that is not one of ``raw``, ``qaqc``, ``calibrated`` or
-``final`` raises ``AssertionError: Invalid data level`` and lists the four.
+Not every instrument has every level, and the message lists the ones this
+instrument has, from least to most processed. Only the lin group's CO2 and CH4
+analyzers have a ``calibrated`` level, and not TRX01's ``lgr_ugga_manual_cal``
+(see :doc:`columns`), so every other instrument, and every instrument in the
+horel archive, gives this error for it. Leave ``lvl`` out to read the highest
+level the instrument has.
+
+When ``read_data`` names several instruments, one without the level is logged
+and left out, and the others are returned. The error is raised only when none
+has it:
+
+.. code-block:: pycon
+
+    >>> data = uataq.read_data("WBB", ["lgr_ugga", "teledyne_t400"], lvl="calibrated", time_range="2025-06")
+    WARNING:uataq.sites:Error reading teledyne_t400@WBB data from lin groupspace: teledyne_t400@WBB has no calibrated level (it has raw, qaqc and final).
+    >>> list(data)
+    ['lgr_ugga']
+
+A level that is not one of ``raw``, ``qaqc``, ``calibrated`` or ``final`` raises
+``AssertionError: Invalid data level`` and lists the four.
 
 Network surprises
 -----------------
