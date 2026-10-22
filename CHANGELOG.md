@@ -125,6 +125,13 @@ follow [PEP 440](https://peps.python.org/pep-0440/): calendar-based,
   `uataq.errors.EmptyResultWarning` (a `UserWarning`), so it shows without
   turning the log on. A table with rows from any instrument or site does not
   warn, and `read_data` is unchanged (#63).
+- A raw `lgr_ugga` read (WBB, CSP, FRU, HDP, HPL, ROO) opens only the files
+  of the days in its range, plus the day on either side as before. It opened
+  every raw file the site has to read its header, before the range was
+  applied: a one-day read at WBB, the first on a node, took nearly 5 minutes,
+  4 of them opening its 4,472 files; it now takes about 30 s, most of it
+  listing the folders. The same files are read and the same rows returned; a
+  file outside the range whose header cannot be read is no longer reported.
 - A read at a level the instrument does not have says which levels it has.
   `read_data("WBB", "teledyne_t400", lvl="calibrated")`, where the archive has
   no `calibrated` folder for that instrument, raised `FileNotFoundError` for

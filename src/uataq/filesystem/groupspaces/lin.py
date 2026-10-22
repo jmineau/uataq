@@ -4,6 +4,7 @@ John Lin group - UUCON, TRAX, etc.
 This module contains classes and functions for working with the Lin group data in the CHPC UATAQ filesystem.
 """
 
+import datetime as dt
 import io
 import json
 import logging
@@ -15,7 +16,7 @@ import numpy as np
 import pandas as pd
 
 import uataq.filesystem.core as filesystem
-from uataq.errors import DataFileInitializationError, ParserError
+from uataq.errors import DataFileInitializationError, ParserError, ReaderError
 from uataq.timerange import TimeRange
 
 _logger = logging.getLogger(__name__)
@@ -500,18 +501,30 @@ class LGR_UGGA_File(filesystem.DataFile):
         self.serial = self.meta["SN"]
         self.version = self.meta["VC"]
 
-        # Get date from file name
+        period = self._name_period(path)
+        if period is None:
+            raise DataFileInitializationError(
+                f"No date in LGR file name {os.path.basename(path)} "
+                f"(software {self.version})"
+            )
+        self.period = period
+
+    @classmethod
+    def _name_period(cls, path: str) -> pd.Period | None:
+        """
+        Return the day the file's name gives, or None if it gives none.
+
+        It reads the name only, not the file, so files can be picked by date
+        before their headers are read. A name whose date does not exist (a
+        31 February) raises ``ValueError``.
+        """
         fname = os.path.basename(path)
-        for pattern, date_format in self.name_date_formats:
+        for pattern, date_format in cls.name_date_formats:
             match = pattern.match(fname)
             if match:
-                date = pd.to_datetime(match.group(1), format=date_format)
-                self.period = pd.Period(date, freq=self.file_freq)
-                break
-        else:
-            raise DataFileInitializationError(
-                f"No date in LGR file name {fname} (software {self.version})"
-            )
+                date = dt.datetime.strptime(match.group(1), date_format)
+                return pd.Period(date, freq=cls.file_freq)
+        return None
 
     @staticmethod
     def get_meta(path) -> dict[str, str]:
@@ -877,8 +890,9 @@ class LinGroup(filesystem.GroupSpace):
 
         See :meth:`~uataq.filesystem.core.GroupSpace.get_datafiles`. Raw files need extra handling:
         ``lgr_ugga`` file names do not line up with their contents, so the
-        range is widened by a day on each side, and GPS defaults to the
-        ``gpgga`` sentence files.
+        range is widened by a day on each side, and only the files whose name
+        falls in it have their header read. GPS defaults to the ``gpgga``
+        sentence files.
         """
         # Custom handling for raw Lin files
         if lvl == "raw":
@@ -897,11 +911,56 @@ class LinGroup(filesystem.GroupSpace):
                 start = time_range.start - one_day if time_range.start else None
                 stop = time_range.stop + one_day if time_range.stop else None
                 time_range = TimeRange(start=start, stop=stop)
+                try:
+                    return self._get_lgr_datafiles(SID, instrument, time_range, pattern)
+                except ReaderError:
+                    # No file in the range. The full listing below raises the
+                    # same error, with the periods of every readable file in
+                    # its message.
+                    pass
             elif instrument == "gps":
                 # Set default file pattern for raw lin gps data
                 pattern = pattern or "gpgga"
 
         return super().get_datafiles(SID, instrument, lvl, logger, time_range, pattern)
+
+    def _get_lgr_datafiles(
+        self,
+        SID: str,
+        instrument: str,
+        time_range: TimeRange,
+        pattern: str | None = None,
+    ) -> list[filesystem.DataFile]:
+        """
+        Return the raw LGR files in the time range, reading few headers.
+
+        Initializing an :class:`LGR_UGGA_File` reads its header, and a site has
+        a file a day for years: reading every header took minutes on a cold
+        cache. So the files are first picked by the day in their name (the
+        days that overlap the range), and only those are initialized. The same
+        filter as the base class's then runs on them, so the files kept are
+        the ones it keeps. A file whose name has no valid date is initialized
+        anyway, so it is handled as before.
+        """
+        start, stop = time_range.start, time_range.stop
+
+        datafiles: list[filesystem.DataFile] = []
+        for path in self.get_files(SID, instrument, "raw", "lgr_ugga"):
+            try:
+                day = LGR_UGGA_File._name_period(path)
+            except ValueError:
+                day = None
+            if day is not None and (
+                (start is not None and day.end_time < start)
+                or (stop is not None and day.start_time >= stop)
+            ):
+                continue  # the day ends before the range or starts at its stop
+            try:
+                datafiles.append(LGR_UGGA_File(path))
+            except DataFileInitializationError as e:
+                _logger.warning(f"Unable to initialize LGR_UGGA_File from {path}: {e}")
+
+        return filesystem.filter_datafiles(datafiles, time_range, pattern)
 
     @staticmethod
     def standardize_data(instrument: str, data: pd.DataFrame) -> pd.DataFrame:
