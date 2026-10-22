@@ -32,6 +32,15 @@ ReadPlan = list[tuple[str, TimeRange]]
 
 _logger = logging.getLogger(__name__)
 
+
+def _in_prose(words: list[str]) -> str:
+    """Join words as prose: ``raw``, ``raw and qaqc``, ``raw, qaqc and final``."""
+    if not words:
+        return "none"
+    *head, last = words
+    return f"{', '.join(head)} and {last}" if head else last
+
+
 # TODO
 # TRX01 aeth & no2 from horel-group
 
@@ -351,6 +360,20 @@ class Instrument(metaclass=ABCMeta):
         groupspace = self._get_groupspace(group)
         return groupspace.get_highest_lvl(self.SID, self.name)
 
+    def _check_lvl(self, group: str, lvl: str) -> None:
+        """
+        Raise ReaderError, naming the levels it has, if the group keeps no ``lvl`` for this instrument.
+
+        Not every instrument has every level: the lin archive keeps no
+        ``calibrated`` folder for an instrument the pipeline does not
+        calibrate, and horel has no ``calibrated`` at all.
+        """
+        have = self._get_groupspace(group).get_lvls(self.SID, self.name)
+        if lvl not in have:
+            raise errors.ReaderError(
+                f"{self} has no {lvl} level (it has {_in_prose(have)})."
+            )
+
     def get_files(self, group: str, lvl: str) -> list[str]:
         """
         Get list of file paths for a given level.
@@ -366,7 +389,14 @@ class Instrument(metaclass=ABCMeta):
         -------
         list[str]
             A list of file paths.
+
+        Raises
+        ------
+        ReaderError
+            If the group has no such level for the instrument. The message
+            says which levels it has.
         """
+        self._check_lvl(group, lvl)
         groupspace = self._get_groupspace(group)
         logger = self._loggers[group]
         return groupspace.get_files(self.SID, self.name, lvl, logger)
@@ -396,9 +426,16 @@ class Instrument(metaclass=ABCMeta):
         -------
         list[DataFile]
             A list of data files.
+
+        Raises
+        ------
+        ReaderError
+            If the group has no such level for the instrument (the message
+            says which levels it has), or no file is in the time range.
         """
         time_range = self.clip_to_active(time_range)
 
+        self._check_lvl(group, lvl)
         groupspace = self._get_groupspace(group)
         logger = self._loggers[group]
         return groupspace.get_datafiles(
@@ -528,6 +565,12 @@ class Instrument(metaclass=ABCMeta):
         -------
         pandas.DataFrame
             A concatenated DataFrame containing the parsed data from files.
+
+        Raises
+        ------
+        ReaderError
+            If the group has no such level for the instrument (the message
+            says which levels it has), or no file is in the time range.
         """
         _logger.info(f"Reading data for {self} from the {group} groupspace...")
 

@@ -125,6 +125,22 @@ follow [PEP 440](https://peps.python.org/pep-0440/): calendar-based,
   `uataq.errors.EmptyResultWarning` (a `UserWarning`), so it shows without
   turning the log on. A table with rows from any instrument or site does not
   warn, and `read_data` is unchanged (#63).
+- A read at a level the instrument does not have says which levels it has.
+  `read_data("WBB", "teledyne_t400", lvl="calibrated")`, where the archive has
+  no `calibrated` folder for that instrument, raised `FileNotFoundError` for
+  the folder; horel, which has no `calibrated` level at all, raised
+  `ValueError: DataFile class not found for key: calibrated in horel group.`
+  Both now raise `ReaderError: No calibrated data found for ['teledyne_t400'] at
+  WBB: teledyne_t400 in lin groupspace: teledyne_t400@WBB has no calibrated
+  level (it has raw, qaqc and final).` Because it is a `ReaderError`,
+  `Site.read_data` of several instruments logs the ones without the level and
+  returns the others, where the first `FileNotFoundError` used to end the read.
+  `Instrument.get_files` and `Instrument.get_datafiles` raise it too. A
+  `GroupSpace` has a new method, `get_lvls(SID, instrument)`, that lists the
+  levels it keeps, from least to most processed. lin lists the level folders of
+  the instrument and horel keeps `raw`, `qaqc` and `final`. `get_highest_lvl` is
+  the last of them, except for horel, which still looks for the site's
+  finalized files (#63).
 
 ### Fixed
 
@@ -162,6 +178,13 @@ follow [PEP 440](https://peps.python.org/pep-0440/): calendar-based,
   returned its rows. In the CO2 figure of the docs, TRX01's final data now run to
   July 2026, and a few months at LG2 (October 2019), RPK (December 2012) and
   TRX01 that showed as `qaqc` are `final` (#89).
+- Raw lin air-trend files (TRAX, WBB, LDF and the other sites' raw `.csv`
+  files) keep the rows whose time has no fraction of a second. The logger
+  leaves out the fraction when it is exactly 0 (`2026-10-18T11:05:03` among
+  `2026-10-18T00:00:06.116312`), and the times were parsed with a format
+  inferred from the first row, so a row of the other shape was dropped: 862
+  of 1.45 billion rows across the archive. A file starting with a whole
+  second would have lost nearly every row (#95).
 
 ## [2026.10.0] - 2026-10-09
 
