@@ -133,6 +133,11 @@ has no final CO2 for August 2021:
 :func:`get_obs` always reads the final level, so it has nothing to return for
 that month (see :doc:`errors`).
 
+A level has data in a bin when a row has a value in a ``_cal`` or a ``_raw``
+column (see :ref:`column-names`), the columns :meth:`Network.get_obs` returns.
+TRX01's ``lgr_ugga_manual_cal`` fills only ``_raw``, and its months
+count as ``final``.
+
 How long it takes
 ^^^^^^^^^^^^^^^^^
 
@@ -208,7 +213,7 @@ from the Python environment where uataq is installed:
 
     python availability.py
 
-That job took 6 minutes, and the figure below is what it drew.
+That job took 7 minutes, and the figure below is what it drew.
 
 A picture
 ^^^^^^^^^
