@@ -423,6 +423,97 @@ class TestSplitByPlan:
         assert [len(p) for p in pieces] == [2, 1]
 
 
+class TestMergeGps:
+    """
+    Each observation is merged with one GPS fix (#93).
+
+    The Pi stamps lin's GPS fixes with jitter, so a fix logged late in one
+    second and the next one logged early in the following second can fall in
+    the same Pi second. Latitudes say which fix located a row.
+    """
+
+    @staticmethod
+    def lin_obs(*pi_times):
+        index = pd.DatetimeIndex(pd.to_datetime(list(pi_times)), name="Time_UTC")
+        return pd.DataFrame({"CH4d_ppm_cal": range(len(pi_times))}, index=index)
+
+    @staticmethod
+    def lin_gps():
+        # Pi_Time 12:00:00.02 and 12:00:00.98 share a second
+        index = pd.DatetimeIndex(
+            ["2024-01-01 11:59:59", "2024-01-01 12:00:00", "2024-01-01 12:00:01"],
+            name="Time_UTC",
+        )
+        return pd.DataFrame(
+            {
+                "Pi_Time": [
+                    "2024-01-01 12:00:00.02",
+                    "2024-01-01 12:00:00.98",
+                    "2024-01-01 12:00:01.99",
+                ],
+                "Latitude_deg": [40.70, 40.71, 40.72],
+                "Longitude_deg": -111.9,
+            },
+            index=index,
+        )
+
+    def locate(self, obs):
+        return sites.MobileSite._merge_on_clock(obs, self.lin_gps(), "lin")
+
+    def test_two_fixes_in_one_second_give_one_row(self):
+        obs = self.lin_obs("2024-01-01 12:00:00.50")
+        assert len(self.locate(obs)) == 1
+
+    def test_the_fix_nearest_in_time_is_kept(self):
+        obs = self.lin_obs(
+            "2024-01-01 12:00:00.10",  # nearer 12:00:00.02
+            "2024-01-01 12:00:00.70",  # nearer 12:00:00.98
+            "2024-01-01 12:00:01.30",  # alone in its second
+        )
+        located = self.locate(obs)
+
+        assert list(located["CH4d_ppm_cal"]) == [0, 1, 2]
+        assert list(located["Latitude_deg"]) == [40.70, 40.71, 40.72]
+        assert list(located.index) == list(
+            pd.to_datetime(
+                ["2024-01-01 11:59:59", "2024-01-01 12:00:00", "2024-01-01 12:00:01"]
+            )
+        )
+
+    def test_a_tie_keeps_the_first_fix(self):
+        obs = self.lin_obs("2024-01-01 12:00:00.50")  # 0.48 s from both
+        assert list(self.locate(obs)["Latitude_deg"]) == [40.70]
+
+    def test_columns_are_unchanged(self):
+        located = self.locate(self.lin_obs("2024-01-01 12:00:00.50"))
+        assert list(located.columns) == [
+            "CH4d_ppm_cal",
+            "Latitude_deg",
+            "Longitude_deg",
+            "geometry",
+            "GPS_Group",
+        ]
+
+    def test_repeated_time_utc_on_one_clock(self):
+        # horel: instrument and GPS share the CR1000 clock, joined on Time_UTC
+        obs = pd.DataFrame(
+            {"O3_ppb": [30.0, 31.0]},
+            index=pd.DatetimeIndex(
+                ["2024-01-01 12:00:00", "2024-01-01 12:00:01"], name="Time_UTC"
+            ),
+        )
+        gps = pd.DataFrame(
+            {"Latitude_deg": [40.70, 40.71, 40.72], "Longitude_deg": -111.9},
+            index=pd.DatetimeIndex(
+                ["2024-01-01 12:00:00", "2024-01-01 12:00:00", "2024-01-01 12:00:01"],
+                name="Time_UTC",
+            ),
+        )
+        merged = sites.MobileSite.merge_gps(obs, gps)
+        assert list(merged["O3_ppb"]) == [30.0, 31.0]
+        assert list(merged["Latitude_deg"]) == [40.70, 40.72]
+
+
 class TestMobileSiteLocate:
     """
     Each row is located with the GPS logged on its own clock (#42).
