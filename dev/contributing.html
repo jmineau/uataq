@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Contributing &#8212; UATAQ 2026.10.1.dev58+g46fb18db1 documentation</title>
+    <title>Contributing &#8212; UATAQ 2026.10.1.dev59+g11c525227 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="_static/documentation_options.js?v=75abba26"></script>
+    <script src="_static/documentation_options.js?v=30d40fe1"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -58,7 +58,7 @@
     <link rel="prev" title="uataq.errors.ReaderError" href="api/uataq.errors.ReaderError.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.1.dev58+g46fb18db1" />
+  <meta name="docsearch:version" content="2026.10.1.dev59+g11c525227" />
   
     
     <script src="_static/searchtools.js"></script>
@@ -126,7 +126,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.1.dev58+g46fb18db1 documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.1.dev59+g11c525227 documentation</p>
   
 </a></div>
     
@@ -538,8 +538,135 @@
 <p>Contributions are welcome. <a class="reference external" href="https://github.com/jmineau/uataq/blob/main/CONTRIBUTING.md">CONTRIBUTING.md</a>
 explains how to set up a development environment, run the checks, and propose a change.
 <a class="reference external" href="https://github.com/jmineau/uataq/blob/main/AGENTS.md">AGENTS.md</a> is the short guide
-for contributors and coding agents: the module layout, the rules the code keeps, and
-the commands. This page holds the longer notes it points to.</p>
+for contributors and coding agents: the rules the code keeps, the commands, and the
+gotchas. This page holds the longer notes it points to: the module layout, how to add
+an instrument or a group space, how the docs are organized and generated, and what the
+mobile clocks, the MetOne swap files, data availability and the SODAR archive need.</p>
+<section id="module-layout">
+<h2>Module layout<a class="headerlink" href="#module-layout" title="Link to this heading">#</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>src/uataq/
+  __init__.py        read_data, get_obs, get_recent_obs, get_network_obs;
+                     re-exports laboratory, get_site, Network, DEFAULT_GROUP,
+                     TimeRange and the modules below
+  config.json        sites and instruments; read at import (importlib.resources)
+  _laboratory.py     Laboratory: builds sites and instruments from config.json
+  sites.py           Site (stationary) and MobileSite (GPS-located rows)
+  instruments.py     Instrument ABC, one subclass per model, and `catalog`
+  network.py         Network: many sites, one pollutant (GeoDataFrame);
+                     get_availability / plot_availability
+  pollutants.py      column grammar {pollutant}[d|channel]_{units}[_cal|_raw]:
+                     concentration_columns, parse_column, POLLUTANTS
+  gps.py             haversine, bearing, estimate_speed_course,
+                     gps_time_from_time_of_day
+  sodar.py           Horel/MesoWest SODAR profiles (Sodar, list_stations);
+                     standalone, not in config.json, not imported by uataq
+  timerange.py       TimeRange and the TimeRangeTypes alias
+  errors.py          ReaderError and its subclasses, ParserError, EmptyResultWarning,
+                     DroppedPollutantWarning, ...
+  filesystem/
+    __init__.py      DEFAULT_GROUP, get_group; re-exports core
+    core.py          DataFile, GroupSpace, groups, lvls, list_files,
+                     filter_datafiles, parse_datafiles, cpu_count
+    groupspaces/     one module per research group&#39;s archive (lin, horel)
+tests/               pytest
+docs/                Sphinx; docs/_ext/ holds two local extensions
+</pre></div>
+</div>
+<p>How a read flows: <code class="docutils literal notranslate"><span class="pre">laboratory</span></code> (a process-wide singleton built at import) holds
+the <code class="docutils literal notranslate"><span class="pre">Site</span></code> objects; <code class="docutils literal notranslate"><span class="pre">get_site(SID)</span></code> returns one, and the top-level functions
+delegate to it. A <code class="docutils literal notranslate"><span class="pre">Site</span></code> asks each <code class="docutils literal notranslate"><span class="pre">Instrument</span></code> which group to read each part of
+the range from (<code class="docutils literal notranslate"><span class="pre">plan_reads</span></code>); the instrument gets its files from that group’s
+<code class="docutils literal notranslate"><span class="pre">GroupSpace</span></code> (<code class="docutils literal notranslate"><span class="pre">filesystem.groups[name]</span></code>), whose <code class="docutils literal notranslate"><span class="pre">DataFile</span></code> classes parse them;
+the frames are standardized to uataq’s column names and concatenated in time.
+<code class="docutils literal notranslate"><span class="pre">filesystem.lvls</span></code> ranks the levels (<code class="docutils literal notranslate"><span class="pre">raw</span></code> &lt; <code class="docutils literal notranslate"><span class="pre">qaqc</span></code> &lt; <code class="docutils literal notranslate"><span class="pre">calibrated</span></code> &lt;
+<code class="docutils literal notranslate"><span class="pre">final</span></code>).</p>
+</section>
+<section id="adding-an-instrument-or-a-group-space">
+<h2>Adding an instrument or a group space<a class="headerlink" href="#adding-an-instrument-or-a-group-space" title="Link to this heading">#</a></h2>
+<p><strong>A new instrument.</strong> An <code class="docutils literal notranslate"><span class="pre">Instrument</span></code> subclass in <code class="docutils literal notranslate"><span class="pre">instruments.py</span></code> (and a
+<code class="docutils literal notranslate"><span class="pre">DataFile</span></code> in the group’s module if the format is new), its entry in
+<code class="docutils literal notranslate"><span class="pre">config.json</span></code> with dates and <code class="docutils literal notranslate"><span class="pre">notes</span></code>, and parser tests on synthetic lines.</p>
+<p><strong>A new group space.</strong> Add <code class="docutils literal notranslate"><span class="pre">filesystem/groupspaces/&lt;name&gt;.py</span></code> with a
+<code class="docutils literal notranslate"><span class="pre">GroupSpace</span></code> subclass, its <code class="docutils literal notranslate"><span class="pre">DataFile</span></code> classes and a <code class="docutils literal notranslate"><span class="pre">column_mapping</span></code> dict (the
+group’s column names to uataq’s, applied by its <code class="docutils literal notranslate"><span class="pre">standardize_data</span></code>), modeled on
+<code class="docutils literal notranslate"><span class="pre">lin.py</span></code> and <code class="docutils literal notranslate"><span class="pre">horel.py</span></code>, and register it at the bottom of that module:
+<code class="docutils literal notranslate"><span class="pre">filesystem.groups[&quot;&lt;name&gt;&quot;]</span> <span class="pre">=</span> <span class="pre">&lt;Name&gt;Group()</span></code>. Nothing else needs to import it:
+<code class="docutils literal notranslate"><span class="pre">groupspaces/__init__.py</span></code> star-imports every non-underscore module in the folder.
+Its API page appears by itself (“Functions and modules” lists <code class="docutils literal notranslate"><span class="pre">filesystem</span></code>
+recursively).</p>
+</section>
+<section id="writing-the-docs">
+<h2>Writing the docs<a class="headerlink" href="#writing-the-docs" title="Link to this heading">#</a></h2>
+<p>Each fact is written on one page, and the other pages link to it (the rules for
+writing are in AGENTS.md). This table says which page holds which kind of fact. A
+change that moves a fact, or renames or retitles a page, updates its row here.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<colgroup>
+<col style="width: 60.0%" />
+<col style="width: 40.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Fact</p></th>
+<th class="head"><p>Page</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Install, environments, Slurm</p></td>
+<td><p><a class="reference internal" href="installation.html"><span class="doc">Installation</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>A first read, in local time</p></td>
+<td><p><a class="reference internal" href="first_month.html"><span class="doc">Your first month of data</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p>When a site has data, the newest data</p></td>
+<td><p><a class="reference internal" href="what_data_exists.html"><span class="doc">What data exists</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">read_data</span></code> and <code class="docutils literal notranslate"><span class="pre">get_obs</span></code>, the <code class="docutils literal notranslate"><span class="pre">long</span></code> format, several sites, mobile sites</p></td>
+<td><p><a class="reference internal" href="reading_data.html"><span class="doc">Reading data</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p>Errors and empty results</p></td>
+<td><p><a class="reference internal" href="errors.html"><span class="doc">When there is nothing to read</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>Sites, instruments, what each measures, glossary</p></td>
+<td><p><a class="reference internal" href="sites_and_instruments.html"><span class="doc">Sites and instruments</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p>Columns of each level, column names, <code class="docutils literal notranslate"><span class="pre">ID</span></code>, flags, what <code class="docutils literal notranslate"><span class="pre">final</span></code> keeps, empty <code class="docutils literal notranslate"><span class="pre">_cal</span></code></p></td>
+<td><p><a class="reference internal" href="columns.html"><span class="doc">Columns and flags</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>Arguments: site, instruments, group, level, time range (every form), processes</p></td>
+<td><p><a class="reference internal" href="input_parameters.html"><span class="doc">Input Parameters</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p>Config keys</p></td>
+<td><p><a class="reference internal" href="config.html"><span class="doc">Configuration</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>Developer notes</p></td>
+<td><p>Contributing (this page)</p></td>
+</tr>
+<tr class="row-even"><td><p>Function and class details, what a module is for</p></td>
+<td><p>the docstrings, on the generated API pages (<a class="reference internal" href="functions_and_modules.html"><span class="doc">Functions and modules</span></a>)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The front page (<code class="docutils literal notranslate"><span class="pre">docs/index.rst</span></code>) lists the pages in these captioned groups:
+Getting started, Guides, Reference, API reference, then Contributing.</p>
+<p><strong>Examples that run in the build.</strong> In an <code class="docutils literal notranslate"><span class="pre">..</span> <span class="pre">ipython::</span> <span class="pre">python</span></code> block, <code class="docutils literal notranslate"><span class="pre">&#64;savefig</span>
+<span class="pre">name.png</span></code> above a plot keeps the figure, and <code class="docutils literal notranslate"><span class="pre">:okexcept:</span></code> or <code class="docutils literal notranslate"><span class="pre">:okwarning:</span></code>
+allows a block meant to raise or warn.</p>
+<p><strong>Examples that need the archive.</strong> These pages show the output of a run on CHPC in
+plain <code class="docutils literal notranslate"><span class="pre">code-block</span></code> or <code class="docutils literal notranslate"><span class="pre">pycon</span></code> blocks, because the docs build (and CI) has no
+archive: reading data, what data exists, errors, your first month, columns and
+input parameters.</p>
+<p><strong>The site and instrument tables are generated.</strong> The <code class="docutils literal notranslate"><span class="pre">site-catalog</span></code> and
+<code class="docutils literal notranslate"><span class="pre">instrument-catalog</span></code> directives in <code class="docutils literal notranslate"><span class="pre">docs/sites_and_instruments.rst</span></code>
+(<code class="docutils literal notranslate"><span class="pre">docs/_ext/catalog.py</span></code>) build them from <code class="docutils literal notranslate"><span class="pre">uataq.laboratory</span></code> and
+<code class="docutils literal notranslate"><span class="pre">uataq.instruments.catalog</span></code> on every build.</p>
+<p><strong>The API reference is generated.</strong> <code class="docutils literal notranslate"><span class="pre">docs/functions_and_modules.rst</span></code> lists the
+functions and modules, and each module, class, function and class member gets a page
+in <code class="docutils literal notranslate"><span class="pre">docs/api/</span></code> (gitignored; a <code class="docutils literal notranslate"><span class="pre">:toctree:</span></code> pointing outside <code class="docutils literal notranslate"><span class="pre">docs/</span></code> litters the
+repo root). A module’s docstring is its page’s text. <code class="docutils literal notranslate"><span class="pre">docs/_templates/autosummary/</span></code>
+and <code class="docutils literal notranslate"><span class="pre">docs/_ext/api_pages.py</span></code> (from python-template, which keeps class members from
+being described twice) build the pages.</p>
+</section>
 <section id="clocks-on-mobile-platforms">
 <h2>Clocks on mobile platforms<a class="headerlink" href="#clocks-on-mobile-platforms" title="Link to this heading">#</a></h2>
 <p>The TRAX and bus platforms carry instruments from two groups, each stamped by its
@@ -562,7 +689,9 @@ particulate rows stay on logger time, and nothing in them can correct it.</p></l
 group’s own GPS on its own clock: lin’s on <code class="docutils literal notranslate"><span class="pre">Pi_Time</span></code>, horel’s on <code class="docutils literal notranslate"><span class="pre">Time_UTC</span></code>
 (there the instrument and GPS values are one record). Joining horel’s rows to lin’s
 GPS on the Pi clock would place them that many seconds along the track, and drop
-the rows with no lin GPS record at their second.</p>
+the rows with no lin GPS record at their second.
+<code class="docutils literal notranslate"><span class="pre">locate</span></code> replays each instrument’s <code class="docutils literal notranslate"><span class="pre">plan_reads</span></code> to split its frame by group, and
+<code class="docutils literal notranslate"><span class="pre">_gps_group</span></code> raises <code class="docutils literal notranslate"><span class="pre">ValueError</span></code> rather than borrow another group’s GPS.</p>
 <p>The Pi’s clock has itself been hours to days off GPS time (on TRX01 about 70
 minutes behind all of 2016-11-09 and 10, and up to 5 days in 2022-11). A GPS read
 selects fixes by <code class="docutils literal notranslate"><span class="pre">Time_UTC</span></code>, GPS time, while lin’s rows were selected by the Pi’s
@@ -590,7 +719,10 @@ qaqc and final files have none of these rows, so raw is the only level with them
 <p>The suffix is <a class="reference internal" href="api/uataq.filesystem.groupspaces.horel.PRIOR_405_SUFFIX.html#uataq.filesystem.groupspaces.horel.PRIOR_405_SUFFIX" title="uataq.filesystem.groupspaces.horel.PRIOR_405_SUFFIX"><code class="xref py py-data docutils literal notranslate"><span class="pre">uataq.filesystem.groupspaces.horel.PRIOR_405_SUFFIX</span></code></a>.
 <code class="docutils literal notranslate"><span class="pre">HorelGroup.get_datafiles</span></code> adds the suffixed file to every raw read except the
 ES405’s, and clipping each instrument to its installed window keeps the two
-MetOne models’ rows apart. At each swap the ES642’s <code class="docutils literal notranslate"><span class="pre">removal_date</span></code> and the
+MetOne models’ rows apart. The clipped range drives both the file selection and the
+row slice, and both are needed: groups reuse a file name across an instrument change
+(horel calls both MetOne models <code class="docutils literal notranslate"><span class="pre">esampler</span></code>), so a monthly file that straddles a
+swap holds the replacement’s rows. At each swap the ES642’s <code class="docutils literal notranslate"><span class="pre">removal_date</span></code> and the
 ES405’s <code class="docutils literal notranslate"><span class="pre">installation_date</span></code> are the same instant, so a sample at that instant
 belongs to the ES405 alone. Other suffixes in horel’s raw folders
 (<code class="docutils literal notranslate"><span class="pre">TRX01_2024_02_cr1000.h5_bad</span></code>, which is empty, and the pilot archive’s
@@ -694,6 +826,9 @@ file. Only <code class="docutils literal notranslate"><span class="pre">lvl=&quo
   </div>
   <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-layout">Module layout</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#adding-an-instrument-or-a-group-space">Adding an instrument or a group space</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#writing-the-docs">Writing the docs</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#clocks-on-mobile-platforms">Clocks on mobile platforms</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-metone-swap-files">The MetOne swap files</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-availability-internals">Data availability internals</a></li>
