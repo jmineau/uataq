@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>uataq.filesystem.groupspaces.lin.LGR_UGGA_File.get_files &#8212; UATAQ 2026.10.1.dev59+g11c525227 documentation</title>
+    <title>uataq.filesystem.groupspaces.lin.LGR_UGGA_File.get_files &#8212; UATAQ 2026.10.1.dev60+g3cfb04d68 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="../_static/documentation_options.js?v=30d40fe1"></script>
+    <script src="../_static/documentation_options.js?v=00d982ae"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -59,7 +59,7 @@
     <link rel="prev" title="uataq.filesystem.groupspaces.lin.LGR_UGGA_File.name_date_formats" href="uataq.filesystem.groupspaces.lin.LGR_UGGA_File.name_date_formats.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.1.dev59+g11c525227" />
+  <meta name="docsearch:version" content="2026.10.1.dev60+g3cfb04d68" />
   
     
     <script src="../_static/searchtools.js"></script>
@@ -127,7 +127,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.1.dev59+g11c525227 documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.1.dev60+g3cfb04d68 documentation</p>
   
 </a></div>
     
@@ -774,7 +774,7 @@
 <h1>uataq.filesystem.groupspaces.lin.LGR_UGGA_File.get_files<a class="headerlink" href="#uataq-filesystem-groupspaces-lin-lgr-ugga-file-get-files" title="Link to this heading">#</a></h1>
 <dl class="py method">
 <dt class="sig sig-object py" id="uataq.filesystem.groupspaces.lin.LGR_UGGA_File.get_files">
-<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">LGR_UGGA_File.</span></span><span class="sig-name descname"><span class="pre">get_files</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">SID</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">instrument</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'lgr_ugga'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lvl</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'raw'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/uataq/filesystem/groupspaces/lin.html#LGR_UGGA_File.get_files"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uataq.filesystem.groupspaces.lin.LGR_UGGA_File.get_files" title="Link to this definition">#</a></dt>
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">LGR_UGGA_File.</span></span><span class="sig-name descname"><span class="pre">get_files</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">SID</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">instrument</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'lgr_ugga'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lvl</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'raw'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_range</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/uataq/filesystem/groupspaces/lin.html#LGR_UGGA_File.get_files"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uataq.filesystem.groupspaces.lin.LGR_UGGA_File.get_files" title="Link to this definition">#</a></dt>
 <dd><p>Get list of UGGA files for a given site.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -782,6 +782,11 @@
 <li><p><strong>SID</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a>) – The site ID.</p></li>
 <li><p><strong>instrument</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a>) – The instrument name. Defaults to ‘lgr_ugga’.</p></li>
 <li><p><strong>lvl</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a>) – The data level. Defaults to ‘raw’.</p></li>
+<li><p><strong>time_range</strong> (<a class="reference internal" href="uataq.timerange.TimeRange.html#uataq.timerange.TimeRange" title="uataq.timerange.TimeRange"><em>TimeRange</em></a><em>, </em><em>optional</em>) – Skip the folders of days that do not overlap this range. The
+pipeline keeps each day’s files in a folder named for the day, so a
+read of one day lists a few of the thousands of folders a site has.
+A folder that is not named for a day is always listed. Defaults to
+None, which lists every folder.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>

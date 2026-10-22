@@ -6,7 +6,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>uataq.filesystem.groupspaces.lin &#8212; UATAQ 2026.10.1.dev59+g11c525227 documentation</title>
+    <title>uataq.filesystem.groupspaces.lin &#8212; UATAQ 2026.10.1.dev60+g3cfb04d68 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
   <link rel="preload" as="script" href="../../../../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="../../../../_static/documentation_options.js?v=30d40fe1"></script>
+    <script src="../../../../_static/documentation_options.js?v=00d982ae"></script>
     <script src="../../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -56,7 +56,7 @@
     <link rel="search" title="Search" href="../../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.1.dev59+g11c525227" />
+  <meta name="docsearch:version" content="2026.10.1.dev60+g3cfb04d68" />
   
     
     <script src="../../../../_static/searchtools.js"></script>
@@ -124,7 +124,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.1.dev59+g11c525227 documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.1.dev60+g3cfb04d68 documentation</p>
   
 </a></div>
     
@@ -1006,6 +1006,20 @@
 
 
 
+<span class="k">def</span><span class="w"> </span><span class="nf">_day_in_range</span><span class="p">(</span><span class="n">day</span><span class="p">:</span> <span class="n">dt</span><span class="o">.</span><span class="n">datetime</span><span class="p">,</span> <span class="n">time_range</span><span class="p">:</span> <span class="n">TimeRange</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return whether the day, given as its midnight, overlaps the time range.</span>
+
+<span class="sd">    The range is ``[start, stop)`` with either end open: a day that ends at or</span>
+<span class="sd">    before the start, or begins at or after the stop, does not overlap it.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">start</span><span class="p">,</span> <span class="n">stop</span> <span class="o">=</span> <span class="n">time_range</span><span class="o">.</span><span class="n">start</span><span class="p">,</span> <span class="n">time_range</span><span class="o">.</span><span class="n">stop</span>
+    <span class="k">return</span> <span class="ow">not</span> <span class="p">(</span>
+        <span class="p">(</span><span class="n">start</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">day</span> <span class="o">+</span> <span class="n">dt</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">start</span><span class="p">)</span>
+        <span class="ow">or</span> <span class="p">(</span><span class="n">stop</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">day</span> <span class="o">&gt;=</span> <span class="n">stop</span><span class="p">)</span>
+    <span class="p">)</span>
+
+
 <div class="viewcode-block" id="LGR_UGGA_File">
 <a class="viewcode-back" href="../../../../api/uataq.filesystem.groupspaces.lin.LGR_UGGA_File.html#uataq.filesystem.groupspaces.lin.LGR_UGGA_File">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">LGR_UGGA_File</span><span class="p">(</span><span class="n">filesystem</span><span class="o">.</span><span class="n">DataFile</span><span class="p">):</span>
@@ -1037,7 +1051,7 @@
 <span class="sd">        Get meta data from UGGA file.</span>
 <span class="sd">    get_serial(path)</span>
 <span class="sd">        Get serial number of UGGA from file.</span>
-<span class="sd">    get_files(SID, instrument=&#39;lgr_ugga&#39;, lvl=&#39;raw&#39;)</span>
+<span class="sd">    get_files(SID, instrument=&#39;lgr_ugga&#39;, lvl=&#39;raw&#39;, time_range=None)</span>
 <span class="sd">        Get list of UGGA files for a given site.</span>
 <span class="sd">    parse()</span>
 <span class="sd">        Parse files transferred directly from LGR software.</span>
@@ -1088,6 +1102,25 @@
             <span class="k">if</span> <span class="n">match</span><span class="p">:</span>
                 <span class="n">date</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">date_format</span><span class="p">)</span>
                 <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">Period</span><span class="p">(</span><span class="n">date</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">file_freq</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_folder_day</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">dt</span><span class="o">.</span><span class="n">datetime</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the midnight of the day a folder is named for, or None.</span>
+
+<span class="sd">        The pipeline keeps each day&#39;s files in a folder named for the day, in</span>
+<span class="sd">        the same two date styles as the file names (``01Apr2016`` and</span>
+<span class="sd">        ``2017-05-09``). A name that does not read back exactly as written</span>
+<span class="sd">        (``1Apr2016``) is not taken for a day&#39;s folder.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">date_format</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="n">name_date_formats</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">day</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">date_format</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="k">if</span> <span class="n">day</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="n">date_format</span><span class="p">)</span> <span class="o">==</span> <span class="n">name</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">day</span>
         <span class="k">return</span> <span class="kc">None</span>
 
 <div class="viewcode-block" id="LGR_UGGA_File.get_meta">
@@ -1149,7 +1182,10 @@
 <a class="viewcode-back" href="../../../../api/uataq.filesystem.groupspaces.lin.LGR_UGGA_File.get_files.html#uataq.filesystem.groupspaces.lin.LGR_UGGA_File.get_files">[docs]</a>
     <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_files</span><span class="p">(</span>
-        <span class="n">SID</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">instrument</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;lgr_ugga&quot;</span><span class="p">,</span> <span class="n">lvl</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;raw&quot;</span>
+        <span class="n">SID</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">instrument</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;lgr_ugga&quot;</span><span class="p">,</span>
+        <span class="n">lvl</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;raw&quot;</span><span class="p">,</span>
+        <span class="n">time_range</span><span class="p">:</span> <span class="n">TimeRange</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get list of UGGA files for a given site.</span>
@@ -1162,6 +1198,12 @@
 <span class="sd">            The instrument name. Defaults to &#39;lgr_ugga&#39;.</span>
 <span class="sd">        lvl : str</span>
 <span class="sd">            The data level. Defaults to &#39;raw&#39;.</span>
+<span class="sd">        time_range : TimeRange, optional</span>
+<span class="sd">            Skip the folders of days that do not overlap this range. The</span>
+<span class="sd">            pipeline keeps each day&#39;s files in a folder named for the day, so a</span>
+<span class="sd">            read of one day lists a few of the thousands of folders a site has.</span>
+<span class="sd">            A folder that is not named for a day is always listed. Defaults to</span>
+<span class="sd">            None, which lists every folder.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -1171,9 +1213,26 @@
         <span class="k">assert</span> <span class="n">lvl</span> <span class="o">==</span> <span class="s2">&quot;raw&quot;</span><span class="p">,</span> <span class="s2">&quot;Only raw data is stored in UGGA files&quot;</span>
         <span class="n">data_path</span> <span class="o">=</span> <span class="n">LinGroup</span><span class="o">.</span><span class="n">data_path</span><span class="p">(</span><span class="n">SID</span><span class="p">,</span> <span class="n">instrument</span><span class="p">,</span> <span class="n">lvl</span><span class="p">)</span>
         <span class="n">pattern</span> <span class="o">=</span> <span class="s2">&quot;*f????.txt&quot;</span>
-        <span class="k">return</span> <span class="n">filesystem</span><span class="o">.</span><span class="n">list_files</span><span class="p">(</span>
-            <span class="n">data_path</span><span class="p">,</span> <span class="n">pattern</span><span class="o">=</span><span class="n">pattern</span><span class="p">,</span> <span class="n">full_names</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">recursive</span><span class="o">=</span><span class="kc">True</span>
-        <span class="p">)</span></div>
+        <span class="k">if</span> <span class="n">time_range</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">filesystem</span><span class="o">.</span><span class="n">list_files</span><span class="p">(</span>
+                <span class="n">data_path</span><span class="p">,</span> <span class="n">pattern</span><span class="o">=</span><span class="n">pattern</span><span class="p">,</span> <span class="n">full_names</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">recursive</span><span class="o">=</span><span class="kc">True</span>
+            <span class="p">)</span>
+
+        <span class="c1"># The files in the raw folder itself, then those in each folder that is</span>
+        <span class="c1"># not the folder of a day outside the range. The name is read before</span>
+        <span class="c1"># asking whether the entry is a folder: on the archive that is a stat</span>
+        <span class="c1"># call per entry, thousands of them.</span>
+        <span class="n">files</span> <span class="o">=</span> <span class="n">filesystem</span><span class="o">.</span><span class="n">list_files</span><span class="p">(</span><span class="n">data_path</span><span class="p">,</span> <span class="n">pattern</span><span class="o">=</span><span class="n">pattern</span><span class="p">,</span> <span class="n">full_names</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">with</span> <span class="n">os</span><span class="o">.</span><span class="n">scandir</span><span class="p">(</span><span class="n">data_path</span><span class="p">)</span> <span class="k">as</span> <span class="n">entries</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">entries</span><span class="p">:</span>
+                <span class="n">day</span> <span class="o">=</span> <span class="n">LGR_UGGA_File</span><span class="o">.</span><span class="n">_folder_day</span><span class="p">(</span><span class="n">entry</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">day</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">_day_in_range</span><span class="p">(</span><span class="n">day</span><span class="p">,</span> <span class="n">time_range</span><span class="p">):</span>
+                    <span class="k">continue</span>
+                <span class="k">if</span> <span class="n">entry</span><span class="o">.</span><span class="n">is_dir</span><span class="p">(</span><span class="n">follow_symlinks</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+                    <span class="n">files</span> <span class="o">+=</span> <span class="n">filesystem</span><span class="o">.</span><span class="n">list_files</span><span class="p">(</span>
+                        <span class="n">entry</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">pattern</span><span class="o">=</span><span class="n">pattern</span><span class="p">,</span> <span class="n">full_names</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">recursive</span><span class="o">=</span><span class="kc">True</span>
+                    <span class="p">)</span>
+        <span class="k">return</span> <span class="n">files</span></div>
 
 
 <div class="viewcode-block" id="LGR_UGGA_File.parse">
@@ -1497,9 +1556,9 @@
 
 <span class="sd">        See :meth:`~uataq.filesystem.core.GroupSpace.get_datafiles`. Raw files need extra handling:</span>
 <span class="sd">        ``lgr_ugga`` file names do not line up with their contents, so the</span>
-<span class="sd">        range is widened by a day on each side, and only the files whose name</span>
-<span class="sd">        falls in it have their header read. GPS defaults to the ``gpgga``</span>
-<span class="sd">        sentence files.</span>
+<span class="sd">        range is widened by a day on each side, only the day folders that</span>
+<span class="sd">        overlap it are listed, and only the files whose name falls in it have</span>
+<span class="sd">        their header read. GPS defaults to the ``gpgga`` sentence files.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Custom handling for raw Lin files</span>
         <span class="k">if</span> <span class="n">lvl</span> <span class="o">==</span> <span class="s2">&quot;raw&quot;</span><span class="p">:</span>
@@ -1544,25 +1603,22 @@
 
 <span class="sd">        Initializing an :class:`LGR_UGGA_File` reads its header, and a site has</span>
 <span class="sd">        a file a day for years: reading every header took minutes on a cold</span>
-<span class="sd">        cache. So the files are first picked by the day in their name (the</span>
-<span class="sd">        days that overlap the range), and only those are initialized. The same</span>
-<span class="sd">        filter as the base class&#39;s then runs on them, so the files kept are</span>
-<span class="sd">        the ones it keeps. A file whose name has no valid date is initialized</span>
-<span class="sd">        anyway, so it is handled as before.</span>
+<span class="sd">        cache, and walking every day folder to list them took up to half a</span>
+<span class="sd">        minute.</span>
+<span class="sd">        So only the day folders that overlap the range are listed, the files</span>
+<span class="sd">        are then picked by the day in their name, and only those are</span>
+<span class="sd">        initialized. The same filter as the base class&#39;s runs on them, so the</span>
+<span class="sd">        files kept are the ones it keeps. A file whose name has no valid date</span>
+<span class="sd">        is initialized anyway, so it is handled as before.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">start</span><span class="p">,</span> <span class="n">stop</span> <span class="o">=</span> <span class="n">time_range</span><span class="o">.</span><span class="n">start</span><span class="p">,</span> <span class="n">time_range</span><span class="o">.</span><span class="n">stop</span>
-
         <span class="n">datafiles</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">filesystem</span><span class="o">.</span><span class="n">DataFile</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_files</span><span class="p">(</span><span class="n">SID</span><span class="p">,</span> <span class="n">instrument</span><span class="p">,</span> <span class="s2">&quot;raw&quot;</span><span class="p">,</span> <span class="s2">&quot;lgr_ugga&quot;</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">LGR_UGGA_File</span><span class="o">.</span><span class="n">get_files</span><span class="p">(</span><span class="n">SID</span><span class="p">,</span> <span class="n">instrument</span><span class="p">,</span> <span class="s2">&quot;raw&quot;</span><span class="p">,</span> <span class="n">time_range</span><span class="p">):</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">day</span> <span class="o">=</span> <span class="n">LGR_UGGA_File</span><span class="o">.</span><span class="n">_name_period</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
             <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
                 <span class="n">day</span> <span class="o">=</span> <span class="kc">None</span>
-            <span class="k">if</span> <span class="n">day</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="p">(</span>
-                <span class="p">(</span><span class="n">start</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">day</span><span class="o">.</span><span class="n">end_time</span> <span class="o">&lt;</span> <span class="n">start</span><span class="p">)</span>
-                <span class="ow">or</span> <span class="p">(</span><span class="n">stop</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">day</span><span class="o">.</span><span class="n">start_time</span> <span class="o">&gt;=</span> <span class="n">stop</span><span class="p">)</span>
-            <span class="p">):</span>
-                <span class="k">continue</span>  <span class="c1"># the day ends before the range or starts at its stop</span>
+            <span class="k">if</span> <span class="n">day</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">_day_in_range</span><span class="p">(</span><span class="n">day</span><span class="o">.</span><span class="n">start_time</span><span class="p">,</span> <span class="n">time_range</span><span class="p">):</span>
+                <span class="k">continue</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">datafiles</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">LGR_UGGA_File</span><span class="p">(</span><span class="n">path</span><span class="p">))</span>
             <span class="k">except</span> <span class="n">DataFileInitializationError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
