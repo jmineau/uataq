@@ -85,10 +85,9 @@ follow [PEP 440](https://peps.python.org/pep-0440/): calendar-based,
   configuration. `Site.pollutant_instruments` has a docstring.
 - Docs: the levels are called "data levels" on every page and docstring.
   "Input Parameters" retitles its "Processing Level" section "Data Level" (the
-  anchor `input_parameters.html#processing-level` is now `#data-level`) and
-  says the pipeline's documentation calls them processing levels. "Reading
-  data" says the mobile sites are on TRAX trains and buses, as the front page
-  does.
+  anchor `input_parameters.html#processing-level` is now `#data-level`).
+  "Reading data" says the mobile sites are on TRAX trains and buses, as the
+  front page does.
 - `Instrument.model`, `SensorMixin.pollutants`, `Sodar.model` and
   `Sodar.species_measured` have docstrings, and the Attributes of
   `LinDatFile` and `LGR_UGGA_File` name the ones their `__init__` sets
