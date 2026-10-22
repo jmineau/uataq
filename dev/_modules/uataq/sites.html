@@ -6,7 +6,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>uataq.sites &#8212; UATAQ 2026.10.1.dev48+g5a42beead documentation</title>
+    <title>uataq.sites &#8212; UATAQ 2026.10.1.dev49+g780f8fa10 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="../../_static/documentation_options.js?v=f67b5c61"></script>
+    <script src="../../_static/documentation_options.js?v=9d385d6b"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -56,7 +56,7 @@
     <link rel="search" title="Search" href="../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.1.dev48+g5a42beead" />
+  <meta name="docsearch:version" content="2026.10.1.dev49+g780f8fa10" />
   
     
     <script src="../../_static/searchtools.js"></script>
@@ -124,7 +124,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.1.dev48+g5a42beead documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.1.dev49+g780f8fa10 documentation</p>
   
 </a></div>
     
@@ -1114,6 +1114,14 @@
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        pd.DataFrame: The merged data with added location information.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        Both times are floored to whole seconds and the rows joined where the</span>
+<span class="sd">        seconds match, so an observation with no fix in its second is dropped.</span>
+<span class="sd">        When two fixes fall in the same second, the observation keeps the one</span>
+<span class="sd">        nearest to it in time (the first on a tie), so no observation appears</span>
+<span class="sd">        twice.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">def</span><span class="w"> </span><span class="nf">truncate</span><span class="p">(</span><span class="n">time</span><span class="p">):</span>
@@ -1140,6 +1148,12 @@
         <span class="n">obs</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">how</span><span class="o">=</span><span class="s2">&quot;all&quot;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="n">gps</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="n">gps_on</span><span class="p">,</span> <span class="s2">&quot;Latitude_deg&quot;</span><span class="p">,</span> <span class="s2">&quot;Longitude_deg&quot;</span><span class="p">],</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
+        <span class="c1"># Number the observations and keep both exact times, to choose</span>
+        <span class="c1"># between two fixes that fall in one second</span>
+        <span class="n">obs</span><span class="p">[</span><span class="s2">&quot;_obs_row&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">obs</span><span class="p">))</span>
+        <span class="n">obs</span><span class="p">[</span><span class="s2">&quot;_obs_time&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">obs</span><span class="p">[</span><span class="n">obs_on</span><span class="p">]</span>
+        <span class="n">gps</span><span class="p">[</span><span class="s2">&quot;_gps_time&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">gps</span><span class="p">[</span><span class="n">gps_on</span><span class="p">]</span>
+
         <span class="c1"># Truncate time to seconds</span>
         <span class="n">obs</span><span class="p">[</span><span class="n">obs_on</span><span class="p">]</span> <span class="o">=</span> <span class="n">truncate</span><span class="p">(</span><span class="n">obs</span><span class="p">[</span><span class="n">obs_on</span><span class="p">])</span>
         <span class="n">gps</span><span class="p">[</span><span class="n">gps_on</span><span class="p">]</span> <span class="o">=</span> <span class="n">truncate</span><span class="p">(</span><span class="n">gps</span><span class="p">[</span><span class="n">gps_on</span><span class="p">])</span>
@@ -1147,6 +1161,18 @@
         <span class="c1"># Perform merge</span>
         <span class="n">obs</span> <span class="o">=</span> <span class="n">obs</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span>
             <span class="n">gps</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s2">&quot;inner&quot;</span><span class="p">,</span> <span class="n">left_on</span><span class="o">=</span><span class="n">obs_on</span><span class="p">,</span> <span class="n">right_on</span><span class="o">=</span><span class="n">gps_on</span><span class="p">,</span> <span class="n">suffixes</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;_gps&quot;</span><span class="p">)</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Two fixes can share a second (the Pi stamps fixes with jitter), and</span>
+        <span class="c1"># each would copy the observation: keep the fix nearest to it in time</span>
+        <span class="c1"># (the first on a tie), so each observation appears once (#93). The</span>
+        <span class="c1"># merge keeps the observations&#39; order; sorting by row restores it.</span>
+        <span class="n">gap</span> <span class="o">=</span> <span class="p">(</span><span class="n">obs</span><span class="p">[</span><span class="s2">&quot;_obs_time&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">obs</span><span class="p">[</span><span class="s2">&quot;_gps_time&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span>
+        <span class="n">obs</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">obs</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">_gap</span><span class="o">=</span><span class="n">gap</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">sort_values</span><span class="p">([</span><span class="s2">&quot;_obs_row&quot;</span><span class="p">,</span> <span class="s2">&quot;_gap&quot;</span><span class="p">],</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;stable&quot;</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span><span class="s2">&quot;_obs_row&quot;</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;_obs_row&quot;</span><span class="p">,</span> <span class="s2">&quot;_obs_time&quot;</span><span class="p">,</span> <span class="s2">&quot;_gps_time&quot;</span><span class="p">,</span> <span class="s2">&quot;_gap&quot;</span><span class="p">])</span>
         <span class="p">)</span>
 
         <span class="c1"># Set Time_UTC as index</span>
