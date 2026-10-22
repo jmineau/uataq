@@ -21,6 +21,12 @@ _logger = logging.getLogger(__name__)
 
 _all_or_mult_strs = Literal["all"] | str | list[str] | tuple[str, ...] | set[str]
 
+# How far past its rows' range lin's GPS is read. lin rows are joined to lin's
+# GPS on the Pi's clock, but a read selects the fixes by their GPS time, and
+# the Pi's clock has been days off: up to 5 days on TRX01 in 2022-11, 4.5 days
+# in 2018-08, hours in 2016 (#94).
+_PI_CLOCK_MARGIN = dt.timedelta(days=7)
+
 
 def _describe_plan(plan: instruments.ReadPlan) -> str:
     """Name the groupspace(s) a read plan reads from, with dates when split."""
@@ -115,6 +121,13 @@ def _span(portions: list[TimeRange]) -> TimeRange:
     stops = [p.stop for p in portions if p.stop is not None]
     start = min(starts) if len(starts) == len(portions) else None
     stop = max(stops) if len(stops) == len(portions) else None
+    return TimeRange(start=start, stop=stop)
+
+
+def _widen(span: TimeRange, margin: dt.timedelta) -> TimeRange:
+    """Return ``span`` reaching ``margin`` further on each bounded side."""
+    start = None if span.start is None else span.start - margin
+    stop = None if span.stop is None else span.stop + margin
     return TimeRange(start=start, stop=stop)
 
 
@@ -279,7 +292,8 @@ class Site:
         uataq.errors.ReaderError
             If no data is found for the specified instruments. The message
             says, for each, why it gave none: the files it looked for, and the
-            first and last period it has files for.
+            first and last period it has files for, or the levels it has when
+            it has none at ``lvl``.
         """
         # Format instruments
         if instruments == "all":
@@ -731,6 +745,13 @@ class MobileSite(Site):
         clock placed them that many seconds along the track, and dropped rows
         with no lin GPS record at their second (uataq#42).
 
+        The Pi's clock itself has been hours to days off GPS time (up to 5
+        days on TRX01 in 2022-11), and a GPS read selects fixes by GPS time,
+        so lin's GPS is read a week past the rows' range on each side: the
+        fixes of rows near the ends are then read too (uataq#94). Rows are
+        still selected by the Pi's clock, so a located row's ``Time_UTC`` (GPS
+        time) can fall outside ``time_range`` by as much as the Pi was off.
+
         One group's rows are never located with another group's GPS. A GPS
         group the caller names explicitly (a mapping entry for ``gps``) that
         differs from the group some rows were read from raises ``ValueError``,
@@ -755,6 +776,10 @@ class MobileSite(Site):
         for gps_group, group_pieces in pieces.items():
             # Read GPS only where these rows were read, not the whole request
             span = _span([portion for _, _, portion in group_pieces])
+            if gps_group == "lin":
+                # The join is on the Pi's clock and the read on GPS time:
+                # reach far enough for the fixes of rows near the ends
+                span = _widen(span, _PI_CLOCK_MARGIN)
             try:
                 gps = self.read_data("gps", gps_group, lvl, span, num_processes)["gps"]
             except errors.ReaderError as e:

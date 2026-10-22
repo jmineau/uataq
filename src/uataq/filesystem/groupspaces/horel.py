@@ -525,6 +525,8 @@ class HorelGroup(filesystem.GroupSpace):
 
     Methods
     -------
+    get_lvls(SID, instrument)
+        Get the data levels for a given site and instrument.
     get_highest_lvl(SID, instrument)
         Get the highest data level for a given site and instrument.
     get_files(SID, instrument, lvl, logger)
@@ -542,6 +544,11 @@ class HorelGroup(filesystem.GroupSpace):
         "qaqc": HorelCSVFile,
         "final": HorelCSVFinalizedFile,
     }
+
+    @staticmethod
+    def get_lvls(SID: str, instrument: str) -> list[str]:
+        """Return the levels horel keeps: raw, qaqc and final."""
+        return list(lvl_data_dirs)
 
     @staticmethod
     def get_highest_lvl(SID: str, instrument: str) -> str:

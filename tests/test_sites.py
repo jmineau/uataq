@@ -609,9 +609,11 @@ class TestMobileSiteLocate:
         calls = []
         self.get_obs(calls)
 
+        # lin's GPS reaches a margin further, for the Pi's clock (#94)
+        margin = sites._PI_CLOCK_MARGIN
         spans = {group: (tr.start, tr.stop) for group, tr in calls}
         assert spans == {
-            "lin": (self.SPAN[0], self.LIN_STOP),
+            "lin": (self.SPAN[0] - margin, self.LIN_STOP + margin),
             "horel": (self.LIN_STOP, self.SPAN[1]),
         }
 
@@ -666,6 +668,63 @@ class TestMobileSiteLocate:
         gps._named_group.return_value = "horel"
         site = SimpleNamespace(instruments={"gps": gps}, SID="TRX01")
         assert sites.MobileSite._gps_group(site, "horel", {"gps": "horel"}) == "horel"  # pyrefly: ignore[bad-argument-type]  # duck-typed site
+
+
+class TestLocateWithPiClockOff:
+    """
+    lin rows are located when the Pi's clock is off GPS time (#94).
+
+    The join is on the Pi's clock, but a GPS read selects fixes by GPS time.
+    On 2016-11-09 TRX01's Pi ran about 4,110 s behind GPS time, so the fixes
+    of the rows in the last 4,110 s of a range have a GPS time past its end.
+    """
+
+    SPAN = (datetime(2016, 11, 9, 0), datetime(2016, 11, 9, 6))
+    OFFSET = pd.Timedelta(seconds=4110)
+
+    def gps(self):
+        pi = pd.date_range("2016-11-08 22:00", "2016-11-09 08:00", freq="10min")
+        return pd.DataFrame(
+            {
+                "Pi_Time": pi.strftime("%Y-%m-%d %H:%M:%S.%f"),
+                "Latitude_deg": 40.7,
+                "Longitude_deg": -111.9,
+            },
+            index=pd.DatetimeIndex(pi + self.OFFSET, name="Time_UTC"),
+        )
+
+    def locate(self, calls):
+        import uataq
+
+        site = uataq.get_site("TRX01")
+        gps = self.gps()
+
+        def read_data(instruments, group=None, lvl=None, time_range=None, *a, **k):
+            # Select fixes by GPS time, half-open, as a real read does
+            start, stop = TimeRange(time_range)
+            calls.append((start, stop))
+            index = pd.DatetimeIndex(gps.index)
+            return {"gps": gps[(index >= start) & (index < stop)]}
+
+        # Rows on the Pi's clock, one every 10 minutes across the range
+        pi = pd.date_range(*self.SPAN, freq="10min", inclusive="left")
+        rows = pd.DataFrame(
+            {"CH4d_ppm_cal": 2.0}, index=pd.DatetimeIndex(pi, name="Time_UTC")
+        )
+        with patch.object(site, "read_data", read_data):
+            return rows, site.locate({"lgr_ugga": rows}, time_range=self.SPAN)
+
+    def test_rows_near_the_end_are_located(self):
+        rows, located = self.locate([])
+        # 36 rows; the last 6 (Pi 05:00 on) have fixes past 06:00 GPS time
+        assert len(located) == len(rows) == 36
+        assert located.index.max() == pd.Timestamp("2016-11-09 06:58:30")
+
+    def test_gps_read_reaches_the_margin(self):
+        calls = []
+        self.locate(calls)
+        margin = sites._PI_CLOCK_MARGIN
+        assert calls == [(self.SPAN[0] - margin, self.SPAN[1] + margin)]
 
 
 class TestPollutantCase:
@@ -1302,3 +1361,109 @@ class TestEmptyResultWarning:
             obs = wbb.get_obs("O3", time_range="2024-06-01")
         assert obs["O3_ppb"].tolist() == [47.2, 47.1]
         assert caught == []
+
+
+class TestLevelTheInstrumentLacks:
+    """A read at a level an instrument does not have names the levels it has (#63)."""
+
+    COLUMNS = {
+        "col_names": ["Time_UTC", "O3_ppb"],
+        "col_types": "Td",
+    }
+
+    @pytest.fixture
+    def archive(self, tmp_path, monkeypatch):
+        """WBB ozone with a calibrated month; the NO monitor has no such folder."""
+        from uataq.filesystem.groupspaces import lin
+
+        monkeypatch.setattr(lin, "DATA_DIR", str(tmp_path))
+        for inst, lvls in [
+            ("teledyne_t400", ["raw", "qaqc", "calibrated", "final"]),
+            ("teledyne_t200", ["raw", "qaqc", "final"]),
+        ]:
+            for lvl in lvls:
+                (tmp_path / "wbb" / inst / lvl).mkdir(parents=True)
+        (
+            tmp_path / "wbb" / "teledyne_t400" / "calibrated" / "2024_06_cal.dat"
+        ).write_text(
+            "Time_UTC,O3_ppb\n2024-06-01 00:00:01,47.2\n2024-06-01 00:00:03,47.1\n"
+        )
+        config = {"calibrated": self.COLUMNS}
+        with patch.dict(lin.DATA_CONFIG, {"teledyne_t400": config}):
+            yield tmp_path
+
+    @pytest.fixture
+    def wbb(self):
+        import uataq
+
+        return uataq.get_site("WBB")
+
+    def test_the_error_names_the_levels_it_has(self, archive, wbb):
+        with pytest.raises(errors.ReaderError) as e:
+            wbb.read_data("teledyne_t200", lvl="calibrated", time_range="2024-06")
+
+        assert str(e.value) == (
+            "No calibrated data found for ['teledyne_t200'] at WBB: "
+            "teledyne_t200 in lin groupspace: "
+            "teledyne_t200@WBB has no calibrated level (it has raw, qaqc and final)."
+        )
+
+    def test_the_log_says_it_too(self, archive, wbb, caplog):
+        with (
+            caplog.at_level(logging.WARNING, logger="uataq"),
+            pytest.raises(errors.ReaderError),
+        ):
+            wbb.read_data("teledyne_t200", lvl="calibrated", time_range="2024-06")
+
+        assert (
+            "Error reading teledyne_t200@WBB data from lin groupspace: "
+            "teledyne_t200@WBB has no calibrated level (it has raw, qaqc and final)."
+        ) in caplog.text
+
+    def test_an_instrument_that_has_the_level_is_still_read(self, archive, wbb):
+        """One instrument lacking the level no longer ends the read of the others."""
+        data = wbb.read_data(
+            ["teledyne_t200", "teledyne_t400"], lvl="calibrated", time_range="2024-06"
+        )
+
+        assert list(data) == ["teledyne_t400"]
+        assert data["teledyne_t400"]["O3_ppb"].tolist() == [47.2, 47.1]
+
+    def test_the_level_is_read_whatever_its_case(self, archive, wbb):
+        data = wbb.read_data("teledyne_t400", lvl="Calibrated", time_range="2024-06")
+
+        assert len(data["teledyne_t400"]) == 2
+
+    def test_the_top_level_function_raises_the_same_error(self, archive):
+        import uataq
+
+        with pytest.raises(errors.ReaderError, match="has no calibrated level"):
+            uataq.read_data(
+                "WBB", "teledyne_t200", lvl="calibrated", time_range="2024-06"
+            )
+
+    def test_each_group_of_a_split_read_is_named(self):
+        """TRX01 ozone is lin's before 2017-10-28 and horel's after; neither has it."""
+        import uataq
+
+        trx = uataq.get_site("TRX01")
+        levels = ["raw", "qaqc", "final"]
+        with (
+            patch(
+                "uataq.filesystem.groupspaces.lin.LinGroup.get_lvls",
+                return_value=levels,
+            ),
+            patch(
+                "uataq.filesystem.groupspaces.horel.HorelGroup.get_lvls",
+                return_value=levels,
+            ),
+            pytest.raises(errors.ReaderError) as e,
+        ):
+            trx.read_data(
+                "2b_205", lvl="calibrated", time_range=["2017-10-01", "2017-12-01"]
+            )
+
+        message = str(e.value)
+        assert message.startswith("No calibrated data found for ['2b_205'] at TRX01: ")
+        assert "lin (" in message and "horel (" in message
+        assert message.count("2b_205@TRX01 has no calibrated level") == 2
