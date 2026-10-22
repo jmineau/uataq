@@ -6,7 +6,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>uataq.sites &#8212; UATAQ 2026.10.1.dev57+ga47160792 documentation</title>
+    <title>uataq.sites &#8212; UATAQ 2026.10.1.dev58+g46fb18db1 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="../../_static/documentation_options.js?v=812aff12"></script>
+    <script src="../../_static/documentation_options.js?v=75abba26"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -56,7 +56,7 @@
     <link rel="search" title="Search" href="../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.1.dev57+ga47160792" />
+  <meta name="docsearch:version" content="2026.10.1.dev58+g46fb18db1" />
   
     
     <script src="../../_static/searchtools.js"></script>
@@ -124,7 +124,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.1.dev57+ga47160792 documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.1.dev58+g46fb18db1 documentation</p>
   
 </a></div>
     
@@ -553,6 +553,7 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">uataq</span><span class="w"> </span><span class="kn">import</span> <span class="n">errors</span><span class="p">,</span> <span class="n">instruments</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">uataq.pollutants</span><span class="w"> </span><span class="kn">import</span> <span class="n">POLLUTANTS</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">uataq.timerange</span><span class="w"> </span><span class="kn">import</span> <span class="n">TimeRange</span><span class="p">,</span> <span class="n">TimeRangeTypes</span>
 
 <span class="n">_logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
@@ -585,6 +586,17 @@
     <span class="n">error</span> <span class="o">=</span> <span class="n">errors</span><span class="o">.</span><span class="n">ReaderError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No </span><span class="si">{</span><span class="n">level</span><span class="si">}</span><span class="s2">data found for </span><span class="si">{</span><span class="n">asked</span><span class="si">}</span><span class="s2"> at </span><span class="si">{</span><span class="n">SID</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">detail</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
     <span class="n">error</span><span class="o">.</span><span class="n">detail</span> <span class="o">=</span> <span class="n">detail</span>
     <span class="k">return</span> <span class="n">error</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_reject_level</span><span class="p">(</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">object</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Raise TypeError if ``get_obs`` was given a level, which it never takes.&quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;lvl&quot;</span><span class="p">,</span> <span class="s2">&quot;level&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;get_obs() got an unexpected keyword argument &#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39;. get_obs &quot;</span>
+                <span class="s2">&quot;always reads the final level; to read another, call &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;read_data(..., lvl=</span><span class="si">{</span><span class="n">kwargs</span><span class="p">[</span><span class="n">name</span><span class="p">]</span><span class="si">!r}</span><span class="s2">).&quot;</span>
+            <span class="p">)</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_read_plan</span><span class="p">(</span>
@@ -930,6 +942,17 @@
 <span class="sd">            the site&#39;s config), and the same on every call. Rows on one</span>
 <span class="sd">            timestamp come in that order too.</span>
 
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        ValueError</span>
+<span class="sd">            If a pollutant is not measured at the site. The message says</span>
+<span class="sd">            which pollutants the site does measure, and tells a pollutant</span>
+<span class="sd">            uataq reads at other sites (``Not measured at ...``) from a name</span>
+<span class="sd">            it does not know (``Invalid pollutant(s)``).</span>
+<span class="sd">        TypeError</span>
+<span class="sd">            If you pass ``lvl`` or ``level``: ``get_obs`` always reads the</span>
+<span class="sd">            ``final`` level. Use :func:`uataq.read_data` to read another.</span>
+
 <span class="sd">        Warns</span>
 <span class="sd">        -----</span>
 <span class="sd">        EmptyResultWarning</span>
@@ -944,9 +967,32 @@
 <span class="sd">            and when none of the pollutants has data the read raises</span>
 <span class="sd">            :class:`~uataq.errors.ReaderError` instead.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">_reject_level</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="n">frames</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_read_obs</span><span class="p">(</span><span class="n">pollutants</span><span class="p">,</span> <span class="nb">format</span><span class="p">,</span> <span class="n">group</span><span class="p">,</span> <span class="n">time_range</span><span class="p">,</span> <span class="n">num_processes</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">frames</span><span class="o">.</span><span class="n">values</span><span class="p">())</span><span class="o">.</span><span class="n">sort_index</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s2">&quot;stable&quot;</span><span class="p">))</span></div>
 
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_not_measured</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">asked</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="ne">ValueError</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Build the error for upper-case pollutant names this site does not measure.</span>
+
+<span class="sd">        A name that no instrument model measures is invalid (a misspelling);</span>
+<span class="sd">        one that some model measures, but not at this site, is not measured</span>
+<span class="sd">        here. Either way the error says what the site does measure.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">known</span> <span class="o">=</span> <span class="p">{</span><span class="n">p</span><span class="o">.</span><span class="n">upper</span><span class="p">():</span> <span class="n">p</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">POLLUTANTS</span><span class="p">}</span>
+        <span class="n">invalid</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">asked</span> <span class="k">if</span> <span class="n">p</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">known</span><span class="p">]</span>
+        <span class="n">absent</span> <span class="o">=</span> <span class="p">[</span><span class="n">known</span><span class="p">[</span><span class="n">p</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">asked</span> <span class="k">if</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">known</span><span class="p">]</span>
+        <span class="n">measured</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_declared_pollutants</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pollutants</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">sentences</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="n">invalid</span><span class="p">:</span>
+            <span class="n">sentences</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid pollutant(s): </span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">invalid</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">absent</span><span class="p">:</span>
+            <span class="n">sentences</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Not measured at </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">SID</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">absent</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">sentences</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">SID</span><span class="si">}</span><span class="s2"> measures </span><span class="si">{</span><span class="n">measured</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;. &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">sentences</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;.&quot;</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_read_obs</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -980,10 +1026,9 @@
         <span class="k">else</span><span class="p">:</span>  <span class="c1"># list or tuple: keep the order asked for</span>
             <span class="n">pollutants</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">pollutants</span><span class="p">]</span>
 
-        <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">p</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pollutants</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">pollutants</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Invalid pollutant(s): &#39;</span><span class="si">{</span><span class="nb">set</span><span class="p">(</span><span class="n">pollutants</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pollutants</span><span class="p">)</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
-            <span class="p">)</span>
+        <span class="n">unmeasured</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">dict</span><span class="o">.</span><span class="n">fromkeys</span><span class="p">(</span><span class="n">pollutants</span><span class="p">)</span> <span class="k">if</span> <span class="n">p</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pollutants</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">unmeasured</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="bp">self</span><span class="o">.</span><span class="n">_not_measured</span><span class="p">(</span><span class="n">unmeasured</span><span class="p">)</span>
 
         <span class="c1"># Get instruments for each pollutant: in the order the pollutants were</span>
         <span class="c1"># asked for, and each pollutant&#39;s in the config&#39;s. A list, not a set:</span>
@@ -1262,6 +1307,14 @@
 <span class="sd">            A dataframe containing mobile site observations for each pollutant</span>
 <span class="sd">            with location data merged (a GeoDataFrame when ``include_gps``).</span>
 
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        ValueError</span>
+<span class="sd">            If a pollutant is not measured at the site (see :meth:`Site.get_obs`).</span>
+<span class="sd">        TypeError</span>
+<span class="sd">            If you pass ``lvl`` or ``level``: ``get_obs`` always reads the</span>
+<span class="sd">            ``final`` level (see :meth:`Site.get_obs`).</span>
+
 <span class="sd">        Warns</span>
 <span class="sd">        -----</span>
 <span class="sd">        EmptyResultWarning</span>
@@ -1279,6 +1332,7 @@
 <span class="sd">        from lin and ozone from horel, so the result can mix both groups&#39;</span>
 <span class="sd">        GPS columns.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">_reject_level</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">include_gps</span><span class="p">:</span>
             <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">get_obs</span><span class="p">(</span>
                 <span class="n">pollutants</span><span class="p">,</span> <span class="nb">format</span><span class="p">,</span> <span class="n">group</span><span class="p">,</span> <span class="n">time_range</span><span class="p">,</span> <span class="n">num_processes</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>

@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>uataq.sites.MobileSite.get_obs &#8212; UATAQ 2026.10.1.dev57+ga47160792 documentation</title>
+    <title>uataq.sites.MobileSite.get_obs &#8212; UATAQ 2026.10.1.dev58+g46fb18db1 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="../_static/documentation_options.js?v=812aff12"></script>
+    <script src="../_static/documentation_options.js?v=75abba26"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -59,7 +59,7 @@
     <link rel="prev" title="uataq.sites.MobileSite" href="uataq.sites.MobileSite.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.1.dev57+ga47160792" />
+  <meta name="docsearch:version" content="2026.10.1.dev58+g46fb18db1" />
   
     
     <script src="../_static/searchtools.js"></script>
@@ -127,7 +127,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.1.dev57+ga47160792 documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.1.dev58+g46fb18db1 documentation</p>
   
 </a></div>
     
@@ -793,8 +793,15 @@ with location data merged (a GeoDataFrame when <code class="docutils literal not
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v3.1)">pandas.DataFrame</a></p>
 </dd>
-<dt class="field-even">Warns<span class="colon">:</span></dt>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
+<li><p><a class="reference external" href="https://docs.python.org/3/builtins/exceptions.html#ValueError" title="(in Python v3.15)"><strong>ValueError</strong></a> – If a pollutant is not measured at the site (see <a class="reference internal" href="uataq.sites.Site.get_obs.html#uataq.sites.Site.get_obs" title="uataq.sites.Site.get_obs"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Site.get_obs()</span></code></a>).</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/builtins/exceptions.html#TypeError" title="(in Python v3.15)"><strong>TypeError</strong></a> – If you pass <code class="docutils literal notranslate"><span class="pre">lvl</span></code> or <code class="docutils literal notranslate"><span class="pre">level</span></code>: <code class="docutils literal notranslate"><span class="pre">get_obs</span></code> always reads the
+    <code class="docutils literal notranslate"><span class="pre">final</span></code> level (see <a class="reference internal" href="uataq.sites.Site.get_obs.html#uataq.sites.Site.get_obs" title="uataq.sites.Site.get_obs"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Site.get_obs()</span></code></a>).</p></li>
+</ul>
+</dd>
+<dt class="field-odd">Warns<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
 <li><p><strong>EmptyResultWarning</strong> – If the instruments’ files hold no data in the range (see
 <a class="reference internal" href="uataq.sites.Site.get_obs.html#uataq.sites.Site.get_obs" title="uataq.sites.Site.get_obs"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Site.get_obs()</span></code></a>).</p></li>
 <li><p><strong>DroppedPollutantWarning</strong> – If you name several pollutants and one of them has no data in the

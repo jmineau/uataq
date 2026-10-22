@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>When there is nothing to read &#8212; UATAQ 2026.10.1.dev57+ga47160792 documentation</title>
+    <title>When there is nothing to read &#8212; UATAQ 2026.10.1.dev58+g46fb18db1 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="_static/documentation_options.js?v=812aff12"></script>
+    <script src="_static/documentation_options.js?v=75abba26"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -59,7 +59,7 @@
     <link rel="prev" title="Reading data" href="reading_data.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.1.dev57+ga47160792" />
+  <meta name="docsearch:version" content="2026.10.1.dev58+g46fb18db1" />
   
     
     <script src="_static/searchtools.js"></script>
@@ -127,7 +127,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.1.dev57+ga47160792 documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.1.dev58+g46fb18db1 documentation</p>
   
 </a></div>
     
@@ -540,9 +540,10 @@
 <p class="admonition-title">Note</p>
 <p>The examples on this page read the UATAQ archive, which is only available
 on CHPC. They are shown as code and are not run when the documentation is
-built. The output under each one is from a run on CHPC on 15 October 2026.
-The archive keeps growing, so what a read returns will have moved on by the
-time you read this.</p>
+built. The output under each one is from a run on CHPC on 15 October 2026,
+except under “Pollutant or site not found” and “A level asked of get_obs”
+(19 October 2026). The archive keeps growing, so what a read returns will
+have moved on by the time you read this.</p>
 </div>
 <p>The archive has gaps. Sites close, instruments are removed or break, and some
 months are missing. A read then raises an error or comes back empty. Each case
@@ -691,18 +692,39 @@ give none, so check the columns you got.</p>
 <div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">uataq</span><span class="o">.</span><span class="n">get_obs</span><span class="p">(</span><span class="s2">&quot;WBB&quot;</span><span class="p">,</span> <span class="s2">&quot;NH3&quot;</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="s2">&quot;2025-06&quot;</span><span class="p">)</span>
 <span class="gt">Traceback (most recent call last):</span>
 <span class="w">  </span><span class="c">...</span>
-<span class="gr">ValueError</span>: <span class="n">Invalid pollutant(s): &#39;{&#39;NH3&#39;}&#39;</span>
+<span class="gr">ValueError</span>: <span class="n">Invalid pollutant(s): NH3. WBB measures BC, CH4, CO, CO2, NO, NO2, NOx, O3, PM2.5.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">uataq</span><span class="o">.</span><span class="n">get_obs</span><span class="p">(</span><span class="s2">&quot;CSP&quot;</span><span class="p">,</span> <span class="s2">&quot;O3&quot;</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="s2">&quot;2025-06&quot;</span><span class="p">)</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="w">  </span><span class="c">...</span>
+<span class="gr">ValueError</span>: <span class="n">Not measured at CSP: O3. CSP measures CH4, CO2.</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">uataq</span><span class="o">.</span><span class="n">get_obs</span><span class="p">(</span><span class="s2">&quot;WBBB&quot;</span><span class="p">,</span> <span class="s2">&quot;CO2&quot;</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="s2">&quot;2025-06&quot;</span><span class="p">)</span>
 <span class="gt">Traceback (most recent call last):</span>
 <span class="w">  </span><span class="c">...</span>
 <span class="gr">ValueError</span>: <span class="n">Site &#39;WBBB&#39; not found in the configuration file.</span>
 </pre></div>
 </div>
-<p>WBB does not measure NH3, or the name is misspelled; the message does not list
-the valid names. Print <code class="docutils literal notranslate"><span class="pre">sorted(site.pollutants)</span></code>. For a site, check the ID
-against <code class="docutils literal notranslate"><span class="pre">uataq.laboratory.sites</span></code>. The case does not matter for either.</p>
+<p>The first message is for a name that no uataq instrument measures: a
+misspelling, or a molecule uataq does not read. The second is for a pollutant
+that other instruments measure but this site does not. Both end with what the
+site does measure, spelled as in the columns. You can also print
+<code class="docutils literal notranslate"><span class="pre">sorted(site.pollutants)</span></code>. For a site, check the ID against
+<code class="docutils literal notranslate"><span class="pre">uataq.laboratory.sites</span></code>. The case does not matter for either.</p>
 <p><code class="docutils literal notranslate"><span class="pre">read_data</span></code> has a similar error when you name an instrument the site does not
 have (<code class="docutils literal notranslate"><span class="pre">InstrumentNotFoundError</span></code>, which lists the site’s instruments).</p>
+</section>
+<section id="a-level-asked-of-get-obs">
+<h2>A level asked of get_obs<a class="headerlink" href="#a-level-asked-of-get-obs" title="Link to this heading">#</a></h2>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">uataq</span><span class="o">.</span><span class="n">get_obs</span><span class="p">(</span><span class="s2">&quot;WBB&quot;</span><span class="p">,</span> <span class="s2">&quot;CO2&quot;</span><span class="p">,</span> <span class="n">lvl</span><span class="o">=</span><span class="s2">&quot;qaqc&quot;</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="s2">&quot;2025-06&quot;</span><span class="p">)</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="w">  </span><span class="c">...</span>
+<span class="gr">TypeError</span>: <span class="n">get_obs() got an unexpected keyword argument &#39;lvl&#39;. get_obs always reads the final level; to read another, call read_data(..., lvl=&#39;qaqc&#39;).</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">get_obs</span></code> takes no level: it always reads <code class="docutils literal notranslate"><span class="pre">final</span></code>. <code class="docutils literal notranslate"><span class="pre">level=</span></code> raises the same
+error. To read another level, call <code class="docutils literal notranslate"><span class="pre">read_data</span></code>, which gives a dictionary with
+one table for each instrument:
+<code class="docutils literal notranslate"><span class="pre">uataq.read_data(&quot;WBB&quot;,</span> <span class="pre">&quot;lgr_ugga&quot;,</span> <span class="pre">lvl=&quot;qaqc&quot;,</span> <span class="pre">time_range=&quot;2025-06&quot;)</span></code>.
+<a class="reference internal" href="input_parameters.html#input-level"><span class="std std-ref">Data Level</span></a> says what each level is for.</p>
 </section>
 <section id="a-level-the-instrument-does-not-have">
 <h2>A level the instrument does not have<a class="headerlink" href="#a-level-the-instrument-does-not-have" title="Link to this heading">#</a></h2>
@@ -814,6 +836,7 @@ read once.</p>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#zero-rows-no-error">Zero rows, no error</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#one-of-several-pollutants-missing">One of several pollutants missing</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pollutant-or-site-not-found">Pollutant or site not found</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-level-asked-of-get-obs">A level asked of get_obs</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-level-the-instrument-does-not-have">A level the instrument does not have</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#network-surprises">Network surprises</a></li>
 </ul>
