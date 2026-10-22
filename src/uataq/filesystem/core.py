@@ -373,6 +373,8 @@ class GroupSpace(metaclass=ABCMeta):
 
     Methods
     -------
+    get_lvls(SID, instrument)
+        Get the data levels a given site and instrument has.
     get_highest_lvl(SID, instrument)
         Get the highest data level for a given site and instrument.
     get_files(SID, instrument, lvl, logger)
@@ -396,7 +398,26 @@ class GroupSpace(metaclass=ABCMeta):
 
     @staticmethod
     @abstractmethod
-    def get_highest_lvl(SID: str, instrument: str) -> str:
+    def get_lvls(SID: str, instrument: str) -> list[str]:
+        """
+        Get the data levels the group has for a given site and instrument.
+
+        Parameters
+        ----------
+        SID : str
+            The site ID.
+        instrument : str
+            The instrument name.
+
+        Returns
+        -------
+        list[str]
+            The levels, lowest first (the order of :data:`~uataq.filesystem.lvls`).
+        """
+        raise NotImplementedError
+
+    @classmethod
+    def get_highest_lvl(cls, SID: str, instrument: str) -> str:
         """
         Get the highest data level for a given site and instrument.
 
@@ -412,7 +433,7 @@ class GroupSpace(metaclass=ABCMeta):
         str
             The highest data level.
         """
-        raise NotImplementedError
+        return cls.get_lvls(SID, instrument)[-1]
 
     @abstractmethod
     def get_files(self, SID: str, instrument: str, lvl: str, logger: str) -> list[str]:
