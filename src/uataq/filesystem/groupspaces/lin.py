@@ -447,6 +447,20 @@ class LinDatFile(filesystem.DataFile):
         return data
 
 
+def _day_in_range(day: dt.datetime, time_range: TimeRange) -> bool:
+    """
+    Return whether the day, given as its midnight, overlaps the time range.
+
+    The range is ``[start, stop)`` with either end open: a day that ends at or
+    before the start, or begins at or after the stop, does not overlap it.
+    """
+    start, stop = time_range.start, time_range.stop
+    return not (
+        (start is not None and day + dt.timedelta(days=1) <= start)
+        or (stop is not None and day >= stop)
+    )
+
+
 class LGR_UGGA_File(filesystem.DataFile):
     """
     A class for parsing LGR UGGA data files.
@@ -476,7 +490,7 @@ class LGR_UGGA_File(filesystem.DataFile):
         Get meta data from UGGA file.
     get_serial(path)
         Get serial number of UGGA from file.
-    get_files(SID, instrument='lgr_ugga', lvl='raw')
+    get_files(SID, instrument='lgr_ugga', lvl='raw', time_range=None)
         Get list of UGGA files for a given site.
     parse()
         Parse files transferred directly from LGR software.
@@ -524,6 +538,25 @@ class LGR_UGGA_File(filesystem.DataFile):
             if match:
                 date = dt.datetime.strptime(match.group(1), date_format)
                 return pd.Period(date, freq=cls.file_freq)
+        return None
+
+    @classmethod
+    def _folder_day(cls, name: str) -> dt.datetime | None:
+        """
+        Return the midnight of the day a folder is named for, or None.
+
+        The pipeline keeps each day's files in a folder named for the day, in
+        the same two date styles as the file names (``01Apr2016`` and
+        ``2017-05-09``). A name that does not read back exactly as written
+        (``1Apr2016``) is not taken for a day's folder.
+        """
+        for _, date_format in cls.name_date_formats:
+            try:
+                day = dt.datetime.strptime(name, date_format)
+            except ValueError:
+                continue
+            if day.strftime(date_format) == name:
+                return day
         return None
 
     @staticmethod
@@ -577,7 +610,10 @@ class LGR_UGGA_File(filesystem.DataFile):
 
     @staticmethod
     def get_files(
-        SID: str, instrument: str = "lgr_ugga", lvl: str = "raw"
+        SID: str,
+        instrument: str = "lgr_ugga",
+        lvl: str = "raw",
+        time_range: TimeRange | None = None,
     ) -> list[str]:
         """
         Get list of UGGA files for a given site.
@@ -590,6 +626,12 @@ class LGR_UGGA_File(filesystem.DataFile):
             The instrument name. Defaults to 'lgr_ugga'.
         lvl : str
             The data level. Defaults to 'raw'.
+        time_range : TimeRange, optional
+            Skip the folders of days that do not overlap this range. The
+            pipeline keeps each day's files in a folder named for the day, so a
+            read of one day lists a few of the thousands of folders a site has.
+            A folder that is not named for a day is always listed. Defaults to
+            None, which lists every folder.
 
         Returns
         -------
@@ -599,9 +641,26 @@ class LGR_UGGA_File(filesystem.DataFile):
         assert lvl == "raw", "Only raw data is stored in UGGA files"
         data_path = LinGroup.data_path(SID, instrument, lvl)
         pattern = "*f????.txt"
-        return filesystem.list_files(
-            data_path, pattern=pattern, full_names=True, recursive=True
-        )
+        if time_range is None:
+            return filesystem.list_files(
+                data_path, pattern=pattern, full_names=True, recursive=True
+            )
+
+        # The files in the raw folder itself, then those in each folder that is
+        # not the folder of a day outside the range. The name is read before
+        # asking whether the entry is a folder: on the archive that is a stat
+        # call per entry, thousands of them.
+        files = filesystem.list_files(data_path, pattern=pattern, full_names=True)
+        with os.scandir(data_path) as entries:
+            for entry in entries:
+                day = LGR_UGGA_File._folder_day(entry.name)
+                if day is not None and not _day_in_range(day, time_range):
+                    continue
+                if entry.is_dir(follow_symlinks=False):
+                    files += filesystem.list_files(
+                        entry.path, pattern=pattern, full_names=True, recursive=True
+                    )
+        return files
 
     def parse(self):
         """
@@ -895,9 +954,9 @@ class LinGroup(filesystem.GroupSpace):
 
         See :meth:`~uataq.filesystem.core.GroupSpace.get_datafiles`. Raw files need extra handling:
         ``lgr_ugga`` file names do not line up with their contents, so the
-        range is widened by a day on each side, and only the files whose name
-        falls in it have their header read. GPS defaults to the ``gpgga``
-        sentence files.
+        range is widened by a day on each side, only the day folders that
+        overlap it are listed, and only the files whose name falls in it have
+        their header read. GPS defaults to the ``gpgga`` sentence files.
         """
         # Custom handling for raw Lin files
         if lvl == "raw":
@@ -941,25 +1000,22 @@ class LinGroup(filesystem.GroupSpace):
 
         Initializing an :class:`LGR_UGGA_File` reads its header, and a site has
         a file a day for years: reading every header took minutes on a cold
-        cache. So the files are first picked by the day in their name (the
-        days that overlap the range), and only those are initialized. The same
-        filter as the base class's then runs on them, so the files kept are
-        the ones it keeps. A file whose name has no valid date is initialized
-        anyway, so it is handled as before.
+        cache, and walking every day folder to list them took up to half a
+        minute.
+        So only the day folders that overlap the range are listed, the files
+        are then picked by the day in their name, and only those are
+        initialized. The same filter as the base class's runs on them, so the
+        files kept are the ones it keeps. A file whose name has no valid date
+        is initialized anyway, so it is handled as before.
         """
-        start, stop = time_range.start, time_range.stop
-
         datafiles: list[filesystem.DataFile] = []
-        for path in self.get_files(SID, instrument, "raw", "lgr_ugga"):
+        for path in LGR_UGGA_File.get_files(SID, instrument, "raw", time_range):
             try:
                 day = LGR_UGGA_File._name_period(path)
             except ValueError:
                 day = None
-            if day is not None and (
-                (start is not None and day.end_time < start)
-                or (stop is not None and day.start_time >= stop)
-            ):
-                continue  # the day ends before the range or starts at its stop
+            if day is not None and not _day_in_range(day.start_time, time_range):
+                continue
             try:
                 datafiles.append(LGR_UGGA_File(path))
             except DataFileInitializationError as e:

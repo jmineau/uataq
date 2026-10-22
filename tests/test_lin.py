@@ -383,6 +383,48 @@ class TestLGRUGGAFile:
         with pytest.raises(errors.DataFileInitializationError, match="No date"):
             lin.LGR_UGGA_File(path)
 
+    @pytest.mark.parametrize(
+        "name, day",
+        [
+            ("2017-05-09", "2017-05-09"),
+            ("01Apr2016", "2016-04-01"),
+            ("1Apr2016", None),  # not written as the software writes it
+            ("2017-5-9", None),
+            ("2017-02-30", None),  # no such day
+            ("20170509", None),
+            ("latest", None),
+            ("archive", None),
+            ("raw_frozen_multiLGRproblem_230202", None),
+        ],
+    )
+    def test_day_folder_name(self, name, day):
+        """A folder is a day's only if its name is one of the two date styles."""
+        found = lin.LGR_UGGA_File._folder_day(name)
+        assert found == (pd.Timestamp(day).to_pydatetime() if day else None)
+
+    @pytest.mark.parametrize(
+        "start, stop, overlaps",
+        [
+            (None, None, True),
+            ("2024-06-03", "2024-06-04", True),
+            ("2024-06-04", None, False),  # the day ends where the range starts
+            ("2024-06-03 23:59:59.999999999", None, True),
+            (None, "2024-06-03", False),  # the day starts where the range stops
+            (None, "2024-06-03 00:00:00.000000001", True),
+            ("2024-06-01", "2024-06-02", False),
+            ("2024-06-05", "2024-06-06", False),
+        ],
+    )
+    def test_day_in_range_is_half_open(self, start, stop, overlaps):
+        time_range = TimeRange(
+            [
+                pd.Timestamp(start) if start else None,
+                pd.Timestamp(stop) if stop else None,
+            ]
+        )
+        day = pd.Timestamp("2024-06-03").to_pydatetime()
+        assert lin._day_in_range(day, time_range) is overlaps
+
     def test_get_files_finds_f_files_in_day_dirs(self, tmp_path, monkeypatch):
         raw = tmp_path / "wbb" / "lgr_ugga" / "raw"
         for name in [
@@ -710,6 +752,119 @@ class TestLinGroup:
         assert sorted(opened) == ["2024-06-02", "2024-06-03", "2024-06-04", "latest"]
         assert "gga_latest_f0000.txt" in caplog.text
         assert "2024-06-08" not in caplog.text
+
+    @pytest.fixture
+    def raw_folders(self, data_dir):
+        """
+        Empty files laid out like the archive's raw LGR folder, in both styles.
+
+        Day folders ``29May2024`` to ``31May2024`` and ``2024-06-01`` to
+        ``2024-06-03``; beside them ``archive`` (not a day's folder, holding a
+        folder named for a day), ``4Jun2024`` (a day, but not written as the
+        software writes it) and a file in the raw folder itself.
+        """
+        raw = data_dir / "wbb" / "lgr_ugga" / "raw"
+        names = [
+            f"{d:%d%b%Y}/gga{d:%d%b%Y}_f0000.txt"
+            for d in pd.date_range("2024-05-29", "2024-05-31")
+        ]
+        names += [
+            f"{d:%Y-%m-%d}/gga_{d:%Y-%m-%d}_f0000.txt"
+            for d in pd.date_range("2024-06-01", "2024-06-03")
+        ]
+        names += [
+            "archive/2020-01-01/gga_2020-01-01_f0000.txt",
+            "4Jun2024/gga04Jun2024_f0000.txt",
+            "gga_2024-06-02_f0001.txt",
+        ]
+        for name in names:
+            (raw / name).parent.mkdir(parents=True, exist_ok=True)
+            (raw / name).touch()
+        return raw
+
+    @staticmethod
+    def spy_listed_folders(monkeypatch, raw):
+        """Record each folder the file lister is asked to list, relative to raw."""
+        listed = []
+        list_files = lin.filesystem.list_files
+
+        def spy(path, *args, **kwargs):
+            listed.append(os.path.relpath(path, raw))
+            return list_files(path, *args, **kwargs)
+
+        monkeypatch.setattr(lin.filesystem, "list_files", spy)
+        return listed
+
+    @pytest.mark.parametrize(
+        "time_range, day_folders",
+        [
+            ("2024-06-02", ["2024-06-02"]),
+            (["2024-06-01 12:00", "2024-06-02 06:00"], ["2024-06-01", "2024-06-02"]),
+            # a string stop is the end of its period, so use instants to show
+            # that a day that starts at the stop is skipped
+            ([pd.Timestamp("2024-05-31"), pd.Timestamp("2024-06-01")], ["31May2024"]),
+            ([None, pd.Timestamp("2024-05-30")], ["29May2024"]),
+            (["2024-06-03", None], ["2024-06-03"]),
+            ("2024-07", []),
+            ("2024-06", ["2024-06-01", "2024-06-02", "2024-06-03"]),
+        ],
+    )
+    def test_raw_ugga_listing_skips_day_folders_out_of_range(
+        self, raw_folders, monkeypatch, time_range, day_folders
+    ):
+        """
+        Only the folders that may hold a day in the range are listed.
+
+        The raw folder itself and the folders that are not a day's are always
+        listed. The files whose name falls in the range are the ones a full
+        listing has.
+        """
+        time_range = TimeRange(time_range)
+        everything = lin.LGR_UGGA_File.get_files("WBB")
+        listed = self.spy_listed_folders(monkeypatch, raw_folders)
+
+        files = lin.LGR_UGGA_File.get_files("WBB", time_range=time_range)
+
+        assert sorted(listed) == sorted([".", "archive", "4Jun2024", *day_folders])
+
+        def in_range(paths):
+            days = {p: lin.LGR_UGGA_File._name_period(p) for p in paths}
+            return sorted(
+                p
+                for p, day in days.items()
+                if lin._day_in_range(day.start_time, time_range)
+            )
+
+        assert in_range(files) == in_range(everything)
+        assert set(files) <= set(everything)
+
+    def test_raw_ugga_listing_without_a_range_lists_every_folder(
+        self, raw_folders, monkeypatch
+    ):
+        listed = self.spy_listed_folders(monkeypatch, raw_folders)
+
+        files = lin.LGR_UGGA_File.get_files("WBB")
+
+        assert listed == ["."]  # one walk of the whole tree
+        assert len(files) == 9
+
+    def test_raw_ugga_read_lists_only_the_day_folders_in_range(
+        self, ugga_days, monkeypatch
+    ):
+        """A read of one day lists that day's folder and its neighbors', not all ten."""
+        listed = self.spy_listed_folders(monkeypatch, ugga_days)
+
+        lin.LinGroup().get_datafiles(
+            "WBB", "lgr_ugga", "raw", "lgr_ugga", TimeRange("2024-06-03")
+        )
+
+        assert sorted(listed) == [
+            ".",
+            "2024-06-02",
+            "2024-06-03",
+            "2024-06-04",
+            "latest",
+        ]
 
     def test_bad_file_is_skipped_with_a_warning(self, data_dir, caplog):
         """One unreadable file name doesn't stop the read."""
