@@ -4,8 +4,127 @@ Contributing
 Contributions are welcome. `CONTRIBUTING.md <https://github.com/jmineau/uataq/blob/main/CONTRIBUTING.md>`_
 explains how to set up a development environment, run the checks, and propose a change.
 `AGENTS.md <https://github.com/jmineau/uataq/blob/main/AGENTS.md>`_ is the short guide
-for contributors and coding agents: the module layout, the rules the code keeps, and
-the commands. This page holds the longer notes it points to.
+for contributors and coding agents: the rules the code keeps, the commands, and the
+gotchas. This page holds the longer notes it points to: the module layout, how to add
+an instrument or a group space, how the docs are organized and generated, and what the
+mobile clocks, the MetOne swap files, data availability and the SODAR archive need.
+
+Module layout
+-------------
+
+::
+
+    src/uataq/
+      __init__.py        read_data, get_obs, get_recent_obs, get_network_obs;
+                         re-exports laboratory, get_site, Network, DEFAULT_GROUP,
+                         TimeRange and the modules below
+      config.json        sites and instruments; read at import (importlib.resources)
+      _laboratory.py     Laboratory: builds sites and instruments from config.json
+      sites.py           Site (stationary) and MobileSite (GPS-located rows)
+      instruments.py     Instrument ABC, one subclass per model, and `catalog`
+      network.py         Network: many sites, one pollutant (GeoDataFrame);
+                         get_availability / plot_availability
+      pollutants.py      column grammar {pollutant}[d|channel]_{units}[_cal|_raw]:
+                         concentration_columns, parse_column, POLLUTANTS
+      gps.py             haversine, bearing, estimate_speed_course,
+                         gps_time_from_time_of_day
+      sodar.py           Horel/MesoWest SODAR profiles (Sodar, list_stations);
+                         standalone, not in config.json, not imported by uataq
+      timerange.py       TimeRange and the TimeRangeTypes alias
+      errors.py          ReaderError and its subclasses, ParserError, EmptyResultWarning,
+                         DroppedPollutantWarning, ...
+      filesystem/
+        __init__.py      DEFAULT_GROUP, get_group; re-exports core
+        core.py          DataFile, GroupSpace, groups, lvls, list_files,
+                         filter_datafiles, parse_datafiles, cpu_count
+        groupspaces/     one module per research group's archive (lin, horel)
+    tests/               pytest
+    docs/                Sphinx; docs/_ext/ holds two local extensions
+
+How a read flows: ``laboratory`` (a process-wide singleton built at import) holds
+the ``Site`` objects; ``get_site(SID)`` returns one, and the top-level functions
+delegate to it. A ``Site`` asks each ``Instrument`` which group to read each part of
+the range from (``plan_reads``); the instrument gets its files from that group's
+``GroupSpace`` (``filesystem.groups[name]``), whose ``DataFile`` classes parse them;
+the frames are standardized to uataq's column names and concatenated in time.
+``filesystem.lvls`` ranks the levels (``raw`` < ``qaqc`` < ``calibrated`` <
+``final``).
+
+Adding an instrument or a group space
+-------------------------------------
+
+**A new instrument.** An ``Instrument`` subclass in ``instruments.py`` (and a
+``DataFile`` in the group's module if the format is new), its entry in
+``config.json`` with dates and ``notes``, and parser tests on synthetic lines.
+
+**A new group space.** Add ``filesystem/groupspaces/<name>.py`` with a
+``GroupSpace`` subclass, its ``DataFile`` classes and a ``column_mapping`` dict (the
+group's column names to uataq's, applied by its ``standardize_data``), modeled on
+``lin.py`` and ``horel.py``, and register it at the bottom of that module:
+``filesystem.groups["<name>"] = <Name>Group()``. Nothing else needs to import it:
+``groupspaces/__init__.py`` star-imports every non-underscore module in the folder.
+Its API page appears by itself ("Functions and modules" lists ``filesystem``
+recursively).
+
+Writing the docs
+----------------
+
+Each fact is written on one page, and the other pages link to it (the rules for
+writing are in AGENTS.md). This table says which page holds which kind of fact. A
+change that moves a fact, or renames or retitles a page, updates its row here.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 60 40
+
+   * - Fact
+     - Page
+   * - Install, environments, Slurm
+     - :doc:`installation`
+   * - A first read, in local time
+     - :doc:`first_month`
+   * - When a site has data, the newest data
+     - :doc:`what_data_exists`
+   * - ``read_data`` and ``get_obs``, the ``long`` format, several sites, mobile sites
+     - :doc:`reading_data`
+   * - Errors and empty results
+     - :doc:`errors`
+   * - Sites, instruments, what each measures, glossary
+     - :doc:`sites_and_instruments`
+   * - Columns of each level, column names, ``ID``, flags, what ``final`` keeps, empty ``_cal``
+     - :doc:`columns`
+   * - Arguments: site, instruments, group, level, time range (every form), processes
+     - :doc:`input_parameters`
+   * - Config keys
+     - :doc:`config`
+   * - Developer notes
+     - Contributing (this page)
+   * - Function and class details, what a module is for
+     - the docstrings, on the generated API pages (:doc:`functions_and_modules`)
+
+The front page (``docs/index.rst``) lists the pages in these captioned groups:
+Getting started, Guides, Reference, API reference, then Contributing.
+
+**Examples that run in the build.** In an ``.. ipython:: python`` block, ``@savefig
+name.png`` above a plot keeps the figure, and ``:okexcept:`` or ``:okwarning:``
+allows a block meant to raise or warn.
+
+**Examples that need the archive.** These pages show the output of a run on CHPC in
+plain ``code-block`` or ``pycon`` blocks, because the docs build (and CI) has no
+archive: reading data, what data exists, errors, your first month, columns and
+input parameters.
+
+**The site and instrument tables are generated.** The ``site-catalog`` and
+``instrument-catalog`` directives in ``docs/sites_and_instruments.rst``
+(``docs/_ext/catalog.py``) build them from ``uataq.laboratory`` and
+``uataq.instruments.catalog`` on every build.
+
+**The API reference is generated.** ``docs/functions_and_modules.rst`` lists the
+functions and modules, and each module, class, function and class member gets a page
+in ``docs/api/`` (gitignored; a ``:toctree:`` pointing outside ``docs/`` litters the
+repo root). A module's docstring is its page's text. ``docs/_templates/autosummary/``
+and ``docs/_ext/api_pages.py`` (from python-template, which keeps class members from
+being described twice) build the pages.
 
 Clocks on mobile platforms
 --------------------------
@@ -31,6 +150,8 @@ group's own GPS on its own clock: lin's on ``Pi_Time``, horel's on ``Time_UTC``
 (there the instrument and GPS values are one record). Joining horel's rows to lin's
 GPS on the Pi clock would place them that many seconds along the track, and drop
 the rows with no lin GPS record at their second.
+``locate`` replays each instrument's ``plan_reads`` to split its frame by group, and
+``_gps_group`` raises ``ValueError`` rather than borrow another group's GPS.
 
 The Pi's clock has itself been hours to days off GPS time (on TRX01 about 70
 minutes behind all of 2016-11-09 and 10, and up to 5 days in 2022-11). A GPS read
@@ -62,7 +183,10 @@ qaqc and final files have none of these rows, so raw is the only level with them
 The suffix is :data:`uataq.filesystem.groupspaces.horel.PRIOR_405_SUFFIX`.
 ``HorelGroup.get_datafiles`` adds the suffixed file to every raw read except the
 ES405's, and clipping each instrument to its installed window keeps the two
-MetOne models' rows apart. At each swap the ES642's ``removal_date`` and the
+MetOne models' rows apart. The clipped range drives both the file selection and the
+row slice, and both are needed: groups reuse a file name across an instrument change
+(horel calls both MetOne models ``esampler``), so a monthly file that straddles a
+swap holds the replacement's rows. At each swap the ES642's ``removal_date`` and the
 ES405's ``installation_date`` are the same instant, so a sample at that instant
 belongs to the ES405 alone. Other suffixes in horel's raw folders
 (``TRX01_2024_02_cr1000.h5_bad``, which is empty, and the pilot archive's

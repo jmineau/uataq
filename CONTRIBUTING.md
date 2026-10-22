@@ -68,6 +68,25 @@ the orientation file it should read.
 
 8. Open a Pull Request on GitHub
 
+## Continuous integration
+
+CI (`.github/workflows/`) runs the same `just` recipes:
+
+- `tests.yml` runs `just cov` on Linux, macOS and Windows × Python 3.11–3.14.
+- `quality.yml` runs lint, type-check and docstr on Python 3.11.
+- `docs.yml` builds the docs for every pull request and publishes `dev/`, each
+  release and `stable/` to `gh-pages`.
+- `publish.yml` makes a GitHub Release from a `vYYYY.M.PATCH` tag (see
+  Releasing).
+
+CI type-checks on Python 3.11. If it disagrees with your newer local `.venv`,
+check in a separate environment so `.venv` is left alone:
+
+```bash
+UV_PROJECT_ENVIRONMENT=<dir> uv sync --frozen --python 3.11
+UV_PROJECT_ENVIRONMENT=<dir> uv run --no-sync pyrefly check
+```
+
 ## Releasing
 
 The version comes from git tags (setuptools-scm), so there is no version string

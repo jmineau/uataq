@@ -16,48 +16,10 @@ archives the research groups keep on CHPC. It hides each group's on-disk layout
 behind a Laboratory → Site → Instrument model and a few top-level functions
 (`read_data`, `get_obs`, `get_recent_obs`, `get_network_obs`). Distribution and
 import name `uataq`; installed from GitHub, not on PyPI. Contribution mechanics
-are in [CONTRIBUTING.md](CONTRIBUTING.md); longer developer notes (mobile clocks,
-the MetOne swap files, availability, SODAR) in
-[docs/contributing.rst](docs/contributing.rst).
-
-## Module layout
-
-```
-src/uataq/
-  __init__.py        read_data, get_obs, get_recent_obs, get_network_obs;
-                     re-exports laboratory, get_site, Network, DEFAULT_GROUP,
-                     TimeRange and the modules below
-  config.json        sites and instruments; read at import (importlib.resources)
-  _laboratory.py     Laboratory: builds sites and instruments from config.json
-  sites.py           Site (stationary) and MobileSite (GPS-located rows)
-  instruments.py     Instrument ABC, one subclass per model, and `catalog`
-  network.py         Network: many sites, one pollutant (GeoDataFrame);
-                     get_availability / plot_availability
-  pollutants.py      column grammar {pollutant}[d|channel]_{units}[_cal|_raw]:
-                     concentration_columns, parse_column, POLLUTANTS
-  gps.py             haversine, bearing, estimate_speed_course,
-                     gps_time_from_time_of_day
-  sodar.py           Horel/MesoWest SODAR profiles (Sodar, list_stations);
-                     standalone, not in config.json, not imported by uataq
-  timerange.py       TimeRange and the TimeRangeTypes alias
-  errors.py          ReaderError and its subclasses, ParserError, EmptyResultWarning,
-                     DroppedPollutantWarning, ...
-  filesystem/
-    __init__.py      DEFAULT_GROUP, get_group; re-exports core
-    core.py          DataFile, GroupSpace, groups, lvls, list_files,
-                     filter_datafiles, parse_datafiles, cpu_count
-    groupspaces/     one module per research group's archive (lin, horel)
-tests/               pytest
-docs/                Sphinx; docs/_ext/ holds two local extensions
-```
-
-How a read flows: `laboratory` (a process-wide singleton built at import) holds
-the `Site`s; `get_site(SID)` returns one, and the top-level functions delegate
-to it. A `Site` asks each `Instrument` which group to read each part of the
-range from (`plan_reads`); the instrument gets its files from that group's
-`GroupSpace` (`filesystem.groups[name]`), whose `DataFile` classes parse them;
-the frames are standardized to uataq's column names and concatenated in time.
-`filesystem.lvls` ranks the levels (`raw` < `qaqc` < `calibrated` < `final`).
+are in [CONTRIBUTING.md](CONTRIBUTING.md); the module layout and how a read flows,
+adding an instrument or a group space, how the docs are organized and generated,
+and longer developer notes (mobile clocks, the MetOne swap files, availability,
+SODAR) are in [docs/contributing.rst](docs/contributing.rst).
 
 ## Invariants
 
@@ -76,11 +38,9 @@ the frames are standardized to uataq's column names and concatenated in time.
   swaps both are one instant with a time of day, the ES405's first raw row.
 - **Reads are clipped to the installed window.** `Instrument.clip_to_active`
   intersects the request with `active_range`, and the clipped range drives
-  both file selection and the row slice. Both are needed: groups reuse a file
-  name across an instrument change (horel calls both MetOne models
-  `esampler`), so a monthly file that straddles a swap holds the replacement's
-  rows. A request that misses or only touches the window raises
-  `InactiveInstrumentError`.
+  both file selection and the row slice (why both: `docs/contributing.rst`,
+  "The MetOne swap files"). A request that misses or only touches the window
+  raises `InactiveInstrumentError`.
 - **Every read goes through a `GroupSpace`.** No raw filesystem walks outside
   `filesystem/`.
 - **`DEFAULT_GROUP = "lin"` is a tie-breaker, not a default for everything.**
@@ -96,17 +56,12 @@ the frames are standardized to uataq's column names and concatenated in time.
   the most preferred group covering it (default group, then `loggers` order).
   `Site.read_data` reads each portion and concatenates them; a failing portion
   is logged and skipped, and all failing raises `ReaderError`.
-- **A period can have two raw files.** horel split the month of each MetOne
-  swap into `{SID}_{YYYY}_{MM}_esampler.h5` and the same name plus
-  `horel.PRIOR_405_SUFFIX` (the month up to the swap), and `HorelGroup.get_datafiles`
-  adds the suffixed file to every raw read except the ES405's. So
-  `filter_datafiles` drops every file that starts at the range's stop, not
-  only the last one.
+- **A period can have two raw files** (the month of each MetOne swap; see
+  `docs/contributing.rst`), so `filter_datafiles` drops every file that starts at
+  the range's stop, not only the last one.
 - **One group's mobile rows are located only with that group's own GPS**,
-  because each group's instruments share their GPS's logger clock (lin: the
-  Pi, joined on `Pi_Time`; horel: the CR1000, joined on `Time_UTC`).
-  `MobileSite.locate` replays each instrument's `plan_reads` to split its frame
-  by group, and `_gps_group` raises `ValueError` rather than borrow another
+  because each group's instruments share their GPS's logger clock.
+  `MobileSite._gps_group` raises `ValueError` rather than borrow another
   group's GPS. Every located row carries `GPS_Group`, which says which clock
   its `Time_UTC` is on.
 - **Time ranges are half-open `[start, stop)`** everywhere: `TimeRange`
@@ -153,14 +108,10 @@ Driven by `just` and `uv`; CI runs the same recipes.
 | `just dist` / `just version` | build and check the sdist and wheel / print the version |
 | `just release X.Y.Z` | tag and push a release (the maintainer runs it) |
 
-CI (`.github/workflows/`): `tests.yml` runs `just cov` on Linux, macOS and
-Windows × Python 3.11–3.14; `quality.yml` runs lint, type-check and docstr on
-3.11; `docs.yml` builds the docs for every pull request and publishes `dev/`,
-each release and `stable/` to `gh-pages`; `publish.yml` makes a GitHub Release
-from a `vYYYY.M.PATCH` tag. The version comes from git tags (setuptools-scm);
-release steps are in CONTRIBUTING.md. Tooling comes from
-[jmineau/python-template](https://github.com/jmineau/python-template) via
-copier: change it there and run `copier update`.
+CI runs the same recipes ([CONTRIBUTING.md](CONTRIBUTING.md) describes it). The
+version comes from git tags (setuptools-scm); release steps are in
+CONTRIBUTING.md. Tooling comes from [jmineau/python-template](https://github.com/jmineau/python-template)
+via copier: change it there and run `copier update`.
 
 Conventions: Python 3.11+; ruff rules in `pyproject.toml`; numpy-style
 docstrings with a one-line imperative summary on the second line (D213; tests
@@ -181,10 +132,9 @@ What keeps CI green:
   code (pandas-stubs overloads, PyTables nodes), `# pyrefly: ignore[<code>]`.
   Fix real narrowing problems instead.
 - **CI type-checks on Python 3.11.** If CI disagrees with your newer local
-  `.venv`, check in a separate environment so `.venv` is left alone:
-  `UV_PROJECT_ENVIRONMENT=<dir> uv sync --frozen --python 3.11`, then
-  `UV_PROJECT_ENVIRONMENT=<dir> uv run --no-sync pyrefly check`. Never pass
-  `--python` to a bare `uv run` in the repo: it recreates `.venv`.
+  `.venv`, check in a separate environment so `.venv` is left alone (recipe in
+  CONTRIBUTING.md). Never pass `--python` to a bare `uv run` in the repo: it
+  recreates `.venv`.
 - **`just docstr` is at 100%**: a public function, class or module without a
   docstring turns the quality job red.
 
@@ -192,25 +142,10 @@ What keeps CI green:
 
 **Each page answers one question a student has, and each fact is written on
 one page; other pages link to it.** The front page (`docs/index.rst`) lists the
-pages in the order a student asks them, in captioned groups: Getting started,
-Guides, Reference, API reference, then Contributing. A new fact goes on the
+pages in the order a student asks them, in captioned groups. A new fact goes on the
 page that holds its kind; a new page needs a question no page answers, and goes
 in one group. A change that moves a fact or renames or retitles a page updates
-its row in the table below.
-
-| Fact | Page (file) |
-|---|---|
-| Install, environments, Slurm | Installation (`installation`) |
-| A first read, in local time | Your first month of data (`first_month`) |
-| When a site has data, the newest data | What data exists (`what_data_exists`) |
-| `read_data` and `get_obs`, the `long` format, several sites, mobile sites | Reading data (`reading_data`) |
-| Errors and empty results | When there is nothing to read (`errors`) |
-| Sites, instruments, what each measures, glossary | Sites and instruments (`sites_and_instruments`) |
-| Columns of each level, column names, `ID`, flags, what `final` keeps, empty `_cal` | Columns and flags (`columns`) |
-| Arguments: site, instruments, group, level, time range (every form), processes | Input Parameters (`input_parameters`) |
-| Config keys | Configuration (`config`) |
-| Developer notes | Contributing (`contributing`) |
-| Function and class details, what a module is for | the docstrings, on the generated API pages (`functions_and_modules`) |
+its row in the table in `docs/contributing.rst` ("Writing the docs").
 
 - **The build fails on any warning** (`-W`). It loads intersphinx inventories,
   so it needs network access. In a docstring, write types that exist
@@ -218,51 +153,26 @@ its row in the table below.
   name.
 - **Examples run when the docs build**, and a broken one fails it: a
   `.. plot::` directive in a docstring's Examples section (`>>>` lines work),
-  or a `.. ipython:: python` block in an `.rst` page (`@savefig name.png`
-  above a plot keeps it; `:okexcept:` / `:okwarning:` allow a block meant to
-  raise or warn). All `.rst` pages share one IPython session, so each page
-  imports what it uses. Notebooks are off (`docs_notebooks` in copier).
+  or a `.. ipython:: python` block in an `.rst` page (options in
+  `docs/contributing.rst`). All `.rst` pages share one IPython session, so each
+  page imports what it uses. Notebooks are off (`docs_notebooks` in copier).
 - **A running example must not read the archive**, which CI does not have. It
   may use the packaged config (`uataq.get_site`, as on the Sites and
   instruments page), synthetic data, or a public download, and seeds any random
-  numbers. Examples that need the archive (the reading-data, what-data-exists,
-  errors, first-month, columns and input-parameters pages) are plain
-  `code-block` or `pycon` blocks holding the output of a run on CHPC (in a
-  docstring, `>>>` lines without `.. plot::` are not run: `uataq.gps`). When the
-  API they show changes, rerun them there and update the page, and its figure
-  in `docs/_static/` if it has one.
-- **The site and instrument tables are generated.** The `site-catalog` and
-  `instrument-catalog` directives in `docs/sites_and_instruments.rst`
-  (`docs/_ext/catalog.py`) build them from `uataq.laboratory` and
-  `uataq.instruments.catalog` on every build, so a config or class change needs
-  no docs edit. A site is "active" there when one of its instruments has no
-  `removal_date`; the site-level `is_active` key is read by no code.
-- **The API reference is generated**:
-  `docs/functions_and_modules.rst` lists the functions and modules, and each
-  module, class, function and class member gets a page in `docs/api/`
-  (gitignored; a `:toctree:` pointing outside `docs/` litters the repo root).
-  A module's docstring is its page's text. A class member gets its own page
-  when it has a docstring (a `#:` comment on a class-level attribute, whose
-  first line holds no colon: napoleon reads it as `type: description`); one set
-  in `__init__` is described in the class docstring's Attributes section
-  instead. `docs/_templates/autosummary/` and `docs/_ext/api_pages.py` (from
-  python-template) build the pages. In a docstring, write a `:doc:` path from
-  the docs root (`/columns`). A data attribute whose repr is long
+  numbers. Examples that need the archive (listed in `docs/contributing.rst`)
+  are plain `code-block` or `pycon` blocks holding the output of a run on CHPC
+  (in a docstring, `>>>` lines without `.. plot::` are not run: `uataq.gps`).
+  When the API they show changes, rerun them there and update the page, and its
+  figure in `docs/_static/` if it has one.
+- **The site and instrument tables are generated** on every build
+  (`docs/_ext/catalog.py`): a config or class change needs no docs edit.
+- **The API reference is generated** (`docs/contributing.rst`). A class member
+  gets its own page when it has a docstring (a `#:` comment on a class-level
+  attribute, whose first line holds no colon: napoleon reads it as
+  `type: description`); one set in `__init__` is described in the class
+  docstring's Attributes section instead. In a docstring, write a `:doc:` path
+  from the docs root (`/columns`). A data attribute whose repr is long
   (`uataq.laboratory`) ends its `#:` comment with `:meta hide-value:`.
-
-## Common changes
-
-**A new instrument.** An `Instrument` subclass in `instruments.py` (and a
-`DataFile` in the group's module if the format is new), its entry in
-`config.json` with dates and `notes`, and parser tests on synthetic lines.
-
-**A new group space.** Add `filesystem/groupspaces/<name>.py` with a
-`GroupSpace` subclass, its `DataFile` classes and a `column_mapping` dict (the
-group's column names to uataq's, applied by its `standardize_data`), modeled on
-`lin.py` and `horel.py`, and register it at the bottom of that module:
-`filesystem.groups["<name>"] = <Name>Group()`. Nothing else needs to import
-it: `groupspaces/__init__.py` star-imports every non-underscore module in the
-folder. Its API page appears by itself ("Functions and modules" lists `filesystem` recursively).
 
 ## Gotchas
 
@@ -278,10 +188,8 @@ folder. Its API page appears by itself ("Functions and modules" lists `filesyste
   one frame. Don't confuse them when wrapping.
 - `get_network_obs` and `Network` take one pollutant on purpose: several
   pollutants across mixed sites have no common shape.
-- GPS speed and course estimated from positions only fill NaNs (flagged in
-  `Speed_Estimated` / `Course_Estimated`). All-NA columns can arrive as
-  strings, so `estimate_motion` coerces them first. The top-level
-  `uataq.read_data` does not forward `estimate_motion=False`.
+- The top-level `uataq.read_data` does not forward `estimate_motion=False`
+  (what the estimate fills, and its flags, are in the `GPS` docstring).
 - **Use `filesystem.cpu_count()`**, not `multiprocessing.cpu_count()`, for
   `num_processes="max"`: it respects the CPU affinity a scheduler sets. A
   script that uses `num_processes > 1` needs a `__main__` guard (Python 3.14
