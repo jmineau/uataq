@@ -24,9 +24,9 @@ follow [PEP 440](https://peps.python.org/pep-0440/): calendar-based,
   and lists the pages in groups (Getting started, Guides, Reference, API
   reference, then Contributing). Its "Naming Convention" section, its table of
   four functions and its second "Contributing" heading are gone: the column
-  renaming is in "Columns and flags", the four functions are documented on
-  "Laboratory" and "General Functions", and the Contributing page stays. "Configuration" moved from under "Laboratory"
-  to the Reference group. No address changed.
+  renaming is in "Columns and flags", the four functions are in the API
+  reference, and the Contributing page stays. "Configuration" moved from under
+  "Laboratory" to the Reference group.
 - Docs: each fact is written on one page, and three pages are renamed to match
   their titles, with no redirects. `docs/general.rst` is now
   `docs/input_parameters.rst` (retitled "Input Parameters", each section
@@ -83,6 +83,12 @@ follow [PEP 440](https://peps.python.org/pep-0440/): calendar-based,
   `sites.html#uataq.sites.Site` and `#uataq.sites.MobileSite` moved to those
   pages. `uataq.laboratory` hides its value, which would be the whole
   configuration. `Site.pollutant_instruments` has a docstring.
+- Docs: the levels are called "data levels" on every page and docstring.
+  "Input Parameters" retitles its "Processing Level" section "Data Level" (the
+  anchor `input_parameters.html#processing-level` is now `#data-level`) and
+  says the pipeline's documentation calls them processing levels. "Reading
+  data" says the mobile sites are on TRAX trains and buses, as the front page
+  does.
 - `Instrument.model`, `SensorMixin.pollutants`, `Sodar.model` and
   `Sodar.species_measured` have docstrings, and the Attributes of
   `LinDatFile` and `LGR_UGGA_File` name the ones their `__init__` sets

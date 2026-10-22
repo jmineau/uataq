@@ -113,7 +113,7 @@ and a ``value`` column with the measurement value.
 Mobile Sites & Observations
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Included as part of UATAQ is the TRAX/eBus project, which collects data from mobile sites.
+The mobile sites are instruments on TRAX trains and buses (the TRAX/eBus project).
 The :class:`~sites.MobileSite` object is a subclass of the :class:`~sites.Site` object.
 The :obj:`laboratory` determines whether to build a :class:`~sites.Site` or
 :class:`~sites.MobileSite` object based on the ``is_mobile`` attribute in the configuration file.
