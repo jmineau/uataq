@@ -1001,6 +1001,46 @@ class TestGetObsColumnOrder:
         assert "lgr_ugga_CO2_ppb" in orders.pop().split()
 
 
+class TestGetObsRowOrder:
+    """Rows on one timestamp keep the instrument order in every session (#63)."""
+
+    #: BUS01 reads 2b_205, 2b_405 and metone_es642 for these, in the order asked
+    asked = ["O3", "NO2", "PM2.5"]
+    columns = {"2b_205": "O3_ppb", "2b_405": "NO2_ppb", "metone_es642": "PM2.5_ugm3"}
+
+    @pytest.fixture
+    def site(self):
+        import uataq
+
+        return uataq.get_site("BUS01")
+
+    def read_data(self, instruments, group, lvl, time_range, num_processes):
+        """Give every instrument rows on the same timestamps, as co-located ones do."""
+        times = pd.date_range("2024-06-01", periods=1000, freq="min", name="Time_UTC")
+        return {
+            name: pd.DataFrame({self.columns[name]: range(len(times))}, times)
+            for name in instruments
+        }
+
+    @pytest.mark.parametrize("format", ["wide", "long"])
+    def test_rows_on_one_timestamp_keep_the_instrument_order(self, site, format):
+        """The default sort (quicksort) swaps tied rows; a stable one cannot."""
+        with patch.object(sites.Site, "read_data", side_effect=self.read_data):
+            obs = sites.Site.get_obs(site, self.asked, format)
+
+        assert obs.index.is_monotonic_increasing
+        # wide: each row's only filled column; long: its pollutant column
+        names = obs.notna().idxmax(axis=1) if format == "wide" else obs["pollutant"]
+        assert names.tolist() == list(self.columns.values()) * 1000
+
+    def test_the_order_asked_is_the_order_of_the_rows(self, site):
+        with patch.object(sites.Site, "read_data", side_effect=self.read_data):
+            obs = sites.Site.get_obs(site, ["PM2.5", "O3", "NO2"])
+
+        names = obs.notna().idxmax(axis=1)
+        assert names.tolist() == ["PM2.5_ugm3", "O3_ppb", "NO2_ppb"] * 1000
+
+
 FILES_RUN = "No files found within the specified time range (files run from 2021-09 to 2026-07, with gaps)."
 
 

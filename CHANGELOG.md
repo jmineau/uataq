@@ -227,6 +227,11 @@ follow [PEP 440](https://peps.python.org/pep-0440/): calendar-based,
   inferred from the first row, so a row of the other shape was dropped: 862
   of 1.45 billion rows across the archive. A file starting with a whole
   second would have lost nearly every row (#95).
+- `Site.get_obs` (and `uataq.get_obs`, `get_recent_obs`) sorts its rows with a
+  stable sort, so rows on one timestamp stay in the instrument order, the order
+  the pollutants were asked for. The default sort of pandas (numpy's quicksort)
+  does not promise that, and swapped tied rows even though the instruments were
+  joined in a fixed order (#74).
 
 ## [2026.10.0] - 2026-10-09
 
