@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>What data exists &#8212; UATAQ 2026.10.1.dev54+gded903115 documentation</title>
+    <title>What data exists &#8212; UATAQ 2026.10.1.dev55+gd62cacee8 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="_static/documentation_options.js?v=f20965fc"></script>
+    <script src="_static/documentation_options.js?v=fda0a204"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -59,7 +59,7 @@
     <link rel="prev" title="Your first month of data" href="first_month.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.1.dev54+gded903115" />
+  <meta name="docsearch:version" content="2026.10.1.dev55+gd62cacee8" />
   
     
     <script src="_static/searchtools.js"></script>
@@ -127,7 +127,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.1.dev54+gded903115 documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.1.dev55+gd62cacee8 documentation</p>
   
 </a></div>
     
@@ -649,7 +649,7 @@ either end of the range can reach past it. <code class="docutils literal notrans
 <section id="levels">
 <h3>Levels<a class="headerlink" href="#levels" title="Link to this heading">#</a></h3>
 <p>By default the call checks all four data levels (<code class="docutils literal notranslate"><span class="pre">raw</span></code>, <code class="docutils literal notranslate"><span class="pre">qaqc</span></code>,
-<code class="docutils literal notranslate"><span class="pre">calibrated</span></code> and <code class="docutils literal notranslate"><span class="pre">final</span></code>; see <a class="reference internal" href="input_parameters.html#input-level"><span class="std std-ref">Processing Level</span></a>) and gives each bin the <strong>highest</strong> level that has data in it. A stretch labeled
+<code class="docutils literal notranslate"><span class="pre">calibrated</span></code> and <code class="docutils literal notranslate"><span class="pre">final</span></code>; see <a class="reference internal" href="input_parameters.html#input-level"><span class="std std-ref">Data Level</span></a>) and gives each bin the <strong>highest</strong> level that has data in it. A stretch labeled
 <code class="docutils literal notranslate"><span class="pre">qaqc</span></code> was therefore measured, but the final level has nothing for it. WBB
 has no final CO2 for August 2021:</p>
 <div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">co2</span><span class="o">.</span><span class="n">get_availability</span><span class="p">(</span><span class="s2">&quot;2021&quot;</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="s2">&quot;M&quot;</span><span class="p">,</span> <span class="n">lvls</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;qaqc&quot;</span><span class="p">,</span> <span class="s2">&quot;final&quot;</span><span class="p">])</span>

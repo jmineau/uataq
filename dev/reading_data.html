@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Reading data &#8212; UATAQ 2026.10.1.dev54+gded903115 documentation</title>
+    <title>Reading data &#8212; UATAQ 2026.10.1.dev55+gd62cacee8 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="_static/documentation_options.js?v=f20965fc"></script>
+    <script src="_static/documentation_options.js?v=fda0a204"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -59,7 +59,7 @@
     <link rel="prev" title="What data exists" href="what_data_exists.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.1.dev54+gded903115" />
+  <meta name="docsearch:version" content="2026.10.1.dev55+gd62cacee8" />
   
     
     <script src="_static/searchtools.js"></script>
@@ -127,7 +127,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.1.dev54+gded903115 documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.1.dev55+gd62cacee8 documentation</p>
   
 </a></div>
     
@@ -597,7 +597,7 @@ at the site for a specified time range:</p>
 <p>With no <code class="docutils literal notranslate"><span class="pre">lvl</span></code> each instrument is read at the highest level it has, <code class="docutils literal notranslate"><span class="pre">final</span></code>
 for these. To read another level, such as <code class="docutils literal notranslate"><span class="pre">lvl='qaqc'</span></code> with its flagged rows,
 pass <code class="docutils literal notranslate"><span class="pre">lvl</span></code>: what each level is for, and how to choose one, is under
-<a class="reference internal" href="input_parameters.html#input-level"><span class="std std-ref">Processing Level</span></a>.</p>
+<a class="reference internal" href="input_parameters.html#input-level"><span class="std std-ref">Data Level</span></a>.</p>
 <p>The data is returned as a dictionary of pandas dataframes, one for each instrument.
 The dataframes are indexed by time and have columns for each variable:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lgr_ugga</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;lgr_ugga&#39;</span><span class="p">]</span>
@@ -634,7 +634,7 @@ and a <code class="docutils literal notranslate"><span class="pre">value</span><
 </div>
 <section id="mobile-sites-observations">
 <h3>Mobile Sites &amp; Observations<a class="headerlink" href="#mobile-sites-observations" title="Link to this heading">#</a></h3>
-<p>Included as part of UATAQ is the TRAX/eBus project, which collects data from mobile sites.
+<p>The mobile sites are instruments on TRAX trains and buses (the TRAX/eBus project).
 The <a class="reference internal" href="api/uataq.sites.MobileSite.html#uataq.sites.MobileSite" title="uataq.sites.MobileSite"><code class="xref py py-class docutils literal notranslate"><span class="pre">MobileSite</span></code></a> object is a subclass of the <a class="reference internal" href="api/uataq.sites.Site.html#uataq.sites.Site" title="uataq.sites.Site"><code class="xref py py-class docutils literal notranslate"><span class="pre">Site</span></code></a> object.
 The <a class="reference internal" href="api/uataq.laboratory.html#uataq.laboratory" title="uataq.laboratory"><code class="xref py py-obj docutils literal notranslate"><span class="pre">laboratory</span></code></a> determines whether to build a <a class="reference internal" href="api/uataq.sites.Site.html#uataq.sites.Site" title="uataq.sites.Site"><code class="xref py py-class docutils literal notranslate"><span class="pre">Site</span></code></a> or
 <a class="reference internal" href="api/uataq.sites.MobileSite.html#uataq.sites.MobileSite" title="uataq.sites.MobileSite"><code class="xref py py-class docutils literal notranslate"><span class="pre">MobileSite</span></code></a> object based on the <code class="docutils literal notranslate"><span class="pre">is_mobile</span></code> attribute in the configuration file.</p>

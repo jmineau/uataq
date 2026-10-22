@@ -86,7 +86,7 @@ the same time. :func:`get_network_obs` returns the data with an
 The data level
 ^^^^^^^^^^^^^^
 
-The archive keeps each instrument's data at several processing levels (``raw``,
+The archive keeps each instrument's data at several data levels (``raw``,
 ``qaqc``, ``calibrated`` and ``final``; see :ref:`input-level` and the
 pipeline's
 `description of the levels <https://github.com/uataq/data-pipeline#processing-levels>`_).
