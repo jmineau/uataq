@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>uataq.sites.MobileSite.locate &#8212; UATAQ 2026.10.1.dev47+g29855228c documentation</title>
+    <title>uataq.sites.MobileSite.locate &#8212; UATAQ 2026.10.1.dev48+g5a42beead documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="../_static/documentation_options.js?v=0158c264"></script>
+    <script src="../_static/documentation_options.js?v=f67b5c61"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -59,7 +59,7 @@
     <link rel="prev" title="uataq.sites.MobileSite.get_obs" href="uataq.sites.MobileSite.get_obs.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.1.dev47+g29855228c" />
+  <meta name="docsearch:version" content="2026.10.1.dev48+g5a42beead" />
   
     
     <script src="../_static/searchtools.js"></script>
@@ -127,7 +127,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.1.dev47+g29855228c documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.1.dev48+g5a42beead documentation</p>
   
 </a></div>
     
@@ -807,6 +807,12 @@ clocks disagree: on TRX01 the CR1000 ran 1-20 s ahead of GPS time on
 dates sampled 2019-2026, so joining horel rows to lin’s GPS on the Pi
 clock placed them that many seconds along the track, and dropped rows
 with no lin GPS record at their second (uataq#42).</p>
+<p>The Pi’s clock itself has been hours to days off GPS time (up to 5
+days on TRX01 in 2022-11), and a GPS read selects fixes by GPS time,
+so lin’s GPS is read a week past the rows’ range on each side: the
+fixes of rows near the ends are then read too (uataq#94). Rows are
+still selected by the Pi’s clock, so a located row’s <code class="docutils literal notranslate"><span class="pre">Time_UTC</span></code> (GPS
+time) can fall outside <code class="docutils literal notranslate"><span class="pre">time_range</span></code> by as much as the Pi was off.</p>
 <p>One group’s rows are never located with another group’s GPS. A GPS
 group the caller names explicitly (a mapping entry for <code class="docutils literal notranslate"><span class="pre">gps</span></code>) that
 differs from the group some rows were read from raises <code class="docutils literal notranslate"><span class="pre">ValueError</span></code>,

@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Contributing &#8212; UATAQ 2026.10.1.dev47+g29855228c documentation</title>
+    <title>Contributing &#8212; UATAQ 2026.10.1.dev48+g5a42beead documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="_static/documentation_options.js?v=0158c264"></script>
+    <script src="_static/documentation_options.js?v=f67b5c61"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -58,7 +58,7 @@
     <link rel="prev" title="uataq.errors.ReaderError" href="api/uataq.errors.ReaderError.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.1.dev47+g29855228c" />
+  <meta name="docsearch:version" content="2026.10.1.dev48+g5a42beead" />
   
     
     <script src="_static/searchtools.js"></script>
@@ -126,7 +126,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.1.dev47+g29855228c documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.1.dev48+g5a42beead documentation</p>
   
 </a></div>
     
@@ -563,6 +563,13 @@ group’s own GPS on its own clock: lin’s on <code class="docutils literal not
 (there the instrument and GPS values are one record). Joining horel’s rows to lin’s
 GPS on the Pi clock would place them that many seconds along the track, and drop
 the rows with no lin GPS record at their second.</p>
+<p>The Pi’s clock has itself been hours to days off GPS time (on TRX01 about 70
+minutes behind all of 2016-11-09 and 10, and up to 5 days in 2022-11). A GPS read
+selects fixes by <code class="docutils literal notranslate"><span class="pre">Time_UTC</span></code>, GPS time, while lin’s rows were selected by the Pi’s
+clock, so <code class="docutils literal notranslate"><span class="pre">locate</span></code> reads lin’s GPS a week past the rows’ range on each side
+(<code class="docutils literal notranslate"><span class="pre">_PI_CLOCK_MARGIN</span></code> in <code class="docutils literal notranslate"><span class="pre">sites.py</span></code>); otherwise the rows near the ends of a range
+would find no fix and be dropped. A located lin row’s <code class="docutils literal notranslate"><span class="pre">Time_UTC</span></code> can then fall
+outside the requested range by as much as the Pi was off.</p>
 <p>Each located row carries <code class="docutils literal notranslate"><span class="pre">GPS_Group</span></code> (<code class="docutils literal notranslate"><span class="pre">&quot;lin&quot;</span></code> or <code class="docutils literal notranslate"><span class="pre">&quot;horel&quot;</span></code>): which GPS located
 it, and so which clock its <code class="docutils literal notranslate"><span class="pre">Time_UTC</span></code> is on. A TRAX read with no group can mix
 the two groups’ GPS, which log at different rates and with different columns, so

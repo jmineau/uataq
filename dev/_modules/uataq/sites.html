@@ -6,7 +6,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>uataq.sites &#8212; UATAQ 2026.10.1.dev47+g29855228c documentation</title>
+    <title>uataq.sites &#8212; UATAQ 2026.10.1.dev48+g5a42beead documentation</title>
   
   
   
@@ -38,7 +38,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="../../_static/documentation_options.js?v=0158c264"></script>
+    <script src="../../_static/documentation_options.js?v=f67b5c61"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -56,7 +56,7 @@
     <link rel="search" title="Search" href="../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.1.dev47+g29855228c" />
+  <meta name="docsearch:version" content="2026.10.1.dev48+g5a42beead" />
   
     
     <script src="../../_static/searchtools.js"></script>
@@ -124,7 +124,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.1.dev47+g29855228c documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.1.dev48+g5a42beead documentation</p>
   
 </a></div>
     
@@ -559,6 +559,12 @@
 
 <span class="n">_all_or_mult_strs</span> <span class="o">=</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;all&quot;</span><span class="p">]</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">|</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
 
+<span class="c1"># How far past its rows&#39; range lin&#39;s GPS is read. lin rows are joined to lin&#39;s</span>
+<span class="c1"># GPS on the Pi&#39;s clock, but a read selects the fixes by their GPS time, and</span>
+<span class="c1"># the Pi&#39;s clock has been days off: up to 5 days on TRX01 in 2022-11, 4.5 days</span>
+<span class="c1"># in 2018-08, hours in 2016 (#94).</span>
+<span class="n">_PI_CLOCK_MARGIN</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
+
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_describe_plan</span><span class="p">(</span><span class="n">plan</span><span class="p">:</span> <span class="n">instruments</span><span class="o">.</span><span class="n">ReadPlan</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Name the groupspace(s) a read plan reads from, with dates when split.&quot;&quot;&quot;</span>
@@ -653,6 +659,13 @@
     <span class="n">stops</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">stop</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">portions</span> <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">stop</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">]</span>
     <span class="n">start</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">starts</span><span class="p">)</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">starts</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">portions</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
     <span class="n">stop</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">stops</span><span class="p">)</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">stops</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">portions</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
+    <span class="k">return</span> <span class="n">TimeRange</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="o">=</span><span class="n">stop</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_widen</span><span class="p">(</span><span class="n">span</span><span class="p">:</span> <span class="n">TimeRange</span><span class="p">,</span> <span class="n">margin</span><span class="p">:</span> <span class="n">dt</span><span class="o">.</span><span class="n">timedelta</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TimeRange</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return ``span`` reaching ``margin`` further on each bounded side.&quot;&quot;&quot;</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="kc">None</span> <span class="k">if</span> <span class="n">span</span><span class="o">.</span><span class="n">start</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">span</span><span class="o">.</span><span class="n">start</span> <span class="o">-</span> <span class="n">margin</span>
+    <span class="n">stop</span> <span class="o">=</span> <span class="kc">None</span> <span class="k">if</span> <span class="n">span</span><span class="o">.</span><span class="n">stop</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">span</span><span class="o">.</span><span class="n">stop</span> <span class="o">+</span> <span class="n">margin</span>
     <span class="k">return</span> <span class="n">TimeRange</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="o">=</span><span class="n">stop</span><span class="p">)</span>
 
 
@@ -1269,6 +1282,13 @@
 <span class="sd">        clock placed them that many seconds along the track, and dropped rows</span>
 <span class="sd">        with no lin GPS record at their second (uataq#42).</span>
 
+<span class="sd">        The Pi&#39;s clock itself has been hours to days off GPS time (up to 5</span>
+<span class="sd">        days on TRX01 in 2022-11), and a GPS read selects fixes by GPS time,</span>
+<span class="sd">        so lin&#39;s GPS is read a week past the rows&#39; range on each side: the</span>
+<span class="sd">        fixes of rows near the ends are then read too (uataq#94). Rows are</span>
+<span class="sd">        still selected by the Pi&#39;s clock, so a located row&#39;s ``Time_UTC`` (GPS</span>
+<span class="sd">        time) can fall outside ``time_range`` by as much as the Pi was off.</span>
+
 <span class="sd">        One group&#39;s rows are never located with another group&#39;s GPS. A GPS</span>
 <span class="sd">        group the caller names explicitly (a mapping entry for ``gps``) that</span>
 <span class="sd">        differs from the group some rows were read from raises ``ValueError``,</span>
@@ -1293,6 +1313,10 @@
         <span class="k">for</span> <span class="n">gps_group</span><span class="p">,</span> <span class="n">group_pieces</span> <span class="ow">in</span> <span class="n">pieces</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="c1"># Read GPS only where these rows were read, not the whole request</span>
             <span class="n">span</span> <span class="o">=</span> <span class="n">_span</span><span class="p">([</span><span class="n">portion</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">portion</span> <span class="ow">in</span> <span class="n">group_pieces</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">gps_group</span> <span class="o">==</span> <span class="s2">&quot;lin&quot;</span><span class="p">:</span>
+                <span class="c1"># The join is on the Pi&#39;s clock and the read on GPS time:</span>
+                <span class="c1"># reach far enough for the fixes of rows near the ends</span>
+                <span class="n">span</span> <span class="o">=</span> <span class="n">_widen</span><span class="p">(</span><span class="n">span</span><span class="p">,</span> <span class="n">_PI_CLOCK_MARGIN</span><span class="p">)</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">gps</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_data</span><span class="p">(</span><span class="s2">&quot;gps&quot;</span><span class="p">,</span> <span class="n">gps_group</span><span class="p">,</span> <span class="n">lvl</span><span class="p">,</span> <span class="n">span</span><span class="p">,</span> <span class="n">num_processes</span><span class="p">)[</span><span class="s2">&quot;gps&quot;</span><span class="p">]</span>
             <span class="k">except</span> <span class="n">errors</span><span class="o">.</span><span class="n">ReaderError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
