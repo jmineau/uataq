@@ -154,6 +154,17 @@ follow [PEP 440](https://peps.python.org/pep-0440/): calendar-based,
   4 of them opening its 4,472 files; it now takes about 30 s, most of it
   listing the folders. The same files are read and the same rows returned; a
   file outside the range whose header cannot be read is no longer reported.
+- A raw `lgr_ugga` read lists only the day folders that overlap its range (the
+  range plus the day on either side), where it walked every day folder the site
+  has (4,336 at WBB) and read the date from every file name. The first read of
+  a day at WBB in a new process took 2.1 to 3.3 s, 1.1 to 2.2 s of it listing
+  the folders (22 to 26 s on a node where the file server had not cached them),
+  and takes 0.4 to 0.5 s, 0.1 s of it listing. The same files are read, so the
+  same rows are returned. A folder is skipped only when its name is a day
+  (`2017-05-09` or `01Apr2016`) outside the range, which relies on the pipeline keeping each
+  day's files in the folder named for that day (all 19,582 raw files at the
+  six sites do); any other folder is still walked. `LGR_UGGA_File.get_files`
+  takes an optional `time_range` for this.
 - A read at a level the instrument does not have says which levels it has.
   `read_data("WBB", "teledyne_t400", lvl="calibrated")`, where the archive has
   no `calibrated` folder for that instrument, raised `FileNotFoundError` for
