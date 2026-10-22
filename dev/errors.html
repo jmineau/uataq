@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>When there is nothing to read &#8212; UATAQ 2026.10.1.dev55+gd62cacee8 documentation</title>
+    <title>When there is nothing to read &#8212; UATAQ 2026.10.1.dev56+g0c6397f78 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="_static/documentation_options.js?v=fda0a204"></script>
+    <script src="_static/documentation_options.js?v=51a22928"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -59,7 +59,7 @@
     <link rel="prev" title="Reading data" href="reading_data.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.1.dev55+gd62cacee8" />
+  <meta name="docsearch:version" content="2026.10.1.dev56+g0c6397f78" />
   
     
     <script src="_static/searchtools.js"></script>
@@ -127,7 +127,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.1.dev55+gd62cacee8 documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.1.dev56+g0c6397f78 documentation</p>
   
 </a></div>
     
@@ -745,18 +745,19 @@ has it:</p>
 <div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Network</span><span class="p">([</span><span class="s2">&quot;WBB&quot;</span><span class="p">,</span> <span class="s2">&quot;WBBB&quot;</span><span class="p">],</span> <span class="s2">&quot;CO2&quot;</span><span class="p">)</span>
 <span class="go">WARNING:uataq.network:Site &#39;WBBB&#39; not found: Site &#39;WBBB&#39; not found in the configuration file.</span>
 <span class="go">Network(sites=[&#39;WBB&#39;], pollutant=&#39;CO2&#39;)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">Network</span><span class="p">([</span><span class="s2">&quot;WBBB&quot;</span><span class="p">],</span> <span class="s2">&quot;CO2&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Network</span><span class="p">([</span><span class="s2">&quot;CSP&quot;</span><span class="p">],</span> <span class="s2">&quot;O3&quot;</span><span class="p">)</span>
 <span class="gt">Traceback (most recent call last):</span>
 <span class="w">  </span><span class="c">...</span>
-<span class="gr">ValueError</span>: <span class="n">No sites found that measure pollutant &#39;CO2&#39;. Valid sites: [&#39;WBBB&#39;]</span>
+<span class="gr">ValueError</span>: <span class="n">No sites found that measure pollutant &#39;O3&#39;. Sites that measure it: BUS01, BUS02, BUS03, BUS04, BUS05, BUS06, BUS07, BUS08, BUS09, BUS10, BUS11, BUS12, BUS13, BUS14, BUS15, TRX01, TRX02, TRX03, WBB.</span>
 </pre></div>
 </div>
 <p>A misspelled site, or a site that does not measure the pollutant, is dropped from
-a <code class="docutils literal notranslate"><span class="pre">Network</span></code> without an error, and only the log tells you. Print the
+a <code class="docutils literal notranslate"><span class="pre">Network</span></code> without an error. The log warns about a misspelled site; a site
+that does not measure the pollutant is dropped without a warning. Print the
 <code class="docutils literal notranslate"><span class="pre">Network</span></code> to see the sites it kept. If none is left you get the second error,
-whose “Valid sites” is just the list you typed, not a list of valid sites. Use
-<code class="docutils literal notranslate"><span class="pre">Network(&quot;all&quot;,</span> <span class="pre">&quot;CO2&quot;)</span></code> to see the real ones. List each site once: a site
-named twice is read twice, and its rows come back twice.</p>
+which lists the sites in the configuration that measure the pollutant, or says
+that none does. A site named twice, in any case (<code class="docutils literal notranslate"><span class="pre">&quot;WBB&quot;</span></code> and <code class="docutils literal notranslate"><span class="pre">&quot;wbb&quot;</span></code>), is
+read once.</p>
 <p>If the error is about <code class="docutils literal notranslate"><span class="pre">time_range</span></code> itself, see <a class="reference internal" href="input_parameters.html#input-time-range"><span class="std std-ref">Time Range</span></a>.</p>
 </section>
 </section>
