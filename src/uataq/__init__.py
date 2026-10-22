@@ -137,6 +137,15 @@ def get_obs(
         The observations, from the ``final`` level (see :func:`uataq.read_data`
         to read another level).
 
+    Raises
+    ------
+    ValueError
+        If a pollutant is not measured at the site. The message says which
+        pollutants the site does measure.
+    TypeError
+        If you pass ``lvl`` or ``level``: ``get_obs`` always reads the
+        ``final`` level. Use :func:`uataq.read_data` to read another.
+
     Warns
     -----
     EmptyResultWarning

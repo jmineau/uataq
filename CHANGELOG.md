@@ -178,6 +178,15 @@ follow [PEP 440](https://peps.python.org/pep-0440/): calendar-based,
   `cr1000` and `gps` have no pollutants and that `repr(site)` shows the
   instruments' `notes`; "Installation" no longer lists `abrb`, which is not a
   site, among the site folders.
+- The error for a pollutant a site does not measure says what the site does
+  measure. `get_obs("CSP", "O3")` raised `Invalid pollutant(s): '{'O3'}'`,
+  although O3 is a pollutant that CSP does not measure; it now raises
+  `ValueError: Not measured at CSP: O3. CSP measures CH4, CO2.` A name that no
+  instrument measures keeps `Invalid pollutant(s)`
+  (`get_obs("WBB", "NH3")`: `Invalid pollutant(s): NH3. WBB measures BC, CH4,
+  CO, CO2, NO, NO2, NOx, O3, PM2.5.`), and a request with both says both. The
+  names are sorted (the old message printed a set, whose order changed from run
+  to run) and spelled as in the columns (`NOx`). It is still a `ValueError`.
 
 ### Fixed
 
@@ -250,6 +259,13 @@ follow [PEP 440](https://peps.python.org/pep-0440/): calendar-based,
   the pollutants were asked for. The default sort of pandas (numpy's quicksort)
   does not promise that, and swapped tied rows even though the instruments were
   joined in a fixed order (#74).
+- `get_obs(..., lvl="qaqc")` (or `level=`) raises a `TypeError` instead of
+  quietly returning the final level. `Site.get_obs`, `MobileSite.get_obs` and
+  `uataq.get_obs` take `**kwargs` and use none of them, so the level was thrown
+  away and the table was the same as with no keyword. The error names the
+  argument, says `get_obs` always reads the final level, and gives the call for
+  another: `read_data(..., lvl='qaqc')`. Other unknown keywords are still
+  ignored.
 
 ## [2026.10.0] - 2026-10-09
 

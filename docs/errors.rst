@@ -7,9 +7,10 @@ When there is nothing to read
 
     The examples on this page read the UATAQ archive, which is only available
     on CHPC. They are shown as code and are not run when the documentation is
-    built. The output under each one is from a run on CHPC on 15 October 2026.
-    The archive keeps growing, so what a read returns will have moved on by the
-    time you read this.
+    built. The output under each one is from a run on CHPC on 15 October 2026,
+    except under "Pollutant or site not found" and "A level asked of get_obs"
+    (19 October 2026). The archive keeps growing, so what a read returns will
+    have moved on by the time you read this.
 
 The archive has gaps. Sites close, instruments are removed or break, and some
 months are missing. A read then raises an error or comes back empty. Each case
@@ -185,18 +186,41 @@ Pollutant or site not found
     >>> uataq.get_obs("WBB", "NH3", time_range="2025-06")
     Traceback (most recent call last):
       ...
-    ValueError: Invalid pollutant(s): '{'NH3'}'
+    ValueError: Invalid pollutant(s): NH3. WBB measures BC, CH4, CO, CO2, NO, NO2, NOx, O3, PM2.5.
+    >>> uataq.get_obs("CSP", "O3", time_range="2025-06")
+    Traceback (most recent call last):
+      ...
+    ValueError: Not measured at CSP: O3. CSP measures CH4, CO2.
     >>> uataq.get_obs("WBBB", "CO2", time_range="2025-06")
     Traceback (most recent call last):
       ...
     ValueError: Site 'WBBB' not found in the configuration file.
 
-WBB does not measure NH3, or the name is misspelled; the message does not list
-the valid names. Print ``sorted(site.pollutants)``. For a site, check the ID
-against ``uataq.laboratory.sites``. The case does not matter for either.
+The first message is for a name that no uataq instrument measures: a
+misspelling, or a molecule uataq does not read. The second is for a pollutant
+that other instruments measure but this site does not. Both end with what the
+site does measure, spelled as in the columns. You can also print
+``sorted(site.pollutants)``. For a site, check the ID against
+``uataq.laboratory.sites``. The case does not matter for either.
 
 ``read_data`` has a similar error when you name an instrument the site does not
 have (``InstrumentNotFoundError``, which lists the site's instruments).
+
+A level asked of get_obs
+------------------------
+
+.. code-block:: pycon
+
+    >>> uataq.get_obs("WBB", "CO2", lvl="qaqc", time_range="2025-06")
+    Traceback (most recent call last):
+      ...
+    TypeError: get_obs() got an unexpected keyword argument 'lvl'. get_obs always reads the final level; to read another, call read_data(..., lvl='qaqc').
+
+``get_obs`` takes no level: it always reads ``final``. ``level=`` raises the same
+error. To read another level, call ``read_data``, which gives a dictionary with
+one table for each instrument:
+``uataq.read_data("WBB", "lgr_ugga", lvl="qaqc", time_range="2025-06")``.
+:ref:`input-level` says what each level is for.
 
 A level the instrument does not have
 ------------------------------------

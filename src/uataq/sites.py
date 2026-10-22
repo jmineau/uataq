@@ -15,6 +15,7 @@ import numpy as np
 import pandas as pd
 
 from uataq import errors, instruments
+from uataq.pollutants import POLLUTANTS
 from uataq.timerange import TimeRange, TimeRangeTypes
 
 _logger = logging.getLogger(__name__)
@@ -47,6 +48,17 @@ def _no_data(asked: str, lvl: str | None, SID: str, detail: str) -> errors.Reade
     error = errors.ReaderError(f"No {level}data found for {asked} at {SID}: {detail}.")
     error.detail = detail
     return error
+
+
+def _reject_level(kwargs: Mapping[str, object]) -> None:
+    """Raise TypeError if ``get_obs`` was given a level, which it never takes."""
+    for name in ("lvl", "level"):
+        if name in kwargs:
+            raise TypeError(
+                f"get_obs() got an unexpected keyword argument '{name}'. get_obs "
+                "always reads the final level; to read another, call "
+                f"read_data(..., lvl={kwargs[name]!r})."
+            )
 
 
 def _read_plan(
@@ -382,6 +394,17 @@ class Site:
             the site's config), and the same on every call. Rows on one
             timestamp come in that order too.
 
+        Raises
+        ------
+        ValueError
+            If a pollutant is not measured at the site. The message says
+            which pollutants the site does measure, and tells a pollutant
+            uataq reads at other sites (``Not measured at ...``) from a name
+            it does not know (``Invalid pollutant(s)``).
+        TypeError
+            If you pass ``lvl`` or ``level``: ``get_obs`` always reads the
+            ``final`` level. Use :func:`uataq.read_data` to read another.
+
         Warns
         -----
         EmptyResultWarning
@@ -396,8 +419,31 @@ class Site:
             and when none of the pollutants has data the read raises
             :class:`~uataq.errors.ReaderError` instead.
         """
+        _reject_level(kwargs)
         frames = self._read_obs(pollutants, format, group, time_range, num_processes)
         return pd.DataFrame(pd.concat(frames.values()).sort_index(kind="stable"))
+
+    def _not_measured(self, asked: list[str]) -> ValueError:
+        """
+        Build the error for upper-case pollutant names this site does not measure.
+
+        A name that no instrument model measures is invalid (a misspelling);
+        one that some model measures, but not at this site, is not measured
+        here. Either way the error says what the site does measure.
+        """
+        known = {p.upper(): p for p in POLLUTANTS}
+        invalid = [p for p in asked if p not in known]
+        absent = [known[p] for p in asked if p in known]
+        measured = ", ".join(
+            self._declared_pollutants.get(p, p) for p in sorted(self.pollutants)
+        )
+        sentences = []
+        if invalid:
+            sentences.append(f"Invalid pollutant(s): {', '.join(invalid)}")
+        if absent:
+            sentences.append(f"Not measured at {self.SID}: {', '.join(absent)}")
+        sentences.append(f"{self.SID} measures {measured}")
+        return ValueError(". ".join(sentences) + ".")
 
     def _read_obs(
         self,
@@ -431,10 +477,9 @@ class Site:
         else:  # list or tuple: keep the order asked for
             pollutants = [p.upper() for p in pollutants]
 
-        if any(p not in self.pollutants for p in pollutants):
-            raise ValueError(
-                f"Invalid pollutant(s): '{set(pollutants) - set(self.pollutants)}'"
-            )
+        unmeasured = [p for p in dict.fromkeys(pollutants) if p not in self.pollutants]
+        if unmeasured:
+            raise self._not_measured(unmeasured)
 
         # Get instruments for each pollutant: in the order the pollutants were
         # asked for, and each pollutant's in the config's. A list, not a set:
@@ -702,6 +747,14 @@ class MobileSite(Site):
             A dataframe containing mobile site observations for each pollutant
             with location data merged (a GeoDataFrame when ``include_gps``).
 
+        Raises
+        ------
+        ValueError
+            If a pollutant is not measured at the site (see :meth:`Site.get_obs`).
+        TypeError
+            If you pass ``lvl`` or ``level``: ``get_obs`` always reads the
+            ``final`` level (see :meth:`Site.get_obs`).
+
         Warns
         -----
         EmptyResultWarning
@@ -719,6 +772,7 @@ class MobileSite(Site):
         from lin and ozone from horel, so the result can mix both groups'
         GPS columns.
         """
+        _reject_level(kwargs)
         if not include_gps:
             return super().get_obs(
                 pollutants, format, group, time_range, num_processes, **kwargs
