@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>When there is nothing to read &#8212; UATAQ 2026.10.1.dev44+g55ac74d4e documentation</title>
+    <title>When there is nothing to read &#8212; UATAQ 2026.10.1.dev46+g96955914d documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="_static/documentation_options.js?v=bd36f74f"></script>
+    <script src="_static/documentation_options.js?v=494f636e"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -59,7 +59,7 @@
     <link rel="prev" title="Reading data" href="reading_data.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.1.dev44+g55ac74d4e" />
+  <meta name="docsearch:version" content="2026.10.1.dev46+g96955914d" />
   
     
     <script src="_static/searchtools.js"></script>
@@ -127,7 +127,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.1.dev44+g55ac74d4e documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.1.dev46+g96955914d documentation</p>
   
 </a></div>
     
@@ -693,16 +693,29 @@ have (<code class="docutils literal notranslate"><span class="pre">InstrumentNot
 <section id="a-level-the-instrument-does-not-have">
 <h2>A level the instrument does not have<a class="headerlink" href="#a-level-the-instrument-does-not-have" title="Link to this heading">#</a></h2>
 <div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">uataq</span><span class="o">.</span><span class="n">read_data</span><span class="p">(</span><span class="s2">&quot;WBB&quot;</span><span class="p">,</span> <span class="s2">&quot;teledyne_t400&quot;</span><span class="p">,</span> <span class="n">lvl</span><span class="o">=</span><span class="s2">&quot;calibrated&quot;</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="s2">&quot;2025-06&quot;</span><span class="p">)</span>
+<span class="go">WARNING:uataq.sites:Error reading teledyne_t400@WBB data from lin groupspace: teledyne_t400@WBB has no calibrated level (it has raw, qaqc and final).</span>
 <span class="gt">Traceback (most recent call last):</span>
 <span class="w">  </span><span class="c">...</span>
-<span class="gr">FileNotFoundError</span>: <span class="n">[Errno 2] No such file or directory: &#39;.../wbb/teledyne_t400/calibrated&#39;</span>
+<span class="gr">uataq.errors.ReaderError</span>: <span class="n">No calibrated data found for [&#39;teledyne_t400&#39;] at WBB: teledyne_t400 in lin groupspace: teledyne_t400@WBB has no calibrated level (it has raw, qaqc and final).</span>
 </pre></div>
 </div>
-<p>The archive has no folder for that level for that instrument: not every
-instrument has every level. Run <a class="reference internal" href="api/uataq.Network.get_availability.html#uataq.Network.get_availability" title="uataq.Network.get_availability"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Network.get_availability()</span></code></a> with the levels
-you are curious about, or leave <code class="docutils literal notranslate"><span class="pre">lvl</span></code> out, which reads the highest level the
-instrument has. A level that is not one of <code class="docutils literal notranslate"><span class="pre">raw</span></code>, <code class="docutils literal notranslate"><span class="pre">qaqc</span></code>, <code class="docutils literal notranslate"><span class="pre">calibrated</span></code> or
-<code class="docutils literal notranslate"><span class="pre">final</span></code> raises <code class="docutils literal notranslate"><span class="pre">AssertionError:</span> <span class="pre">Invalid</span> <span class="pre">data</span> <span class="pre">level</span></code> and lists the four.</p>
+<p>Not every instrument has every level, and the message lists the ones this
+instrument has, from least to most processed. Only the lin group’s CO2 and CH4
+analyzers have a <code class="docutils literal notranslate"><span class="pre">calibrated</span></code> level, and not TRX01’s <code class="docutils literal notranslate"><span class="pre">lgr_ugga_manual_cal</span></code>
+(see <a class="reference internal" href="columns.html"><span class="doc">Columns and flags</span></a>), so every other instrument, and every instrument in the
+horel archive, gives this error for it. Leave <code class="docutils literal notranslate"><span class="pre">lvl</span></code> out to read the highest
+level the instrument has.</p>
+<p>When <code class="docutils literal notranslate"><span class="pre">read_data</span></code> names several instruments, one without the level is logged
+and left out, and the others are returned. The error is raised only when none
+has it:</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">read_data</span><span class="p">(</span><span class="s2">&quot;WBB&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;lgr_ugga&quot;</span><span class="p">,</span> <span class="s2">&quot;teledyne_t400&quot;</span><span class="p">],</span> <span class="n">lvl</span><span class="o">=</span><span class="s2">&quot;calibrated&quot;</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="s2">&quot;2025-06&quot;</span><span class="p">)</span>
+<span class="go">WARNING:uataq.sites:Error reading teledyne_t400@WBB data from lin groupspace: teledyne_t400@WBB has no calibrated level (it has raw, qaqc and final).</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="go">[&#39;lgr_ugga&#39;]</span>
+</pre></div>
+</div>
+<p>A level that is not one of <code class="docutils literal notranslate"><span class="pre">raw</span></code>, <code class="docutils literal notranslate"><span class="pre">qaqc</span></code>, <code class="docutils literal notranslate"><span class="pre">calibrated</span></code> or <code class="docutils literal notranslate"><span class="pre">final</span></code> raises
+<code class="docutils literal notranslate"><span class="pre">AssertionError:</span> <span class="pre">Invalid</span> <span class="pre">data</span> <span class="pre">level</span></code> and lists the four.</p>
 </section>
 <section id="network-surprises">
 <h2>Network surprises<a class="headerlink" href="#network-surprises" title="Link to this heading">#</a></h2>

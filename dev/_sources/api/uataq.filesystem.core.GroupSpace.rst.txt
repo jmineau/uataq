@@ -21,6 +21,7 @@ uataq.filesystem.core.GroupSpace
    ~GroupSpace.get_datafiles
    ~GroupSpace.get_files
    ~GroupSpace.get_highest_lvl
+   ~GroupSpace.get_lvls
    ~GroupSpace.standardize_data
 
 

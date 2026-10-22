@@ -1,6 +1,0 @@
-uataq.filesystem.groupspaces.lin.LinGroup.get\_highest\_lvl
-===========================================================
-
-.. currentmodule:: uataq.filesystem.groupspaces.lin
-
-.. automethod:: LinGroup.get_highest_lvl

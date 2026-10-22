@@ -21,7 +21,7 @@ uataq.filesystem.groupspaces.lin.LinGroup
    ~LinGroup.get_datafile_key
    ~LinGroup.get_datafiles
    ~LinGroup.get_files
-   ~LinGroup.get_highest_lvl
+   ~LinGroup.get_lvls
    ~LinGroup.standardize_data
 
 
@@ -30,6 +30,6 @@ uataq.filesystem.groupspaces.lin.LinGroup
 .. rubric:: Inherited
 
 
-From :class:`~.GroupSpace`: :py:obj:`~.GroupSpace.get_datafile_class`
+From :class:`~.GroupSpace`: :py:obj:`~.GroupSpace.get_datafile_class`, :py:obj:`~.GroupSpace.get_highest_lvl`
 
 

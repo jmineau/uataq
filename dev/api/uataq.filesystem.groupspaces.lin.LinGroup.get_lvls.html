@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>uataq.filesystem.groupspaces.lin.LinGroup.get_highest_lvl &#8212; UATAQ 2026.10.1.dev44+g55ac74d4e documentation</title>
+    <title>uataq.filesystem.groupspaces.lin.LinGroup.get_lvls &#8212; UATAQ 2026.10.1.dev46+g96955914d documentation</title>
   
   
   
@@ -39,12 +39,12 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="../_static/documentation_options.js?v=bd36f74f"></script>
+    <script src="../_static/documentation_options.js?v=494f636e"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../_static/copybutton.js?v=f281be69"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'api/uataq.filesystem.groupspaces.lin.LinGroup.get_highest_lvl';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api/uataq.filesystem.groupspaces.lin.LinGroup.get_lvls';</script>
     <script>
         DOCUMENTATION_OPTIONS.theme_version = '0.22.0';
         DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://jmineau.github.io/uataq/switcher.json';
@@ -59,7 +59,7 @@
     <link rel="prev" title="uataq.filesystem.groupspaces.lin.LinGroup.get_files" href="uataq.filesystem.groupspaces.lin.LinGroup.get_files.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.1.dev44+g55ac74d4e" />
+  <meta name="docsearch:version" content="2026.10.1.dev46+g96955914d" />
   
     
     <script src="../_static/searchtools.js"></script>
@@ -127,7 +127,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.1.dev44+g55ac74d4e documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.1.dev46+g96955914d documentation</p>
   
 </a></div>
     
@@ -607,6 +607,7 @@
 <li class="toctree-l4"><a class="reference internal" href="uataq.filesystem.core.GroupSpace.get_datafiles.html">uataq.filesystem.core.GroupSpace.get_datafiles</a></li>
 <li class="toctree-l4"><a class="reference internal" href="uataq.filesystem.core.GroupSpace.get_files.html">uataq.filesystem.core.GroupSpace.get_files</a></li>
 <li class="toctree-l4"><a class="reference internal" href="uataq.filesystem.core.GroupSpace.get_highest_lvl.html">uataq.filesystem.core.GroupSpace.get_highest_lvl</a></li>
+<li class="toctree-l4"><a class="reference internal" href="uataq.filesystem.core.GroupSpace.get_lvls.html">uataq.filesystem.core.GroupSpace.get_lvls</a></li>
 <li class="toctree-l4"><a class="reference internal" href="uataq.filesystem.core.GroupSpace.standardize_data.html">uataq.filesystem.core.GroupSpace.standardize_data</a></li>
 </ul>
 </details></li>
@@ -751,7 +752,7 @@
     
     <li class="breadcrumb-item"><a href="uataq.filesystem.groupspaces.lin.LinGroup.html" class="nav-link">uataq.filesystem.groupspaces.lin.LinGroup</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">uataq.filesystem.groupspaces.lin.LinGroup.get_highest_lvl</span></li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">uataq.filesystem.groupspaces.lin.LinGroup.get_lvls</span></li>
   </ul>
 </nav>
 </div>
@@ -768,15 +769,15 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="uataq-filesystem-groupspaces-lin-lingroup-get-highest-lvl">
-<h1>uataq.filesystem.groupspaces.lin.LinGroup.get_highest_lvl<a class="headerlink" href="#uataq-filesystem-groupspaces-lin-lingroup-get-highest-lvl" title="Link to this heading">#</a></h1>
+  <section id="uataq-filesystem-groupspaces-lin-lingroup-get-lvls">
+<h1>uataq.filesystem.groupspaces.lin.LinGroup.get_lvls<a class="headerlink" href="#uataq-filesystem-groupspaces-lin-lingroup-get-lvls" title="Link to this heading">#</a></h1>
 <dl class="py method">
-<dt class="sig sig-object py" id="uataq.filesystem.groupspaces.lin.LinGroup.get_highest_lvl">
-<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">LinGroup.</span></span><span class="sig-name descname"><span class="pre">get_highest_lvl</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">SID</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">instrument</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/uataq/filesystem/groupspaces/lin.html#LinGroup.get_highest_lvl"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uataq.filesystem.groupspaces.lin.LinGroup.get_highest_lvl" title="Link to this definition">#</a></dt>
-<dd><p>Return the most processed level present on disk for the instrument.</p>
+<dt class="sig sig-object py" id="uataq.filesystem.groupspaces.lin.LinGroup.get_lvls">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">LinGroup.</span></span><span class="sig-name descname"><span class="pre">get_lvls</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">SID</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">instrument</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/uataq/filesystem/groupspaces/lin.html#LinGroup.get_lvls"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uataq.filesystem.groupspaces.lin.LinGroup.get_lvls" title="Link to this definition">#</a></dt>
+<dd><p>Return the levels with a folder on disk for the instrument, lowest first.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></p>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>[<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span></p>
 </dd>
 </dl>
 </dd></dl>
@@ -830,14 +831,14 @@
   </div>
   <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="pst-show_toc_level nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#uataq.filesystem.groupspaces.lin.LinGroup.get_highest_lvl"><code class="docutils literal notranslate"><span class="pre">LinGroup.get_highest_lvl()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#uataq.filesystem.groupspaces.lin.LinGroup.get_lvls"><code class="docutils literal notranslate"><span class="pre">LinGroup.get_lvls()</span></code></a></li>
 </ul>
   </nav></div>
 
   <div class="sidebar-secondary-item">
 
   <div class="tocsection sourcelink">
-    <a href="../_sources/api/uataq.filesystem.groupspaces.lin.LinGroup.get_highest_lvl.rst.txt">
+    <a href="../_sources/api/uataq.filesystem.groupspaces.lin.LinGroup.get_lvls.rst.txt">
       <i class="fa-solid fa-file-lines"></i> Show Source
     </a>
   </div>

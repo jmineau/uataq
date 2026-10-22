@@ -6,7 +6,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>uataq.filesystem.groupspaces.lin &#8212; UATAQ 2026.10.1.dev44+g55ac74d4e documentation</title>
+    <title>uataq.filesystem.groupspaces.lin &#8212; UATAQ 2026.10.1.dev46+g96955914d documentation</title>
   
   
   
@@ -38,7 +38,7 @@
   <link rel="preload" as="script" href="../../../../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="../../../../_static/documentation_options.js?v=bd36f74f"></script>
+    <script src="../../../../_static/documentation_options.js?v=494f636e"></script>
     <script src="../../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -56,7 +56,7 @@
     <link rel="search" title="Search" href="../../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.1.dev44+g55ac74d4e" />
+  <meta name="docsearch:version" content="2026.10.1.dev46+g96955914d" />
   
     
     <script src="../../../../_static/searchtools.js"></script>
@@ -124,7 +124,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.1.dev44+g55ac74d4e documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.1.dev46+g96955914d documentation</p>
   
 </a></div>
     
@@ -1372,6 +1372,8 @@
 
 <span class="sd">    Methods</span>
 <span class="sd">    -------</span>
+<span class="sd">    get_lvls(SID, instrument)</span>
+<span class="sd">        Get the levels of data for a given site and instrument.</span>
 <span class="sd">    get_highest_lvl(SID, instrument)</span>
 <span class="sd">        Get the highest level of data for a given site and instrument.</span>
 <span class="sd">    data_path(SID, instrument, lvl)</span>
@@ -1396,15 +1398,14 @@
     <span class="n">data_dir</span> <span class="o">=</span> <span class="n">DATA_DIR</span>
     <span class="n">data_config</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">DATA_CONFIG</span><span class="p">)</span>
 
-<div class="viewcode-block" id="LinGroup.get_highest_lvl">
-<a class="viewcode-back" href="../../../../api/uataq.filesystem.groupspaces.lin.LinGroup.get_highest_lvl.html#uataq.filesystem.groupspaces.lin.LinGroup.get_highest_lvl">[docs]</a>
+<div class="viewcode-block" id="LinGroup.get_lvls">
+<a class="viewcode-back" href="../../../../api/uataq.filesystem.groupspaces.lin.LinGroup.get_lvls.html#uataq.filesystem.groupspaces.lin.LinGroup.get_lvls">[docs]</a>
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_highest_lvl</span><span class="p">(</span><span class="n">SID</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">instrument</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the most processed level present on disk for the instrument.&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_lvls</span><span class="p">(</span><span class="n">SID</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">instrument</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the levels with a folder on disk for the instrument, lowest first.&quot;&quot;&quot;</span>
         <span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">DATA_DIR</span><span class="p">,</span> <span class="n">SID</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="n">instrument</span><span class="p">)</span>
         <span class="n">inst_lvls</span> <span class="o">=</span> <span class="p">[</span><span class="n">d</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="k">if</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">filesystem</span><span class="o">.</span><span class="n">lvls</span><span class="p">]</span>
-        <span class="n">lvl</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">inst_lvls</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">d</span><span class="p">:</span> <span class="n">filesystem</span><span class="o">.</span><span class="n">lvls</span><span class="p">[</span><span class="n">d</span><span class="p">])</span>
-        <span class="k">return</span> <span class="n">lvl</span></div>
+        <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">inst_lvls</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">filesystem</span><span class="o">.</span><span class="n">lvls</span><span class="o">.</span><span class="fm">__getitem__</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="LinGroup.data_path">

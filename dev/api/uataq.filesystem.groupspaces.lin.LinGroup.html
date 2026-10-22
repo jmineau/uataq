@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>uataq.filesystem.groupspaces.lin.LinGroup &#8212; UATAQ 2026.10.1.dev44+g55ac74d4e documentation</title>
+    <title>uataq.filesystem.groupspaces.lin.LinGroup &#8212; UATAQ 2026.10.1.dev46+g96955914d documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="../_static/documentation_options.js?v=bd36f74f"></script>
+    <script src="../_static/documentation_options.js?v=494f636e"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -59,7 +59,7 @@
     <link rel="prev" title="uataq.filesystem.groupspaces.lin.LinDatFile.parse" href="uataq.filesystem.groupspaces.lin.LinDatFile.parse.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.1.dev44+g55ac74d4e" />
+  <meta name="docsearch:version" content="2026.10.1.dev46+g96955914d" />
   
     
     <script src="../_static/searchtools.js"></script>
@@ -127,7 +127,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.1.dev44+g55ac74d4e documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.1.dev46+g96955914d documentation</p>
   
 </a></div>
     
@@ -607,6 +607,7 @@
 <li class="toctree-l4"><a class="reference internal" href="uataq.filesystem.core.GroupSpace.get_datafiles.html">uataq.filesystem.core.GroupSpace.get_datafiles</a></li>
 <li class="toctree-l4"><a class="reference internal" href="uataq.filesystem.core.GroupSpace.get_files.html">uataq.filesystem.core.GroupSpace.get_files</a></li>
 <li class="toctree-l4"><a class="reference internal" href="uataq.filesystem.core.GroupSpace.get_highest_lvl.html">uataq.filesystem.core.GroupSpace.get_highest_lvl</a></li>
+<li class="toctree-l4"><a class="reference internal" href="uataq.filesystem.core.GroupSpace.get_lvls.html">uataq.filesystem.core.GroupSpace.get_lvls</a></li>
 <li class="toctree-l4"><a class="reference internal" href="uataq.filesystem.core.GroupSpace.standardize_data.html">uataq.filesystem.core.GroupSpace.standardize_data</a></li>
 </ul>
 </details></li>
@@ -804,8 +805,8 @@
 <tr class="row-even"><td><p><a class="reference internal" href="uataq.filesystem.groupspaces.lin.LinGroup.get_files.html#uataq.filesystem.groupspaces.lin.LinGroup.get_files" title="uataq.filesystem.groupspaces.lin.LinGroup.get_files"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_files</span></code></a>(SID, instrument, lvl[, logger])</p></td>
 <td><p>List lin files for the instrument and level.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="uataq.filesystem.groupspaces.lin.LinGroup.get_highest_lvl.html#uataq.filesystem.groupspaces.lin.LinGroup.get_highest_lvl" title="uataq.filesystem.groupspaces.lin.LinGroup.get_highest_lvl"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_highest_lvl</span></code></a>(SID, instrument)</p></td>
-<td><p>Return the most processed level present on disk for the instrument.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="uataq.filesystem.groupspaces.lin.LinGroup.get_lvls.html#uataq.filesystem.groupspaces.lin.LinGroup.get_lvls" title="uataq.filesystem.groupspaces.lin.LinGroup.get_lvls"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_lvls</span></code></a>(SID, instrument)</p></td>
+<td><p>Return the levels with a folder on disk for the instrument, lowest first.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="uataq.filesystem.groupspaces.lin.LinGroup.standardize_data.html#uataq.filesystem.groupspaces.lin.LinGroup.standardize_data" title="uataq.filesystem.groupspaces.lin.LinGroup.standardize_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">standardize_data</span></code></a>(instrument, data)</p></td>
 <td><p>Rename lin columns to UATAQ names and apply per-instrument fixes.</p></td>
@@ -814,7 +815,7 @@
 </table>
 </div>
 <p class="rubric">Inherited</p>
-<p>From <a class="reference internal" href="uataq.filesystem.core.GroupSpace.html#uataq.filesystem.core.GroupSpace" title="uataq.filesystem.core.GroupSpace"><code class="xref py py-class docutils literal notranslate"><span class="pre">GroupSpace</span></code></a>: <a class="reference internal" href="uataq.filesystem.core.GroupSpace.get_datafile_class.html#uataq.filesystem.core.GroupSpace.get_datafile_class" title="uataq.filesystem.core.GroupSpace.get_datafile_class"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_datafile_class</span></code></a></p>
+<p>From <a class="reference internal" href="uataq.filesystem.core.GroupSpace.html#uataq.filesystem.core.GroupSpace" title="uataq.filesystem.core.GroupSpace"><code class="xref py py-class docutils literal notranslate"><span class="pre">GroupSpace</span></code></a>: <a class="reference internal" href="uataq.filesystem.core.GroupSpace.get_datafile_class.html#uataq.filesystem.core.GroupSpace.get_datafile_class" title="uataq.filesystem.core.GroupSpace.get_datafile_class"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_datafile_class</span></code></a>, <a class="reference internal" href="uataq.filesystem.core.GroupSpace.get_highest_lvl.html#uataq.filesystem.core.GroupSpace.get_highest_lvl" title="uataq.filesystem.core.GroupSpace.get_highest_lvl"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_highest_lvl</span></code></a></p>
 </section>
 
 

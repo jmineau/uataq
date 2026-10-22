@@ -21,6 +21,7 @@ uataq.filesystem.groupspaces.horel.HorelGroup
    ~HorelGroup.get_datafiles
    ~HorelGroup.get_files
    ~HorelGroup.get_highest_lvl
+   ~HorelGroup.get_lvls
    ~HorelGroup.standardize_data
 
 
