@@ -171,6 +171,79 @@ class TestGetAvailability:
         assert {t.get_text() for t in ax.get_legend().get_texts()} == {"raw", "final"}
 
 
+class TestRawOnlyConcentration:
+    """A level whose only filled column is ``_raw`` still has data (#89)."""
+
+    @pytest.fixture
+    def manual_cal_archive(self, monkeypatch):
+        """TRX01's lgr_ugga_manual_cal: ``_cal`` empty at final, the value in ``_raw``."""
+        times = pd.to_datetime(["2024-01-01 12:00", "2024-01-02 12:00"])
+        files = {
+            "qaqc": [
+                FakeDataFile(
+                    pd.DataFrame({"Time_UTC": times, "CO2d_ppm_cal": [420.0, 421.0]})
+                )
+            ],
+            "final": [
+                FakeDataFile(
+                    pd.DataFrame(
+                        {
+                            "Time_UTC": times,
+                            "CO2d_ppm_cal": [float("nan")] * 2,
+                            "CO2d_ppm_raw": [420.0, 421.0],
+                            "CO2d_ppm_raw_sd": [1.0, 1.0],
+                        }
+                    )
+                )
+            ],
+        }
+
+        def get_datafiles(self, group, lvl, time_range, pattern=None):
+            if lvl not in files:
+                raise FileNotFoundError(lvl)
+            return files[lvl]
+
+        monkeypatch.setattr(instruments.Instrument, "get_datafiles", get_datafiles)
+        monkeypatch.setattr(
+            instruments.Instrument, "standardize_data", lambda self, group, data: data
+        )
+
+    def test_final_rows_with_only_raw_are_final(self, manual_cal_archive):
+        net = Network(["WBB"], "CO2")
+        availability = net.get_availability(["2024-01-01", "2024-01-05"])
+
+        assert [(r.lvl, r.start, r.stop) for r in availability.itertuples()] == [
+            ("final", pd.Timestamp("2024-01-01"), pd.Timestamp("2024-01-03")),
+        ]
+
+    def test_a_spread_is_not_a_concentration(self, manual_cal_archive, monkeypatch):
+        """``CO2d_ppm_raw_sd`` alone is no data."""
+        files = {
+            "final": [
+                FakeDataFile(
+                    pd.DataFrame(
+                        {
+                            "Time_UTC": pd.to_datetime(["2024-01-01 12:00"]),
+                            "CO2d_ppm_cal": [float("nan")],
+                            "CO2d_ppm_raw": [float("nan")],
+                            "CO2d_ppm_raw_sd": [1.0],
+                        }
+                    )
+                )
+            ]
+        }
+
+        def get_datafiles(self, group, lvl, time_range, pattern=None):
+            if lvl not in files:
+                raise FileNotFoundError(lvl)
+            return files[lvl]
+
+        monkeypatch.setattr(instruments.Instrument, "get_datafiles", get_datafiles)
+        net = Network(["WBB"], "CO2")
+
+        assert net.get_availability(["2024-01-01", "2024-01-05"]).empty
+
+
 def test_network_all_sites():
     """'all' keeps every configured site that measures the pollutant."""
     net = Network("all", "O3")
