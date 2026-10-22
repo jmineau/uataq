@@ -60,7 +60,9 @@ def _datafile_coverage(
         _logger.warning(f"Skipping {datafile} ({type(e).__name__}: {e})")
         return SID, lvl, None
 
-    columns = concentration_columns(pollutant, data.columns)
+    # _raw counts: where an instrument is calibrated by hand (TRX01's
+    # lgr_ugga_manual_cal) it is the only column with a value, as in get_obs
+    columns = concentration_columns(pollutant, data.columns, raw=True)
     values = data[columns].apply(pd.to_numeric, errors="coerce")
     times = data.loc[values.notna().any(axis=1), "Time_UTC"]
 
@@ -369,7 +371,8 @@ class Network:
 
         Every data file is parsed, so this reflects real measurements rather
         than which files exist: a time bin counts for a level when any row in
-        it has a non-null concentration (see :func:`uataq.pollutants.concentration_columns`).
+        it has a non-null concentration, calibrated or ``_raw`` (see
+        :func:`uataq.pollutants.concentration_columns`).
         Each bin is labeled with the highest level that covers it, so a bin
         measured but dropped from final data shows as qaqc.
 
