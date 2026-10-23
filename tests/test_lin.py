@@ -909,6 +909,23 @@ class TestStandardizeData:
         out = lin.LinGroup.standardize_data("licor_7000", data)
         assert list(out.columns) == ["CO2_ppm", "Internal_P_kPa"]
 
+    @pytest.mark.parametrize("instrument", ["licor_6262", "licor_7000"])
+    @pytest.mark.parametrize("name", ["rawH2O_Avg", "H2O_ppth_IRGA"])
+    def test_licor_analog_h2o_is_ppth(self, instrument, name):
+        """The analog H2O reading is parts per thousand, at the raw and qaqc levels."""
+        data = pd.DataFrame({name: [8.5]})
+        out = lin.LinGroup.standardize_data(instrument, data)
+        assert out["Analog_H2O_ppth"].tolist() == [8.5]
+        assert "Analog_H2O_ppm" not in out.columns
+
+    @pytest.mark.parametrize("name", ["o3_std_ppb", "O3_std_ppb"])
+    def test_t400_std_has_one_name_at_every_level(self, name):
+        """The air-trend (o3_std_ppb) and qaqc (O3_std_ppb) spellings agree."""
+        data = pd.DataFrame({name: [0.4], "o3_ppb": [41.0]})
+        out = lin.LinGroup.standardize_data("teledyne_t400", data)
+        assert out["O3_ppb_std"].tolist() == [0.4]
+        assert out["O3_ppb"].tolist() == [41.0]
+
     def test_unknown_instrument_is_unchanged(self):
         data = pd.DataFrame({"x": [1.0]})
         assert lin.LinGroup.standardize_data("no_such_instrument", data).equals(data)
