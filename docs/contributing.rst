@@ -205,7 +205,7 @@ a month while the raw 2B file is full).
 - A time bin counts for a level when any row in it has a non-null value in a column
   :func:`~uataq.pollutants.concentration_columns` picks (``O3_ppb``,
   ``CO2d_ppm_cal``, ``BC6_ngm3``; not diagnostics such as ``O3_Meas_mV`` or
-  ``O3_std_ppb``, and not ``_raw`` columns). Each bin takes the highest level
+  ``O3_ppb_std``, and not ``_raw`` columns). Each bin takes the highest level
   present, so "measured but not in final" shows as qaqc or raw.
   ``Network.get_obs`` instead keeps ``_raw`` columns (``raw=True``): they are the
   only populated ones for TRX01's ``lgr_ugga_manual_cal``.
