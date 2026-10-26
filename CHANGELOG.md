@@ -198,6 +198,15 @@ follow [PEP 440](https://peps.python.org/pep-0440/): calendar-based,
   CO, CO2, NO, NO2, NOx, O3, PM2.5.`), and a request with both says both. The
   names are sorted (the old message printed a set, whose order changed from run
   to run) and spelled as in the columns (`NOx`). It is still a `ValueError`.
+- A horel `qaqc` or `final` read of several instruments (`Site.read_data`,
+  `get_obs`, `read_data`) parses each month's `csv.gz` once, where each
+  instrument parsed the file again: the file holds every instrument of the
+  platform. TRX01's horel instruments for 2019-07 at `final` took 10.2 s and
+  now take 4.7 s; TRX02 2023-03 `qaqc` 8.4 s, now 3.8 s. The parse is kept only
+  until the call returns, which raises its peak memory by about the size of
+  the files it read (0.52 to 0.74 GB for TRX01 2019-07). Every column comes out
+  the same. Reads with `num_processes` above 1 parse in worker processes, as
+  before, and are not faster.
 
 ### Fixed
 

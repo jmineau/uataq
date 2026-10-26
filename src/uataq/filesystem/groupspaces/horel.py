@@ -7,6 +7,7 @@ This module contains classes and functions for working with the Horel group data
 import logging
 import os
 from abc import ABCMeta
+from collections.abc import Callable
 
 import numpy as np
 import pandas as pd
@@ -397,22 +398,31 @@ class HorelCSVFile(HorelFile):
     ext = "csv.gz"
     time_col = "Timestamp"
 
-    # TODO This could definitely be made more efficient - especially when reading multiple instruments
-    # We should store the csv in memory until the end of the read_data call so we can just grab the columns we need
     def parse(self) -> pd.DataFrame:
         """
         Parse the CSV file and return a DataFrame.
+
+        The file holds every instrument of the platform. Inside one
+        ``Site.read_data`` call it is read once, and each instrument takes its
+        own columns from that read.
 
         Returns
         -------
         pd.DataFrame
             A DataFrame containing the parsed data.
         """
-        _logger.debug(f"Parsing {filesystem._relpath(self.path, HOREL_DIR)}")
-
-        data = pd.read_csv(
-            self.path, compression="gzip", skiprows=[1], usecols=self.usecols
-        )
+        parsed = filesystem._parsed_files.get()
+        if parsed is None:
+            # Read on its own (outside Site.read_data, or in a pool worker):
+            # only this instrument's columns
+            data = self._read_csv(self.usecols)
+        else:
+            # Inside Site.read_data: the first instrument parses the columns of
+            # every instrument, and each takes a copy of its own
+            if self.path not in parsed:
+                parsed[self.path] = self._read_csv(self._used_by_any_instrument)
+            data = parsed[self.path]
+            data = data.loc[:, data.columns.map(self.usecols).to_list()].copy()
 
         # Format time
         data = self.format_time(data, format="ISO8601")
@@ -443,6 +453,17 @@ class HorelCSVFile(HorelFile):
                 data.rename(columns={flag: "QAQC_Flag"}, inplace=True)
 
         return data
+
+    def _read_csv(self, usecols: Callable[[str], bool]) -> pd.DataFrame:
+        """Read the file's columns that ``usecols`` takes, below the units row."""
+        _logger.debug(f"Parsing {filesystem._relpath(self.path, HOREL_DIR)}")
+        return pd.read_csv(self.path, compression="gzip", skiprows=[1], usecols=usecols)
+
+    def _used_by_any_instrument(self, col: str) -> bool:
+        """Say whether ``col`` is the time or a column of any horel instrument."""
+        return col == self.time_col or any(
+            col in columns for columns in column_mapping.values()
+        )
 
 
 class HorelCSVFinalizedFile(HorelCSVFile):

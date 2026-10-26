@@ -19,6 +19,7 @@ import tables
 
 from uataq import get_site
 from uataq.errors import ReaderError
+from uataq.filesystem import core
 from uataq.filesystem.groupspaces import horel
 from uataq.timerange import TimeRange
 
@@ -554,3 +555,73 @@ def test_prior_and_plain_gps_rows_join_in_time(tmp_path):
         "2025-01-06 19:30:05",
     ]
     assert data.index.tolist() == [pd.Timestamp(t) for t in times]
+
+
+class TestParseOnce:
+    """
+    One ``Site.read_data`` call parses each finalized CSV once.
+
+    The file holds every instrument of the platform, and each takes its own
+    columns from the one parse. The parse lives only for that call.
+    """
+
+    #: TRX01's horel instruments in June 2024 (its ES405 came in 2025-01)
+    INSTRUMENTS = ["2b_205", "cr1000", "gps", "metone_es642"]
+
+    @pytest.fixture
+    def archive(self, tmp_path):
+        """TRX01's 2024-05 and 2024-06 finalized files."""
+        write_trx(tmp_path)
+        may = [[row[0].replace("-06-", "-05-"), *row[1:]] for row in TRX_ROWS]
+        write_csv_gz(
+            tmp_path / "csv_finalized" / "TRX01_2024_05.csv.gz",
+            TRX_HEADER,
+            TRX_UNITS,
+            may,
+        )
+        dirs = {"qaqc": [str(tmp_path)], "final": [str(tmp_path)]}
+        with patch.dict(horel.lvl_data_dirs, dirs):
+            yield tmp_path
+
+    @staticmethod
+    def read(lvl: str, time_range="2024-06", instruments=None, num_processes=1):
+        return get_site("TRX01").read_data(
+            instruments or TestParseOnce.INSTRUMENTS,
+            group="horel",
+            lvl=lvl,
+            time_range=time_range,
+            num_processes=num_processes,
+        )
+
+    @pytest.mark.parametrize("lvl", ["qaqc", "final"])
+    def test_each_call_parses_the_file_once(self, archive, lvl):
+        with patch.object(horel.pd, "read_csv", wraps=pd.read_csv) as read_csv:
+            data = self.read(lvl)
+            assert sorted(data) == sorted(self.INSTRUMENTS)
+            assert read_csv.call_count == 1
+
+            # Nothing is kept between calls: the next one parses again
+            self.read(lvl)
+            assert read_csv.call_count == 2
+        assert core._parsed_files.get() is None
+
+    @pytest.mark.parametrize("lvl", ["qaqc", "final"])
+    def test_columns_are_those_of_a_read_on_its_own(self, archive, lvl):
+        """No instrument's columns depend on what the others did to the parse."""
+        together = self.read(lvl)
+        for name in self.INSTRUMENTS:
+            alone = self.read(lvl, instruments=[name])[name]
+            pd.testing.assert_frame_equal(together[name], alone)
+
+    def test_files_are_parsed_once_each(self, archive):
+        with patch.object(horel.pd, "read_csv", wraps=pd.read_csv) as read_csv:
+            self.read("final", time_range=["2024-05", "2024-07"])
+        assert read_csv.call_count == 2
+
+    def test_parallel_read_gives_the_same_frames(self, archive):
+        """Pool workers parse on their own; what they return is unchanged."""
+        time_range = ["2024-05", "2024-07"]
+        serial = self.read("final", time_range=time_range)
+        parallel = self.read("final", time_range=time_range, num_processes=2)
+        for name in self.INSTRUMENTS:
+            pd.testing.assert_frame_equal(parallel[name], serial[name])

@@ -6,6 +6,9 @@ import logging
 import multiprocessing
 import os
 from abc import ABCMeta, abstractmethod
+from collections.abc import Iterator
+from contextlib import contextmanager
+from contextvars import ContextVar
 from pathlib import Path
 from typing import Literal
 
@@ -250,6 +253,42 @@ def filter_datafiles(
     return filtered_files
 
 
+#: The files parsed so far in the current ``Site.read_data`` call, by path;
+#: None outside one (see :func:`_parse_once`).
+_parsed_files: ContextVar[dict[str, pd.DataFrame] | None] = ContextVar(
+    "_parsed_files", default=None
+)
+
+
+@contextmanager
+def _parse_once() -> Iterator[None]:
+    """
+    Share the files parsed inside the block, by path.
+
+    Several instruments can read the same file (each of horel's finalized
+    CSVs holds a whole platform). Inside the block, a ``DataFile`` that reads
+    such a file keeps its parse in :data:`_parsed_files` for the next
+    instrument. The dict is dropped when the block ends, so nothing outlives
+    the read. ``Site.read_data`` wraps its loop over instruments in it.
+    """
+    token = _parsed_files.set({})
+    try:
+        yield
+    finally:
+        _parsed_files.reset(token)
+
+
+def _forget_parsed_files() -> None:
+    """
+    Turn :data:`_parsed_files` off in a pool worker.
+
+    A forked worker inherits a copy of the parent's dict, but what it adds
+    never reaches the parent, so it would only hold memory until the pool
+    closes.
+    """
+    _parsed_files.set(None)
+
+
 def _parse_datafile(datafile: DataFile) -> pd.DataFrame | None:
     """
     Private function to parse a single data file.
@@ -328,7 +367,9 @@ def parse_datafiles(
         _logger.debug(f"Parsing files in parallel with {processes} processes...")
 
         # The with block shuts the pool down even if a worker raises
-        with multiprocessing.Pool(processes=processes) as pool:
+        with multiprocessing.Pool(
+            processes=processes, initializer=_forget_parsed_files
+        ) as pool:
             datasets = pool.map(func=_parse_datafile, iterable=files)
 
     # Concatenate the datasets
