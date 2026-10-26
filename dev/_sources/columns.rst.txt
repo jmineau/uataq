@@ -236,7 +236,9 @@ QAQC
 
 The ``licor_6262`` and ``licor_7000`` have other instrument columns at this
 level (flow, pressure, temperature, the logger's battery voltage). Print
-``columns`` to see them.
+``columns`` to see them. Their ``Analog_H2O_ppth`` is the analyzer's own water
+vapor reading, in parts per thousand (not ppm like ``H2O_ppm``, which the
+pipeline computes from the cavity's humidity and pressure).
 
 What the analyzer was sampling
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -409,7 +411,7 @@ WBB on 2 June 2025:
 
     >>> ozone = uataq.read_data("WBB", "teledyne_t400", lvl="qaqc", time_range="2025-06-02")["teledyne_t400"]
     >>> ozone.columns.tolist()
-    ['O3_std_ppb', 'O3_Meas_mV', 'O3_Ref_mV', 'O3_Gen_mV', 'O3_Drive_mV', 'Photo_Power_mV', 'Internal_P_inHgA', 'Flow_mLpm', 'Internal_T_C', 'Photo_Lamp_T_C', 'O3_Scrub_T_C', 'O3_Gen_T_C', 'Instrument_T_C', 'Slope', 'Offset', 'O3_ppb', 'Test_mV', 'QAQC_Flag']
+    ['O3_ppb_std', 'O3_Meas_mV', 'O3_Ref_mV', 'O3_Gen_mV', 'O3_Drive_mV', 'Photo_Power_mV', 'Internal_P_inHgA', 'Flow_mLpm', 'Internal_T_C', 'Photo_Lamp_T_C', 'O3_Scrub_T_C', 'O3_Gen_T_C', 'Instrument_T_C', 'Slope', 'Offset', 'O3_ppb', 'Test_mV', 'QAQC_Flag']
     >>> uataq.read_data("WBB", "teledyne_t400", time_range="2025-06-02")["teledyne_t400"].columns.tolist()
     ['O3_ppb']
 

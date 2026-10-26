@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Columns and flags &#8212; UATAQ 2026.10.1.dev60+g3cfb04d68 documentation</title>
+    <title>Columns and flags &#8212; UATAQ 2026.10.1.dev61+g446f84a35 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="_static/documentation_options.js?v=00d982ae"></script>
+    <script src="_static/documentation_options.js?v=aa2c86cb"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -59,7 +59,7 @@
     <link rel="prev" title="Sites and instruments" href="sites_and_instruments.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.1.dev60+g3cfb04d68" />
+  <meta name="docsearch:version" content="2026.10.1.dev61+g446f84a35" />
   
     
     <script src="_static/searchtools.js"></script>
@@ -127,7 +127,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.1.dev60+g3cfb04d68 documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.1.dev61+g446f84a35 documentation</p>
   
 </a></div>
     
@@ -797,7 +797,9 @@ temperature, and so on), with their <code class="docutils literal notranslate"><
 </div>
 <p>The <code class="docutils literal notranslate"><span class="pre">licor_6262</span></code> and <code class="docutils literal notranslate"><span class="pre">licor_7000</span></code> have other instrument columns at this
 level (flow, pressure, temperature, the logger’s battery voltage). Print
-<code class="docutils literal notranslate"><span class="pre">columns</span></code> to see them.</p>
+<code class="docutils literal notranslate"><span class="pre">columns</span></code> to see them. Their <code class="docutils literal notranslate"><span class="pre">Analog_H2O_ppth</span></code> is the analyzer’s own water
+vapor reading, in parts per thousand (not ppm like <code class="docutils literal notranslate"><span class="pre">H2O_ppm</span></code>, which the
+pipeline computes from the cavity’s humidity and pressure).</p>
 </section>
 <section id="what-the-analyzer-was-sampling">
 <h3>What the analyzer was sampling<a class="headerlink" href="#what-the-analyzer-was-sampling" title="Link to this heading">#</a></h3>
@@ -951,7 +953,7 @@ QAQC and only a few columns. For the <code class="docutils literal notranslate">
 WBB on 2 June 2025:</p>
 <div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ozone</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">read_data</span><span class="p">(</span><span class="s2">&quot;WBB&quot;</span><span class="p">,</span> <span class="s2">&quot;teledyne_t400&quot;</span><span class="p">,</span> <span class="n">lvl</span><span class="o">=</span><span class="s2">&quot;qaqc&quot;</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="s2">&quot;2025-06-02&quot;</span><span class="p">)[</span><span class="s2">&quot;teledyne_t400&quot;</span><span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ozone</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
-<span class="go">[&#39;O3_std_ppb&#39;, &#39;O3_Meas_mV&#39;, &#39;O3_Ref_mV&#39;, &#39;O3_Gen_mV&#39;, &#39;O3_Drive_mV&#39;, &#39;Photo_Power_mV&#39;, &#39;Internal_P_inHgA&#39;, &#39;Flow_mLpm&#39;, &#39;Internal_T_C&#39;, &#39;Photo_Lamp_T_C&#39;, &#39;O3_Scrub_T_C&#39;, &#39;O3_Gen_T_C&#39;, &#39;Instrument_T_C&#39;, &#39;Slope&#39;, &#39;Offset&#39;, &#39;O3_ppb&#39;, &#39;Test_mV&#39;, &#39;QAQC_Flag&#39;]</span>
+<span class="go">[&#39;O3_ppb_std&#39;, &#39;O3_Meas_mV&#39;, &#39;O3_Ref_mV&#39;, &#39;O3_Gen_mV&#39;, &#39;O3_Drive_mV&#39;, &#39;Photo_Power_mV&#39;, &#39;Internal_P_inHgA&#39;, &#39;Flow_mLpm&#39;, &#39;Internal_T_C&#39;, &#39;Photo_Lamp_T_C&#39;, &#39;O3_Scrub_T_C&#39;, &#39;O3_Gen_T_C&#39;, &#39;Instrument_T_C&#39;, &#39;Slope&#39;, &#39;Offset&#39;, &#39;O3_ppb&#39;, &#39;Test_mV&#39;, &#39;QAQC_Flag&#39;]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">uataq</span><span class="o">.</span><span class="n">read_data</span><span class="p">(</span><span class="s2">&quot;WBB&quot;</span><span class="p">,</span> <span class="s2">&quot;teledyne_t400&quot;</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="s2">&quot;2025-06-02&quot;</span><span class="p">)[</span><span class="s2">&quot;teledyne_t400&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
 <span class="go">[&#39;O3_ppb&#39;]</span>
 </pre></div>

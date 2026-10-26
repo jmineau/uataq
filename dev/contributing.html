@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Contributing &#8212; UATAQ 2026.10.1.dev60+g3cfb04d68 documentation</title>
+    <title>Contributing &#8212; UATAQ 2026.10.1.dev61+g446f84a35 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="_static/documentation_options.js?v=00d982ae"></script>
+    <script src="_static/documentation_options.js?v=aa2c86cb"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -58,7 +58,7 @@
     <link rel="prev" title="uataq.errors.ReaderError" href="api/uataq.errors.ReaderError.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.1.dev60+g3cfb04d68" />
+  <meta name="docsearch:version" content="2026.10.1.dev61+g446f84a35" />
   
     
     <script src="_static/searchtools.js"></script>
@@ -126,7 +126,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.1.dev60+g3cfb04d68 documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.1.dev61+g446f84a35 documentation</p>
   
 </a></div>
     
@@ -740,7 +740,7 @@ a month while the raw 2B file is full).</p>
 <li><p>A time bin counts for a level when any row in it has a non-null value in a column
 <a class="reference internal" href="api/uataq.pollutants.concentration_columns.html#uataq.pollutants.concentration_columns" title="uataq.pollutants.concentration_columns"><code class="xref py py-func docutils literal notranslate"><span class="pre">concentration_columns()</span></code></a> picks (<code class="docutils literal notranslate"><span class="pre">O3_ppb</span></code>,
 <code class="docutils literal notranslate"><span class="pre">CO2d_ppm_cal</span></code>, <code class="docutils literal notranslate"><span class="pre">BC6_ngm3</span></code>; not diagnostics such as <code class="docutils literal notranslate"><span class="pre">O3_Meas_mV</span></code> or
-<code class="docutils literal notranslate"><span class="pre">O3_std_ppb</span></code>, and not <code class="docutils literal notranslate"><span class="pre">_raw</span></code> columns). Each bin takes the highest level
+<code class="docutils literal notranslate"><span class="pre">O3_ppb_std</span></code>, and not <code class="docutils literal notranslate"><span class="pre">_raw</span></code> columns). Each bin takes the highest level
 present, so “measured but not in final” shows as qaqc or raw.
 <code class="docutils literal notranslate"><span class="pre">Network.get_obs</span></code> instead keeps <code class="docutils literal notranslate"><span class="pre">_raw</span></code> columns (<code class="docutils literal notranslate"><span class="pre">raw=True</span></code>): they are the
 only populated ones for TRX01’s <code class="docutils literal notranslate"><span class="pre">lgr_ugga_manual_cal</span></code>.</p></li>
