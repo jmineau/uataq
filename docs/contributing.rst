@@ -5,9 +5,72 @@ Contributions are welcome. `CONTRIBUTING.md <https://github.com/jmineau/uataq/bl
 explains how to set up a development environment, run the checks, and propose a change.
 `AGENTS.md <https://github.com/jmineau/uataq/blob/main/AGENTS.md>`_ is the short guide
 for contributors and coding agents: the rules the code keeps, the commands, and the
-gotchas. This page holds the longer notes it points to: the module layout, how to add
+gotchas. This page holds the development setup on CHPC and the longer notes it points
+to: the module layout, how to add
 an instrument or a group space, how the docs are organized and generated, and what the
 mobile clocks, the MetOne swap files, data availability and the SODAR archive need.
+
+Development setup
+-----------------
+
+This sets up a copy of uataq to change and send back, the way its maintainer
+works. Three tools do the work:
+
+* `uv <https://docs.astral.sh/uv/>`_ installs the packages the project needs
+  into a ``.venv`` folder inside your copy of the code, at the versions
+  recorded in ``uv.lock``.
+* `just <https://just.systems/>`_ runs the project's named tasks, listed in
+  its ``justfile`` (``just --list`` shows them). ``uv sync`` installs it, and
+  you run it as ``uv run just``.
+* `pre-commit <https://pre-commit.com/>`_ checks your changes for style
+  problems each time you ``git commit``, before the commit is made.
+
+uataq needs uv 0.12 or newer, and CHPC's ``uv`` module is older (0.11.14 in
+October 2026). Install your own copy with pip. Do this in a shell where the
+uataq environment is not active: run ``deactivate`` first, or pip stops with
+``Can not perform a '--user' install``.
+
+.. code-block:: bash
+
+   module load python
+   pip install --user uv
+   uv --version
+
+The last command should print ``uv 0.12`` or newer. Then get the code and set
+it up:
+
+.. code-block:: bash
+
+   git clone https://github.com/jmineau/uataq.git
+   cd uataq
+   uv sync                       # the packages, into .venv (about two minutes)
+   uv run pre-commit install     # turn on the checks at commit time
+
+To run the checks that CI runs (lint, types, docstrings and the tests), use a
+compute node, not the login node:
+
+.. code-block:: bash
+
+   srun --account=lin-np --partition=lin-np --nodes=1 --ntasks=1 --cpus-per-task=4 --mem=8G --time=00:30:00 uv run just quality-check
+
+It takes about a minute and ends with the number of tests that passed. The tests do
+not need the archive, so you can also develop on your own computer.
+`CONTRIBUTING.md <https://github.com/jmineau/uataq/blob/main/CONTRIBUTING.md>`_
+has the rest of the workflow: branches and pull requests.
+
+To work on the code while you use it for your own analysis, install your clone
+into the environment from the steps above (an *editable* install, which runs
+the code in your folder as you change it):
+
+.. code-block:: bash
+
+   source ~/venvs/uataq/bin/activate
+   cd uataq
+   pip install -e .
+
+If ``uv sync`` fails with ``Required uv version ... does not match the running
+version``, you are running CHPC's ``uv`` module: run ``module unload uv`` and open
+a new shell so your own copy comes first.
 
 Module layout
 -------------
@@ -57,6 +120,10 @@ its parse there for the other instruments, which copy their own columns.
 Adding an instrument or a group space
 -------------------------------------
 
+A change at a site (an instrument installed, removed or swapped) must be written
+in ``config.json``, or uataq cannot read the data; :doc:`/reference/config` lists its
+keys.
+
 **A new instrument.** An ``Instrument`` subclass in ``instruments.py`` (and a
 ``DataFile`` in the group's module if the format is new), its entry in
 ``config.json`` with dates and ``notes``, and parser tests on synthetic lines.
@@ -83,25 +150,31 @@ change that moves a fact, or renames or retitles a page, updates its row here.
 
    * - Fact
      - Page
-   * - Install, environments, Slurm
+   * - What UATAQ is, a first example, how to cite the data
+     - the front page (``docs/index.rst``)
+   * - Install, Jupyter on Open OnDemand, Slurm jobs, updating and pinning
      - :doc:`/getting_started/installation`
-   * - A first read, in local time
-     - :doc:`/getting_started/first_month`
-   * - When a site has data, the newest data
-     - :doc:`/guides/what_data_exists`
-   * - ``read_data`` and ``get_obs``, the ``long`` format, several sites, mobile sites
-     - :doc:`/guides/reading_data`
+   * - A first read, UTC and local time, hourly means, what to write down
+     - :doc:`/getting_started/first_data`
+   * - Which sites measure what, when a site has data, the newest data
+     - :doc:`/guides/find_sites_and_data`
+   * - Several pollutants and sites, ``get_network_obs``, ``read_data``, large reads
+     - :doc:`/guides/read_data`
+   * - The data levels, which level a read gives, ``ID``, what ``final`` keeps, flags, empty ``_cal``
+     - :doc:`/guides/data_levels_and_flags`
+   * - Mobile sites: positions, the two clocks, TRX01's two LGR names, raw-only months
+     - :doc:`/guides/mobile_sites`
    * - Errors and empty results
      - :doc:`/guides/errors`
-   * - Sites, instruments, what each measures, glossary
+   * - Sites, instruments, their dates, glossary
      - :doc:`/reference/sites_and_instruments`
-   * - Columns of each level, column names, ``ID``, flags, what ``final`` keeps, empty ``_cal``
+   * - Columns of each instrument and level, column names
      - :doc:`/reference/columns`
-   * - Arguments: site, instruments, group, level, time range (every form), processes
+   * - Arguments: site, instruments, pollutants, format, group, level, time range (every form), processes
      - :doc:`/reference/input_parameters`
    * - Config keys
      - :doc:`/reference/config`
-   * - Developer notes
+   * - Development setup and developer notes
      - Contributing (this page)
    * - Function and class details, what a module is for
      - the docstrings, on the generated API pages (:doc:`/reference/functions_and_modules`)
@@ -117,8 +190,8 @@ allows a block meant to raise or warn.
 
 **Examples that need the archive.** These pages show the output of a run on CHPC in
 plain ``code-block`` or ``pycon`` blocks, because the docs build (and CI) has no
-archive: reading data, what data exists, errors, your first month, columns and
-input parameters.
+archive: your first data, find sites and data (except its first section), read
+data, data levels and flags, mobile sites, errors, columns and input parameters.
 
 **The site and instrument tables are generated.** The ``site-catalog`` and
 ``instrument-catalog`` directives in ``docs/reference/sites_and_instruments.rst``
@@ -210,11 +283,11 @@ a month while the raw 2B file is full).
 
 - A time bin counts for a level when any row in it has a non-null value in a column
   :func:`~uataq.pollutants.concentration_columns` picks (``O3_ppb``,
-  ``CO2d_ppm_cal``, ``BC6_ngm3``; not diagnostics such as ``O3_Meas_mV`` or
-  ``O3_ppb_std``, and not ``_raw`` columns). Each bin takes the highest level
-  present, so "measured but not in final" shows as qaqc or raw.
-  ``Network.get_obs`` instead keeps ``_raw`` columns (``raw=True``): they are the
-  only populated ones for TRX01's ``lgr_ugga_manual_cal``.
+  ``CO2d_ppm_cal``, ``CO2d_ppm_raw``, ``BC6_ngm3``; not diagnostics such as
+  ``O3_Meas_mV`` or ``O3_ppb_std``). ``_raw`` columns count (``raw=True``), as in
+  ``Network.get_obs``: they are the only populated ones for TRX01's
+  ``lgr_ugga_manual_cal``. Each bin takes the highest level present, so "measured
+  but not in final" shows as qaqc or raw.
 - With no group, every group operating the instrument is checked, ignoring
   ``group_dates``: availability reports what each archive holds, while ``get_obs``
   reads one group per portion.

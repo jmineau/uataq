@@ -78,7 +78,7 @@ def read_data(
         flags applied; the lower levels are for finer control. Which to use
         depends on how clean the data need to be for what you are doing, and
         on how much control you want over the QAQC. Default None reads the
-        highest level the instrument has. See :ref:`Data Level <input-level>`.
+        highest level the instrument has. See :ref:`data-levels`.
     time_range : str | list[Union[str, dt.datetime, None]] | tuple[Union[str, dt.datetime, None], Union[str, dt.datetime, None]] | slice | None
         The time range to read data. Default is None which reads all available data.
     num_processes : int | 'max'
