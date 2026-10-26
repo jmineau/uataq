@@ -15,6 +15,7 @@ import numpy as np
 import pandas as pd
 
 from uataq import errors, instruments
+from uataq.filesystem.core import _parse_once
 from uataq.pollutants import POLLUTANTS
 from uataq.timerange import TimeRange, TimeRangeTypes
 
@@ -319,34 +320,39 @@ class Site:
         # Read data for each instrument and store in dictionary
         data = {}
         notes = []  # what became of each instrument that gave no data
-        for name in instruments:
-            if name not in self.instruments:
-                raise errors.InstrumentNotFoundError(name, self.instruments)
+        # Several instruments can read the same file (horel's finalized CSVs
+        # hold a whole platform): parse each once in this call
+        with _parse_once():
+            for name in instruments:
+                if name not in self.instruments:
+                    raise errors.InstrumentNotFoundError(name, self.instruments)
 
-            instrument = self.instruments[name]
+                instrument = self.instruments[name]
 
-            # Each instrument plans its own reads: the site's instruments are
-            # not all operated by the same research group, and one group's
-            # archive may cover only part of the range (config group_dates).
-            try:
-                plan = instrument.plan_reads(group, time_range)
-            except errors.InvalidGroupError:
-                raise
-            except errors.ReaderError as e:
-                # Inactive in the range, or no group's archive covers it
-                _logger.warning(f"Not reading {instrument}: {e}")
-                notes.append(f"{name} not read: {str(e).rstrip('.')}")
-                continue
+                # Each instrument plans its own reads: the site's instruments are
+                # not all operated by the same research group, and one group's
+                # archive may cover only part of the range (config group_dates).
+                try:
+                    plan = instrument.plan_reads(group, time_range)
+                except errors.InvalidGroupError:
+                    raise
+                except errors.ReaderError as e:
+                    # Inactive in the range, or no group's archive covers it
+                    _logger.warning(f"Not reading {instrument}: {e}")
+                    notes.append(f"{name} not read: {str(e).rstrip('.')}")
+                    continue
 
-            try:
-                data[name] = _read_plan(
-                    instrument, plan, lvl, num_processes, file_pattern
-                )
-            except errors.ReaderError as e:
-                _logger.warning(
-                    f"Error reading {instrument} data from {_describe_plan(plan)}: {e}"
-                )
-                notes.append(f"{name} in {_describe_plan(plan)}: {str(e).rstrip('.')}")
+                try:
+                    data[name] = _read_plan(
+                        instrument, plan, lvl, num_processes, file_pattern
+                    )
+                except errors.ReaderError as e:
+                    _logger.warning(
+                        f"Error reading {instrument} data from {_describe_plan(plan)}: {e}"
+                    )
+                    notes.append(
+                        f"{name} in {_describe_plan(plan)}: {str(e).rstrip('.')}"
+                    )
 
         if not data:
             raise _no_data(f"{instruments}", lvl, self.SID, "; ".join(notes))

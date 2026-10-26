@@ -205,6 +205,15 @@ follow [PEP 440](https://peps.python.org/pep-0440/): calendar-based,
   `H2O_ppm`, the ppm value the pipeline computes. The values are unchanged and
   the old name is gone, with no alias: code that reads `Analog_H2O_ppm` must
   read `Analog_H2O_ppth` (#67).
+- A horel `qaqc` or `final` read of several instruments (`Site.read_data`,
+  `get_obs`, `read_data`) parses each month's `csv.gz` once, where each
+  instrument parsed the file again: the file holds every instrument of the
+  platform. TRX01's horel instruments for 2019-07 at `final` took 10.2 s and
+  now take 4.7 s; TRX02 2023-03 `qaqc` 8.4 s, now 3.8 s. The parse is kept only
+  until the call returns, which raises its peak memory by about the size of
+  the files it read (0.52 to 0.74 GB for TRX01 2019-07). Every column comes out
+  the same. Reads with `num_processes` above 1 parse in worker processes, as
+  before, and are not faster.
 
 ### Fixed
 
