@@ -135,10 +135,15 @@ def get_obs(
     -------
     pd.DataFrame
         The observations, from the ``final`` level (see :func:`uataq.read_data`
-        to read another level).
+        to read another level). At a mobile site it is a
+        ``geopandas.GeoDataFrame`` with the position of each row (see
+        :doc:`/guides/mobile_sites`).
 
     Raises
     ------
+    ~uataq.errors.ReaderError
+        If no instrument at the site has data for the pollutants in the range.
+        The message says why for each one (see :doc:`/guides/errors`).
     ValueError
         If a pollutant is not measured at the site. The message says which
         pollutants the site does measure.
@@ -244,8 +249,14 @@ def get_network_obs(
 
         - Index: Time_UTC (datetime)
         - Columns: SID, instrument, [pollutant columns], Latitude_deg,
-          Longitude_deg, zagl, geometry
+          Longitude_deg, zagl, geometry; mobile sites also have their speed,
+          course and ``GPS_Group`` (see :doc:`/guides/mobile_sites`)
         - CRS: EPSG:4326
+
+    Raises
+    ------
+    ~uataq.errors.ReaderError
+        If none of the sites has data for the pollutant in the range.
 
     Warns
     -----
@@ -258,7 +269,6 @@ def get_network_obs(
     >>> obs = uataq.get_network_obs(
     ...     sites=["WBB", "SUG", "RPK"], pollutant="CO2", time_range="2024-01"
     ... )
-    >>> print(obs)
 
     >>> # Get O3 from mobile sites for a time range
     >>> obs = uataq.get_network_obs(

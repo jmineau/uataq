@@ -76,6 +76,12 @@ is every site that measures the pollutant:
 
     Network("all", "CH4")
 
+CH4 is measured at fewer sites than CO2. Of these, WBB (on the University of
+Utah campus) and LDF (the Salt Lake Valley landfill) are in the valley, HDP
+(Hidden Peak) is in the Wasatch Mountains above it, CSP, FRU, HPL and ROO are in
+the Uintah Basin, and TRX01 is a TRAX train. The site tables on
+:doc:`/reference/sites_and_instruments` give each site's name and position.
+
 An instrument's window, its ``active_range``, says when it was installed, not
 when it recorded data. That is why ``PM2.5`` is in WBB's list although both of
 WBB's PM2.5 instruments, ``metone_es642`` and ``teom_1400ab``, have an end date:
@@ -116,7 +122,9 @@ Each row is one site (``SID``), one data level (``lvl``) and one stretch from
 Between two rows of the same site there is a gap with no data: WBB has none for
 the week starting 2024-11-25, and CSP has none for the two weeks starting
 2024-12-16. HDP's last row stops on 2025-02-10, and nothing follows it: HDP has
-no data after that. A site with no data in the range has no rows at all.
+no data after that. A site with no data in the range has no rows at all. A
+stop can fall after the day of the run (this one was on 12 October 2026): the
+last weekly bin, from 12 to 19 October, holds the data up to the run.
 
 To get the first and last date for each site:
 
@@ -191,8 +199,8 @@ How long it takes
 ``get_availability`` opens and reads every data file in the range. That is the
 only way to know a pollutant was measured: a file can exist and hold nothing for
 the pollutant you asked about. It is quick for a few sites and a short range, and
-slow for everything. These times are from one process on one CHPC core, for WBB
-CO2:
+slow for everything. These times are for WBB CO2, from one process on a CHPC
+compute node on 26 October 2026:
 
 .. list-table::
    :header-rows: 1
@@ -201,27 +209,27 @@ CO2:
    * - Call
      - Time
    * - Two years (2024 and 2025), all four levels, daily bins (the defaults)
-     - 274 s
+     - 146 s
    * - The same, with ``lvls=["final"]``
-     - 9.5 s
+     - 8.3 s
    * - The same, with ``lvls=["final"]`` and ``freq="W"``
-     - 8.1 s
+     - 8.3 s
    * - The year 2025 alone, one level: ``final``, ``calibrated``, ``qaqc``, ``raw``
-     - 5 s, 14 s, 20 s, 80 s
+     - 4 s, 10 s, 13 s, 31 s
    * - The defaults again, with ``num_processes=4``
-     - 76 s
+     - 36 s
 
 So:
 
 - **Ask for the levels you need** with ``lvls``. The ``raw`` level has far more
-  files than the others and takes about fifteen times as long as ``final``.
+  files than the others and takes about seven times as long as ``final``.
 - **Give a time range.** With no ``time_range`` the call covers every year the
   site has data.
 - **The bin size hardly matters** for the time. Pick it for the question.
 - **Use more processes for many sites.** ``num_processes`` spreads the files
   over that many processes, and ``"max"`` uses every core you were given.
   Checking CO2 at all 19 sites that measure it, every year, final level only,
-  took 73 s with ``num_processes=8``. Do this in a Slurm job, not on a login
+  took 73 s with ``num_processes=8`` (11 October 2026). Do this in a Slurm job, not on a login
   node.
 
 A script that uses more than one process needs the ``__main__`` guard (see

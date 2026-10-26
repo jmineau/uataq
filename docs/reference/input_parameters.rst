@@ -56,7 +56,7 @@ both.
 
 .. _input-group:
 
-Research Group
+Research group
 --------------
 
 ``group`` is the research group whose archive is read: ``"lin"`` or ``"horel"``
@@ -73,7 +73,7 @@ Naming a group reads the whole range from that group.
 
 .. _input-level:
 
-Data Level
+Data level
 ----------
 
 ``lvl`` (:func:`read_data`) is the data level: ``"raw"``, ``"qaqc"``,
@@ -84,7 +84,7 @@ always reads ``final``. What each level holds, and how to choose one, is on
 
 .. _input-time-range:
 
-Time Range
+Time range
 ----------
 
 ``time_range`` is the time to read, in UTC, like the times in the data. A range
@@ -193,7 +193,7 @@ give it as a ``Timestamp``.
 
 .. _input-num-processes:
 
-Number of Processes
+Number of processes
 -------------------
 
 ``num_processes`` is how many processes read an instrument's files at once.
@@ -214,7 +214,7 @@ Recent
 
 .. _input-file-pattern:
 
-File Pattern
+File pattern
 ------------
 
 ``file_pattern`` (:func:`read_data`) keeps only the files whose names match it.
