@@ -116,8 +116,8 @@ column_mapping: dict[str, dict[str, str]] = {
         "rawCO2_Voltage_Avg": "Analog_CO2_ppm",
         "CO2_Analog_ppm": "Analog_CO2_ppm",
         "rawCO2_Avg": "CO2_ppm",
-        "rawH2O_Avg": "Analog_H2O_ppm",
-        "H2O_ppth_IRGA": "Analog_H2O_ppm",  # TODO check this
+        "rawH2O_Avg": "Analog_H2O_ppth",
+        "H2O_ppth_IRGA": "Analog_H2O_ppth",
         "Cavity_RH_pct": "Internal_RH_pct",
         "Cavity_P_Pa": "Analog_Internal_P_Pa",
     },
@@ -228,6 +228,7 @@ column_mapping: dict[str, dict[str, str]] = {
     },
     "teledyne_t400": {
         "o3_std_ppb": "O3_ppb_std",
+        "O3_std_ppb": "O3_ppb_std",
         "o3_meas_mv": "O3_Meas_mV",
         "o3_ref_mv": "O3_Ref_mV",
         "o3_gen_mv": "O3_Gen_mV",

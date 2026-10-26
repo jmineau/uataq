@@ -198,6 +198,13 @@ follow [PEP 440](https://peps.python.org/pep-0440/): calendar-based,
   CO, CO2, NO, NO2, NOx, O3, PM2.5.`), and a request with both says both. The
   names are sorted (the old message printed a set, whose order changed from run
   to run) and spelled as in the columns (`NOx`). It is still a `ValueError`.
+- lin's `licor_6262` and `licor_7000` column `Analog_H2O_ppm` is now
+  `Analog_H2O_ppth`, at the raw (`rawH2O_Avg`) and qaqc (`H2O_ppth_IRGA`)
+  levels. It always held parts per thousand, not ppm: at SUG on 2025-06-02 the
+  `licor_7000` qaqc rows of outside air have a median of 8.5, against 9,679 for
+  `H2O_ppm`, the ppm value the pipeline computes. The values are unchanged and
+  the old name is gone, with no alias: code that reads `Analog_H2O_ppm` must
+  read `Analog_H2O_ppth` (#67).
 - A horel `qaqc` or `final` read of several instruments (`Site.read_data`,
   `get_obs`, `read_data`) parses each month's `csv.gz` once, where each
   instrument parsed the file again: the file holds every instrument of the
@@ -286,6 +293,12 @@ follow [PEP 440](https://peps.python.org/pep-0440/): calendar-based,
   argument, says `get_obs` always reads the final level, and gives the call for
   another: `read_data(..., lvl='qaqc')`. Other unknown keywords are still
   ignored.
+- `teledyne_t400`'s standard deviation column is `O3_ppb_std` at the qaqc
+  level as well. The mapping renamed only the air-trend spelling (`o3_std_ppb`),
+  so the qaqc files' `O3_std_ppb` came through under its pipeline name while
+  the raw level had `O3_ppb_std`; the T300 and T500u mappings already list both
+  spellings. A script that read `O3_std_ppb` from a qaqc read must read
+  `O3_ppb_std` (#67).
 
 ## [2026.10.0] - 2026-10-09
 
