@@ -20,42 +20,31 @@ follow [PEP 440](https://peps.python.org/pep-0440/): calendar-based,
 
 ### Changed
 
-- Docs: the front page says what uataq is, who it is for and where to start,
-  and the navbar has four sections, Getting started, Guides, Reference and
-  Contributing, in place of one heading per page. Each section's pages are in
-  its left sidebar and in a folder of its own, so their addresses change again
-  (`reading_data.html` is `guides/reading_data.html`); the API reference is the
-  last page of Reference. Its "Naming Convention" section, its table of
-  four functions and its second "Contributing" heading are gone: the column
-  renaming is in "Columns and flags", the four functions are in the API
-  reference, and the Contributing page stays. "Configuration" moved from under
-  "Laboratory" to the Reference group.
-- Docs: each fact is written on one page, and three pages are renamed to match
-  their titles, with no redirects. `docs/general.rst` is now
-  `docs/input_parameters.rst` (retitled "Input Parameters", each section
-  labeled), `docs/availability.rst` is `docs/what_data_exists.rst` and
-  `docs/catalog.rst` is `docs/sites_and_instruments.rst`, so `general.html`,
-  `availability.html` and `catalog.html` no longer exist. Moved: the column-name
-  pattern and `_cal` against `_raw` from "Pollutants" to "Columns and flags"
-  ("Column names"); the "Time" section of "Your first month of data" to "Input
-  Parameters" ("Time Range"); "Which sites and pollutants" from "What data
-  exists" to "Sites and instruments" ("The same in code"). Quick Start's
-  paragraph on what `final` keeps is now a link to "Columns and flags". Pointers
-  by section name ("see *Processing Level* on the general functions page") are
-  links.
-- Docs: "Quick Start" is now "Reading data", and the error cases have their own
-  page. `docs/quickstart.rst` is `docs/reading_data.rst`, so `quickstart.html`
-  no longer exists. "When there is nothing to read", the last section of "What
-  data exists", is now the page `errors.html` with its text unchanged, so
-  `what_data_exists.html#when-there-is-nothing-to-read` no longer exists.
-  "Several sites at once" moved from "What data exists" to "Reading data"
-  (`reading_data.html#several-sites-at-once`). The `read_data` example reads
-  the default level instead of `qaqc`, and the page's opening on the
-  `laboratory` object is now the docstring of `uataq.laboratory`, shown on the
-  "Laboratory" page.
+- Docs: rewritten for a new student and organized by task, with no redirects
+  from the old addresses. The navbar has four sections, Getting started,
+  Guides, Reference and Contributing, each a folder of pages, and the front page
+  says what UATAQ is, shows a first read and how to cite the data. Where the
+  2026.10.0 pages went: "Quick Start" is "Read data" (`guides/read_data.html`),
+  rewritten; "General" is "Input Parameters"
+  (`reference/input_parameters.html`), rewritten, with `format` and `recent`;
+  "Installation" is `getting_started/installation.html`, covers Jupyter on Open
+  OnDemand, and its development setup is on Contributing; "Configuration" is
+  `reference/config.html` and no longer prints `config.json`; "Pollutants" is in
+  "Columns" (`reference/columns.html`); the module pages ("Laboratory",
+  "Filesystem", "Sites", "Instruments", "GPS", "SODAR") are in the API
+  reference. New pages: "Your first data" (a month of CO2 and CH4 in local time,
+  hourly means, a daily-cycle plot, and what to write down), "Find sites and
+  data" (which sites measure what, when they have data, the newest data), "Data
+  levels and flags" (the levels, `ID`, what `final` keeps, the flags, empty
+  `_cal`), "Mobile sites" (positions, the two groups' clocks, TRX01's two LGR
+  instrument names, the months only at `raw`), "When there is nothing to read",
+  "Sites and instruments" (tables made from the configuration) and "Columns"
+  (the columns of each instrument and level). Each fact is on one page, and the
+  others link to it.
 - Docs: the API reference is generated, with a page for each module, class,
   function and class member, as in the docs of the other packages (the page
-  "Functions and modules", `functions_and_modules.html`, lists them).
+  "Functions and modules", `reference/functions_and_modules.html`, lists them,
+  the public functions first and the internals last).
   `gps.html`, `instruments.html`, `pollutants.html`, `sodar.html` and
   `filesystem.html` no longer exist: the module pages are
   `api/uataq.gps.html`, `api/uataq.instruments.html`,

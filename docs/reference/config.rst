@@ -1,16 +1,12 @@
 Configuration
 =============
 
-The UATAQ configuration is defined as a ``json`` file which specifies UATAQ
-site characteristics including name, location, status, research groups
-collecting data, and installed instruments. The :doc:`/reference/sites_and_instruments` page shows it
-as tables.
-
-.. warning::
-
-    Changes to UATAQ site infrastructure, including instrument
-    installation/removal, must be reflected in the configuration
-    file for the lab to be able to properly access the data.
+uataq's configuration is one JSON file,
+`src/uataq/config.json <https://github.com/jmineau/uataq/blob/main/src/uataq/config.json>`_,
+with an entry for each site: its name and location, the research groups that log
+it, and its instruments with their dates. uataq reads it when it is imported, and
+:doc:`/reference/sites_and_instruments` shows it as tables. A change at a site is
+written in this file (see :doc:`/contributing`). This page lists its keys.
 
 Site keys
 ---------
@@ -79,7 +75,3 @@ Each entry under a site's ``instruments`` accepts:
     The instrument class to use when it differs from the instrument's name.
 ``notes`` (optional)
     Free text; not read by the code.
-
-.. literalinclude:: /../src/uataq/config.json
-    :language: json
-    :caption: uataq/config.json
