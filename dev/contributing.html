@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Contributing &#8212; UATAQ 2026.10.1.dev62+gcdc9fa9d4 documentation</title>
+    <title>Contributing &#8212; UATAQ 2026.10.1.dev63+g113c1912c documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="_static/documentation_options.js?v=a0265526"></script>
+    <script src="_static/documentation_options.js?v=9b14b836"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -58,7 +58,7 @@
     <link rel="prev" title="uataq.errors.ReaderError" href="api/uataq.errors.ReaderError.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.1.dev62+gcdc9fa9d4" />
+  <meta name="docsearch:version" content="2026.10.1.dev63+g113c1912c" />
   
     
     <script src="_static/searchtools.js"></script>
@@ -126,7 +126,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.1.dev62+gcdc9fa9d4 documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.1.dev63+g113c1912c documentation</p>
   
 </a></div>
     
@@ -578,6 +578,10 @@ delegate to it. A <code class="docutils literal notranslate"><span class="pre">S
 the range from (<code class="docutils literal notranslate"><span class="pre">plan_reads</span></code>); the instrument gets its files from that group’s
 <code class="docutils literal notranslate"><span class="pre">GroupSpace</span></code> (<code class="docutils literal notranslate"><span class="pre">filesystem.groups[name]</span></code>), whose <code class="docutils literal notranslate"><span class="pre">DataFile</span></code> classes parse them;
 the frames are standardized to uataq’s column names and concatenated in time.
+In one <code class="docutils literal notranslate"><span class="pre">Site.read_data</span></code> call, a file that several instruments read is parsed
+once (horel’s finalized CSVs hold a whole platform): <code class="docutils literal notranslate"><span class="pre">filesystem.core._parse_once</span></code>
+holds a dict, by path, until the call returns, and <code class="docutils literal notranslate"><span class="pre">HorelCSVFile.parse</span></code> keeps
+its parse there for the other instruments, which copy their own columns.
 <code class="docutils literal notranslate"><span class="pre">filesystem.lvls</span></code> ranks the levels (<code class="docutils literal notranslate"><span class="pre">raw</span></code> &lt; <code class="docutils literal notranslate"><span class="pre">qaqc</span></code> &lt; <code class="docutils literal notranslate"><span class="pre">calibrated</span></code> &lt;
 <code class="docutils literal notranslate"><span class="pre">final</span></code>).</p>
 </section>

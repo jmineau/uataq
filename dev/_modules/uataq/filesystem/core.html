@@ -6,7 +6,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>uataq.filesystem.core &#8212; UATAQ 2026.10.1.dev62+gcdc9fa9d4 documentation</title>
+    <title>uataq.filesystem.core &#8212; UATAQ 2026.10.1.dev63+g113c1912c documentation</title>
   
   
   
@@ -38,7 +38,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="../../../_static/documentation_options.js?v=a0265526"></script>
+    <script src="../../../_static/documentation_options.js?v=9b14b836"></script>
     <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -56,7 +56,7 @@
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.1.dev62+gcdc9fa9d4" />
+  <meta name="docsearch:version" content="2026.10.1.dev63+g113c1912c" />
   
     
     <script src="../../../_static/searchtools.js"></script>
@@ -124,7 +124,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.1.dev62+gcdc9fa9d4 documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.1.dev63+g113c1912c documentation</p>
   
 </a></div>
     
@@ -547,6 +547,9 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">multiprocessing</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">ABCMeta</span><span class="p">,</span> <span class="n">abstractmethod</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Iterator</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">contextlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">contextmanager</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">contextvars</span><span class="w"> </span><span class="kn">import</span> <span class="n">ContextVar</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Literal</span>
 
@@ -809,6 +812,42 @@
 
 
 
+<span class="c1">#: The files parsed so far in the current ``Site.read_data`` call, by path;</span>
+<span class="c1">#: None outside one (see :func:`_parse_once`).</span>
+<span class="n">_parsed_files</span><span class="p">:</span> <span class="n">ContextVar</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="n">ContextVar</span><span class="p">(</span>
+    <span class="s2">&quot;_parsed_files&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span>
+<span class="p">)</span>
+
+
+<span class="nd">@contextmanager</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_parse_once</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="kc">None</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Share the files parsed inside the block, by path.</span>
+
+<span class="sd">    Several instruments can read the same file (each of horel&#39;s finalized</span>
+<span class="sd">    CSVs holds a whole platform). Inside the block, a ``DataFile`` that reads</span>
+<span class="sd">    such a file keeps its parse in :data:`_parsed_files` for the next</span>
+<span class="sd">    instrument. The dict is dropped when the block ends, so nothing outlives</span>
+<span class="sd">    the read. ``Site.read_data`` wraps its loop over instruments in it.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">token</span> <span class="o">=</span> <span class="n">_parsed_files</span><span class="o">.</span><span class="n">set</span><span class="p">({})</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">yield</span>
+    <span class="k">finally</span><span class="p">:</span>
+        <span class="n">_parsed_files</span><span class="o">.</span><span class="n">reset</span><span class="p">(</span><span class="n">token</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_forget_parsed_files</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Turn :data:`_parsed_files` off in a pool worker.</span>
+
+<span class="sd">    A forked worker inherits a copy of the parent&#39;s dict, but what it adds</span>
+<span class="sd">    never reaches the parent, so it would only hold memory until the pool</span>
+<span class="sd">    closes.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">_parsed_files</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+
+
 <span class="k">def</span><span class="w"> </span><span class="nf">_parse_datafile</span><span class="p">(</span><span class="n">datafile</span><span class="p">:</span> <span class="n">DataFile</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Private function to parse a single data file.</span>
@@ -889,7 +928,9 @@
         <span class="n">_logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Parsing files in parallel with </span><span class="si">{</span><span class="n">processes</span><span class="si">}</span><span class="s2"> processes...&quot;</span><span class="p">)</span>
 
         <span class="c1"># The with block shuts the pool down even if a worker raises</span>
-        <span class="k">with</span> <span class="n">multiprocessing</span><span class="o">.</span><span class="n">Pool</span><span class="p">(</span><span class="n">processes</span><span class="o">=</span><span class="n">processes</span><span class="p">)</span> <span class="k">as</span> <span class="n">pool</span><span class="p">:</span>
+        <span class="k">with</span> <span class="n">multiprocessing</span><span class="o">.</span><span class="n">Pool</span><span class="p">(</span>
+            <span class="n">processes</span><span class="o">=</span><span class="n">processes</span><span class="p">,</span> <span class="n">initializer</span><span class="o">=</span><span class="n">_forget_parsed_files</span>
+        <span class="p">)</span> <span class="k">as</span> <span class="n">pool</span><span class="p">:</span>
             <span class="n">datasets</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">_parse_datafile</span><span class="p">,</span> <span class="n">iterable</span><span class="o">=</span><span class="n">files</span><span class="p">)</span>
 
     <span class="c1"># Concatenate the datasets</span>

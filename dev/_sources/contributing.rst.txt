@@ -47,6 +47,10 @@ delegate to it. A ``Site`` asks each ``Instrument`` which group to read each par
 the range from (``plan_reads``); the instrument gets its files from that group's
 ``GroupSpace`` (``filesystem.groups[name]``), whose ``DataFile`` classes parse them;
 the frames are standardized to uataq's column names and concatenated in time.
+In one ``Site.read_data`` call, a file that several instruments read is parsed
+once (horel's finalized CSVs hold a whole platform): ``filesystem.core._parse_once``
+holds a dict, by path, until the call returns, and ``HorelCSVFile.parse`` keeps
+its parse there for the other instruments, which copy their own columns.
 ``filesystem.lvls`` ranks the levels (``raw`` < ``qaqc`` < ``calibrated`` <
 ``final``).
 
