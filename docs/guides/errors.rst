@@ -236,7 +236,7 @@ A level the instrument does not have
 Not every instrument has every level, and the message lists the ones this
 instrument has, from least to most processed. Only the lin group's CO2 and CH4
 analyzers have a ``calibrated`` level, and not TRX01's ``lgr_ugga_manual_cal``
-(see :doc:`/reference/columns`), so every other instrument, and every instrument in the
+(see :ref:`when-cal-is-empty`), so every other instrument, and every instrument in the
 horel archive, gives this error for it. Leave ``lvl`` out to read the highest
 level the instrument has.
 

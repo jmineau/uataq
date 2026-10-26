@@ -62,9 +62,7 @@ For the CO2 and CH4 analyzers (the ``lgr_ugga``, ``licor_6262`` and
        ``ID_CH4``), and ``QAQC_Flag``. Not calibrated.
    * - ``raw``
      - The analyzer's columns as they were logged, with ``ID`` but without
-       ``ID_CO2``, ``ID_CH4`` or ``QAQC_Flag``. Reading one day of the WBB
-       ``lgr_ugga`` at this level took 159 seconds, against 1 or 2 seconds at
-       the others.
+       ``ID_CO2``, ``ID_CH4`` or ``QAQC_Flag``.
 
 .. _which-level:
 
@@ -214,8 +212,9 @@ So ``QAQC_Flag >= 0`` alone keeps the tank rows. The ``final`` level is the
 The same holds for the ``licor_7000`` at SUG that day (7,992 rows). The
 ``final`` level follows the ``calibrated`` level's flags, which can differ from
 the ``qaqc`` level's because the calibration adds flags of its own. For the
-``licor_6262`` at SUG in June 2019, the calibration flagged 566 rows ``-4``;
-the rule above gives the 238,632 ``final`` rows from the ``calibrated`` level,
+``licor_6262`` at SUG in June 2019, the calibration flagged 566 rows ``-4``
+(517 of them outside air; the other 49 measured tanks, which the rule drops
+anyway), and the rule above gives the 238,632 ``final`` rows from the ``calibrated`` level,
 but 239,149 from the ``qaqc`` level.
 
 .. _flags:

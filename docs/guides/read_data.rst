@@ -124,6 +124,10 @@ pollutant can be laid out with a column per site:
     2025-06-01 01:00:00-06:00  1.996306  2.433641  2.013554
     2025-06-01 02:00:00-06:00  1.995488  2.233682  2.049384
 
+This loop is the way to read a few pollutants from a few sites. Use
+:func:`get_network_obs`, below, for one pollutant when you need the position,
+height or instrument of each row.
+
 A site with no data in the range raises an error (see :doc:`/guides/errors`,
 which shows a loop that skips such a site). :doc:`/guides/find_sites_and_data`
 says which sites measure a pollutant.

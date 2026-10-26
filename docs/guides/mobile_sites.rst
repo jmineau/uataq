@@ -63,7 +63,8 @@ groups' measurements, average over a period longer than that, such as a minute.
 On a few days the lin computer's clock was hours or days off, and then a lin row
 can have a ``Time_UTC`` outside the range you asked for.
 
-To read one group only, name it:
+To read one group only, name it. The horel group's GPS records no altitude, so
+the table has no ``Altitude_msl``:
 
 .. code-block:: pycon
 
@@ -106,7 +107,8 @@ each:
     CO2d_ppm_raw    7188
     dtype: int64
 
-So at TRX01, read with :func:`get_network_obs`, whose ``instrument`` column says
+(The analyzer logged 7,200 rows that day; :func:`get_obs` keeps the 7,188 the
+GPS could place.) So at TRX01, read with :func:`get_network_obs`, whose ``instrument`` column says
 which one each row came from, and take ``_cal`` from ``lgr_ugga`` and ``_raw``
 from ``lgr_ugga_manual_cal``:
 
