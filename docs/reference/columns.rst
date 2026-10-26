@@ -11,7 +11,7 @@ Columns and flags
     If the data are reprocessed, the numbers can change a little.
 
 The columns you get depend on the **instrument** and on the **data level** you
-read (``raw``, ``qaqc``, ``calibrated`` or ``final``; see :doc:`first_month` for
+read (``raw``, ``qaqc``, ``calibrated`` or ``final``; see :doc:`/getting_started/first_month` for
 what each level is for). This page says what the columns are, level by level,
 for the instruments you are most likely to use. Each section says which
 instrument and level its examples come from.
@@ -30,7 +30,7 @@ In every table
 --------------
 
 - The index is ``Time_UTC``, the time of the measurement in UTC, without a time
-  zone attached. :doc:`first_month` shows how to convert it to local time.
+  zone attached. :doc:`/getting_started/first_month` shows how to convert it to local time.
 - The concentration columns follow one naming pattern for every instrument,
   level and research group: ``CO2d_ppm_cal``, ``O3_ppb``, ``PM2.5_ugm3`` and so
   on. `Column names`_ explains the pattern.
@@ -473,4 +473,4 @@ Next
 
 - :mod:`uataq.pollutants`: the functions that pick the concentration columns out of a
   table and parse their names.
-- :doc:`first_month`: what each data level is for, and times in local time.
+- :doc:`/getting_started/first_month`: what each data level is for, and times in local time.

@@ -8,12 +8,12 @@ inherits from the classes it extends.
 Reading data
 ------------
 
-What each argument means is written once, on :doc:`input_parameters`.
+What each argument means is written once, on :doc:`/reference/input_parameters`.
 
 .. currentmodule:: uataq
 
 .. autosummary::
-   :toctree: api
+   :toctree: ../api
    :nosignatures:
 
    read_data
@@ -26,7 +26,7 @@ The laboratory
 --------------
 
 .. autosummary::
-   :toctree: api
+   :toctree: ../api
    :nosignatures:
 
    laboratory
@@ -37,7 +37,7 @@ Modules
 -------
 
 .. autosummary::
-   :toctree: api
+   :toctree: ../api
    :recursive:
 
    sites

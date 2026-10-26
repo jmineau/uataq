@@ -11,14 +11,14 @@ Your first month of data
     12 October 2026. If the data are reprocessed, the numbers can change a
     little.
 
-This page takes you from an installed uataq (see :doc:`installation`) to a month
+This page takes you from an installed uataq (see :doc:`/getting_started/installation`) to a month
 of CO2 from one site, in local time, and a plot of its daily cycle. On the way it
 shows where the numbers came from: which instrument, which data level and which
 research group. The example is CO2 at WBB (William Browning, on the University of
 Utah campus) for June 2025, in Mountain time.
 
 To pick a different site, pollutant or month, first check that there are data:
-:doc:`what_data_exists` shows how, and :doc:`errors` says what the errors mean
+:doc:`/guides/what_data_exists` shows how, and :doc:`/guides/errors` says what the errors mean
 when there are none.
 
 Read a month
@@ -50,7 +50,7 @@ Read a month
 It takes a few seconds. You get one table (a pandas ``DataFrame``) with a row
 about every 10 seconds. ``CO2d_ppm_cal`` is the calibrated CO2 dry mole fraction
 in ppm, and ``CO2d_ppm_raw`` is the same measurement before calibration. The
-column names are explained under :ref:`column-names` on the :doc:`columns` page.
+column names are explained under :ref:`column-names` on the :doc:`/reference/columns` page.
 
 This month is in **UTC**, not in local time. The next sections say where the
 numbers came from, and then how to get a month in local time.
@@ -129,7 +129,7 @@ that measured calibration tanks. ``QAQC_Flag`` is the pipeline's flag: 0 is good
 and a negative number says why a row was flagged. The pipeline's
 `QAQC flag page <https://github.com/uataq/data-pipeline/blob/main/QAQC_Flags.md>`_
 lists what each number means. ``ID_CO2`` marks what the analyzer was sampling:
-``-10`` is the outside air. :doc:`columns` explains these columns.
+``-10`` is the outside air. :doc:`/reference/columns` explains these columns.
 
 The research group
 ^^^^^^^^^^^^^^^^^^
@@ -147,7 +147,7 @@ The version
     >>> uataq.__version__
     '2026.10.1.dev6+g2f5e83eb5'
 
-Yours will differ. For results you will publish, install a fixed release (see :doc:`installation`).
+Yours will differ. For results you will publish, install a fixed release (see :doc:`/getting_started/installation`).
 
 .. _first-month-utc:
 
@@ -264,7 +264,7 @@ to 08:59 local time. The script took 8 seconds and 0.2 GB of memory, which is
 fine on a login node. For more data (a year, several sites), run it in a job
 (see :ref:`install-slurm`). This one was run in a Slurm job, and drew:
 
-.. figure:: _static/wbb_co2_daily_cycle.png
+.. figure:: /_static/wbb_co2_daily_cycle.png
    :alt: Median CO2 at WBB by hour of the local day in June 2025, rising from
          about 434 ppm at midnight to a peak of 444 ppm at 8 in the morning and
          falling to a low of 428 ppm at 6 in the evening.
@@ -278,13 +278,13 @@ same peak would show at hour 14, and the plot would be six hours off.
 Next
 ----
 
-- :doc:`sites_and_instruments`: every site and instrument, what each measures,
+- :doc:`/reference/sites_and_instruments`: every site and instrument, what each measures,
   and what the names mean.
-- :doc:`what_data_exists`: when the sites have data, and what is the newest.
-- :doc:`reading_data`: the site and instrument objects, the ``long`` format,
+- :doc:`/guides/what_data_exists`: when the sites have data, and what is the newest.
+- :doc:`/guides/reading_data`: the site and instrument objects, the ``long`` format,
   several sites at once, and the mobile (TRAX and bus) sites.
-- :doc:`errors`: what the errors mean when a read finds nothing, and what to do.
-- :doc:`columns`: what each column of each level holds, the column names, the
+- :doc:`/guides/errors`: what the errors mean when a read finds nothing, and what to do.
+- :doc:`/reference/columns`: what each column of each level holds, the column names, the
   ``ID`` columns, and the flags.
-- :doc:`input_parameters`: what each argument of :func:`read_data` and
+- :doc:`/reference/input_parameters`: what each argument of :func:`read_data` and
   :func:`get_obs` means, and every form of ``time_range``.

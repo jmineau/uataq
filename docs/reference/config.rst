@@ -3,7 +3,7 @@ Configuration
 
 The UATAQ configuration is defined as a ``json`` file which specifies UATAQ
 site characteristics including name, location, status, research groups
-collecting data, and installed instruments. The :doc:`sites_and_instruments` page shows it
+collecting data, and installed instruments. The :doc:`/reference/sites_and_instruments` page shows it
 as tables.
 
 .. warning::

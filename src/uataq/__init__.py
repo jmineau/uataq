@@ -37,7 +37,7 @@ _all_or_mult_strs = Literal["all"] | str | list[str] | tuple[str, ...] | set[str
 #:
 #: The laboratory is a singleton instance of the
 #: :class:`~uataq.Laboratory` class, which is initialized with the
-#: :doc:`UATAQ configuration file </config>`. The configuration file is a JSON
+#: :doc:`UATAQ configuration file </reference/config>`. The configuration file is a JSON
 #: file which specifies UATAQ site characteristics including name, location,
 #: status, research groups collecting data, and installed instruments.
 #:
