@@ -82,8 +82,8 @@ Instrument inactive
     uataq.errors.ReaderError: No final data found for CO2 at WBB: lgr_ugga not read: lgr_ugga@WBB is inactive in given time_range.
 
 The instrument was not installed at the site in that range. Its window is its
-``active_range`` (see :ref:`The same in code <sites-in-code>`, on the
-:doc:`/reference/sites_and_instruments` page). A range that only touches the window, such
+``active_range`` (see :ref:`sites-in-code`; :doc:`/reference/sites_and_instruments`
+lists every instrument's dates). A range that only touches the window, such
 as one that ends the day the instrument was installed, counts as outside it. A
 range that overlaps the window only in part is cut down to it, with no error.
 
@@ -220,7 +220,7 @@ A level asked of get_obs
 error. To read another level, call ``read_data``, which gives a dictionary with
 one table for each instrument:
 ``uataq.read_data("WBB", "lgr_ugga", lvl="qaqc", time_range="2025-06")``.
-:ref:`input-level` says what each level is for.
+:ref:`data-levels` says what each level is for.
 
 A level the instrument does not have
 ------------------------------------

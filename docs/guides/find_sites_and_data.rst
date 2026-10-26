@@ -1,23 +1,24 @@
 .. currentmodule:: uataq
 
-What data exists
-================
+Find sites and data
+===================
 
 .. note::
 
-    The examples on this page read the UATAQ archive, which is only available
-    on CHPC. They are shown as code and are not run when the documentation is
-    built. The output under each one is from a run on CHPC on 11 October 2026.
-    The archive keeps growing, so the dates at the end of the data, and how
-    long a call takes, will have moved on by the time you read this.
+    The examples under "Which sites measure what" use only the package's
+    configuration and run when the documentation is built. The others read the
+    UATAQ archive, which is only available on CHPC, and are not run; their
+    output is from runs on CHPC on 11 October 2026. The archive keeps growing,
+    so the dates at the end of the data, and how long a call takes, will have
+    moved on by the time you read this.
 
-Before you read data, find out what there is. The :doc:`/reference/sites_and_instruments`
-page says which sites and instruments exist, what each measures and when each
-was installed, as tables and :ref:`in code <sites-in-code>`. That is what the
-sites were set up to measure, and it does not say there is data. This page shows
-the calls that answer the next questions, when the sites have data and whether
-anything is recent. When the answer is "nothing", :doc:`/guides/errors` says what each
-error means.
+Before you read data, find out what there is: which sites measure the pollutant
+you want, and when they have data. The tables on
+:doc:`/reference/sites_and_instruments` say which sites and instruments exist,
+what each measures and when each was installed. That is what the sites were set
+up to measure, not that there are data. This page shows the calls that answer
+both questions, and how recent the data are. When the answer is "nothing",
+:doc:`/guides/errors` says what each error means.
 
 .. list-table::
    :header-rows: 1
@@ -26,22 +27,67 @@ error means.
    * - I want to know
      - Use
    * - Which sites measure CH4?
-     - The :doc:`/reference/sites_and_instruments` tables, or ``Network("all", "CH4")``
+     - ``Network("all", "CH4")``, or the :doc:`/reference/sites_and_instruments` tables
    * - What a site measures, and since when
-     - The same tables, or ``get_site("WBB").pollutants`` and ``.instruments``
+     - ``get_site("WBB").pollutants`` and ``.instruments``, or the same tables
    * - When a site has data, and at which level
      - ``Network(...).get_availability(...)``
    * - The newest data at a site
      - :func:`get_recent_obs`
    * - One pollutant from several sites in one table
-     - :func:`get_network_obs`, shown under :ref:`several-sites`
+     - :doc:`/guides/read_data`
    * - Why a read failed or came back empty
      - :doc:`/guides/errors`
+
+.. _sites-in-code:
+
+Which sites measure what
+------------------------
+
+The tables on :doc:`/reference/sites_and_instruments` come from objects you can
+use yourself. The blocks in this section run when the documentation is built,
+so their output is current. A site object says what the site measures, and
+which instruments it has had:
+
+.. ipython:: python
+
+    import uataq
+    from uataq import Network
+
+    site = uataq.get_site("WBB")
+    site.config["name"], site.config["zagl"]
+    sorted(site.pollutants)
+    [instrument.name for instrument in site.instruments]
+    site.instruments["teledyne_t400"].active_range
+    type(site.instruments["teledyne_t400"]).__name__
+
+``uataq.laboratory.sites`` lists every site ID, and ``site.config`` holds the
+site's own keys (see :doc:`/reference/config`). ``repr(site)``, which is what a notebook
+shows for ``site``, prints the whole entry, with the ``notes`` of the instruments
+that have one: why its dates are what they are, and where its data end.
+
+Pollutant names are upper case (``NOx`` is ``'NOX'`` here), but you can type
+them in any case when you read data. To go the other way and find the sites that
+measure a pollutant, make a :class:`Network`. A ``Network`` is a list of sites
+and one pollutant, and it is how uataq asks a question across sites; ``"all"``
+is every site that measures the pollutant:
+
+.. ipython:: python
+
+    Network("all", "CH4")
+
+An instrument's window, its ``active_range``, says when it was installed, not
+when it recorded data. That is why ``PM2.5`` is in WBB's list although both of
+WBB's PM2.5 instruments, ``metone_es642`` and ``teom_1400ab``, have an end date:
+
+.. ipython:: python
+
+    print("\n".join(f"{i.name:15} {i.active_range}" for i in site.instruments))
 
 When a site has data
 --------------------
 
-The examples on this page start from these lines:
+The examples below read the archive on CHPC, and start from these lines:
 
 .. code-block:: pycon
 
@@ -118,7 +164,8 @@ Levels
 ^^^^^^
 
 By default the call checks all four data levels (``raw``, ``qaqc``,
-``calibrated`` and ``final``; see :ref:`input-level`) and gives each bin the **highest** level that has data in it. A stretch labeled
+``calibrated`` and ``final``; see :ref:`data-levels`) and gives each bin the
+**highest** level that has data in it. A stretch labeled
 ``qaqc`` was therefore measured, but the final level has nothing for it. WBB
 has no final CO2 for August 2021:
 
@@ -177,9 +224,8 @@ So:
   took 73 s with ``num_processes=8``. Do this in a Slurm job, not on a login
   node.
 
-A script that uses more than one process needs the usual ``__main__`` guard, or
-Python 3.14 stops with a ``RuntimeError`` about "bootstrapping". The script
-below makes the figure in the next section. Save it as ``availability.py``:
+A script that uses more than one process needs the ``__main__`` guard (see
+:ref:`large-reads`). The script below makes the figure in the next section. Save it as ``availability.py``:
 
 .. code-block:: python
 
@@ -196,21 +242,20 @@ below makes the figure in the next section. Save it as ``availability.py``:
     if __name__ == "__main__":
         main()
 
-Then submit it with the account and partition you normally use (see the
-`CHPC Slurm documentation <https://www.chpc.utah.edu/documentation/software/slurm.php>`_),
-from the Python environment where uataq is installed:
+Then submit it in a job, as under :ref:`install-slurm`, with 8 cores:
 
 .. code-block:: bash
 
     #!/bin/bash
-    #SBATCH --account=<account>
-    #SBATCH --partition=<partition>
+    #SBATCH --account=lin-np
+    #SBATCH --partition=lin-np
     #SBATCH --nodes=1
     #SBATCH --ntasks=1
     #SBATCH --cpus-per-task=8
     #SBATCH --mem=16G
     #SBATCH --time=00:30:00
 
+    source ~/venvs/uataq/bin/activate
     python availability.py
 
 That job took 7 minutes, and the figure below is what it drew.
