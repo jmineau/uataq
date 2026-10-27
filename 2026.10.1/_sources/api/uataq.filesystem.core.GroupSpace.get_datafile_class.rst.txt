@@ -1,0 +1,6 @@
+uataq.filesystem.core.GroupSpace.get\_datafile\_class
+=====================================================
+
+.. currentmodule:: uataq.filesystem.core
+
+.. automethod:: GroupSpace.get_datafile_class

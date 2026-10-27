@@ -1,0 +1,6 @@
+uataq.filesystem.groupspaces.horel.lvl\_data\_dirs
+==================================================
+
+.. currentmodule:: uataq.filesystem.groupspaces.horel
+
+.. autodata:: lvl_data_dirs

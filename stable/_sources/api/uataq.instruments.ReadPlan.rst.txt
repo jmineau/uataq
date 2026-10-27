@@ -1,0 +1,6 @@
+uataq.instruments.ReadPlan
+==========================
+
+.. currentmodule:: uataq.instruments
+
+.. autodata:: ReadPlan

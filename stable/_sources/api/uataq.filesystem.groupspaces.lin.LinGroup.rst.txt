@@ -1,0 +1,35 @@
+uataq.filesystem.groupspaces.lin.LinGroup
+=========================================
+
+.. currentmodule:: uataq.filesystem.groupspaces.lin
+
+.. autoclass:: LinGroup
+   :no-members:
+   :show-inheritance:
+
+
+
+
+
+
+.. rubric:: Methods
+
+.. autosummary::
+   :toctree:
+
+   ~LinGroup.data_path
+   ~LinGroup.get_datafile_key
+   ~LinGroup.get_datafiles
+   ~LinGroup.get_files
+   ~LinGroup.get_lvls
+   ~LinGroup.standardize_data
+
+
+
+
+.. rubric:: Inherited
+
+
+From :class:`~.GroupSpace`: :py:obj:`~.GroupSpace.get_datafile_class`, :py:obj:`~.GroupSpace.get_highest_lvl`
+
+

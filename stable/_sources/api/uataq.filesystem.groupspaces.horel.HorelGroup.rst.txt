@@ -1,0 +1,35 @@
+uataq.filesystem.groupspaces.horel.HorelGroup
+=============================================
+
+.. currentmodule:: uataq.filesystem.groupspaces.horel
+
+.. autoclass:: HorelGroup
+   :no-members:
+   :show-inheritance:
+
+
+
+
+
+
+.. rubric:: Methods
+
+.. autosummary::
+   :toctree:
+
+   ~HorelGroup.get_datafile_key
+   ~HorelGroup.get_datafiles
+   ~HorelGroup.get_files
+   ~HorelGroup.get_highest_lvl
+   ~HorelGroup.get_lvls
+   ~HorelGroup.standardize_data
+
+
+
+
+.. rubric:: Inherited
+
+
+From :class:`~.GroupSpace`: :py:obj:`~.GroupSpace.get_datafile_class`
+
+

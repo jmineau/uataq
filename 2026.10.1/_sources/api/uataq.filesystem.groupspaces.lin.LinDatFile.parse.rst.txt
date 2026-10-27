@@ -1,0 +1,6 @@
+uataq.filesystem.groupspaces.lin.LinDatFile.parse
+=================================================
+
+.. currentmodule:: uataq.filesystem.groupspaces.lin
+
+.. automethod:: LinDatFile.parse

@@ -1,0 +1,6 @@
+uataq.timerange.TimeRange.parse\_iso
+====================================
+
+.. currentmodule:: uataq.timerange
+
+.. automethod:: TimeRange.parse_iso

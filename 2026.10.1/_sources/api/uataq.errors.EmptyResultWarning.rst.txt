@@ -1,0 +1,6 @@
+uataq.errors.EmptyResultWarning
+===============================
+
+.. currentmodule:: uataq.errors
+
+.. autoexception:: EmptyResultWarning

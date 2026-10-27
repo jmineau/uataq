@@ -1,0 +1,6 @@
+uataq.filesystem.groupspaces.lin.DATA\_CONFIG
+=============================================
+
+.. currentmodule:: uataq.filesystem.groupspaces.lin
+
+.. autodata:: DATA_CONFIG

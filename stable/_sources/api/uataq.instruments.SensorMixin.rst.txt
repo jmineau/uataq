@@ -1,0 +1,22 @@
+uataq.instruments.SensorMixin
+=============================
+
+.. currentmodule:: uataq.instruments
+
+.. autoclass:: SensorMixin
+   :no-members:
+
+
+
+
+.. rubric:: Attributes
+
+.. autosummary::
+   :toctree:
+
+   ~SensorMixin.pollutants
+
+
+
+
+

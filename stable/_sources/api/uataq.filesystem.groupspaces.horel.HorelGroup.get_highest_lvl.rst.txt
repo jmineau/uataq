@@ -1,0 +1,6 @@
+uataq.filesystem.groupspaces.horel.HorelGroup.get\_highest\_lvl
+===============================================================
+
+.. currentmodule:: uataq.filesystem.groupspaces.horel
+
+.. automethod:: HorelGroup.get_highest_lvl

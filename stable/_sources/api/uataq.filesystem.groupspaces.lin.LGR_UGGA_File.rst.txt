@@ -1,0 +1,33 @@
+uataq.filesystem.groupspaces.lin.LGR\_UGGA\_File
+================================================
+
+.. currentmodule:: uataq.filesystem.groupspaces.lin
+
+.. autoclass:: LGR_UGGA_File
+   :no-members:
+   :show-inheritance:
+
+
+
+
+.. rubric:: Attributes
+
+.. autosummary::
+   :toctree:
+
+   ~LGR_UGGA_File.name_date_formats
+
+
+
+.. rubric:: Methods
+
+.. autosummary::
+   :toctree:
+
+   ~LGR_UGGA_File.get_files
+   ~LGR_UGGA_File.get_meta
+   ~LGR_UGGA_File.get_serial
+   ~LGR_UGGA_File.parse
+
+
+

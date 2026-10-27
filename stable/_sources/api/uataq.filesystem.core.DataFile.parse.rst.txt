@@ -1,0 +1,6 @@
+uataq.filesystem.core.DataFile.parse
+====================================
+
+.. currentmodule:: uataq.filesystem.core
+
+.. automethod:: DataFile.parse

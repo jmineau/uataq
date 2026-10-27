@@ -1,0 +1,6 @@
+uataq.sodar.Sodar.parse
+=======================
+
+.. currentmodule:: uataq.sodar
+
+.. automethod:: Sodar.parse

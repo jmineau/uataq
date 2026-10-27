@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Installation &#8212; UATAQ 2026.10.1 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=64cc4de3f052d77215f0" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=64cc4de3f052d77215f0" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../_static/scripts/fontawesome.js?digest=64cc4de3f052d77215f0"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
+
+    <script src="../_static/documentation_options.js?v=65cfade2"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'getting_started/installation';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.22.0';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://jmineau.github.io/uataq/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '2026.10.1';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            true;
+        </script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Your first data" href="first_data.html" />
+    <link rel="prev" title="Getting started" href="index.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="2026.10.1" />
+  
+    
+    <script src="../_static/searchtools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button type="button" class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">UATAQ 2026.10.1 documentation</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../guides/index.html">
+    Guides
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../reference/index.html">
+    Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../contributing.html">
+    Contributing
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button type="button" class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+      
+        <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button type="button" class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/jmineau/uataq" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button type="button" class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button type="button" class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../guides/index.html">
+    Guides
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../reference/index.html">
+    Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../contributing.html">
+    Contributing
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-3"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-3"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-3"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-3">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+        
+          <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button type="button" class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/jmineau/uataq" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item pst-sidebar-collapse"><button type="button" id="pst-collapse-sidebar-button" aria-expanded="true" aria-controls="pst-primary-sidebar">
+  <svg class="pst-icon" role="img" aria-hidden="true" focusable="false" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+    <path fill="currentColor" d="M3 15.5C2.36232 15.5 1.74874 15.2564 1.28478 14.8189C0.820828 14.3815 0.541576 13.7832 0.504167 13.1467L0.5 13L0.5 3C0.499965 2.36232 0.743605 1.74874 1.18107 1.28478C1.61854 0.820828 2.21676 0.541576 2.85333 0.504167L3 0.5L13 0.5C13.6377 0.499965 14.2513 0.743605 14.7152 1.18107C15.1792 1.61854 15.4584 2.21676 15.4958 2.85333L15.5 3L15.5 13C15.5 13.6377 15.2564 14.2513 14.8189 14.7152C14.3815 15.1792 13.7832 15.4584 13.1467 15.4958L13 15.5L3 15.5ZM3 13.8333L10.5 13.8333L10.5 2.16667L3 2.16667C2.79589 2.16669 2.59889 2.24163 2.44636 2.37726C2.29383 2.5129 2.19638 2.69979 2.1725 2.9025L2.16667 3L2.16667 13C2.16669 13.2041 2.24163 13.4011 2.37726 13.5536C2.5129 13.7062 2.69979 13.8036 2.9025 13.8275L3 13.8333ZM6.65583 10.325L6.5775 10.2558L4.91083 8.58917C4.76735 8.44567 4.68116 8.25476 4.66843 8.05223C4.65569 7.84971 4.71729 7.6495 4.84167 7.48917L4.91083 7.41083L6.5775 5.74417C6.72747 5.59471 6.9287 5.50794 7.14032 5.50148C7.35194 5.49502 7.55809 5.56935 7.7169 5.70937C7.8757 5.8494 7.97525 6.04463 7.99533 6.25539C8.01541 6.46616 7.95451 6.67667 7.825 6.84417L7.75583 6.9225L6.67917 8L7.75583 9.0775C7.89931 9.22099 7.98551 9.41191 7.99824 9.61443C8.01097 9.81695 7.94938 10.0172 7.825 10.1775L7.75583 10.2558C7.61234 10.3993 7.42142 10.4855 7.2189 10.4982C7.01638 10.511 6.81617 10.4494 6.65583 10.325Z"/>
+  </svg>
+  <span class="pst-collapse-sidebar-label">Collapse Sidebar</span>
+  <span class="pst-expand-sidebar-label">Expand Sidebar</span>
+</button></div>
+        <div class="sidebar-primary-item">
+
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a aria-current="page" class="current reference internal" href="#">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="first_data.html">Your first data</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Getting started</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Installation</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="installation">
+<h1>Installation<a class="headerlink" href="#installation" title="Link to this heading">#</a></h1>
+<p>uataq reads the UATAQ data archive, and the archive lives on CHPC. So you
+install and use uataq on CHPC. This page takes you from a fresh login to a
+first read of real data in about five minutes.</p>
+<p>Run the commands on a <em>login node</em>, the computer you land on when you <code class="docutils literal notranslate"><span class="pre">ssh</span></code>
+in. Login nodes are for light work: installing, editing, small reads. Bigger
+jobs go to a compute node through <em>Slurm</em>, CHPC’s job scheduler (see
+<a class="reference internal" href="#install-slurm"><span class="std std-ref">Use uataq in a Slurm job</span></a>). If CHPC is new to you, start with
+<a class="reference external" href="https://www.chpc.utah.edu/documentation/">CHPC’s documentation</a>.</p>
+<section id="what-you-need">
+<h2>What you need<a class="headerlink" href="#what-you-need" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>A CHPC account in the</strong> <code class="docutils literal notranslate"><span class="pre">lin</span></code> <strong>group.</strong> The archive is stored in the Lin
+group’s space, and only members of the group can read it. The command
+<code class="docutils literal notranslate"><span class="pre">groups</span></code> lists your groups. If <code class="docutils literal notranslate"><span class="pre">lin</span></code> is not in the list, ask your advisor
+to have you added.</p></li>
+<li><p><strong>Python 3.11 or newer.</strong> The Python you get when you log in (<code class="docutils literal notranslate"><span class="pre">python3</span></code>) is
+version 3.6.8, which is too old, and <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span></code> fails on it with an
+unhelpful error (see <a class="reference internal" href="#install-errors"><span class="std std-ref">If something goes wrong</span></a>). Step 2 loads a newer Python from
+CHPC.</p></li>
+</ul>
+<p>That is all. You do not set any environment variable: uataq already knows where
+the archive is.</p>
+</section>
+<section id="install">
+<h2>Install<a class="headerlink" href="#install" title="Link to this heading">#</a></h2>
+<ol class="arabic">
+<li><p><strong>Check that you can read the archive.</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ls<span class="w"> </span>/uufs/chpc.utah.edu/common/home/lin-group20/measurements/data
+</pre></div>
+</div>
+<p>You should see a folder for each site the lin group records (<code class="docutils literal notranslate"><span class="pre">asb</span></code>,
+<code class="docutils literal notranslate"><span class="pre">csp</span></code>, <code class="docutils literal notranslate"><span class="pre">dbk</span></code>, and so on through <code class="docutils literal notranslate"><span class="pre">wbb</span></code>), and a few other folders that
+are not uataq sites. If you get an error instead, you do not have access
+yet. See <a class="reference internal" href="#what-you-need">What you need</a>.</p>
+</li>
+<li><p><strong>Load a newer Python.</strong> CHPC installs its software as <em>modules</em>, and
+<code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">load</span></code> turns one on for your current session.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module<span class="w"> </span>load<span class="w"> </span>python
+python3<span class="w"> </span>--version
+</pre></div>
+</div>
+<p>The second command should print <code class="docutils literal notranslate"><span class="pre">Python</span> <span class="pre">3.11</span></code> or newer (<code class="docutils literal notranslate"><span class="pre">Python</span> <span class="pre">3.11.3</span></code>
+in October 2026).</p>
+</li>
+<li><p><strong>Make a virtual environment.</strong> A virtual environment is a folder with its
+own copy of Python and its own packages. What you install for uataq stays
+there and does not disturb anything else.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>~/venvs/uataq
+<span class="nb">source</span><span class="w"> </span>~/venvs/uataq/bin/activate
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">(uataq)</span></code> now appears at the start of your prompt. The folder takes about
+0.4 GB. Keep it in your home directory, not in scratch: CHPC deletes scratch
+files that go unused for 60 days.</p>
+</li>
+<li><p><strong>Install uataq.</strong> <code class="docutils literal notranslate"><span class="pre">pip</span></code> is Python’s installer. uataq is not on PyPI (the
+usual package index), so you point pip at its GitHub repository.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>git+https://github.com/jmineau/uataq.git
+</pre></div>
+</div>
+<p>pip prints a long list while it works (about two minutes). The last line
+that matters starts with <code class="docutils literal notranslate"><span class="pre">Successfully</span> <span class="pre">installed</span></code>. A notice about a new
+pip release after it is harmless.</p>
+</li>
+<li><p><strong>Check that it reads real data.</strong> This reads one day of CO2 from the WBB
+site (William Browning, on the University of Utah campus):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;import uataq; print(uataq.get_obs(&#39;WBB&#39;, &#39;CO2&#39;, time_range=&#39;2025-06-02&#39;))&quot;</span>
+</pre></div>
+</div>
+<p>It takes a couple of seconds and prints a table:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>                     CO2d_ppm_cal  CO2d_ppm_raw
+Time_UTC
+2025-06-02 00:00:01    431.852558      434.8026
+2025-06-02 00:00:11    431.612346      434.5594
+2025-06-02 00:00:21    431.812938      434.7615
+2025-06-02 00:00:30    431.939531      434.8889
+2025-06-02 00:00:40    432.130721      435.0815
+...                           ...           ...
+2025-06-02 23:59:20    429.260744      431.1932
+2025-06-02 23:59:29    429.139982      431.0713
+2025-06-02 23:59:39    429.083069      431.0138
+2025-06-02 23:59:49    429.033293      430.9635
+2025-06-02 23:59:59    429.157492      431.0887
+
+[8390 rows x 2 columns]
+</pre></div>
+</div>
+<p>If you see a table like this, the install works and you can read the
+archive. (The row count can change if the data are reprocessed.)
+<code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">uataq</span></code> alone is not a good test: it can succeed even when the
+archive is out of reach, so this step reads some data.</p>
+</li>
+</ol>
+<p>Next, read <a class="reference internal" href="first_data.html"><span class="doc">Your first data</span></a>.</p>
+<section id="other-pythons">
+<h3>Other Pythons<a class="headerlink" href="#other-pythons" title="Link to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">load</span> <span class="pre">python</span></code> gives CHPC’s default Python. Any version from 3.11 up
+works. <code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">spider</span> <span class="pre">python</span></code> lists the others. The steps above were tried
+with the modules <code class="docutils literal notranslate"><span class="pre">python/3.11.3</span></code> (the default), <code class="docutils literal notranslate"><span class="pre">python/3.12.12</span></code>,
+<code class="docutils literal notranslate"><span class="pre">python/3.13.5</span></code> and <code class="docutils literal notranslate"><span class="pre">python/3.14.5</span></code>. For 3.14.5, CHPC wants
+<code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">load</span> <span class="pre">gcc/13.4.0</span> <span class="pre">python/3.14.5</span></code>.</p>
+<p>If you already use conda, make an environment with Python 3.11 or newer and
+run the same <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span></code> inside it. This works too, and the environment
+takes 0.6 GB in <code class="docutils literal notranslate"><span class="pre">~/.conda/envs</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module<span class="w"> </span>load<span class="w"> </span>miniforge3
+conda<span class="w"> </span>create<span class="w"> </span>-y<span class="w"> </span>-n<span class="w"> </span>uataq<span class="w"> </span><span class="nv">python</span><span class="o">=</span><span class="m">3</span>.12
+conda<span class="w"> </span>activate<span class="w"> </span>uataq
+pip<span class="w"> </span>install<span class="w"> </span>git+https://github.com/jmineau/uataq.git
+</pre></div>
+</div>
+</section>
+</section>
+<section id="each-time-you-log-in">
+<h2>Each time you log in<a class="headerlink" href="#each-time-you-log-in" title="Link to this heading">#</a></h2>
+<p>Activate the environment before you use uataq:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">source</span><span class="w"> </span>~/venvs/uataq/bin/activate
+</pre></div>
+</div>
+<p>You do not need <code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">load</span> <span class="pre">python</span></code> again: the environment remembers which
+Python it uses. If it ever stops working after CHPC changes its modules, delete
+the folder (<code class="docutils literal notranslate"><span class="pre">rm</span> <span class="pre">-rf</span> <span class="pre">~/venvs/uataq</span></code>) and redo steps 2 to 4.</p>
+</section>
+<section id="use-uataq-in-jupyter">
+<span id="install-jupyter"></span><h2>Use uataq in Jupyter<a class="headerlink" href="#use-uataq-in-jupyter" title="Link to this heading">#</a></h2>
+<p>CHPC runs Jupyter in your browser through
+<a class="reference external" href="https://ondemand.chpc.utah.edu">Open OnDemand</a>. To use your uataq environment
+there, install Jupyter into it once:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">source</span><span class="w"> </span>~/venvs/uataq/bin/activate
+pip<span class="w"> </span>install<span class="w"> </span>jupyterlab
+</pre></div>
+</div>
+<p>It takes a minute or two and about 0.25 GB more. Then open the Jupyter app in
+Open OnDemand, choose <strong>Custom (Environment setup below)</strong> as the Python version,
+and enter these two lines in the environment setup box:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module<span class="w"> </span>load<span class="w"> </span>python
+<span class="nb">source</span><span class="w"> </span>~/venvs/uataq/bin/activate
+</pre></div>
+</div>
+<p>Your notebooks then run the environment’s Python, with uataq. (The two lines
+are CHPC’s instructions for a custom environment; the environment itself was
+tested up to a Jupyter kernel that imports uataq.)</p>
+</section>
+<section id="update-uataq-or-pin-a-version">
+<h2>Update uataq, or pin a version<a class="headerlink" href="#update-uataq-or-pin-a-version" title="Link to this heading">#</a></h2>
+<p>The install above gets the newest code. To update later, run the same command
+with <code class="docutils literal notranslate"><span class="pre">--upgrade</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>--upgrade<span class="w"> </span>git+https://github.com/jmineau/uataq.git
+</pre></div>
+</div>
+<p>For results you will publish, install a fixed release by adding its tag, and
+write the version down. <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">show</span> <span class="pre">uataq</span></code> prints the version you have.
+<a class="reference external" href="https://github.com/jmineau/uataq/releases">The releases page</a> lists the tags.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>git+https://github.com/jmineau/uataq.git@v2026.10.0
+pip<span class="w"> </span>show<span class="w"> </span>uataq
+</pre></div>
+</div>
+</section>
+<section id="use-uataq-in-a-slurm-job">
+<span id="install-slurm"></span><h2>Use uataq in a Slurm job<a class="headerlink" href="#use-uataq-in-a-slurm-job" title="Link to this heading">#</a></h2>
+<p>A login node is for light work, such as a year of one site’s CO2 and CH4 at the
+<code class="docutils literal notranslate"><span class="pre">final</span></code> level, which took 4 seconds and 0.6 GB (see <a class="reference internal" href="../guides/read_data.html#large-reads"><span class="std std-ref">A year or more</span></a>). For
+several years or many sites, the <code class="docutils literal notranslate"><span class="pre">raw</span></code> level, or reads in several processes,
+write a job script. The job only has to activate the environment:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+<span class="c1">#SBATCH --account=lin-np</span>
+<span class="c1">#SBATCH --partition=lin-np</span>
+<span class="c1">#SBATCH --nodes=1</span>
+<span class="c1">#SBATCH --ntasks=1</span>
+<span class="c1">#SBATCH --mem=8G</span>
+<span class="c1">#SBATCH --time=00:30:00</span>
+
+<span class="nb">source</span><span class="w"> </span>~/venvs/uataq/bin/activate
+python<span class="w"> </span>my_script.py
+</pre></div>
+</div>
+<p>Save it as <code class="docutils literal notranslate"><span class="pre">my_job.sh</span></code> and submit it with <code class="docutils literal notranslate"><span class="pre">sbatch</span> <span class="pre">my_job.sh</span></code>. <code class="docutils literal notranslate"><span class="pre">lin-np</span></code> is
+the Lin group’s own set of compute nodes. If <code class="docutils literal notranslate"><span class="pre">sbatch</span></code> refuses the account,
+<code class="docutils literal notranslate"><span class="pre">mychpc</span> <span class="pre">batch</span></code> lists the accounts and partitions you can use. See
+<a class="reference external" href="https://www.chpc.utah.edu/documentation/software/slurm.php">CHPC’s Slurm guide</a>
+for the rest.</p>
+</section>
+<section id="if-something-goes-wrong">
+<span id="install-errors"></span><h2>If something goes wrong<a class="headerlink" href="#if-something-goes-wrong" title="Link to this heading">#</a></h2>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span></code> ends with <code class="docutils literal notranslate"><span class="pre">FileNotFoundError:</span> <span class="pre">...</span> <span class="pre">setup.py</span></code></dt><dd><p>You are on CHPC’s system Python 3.6, which cannot install uataq. Run
+<code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">load</span> <span class="pre">python</span></code>, delete the environment if you made it before that
+(<code class="docutils literal notranslate"><span class="pre">rm</span> <span class="pre">-rf</span> <span class="pre">~/venvs/uataq</span></code>), and redo steps 2 to 4.</p>
+</dd>
+<dt>The <code class="docutils literal notranslate"><span class="pre">ls</span></code> in step 1, or the read in step 5, fails</dt><dd><p>You are probably not in the <code class="docutils literal notranslate"><span class="pre">lin</span></code> group yet. Run <code class="docutils literal notranslate"><span class="pre">groups</span></code> and see
+<a class="reference internal" href="#what-you-need">What you need</a>.</p>
+</dd>
+</dl>
+<p>The steps on this page were last checked in October 2026 on a Notchpeak login
+node.</p>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="index.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Getting started</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="first_data.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Your first data</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-you-need">What you need</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#install">Install</a><ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#other-pythons">Other Pythons</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#each-time-you-log-in">Each time you log in</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-uataq-in-jupyter">Use uataq in Jupyter</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#update-uataq-or-pin-a-version">Update uataq, or pin a version</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-uataq-in-a-slurm-job">Use uataq in a Slurm job</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#if-something-goes-wrong">If something goes wrong</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  <div class="tocsection sourcelink">
+    <a href="../_sources/getting_started/installation.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025-2026, James Mineau.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.22.0.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,6 @@
+uataq.sites.Site.read\_data
+===========================
+
+.. currentmodule:: uataq.sites
+
+.. automethod:: Site.read_data

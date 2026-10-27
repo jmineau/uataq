@@ -1,0 +1,6 @@
+uataq.errors.InstrumentNotFoundError
+====================================
+
+.. currentmodule:: uataq.errors
+
+.. autoexception:: InstrumentNotFoundError

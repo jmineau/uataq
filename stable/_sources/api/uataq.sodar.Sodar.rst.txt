@@ -1,0 +1,33 @@
+uataq.sodar.Sodar
+=================
+
+.. currentmodule:: uataq.sodar
+
+.. autoclass:: Sodar
+   :no-members:
+
+
+
+
+.. rubric:: Attributes
+
+.. autosummary::
+   :toctree:
+
+   ~Sodar.model
+   ~Sodar.species_measured
+
+
+
+.. rubric:: Methods
+
+.. autosummary::
+   :toctree:
+
+   ~Sodar.get_files
+   ~Sodar.get_winds_at_height
+   ~Sodar.parse
+   ~Sodar.read_data
+
+
+

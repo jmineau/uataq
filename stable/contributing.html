@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Contributing &#8212; UATAQ 2026.10.0 documentation</title>
+    <title>Contributing &#8212; UATAQ 2026.10.1 documentation</title>
   
   
   
@@ -30,6 +30,7 @@
 <link href="_static/styles/pydata-sphinx-theme.css?digest=64cc4de3f052d77215f0" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
   
   <!-- So that users can add custom icons -->
@@ -38,7 +39,7 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="_static/documentation_options.js?v=c1b729fb"></script>
+    <script src="_static/documentation_options.js?v=65cfade2"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -47,17 +48,17 @@
     <script>
         DOCUMENTATION_OPTIONS.theme_version = '0.22.0';
         DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://jmineau.github.io/uataq/switcher.json';
-        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '2026.10.0';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '2026.10.1';
         DOCUMENTATION_OPTIONS.show_version_warning_banner =
             true;
         </script>
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="SODAR" href="sodar.html" />
+    <link rel="prev" title="uataq.gps.haversine" href="api/uataq.gps.haversine.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.0" />
+  <meta name="docsearch:version" content="2026.10.1" />
   
     
     <script src="_static/searchtools.js"></script>
@@ -125,7 +126,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.0 documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.1 documentation</p>
   
 </a></div>
     
@@ -140,91 +141,32 @@
   <ul class="bd-navbar-elements navbar-nav">
     
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="installation.html">
-    Installation
+  <a class="nav-link nav-internal" href="getting_started/index.html">
+    Getting started
   </a>
 </li>
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="quickstart.html">
-    Quick Start
+  <a class="nav-link nav-internal" href="guides/index.html">
+    Guides
   </a>
 </li>
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="general.html">
-    General Functions
+  <a class="nav-link nav-internal" href="reference/index.html">
+    Reference
   </a>
 </li>
 
 
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="laboratory.html">
-    Laboratory
-  </a>
-</li>
-
-
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="filesystem.html">
-    File System
-  </a>
-</li>
-
-            <li class="nav-item dropdown">
-                <button class="btn dropdown-toggle nav-item" type="button"
-                data-bs-toggle="dropdown" aria-expanded="false"
-                aria-controls="pst-nav-more-links">
-                    More
-                </button>
-                <ul id="pst-nav-more-links" class="dropdown-menu">
-                    
-<li class=" ">
-  <a class="nav-link dropdown-item nav-internal" href="sites.html">
-    Sites
-  </a>
-</li>
-
-
-<li class=" ">
-  <a class="nav-link dropdown-item nav-internal" href="instruments.html">
-    Instruments
-  </a>
-</li>
-
-
-<li class=" ">
-  <a class="nav-link dropdown-item nav-internal" href="pollutants.html">
-    Pollutants
-  </a>
-</li>
-
-
-<li class=" ">
-  <a class="nav-link dropdown-item nav-internal" href="gps.html">
-    GPS
-  </a>
-</li>
-
-
-<li class=" ">
-  <a class="nav-link dropdown-item nav-internal" href="sodar.html">
-    SODAR
-  </a>
-</li>
-
-
-<li class=" current active">
-  <a class="nav-link dropdown-item nav-internal" href="#" aria-current="page">
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="#" aria-current="page">
     Contributing
   </a>
 </li>
 
-                </ul>
-            </li>
-            
   </ul>
 </nav></div>
       
@@ -341,71 +283,22 @@
   <ul class="bd-navbar-elements navbar-nav">
     
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="installation.html">
-    Installation
+  <a class="nav-link nav-internal" href="getting_started/index.html">
+    Getting started
   </a>
 </li>
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="quickstart.html">
-    Quick Start
+  <a class="nav-link nav-internal" href="guides/index.html">
+    Guides
   </a>
 </li>
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="general.html">
-    General Functions
-  </a>
-</li>
-
-
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="laboratory.html">
-    Laboratory
-  </a>
-</li>
-
-
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="filesystem.html">
-    File System
-  </a>
-</li>
-
-
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="sites.html">
-    Sites
-  </a>
-</li>
-
-
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="instruments.html">
-    Instruments
-  </a>
-</li>
-
-
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="pollutants.html">
-    Pollutants
-  </a>
-</li>
-
-
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="gps.html">
-    GPS
-  </a>
-</li>
-
-
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="sodar.html">
-    SODAR
+  <a class="nav-link nav-internal" href="reference/index.html">
+    Reference
   </a>
 </li>
 
@@ -552,7 +445,327 @@
   <section id="contributing">
 <h1>Contributing<a class="headerlink" href="#contributing" title="Link to this heading">#</a></h1>
 <p>Contributions are welcome. <a class="reference external" href="https://github.com/jmineau/uataq/blob/main/CONTRIBUTING.md">CONTRIBUTING.md</a>
-explains how to set up a development environment, run the checks, and propose a change.</p>
+explains how to set up a development environment, run the checks, and propose a change.
+<a class="reference external" href="https://github.com/jmineau/uataq/blob/main/AGENTS.md">AGENTS.md</a> is the short guide
+for contributors and coding agents: the rules the code keeps, the commands, and the
+gotchas. This page holds the development setup on CHPC and the longer notes it points
+to: the module layout, how to add
+an instrument or a group space, how the docs are organized and generated, and what the
+mobile clocks, the MetOne swap files, data availability and the SODAR archive need.</p>
+<section id="development-setup">
+<h2>Development setup<a class="headerlink" href="#development-setup" title="Link to this heading">#</a></h2>
+<p>This sets up a copy of uataq to change and send back, the way its maintainer
+works. Three tools do the work:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://docs.astral.sh/uv/">uv</a> installs the packages the project needs
+into a <code class="docutils literal notranslate"><span class="pre">.venv</span></code> folder inside your copy of the code, at the versions
+recorded in <code class="docutils literal notranslate"><span class="pre">uv.lock</span></code>.</p></li>
+<li><p><a class="reference external" href="https://just.systems/">just</a> runs the project’s named tasks, listed in
+its <code class="docutils literal notranslate"><span class="pre">justfile</span></code> (<code class="docutils literal notranslate"><span class="pre">just</span> <span class="pre">--list</span></code> shows them). <code class="docutils literal notranslate"><span class="pre">uv</span> <span class="pre">sync</span></code> installs it, and
+you run it as <code class="docutils literal notranslate"><span class="pre">uv</span> <span class="pre">run</span> <span class="pre">just</span></code>.</p></li>
+<li><p><a class="reference external" href="https://pre-commit.com/">pre-commit</a> checks your changes for style
+problems each time you <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">commit</span></code>, before the commit is made.</p></li>
+</ul>
+<p>uataq needs uv 0.12 or newer, and CHPC’s <code class="docutils literal notranslate"><span class="pre">uv</span></code> module is older (0.11.14 in
+October 2026). Install your own copy with pip. Do this in a shell where the
+uataq environment is not active: run <code class="docutils literal notranslate"><span class="pre">deactivate</span></code> first, or pip stops with
+<code class="docutils literal notranslate"><span class="pre">Can</span> <span class="pre">not</span> <span class="pre">perform</span> <span class="pre">a</span> <span class="pre">'--user'</span> <span class="pre">install</span></code>.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module<span class="w"> </span>load<span class="w"> </span>python
+pip<span class="w"> </span>install<span class="w"> </span>--user<span class="w"> </span>uv
+uv<span class="w"> </span>--version
+</pre></div>
+</div>
+<p>The last command should print <code class="docutils literal notranslate"><span class="pre">uv</span> <span class="pre">0.12</span></code> or newer. Then get the code and set
+it up:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/jmineau/uataq.git
+<span class="nb">cd</span><span class="w"> </span>uataq
+uv<span class="w"> </span>sync<span class="w">                       </span><span class="c1"># the packages, into .venv (about two minutes)</span>
+uv<span class="w"> </span>run<span class="w"> </span>pre-commit<span class="w"> </span>install<span class="w">     </span><span class="c1"># turn on the checks at commit time</span>
+</pre></div>
+</div>
+<p>To run the checks that CI runs (lint, types, docstrings and the tests), use a
+compute node, not the login node:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>srun<span class="w"> </span>--account<span class="o">=</span>lin-np<span class="w"> </span>--partition<span class="o">=</span>lin-np<span class="w"> </span>--nodes<span class="o">=</span><span class="m">1</span><span class="w"> </span>--ntasks<span class="o">=</span><span class="m">1</span><span class="w"> </span>--cpus-per-task<span class="o">=</span><span class="m">4</span><span class="w"> </span>--mem<span class="o">=</span>8G<span class="w"> </span>--time<span class="o">=</span><span class="m">00</span>:30:00<span class="w"> </span>uv<span class="w"> </span>run<span class="w"> </span>just<span class="w"> </span>quality-check
+</pre></div>
+</div>
+<p>It takes about a minute and ends with the number of tests that passed. The tests do
+not need the archive, so you can also develop on your own computer.
+<a class="reference external" href="https://github.com/jmineau/uataq/blob/main/CONTRIBUTING.md">CONTRIBUTING.md</a>
+has the rest of the workflow: branches and pull requests.</p>
+<p>To work on the code while you use it for your own analysis, install your clone
+into the environment from the steps above (an <em>editable</em> install, which runs
+the code in your folder as you change it):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">source</span><span class="w"> </span>~/venvs/uataq/bin/activate
+<span class="nb">cd</span><span class="w"> </span>uataq
+pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.
+</pre></div>
+</div>
+<p>If <code class="docutils literal notranslate"><span class="pre">uv</span> <span class="pre">sync</span></code> fails with <code class="docutils literal notranslate"><span class="pre">Required</span> <span class="pre">uv</span> <span class="pre">version</span> <span class="pre">...</span> <span class="pre">does</span> <span class="pre">not</span> <span class="pre">match</span> <span class="pre">the</span> <span class="pre">running</span>
+<span class="pre">version</span></code>, you are running CHPC’s <code class="docutils literal notranslate"><span class="pre">uv</span></code> module: run <code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">unload</span> <span class="pre">uv</span></code> and open
+a new shell so your own copy comes first.</p>
+</section>
+<section id="module-layout">
+<h2>Module layout<a class="headerlink" href="#module-layout" title="Link to this heading">#</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>src/uataq/
+  __init__.py        read_data, get_obs, get_recent_obs, get_network_obs;
+                     re-exports laboratory, get_site, Network, DEFAULT_GROUP,
+                     TimeRange and the modules below
+  config.json        sites and instruments; read at import (importlib.resources)
+  _laboratory.py     Laboratory: builds sites and instruments from config.json
+  sites.py           Site (stationary) and MobileSite (GPS-located rows)
+  instruments.py     Instrument ABC, one subclass per model, and `catalog`
+  network.py         Network: many sites, one pollutant (GeoDataFrame);
+                     get_availability / plot_availability
+  pollutants.py      column grammar {pollutant}[d|channel]_{units}[_cal|_raw]:
+                     concentration_columns, parse_column, POLLUTANTS
+  gps.py             haversine, bearing, estimate_speed_course,
+                     gps_time_from_time_of_day
+  sodar.py           Horel/MesoWest SODAR profiles (Sodar, list_stations);
+                     standalone, not in config.json, not imported by uataq
+  timerange.py       TimeRange and the TimeRangeTypes alias
+  errors.py          ReaderError and its subclasses, ParserError, EmptyResultWarning,
+                     DroppedPollutantWarning, ...
+  filesystem/
+    __init__.py      DEFAULT_GROUP, get_group; re-exports core
+    core.py          DataFile, GroupSpace, groups, lvls, list_files,
+                     filter_datafiles, parse_datafiles, cpu_count
+    groupspaces/     one module per research group&#39;s archive (lin, horel)
+tests/               pytest
+docs/                Sphinx; docs/_ext/ holds two local extensions
+</pre></div>
+</div>
+<p>How a read flows: <code class="docutils literal notranslate"><span class="pre">laboratory</span></code> (a process-wide singleton built at import) holds
+the <code class="docutils literal notranslate"><span class="pre">Site</span></code> objects; <code class="docutils literal notranslate"><span class="pre">get_site(SID)</span></code> returns one, and the top-level functions
+delegate to it. A <code class="docutils literal notranslate"><span class="pre">Site</span></code> asks each <code class="docutils literal notranslate"><span class="pre">Instrument</span></code> which group to read each part of
+the range from (<code class="docutils literal notranslate"><span class="pre">plan_reads</span></code>); the instrument gets its files from that group’s
+<code class="docutils literal notranslate"><span class="pre">GroupSpace</span></code> (<code class="docutils literal notranslate"><span class="pre">filesystem.groups[name]</span></code>), whose <code class="docutils literal notranslate"><span class="pre">DataFile</span></code> classes parse them;
+the frames are standardized to uataq’s column names and concatenated in time.
+In one <code class="docutils literal notranslate"><span class="pre">Site.read_data</span></code> call, a file that several instruments read is parsed
+once (horel’s finalized CSVs hold a whole platform): <code class="docutils literal notranslate"><span class="pre">filesystem.core._parse_once</span></code>
+holds a dict, by path, until the call returns, and <code class="docutils literal notranslate"><span class="pre">HorelCSVFile.parse</span></code> keeps
+its parse there for the other instruments, which copy their own columns.
+<code class="docutils literal notranslate"><span class="pre">filesystem.lvls</span></code> ranks the levels (<code class="docutils literal notranslate"><span class="pre">raw</span></code> &lt; <code class="docutils literal notranslate"><span class="pre">qaqc</span></code> &lt; <code class="docutils literal notranslate"><span class="pre">calibrated</span></code> &lt;
+<code class="docutils literal notranslate"><span class="pre">final</span></code>).</p>
+</section>
+<section id="adding-an-instrument-or-a-group-space">
+<h2>Adding an instrument or a group space<a class="headerlink" href="#adding-an-instrument-or-a-group-space" title="Link to this heading">#</a></h2>
+<p>A change at a site (an instrument installed, removed or swapped) must be written
+in <code class="docutils literal notranslate"><span class="pre">config.json</span></code>, or uataq cannot read the data; <a class="reference internal" href="reference/config.html"><span class="doc">Configuration</span></a> lists its
+keys.</p>
+<p><strong>A new instrument.</strong> An <code class="docutils literal notranslate"><span class="pre">Instrument</span></code> subclass in <code class="docutils literal notranslate"><span class="pre">instruments.py</span></code> (and a
+<code class="docutils literal notranslate"><span class="pre">DataFile</span></code> in the group’s module if the format is new), its entry in
+<code class="docutils literal notranslate"><span class="pre">config.json</span></code> with dates and <code class="docutils literal notranslate"><span class="pre">notes</span></code>, and parser tests on synthetic lines.</p>
+<p><strong>A new group space.</strong> Add <code class="docutils literal notranslate"><span class="pre">filesystem/groupspaces/&lt;name&gt;.py</span></code> with a
+<code class="docutils literal notranslate"><span class="pre">GroupSpace</span></code> subclass, its <code class="docutils literal notranslate"><span class="pre">DataFile</span></code> classes and a <code class="docutils literal notranslate"><span class="pre">column_mapping</span></code> dict (the
+group’s column names to uataq’s, applied by its <code class="docutils literal notranslate"><span class="pre">standardize_data</span></code>), modeled on
+<code class="docutils literal notranslate"><span class="pre">lin.py</span></code> and <code class="docutils literal notranslate"><span class="pre">horel.py</span></code>, and register it at the bottom of that module:
+<code class="docutils literal notranslate"><span class="pre">filesystem.groups[&quot;&lt;name&gt;&quot;]</span> <span class="pre">=</span> <span class="pre">&lt;Name&gt;Group()</span></code>. Nothing else needs to import it:
+<code class="docutils literal notranslate"><span class="pre">groupspaces/__init__.py</span></code> star-imports every non-underscore module in the folder.
+Its API page appears by itself (“Functions and modules” lists <code class="docutils literal notranslate"><span class="pre">filesystem</span></code>
+recursively).</p>
+</section>
+<section id="writing-the-docs">
+<h2>Writing the docs<a class="headerlink" href="#writing-the-docs" title="Link to this heading">#</a></h2>
+<p>Each fact is written on one page, and the other pages link to it (the rules for
+writing are in AGENTS.md). This table says which page holds which kind of fact. A
+change that moves a fact, or renames or retitles a page, updates its row here.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<colgroup>
+<col style="width: 60.0%" />
+<col style="width: 40.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Fact</p></th>
+<th class="head"><p>Page</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>What UATAQ is, a first example, how to cite the data</p></td>
+<td><p>the front page (<code class="docutils literal notranslate"><span class="pre">docs/index.rst</span></code>)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Install, Jupyter on Open OnDemand, Slurm jobs, updating and pinning</p></td>
+<td><p><a class="reference internal" href="getting_started/installation.html"><span class="doc">Installation</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p>A first read, UTC and local time, hourly means, what to write down</p></td>
+<td><p><a class="reference internal" href="getting_started/first_data.html"><span class="doc">Your first data</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>Which sites measure what, when a site has data, the newest data</p></td>
+<td><p><a class="reference internal" href="guides/find_sites_and_data.html"><span class="doc">Find sites and data</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p>Several pollutants and sites, <code class="docutils literal notranslate"><span class="pre">get_network_obs</span></code>, <code class="docutils literal notranslate"><span class="pre">read_data</span></code>, large reads</p></td>
+<td><p><a class="reference internal" href="guides/read_data.html"><span class="doc">Read data</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>The data levels, which level a read gives, <code class="docutils literal notranslate"><span class="pre">ID</span></code>, what <code class="docutils literal notranslate"><span class="pre">final</span></code> keeps, flags, empty <code class="docutils literal notranslate"><span class="pre">_cal</span></code></p></td>
+<td><p><a class="reference internal" href="guides/data_levels_and_flags.html"><span class="doc">Data levels and flags</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p>Mobile sites: positions, the two clocks, TRX01’s two LGR names, raw-only months</p></td>
+<td><p><a class="reference internal" href="guides/mobile_sites.html"><span class="doc">Mobile sites</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>Errors and empty results</p></td>
+<td><p><a class="reference internal" href="guides/errors.html"><span class="doc">When there is nothing to read</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p>Sites, instruments, their dates, glossary</p></td>
+<td><p><a class="reference internal" href="reference/sites_and_instruments.html"><span class="doc">Sites and instruments</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>Columns of each instrument and level, column names</p></td>
+<td><p><a class="reference internal" href="reference/columns.html"><span class="doc">Columns</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p>Arguments: site, instruments, pollutants, format, group, level, time range (every form), processes</p></td>
+<td><p><a class="reference internal" href="reference/input_parameters.html"><span class="doc">Input Parameters</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>Config keys</p></td>
+<td><p><a class="reference internal" href="reference/config.html"><span class="doc">Configuration</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p>Development setup and developer notes</p></td>
+<td><p>Contributing (this page)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Function and class details, what a module is for</p></td>
+<td><p>the docstrings, on the generated API pages (<a class="reference internal" href="reference/functions_and_modules.html"><span class="doc">Functions and modules</span></a>)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The front page (<code class="docutils literal notranslate"><span class="pre">docs/index.rst</span></code>) lists four sections, which are the navbar:
+Getting started, Guides and Reference (each a folder of <code class="docutils literal notranslate"><span class="pre">docs/</span></code> with an
+<code class="docutils literal notranslate"><span class="pre">index.rst</span></code> that lists its pages, in the left sidebar) and this page. A new page
+goes in the folder of its section and on that section’s <code class="docutils literal notranslate"><span class="pre">index.rst</span></code>.</p>
+<p><strong>Examples that run in the build.</strong> In an <code class="docutils literal notranslate"><span class="pre">..</span> <span class="pre">ipython::</span> <span class="pre">python</span></code> block, <code class="docutils literal notranslate"><span class="pre">&#64;savefig</span>
+<span class="pre">name.png</span></code> above a plot keeps the figure, and <code class="docutils literal notranslate"><span class="pre">:okexcept:</span></code> or <code class="docutils literal notranslate"><span class="pre">:okwarning:</span></code>
+allows a block meant to raise or warn.</p>
+<p><strong>Examples that need the archive.</strong> These pages show the output of a run on CHPC in
+plain <code class="docutils literal notranslate"><span class="pre">code-block</span></code> or <code class="docutils literal notranslate"><span class="pre">pycon</span></code> blocks, because the docs build (and CI) has no
+archive: your first data, find sites and data (except its first section), read
+data, data levels and flags, mobile sites, errors, columns and input parameters.</p>
+<p><strong>The site and instrument tables are generated.</strong> The <code class="docutils literal notranslate"><span class="pre">site-catalog</span></code> and
+<code class="docutils literal notranslate"><span class="pre">instrument-catalog</span></code> directives in <code class="docutils literal notranslate"><span class="pre">docs/reference/sites_and_instruments.rst</span></code>
+(<code class="docutils literal notranslate"><span class="pre">docs/_ext/catalog.py</span></code>) build them from <code class="docutils literal notranslate"><span class="pre">uataq.laboratory</span></code> and
+<code class="docutils literal notranslate"><span class="pre">uataq.instruments.catalog</span></code> on every build.</p>
+<p><strong>The API reference is generated.</strong> <code class="docutils literal notranslate"><span class="pre">docs/reference/functions_and_modules.rst</span></code>
+lists the functions and modules, and each module, class, function and class member gets
+a page in <code class="docutils literal notranslate"><span class="pre">docs/api/</span></code> (gitignored; a <code class="docutils literal notranslate"><span class="pre">:toctree:</span></code> pointing outside <code class="docutils literal notranslate"><span class="pre">docs/</span></code> litters the
+repo root). A module’s docstring is its page’s text. <code class="docutils literal notranslate"><span class="pre">docs/_templates/autosummary/</span></code>
+and <code class="docutils literal notranslate"><span class="pre">docs/_ext/api_pages.py</span></code> (from python-template, which keeps class members from
+being described twice) build the pages.</p>
+</section>
+<section id="clocks-on-mobile-platforms">
+<h2>Clocks on mobile platforms<a class="headerlink" href="#clocks-on-mobile-platforms" title="Link to this heading">#</a></h2>
+<p>The TRAX and bus platforms carry instruments from two groups, each stamped by its
+own logger clock:</p>
+<ul class="simple">
+<li><p><strong>lin</strong>: the instruments and the GPS are stamped by the platform’s Pi computer,
+whose clock cannot always be trusted. The Pi’s time is kept as <code class="docutils literal notranslate"><span class="pre">Pi_Time</span></code>, and
+lin’s GPS supplies <code class="docutils literal notranslate"><span class="pre">Time_UTC</span></code>, which is GPS time.</p></li>
+<li><p><strong>horel</strong>: <code class="docutils literal notranslate"><span class="pre">Time_UTC</span></code> is the CR1000 logger’s clock, which on TRX01 ran 1 to
+20 s ahead of GPS time on dates sampled from 2019 to 2026, drifting between
+resets. horel’s raw GPS files
+log the receiver’s own time of day (<code class="docutils literal notranslate"><span class="pre">GTIM</span></code>, read as <code class="docutils literal notranslate"><span class="pre">Instrument_Time</span></code>), so
+<a class="reference internal" href="api/uataq.instruments.GPS.read_data.html#uataq.instruments.GPS.read_data" title="uataq.instruments.GPS.read_data"><code class="xref py py-meth docutils literal notranslate"><span class="pre">read_data()</span></code></a> adds <code class="docutils literal notranslate"><span class="pre">GPS_Time_UTC</span></code> for horel, dated
+from the logger clock across midnight and NaT on rows without a fix. The index
+stays on the logger clock, so it still lines up with the logger’s other
+columns. horel’s qaqc and final files have no <code class="docutils literal notranslate"><span class="pre">GTIM</span></code>: their ozone and
+particulate rows stay on logger time, and nothing in them can correct it.</p></li>
+</ul>
+<p><a class="reference internal" href="api/uataq.sites.MobileSite.locate.html#uataq.sites.MobileSite.locate" title="uataq.sites.MobileSite.locate"><code class="xref py py-meth docutils literal notranslate"><span class="pre">locate()</span></code></a> therefore joins each group’s rows to that
+group’s own GPS on its own clock: lin’s on <code class="docutils literal notranslate"><span class="pre">Pi_Time</span></code>, horel’s on <code class="docutils literal notranslate"><span class="pre">Time_UTC</span></code>
+(there the instrument and GPS values are one record). Joining horel’s rows to lin’s
+GPS on the Pi clock would place them that many seconds along the track, and drop
+the rows with no lin GPS record at their second.
+<code class="docutils literal notranslate"><span class="pre">locate</span></code> replays each instrument’s <code class="docutils literal notranslate"><span class="pre">plan_reads</span></code> to split its frame by group, and
+<code class="docutils literal notranslate"><span class="pre">_gps_group</span></code> raises <code class="docutils literal notranslate"><span class="pre">ValueError</span></code> rather than borrow another group’s GPS.</p>
+<p>The Pi’s clock has itself been hours to days off GPS time (on TRX01 about 70
+minutes behind all of 2016-11-09 and 10, and up to 5 days in 2022-11). A GPS read
+selects fixes by <code class="docutils literal notranslate"><span class="pre">Time_UTC</span></code>, GPS time, while lin’s rows were selected by the Pi’s
+clock, so <code class="docutils literal notranslate"><span class="pre">locate</span></code> reads lin’s GPS a week past the rows’ range on each side
+(<code class="docutils literal notranslate"><span class="pre">_PI_CLOCK_MARGIN</span></code> in <code class="docutils literal notranslate"><span class="pre">sites.py</span></code>); otherwise the rows near the ends of a range
+would find no fix and be dropped. A located lin row’s <code class="docutils literal notranslate"><span class="pre">Time_UTC</span></code> can then fall
+outside the requested range by as much as the Pi was off.</p>
+<p>Each located row carries <code class="docutils literal notranslate"><span class="pre">GPS_Group</span></code> (<code class="docutils literal notranslate"><span class="pre">&quot;lin&quot;</span></code> or <code class="docutils literal notranslate"><span class="pre">&quot;horel&quot;</span></code>): which GPS located
+it, and so which clock its <code class="docutils literal notranslate"><span class="pre">Time_UTC</span></code> is on. A TRAX read with no group can mix
+the two groups’ GPS, which log at different rates and with different columns, so
+filter or compare by it. A GPS group that cannot be read leaves only its own rows
+unlocated, with a warning; if none can be read, <code class="docutils literal notranslate"><span class="pre">locate</span></code> raises
+<code class="docutils literal notranslate"><span class="pre">ReaderError</span></code>.</p>
+</section>
+<section id="the-metone-swap-files">
+<h2>The MetOne swap files<a class="headerlink" href="#the-metone-swap-files" title="Link to this heading">#</a></h2>
+<p>At five MetOne swaps (ES642 to ES405) horel split the month’s raw files in two:
+<code class="docutils literal notranslate"><span class="pre">{SID}_{YYYY}_{MM}_esampler.h5</span></code> holds the ES405’s rows from the swap on, and
+<code class="docutils literal notranslate"><span class="pre">{SID}_{YYYY}_{MM}_esampler.h5_prior405upgrade</span></code> the ES642’s rows from the start of
+the month to the swap (BUS02 2025-03, BUS03 2024-12, TRX01, TRX02 and TRX03
+2025-01). TRX01 to TRX03’s <code class="docutils literal notranslate"><span class="pre">2b</span></code> and <code class="docutils literal notranslate"><span class="pre">cr1000</span></code> folders have the same split for
+January 2025, so their ozone and GPS rows before the swap are only in a
+<code class="docutils literal notranslate"><span class="pre">prior405upgrade</span></code> file too. The two files of a month share no timestamp. horel’s
+qaqc and final files have none of these rows, so raw is the only level with them.</p>
+<p>The suffix is <a class="reference internal" href="api/uataq.filesystem.groupspaces.horel.PRIOR_405_SUFFIX.html#uataq.filesystem.groupspaces.horel.PRIOR_405_SUFFIX" title="uataq.filesystem.groupspaces.horel.PRIOR_405_SUFFIX"><code class="xref py py-data docutils literal notranslate"><span class="pre">uataq.filesystem.groupspaces.horel.PRIOR_405_SUFFIX</span></code></a>.
+<code class="docutils literal notranslate"><span class="pre">HorelGroup.get_datafiles</span></code> adds the suffixed file to every raw read except the
+ES405’s, and clipping each instrument to its installed window keeps the two
+MetOne models’ rows apart. The clipped range drives both the file selection and the
+row slice, and both are needed: groups reuse a file name across an instrument change
+(horel calls both MetOne models <code class="docutils literal notranslate"><span class="pre">esampler</span></code>), so a monthly file that straddles a
+swap holds the replacement’s rows. At each swap the ES642’s <code class="docutils literal notranslate"><span class="pre">removal_date</span></code> and the
+ES405’s <code class="docutils literal notranslate"><span class="pre">installation_date</span></code> are the same instant, so a sample at that instant
+belongs to the ES405 alone. Other suffixes in horel’s raw folders
+(<code class="docutils literal notranslate"><span class="pre">TRX01_2024_02_cr1000.h5_bad</span></code>, which is empty, and the pilot archive’s
+<code class="docutils literal notranslate"><span class="pre">cr1000/old/*.h5_old</span></code>) are not read. The four LI-COR 6262 to 7000 swaps (DBK,
+HEB, RPK, SUG) are in separate lin folders, so their files cannot mix, but the
+same date rule holds.</p>
+</section>
+<section id="data-availability-internals">
+<h2>Data availability internals<a class="headerlink" href="#data-availability-internals" title="Link to this heading">#</a></h2>
+<p><a class="reference internal" href="api/uataq.Network.get_availability.html#uataq.Network.get_availability" title="uataq.Network.get_availability"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_availability()</span></code></a> parses every file rather than
+trusting file listings: horel’s qaqc and final files hold a whole platform, so a
+file existing says nothing about one pollutant (it can hold -9999 ozone for most of
+a month while the raw 2B file is full).</p>
+<ul class="simple">
+<li><p>A time bin counts for a level when any row in it has a non-null value in a column
+<a class="reference internal" href="api/uataq.pollutants.concentration_columns.html#uataq.pollutants.concentration_columns" title="uataq.pollutants.concentration_columns"><code class="xref py py-func docutils literal notranslate"><span class="pre">concentration_columns()</span></code></a> picks (<code class="docutils literal notranslate"><span class="pre">O3_ppb</span></code>,
+<code class="docutils literal notranslate"><span class="pre">CO2d_ppm_cal</span></code>, <code class="docutils literal notranslate"><span class="pre">CO2d_ppm_raw</span></code>, <code class="docutils literal notranslate"><span class="pre">BC6_ngm3</span></code>; not diagnostics such as
+<code class="docutils literal notranslate"><span class="pre">O3_Meas_mV</span></code> or <code class="docutils literal notranslate"><span class="pre">O3_ppb_std</span></code>). <code class="docutils literal notranslate"><span class="pre">_raw</span></code> columns count (<code class="docutils literal notranslate"><span class="pre">raw=True</span></code>), as in
+<code class="docutils literal notranslate"><span class="pre">Network.get_obs</span></code>: they are the only populated ones for TRX01’s
+<code class="docutils literal notranslate"><span class="pre">lgr_ugga_manual_cal</span></code>. Each bin takes the highest level present, so “measured
+but not in final” shows as qaqc or raw.</p></li>
+<li><p>With no group, every group operating the instrument is checked, ignoring
+<code class="docutils literal notranslate"><span class="pre">group_dates</span></code>: availability reports what each archive holds, while <code class="docutils literal notranslate"><span class="pre">get_obs</span></code>
+reads one group per portion.</p></li>
+<li><p>One pool runs over the whole network’s files, and each worker reduces its file
+to bins at once, so memory is one file per worker. A file that cannot be read is
+logged and skipped, and the count is reported. Rows with a NaT <code class="docutils literal notranslate"><span class="pre">Time_UTC</span></code> are
+dropped before <code class="docutils literal notranslate"><span class="pre">standardize_data</span></code>.</p></li>
+<li><p><a class="reference internal" href="api/uataq.Network.plot_availability.html#uataq.Network.plot_availability" title="uataq.Network.plot_availability"><code class="xref py py-meth docutils literal notranslate"><span class="pre">plot_availability()</span></code></a> (matplotlib, an optional import)
+colors levels by <code class="docutils literal notranslate"><span class="pre">uataq.network.LEVEL_COLORS</span></code>, one hue from light (raw) to
+dark (final). Compute the availability once and pass it in to restyle.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Network(&quot;all&quot;,</span> <span class="pre">pollutant)</span></code> is every configured site that measures it. Ozone at
+every site over every year is thousands of files: run it in a Slurm job with
+<code class="docutils literal notranslate"><span class="pre">num_processes=&quot;max&quot;</span></code>, from a script file with a <code class="docutils literal notranslate"><span class="pre">__main__</span></code> guard (Python 3.14
+starts workers with forkserver, and a script read from stdin cannot spawn them).</p></li>
+</ul>
+</section>
+<section id="the-sodar-archive">
+<h2>The SODAR archive<a class="headerlink" href="#the-sodar-archive" title="Link to this heading">#</a></h2>
+<p><a class="reference internal" href="api/uataq.sodar.html#module-uataq.sodar" title="uataq.sodar"><code class="xref py py-mod docutils literal notranslate"><span class="pre">uataq.sodar</span></code></a> reads the Horel group’s MesoWest SODAR archive, under
+<code class="docutils literal notranslate"><span class="pre">sodar_data/hdf5archive/</span></code> in
+<a class="reference internal" href="api/uataq.filesystem.groupspaces.horel.MESOWEST_DIR.html#uataq.filesystem.groupspaces.horel.MESOWEST_DIR" title="uataq.filesystem.groupspaces.horel.MESOWEST_DIR"><code class="xref py py-data docutils literal notranslate"><span class="pre">uataq.filesystem.groupspaces.horel.MESOWEST_DIR</span></code></a>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">{SID}_full_metadata_log.h5</span></code>: <code class="docutils literal notranslate"><span class="pre">/metagroup/metadata</span></code> and
+<code class="docutils literal notranslate"><span class="pre">/metagroup/variables</span></code>, the variables indexed by <code class="docutils literal notranslate"><span class="pre">SHORTNAME</span></code> with a <code class="docutils literal notranslate"><span class="pre">MULT</span></code>
+scale factor each.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">{SID}_{YYYY}_{MM}_sodar.h5</span></code>: the table <code class="docutils literal notranslate"><span class="pre">/obsdata/observations</span></code>, with
+<code class="docutils literal notranslate"><span class="pre">STATION_ID</span></code>, <code class="docutils literal notranslate"><span class="pre">DATTIM</span></code> (epoch seconds) and one <code class="docutils literal notranslate"><span class="pre">(n_levels,)</span></code> integer column
+per profile field (<code class="docutils literal notranslate"><span class="pre">HEIGHT</span></code>, <code class="docutils literal notranslate"><span class="pre">WS</span></code>, <code class="docutils literal notranslate"><span class="pre">WD</span></code>, <code class="docutils literal notranslate"><span class="pre">MXWS</span></code>). <code class="docutils literal notranslate"><span class="pre">-9999</span></code> becomes NaN,
+and each variable in the metadata log is divided by its <code class="docutils literal notranslate"><span class="pre">MULT</span></code>.</p></li>
+</ul>
+<p>Stations seen: USDR1 to USDR5, WSLSA, WSMLI. Stray files
+(<code class="docutils literal notranslate"><span class="pre">USDR2_2018_12_sodar_p1.h5</span></code>, <code class="docutils literal notranslate"><span class="pre">all_sodar_metadata.h5</span></code>, <code class="docutils literal notranslate"><span class="pre">_Processed/</span></code>) do not
+match the exact-name pattern and are ignored. Monthly files are concatenated along
+<code class="docutils literal notranslate"><span class="pre">Time_UTC</span></code> with an outer join, which pads with NaN if the number of range gates
+changes; <a class="reference internal" href="api/uataq.sodar.Sodar.get_winds_at_height.html#uataq.sodar.Sodar.get_winds_at_height" title="uataq.sodar.Sodar.get_winds_at_height"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_winds_at_height()</span></code></a> matches the height at every
+timestamp.</p>
+<p>SODAR is standalone, outside <code class="docutils literal notranslate"><span class="pre">config.json</span></code>, <code class="docutils literal notranslate"><span class="pre">Instrument</span></code> and <code class="docutils literal notranslate"><span class="pre">GroupSpace</span></code>,
+because its stations are MesoWest stations rather than UATAQ sites, its output is
+two-dimensional <code class="docutils literal notranslate"><span class="pre">(Time_UTC,</span> <span class="pre">level)</span></code>, which the pandas <code class="docutils literal notranslate"><span class="pre">DataFile</span></code> pipeline
+cannot carry, and its scale factors live in a per-station file outside the data
+file. Only <code class="docutils literal notranslate"><span class="pre">lvl=&quot;raw&quot;</span></code> exists; any other level raises <code class="docutils literal notranslate"><span class="pre">ValueError</span></code>.</p>
+</section>
 </section>
 
 
@@ -566,12 +779,12 @@ explains how to set up a development environment, run the checks, and propose a 
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="sodar.html"
+       href="api/uataq.gps.haversine.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">SODAR</p>
+        <p class="prev-next-title">uataq.gps.haversine</p>
       </div>
     </a>
 </div>
@@ -584,6 +797,25 @@ explains how to set up a development environment, run the checks, and propose a 
                 <dialog id="pst-secondary-sidebar-modal"></dialog>
                 <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#development-setup">Development setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-layout">Module layout</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#adding-an-instrument-or-a-group-space">Adding an instrument or a group space</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#writing-the-docs">Writing the docs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#clocks-on-mobile-platforms">Clocks on mobile platforms</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-metone-swap-files">The MetOne swap files</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-availability-internals">Data availability internals</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-sodar-archive">The SODAR archive</a></li>
+</ul>
+  </nav></div>
 
   <div class="sidebar-secondary-item">
 

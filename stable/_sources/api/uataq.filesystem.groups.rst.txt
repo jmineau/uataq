@@ -1,0 +1,6 @@
+uataq.filesystem.groups
+=======================
+
+.. currentmodule:: uataq.filesystem
+
+.. autodata:: groups

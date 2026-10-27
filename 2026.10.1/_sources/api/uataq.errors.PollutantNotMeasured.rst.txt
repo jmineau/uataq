@@ -1,0 +1,6 @@
+uataq.errors.PollutantNotMeasured
+=================================
+
+.. currentmodule:: uataq.errors
+
+.. autoexception:: PollutantNotMeasured

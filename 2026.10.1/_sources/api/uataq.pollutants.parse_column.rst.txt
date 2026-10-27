@@ -1,0 +1,6 @@
+uataq.pollutants.parse\_column
+==============================
+
+.. currentmodule:: uataq.pollutants
+
+.. autofunction:: parse_column

@@ -1,0 +1,6 @@
+uataq.filesystem.groupspaces.lin.LinGroup.standardize\_data
+===========================================================
+
+.. currentmodule:: uataq.filesystem.groupspaces.lin
+
+.. automethod:: LinGroup.standardize_data

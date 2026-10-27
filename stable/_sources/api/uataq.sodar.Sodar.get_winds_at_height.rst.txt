@@ -1,0 +1,6 @@
+uataq.sodar.Sodar.get\_winds\_at\_height
+========================================
+
+.. currentmodule:: uataq.sodar
+
+.. automethod:: Sodar.get_winds_at_height

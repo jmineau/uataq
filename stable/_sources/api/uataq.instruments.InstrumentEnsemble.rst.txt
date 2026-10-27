@@ -1,0 +1,15 @@
+uataq.instruments.InstrumentEnsemble
+====================================
+
+.. currentmodule:: uataq.instruments
+
+.. autoclass:: InstrumentEnsemble
+   :no-members:
+
+
+
+
+
+
+
+

@@ -1,0 +1,6 @@
+uataq.filesystem.groupspaces.horel.PRIOR\_405\_SUFFIX
+=====================================================
+
+.. currentmodule:: uataq.filesystem.groupspaces.horel
+
+.. autodata:: PRIOR_405_SUFFIX

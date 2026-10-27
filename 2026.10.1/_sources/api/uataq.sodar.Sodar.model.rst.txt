@@ -1,0 +1,6 @@
+uataq.sodar.Sodar.model
+=======================
+
+.. currentmodule:: uataq.sodar
+
+.. autoattribute:: Sodar.model

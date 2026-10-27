@@ -1,0 +1,61 @@
+﻿uataq.instruments
+=================
+
+.. automodule:: uataq.instruments
+   :no-members:
+
+
+.. rubric:: Attributes
+
+.. autosummary::
+   :toctree:
+   :nosignatures:
+
+   GroupSelection
+   ReadPlan
+   catalog
+
+
+
+.. rubric:: Functions
+
+.. autosummary::
+   :toctree:
+   :nosignatures:
+
+   configure_instrument
+
+
+
+.. rubric:: Classes
+
+.. autosummary::
+   :toctree:
+   :nosignatures:
+
+   BB_205
+   BB_405
+   CR1000
+   GPS
+   Instrument
+   InstrumentEnsemble
+   LGR_NO2
+   LGR_UGGA
+   Licor_6262
+   Licor_7000
+   Magee_AE33
+   MetOne_ES405
+   MetOne_ES642
+   SensorMixin
+   Teledyne_T200
+   Teledyne_T300
+   Teledyne_T400
+   Teledyne_T500u
+   Teom_1400ab
+
+
+
+
+
+
+

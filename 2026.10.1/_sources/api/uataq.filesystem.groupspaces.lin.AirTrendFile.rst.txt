@@ -1,0 +1,23 @@
+uataq.filesystem.groupspaces.lin.AirTrendFile
+=============================================
+
+.. currentmodule:: uataq.filesystem.groupspaces.lin
+
+.. autoclass:: AirTrendFile
+   :no-members:
+   :show-inheritance:
+
+
+
+
+
+
+.. rubric:: Methods
+
+.. autosummary::
+   :toctree:
+
+   ~AirTrendFile.parse
+
+
+

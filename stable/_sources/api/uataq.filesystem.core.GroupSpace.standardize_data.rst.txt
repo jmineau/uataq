@@ -1,0 +1,6 @@
+uataq.filesystem.core.GroupSpace.standardize\_data
+==================================================
+
+.. currentmodule:: uataq.filesystem.core
+
+.. automethod:: GroupSpace.standardize_data

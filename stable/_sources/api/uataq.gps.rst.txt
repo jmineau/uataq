@@ -1,0 +1,36 @@
+﻿uataq.gps
+=========
+
+.. automodule:: uataq.gps
+   :no-members:
+
+
+.. rubric:: Attributes
+
+.. autosummary::
+   :toctree:
+   :nosignatures:
+
+   EARTH_RADIUS_M
+
+
+
+.. rubric:: Functions
+
+.. autosummary::
+   :toctree:
+   :nosignatures:
+
+   bearing
+   estimate_speed_course
+   gps_time_from_time_of_day
+   haversine
+
+
+
+
+
+
+
+
+

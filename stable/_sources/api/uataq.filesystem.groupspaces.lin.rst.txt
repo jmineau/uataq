@@ -1,52 +1,51 @@
-﻿
-Lin Group
-=========
+uataq.filesystem.groupspaces.lin
+================================
 
 .. automodule:: uataq.filesystem.groupspaces.lin
+   :no-members:
 
-   
-   
-   .. rubric:: Module Attributes
 
-   .. autosummary::
-   
-      MEASUREMENTS_DIR
-      CONFIG_DIR
-      DATA_DIR
-      CONFIG_URL
-      CONFIG_FETCH_TIMEOUT
-      DATA_CONFIG
-      SITE_CONFIG
-      column_mapping
-   
-   
+.. rubric:: Attributes
 
-   
-   
-   .. rubric:: Functions
+.. autosummary::
+   :toctree:
+   :nosignatures:
 
-   .. autosummary::
-   
-      dms2dd
-   
-   
+   MEASUREMENTS_DIR
+   CONFIG_DIR
+   DATA_DIR
+   CONFIG_URL
+   CONFIG_FETCH_TIMEOUT
+   DATA_CONFIG
+   SITE_CONFIG
+   column_mapping
 
-   
-   
-   .. rubric:: Classes
 
-   .. autosummary::
-   
-      AirTrendFile
-      LGR_UGGA_File
-      LinDatFile
-      LinGroup
-   
-   
 
-   
-   
-   
+.. rubric:: Functions
+
+.. autosummary::
+   :toctree:
+   :nosignatures:
+
+   dms2dd
+
+
+
+.. rubric:: Classes
+
+.. autosummary::
+   :toctree:
+   :nosignatures:
+
+   AirTrendFile
+   LGR_UGGA_File
+   LinDatFile
+   LinGroup
+
+
+
+
 
 
 

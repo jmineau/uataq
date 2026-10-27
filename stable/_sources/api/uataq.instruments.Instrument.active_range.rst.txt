@@ -1,0 +1,6 @@
+uataq.instruments.Instrument.active\_range
+==========================================
+
+.. currentmodule:: uataq.instruments
+
+.. autoproperty:: Instrument.active_range
