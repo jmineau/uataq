@@ -16,35 +16,58 @@ What each argument means is written once, on :doc:`/reference/input_parameters`.
    :toctree: ../api
    :nosignatures:
 
-   read_data
    get_obs
+   read_data
    get_recent_obs
    get_network_obs
+   get_site
    Network
 
-The laboratory
---------------
+Sites, columns and errors
+-------------------------
 
-.. autosummary::
-   :toctree: ../api
-   :nosignatures:
-
-   laboratory
-   get_site
-   Laboratory
-
-Modules
--------
+The site objects :func:`get_site` returns, the functions that pick and parse
+column names, the errors and warnings a read raises, and the time range.
 
 .. autosummary::
    :toctree: ../api
    :recursive:
 
    sites
-   instruments
    pollutants
+   errors
+   timerange
+
+SODAR
+-----
+
+Wind profiles from the horel group's SODAR stations, which are not UATAQ sites
+and are read on their own.
+
+.. autosummary::
+   :toctree: ../api
+   :recursive:
+
+   sodar
+
+Internals
+---------
+
+How uataq finds and parses the files: the configuration it builds the sites
+from, the instrument classes, each research group's archive, and the GPS
+helpers. You need these only to change uataq.
+
+.. autosummary::
+   :toctree: ../api
+   :nosignatures:
+
+   laboratory
+   Laboratory
+
+.. autosummary::
+   :toctree: ../api
+   :recursive:
+
+   instruments
    filesystem
    gps
-   sodar
-   timerange
-   errors

@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Sites and instruments &#8212; UATAQ 2026.10.1.dev64+g8649881f3 documentation</title>
+    <title>Sites and instruments &#8212; UATAQ 2026.10.1.dev68+gfe7a8fcd9 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="../_static/documentation_options.js?v=7188dfe9"></script>
+    <script src="../_static/documentation_options.js?v=2fe2af42"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -55,11 +55,11 @@
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Columns and flags" href="columns.html" />
+    <link rel="next" title="Columns" href="columns.html" />
     <link rel="prev" title="Reference" href="index.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.1.dev64+g8649881f3" />
+  <meta name="docsearch:version" content="2026.10.1.dev68+gfe7a8fcd9" />
   
     
     <script src="../_static/searchtools.js"></script>
@@ -127,7 +127,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.1.dev64+g8649881f3 documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.1.dev68+gfe7a8fcd9 documentation</p>
   
 </a></div>
     
@@ -389,24 +389,19 @@
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
 <li class="toctree-l1 current active"><a aria-current="page" class="current reference internal" href="#">Sites and instruments</a></li>
-<li class="toctree-l1"><a class="reference internal" href="columns.html">Columns and flags</a></li>
+<li class="toctree-l1"><a class="reference internal" href="columns.html">Columns</a></li>
 <li class="toctree-l1"><a class="reference internal" href="input_parameters.html">Input Parameters</a></li>
 <li class="toctree-l1"><a class="reference internal" href="config.html">Configuration</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="functions_and_modules.html">Functions and modules</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../api/uataq.read_data.html">uataq.read_data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/uataq.get_obs.html">uataq.get_obs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/uataq.read_data.html">uataq.read_data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/uataq.get_recent_obs.html">uataq.get_recent_obs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/uataq.get_network_obs.html">uataq.get_network_obs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/uataq.get_site.html">uataq.get_site</a></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../api/uataq.Network.html">uataq.Network</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3"><a class="reference internal" href="../api/uataq.Network.get_availability.html">uataq.Network.get_availability</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/uataq.Network.get_obs.html">uataq.Network.get_obs</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/uataq.Network.plot_availability.html">uataq.Network.plot_availability</a></li>
-</ul>
-</details></li>
-<li class="toctree-l2"><a class="reference internal" href="../api/uataq.laboratory.html">uataq.laboratory</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../api/uataq.get_site.html">uataq.get_site</a></li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../api/uataq.Laboratory.html">uataq.Laboratory</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="../api/uataq.Laboratory.get_site.html">uataq.Laboratory.get_site</a></li>
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../api/uataq.sites.html">uataq.sites</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -423,6 +418,59 @@
 <li class="toctree-l4"><a class="reference internal" href="../api/uataq.sites.Site.read_data.html">uataq.sites.Site.read_data</a></li>
 </ul>
 </details></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../api/uataq.pollutants.html">uataq.pollutants</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/uataq.pollutants.UNITS.html">uataq.pollutants.UNITS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/uataq.pollutants.POLLUTANTS.html">uataq.pollutants.POLLUTANTS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/uataq.pollutants.concentration_columns.html">uataq.pollutants.concentration_columns</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/uataq.pollutants.parse_column.html">uataq.pollutants.parse_column</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/uataq.pollutants.ConcentrationColumn.html">uataq.pollutants.ConcentrationColumn</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../api/uataq.errors.html">uataq.errors</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/uataq.errors.DataFileInitializationError.html">uataq.errors.DataFileInitializationError</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/uataq.errors.DroppedPollutantWarning.html">uataq.errors.DroppedPollutantWarning</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/uataq.errors.EmptyResultWarning.html">uataq.errors.EmptyResultWarning</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/uataq.errors.InactiveInstrumentError.html">uataq.errors.InactiveInstrumentError</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/uataq.errors.InstrumentNotFoundError.html">uataq.errors.InstrumentNotFoundError</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/uataq.errors.InvalidGroupError.html">uataq.errors.InvalidGroupError</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/uataq.errors.ParserError.html">uataq.errors.ParserError</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/uataq.errors.PollutantNotMeasured.html">uataq.errors.PollutantNotMeasured</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/uataq.errors.ReaderError.html">uataq.errors.ReaderError</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../api/uataq.timerange.html">uataq.timerange</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/uataq.timerange.TimeObject.html">uataq.timerange.TimeObject</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/uataq.timerange.TimeRangeTuple.html">uataq.timerange.TimeRangeTuple</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/uataq.timerange.TimeRangeList.html">uataq.timerange.TimeRangeList</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/uataq.timerange.TimeRangeTypes.html">uataq.timerange.TimeRangeTypes</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/uataq.timerange.TimeRange.html">uataq.timerange.TimeRange</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/uataq.timerange.TimeRange.start.html">uataq.timerange.TimeRange.start</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/uataq.timerange.TimeRange.stop.html">uataq.timerange.TimeRange.stop</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/uataq.timerange.TimeRange.total_seconds.html">uataq.timerange.TimeRange.total_seconds</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/uataq.timerange.TimeRange.parse_iso.html">uataq.timerange.TimeRange.parse_iso</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../api/uataq.sodar.html">uataq.sodar</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/uataq.sodar.NODATA.html">uataq.sodar.NODATA</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/uataq.sodar.list_stations.html">uataq.sodar.list_stations</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/uataq.sodar.Sodar.html">uataq.sodar.Sodar</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/uataq.sodar.Sodar.model.html">uataq.sodar.Sodar.model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/uataq.sodar.Sodar.species_measured.html">uataq.sodar.Sodar.species_measured</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/uataq.sodar.Sodar.get_files.html">uataq.sodar.Sodar.get_files</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/uataq.sodar.Sodar.get_winds_at_height.html">uataq.sodar.Sodar.get_winds_at_height</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/uataq.sodar.Sodar.parse.html">uataq.sodar.Sodar.parse</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/uataq.sodar.Sodar.read_data.html">uataq.sodar.Sodar.read_data</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/uataq.laboratory.html">uataq.laboratory</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../api/uataq.Laboratory.html">uataq.Laboratory</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/uataq.Laboratory.get_site.html">uataq.Laboratory.get_site</a></li>
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../api/uataq.instruments.html">uataq.instruments</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -472,14 +520,6 @@
 <li class="toctree-l3"><a class="reference internal" href="../api/uataq.instruments.Teom_1400ab.html">uataq.instruments.Teom_1400ab</a></li>
 </ul>
 </details></li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../api/uataq.pollutants.html">uataq.pollutants</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="../api/uataq.pollutants.UNITS.html">uataq.pollutants.UNITS</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/uataq.pollutants.POLLUTANTS.html">uataq.pollutants.POLLUTANTS</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/uataq.pollutants.concentration_columns.html">uataq.pollutants.concentration_columns</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/uataq.pollutants.parse_column.html">uataq.pollutants.parse_column</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/uataq.pollutants.ConcentrationColumn.html">uataq.pollutants.ConcentrationColumn</a></li>
-</ul>
-</details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../api/uataq.filesystem.html">uataq.filesystem</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3"><a class="reference internal" href="../api/uataq.filesystem.DEFAULT_GROUP.html">uataq.filesystem.DEFAULT_GROUP</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/uataq.filesystem.groups.html">uataq.filesystem.groups</a></li>
@@ -507,46 +547,6 @@
 <li class="toctree-l3"><a class="reference internal" href="../api/uataq.gps.estimate_speed_course.html">uataq.gps.estimate_speed_course</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/uataq.gps.gps_time_from_time_of_day.html">uataq.gps.gps_time_from_time_of_day</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/uataq.gps.haversine.html">uataq.gps.haversine</a></li>
-</ul>
-</details></li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../api/uataq.sodar.html">uataq.sodar</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="../api/uataq.sodar.NODATA.html">uataq.sodar.NODATA</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/uataq.sodar.list_stations.html">uataq.sodar.list_stations</a></li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../api/uataq.sodar.Sodar.html">uataq.sodar.Sodar</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l4"><a class="reference internal" href="../api/uataq.sodar.Sodar.model.html">uataq.sodar.Sodar.model</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../api/uataq.sodar.Sodar.species_measured.html">uataq.sodar.Sodar.species_measured</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../api/uataq.sodar.Sodar.get_files.html">uataq.sodar.Sodar.get_files</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../api/uataq.sodar.Sodar.get_winds_at_height.html">uataq.sodar.Sodar.get_winds_at_height</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../api/uataq.sodar.Sodar.parse.html">uataq.sodar.Sodar.parse</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../api/uataq.sodar.Sodar.read_data.html">uataq.sodar.Sodar.read_data</a></li>
-</ul>
-</details></li>
-</ul>
-</details></li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../api/uataq.timerange.html">uataq.timerange</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="../api/uataq.timerange.TimeObject.html">uataq.timerange.TimeObject</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/uataq.timerange.TimeRangeTuple.html">uataq.timerange.TimeRangeTuple</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/uataq.timerange.TimeRangeList.html">uataq.timerange.TimeRangeList</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/uataq.timerange.TimeRangeTypes.html">uataq.timerange.TimeRangeTypes</a></li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../api/uataq.timerange.TimeRange.html">uataq.timerange.TimeRange</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l4"><a class="reference internal" href="../api/uataq.timerange.TimeRange.start.html">uataq.timerange.TimeRange.start</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../api/uataq.timerange.TimeRange.stop.html">uataq.timerange.TimeRange.stop</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../api/uataq.timerange.TimeRange.total_seconds.html">uataq.timerange.TimeRange.total_seconds</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../api/uataq.timerange.TimeRange.parse_iso.html">uataq.timerange.TimeRange.parse_iso</a></li>
-</ul>
-</details></li>
-</ul>
-</details></li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../api/uataq.errors.html">uataq.errors</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="../api/uataq.errors.DataFileInitializationError.html">uataq.errors.DataFileInitializationError</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/uataq.errors.DroppedPollutantWarning.html">uataq.errors.DroppedPollutantWarning</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/uataq.errors.EmptyResultWarning.html">uataq.errors.EmptyResultWarning</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/uataq.errors.InactiveInstrumentError.html">uataq.errors.InactiveInstrumentError</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/uataq.errors.InstrumentNotFoundError.html">uataq.errors.InstrumentNotFoundError</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/uataq.errors.InvalidGroupError.html">uataq.errors.InvalidGroupError</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/uataq.errors.ParserError.html">uataq.errors.ParserError</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/uataq.errors.PollutantNotMeasured.html">uataq.errors.PollutantNotMeasured</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/uataq.errors.ReaderError.html">uataq.errors.ReaderError</a></li>
 </ul>
 </details></li>
 </ul>
@@ -617,15 +617,15 @@
 <a class="reference internal" href="config.html"><span class="doc">configuration</span></a> each time the documentation is built, so they
 always match the version of uataq they document. They say what the
 configuration says, not what the archive holds: to see which days have data,
-use <a class="reference internal" href="../guides/what_data_exists.html"><span class="doc">What data exists</span></a>. The words in the headings are explained in the
+use <a class="reference internal" href="../guides/find_sites_and_data.html"><span class="doc">Find sites and data</span></a>. The words in the headings are explained in the
 <a class="reference internal" href="#glossary"><span class="std std-ref">glossary</span></a> at the end of the page. Every site is in Utah, so the
-local time of all of them is <code class="docutils literal notranslate"><span class="pre">America/Denver</span></code> (see <a class="reference internal" href="../getting_started/first_month.html#first-month-utc"><span class="std std-ref">Times are UTC</span></a>).</p>
+local time of all of them is <code class="docutils literal notranslate"><span class="pre">America/Denver</span></code> (see <a class="reference internal" href="../getting_started/first_data.html#first-data-utc"><span class="std std-ref">Times are UTC</span></a>).</p>
 <p>In both site tables:</p>
 <ul class="simple">
 <li><p><strong>Active</strong> is “yes” when at least one instrument at the site has no removal
 date in the configuration. Otherwise it gives the date the last instrument
 was removed. A site can stop sending data before its instruments are marked
-removed, so check with <a class="reference internal" href="../guides/what_data_exists.html"><span class="doc">What data exists</span></a> before you plan on recent data.</p></li>
+removed, so check with <a class="reference internal" href="../guides/find_sites_and_data.html"><span class="doc">Find sites and data</span></a> before you plan on recent data.</p></li>
 <li><p><strong>Groups</strong> are the research <a class="reference internal" href="#term-group"><span class="xref std std-term">groups</span></a> whose archives hold the
 site’s data.</p></li>
 <li><p><strong>Pollutants</strong> are every pollutant measured at the site, by its instruments
@@ -1169,7 +1169,7 @@ measurement comes from the site’s <code class="docutils literal notranslate"><
 <p>One row per <a class="reference internal" href="#term-instrument-name"><span class="xref std std-term">instrument name</span></a> in the configuration, with the class that
 reads it and the pollutants it measures. The class pages are under
 <a class="reference internal" href="../api/uataq.instruments.html#module-uataq.instruments" title="uataq.instruments"><code class="xref py py-mod docutils literal notranslate"><span class="pre">uataq.instruments</span></code></a>, and what the columns of each level hold is on the
-<a class="reference internal" href="columns.html"><span class="doc">Columns and flags</span></a> page.</p>
+<a class="reference internal" href="columns.html"><span class="doc">Columns</span></a> page.</p>
 <p><code class="docutils literal notranslate"><span class="pre">cr1000</span></code> and <code class="docutils literal notranslate"><span class="pre">gps</span></code> have no pollutants: one is a datalogger that records
 housekeeping (battery voltage, enclosure temperature), the other a GPS receiver.
 <code class="docutils literal notranslate"><span class="pre">get_obs</span></code> never reads them, <code class="docutils literal notranslate"><span class="pre">read_data</span></code> does, and a <a class="reference internal" href="#term-mobile-site"><span class="xref std std-term">mobile site</span></a>’s
@@ -1297,68 +1297,6 @@ housekeeping (battery voltage, enclosure temperature), the other a GPS receiver.
 </table>
 </div>
 </section>
-<section id="the-same-in-code">
-<span id="sites-in-code"></span><h2>The same in code<a class="headerlink" href="#the-same-in-code" title="Link to this heading">#</a></h2>
-<p>Everything in these tables comes from objects you can use yourself. This block
-runs when the documentation is built, so its output is current:</p>
-<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [1]: </span><span class="kn">import</span><span class="w"> </span><span class="nn">uataq</span>
-
-<span class="gp">In [2]: </span><span class="kn">from</span><span class="w"> </span><span class="nn">uataq</span><span class="w"> </span><span class="kn">import</span> <span class="n">Network</span>
-
-<span class="gp">In [3]: </span><span class="n">site</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">get_site</span><span class="p">(</span><span class="s2">&quot;WBB&quot;</span><span class="p">)</span>
-
-<span class="gp">In [4]: </span><span class="n">site</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">],</span> <span class="n">site</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;zagl&quot;</span><span class="p">]</span>
-<span class="gh">Out[4]: </span><span class="go">(&#39;William Browning&#39;, 35)</span>
-
-<span class="gp">In [5]: </span><span class="nb">sorted</span><span class="p">(</span><span class="n">site</span><span class="o">.</span><span class="n">pollutants</span><span class="p">)</span>
-<span class="gh">Out[5]: </span><span class="go">[&#39;BC&#39;, &#39;CH4&#39;, &#39;CO&#39;, &#39;CO2&#39;, &#39;NO&#39;, &#39;NO2&#39;, &#39;NOX&#39;, &#39;O3&#39;, &#39;PM2.5&#39;]</span>
-
-<span class="gp">In [6]: </span><span class="p">[</span><span class="n">instrument</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">instrument</span> <span class="ow">in</span> <span class="n">site</span><span class="o">.</span><span class="n">instruments</span><span class="p">]</span>
-<span class="gh">Out[6]: </span>
-<span class="go">[&#39;lgr_ugga&#39;,</span>
-<span class="go"> &#39;magee_ae33&#39;,</span>
-<span class="go"> &#39;metone_es642&#39;,</span>
-<span class="go"> &#39;teledyne_t200&#39;,</span>
-<span class="go"> &#39;teledyne_t300&#39;,</span>
-<span class="go"> &#39;teledyne_t400&#39;,</span>
-<span class="go"> &#39;teledyne_t500u&#39;,</span>
-<span class="go"> &#39;teom_1400ab&#39;]</span>
-
-<span class="gp">In [7]: </span><span class="n">site</span><span class="o">.</span><span class="n">instruments</span><span class="p">[</span><span class="s2">&quot;teledyne_t400&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">active_range</span>
-<span class="gh">Out[7]: </span><span class="go">TimeRange(start=2016-08-29 00:00:00, stop=None)</span>
-
-<span class="gp">In [8]: </span><span class="nb">type</span><span class="p">(</span><span class="n">site</span><span class="o">.</span><span class="n">instruments</span><span class="p">[</span><span class="s2">&quot;teledyne_t400&quot;</span><span class="p">])</span><span class="o">.</span><span class="vm">__name__</span>
-<span class="gh">Out[8]: </span><span class="go">&#39;Teledyne_T400&#39;</span>
-</pre></div>
-</div>
-<p><code class="docutils literal notranslate"><span class="pre">uataq.laboratory.sites</span></code> lists every site ID, and <code class="docutils literal notranslate"><span class="pre">site.config</span></code> holds the
-site’s own keys (see <a class="reference internal" href="config.html"><span class="doc">Configuration</span></a>). <code class="docutils literal notranslate"><span class="pre">repr(site)</span></code>, which is what a notebook
-shows for <code class="docutils literal notranslate"><span class="pre">site</span></code>, prints the whole entry, with the <code class="docutils literal notranslate"><span class="pre">notes</span></code> of the instruments
-that have one: why its dates are what they are, and where its data end.</p>
-<p>Pollutant names are upper case (<code class="docutils literal notranslate"><span class="pre">NOx</span></code> is <code class="docutils literal notranslate"><span class="pre">'NOX'</span></code> here), but you can type
-them in any case when you read data. To go the other way and find the sites that
-measure a pollutant, make a <a class="reference internal" href="../api/uataq.Network.html#uataq.Network" title="uataq.Network"><code class="xref py py-class docutils literal notranslate"><span class="pre">Network</span></code></a> of <code class="docutils literal notranslate"><span class="pre">&quot;all&quot;</span></code> sites. A <code class="docutils literal notranslate"><span class="pre">Network</span></code>
-is a list of sites and one pollutant; it is how the package asks a question
-across sites:</p>
-<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [9]: </span><span class="n">Network</span><span class="p">(</span><span class="s2">&quot;all&quot;</span><span class="p">,</span> <span class="s2">&quot;CH4&quot;</span><span class="p">)</span>
-<span class="gh">Out[9]: </span><span class="go">Network(sites=[&#39;CSP&#39;, &#39;FRU&#39;, &#39;HDP&#39;, &#39;HPL&#39;, &#39;LDF&#39;, &#39;ROO&#39;, &#39;TRX01&#39;, &#39;WBB&#39;], pollutant=&#39;CH4&#39;)</span>
-</pre></div>
-</div>
-<p>An instrument’s window, its <code class="docutils literal notranslate"><span class="pre">active_range</span></code>, says when it was installed, not
-when it recorded data. That is why <code class="docutils literal notranslate"><span class="pre">PM2.5</span></code> is in WBB’s list although both of
-WBB’s PM2.5 instruments, <code class="docutils literal notranslate"><span class="pre">metone_es642</span></code> and <code class="docutils literal notranslate"><span class="pre">teom_1400ab</span></code>, have an end date:</p>
-<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [10]: </span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">i</span><span class="o">.</span><span class="n">name</span><span class="si">:</span><span class="s2">15</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">i</span><span class="o">.</span><span class="n">active_range</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">site</span><span class="o">.</span><span class="n">instruments</span><span class="p">))</span>
-<span class="go">lgr_ugga        After 2013-10-09 00:00:00</span>
-<span class="go">magee_ae33      2020-07-29 00:00:00 to 2024-06-20 00:00:00</span>
-<span class="go">metone_es642    2017-03-07 00:00:00 to 2022-06-08 00:00:00</span>
-<span class="go">teledyne_t200   After 2017-01-19 00:00:00</span>
-<span class="go">teledyne_t300   After 2017-05-03 00:00:00</span>
-<span class="go">teledyne_t400   After 2016-08-29 00:00:00</span>
-<span class="go">teledyne_t500u  2020-07-29 00:00:00 to 2023-01-25 00:00:00</span>
-<span class="go">teom_1400ab     2016-09-22 00:00:00 to 2017-03-02 00:00:00</span>
-</pre></div>
-</div>
-</section>
 <section id="glossary">
 <span id="id1"></span><h2>Glossary<a class="headerlink" href="#glossary" title="Link to this heading">#</a></h2>
 <dl class="simple glossary">
@@ -1386,7 +1324,7 @@ instruments) or <code class="docutils literal notranslate"><span class="pre">hor
 other TRAX instruments). Some TRAX instruments are in both archives,
 for different years. <code class="docutils literal notranslate"><span class="pre">group=None</span></code>,
 the default of every read, picks the group for you; see
-<a class="reference internal" href="input_parameters.html#input-group"><span class="std std-ref">Research Group</span></a>. <code class="docutils literal notranslate"><span class="pre">uataq.filesystem.groups</span></code> holds the two groups’
+<a class="reference internal" href="input_parameters.html#input-group"><span class="std std-ref">Research group</span></a>. <code class="docutils literal notranslate"><span class="pre">uataq.filesystem.groups</span></code> holds the two groups’
 readers.</p>
 </dd>
 <dt id="term-logger">logger<a class="headerlink" href="#term-logger" title="Link to this term">#</a></dt><dd><p>How a group records an instrument, which sets the format of its
@@ -1419,9 +1357,9 @@ which pollutants the instrument measures.</p>
 tank and manually calibrated with lgr software periodically.” It has
 <code class="docutils literal notranslate"><span class="pre">&quot;model&quot;:</span> <span class="pre">&quot;lgr_ugga&quot;</span></code>, so it is read like any <code class="docutils literal notranslate"><span class="pre">lgr_ugga</span></code>, from a
 folder of its own in the lin archive. For what its <code class="docutils literal notranslate"><span class="pre">_cal</span></code> and
-<code class="docutils literal notranslate"><span class="pre">_raw</span></code> columns hold, see <a class="reference internal" href="columns.html#when-cal-is-empty"><span class="std std-ref">When _cal is empty</span></a>. The
+<code class="docutils literal notranslate"><span class="pre">_raw</span></code> columns hold, see <a class="reference internal" href="../guides/data_levels_and_flags.html#when-cal-is-empty"><span class="std std-ref">When _cal is empty</span></a>. The
 configuration also lists TRX01’s <code class="docutils literal notranslate"><span class="pre">lgr_ugga</span></code> with no removal date; to
-see which of the two has data in a period, use <a class="reference internal" href="../guides/what_data_exists.html"><span class="doc">What data exists</span></a>.</p>
+see which of the two has data in a period, use <a class="reference internal" href="../guides/find_sites_and_data.html"><span class="doc">Find sites and data</span></a>.</p>
 </dd>
 </dl>
 </section>
@@ -1451,7 +1389,7 @@ see which of the two has data in a period, use <a class="reference internal" hre
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Columns and flags</p>
+        <p class="prev-next-title">Columns</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -1477,7 +1415,6 @@ see which of the two has data in a period, use <a class="reference internal" hre
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fixed-sites">Fixed sites</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mobile-sites">Mobile sites</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#instruments">Instruments</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-same-in-code">The same in code</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#glossary">Glossary</a></li>
 </ul>
   </nav></div>

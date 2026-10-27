@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Functions and modules &#8212; UATAQ 2026.10.1.dev64+g8649881f3 documentation</title>
+    <title>Functions and modules &#8212; UATAQ 2026.10.1.dev68+gfe7a8fcd9 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="../_static/documentation_options.js?v=7188dfe9"></script>
+    <script src="../_static/documentation_options.js?v=2fe2af42"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -55,11 +55,11 @@
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="uataq.read_data" href="../api/uataq.read_data.html" />
+    <link rel="next" title="uataq.get_obs" href="../api/uataq.get_obs.html" />
     <link rel="prev" title="Configuration" href="config.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.1.dev64+g8649881f3" />
+  <meta name="docsearch:version" content="2026.10.1.dev68+gfe7a8fcd9" />
   
     
     <script src="../_static/searchtools.js"></script>
@@ -127,7 +127,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.1.dev64+g8649881f3 documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.1.dev68+gfe7a8fcd9 documentation</p>
   
 </a></div>
     
@@ -389,24 +389,19 @@
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="sites_and_instruments.html">Sites and instruments</a></li>
-<li class="toctree-l1"><a class="reference internal" href="columns.html">Columns and flags</a></li>
+<li class="toctree-l1"><a class="reference internal" href="columns.html">Columns</a></li>
 <li class="toctree-l1"><a class="reference internal" href="input_parameters.html">Input Parameters</a></li>
 <li class="toctree-l1"><a class="reference internal" href="config.html">Configuration</a></li>
 <li class="toctree-l1 current active has-children"><a aria-current="page" class="current reference internal" href="#">Functions and modules</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../api/uataq.read_data.html">uataq.read_data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/uataq.get_obs.html">uataq.get_obs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/uataq.read_data.html">uataq.read_data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/uataq.get_recent_obs.html">uataq.get_recent_obs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/uataq.get_network_obs.html">uataq.get_network_obs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/uataq.get_site.html">uataq.get_site</a></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../api/uataq.Network.html">uataq.Network</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3"><a class="reference internal" href="../api/uataq.Network.get_availability.html">uataq.Network.get_availability</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/uataq.Network.get_obs.html">uataq.Network.get_obs</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/uataq.Network.plot_availability.html">uataq.Network.plot_availability</a></li>
-</ul>
-</details></li>
-<li class="toctree-l2"><a class="reference internal" href="../api/uataq.laboratory.html">uataq.laboratory</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../api/uataq.get_site.html">uataq.get_site</a></li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../api/uataq.Laboratory.html">uataq.Laboratory</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="../api/uataq.Laboratory.get_site.html">uataq.Laboratory.get_site</a></li>
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../api/uataq.sites.html">uataq.sites</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -423,6 +418,59 @@
 <li class="toctree-l4"><a class="reference internal" href="../api/uataq.sites.Site.read_data.html">uataq.sites.Site.read_data</a></li>
 </ul>
 </details></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../api/uataq.pollutants.html">uataq.pollutants</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/uataq.pollutants.UNITS.html">uataq.pollutants.UNITS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/uataq.pollutants.POLLUTANTS.html">uataq.pollutants.POLLUTANTS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/uataq.pollutants.concentration_columns.html">uataq.pollutants.concentration_columns</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/uataq.pollutants.parse_column.html">uataq.pollutants.parse_column</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/uataq.pollutants.ConcentrationColumn.html">uataq.pollutants.ConcentrationColumn</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../api/uataq.errors.html">uataq.errors</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/uataq.errors.DataFileInitializationError.html">uataq.errors.DataFileInitializationError</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/uataq.errors.DroppedPollutantWarning.html">uataq.errors.DroppedPollutantWarning</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/uataq.errors.EmptyResultWarning.html">uataq.errors.EmptyResultWarning</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/uataq.errors.InactiveInstrumentError.html">uataq.errors.InactiveInstrumentError</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/uataq.errors.InstrumentNotFoundError.html">uataq.errors.InstrumentNotFoundError</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/uataq.errors.InvalidGroupError.html">uataq.errors.InvalidGroupError</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/uataq.errors.ParserError.html">uataq.errors.ParserError</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/uataq.errors.PollutantNotMeasured.html">uataq.errors.PollutantNotMeasured</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/uataq.errors.ReaderError.html">uataq.errors.ReaderError</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../api/uataq.timerange.html">uataq.timerange</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/uataq.timerange.TimeObject.html">uataq.timerange.TimeObject</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/uataq.timerange.TimeRangeTuple.html">uataq.timerange.TimeRangeTuple</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/uataq.timerange.TimeRangeList.html">uataq.timerange.TimeRangeList</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/uataq.timerange.TimeRangeTypes.html">uataq.timerange.TimeRangeTypes</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/uataq.timerange.TimeRange.html">uataq.timerange.TimeRange</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/uataq.timerange.TimeRange.start.html">uataq.timerange.TimeRange.start</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/uataq.timerange.TimeRange.stop.html">uataq.timerange.TimeRange.stop</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/uataq.timerange.TimeRange.total_seconds.html">uataq.timerange.TimeRange.total_seconds</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/uataq.timerange.TimeRange.parse_iso.html">uataq.timerange.TimeRange.parse_iso</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../api/uataq.sodar.html">uataq.sodar</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/uataq.sodar.NODATA.html">uataq.sodar.NODATA</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/uataq.sodar.list_stations.html">uataq.sodar.list_stations</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/uataq.sodar.Sodar.html">uataq.sodar.Sodar</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/uataq.sodar.Sodar.model.html">uataq.sodar.Sodar.model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/uataq.sodar.Sodar.species_measured.html">uataq.sodar.Sodar.species_measured</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/uataq.sodar.Sodar.get_files.html">uataq.sodar.Sodar.get_files</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/uataq.sodar.Sodar.get_winds_at_height.html">uataq.sodar.Sodar.get_winds_at_height</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/uataq.sodar.Sodar.parse.html">uataq.sodar.Sodar.parse</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/uataq.sodar.Sodar.read_data.html">uataq.sodar.Sodar.read_data</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/uataq.laboratory.html">uataq.laboratory</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../api/uataq.Laboratory.html">uataq.Laboratory</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/uataq.Laboratory.get_site.html">uataq.Laboratory.get_site</a></li>
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../api/uataq.instruments.html">uataq.instruments</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -472,14 +520,6 @@
 <li class="toctree-l3"><a class="reference internal" href="../api/uataq.instruments.Teom_1400ab.html">uataq.instruments.Teom_1400ab</a></li>
 </ul>
 </details></li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../api/uataq.pollutants.html">uataq.pollutants</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="../api/uataq.pollutants.UNITS.html">uataq.pollutants.UNITS</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/uataq.pollutants.POLLUTANTS.html">uataq.pollutants.POLLUTANTS</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/uataq.pollutants.concentration_columns.html">uataq.pollutants.concentration_columns</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/uataq.pollutants.parse_column.html">uataq.pollutants.parse_column</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/uataq.pollutants.ConcentrationColumn.html">uataq.pollutants.ConcentrationColumn</a></li>
-</ul>
-</details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../api/uataq.filesystem.html">uataq.filesystem</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3"><a class="reference internal" href="../api/uataq.filesystem.DEFAULT_GROUP.html">uataq.filesystem.DEFAULT_GROUP</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/uataq.filesystem.groups.html">uataq.filesystem.groups</a></li>
@@ -507,46 +547,6 @@
 <li class="toctree-l3"><a class="reference internal" href="../api/uataq.gps.estimate_speed_course.html">uataq.gps.estimate_speed_course</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/uataq.gps.gps_time_from_time_of_day.html">uataq.gps.gps_time_from_time_of_day</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/uataq.gps.haversine.html">uataq.gps.haversine</a></li>
-</ul>
-</details></li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../api/uataq.sodar.html">uataq.sodar</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="../api/uataq.sodar.NODATA.html">uataq.sodar.NODATA</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/uataq.sodar.list_stations.html">uataq.sodar.list_stations</a></li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../api/uataq.sodar.Sodar.html">uataq.sodar.Sodar</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l4"><a class="reference internal" href="../api/uataq.sodar.Sodar.model.html">uataq.sodar.Sodar.model</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../api/uataq.sodar.Sodar.species_measured.html">uataq.sodar.Sodar.species_measured</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../api/uataq.sodar.Sodar.get_files.html">uataq.sodar.Sodar.get_files</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../api/uataq.sodar.Sodar.get_winds_at_height.html">uataq.sodar.Sodar.get_winds_at_height</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../api/uataq.sodar.Sodar.parse.html">uataq.sodar.Sodar.parse</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../api/uataq.sodar.Sodar.read_data.html">uataq.sodar.Sodar.read_data</a></li>
-</ul>
-</details></li>
-</ul>
-</details></li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../api/uataq.timerange.html">uataq.timerange</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="../api/uataq.timerange.TimeObject.html">uataq.timerange.TimeObject</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/uataq.timerange.TimeRangeTuple.html">uataq.timerange.TimeRangeTuple</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/uataq.timerange.TimeRangeList.html">uataq.timerange.TimeRangeList</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/uataq.timerange.TimeRangeTypes.html">uataq.timerange.TimeRangeTypes</a></li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../api/uataq.timerange.TimeRange.html">uataq.timerange.TimeRange</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l4"><a class="reference internal" href="../api/uataq.timerange.TimeRange.start.html">uataq.timerange.TimeRange.start</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../api/uataq.timerange.TimeRange.stop.html">uataq.timerange.TimeRange.stop</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../api/uataq.timerange.TimeRange.total_seconds.html">uataq.timerange.TimeRange.total_seconds</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../api/uataq.timerange.TimeRange.parse_iso.html">uataq.timerange.TimeRange.parse_iso</a></li>
-</ul>
-</details></li>
-</ul>
-</details></li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../api/uataq.errors.html">uataq.errors</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="../api/uataq.errors.DataFileInitializationError.html">uataq.errors.DataFileInitializationError</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/uataq.errors.DroppedPollutantWarning.html">uataq.errors.DroppedPollutantWarning</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/uataq.errors.EmptyResultWarning.html">uataq.errors.EmptyResultWarning</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/uataq.errors.InactiveInstrumentError.html">uataq.errors.InactiveInstrumentError</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/uataq.errors.InstrumentNotFoundError.html">uataq.errors.InstrumentNotFoundError</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/uataq.errors.InvalidGroupError.html">uataq.errors.InvalidGroupError</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/uataq.errors.ParserError.html">uataq.errors.ParserError</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/uataq.errors.PollutantNotMeasured.html">uataq.errors.PollutantNotMeasured</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/uataq.errors.ReaderError.html">uataq.errors.ReaderError</a></li>
 </ul>
 </details></li>
 </ul>
@@ -621,11 +621,11 @@ inherits from the classes it extends.</p>
 <p>What each argument means is written once, on <a class="reference internal" href="input_parameters.html"><span class="doc">Input Parameters</span></a>.</p>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="../api/uataq.read_data.html#uataq.read_data" title="uataq.read_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_data</span></code></a></p></td>
-<td><p>Read data from an instrument at a site.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="../api/uataq.get_obs.html#uataq.get_obs" title="uataq.get_obs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_obs</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="../api/uataq.get_obs.html#uataq.get_obs" title="uataq.get_obs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_obs</span></code></a></p></td>
 <td><p>Get observations from a site.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../api/uataq.read_data.html#uataq.read_data" title="uataq.read_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_data</span></code></a></p></td>
+<td><p>Read data from an instrument at a site.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="../api/uataq.get_recent_obs.html#uataq.get_recent_obs" title="uataq.get_recent_obs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_recent_obs</span></code></a></p></td>
 <td><p>Get recent observations from a site.</p></td>
@@ -633,57 +633,77 @@ inherits from the classes it extends.</p>
 <tr class="row-even"><td><p><a class="reference internal" href="../api/uataq.get_network_obs.html#uataq.get_network_obs" title="uataq.get_network_obs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_network_obs</span></code></a></p></td>
 <td><p>Get observations for a network of sites for a single pollutant.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="../api/uataq.Network.html#uataq.Network" title="uataq.Network"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Network</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="../api/uataq.get_site.html#uataq.get_site" title="uataq.get_site"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_site</span></code></a></p></td>
+<td><p>Return site object from config file</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../api/uataq.Network.html#uataq.Network" title="uataq.Network"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Network</span></code></a></p></td>
 <td><p>Container for combining and analyzing data across multiple sites for a single pollutant.</p></td>
 </tr>
 </tbody>
 </table>
 </div>
 </section>
-<section id="the-laboratory">
-<h2>The laboratory<a class="headerlink" href="#the-laboratory" title="Link to this heading">#</a></h2>
-<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
-<tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="../api/uataq.laboratory.html#uataq.laboratory" title="uataq.laboratory"><code class="xref py py-obj docutils literal notranslate"><span class="pre">laboratory</span></code></a></p></td>
-<td><p>UATAQ Laboratory object.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="../api/uataq.get_site.html#uataq.get_site" title="uataq.get_site"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_site</span></code></a></p></td>
-<td><p>Return site object from config file</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="../api/uataq.Laboratory.html#uataq.Laboratory" title="uataq.Laboratory"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Laboratory</span></code></a></p></td>
-<td><p>Factory class for creating site objects from config file.</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-</section>
-<section id="modules">
-<h2>Modules<a class="headerlink" href="#modules" title="Link to this heading">#</a></h2>
+<section id="sites-columns-and-errors">
+<h2>Sites, columns and errors<a class="headerlink" href="#sites-columns-and-errors" title="Link to this heading">#</a></h2>
+<p>The site objects <a class="reference internal" href="../api/uataq.get_site.html#uataq.get_site" title="uataq.get_site"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_site()</span></code></a> returns, the functions that pick and parse
+column names, the errors and warnings a read raises, and the time range.</p>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="../api/uataq.sites.html#module-uataq.sites" title="uataq.sites"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sites</span></code></a></p></td>
 <td><p>Classes and functions for working with UATAQ sites.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="../api/uataq.instruments.html#module-uataq.instruments" title="uataq.instruments"><code class="xref py py-obj docutils literal notranslate"><span class="pre">instruments</span></code></a></p></td>
-<td><p>UATAQ instruments as classes.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="../api/uataq.pollutants.html#module-uataq.pollutants" title="uataq.pollutants"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pollutants</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="../api/uataq.pollutants.html#module-uataq.pollutants" title="uataq.pollutants"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pollutants</span></code></a></p></td>
 <td><p>How UATAQ names pollutant columns.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../api/uataq.errors.html#module-uataq.errors" title="uataq.errors"><code class="xref py py-obj docutils literal notranslate"><span class="pre">errors</span></code></a></p></td>
+<td><p>Custom exceptions and warnings for UATAQ.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../api/uataq.timerange.html#module-uataq.timerange" title="uataq.timerange"><code class="xref py py-obj docutils literal notranslate"><span class="pre">timerange</span></code></a></p></td>
+<td><p>Time range handling.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="sodar">
+<h2>SODAR<a class="headerlink" href="#sodar" title="Link to this heading">#</a></h2>
+<p>Wind profiles from the horel group’s SODAR stations, which are not UATAQ sites
+and are read on their own.</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="../api/uataq.sodar.html#module-uataq.sodar" title="uataq.sodar"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sodar</span></code></a></p></td>
+<td><p>SODAR wind profiles from the Horel group MesoWest archive.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="internals">
+<h2>Internals<a class="headerlink" href="#internals" title="Link to this heading">#</a></h2>
+<p>How uataq finds and parses the files: the configuration it builds the sites
+from, the instrument classes, each research group’s archive, and the GPS
+helpers. You need these only to change uataq.</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="../api/uataq.laboratory.html#uataq.laboratory" title="uataq.laboratory"><code class="xref py py-obj docutils literal notranslate"><span class="pre">laboratory</span></code></a></p></td>
+<td><p>UATAQ Laboratory object.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../api/uataq.Laboratory.html#uataq.Laboratory" title="uataq.Laboratory"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Laboratory</span></code></a></p></td>
+<td><p>Factory class for creating site objects from config file.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="../api/uataq.instruments.html#module-uataq.instruments" title="uataq.instruments"><code class="xref py py-obj docutils literal notranslate"><span class="pre">instruments</span></code></a></p></td>
+<td><p>UATAQ instruments as classes.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="../api/uataq.filesystem.html#module-uataq.filesystem" title="uataq.filesystem"><code class="xref py py-obj docutils literal notranslate"><span class="pre">filesystem</span></code></a></p></td>
 <td><p>Access to the UATAQ filesystem through <code class="docutils literal notranslate"><span class="pre">DataFile</span></code> and <code class="docutils literal notranslate"><span class="pre">GroupSpace</span></code> objects.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="../api/uataq.gps.html#module-uataq.gps" title="uataq.gps"><code class="xref py py-obj docutils literal notranslate"><span class="pre">gps</span></code></a></p></td>
 <td><p>GPS helpers: great-circle geometry and motion estimated from positions.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="../api/uataq.sodar.html#module-uataq.sodar" title="uataq.sodar"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sodar</span></code></a></p></td>
-<td><p>SODAR wind profiles from the Horel group MesoWest archive.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="../api/uataq.timerange.html#module-uataq.timerange" title="uataq.timerange"><code class="xref py py-obj docutils literal notranslate"><span class="pre">timerange</span></code></a></p></td>
-<td><p>Time range handling.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="../api/uataq.errors.html#module-uataq.errors" title="uataq.errors"><code class="xref py py-obj docutils literal notranslate"><span class="pre">errors</span></code></a></p></td>
-<td><p>Custom exceptions and warnings for UATAQ.</p></td>
 </tr>
 </tbody>
 </table>
@@ -711,11 +731,11 @@ inherits from the classes it extends.</p>
       </div>
     </a>
     <a class="right-next"
-       href="../api/uataq.read_data.html"
+       href="../api/uataq.get_obs.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">uataq.read_data</p>
+        <p class="prev-next-title">uataq.get_obs</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -739,8 +759,11 @@ inherits from the classes it extends.</p>
   <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reading-data">Reading data</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-laboratory">The laboratory</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modules">Modules</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sites-columns-and-errors">Sites, columns and errors</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sodar">SODAR</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#internals">Internals</a><ul class="pst-show_toc_level nav section-nav flex-column">
+</ul>
+</li>
 </ul>
   </nav></div>
 

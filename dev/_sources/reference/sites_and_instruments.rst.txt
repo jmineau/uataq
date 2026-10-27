@@ -7,16 +7,16 @@ The tables on this page are made from the package's
 :doc:`configuration </reference/config>` each time the documentation is built, so they
 always match the version of uataq they document. They say what the
 configuration says, not what the archive holds: to see which days have data,
-use :doc:`/guides/what_data_exists`. The words in the headings are explained in the
+use :doc:`/guides/find_sites_and_data`. The words in the headings are explained in the
 :ref:`glossary <glossary>` at the end of the page. Every site is in Utah, so the
-local time of all of them is ``America/Denver`` (see :ref:`first-month-utc`).
+local time of all of them is ``America/Denver`` (see :ref:`first-data-utc`).
 
 In both site tables:
 
 - **Active** is "yes" when at least one instrument at the site has no removal
   date in the configuration. Otherwise it gives the date the last instrument
   was removed. A site can stop sending data before its instruments are marked
-  removed, so check with :doc:`/guides/what_data_exists` before you plan on recent data.
+  removed, so check with :doc:`/guides/find_sites_and_data` before you plan on recent data.
 - **Groups** are the research :term:`groups <group>` whose archives hold the
   site's data.
 - **Pollutants** are every pollutant measured at the site, by its instruments
@@ -52,49 +52,6 @@ housekeeping (battery voltage, enclosure temperature), the other a GPS receiver.
 ``get_obs`` uses its ``gps`` to place each measurement.
 
 .. instrument-catalog::
-
-.. _sites-in-code:
-
-The same in code
-----------------
-
-Everything in these tables comes from objects you can use yourself. This block
-runs when the documentation is built, so its output is current:
-
-.. ipython:: python
-
-    import uataq
-    from uataq import Network
-
-    site = uataq.get_site("WBB")
-    site.config["name"], site.config["zagl"]
-    sorted(site.pollutants)
-    [instrument.name for instrument in site.instruments]
-    site.instruments["teledyne_t400"].active_range
-    type(site.instruments["teledyne_t400"]).__name__
-
-``uataq.laboratory.sites`` lists every site ID, and ``site.config`` holds the
-site's own keys (see :doc:`/reference/config`). ``repr(site)``, which is what a notebook
-shows for ``site``, prints the whole entry, with the ``notes`` of the instruments
-that have one: why its dates are what they are, and where its data end.
-
-Pollutant names are upper case (``NOx`` is ``'NOX'`` here), but you can type
-them in any case when you read data. To go the other way and find the sites that
-measure a pollutant, make a :class:`Network` of ``"all"`` sites. A ``Network``
-is a list of sites and one pollutant; it is how the package asks a question
-across sites:
-
-.. ipython:: python
-
-    Network("all", "CH4")
-
-An instrument's window, its ``active_range``, says when it was installed, not
-when it recorded data. That is why ``PM2.5`` is in WBB's list although both of
-WBB's PM2.5 instruments, ``metone_es642`` and ``teom_1400ab``, have an end date:
-
-.. ipython:: python
-
-    print("\n".join(f"{i.name:15} {i.active_range}" for i in site.instruments))
 
 .. _glossary:
 
@@ -170,4 +127,4 @@ Glossary
         folder of its own in the lin archive. For what its ``_cal`` and
         ``_raw`` columns hold, see :ref:`when-cal-is-empty`. The
         configuration also lists TRX01's ``lgr_ugga`` with no removal date; to
-        see which of the two has data in a period, use :doc:`/guides/what_data_exists`.
+        see which of the two has data in a period, use :doc:`/guides/find_sites_and_data`.

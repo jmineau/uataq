@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Configuration &#8212; UATAQ 2026.10.1.dev64+g8649881f3 documentation</title>
+    <title>Configuration &#8212; UATAQ 2026.10.1.dev68+gfe7a8fcd9 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="../_static/documentation_options.js?v=7188dfe9"></script>
+    <script src="../_static/documentation_options.js?v=2fe2af42"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -59,7 +59,7 @@
     <link rel="prev" title="Input Parameters" href="input_parameters.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.1.dev64+g8649881f3" />
+  <meta name="docsearch:version" content="2026.10.1.dev68+gfe7a8fcd9" />
   
     
     <script src="../_static/searchtools.js"></script>
@@ -127,7 +127,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.1.dev64+g8649881f3 documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.1.dev68+gfe7a8fcd9 documentation</p>
   
 </a></div>
     
@@ -389,24 +389,19 @@
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="sites_and_instruments.html">Sites and instruments</a></li>
-<li class="toctree-l1"><a class="reference internal" href="columns.html">Columns and flags</a></li>
+<li class="toctree-l1"><a class="reference internal" href="columns.html">Columns</a></li>
 <li class="toctree-l1"><a class="reference internal" href="input_parameters.html">Input Parameters</a></li>
 <li class="toctree-l1 current active"><a aria-current="page" class="current reference internal" href="#">Configuration</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="functions_and_modules.html">Functions and modules</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../api/uataq.read_data.html">uataq.read_data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/uataq.get_obs.html">uataq.get_obs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/uataq.read_data.html">uataq.read_data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/uataq.get_recent_obs.html">uataq.get_recent_obs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/uataq.get_network_obs.html">uataq.get_network_obs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/uataq.get_site.html">uataq.get_site</a></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../api/uataq.Network.html">uataq.Network</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3"><a class="reference internal" href="../api/uataq.Network.get_availability.html">uataq.Network.get_availability</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/uataq.Network.get_obs.html">uataq.Network.get_obs</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/uataq.Network.plot_availability.html">uataq.Network.plot_availability</a></li>
-</ul>
-</details></li>
-<li class="toctree-l2"><a class="reference internal" href="../api/uataq.laboratory.html">uataq.laboratory</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../api/uataq.get_site.html">uataq.get_site</a></li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../api/uataq.Laboratory.html">uataq.Laboratory</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="../api/uataq.Laboratory.get_site.html">uataq.Laboratory.get_site</a></li>
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../api/uataq.sites.html">uataq.sites</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -423,6 +418,59 @@
 <li class="toctree-l4"><a class="reference internal" href="../api/uataq.sites.Site.read_data.html">uataq.sites.Site.read_data</a></li>
 </ul>
 </details></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../api/uataq.pollutants.html">uataq.pollutants</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/uataq.pollutants.UNITS.html">uataq.pollutants.UNITS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/uataq.pollutants.POLLUTANTS.html">uataq.pollutants.POLLUTANTS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/uataq.pollutants.concentration_columns.html">uataq.pollutants.concentration_columns</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/uataq.pollutants.parse_column.html">uataq.pollutants.parse_column</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/uataq.pollutants.ConcentrationColumn.html">uataq.pollutants.ConcentrationColumn</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../api/uataq.errors.html">uataq.errors</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/uataq.errors.DataFileInitializationError.html">uataq.errors.DataFileInitializationError</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/uataq.errors.DroppedPollutantWarning.html">uataq.errors.DroppedPollutantWarning</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/uataq.errors.EmptyResultWarning.html">uataq.errors.EmptyResultWarning</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/uataq.errors.InactiveInstrumentError.html">uataq.errors.InactiveInstrumentError</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/uataq.errors.InstrumentNotFoundError.html">uataq.errors.InstrumentNotFoundError</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/uataq.errors.InvalidGroupError.html">uataq.errors.InvalidGroupError</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/uataq.errors.ParserError.html">uataq.errors.ParserError</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/uataq.errors.PollutantNotMeasured.html">uataq.errors.PollutantNotMeasured</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/uataq.errors.ReaderError.html">uataq.errors.ReaderError</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../api/uataq.timerange.html">uataq.timerange</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/uataq.timerange.TimeObject.html">uataq.timerange.TimeObject</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/uataq.timerange.TimeRangeTuple.html">uataq.timerange.TimeRangeTuple</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/uataq.timerange.TimeRangeList.html">uataq.timerange.TimeRangeList</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/uataq.timerange.TimeRangeTypes.html">uataq.timerange.TimeRangeTypes</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/uataq.timerange.TimeRange.html">uataq.timerange.TimeRange</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/uataq.timerange.TimeRange.start.html">uataq.timerange.TimeRange.start</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/uataq.timerange.TimeRange.stop.html">uataq.timerange.TimeRange.stop</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/uataq.timerange.TimeRange.total_seconds.html">uataq.timerange.TimeRange.total_seconds</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/uataq.timerange.TimeRange.parse_iso.html">uataq.timerange.TimeRange.parse_iso</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../api/uataq.sodar.html">uataq.sodar</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/uataq.sodar.NODATA.html">uataq.sodar.NODATA</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/uataq.sodar.list_stations.html">uataq.sodar.list_stations</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/uataq.sodar.Sodar.html">uataq.sodar.Sodar</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/uataq.sodar.Sodar.model.html">uataq.sodar.Sodar.model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/uataq.sodar.Sodar.species_measured.html">uataq.sodar.Sodar.species_measured</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/uataq.sodar.Sodar.get_files.html">uataq.sodar.Sodar.get_files</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/uataq.sodar.Sodar.get_winds_at_height.html">uataq.sodar.Sodar.get_winds_at_height</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/uataq.sodar.Sodar.parse.html">uataq.sodar.Sodar.parse</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/uataq.sodar.Sodar.read_data.html">uataq.sodar.Sodar.read_data</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/uataq.laboratory.html">uataq.laboratory</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../api/uataq.Laboratory.html">uataq.Laboratory</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/uataq.Laboratory.get_site.html">uataq.Laboratory.get_site</a></li>
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../api/uataq.instruments.html">uataq.instruments</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -472,14 +520,6 @@
 <li class="toctree-l3"><a class="reference internal" href="../api/uataq.instruments.Teom_1400ab.html">uataq.instruments.Teom_1400ab</a></li>
 </ul>
 </details></li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../api/uataq.pollutants.html">uataq.pollutants</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="../api/uataq.pollutants.UNITS.html">uataq.pollutants.UNITS</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/uataq.pollutants.POLLUTANTS.html">uataq.pollutants.POLLUTANTS</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/uataq.pollutants.concentration_columns.html">uataq.pollutants.concentration_columns</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/uataq.pollutants.parse_column.html">uataq.pollutants.parse_column</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/uataq.pollutants.ConcentrationColumn.html">uataq.pollutants.ConcentrationColumn</a></li>
-</ul>
-</details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../api/uataq.filesystem.html">uataq.filesystem</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3"><a class="reference internal" href="../api/uataq.filesystem.DEFAULT_GROUP.html">uataq.filesystem.DEFAULT_GROUP</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/uataq.filesystem.groups.html">uataq.filesystem.groups</a></li>
@@ -507,46 +547,6 @@
 <li class="toctree-l3"><a class="reference internal" href="../api/uataq.gps.estimate_speed_course.html">uataq.gps.estimate_speed_course</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/uataq.gps.gps_time_from_time_of_day.html">uataq.gps.gps_time_from_time_of_day</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/uataq.gps.haversine.html">uataq.gps.haversine</a></li>
-</ul>
-</details></li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../api/uataq.sodar.html">uataq.sodar</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="../api/uataq.sodar.NODATA.html">uataq.sodar.NODATA</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/uataq.sodar.list_stations.html">uataq.sodar.list_stations</a></li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../api/uataq.sodar.Sodar.html">uataq.sodar.Sodar</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l4"><a class="reference internal" href="../api/uataq.sodar.Sodar.model.html">uataq.sodar.Sodar.model</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../api/uataq.sodar.Sodar.species_measured.html">uataq.sodar.Sodar.species_measured</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../api/uataq.sodar.Sodar.get_files.html">uataq.sodar.Sodar.get_files</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../api/uataq.sodar.Sodar.get_winds_at_height.html">uataq.sodar.Sodar.get_winds_at_height</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../api/uataq.sodar.Sodar.parse.html">uataq.sodar.Sodar.parse</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../api/uataq.sodar.Sodar.read_data.html">uataq.sodar.Sodar.read_data</a></li>
-</ul>
-</details></li>
-</ul>
-</details></li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../api/uataq.timerange.html">uataq.timerange</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="../api/uataq.timerange.TimeObject.html">uataq.timerange.TimeObject</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/uataq.timerange.TimeRangeTuple.html">uataq.timerange.TimeRangeTuple</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/uataq.timerange.TimeRangeList.html">uataq.timerange.TimeRangeList</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/uataq.timerange.TimeRangeTypes.html">uataq.timerange.TimeRangeTypes</a></li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../api/uataq.timerange.TimeRange.html">uataq.timerange.TimeRange</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l4"><a class="reference internal" href="../api/uataq.timerange.TimeRange.start.html">uataq.timerange.TimeRange.start</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../api/uataq.timerange.TimeRange.stop.html">uataq.timerange.TimeRange.stop</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../api/uataq.timerange.TimeRange.total_seconds.html">uataq.timerange.TimeRange.total_seconds</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../api/uataq.timerange.TimeRange.parse_iso.html">uataq.timerange.TimeRange.parse_iso</a></li>
-</ul>
-</details></li>
-</ul>
-</details></li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../api/uataq.errors.html">uataq.errors</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="../api/uataq.errors.DataFileInitializationError.html">uataq.errors.DataFileInitializationError</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/uataq.errors.DroppedPollutantWarning.html">uataq.errors.DroppedPollutantWarning</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/uataq.errors.EmptyResultWarning.html">uataq.errors.EmptyResultWarning</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/uataq.errors.InactiveInstrumentError.html">uataq.errors.InactiveInstrumentError</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/uataq.errors.InstrumentNotFoundError.html">uataq.errors.InstrumentNotFoundError</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/uataq.errors.InvalidGroupError.html">uataq.errors.InvalidGroupError</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/uataq.errors.ParserError.html">uataq.errors.ParserError</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/uataq.errors.PollutantNotMeasured.html">uataq.errors.PollutantNotMeasured</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/uataq.errors.ReaderError.html">uataq.errors.ReaderError</a></li>
 </ul>
 </details></li>
 </ul>
@@ -613,16 +613,12 @@
                   
   <section id="configuration">
 <h1>Configuration<a class="headerlink" href="#configuration" title="Link to this heading">#</a></h1>
-<p>The UATAQ configuration is defined as a <code class="docutils literal notranslate"><span class="pre">json</span></code> file which specifies UATAQ
-site characteristics including name, location, status, research groups
-collecting data, and installed instruments. The <a class="reference internal" href="sites_and_instruments.html"><span class="doc">Sites and instruments</span></a> page shows it
-as tables.</p>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>Changes to UATAQ site infrastructure, including instrument
-installation/removal, must be reflected in the configuration
-file for the lab to be able to properly access the data.</p>
-</div>
+<p>uataq’s configuration is one JSON file,
+<a class="reference external" href="https://github.com/jmineau/uataq/blob/main/src/uataq/config.json">src/uataq/config.json</a>,
+with an entry for each site: its name and location, the research groups that log
+it, and its instruments with their dates. uataq reads it when it is imported, and
+<a class="reference internal" href="sites_and_instruments.html"><span class="doc">Sites and instruments</span></a> shows it as tables. A change at a site is
+written in this file (see <a class="reference internal" href="../contributing.html"><span class="doc">Contributing</span></a>). This page lists its keys.</p>
 <section id="site-keys">
 <h2>Site keys<a class="headerlink" href="#site-keys" title="Link to this heading">#</a></h2>
 <p>Each site is an entry of the configuration, keyed by its <a class="reference internal" href="sites_and_instruments.html#term-SID"><span class="xref std std-term">SID</span></a> (<code class="docutils literal notranslate"><span class="pre">WBB</span></code>).
@@ -689,866 +685,6 @@ and 2018-11-19.</p>
 <dt><code class="docutils literal notranslate"><span class="pre">notes</span></code> (optional)</dt><dd><p>Free text; not read by the code.</p>
 </dd>
 </dl>
-<div class="literal-block-wrapper docutils container" id="id1">
-<div class="code-block-caption"><span class="caption-text">uataq/config.json</span><a class="headerlink" href="#id1" title="Link to this code">#</a></div>
-<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;ASB&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Aline Wilmot Skaggs&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;is_active&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;latitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">40.763226</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;longitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">-111.849278</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;lin&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;campbellsci&quot;</span>
-<span class="w">        </span><span class="p">},</span>
-<span class="w">        </span><span class="nt">&quot;instruments&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;licor_6262&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2001-02-08&quot;</span><span class="p">,</span>
-<span class="w">                </span><span class="nt">&quot;removal_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2015-08-06&quot;</span><span class="p">,</span>
-<span class="w">                </span><span class="nt">&quot;notes&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;The last sample is 2015-08-05 14:30:00 UTC (raw and qaqc; calibrated ends 14:25:00 and final 13:05:00 that day), so the removal date is the next midnight.&quot;</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">        </span><span class="p">}</span>
-<span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="nt">&quot;BUS01&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;BUS 18153&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;is_mobile&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;horel&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;campbellsci&quot;</span>
-<span class="w">        </span><span class="p">},</span>
-<span class="w">        </span><span class="nt">&quot;instruments&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;2b_205&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2021-09-28&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;2b_405&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2021-09-28&quot;</span><span class="p">,</span>
-<span class="w">                </span><span class="nt">&quot;removal_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2022-05-10&quot;</span><span class="p">,</span>
-<span class="w">                </span><span class="nt">&quot;notes&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;The last reading of NO, NO2 and NOx is 2022-05-09 14:36:25 UTC (raw, qaqc and final), after a gap from 2022-05-07 21:16:40; rows with only a zero NO2 follow until 17:42:50. The removal date is the next midnight.&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;cr1000&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2021-09-28&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;gps&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2021-09-28&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;metone_es642&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2021-09-28&quot;</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">        </span><span class="p">}</span>
-<span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="nt">&quot;BUS02&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;BUS 18151&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;is_mobile&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;horel&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;campbellsci&quot;</span>
-<span class="w">        </span><span class="p">},</span>
-<span class="w">        </span><span class="nt">&quot;instruments&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;2b_205&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2022-02-04&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;2b_405&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2022-02-15&quot;</span><span class="p">,</span>
-<span class="w">                </span><span class="nt">&quot;removal_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-05-17&quot;</span><span class="p">,</span>
-<span class="w">                </span><span class="nt">&quot;notes&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;The last reading is 2023-05-16 12:29:00 UTC (raw, qaqc and final). The removal date stays on 2023-05-17, which leaves out three minutes of rows that day (17:00:50 to 17:03:25) from an instrument just switched on: the flow starts at zero, NO2 reads 8192 ppb once, and NO and NOx read zero throughout.&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;cr1000&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2022-02-04&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;gps&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2022-02-04&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;metone_es642&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2022-02-04&quot;</span><span class="p">,</span>
-<span class="w">                </span><span class="nt">&quot;removal_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2025-03-13 02:38:00&quot;</span><span class="p">,</span>
-<span class="w">                </span><span class="nt">&quot;notes&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;The last sample is 2025-03-13 00:37:10 UTC, in horel&#39;s raw BUS02_2025_03_esampler.h5_prior405upgrade (horel&#39;s qaqc and final files have no ES642 values that month). The removal date is the first raw row of the metone_es405 that replaced it, 2025-03-13 02:38:00 UTC, so one instant ends this instrument and starts that one.&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;metone_es405&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2025-03-13 02:38:00&quot;</span><span class="p">,</span>
-<span class="w">                </span><span class="nt">&quot;notes&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Replaced the metone_es642. The installation date is this instrument&#39;s first raw row, 2025-03-13 02:38:00 UTC, in BUS02_2025_03_esampler.h5, which holds only its rows; horel&#39;s qaqc and final files of that month have no ES405 columns. The metone_es642&#39;s last sample is 2025-03-13 00:37:10 UTC, so no row of one is read as the other&#39;s.&quot;</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">        </span><span class="p">}</span>
-<span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="nt">&quot;BUS03&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;BUS 18152&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;is_mobile&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;horel&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;campbellsci&quot;</span>
-<span class="w">        </span><span class="p">},</span>
-<span class="w">        </span><span class="nt">&quot;instruments&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;2b_205&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2022-02-05&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;2b_405&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-01-20&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;cr1000&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2022-02-05&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;gps&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2022-02-05&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;metone_es642&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2022-02-05&quot;</span><span class="p">,</span>
-<span class="w">                </span><span class="nt">&quot;removal_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-12-05 06:09:00&quot;</span><span class="p">,</span>
-<span class="w">                </span><span class="nt">&quot;notes&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;The last sample is 2024-12-05 05:47:35 UTC, in horel&#39;s raw BUS03_2024_12_esampler.h5_prior405upgrade (horel&#39;s qaqc and final files have no ES642 values that month). The removal date is the first raw row of the metone_es405 that replaced it, 2024-12-05 06:09:00 UTC, so one instant ends this instrument and starts that one.&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;metone_es405&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-12-05 06:09:00&quot;</span><span class="p">,</span>
-<span class="w">                </span><span class="nt">&quot;notes&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Replaced the metone_es642. The installation date is this instrument&#39;s first raw row, 2024-12-05 06:09:00 UTC, in BUS03_2024_12_esampler.h5, which holds only its rows; its first qaqc value is at the same time. The metone_es642&#39;s last sample is 2024-12-05 05:47:35 UTC, so no row of one is read as the other&#39;s.&quot;</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">        </span><span class="p">}</span>
-<span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="nt">&quot;BUS04&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;BUS 23101&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;is_mobile&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;horel&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;campbellsci&quot;</span>
-<span class="w">        </span><span class="p">},</span>
-<span class="w">        </span><span class="nt">&quot;instruments&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;2b_205&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-05-02&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;cr1000&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-05-02&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;gps&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-05-02&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;metone_es405&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-05-02&quot;</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">        </span><span class="p">}</span>
-<span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="nt">&quot;BUS05&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;BUS 23103&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;is_mobile&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;horel&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;campbellsci&quot;</span>
-<span class="w">        </span><span class="p">},</span>
-<span class="w">        </span><span class="nt">&quot;instruments&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;2b_205&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-07-12&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;cr1000&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-07-12&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;gps&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-07-12&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;metone_es405&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-07-12&quot;</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">        </span><span class="p">}</span>
-<span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="nt">&quot;BUS06&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;BUS 23102&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;is_mobile&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;horel&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;campbellsci&quot;</span>
-<span class="w">        </span><span class="p">},</span>
-<span class="w">        </span><span class="nt">&quot;instruments&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;2b_205&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-09-14&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;cr1000&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-09-14&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;gps&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-09-14&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;metone_es405&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-09-14&quot;</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">        </span><span class="p">}</span>
-<span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="nt">&quot;BUS07&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;BUS 23105&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;is_mobile&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;horel&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;campbellsci&quot;</span>
-<span class="w">        </span><span class="p">},</span>
-<span class="w">        </span><span class="nt">&quot;instruments&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;2b_205&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-09-20&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;cr1000&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-09-20&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;gps&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-09-20&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;metone_es405&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-12-08&quot;</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">        </span><span class="p">}</span>
-<span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="nt">&quot;BUS08&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;BUS 23104&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;is_mobile&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;horel&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;campbellsci&quot;</span>
-<span class="w">        </span><span class="p">},</span>
-<span class="w">        </span><span class="nt">&quot;instruments&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;2b_205&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-01-17&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;cr1000&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-01-17&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;gps&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-01-17&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;metone_es405&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-01-17&quot;</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">        </span><span class="p">}</span>
-<span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="nt">&quot;BUS09&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;BUS 23120&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;is_mobile&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;horel&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;campbellsci&quot;</span>
-<span class="w">        </span><span class="p">},</span>
-<span class="w">        </span><span class="nt">&quot;instruments&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;2b_205&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-01-19&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;cr1000&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-01-19&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;gps&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-01-19&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;metone_es405&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-01-19&quot;</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">        </span><span class="p">}</span>
-<span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="nt">&quot;BUS10&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;BUS 23107&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;is_mobile&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;horel&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;campbellsci&quot;</span>
-<span class="w">        </span><span class="p">},</span>
-<span class="w">        </span><span class="nt">&quot;instruments&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;2b_205&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-03-18&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;cr1000&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-03-18&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;gps&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-03-18&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;metone_es405&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-03-18&quot;</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">        </span><span class="p">}</span>
-<span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="nt">&quot;BUS11&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;BUS 23108&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;is_mobile&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;horel&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;campbellsci&quot;</span>
-<span class="w">        </span><span class="p">},</span>
-<span class="w">        </span><span class="nt">&quot;instruments&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;2b_205&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-03-01&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;cr1000&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-03-01&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;gps&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-03-01&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;metone_es405&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-03-01&quot;</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">        </span><span class="p">}</span>
-<span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="nt">&quot;BUS12&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;BUS 23106&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;is_mobile&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;horel&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;campbellsci&quot;</span>
-<span class="w">        </span><span class="p">},</span>
-<span class="w">        </span><span class="nt">&quot;instruments&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;2b_205&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-03-22&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;cr1000&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-03-22&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;gps&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-03-22&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;metone_es405&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-03-22&quot;</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">        </span><span class="p">}</span>
-<span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="nt">&quot;BUS13&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;BUS 23109&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;is_mobile&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;horel&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;campbellsci&quot;</span>
-<span class="w">        </span><span class="p">},</span>
-<span class="w">        </span><span class="nt">&quot;instruments&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;2b_205&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-04-01&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;cr1000&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-04-01&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;gps&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-04-01&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;metone_es405&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-04-01&quot;</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">        </span><span class="p">}</span>
-<span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="nt">&quot;BUS14&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;BUS 23111&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;is_mobile&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;horel&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;campbellsci&quot;</span>
-<span class="w">        </span><span class="p">},</span>
-<span class="w">        </span><span class="nt">&quot;instruments&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;2b_205&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-05-08&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;cr1000&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-05-08&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;gps&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-05-08&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;metone_es405&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-05-08&quot;</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">        </span><span class="p">}</span>
-<span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="nt">&quot;BUS15&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;BUS 23112&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;is_mobile&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;horel&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;campbellsci&quot;</span>
-<span class="w">        </span><span class="p">},</span>
-<span class="w">        </span><span class="nt">&quot;instruments&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;2b_205&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-05-14&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;cr1000&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-05-14&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;gps&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-05-14&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;metone_es405&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-05-14&quot;</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">        </span><span class="p">}</span>
-<span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="nt">&quot;CSP&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Castle Peak&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;latitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">40.0509</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;longitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">-110.0194</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;zagl&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;lin&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;lgr_ugga&quot;</span>
-<span class="w">        </span><span class="p">},</span>
-<span class="w">        </span><span class="nt">&quot;instruments&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;lgr_ugga&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2015-11-17&quot;</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">        </span><span class="p">}</span>
-<span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="nt">&quot;DBK&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Daybreak&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;latitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">40.538497</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;longitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">-112.069528</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;zagl&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;lin&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;campbellsci&quot;</span>
-<span class="w">        </span><span class="p">},</span>
-<span class="w">        </span><span class="nt">&quot;instruments&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;licor_6262&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2004-01-22&quot;</span><span class="p">,</span>
-<span class="w">                </span><span class="nt">&quot;removal_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2022-05-14&quot;</span><span class="p">,</span>
-<span class="w">                </span><span class="nt">&quot;notes&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;The last sample is 2022-05-13 15:32:10 UTC (raw and qaqc; calibrated and final end 13:59:50 that day), so the removal date is the next midnight. The licor_7000 that replaced it starts on 2022-05-16.&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;licor_7000&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2022-05-16&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;metone_es642&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2017-07-19&quot;</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">        </span><span class="p">}</span>
-<span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="nt">&quot;FRU&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Fruitland&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;latitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">40.20873</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;longitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">-110.8403</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;zagl&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;lin&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;lgr_ugga&quot;</span>
-<span class="w">        </span><span class="p">},</span>
-<span class="w">        </span><span class="nt">&quot;instruments&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;lgr_ugga&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2015-03-19&quot;</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">        </span><span class="p">}</span>
-<span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="nt">&quot;HDP&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Hidden Peak&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;is_active&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;latitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">40.560644</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;longitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">-111.645278</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;zagl&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">15</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;lin&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;lgr_ugga&quot;</span>
-<span class="w">        </span><span class="p">},</span>
-<span class="w">        </span><span class="nt">&quot;instruments&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;lgr_ugga&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2016-07-20&quot;</span><span class="p">,</span>
-<span class="w">                </span><span class="nt">&quot;removal_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2025-02-08&quot;</span><span class="p">,</span>
-<span class="w">                </span><span class="nt">&quot;notes&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;The last sample is 2025-02-07 15:45:36 UTC (raw and qaqc; final ends 13:53:44 that day), so the removal date is the next midnight. The pipeline log says HDP was decommissioned on 2025-02-07.&quot;</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">        </span><span class="p">}</span>
-<span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="nt">&quot;HEB&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Heber&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;is_active&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;latitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">40.506808</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;longitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">-111.403636</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;zagl&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;lin&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;campbellsci&quot;</span>
-<span class="w">        </span><span class="p">},</span>
-<span class="w">        </span><span class="nt">&quot;instruments&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;licor_6262&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2015-07-28&quot;</span><span class="p">,</span>
-<span class="w">                </span><span class="nt">&quot;removal_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2025-05-30&quot;</span><span class="p">,</span>
-<span class="w">                </span><span class="nt">&quot;notes&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;The last sample is 2025-05-12 17:46:40 UTC (raw and qaqc; calibrated and final end 2025-05-01 21:59:50). The removal date is 2025-05-30, the day the pipeline switched HEB to a licor_7000.&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;licor_7000&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2025-05-30&quot;</span><span class="p">,</span>
-<span class="w">                </span><span class="nt">&quot;removal_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2025-09-17&quot;</span><span class="p">,</span>
-<span class="w">                </span><span class="nt">&quot;notes&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Replaced the licor_6262. The first sample is 2025-05-30 19:31:20 UTC and the last 2025-09-16 16:03:30 UTC (raw and qaqc; calibrated and final end 13:59:50 that day), so the removal date is the next midnight.&quot;</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">        </span><span class="p">}</span>
-<span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="nt">&quot;HPL&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Horsepool&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;latitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">40.143711</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;longitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">-109.4672</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;zagl&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;lin&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;lgr_ugga&quot;</span>
-<span class="w">        </span><span class="p">},</span>
-<span class="w">        </span><span class="nt">&quot;instruments&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;lgr_ugga&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2015-01-28&quot;</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">        </span><span class="p">}</span>
-<span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="nt">&quot;IMC&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Intermountain Medical&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;is_active&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;latitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">40.660395</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;longitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">-111.89075</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;zagl&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">35</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;lin&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;campbellsci&quot;</span>
-<span class="w">        </span><span class="p">},</span>
-<span class="w">        </span><span class="nt">&quot;instruments&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;licor_6262&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2016-09-25&quot;</span><span class="p">,</span>
-<span class="w">                </span><span class="nt">&quot;removal_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2020-09-16&quot;</span><span class="p">,</span>
-<span class="w">                </span><span class="nt">&quot;notes&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;The last sample is 2020-09-15 23:19:20 UTC (raw and qaqc; calibrated and final end 2020-05-06 23:59:50), so the removal date is the next midnight.&quot;</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">        </span><span class="p">}</span>
-<span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="nt">&quot;LDF&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;SLV Landfill&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;is_active&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;latitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">40.748783</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;longitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">-112.033941</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;zagl&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;lin&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;air-trend&quot;</span>
-<span class="w">        </span><span class="p">},</span>
-<span class="w">        </span><span class="nt">&quot;instruments&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;lgr_ugga&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-06-26&quot;</span><span class="p">,</span>
-<span class="w">                </span><span class="nt">&quot;removal_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-09-29&quot;</span><span class="p">,</span>
-<span class="w">                </span><span class="nt">&quot;notes&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;The last sample is 2023-09-28 20:16:39 UTC (raw and qaqc; calibrated and final end 2023-09-12 12:53:02), so the removal date is the next midnight.&quot;</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">        </span><span class="p">}</span>
-<span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="nt">&quot;LGN&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Logan&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;is_active&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;latitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">41.761353</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;longitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">-111.822739</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;zagl&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;lin&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;campbellsci&quot;</span>
-<span class="w">        </span><span class="p">},</span>
-<span class="w">        </span><span class="nt">&quot;instruments&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;licor_6262&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2015-07-27&quot;</span><span class="p">,</span>
-<span class="w">                </span><span class="nt">&quot;removal_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2020-03-16&quot;</span><span class="p">,</span>
-<span class="w">                </span><span class="nt">&quot;notes&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;The last sample is 2020-03-15 07:31:40 UTC (raw and qaqc; calibrated and final end 05:59:50 that day), so the removal date is the next midnight.&quot;</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">        </span><span class="p">}</span>
-<span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="nt">&quot;LG2&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Logan&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;is_active&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;latitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">41.758105</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;longitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">-111.813234</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;zagl&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;lin&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;campbellsci&quot;</span>
-<span class="w">        </span><span class="p">},</span>
-<span class="w">        </span><span class="nt">&quot;instruments&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;licor_6262&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2019-10-26&quot;</span><span class="p">,</span>
-<span class="w">                </span><span class="nt">&quot;removal_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2022-05-12&quot;</span><span class="p">,</span>
-<span class="w">                </span><span class="nt">&quot;notes&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;The last sample is 2022-05-11 16:16:00 UTC (raw and qaqc; calibrated and final end 15:59:50 that day), so the removal date is the next midnight.&quot;</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">        </span><span class="p">}</span>
-<span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="nt">&quot;MSA&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Murray Satellite&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;is_active&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;latitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">40.763226</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;longitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">-111.849278</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;lin&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;campbellsci&quot;</span>
-<span class="w">        </span><span class="p">},</span>
-<span class="w">        </span><span class="nt">&quot;instruments&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;licor_6262&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2013-08-07&quot;</span><span class="p">,</span>
-<span class="w">                </span><span class="nt">&quot;removal_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2016-07-27&quot;</span><span class="p">,</span>
-<span class="w">                </span><span class="nt">&quot;notes&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;The last sample is 2016-07-26 16:15:00 UTC (raw and qaqc; calibrated ends 2016-07-04 04:05:00 and final 2016-07-01 08:05:00), so the removal date is the next midnight.&quot;</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">        </span><span class="p">}</span>
-<span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="nt">&quot;MUR&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Murray&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;is_active&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;latitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">40.763226</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;longitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">-111.849278</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;lin&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;campbellsci&quot;</span>
-<span class="w">        </span><span class="p">},</span>
-<span class="w">        </span><span class="nt">&quot;instruments&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;licor_6262&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2005-01-07&quot;</span><span class="p">,</span>
-<span class="w">                </span><span class="nt">&quot;removal_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2013-08-03&quot;</span><span class="p">,</span>
-<span class="w">                </span><span class="nt">&quot;notes&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;The last sample is 2013-08-02 17:05:00 UTC (raw and qaqc; calibrated ends 2013-07-14 18:05:00 and final 2013-06-28 10:05:00), so the removal date is the next midnight.&quot;</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">        </span><span class="p">}</span>
-<span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="nt">&quot;ROO&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Roosevelt&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;is_active&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;latitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">40.294169</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;longitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">-110.009</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;zagl&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;lin&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;lgr_ugga&quot;</span>
-<span class="w">        </span><span class="p">},</span>
-<span class="w">        </span><span class="nt">&quot;instruments&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;lgr_ugga&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2015-03-23&quot;</span><span class="p">,</span>
-<span class="w">                </span><span class="nt">&quot;removal_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2019-07-17&quot;</span><span class="p">,</span>
-<span class="w">                </span><span class="nt">&quot;notes&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;The last sample is 2019-07-16 16:11:50 UTC (raw and qaqc; calibrated and final end 14:11:40 that day), so the removal date is the next midnight.&quot;</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">        </span><span class="p">}</span>
-<span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="nt">&quot;RPK&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Rose Park&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;latitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">40.794386</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;longitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">-111.931925</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;zagl&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;lin&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;campbellsci&quot;</span>
-<span class="w">        </span><span class="p">},</span>
-<span class="w">        </span><span class="nt">&quot;instruments&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;licor_6262&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2009-02-24&quot;</span><span class="p">,</span>
-<span class="w">                </span><span class="nt">&quot;removal_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-09-07&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;licor_7000&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-09-07&quot;</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">        </span><span class="p">}</span>
-<span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="nt">&quot;SUG&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Sugarhouse&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;is_active&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;latitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">40.739906</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;longitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">-111.857831</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;zagl&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;lin&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;campbellsci&quot;</span>
-<span class="w">        </span><span class="p">},</span>
-<span class="w">        </span><span class="nt">&quot;instruments&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;licor_6262&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2005-01-11&quot;</span><span class="p">,</span>
-<span class="w">                </span><span class="nt">&quot;removal_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2022-02-12&quot;</span><span class="p">,</span>
-<span class="w">                </span><span class="nt">&quot;notes&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;The last sample is 2022-02-11 18:07:50 UTC (raw and qaqc; calibrated and final end 17:59:50 that day), so the removal date is the next midnight. The licor_7000 that replaced it starts on 2022-06-13.&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;licor_7000&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2022-06-13&quot;</span><span class="p">,</span>
-<span class="w">                </span><span class="nt">&quot;removal_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2025-08-23&quot;</span><span class="p">,</span>
-<span class="w">                </span><span class="nt">&quot;notes&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;The last sample is 2025-08-22 23:01:10 UTC (raw and qaqc; calibrated and final end 21:59:50 that day), so the removal date is the next midnight.&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;metone_es642&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2017-06-29&quot;</span><span class="p">,</span>
-<span class="w">                </span><span class="nt">&quot;removal_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2020-04-24&quot;</span><span class="p">,</span>
-<span class="w">                </span><span class="nt">&quot;notes&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;The last sample is 2020-04-23 23:12:10 UTC (raw and qaqc; final ends 00:03:50 that day), so the removal date is the next midnight.&quot;</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">        </span><span class="p">}</span>
-<span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="nt">&quot;SUN&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Suncrest&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;is_active&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;latitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">40.480978</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;longitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">-111.837047</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;zagl&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;lin&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;campbellsci&quot;</span>
-<span class="w">        </span><span class="p">},</span>
-<span class="w">        </span><span class="nt">&quot;instruments&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;licor_6262&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2015-08-11&quot;</span><span class="p">,</span>
-<span class="w">                </span><span class="nt">&quot;removal_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2019-11-08&quot;</span><span class="p">,</span>
-<span class="w">                </span><span class="nt">&quot;notes&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;The last sample is 2019-11-07 18:28:10 UTC (raw and qaqc; calibrated and final end 2019-08-04 23:59:50), so the removal date is the next midnight.&quot;</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">        </span><span class="p">}</span>
-<span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="nt">&quot;TRX01&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;TRAX 1136&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;is_mobile&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;instruments&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;2b_205&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                    </span><span class="nt">&quot;horel&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;campbellsci&quot;</span><span class="p">,</span>
-<span class="w">                    </span><span class="nt">&quot;lin&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;air-trend&quot;</span>
-<span class="w">                </span><span class="p">},</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2015-05-13&quot;</span><span class="p">,</span>
-<span class="w">                </span><span class="nt">&quot;group_dates&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                    </span><span class="nt">&quot;lin&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;2015-05-13&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;2017-10-28&quot;</span><span class="p">]</span>
-<span class="w">                </span><span class="p">},</span>
-<span class="w">                </span><span class="nt">&quot;notes&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;lin&#39;s last sample is 2017-10-27 18:53:22 UTC, so its group_dates stop is the next midnight. horel covers the whole installation, but only as pilot raw before 2018-11-19.&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;cr1000&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                    </span><span class="nt">&quot;horel&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;campbellsci&quot;</span>
-<span class="w">                </span><span class="p">},</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2014-11-11&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;gps&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                    </span><span class="nt">&quot;horel&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;campbellsci&quot;</span><span class="p">,</span>
-<span class="w">                    </span><span class="nt">&quot;lin&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;air-trend&quot;</span>
-<span class="w">                </span><span class="p">},</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2014-11-11&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;metone_es642&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                    </span><span class="nt">&quot;horel&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;campbellsci&quot;</span>
-<span class="w">                </span><span class="p">},</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2016-02-04&quot;</span><span class="p">,</span>
-<span class="w">                </span><span class="nt">&quot;removal_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2025-01-06 19:30:00&quot;</span><span class="p">,</span>
-<span class="w">                </span><span class="nt">&quot;notes&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;The last sample is 2025-01-06 18:10:28 UTC, in horel&#39;s raw TRX01_2025_01_esampler.h5_prior405upgrade (horel&#39;s qaqc and final files have no ES642 values that month). The removal date is the first raw row of the metone_es405 that replaced it, 2025-01-06 19:30:00 UTC, so one instant ends this instrument and starts that one.&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;metone_es405&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                    </span><span class="nt">&quot;horel&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;campbellsci&quot;</span>
-<span class="w">                </span><span class="p">},</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2025-01-06 19:30:00&quot;</span><span class="p">,</span>
-<span class="w">                </span><span class="nt">&quot;notes&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Replaced the metone_es642. The installation date is this instrument&#39;s first raw row, 2025-01-06 19:30:00 UTC, in TRX01_2025_01_esampler.h5, which holds only its rows; its first qaqc value is 2025-01-07 01:15:00. The metone_es642&#39;s last sample is 2025-01-06 18:10:28 UTC, so no row of one is read as the other&#39;s.&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;lgr_ugga&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                    </span><span class="nt">&quot;lin&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;air-trend&quot;</span>
-<span class="w">                </span><span class="p">},</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2014-12-09&quot;</span><span class="p">,</span>
-<span class="w">                </span><span class="nt">&quot;MIU&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;lgr_ugga_manual_cal&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;model&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;lgr_ugga&quot;</span><span class="p">,</span>
-<span class="w">                </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                    </span><span class="nt">&quot;lin&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;air-trend&quot;</span>
-<span class="w">                </span><span class="p">},</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-11-18&quot;</span><span class="p">,</span>
-<span class="w">                </span><span class="nt">&quot;MIU&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
-<span class="w">                </span><span class="nt">&quot;notes&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Removed calibration tank and manually calibrated with lgr software periodically.&quot;</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">        </span><span class="p">}</span>
-<span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="nt">&quot;TRX02&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;TRAX 1104&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;is_mobile&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;instruments&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;2b_205&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                    </span><span class="nt">&quot;horel&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;campbellsci&quot;</span><span class="p">,</span>
-<span class="w">                    </span><span class="nt">&quot;lin&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;air-trend&quot;</span>
-<span class="w">                </span><span class="p">},</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2016-06-15&quot;</span><span class="p">,</span>
-<span class="w">                </span><span class="nt">&quot;group_dates&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                    </span><span class="nt">&quot;lin&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;2016-06-15&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;2017-03-29&quot;</span><span class="p">]</span>
-<span class="w">                </span><span class="p">},</span>
-<span class="w">                </span><span class="nt">&quot;notes&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;lin&#39;s last sample is 2017-03-28 17:24:31 UTC, so its group_dates stop is the next midnight. horel covers the whole installation, but only as pilot raw before 2018-11-19.&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;cr1000&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                    </span><span class="nt">&quot;horel&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;campbellsci&quot;</span>
-<span class="w">                </span><span class="p">},</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2016-02-04&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;gps&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                    </span><span class="nt">&quot;horel&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;campbellsci&quot;</span><span class="p">,</span>
-<span class="w">                    </span><span class="nt">&quot;lin&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;air-trend&quot;</span>
-<span class="w">                </span><span class="p">},</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2016-02-04&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;lgr_no2&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                    </span><span class="nt">&quot;lin&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;air-trend&quot;</span>
-<span class="w">                </span><span class="p">},</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2016-06-27&quot;</span><span class="p">,</span>
-<span class="w">                </span><span class="nt">&quot;removal_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2017-06-21&quot;</span><span class="p">,</span>
-<span class="w">                </span><span class="nt">&quot;notes&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;The last sample is 2017-06-20 05:28:52 UTC (raw, qaqc and final), so the removal date is the next midnight. The teledyne_t500u that measures NO2 on TRX02 now starts on 2020-12-22.&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;metone_es642&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                    </span><span class="nt">&quot;horel&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;campbellsci&quot;</span><span class="p">,</span>
-<span class="w">                    </span><span class="nt">&quot;lin&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;air-trend&quot;</span>
-<span class="w">                </span><span class="p">},</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2016-02-04&quot;</span><span class="p">,</span>
-<span class="w">                </span><span class="nt">&quot;removal_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2025-01-07 01:03:00&quot;</span><span class="p">,</span>
-<span class="w">                </span><span class="nt">&quot;group_dates&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                    </span><span class="nt">&quot;lin&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;2016-02-04&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;2017-06-21&quot;</span><span class="p">]</span>
-<span class="w">                </span><span class="p">},</span>
-<span class="w">                </span><span class="nt">&quot;notes&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;lin&#39;s last sample is 2017-06-20 05:28:52 UTC, so its group_dates stop is the next midnight. horel covers the whole installation, but only as pilot raw before 2018-11-19. horel&#39;s last sample is 2025-01-06 20:15:50 UTC, in horel&#39;s raw TRX02_2025_01_esampler.h5_prior405upgrade (horel&#39;s qaqc and final files have no ES642 values that month). The removal date is the first raw row of the metone_es405 that replaced it, 2025-01-07 01:03:00 UTC, so one instant ends this instrument and starts that one.&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;metone_es405&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                    </span><span class="nt">&quot;horel&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;campbellsci&quot;</span>
-<span class="w">                </span><span class="p">},</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2025-01-07 01:03:00&quot;</span><span class="p">,</span>
-<span class="w">                </span><span class="nt">&quot;notes&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Replaced the metone_es642. The installation date is this instrument&#39;s first raw row, 2025-01-07 01:03:00 UTC, in TRX02_2025_01_esampler.h5, which holds only its rows; its first qaqc value is 2025-01-07 05:18:00. The metone_es642&#39;s last sample is 2025-01-06 20:15:50 UTC, so no row of one is read as the other&#39;s.&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;teledyne_t500u&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                    </span><span class="nt">&quot;lin&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;air-trend&quot;</span>
-<span class="w">                </span><span class="p">},</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2020-12-22&quot;</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">        </span><span class="p">}</span>
-<span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="nt">&quot;TRX03&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;TRAX 1034&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;is_mobile&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;horel&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;campbellsci&quot;</span>
-<span class="w">        </span><span class="p">},</span>
-<span class="w">        </span><span class="nt">&quot;instruments&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;2b_205&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2019-11-04&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;cr1000&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2019-11-04&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;gps&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2019-11-04&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;metone_es642&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2019-11-04&quot;</span><span class="p">,</span>
-<span class="w">                </span><span class="nt">&quot;removal_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2025-01-03 20:16:00&quot;</span><span class="p">,</span>
-<span class="w">                </span><span class="nt">&quot;notes&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;The last sample is 2025-01-03 17:15:42 UTC, in horel&#39;s raw TRX03_2025_01_esampler.h5_prior405upgrade (horel&#39;s qaqc and final files have no ES642 values that month). The removal date is the first raw row of the metone_es405 that replaced it, 2025-01-03 20:16:00 UTC, so one instant ends this instrument and starts that one.&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;metone_es405&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2025-01-03 20:16:00&quot;</span><span class="p">,</span>
-<span class="w">                </span><span class="nt">&quot;notes&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Replaced the metone_es642. The installation date is this instrument&#39;s first raw row, 2025-01-03 20:16:00 UTC, in TRX03_2025_01_esampler.h5, which holds only its rows; its first qaqc value is 2025-01-04 01:01:00. The metone_es642&#39;s last sample is 2025-01-03 17:15:42 UTC, so no row of one is read as the other&#39;s.&quot;</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">        </span><span class="p">}</span>
-<span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="nt">&quot;WBB&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;William Browning&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;latitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">40.766189</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;longitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">-111.847672</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;zagl&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">35</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;instruments&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;lgr_ugga&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                    </span><span class="nt">&quot;lin&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;lgr_ugga&quot;</span>
-<span class="w">                </span><span class="p">},</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2013-10-09&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;magee_ae33&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                    </span><span class="nt">&quot;lin&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;air-trend&quot;</span>
-<span class="w">                </span><span class="p">},</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2020-07-29&quot;</span><span class="p">,</span>
-<span class="w">                </span><span class="nt">&quot;removal_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-06-20&quot;</span><span class="p">,</span>
-<span class="w">                </span><span class="nt">&quot;notes&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;The last sample is 2024-06-19 17:41:53 UTC (raw, qaqc and final), so the removal date is the next midnight. The pipeline config dropped it on 2024-06-24 (\&quot;sending magee back to edf\&quot;).&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;metone_es642&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                    </span><span class="nt">&quot;lin&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;air-trend&quot;</span>
-<span class="w">                </span><span class="p">},</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2017-03-07&quot;</span><span class="p">,</span>
-<span class="w">                </span><span class="nt">&quot;removal_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2022-06-08&quot;</span><span class="p">,</span>
-<span class="w">                </span><span class="nt">&quot;notes&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;The last sample is 2022-06-07 17:15:50 UTC (raw and qaqc; final ends 2021-12-05 23:37:38), so the removal date is the next midnight.&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;teledyne_t200&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                    </span><span class="nt">&quot;lin&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;air-trend&quot;</span>
-<span class="w">                </span><span class="p">},</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2017-01-19&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;teledyne_t300&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                    </span><span class="nt">&quot;lin&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;air-trend&quot;</span>
-<span class="w">                </span><span class="p">},</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2017-05-03&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;teledyne_t400&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                    </span><span class="nt">&quot;lin&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;air-trend&quot;</span>
-<span class="w">                </span><span class="p">},</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2016-08-29&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;teledyne_t500u&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                    </span><span class="nt">&quot;lin&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;air-trend&quot;</span>
-<span class="w">                </span><span class="p">},</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2020-07-29&quot;</span><span class="p">,</span>
-<span class="w">                </span><span class="nt">&quot;removal_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-01-25&quot;</span><span class="p">,</span>
-<span class="w">                </span><span class="nt">&quot;notes&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;The last sample before a four-week outage is 2022-12-28 18:03:14 UTC (raw and qaqc; final ends 2022-10-25 09:30:23). The removal date stays on 2023-01-25, which leaves out half an hour of rows that day (17:52:59 to 18:22:05), all flagged -126 at qaqc (warm-up after an outage).&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;teom_1400ab&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;loggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                    </span><span class="nt">&quot;lin&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;air-trend&quot;</span>
-<span class="w">                </span><span class="p">},</span>
-<span class="w">                </span><span class="nt">&quot;installation_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2016-09-22&quot;</span><span class="p">,</span>
-<span class="w">                </span><span class="nt">&quot;removal_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2017-03-02&quot;</span><span class="p">,</span>
-<span class="w">                </span><span class="nt">&quot;notes&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;The last sample is 2017-03-01 20:03:06 UTC (raw, qaqc and final), so the removal date is the next midnight.&quot;</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">        </span><span class="p">}</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="p">}</span>
-</pre></div>
-</div>
-</div>
 </section>
 </section>
 

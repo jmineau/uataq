@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Utah Atmospheric Trace-gas and Air Quality (UATAQ) &#8212; UATAQ 2026.10.1.dev64+g8649881f3 documentation</title>
+    <title>Utah Atmospheric Trace-gas and Air Quality (UATAQ) &#8212; UATAQ 2026.10.1.dev68+gfe7a8fcd9 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="_static/documentation_options.js?v=7188dfe9"></script>
+    <script src="_static/documentation_options.js?v=2fe2af42"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -58,7 +58,7 @@
     <link rel="next" title="Getting started" href="getting_started/index.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.1.dev64+g8649881f3" />
+  <meta name="docsearch:version" content="2026.10.1.dev68+gfe7a8fcd9" />
   
     
     <script src="_static/searchtools.js"></script>
@@ -126,7 +126,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.1.dev64+g8649881f3 documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.1.dev68+gfe7a8fcd9 documentation</p>
   
 </a></div>
     
@@ -407,22 +407,57 @@
 <h1>Utah Atmospheric Trace-gas and Air Quality (UATAQ)<a class="headerlink" href="#utah-atmospheric-trace-gas-and-air-quality-uataq" title="Link to this heading">#</a></h1>
 <a class="reference external image-reference" href="https://doi.org/10.5281/zenodo.22900090"><img alt="DOI" src="https://zenodo.org/badge/DOI/10.5281/zenodo.22900090.svg" />
 </a>
-<p>uataq reads UATAQ data: the greenhouse-gas and air-quality measurements from
-fixed sites and from TRAX trains and buses, out of the archives that the Lin and
-Horel research groups keep on CHPC. It is written for members of the groups who
-work on CHPC, where the archive is. Start with
-<a class="reference internal" href="getting_started/installation.html"><span class="doc">Installation</span></a>, then <a class="reference internal" href="getting_started/first_month.html"><span class="doc">Your first month of data</span></a>.</p>
+<p>uataq reads UATAQ data: greenhouse-gas and air-quality measurements in northern
+Utah, from fixed sites in the Salt Lake Valley, the mountains and valleys around
+it and the Uintah Basin, and from instruments on TRAX light-rail trains and on
+buses. Two research groups at the University of Utah keep the archives on CHPC:
+John Lin’s group (every fixed site, and some of the trains’ instruments) and
+John Horel’s group (the buses, and the trains’ other instruments). uataq reads
+both, so you do not need to know where or how either stores its files.</p>
+<p>It is written for members of the groups who work on CHPC, where the archives
+are. A month of CO2 and CH4 from one site is one call:</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">uataq</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">obs</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">get_obs</span><span class="p">(</span><span class="s2">&quot;WBB&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;CO2&quot;</span><span class="p">,</span> <span class="s2">&quot;CH4&quot;</span><span class="p">],</span> <span class="n">time_range</span><span class="o">=</span><span class="s2">&quot;2025-06&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">obs</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="go">                     CO2d_ppm_cal  CO2d_ppm_raw  CH4d_ppm_cal  CH4d_ppm_raw</span>
+<span class="go">Time_UTC</span>
+<span class="go">2025-06-01 00:00:03    432.407511      435.5981      2.010693      2.010473</span>
+<span class="go">2025-06-01 00:00:13    432.561390      435.7535      2.010209      2.009984</span>
+<span class="go">2025-06-01 00:00:23    433.129237      436.3271      2.010649      2.010428</span>
+</pre></div>
+</div>
+<p>Every time in uataq is UTC. Start with <a class="reference internal" href="getting_started/installation.html"><span class="doc">Installation</span></a>,
+then <a class="reference internal" href="getting_started/first_data.html"><span class="doc">Your first data</span></a>.</p>
 <ul class="simple">
-<li><p><a class="reference internal" href="getting_started/index.html"><span class="doc">Getting started</span></a>: install uataq and read your first month</p></li>
-<li><p><a class="reference internal" href="guides/index.html"><span class="doc">Guides</span></a>: find out what data exists, read it, and what to do when
-a read comes back empty</p></li>
+<li><p><a class="reference internal" href="getting_started/index.html"><span class="doc">Getting started</span></a>: install uataq and read your first data</p></li>
+<li><p><a class="reference internal" href="guides/index.html"><span class="doc">Guides</span></a>: find the sites and data you need, read them, and
+understand the data levels, the mobile sites and the errors</p></li>
 <li><p><a class="reference internal" href="reference/index.html"><span class="doc">Reference</span></a>: the sites, columns, arguments and configuration, and
 every function and class</p></li>
-<li><p><a class="reference internal" href="contributing.html"><span class="doc">Contributing</span></a>: how uataq is laid out, and how to add an instrument or
-change the docs</p></li>
+<li><p><a class="reference internal" href="contributing.html"><span class="doc">Contributing</span></a>: how uataq is laid out, and how to change it</p></li>
 </ul>
+<section id="citing-the-data">
+<span id="citing"></span><h2>Citing the data<a class="headerlink" href="#citing-the-data" title="Link to this heading">#</a></h2>
+<p>When you publish with UATAQ data, cite the papers that describe the
+measurements:</p>
+<ul class="simple">
+<li><p>The fixed sites’ CO2 and CH4: Bares et al. (2019), “The Utah urban carbon
+dioxide (UUCON) and Uintah Basin greenhouse gas networks: instrumentation,
+data, and measurement uncertainty”, <em>Earth System Science Data</em> 11,
+1291–1308, <a class="reference external" href="https://doi.org/10.5194/essd-11-1291-2019">doi:10.5194/essd-11-1291-2019</a>.</p></li>
+<li><p>The long-term CO2 record of the Salt Lake Valley sites: Mitchell et al.
+(2018), “Long-term urban carbon dioxide observations reveal spatial and
+temporal dynamics related to urban characteristics and growth”, <em>PNAS</em> 115,
+2912–2917, <a class="reference external" href="https://doi.org/10.1073/pnas.1702393115">doi:10.1073/pnas.1702393115</a>.</p></li>
+<li><p>The TRAX trains: Mitchell et al. (2018), “Monitoring of greenhouse gases and
+pollutants across an urban area using a light-rail public transit platform”,
+<em>Atmospheric Environment</em> 187, 9–23,
+<a class="reference external" href="https://doi.org/10.1016/j.atmosenv.2018.05.044">doi:10.1016/j.atmosenv.2018.05.044</a>.</p></li>
+</ul>
+<p>To cite uataq itself, use its DOI, in the badge at the top of this page.</p>
 <div class="toctree-wrapper compound">
 </div>
+</section>
 </section>
 
 
@@ -454,6 +489,18 @@ change the docs</p></li>
                 <dialog id="pst-secondary-sidebar-modal"></dialog>
                 <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#citing-the-data">Citing the data</a></li>
+</ul>
+  </nav></div>
 
   <div class="sidebar-secondary-item">
 

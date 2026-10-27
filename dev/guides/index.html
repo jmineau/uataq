@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Guides &#8212; UATAQ 2026.10.1.dev64+g8649881f3 documentation</title>
+    <title>Guides &#8212; UATAQ 2026.10.1.dev68+gfe7a8fcd9 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="../_static/documentation_options.js?v=7188dfe9"></script>
+    <script src="../_static/documentation_options.js?v=2fe2af42"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -55,11 +55,11 @@
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="What data exists" href="what_data_exists.html" />
-    <link rel="prev" title="Your first month of data" href="../getting_started/first_month.html" />
+    <link rel="next" title="Find sites and data" href="find_sites_and_data.html" />
+    <link rel="prev" title="Your first data" href="../getting_started/first_data.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.1.dev64+g8649881f3" />
+  <meta name="docsearch:version" content="2026.10.1.dev68+gfe7a8fcd9" />
   
     
     <script src="../_static/searchtools.js"></script>
@@ -127,7 +127,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.1.dev64+g8649881f3 documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.1.dev68+gfe7a8fcd9 documentation</p>
   
 </a></div>
     
@@ -388,8 +388,10 @@
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="what_data_exists.html">What data exists</a></li>
-<li class="toctree-l1"><a class="reference internal" href="reading_data.html">Reading data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="find_sites_and_data.html">Find sites and data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="read_data.html">Read data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="data_levels_and_flags.html">Data levels and flags</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mobile_sites.html">Mobile sites</a></li>
 <li class="toctree-l1"><a class="reference internal" href="errors.html">When there is nothing to read</a></li>
 </ul>
 </div>
@@ -450,13 +452,17 @@
                   
   <section id="guides">
 <h1>Guides<a class="headerlink" href="#guides" title="Link to this heading">#</a></h1>
-<p>These pages show how to find and read the data you need. If you are new to
-uataq, start with <a class="reference internal" href="../getting_started/first_month.html"><span class="doc">Your first month of data</span></a>.</p>
+<p>Each page shows how to do one thing. If you are new to uataq, start with
+<a class="reference internal" href="../getting_started/first_data.html"><span class="doc">Your first data</span></a>.</p>
 <ul class="simple">
-<li><p><a class="reference internal" href="what_data_exists.html"><span class="doc">What data exists</span></a>: when a site has data, at which level, and the
-newest data</p></li>
-<li><p><a class="reference internal" href="reading_data.html"><span class="doc">Reading data</span></a>: <code class="docutils literal notranslate"><span class="pre">read_data</span></code> and <code class="docutils literal notranslate"><span class="pre">get_obs</span></code>, several sites at once,
-and the mobile sites</p></li>
+<li><p><a class="reference internal" href="find_sites_and_data.html"><span class="doc">Find sites and data</span></a>: which sites measure a pollutant, when they have
+data, and how recent it is</p></li>
+<li><p><a class="reference internal" href="read_data.html"><span class="doc">Read data</span></a>: several pollutants and sites in one table, everything an
+instrument logged, and reads of a year or more</p></li>
+<li><p><a class="reference internal" href="data_levels_and_flags.html"><span class="doc">Data levels and flags</span></a>: what each data level holds, what <code class="docutils literal notranslate"><span class="pre">final</span></code>
+keeps, and the flags</p></li>
+<li><p><a class="reference internal" href="mobile_sites.html"><span class="doc">Mobile sites</span></a>: the TRAX trains and the buses, where each measurement
+was, and their two clocks</p></li>
 <li><p><a class="reference internal" href="errors.html"><span class="doc">When there is nothing to read</span></a>: what an error or an empty result means, and what to do</p></li>
 </ul>
 <div class="toctree-wrapper compound">
@@ -474,20 +480,20 @@ and the mobile sites</p></li>
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="../getting_started/first_month.html"
+       href="../getting_started/first_data.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Your first month of data</p>
+        <p class="prev-next-title">Your first data</p>
       </div>
     </a>
     <a class="right-next"
-       href="what_data_exists.html"
+       href="find_sites_and_data.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">What data exists</p>
+        <p class="prev-next-title">Find sites and data</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Installation &#8212; UATAQ 2026.10.1.dev64+g8649881f3 documentation</title>
+    <title>Installation &#8212; UATAQ 2026.10.1.dev68+gfe7a8fcd9 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="../_static/documentation_options.js?v=7188dfe9"></script>
+    <script src="../_static/documentation_options.js?v=2fe2af42"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -55,11 +55,11 @@
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Your first month of data" href="first_month.html" />
+    <link rel="next" title="Your first data" href="first_data.html" />
     <link rel="prev" title="Getting started" href="index.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.1.dev64+g8649881f3" />
+  <meta name="docsearch:version" content="2026.10.1.dev68+gfe7a8fcd9" />
   
     
     <script src="../_static/searchtools.js"></script>
@@ -127,7 +127,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.1.dev64+g8649881f3 documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.1.dev68+gfe7a8fcd9 documentation</p>
   
 </a></div>
     
@@ -389,7 +389,7 @@
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
 <li class="toctree-l1 current active"><a aria-current="page" class="current reference internal" href="#">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="first_month.html">Your first month of data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="first_data.html">Your first data</a></li>
 </ul>
 </div>
 </nav></div>
@@ -545,7 +545,7 @@ archive. (The row count can change if the data are reprocessed.)
 archive is out of reach, so this step reads some data.</p>
 </li>
 </ol>
-<p>Next, read <a class="reference internal" href="first_month.html"><span class="doc">Your first month of data</span></a>.</p>
+<p>Next, read <a class="reference internal" href="first_data.html"><span class="doc">Your first data</span></a>.</p>
 <section id="other-pythons">
 <h3>Other Pythons<a class="headerlink" href="#other-pythons" title="Link to this heading">#</a></h3>
 <p><code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">load</span> <span class="pre">python</span></code> gives CHPC’s default Python. Any version from 3.11 up
@@ -574,6 +574,26 @@ pip<span class="w"> </span>install<span class="w"> </span>git+https://github.com
 Python it uses. If it ever stops working after CHPC changes its modules, delete
 the folder (<code class="docutils literal notranslate"><span class="pre">rm</span> <span class="pre">-rf</span> <span class="pre">~/venvs/uataq</span></code>) and redo steps 2 to 4.</p>
 </section>
+<section id="use-uataq-in-jupyter">
+<span id="install-jupyter"></span><h2>Use uataq in Jupyter<a class="headerlink" href="#use-uataq-in-jupyter" title="Link to this heading">#</a></h2>
+<p>CHPC runs Jupyter in your browser through
+<a class="reference external" href="https://ondemand.chpc.utah.edu">Open OnDemand</a>. To use your uataq environment
+there, install Jupyter into it once:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">source</span><span class="w"> </span>~/venvs/uataq/bin/activate
+pip<span class="w"> </span>install<span class="w"> </span>jupyterlab
+</pre></div>
+</div>
+<p>It takes a minute or two and about 0.25 GB more. Then open the Jupyter app in
+Open OnDemand, choose <strong>Custom (Environment setup below)</strong> as the Python version,
+and enter these two lines in the environment setup box:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module<span class="w"> </span>load<span class="w"> </span>python
+<span class="nb">source</span><span class="w"> </span>~/venvs/uataq/bin/activate
+</pre></div>
+</div>
+<p>Your notebooks then run the environment’s Python, with uataq. (The two lines
+are CHPC’s instructions for a custom environment; the environment itself was
+tested up to a Jupyter kernel that imports uataq.)</p>
+</section>
 <section id="update-uataq-or-pin-a-version">
 <h2>Update uataq, or pin a version<a class="headerlink" href="#update-uataq-or-pin-a-version" title="Link to this heading">#</a></h2>
 <p>The install above gets the newest code. To update later, run the same command
@@ -591,9 +611,10 @@ pip<span class="w"> </span>show<span class="w"> </span>uataq
 </section>
 <section id="use-uataq-in-a-slurm-job">
 <span id="install-slurm"></span><h2>Use uataq in a Slurm job<a class="headerlink" href="#use-uataq-in-a-slurm-job" title="Link to this heading">#</a></h2>
-<p>A day or two of one site is small enough for a login node. For a year of data,
-several sites or many processes (<code class="docutils literal notranslate"><span class="pre">num_processes</span></code>), write a job script. The
-job only has to activate the environment:</p>
+<p>A login node is for light work, such as a year of one site’s CO2 and CH4 at the
+<code class="docutils literal notranslate"><span class="pre">final</span></code> level, which took 4 seconds and 0.6 GB (see <a class="reference internal" href="../guides/read_data.html#large-reads"><span class="std std-ref">A year or more</span></a>). For
+several years or many sites, the <code class="docutils literal notranslate"><span class="pre">raw</span></code> level, or reads in several processes,
+write a job script. The job only has to activate the environment:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
 <span class="c1">#SBATCH --account=lin-np</span>
 <span class="c1">#SBATCH --partition=lin-np</span>
@@ -612,55 +633,6 @@ the Lin group’s own set of compute nodes. If <code class="docutils literal not
 <a class="reference external" href="https://www.chpc.utah.edu/documentation/software/slurm.php">CHPC’s Slurm guide</a>
 for the rest.</p>
 </section>
-<section id="install-for-development">
-<h2>Install for development<a class="headerlink" href="#install-for-development" title="Link to this heading">#</a></h2>
-<p>Use this to change uataq itself and send the change back. It sets up the
-project the way its maintainer works. Three tools do the work:</p>
-<ul class="simple">
-<li><p><a class="reference external" href="https://docs.astral.sh/uv/">uv</a> installs the packages the project needs
-into a <code class="docutils literal notranslate"><span class="pre">.venv</span></code> folder inside your copy of the code, at the versions
-recorded in <code class="docutils literal notranslate"><span class="pre">uv.lock</span></code>.</p></li>
-<li><p><a class="reference external" href="https://just.systems/">just</a> runs the project’s named tasks, listed in
-its <code class="docutils literal notranslate"><span class="pre">justfile</span></code> (<code class="docutils literal notranslate"><span class="pre">just</span> <span class="pre">--list</span></code> shows them). <code class="docutils literal notranslate"><span class="pre">uv</span> <span class="pre">sync</span></code> installs it, and
-you run it as <code class="docutils literal notranslate"><span class="pre">uv</span> <span class="pre">run</span> <span class="pre">just</span></code>.</p></li>
-<li><p><a class="reference external" href="https://pre-commit.com/">pre-commit</a> checks your changes for style
-problems each time you <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">commit</span></code>, before the commit is made.</p></li>
-</ul>
-<p>uataq needs uv 0.12 or newer, and CHPC’s <code class="docutils literal notranslate"><span class="pre">uv</span></code> module is older (0.11.14 in
-October 2026). Install your own copy with pip. Do this in a shell where the
-uataq environment is not active: run <code class="docutils literal notranslate"><span class="pre">deactivate</span></code> first, or pip stops with
-<code class="docutils literal notranslate"><span class="pre">Can</span> <span class="pre">not</span> <span class="pre">perform</span> <span class="pre">a</span> <span class="pre">'--user'</span> <span class="pre">install</span></code>.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module<span class="w"> </span>load<span class="w"> </span>python
-pip<span class="w"> </span>install<span class="w"> </span>--user<span class="w"> </span>uv
-uv<span class="w"> </span>--version
-</pre></div>
-</div>
-<p>The last command should print <code class="docutils literal notranslate"><span class="pre">uv</span> <span class="pre">0.12</span></code> or newer. Then get the code and set
-it up:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/jmineau/uataq.git
-<span class="nb">cd</span><span class="w"> </span>uataq
-uv<span class="w"> </span>sync<span class="w">                       </span><span class="c1"># the packages, into .venv (about two minutes)</span>
-uv<span class="w"> </span>run<span class="w"> </span>pre-commit<span class="w"> </span>install<span class="w">     </span><span class="c1"># turn on the checks at commit time</span>
-</pre></div>
-</div>
-<p>To run the checks that CI runs (lint, types, docstrings and the tests), use a
-compute node, not the login node:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>srun<span class="w"> </span>--account<span class="o">=</span>lin-np<span class="w"> </span>--partition<span class="o">=</span>lin-np<span class="w"> </span>--nodes<span class="o">=</span><span class="m">1</span><span class="w"> </span>--ntasks<span class="o">=</span><span class="m">1</span><span class="w"> </span>--cpus-per-task<span class="o">=</span><span class="m">4</span><span class="w"> </span>--mem<span class="o">=</span>8G<span class="w"> </span>--time<span class="o">=</span><span class="m">00</span>:30:00<span class="w"> </span>uv<span class="w"> </span>run<span class="w"> </span>just<span class="w"> </span>quality-check
-</pre></div>
-</div>
-<p>It takes about a minute and ends with a line like <code class="docutils literal notranslate"><span class="pre">453</span> <span class="pre">passed</span></code>. The tests do
-not need the archive, so you can also develop on your own computer.
-<a class="reference external" href="https://github.com/jmineau/uataq/blob/main/CONTRIBUTING.md">CONTRIBUTING.md</a>
-has the rest of the workflow: branches and pull requests.</p>
-<p>To work on the code while you use it for your own analysis, install your clone
-into the environment from the steps above (an <em>editable</em> install, which runs
-the code in your folder as you change it):</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">source</span><span class="w"> </span>~/venvs/uataq/bin/activate
-<span class="nb">cd</span><span class="w"> </span>uataq
-pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.
-</pre></div>
-</div>
-</section>
 <section id="if-something-goes-wrong">
 <span id="install-errors"></span><h2>If something goes wrong<a class="headerlink" href="#if-something-goes-wrong" title="Link to this heading">#</a></h2>
 <dl class="simple">
@@ -670,9 +642,6 @@ pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </s
 </dd>
 <dt>The <code class="docutils literal notranslate"><span class="pre">ls</span></code> in step 1, or the read in step 5, fails</dt><dd><p>You are probably not in the <code class="docutils literal notranslate"><span class="pre">lin</span></code> group yet. Run <code class="docutils literal notranslate"><span class="pre">groups</span></code> and see
 <a class="reference internal" href="#what-you-need">What you need</a>.</p>
-</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">uv</span> <span class="pre">sync</span></code> fails with <code class="docutils literal notranslate"><span class="pre">Required</span> <span class="pre">uv</span> <span class="pre">version</span> <span class="pre">...</span> <span class="pre">does</span> <span class="pre">not</span> <span class="pre">match</span> <span class="pre">the</span> <span class="pre">running</span> <span class="pre">version</span></code></dt><dd><p>You are running CHPC’s <code class="docutils literal notranslate"><span class="pre">uv</span></code> module. Run <code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">unload</span> <span class="pre">uv</span></code>, install uv
-with pip as shown above, and open a new shell so the new copy comes first.</p>
 </dd>
 </dl>
 <p>The steps on this page were last checked in October 2026 on a Notchpeak login
@@ -700,11 +669,11 @@ node.</p>
       </div>
     </a>
     <a class="right-next"
-       href="first_month.html"
+       href="first_data.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Your first month of data</p>
+        <p class="prev-next-title">Your first data</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -733,9 +702,9 @@ node.</p>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#each-time-you-log-in">Each time you log in</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-uataq-in-jupyter">Use uataq in Jupyter</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#update-uataq-or-pin-a-version">Update uataq, or pin a version</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-uataq-in-a-slurm-job">Use uataq in a Slurm job</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#install-for-development">Install for development</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#if-something-goes-wrong">If something goes wrong</a></li>
 </ul>
   </nav></div>

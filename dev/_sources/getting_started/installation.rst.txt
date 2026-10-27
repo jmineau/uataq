@@ -107,7 +107,7 @@ Install
    ``import uataq`` alone is not a good test: it can succeed even when the
    archive is out of reach, so this step reads some data.
 
-Next, read :doc:`/getting_started/first_month`.
+Next, read :doc:`/getting_started/first_data`.
 
 Other Pythons
 ^^^^^^^^^^^^^
@@ -142,6 +142,33 @@ You do not need ``module load python`` again: the environment remembers which
 Python it uses. If it ever stops working after CHPC changes its modules, delete
 the folder (``rm -rf ~/venvs/uataq``) and redo steps 2 to 4.
 
+.. _install-jupyter:
+
+Use uataq in Jupyter
+--------------------
+
+CHPC runs Jupyter in your browser through
+`Open OnDemand <https://ondemand.chpc.utah.edu>`_. To use your uataq environment
+there, install Jupyter into it once:
+
+.. code-block:: bash
+
+   source ~/venvs/uataq/bin/activate
+   pip install jupyterlab
+
+It takes a minute or two and about 0.25 GB more. Then open the Jupyter app in
+Open OnDemand, choose **Custom (Environment setup below)** as the Python version,
+and enter these two lines in the environment setup box:
+
+.. code-block:: bash
+
+   module load python
+   source ~/venvs/uataq/bin/activate
+
+Your notebooks then run the environment's Python, with uataq. (The two lines
+are CHPC's instructions for a custom environment; the environment itself was
+tested up to a Jupyter kernel that imports uataq.)
+
 Update uataq, or pin a version
 ------------------------------
 
@@ -166,9 +193,10 @@ write the version down. ``pip show uataq`` prints the version you have.
 Use uataq in a Slurm job
 ------------------------
 
-A day or two of one site is small enough for a login node. For a year of data,
-several sites or many processes (``num_processes``), write a job script. The
-job only has to activate the environment:
+A login node is for light work, such as a year of one site's CO2 and CH4 at the
+``final`` level, which took 4 seconds and 0.6 GB (see :ref:`large-reads`). For
+several years or many sites, the ``raw`` level, or reads in several processes,
+write a job script. The job only has to activate the environment:
 
 .. code-block:: bash
 
@@ -189,64 +217,6 @@ the Lin group's own set of compute nodes. If ``sbatch`` refuses the account,
 `CHPC's Slurm guide <https://www.chpc.utah.edu/documentation/software/slurm.php>`_
 for the rest.
 
-Install for development
------------------------
-
-Use this to change uataq itself and send the change back. It sets up the
-project the way its maintainer works. Three tools do the work:
-
-* `uv <https://docs.astral.sh/uv/>`_ installs the packages the project needs
-  into a ``.venv`` folder inside your copy of the code, at the versions
-  recorded in ``uv.lock``.
-* `just <https://just.systems/>`_ runs the project's named tasks, listed in
-  its ``justfile`` (``just --list`` shows them). ``uv sync`` installs it, and
-  you run it as ``uv run just``.
-* `pre-commit <https://pre-commit.com/>`_ checks your changes for style
-  problems each time you ``git commit``, before the commit is made.
-
-uataq needs uv 0.12 or newer, and CHPC's ``uv`` module is older (0.11.14 in
-October 2026). Install your own copy with pip. Do this in a shell where the
-uataq environment is not active: run ``deactivate`` first, or pip stops with
-``Can not perform a '--user' install``.
-
-.. code-block:: bash
-
-   module load python
-   pip install --user uv
-   uv --version
-
-The last command should print ``uv 0.12`` or newer. Then get the code and set
-it up:
-
-.. code-block:: bash
-
-   git clone https://github.com/jmineau/uataq.git
-   cd uataq
-   uv sync                       # the packages, into .venv (about two minutes)
-   uv run pre-commit install     # turn on the checks at commit time
-
-To run the checks that CI runs (lint, types, docstrings and the tests), use a
-compute node, not the login node:
-
-.. code-block:: bash
-
-   srun --account=lin-np --partition=lin-np --nodes=1 --ntasks=1 --cpus-per-task=4 --mem=8G --time=00:30:00 uv run just quality-check
-
-It takes about a minute and ends with a line like ``453 passed``. The tests do
-not need the archive, so you can also develop on your own computer.
-`CONTRIBUTING.md <https://github.com/jmineau/uataq/blob/main/CONTRIBUTING.md>`_
-has the rest of the workflow: branches and pull requests.
-
-To work on the code while you use it for your own analysis, install your clone
-into the environment from the steps above (an *editable* install, which runs
-the code in your folder as you change it):
-
-.. code-block:: bash
-
-   source ~/venvs/uataq/bin/activate
-   cd uataq
-   pip install -e .
-
 .. _install-errors:
 
 If something goes wrong
@@ -260,10 +230,6 @@ If something goes wrong
 The ``ls`` in step 1, or the read in step 5, fails
    You are probably not in the ``lin`` group yet. Run ``groups`` and see
    `What you need`_.
-
-``uv sync`` fails with ``Required uv version ... does not match the running version``
-   You are running CHPC's ``uv`` module. Run ``module unload uv``, install uv
-   with pip as shown above, and open a new shell so the new copy comes first.
 
 The steps on this page were last checked in October 2026 on a Notchpeak login
 node.
