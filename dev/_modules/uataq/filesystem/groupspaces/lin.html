@@ -6,7 +6,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>uataq.filesystem.groupspaces.lin &#8212; UATAQ 2026.10.1.dev72+ge1e66ef96 documentation</title>
+    <title>uataq.filesystem.groupspaces.lin &#8212; UATAQ 2026.10.2.dev1+gca841d2c0 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
   <link rel="preload" as="script" href="../../../../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="../../../../_static/documentation_options.js?v=68f43553"></script>
+    <script src="../../../../_static/documentation_options.js?v=bd1dca70"></script>
     <script src="../../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -56,7 +56,7 @@
     <link rel="search" title="Search" href="../../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.1.dev72+ge1e66ef96" />
+  <meta name="docsearch:version" content="2026.10.2.dev1+gca841d2c0" />
   
     
     <script src="../../../../_static/searchtools.js"></script>
@@ -124,7 +124,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.1.dev72+ge1e66ef96 documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.2.dev1+gca841d2c0 documentation</p>
   
 </a></div>
     
@@ -456,12 +456,65 @@
 
 <span class="c1"># TODO: check for reprocessing</span>
 
-<span class="c1">#: Directory for Lin group measurements.</span>
-<span class="n">MEASUREMENTS_DIR</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">filesystem</span><span class="o">.</span><span class="n">HOME</span><span class="p">,</span> <span class="s2">&quot;lin-group20&quot;</span><span class="p">,</span> <span class="s2">&quot;measurements&quot;</span><span class="p">)</span>
-<span class="c1">#: Directory for Lin group pipeline configuration.</span>
-<span class="n">CONFIG_DIR</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">MEASUREMENTS_DIR</span><span class="p">,</span> <span class="s2">&quot;pipeline&quot;</span><span class="p">,</span> <span class="s2">&quot;config&quot;</span><span class="p">)</span>
-<span class="c1">#: Directory for Lin group data.</span>
-<span class="n">DATA_DIR</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">MEASUREMENTS_DIR</span><span class="p">,</span> <span class="s2">&quot;data&quot;</span><span class="p">)</span>
+<span class="c1"># The Lin group&#39;s measurements root. ``LINGROUP_MEASUREMENTS_DIR`` overrides the</span>
+<span class="c1"># default, and is read each time a path is needed (not at import), so setting it</span>
+<span class="c1"># after ``import uataq`` works. MEASUREMENTS_DIR, CONFIG_DIR and DATA_DIR are</span>
+<span class="c1"># module attributes computed by ``__getattr__`` below, so they follow the</span>
+<span class="c1"># variable; the annotations keep their documentation.</span>
+<span class="n">_MEASUREMENTS_ENV</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;LINGROUP_MEASUREMENTS_DIR&quot;</span>
+<span class="n">_DEFAULT_MEASUREMENTS_DIR</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+    <span class="n">filesystem</span><span class="o">.</span><span class="n">HOME</span><span class="p">,</span> <span class="s2">&quot;lin-group25&quot;</span><span class="p">,</span> <span class="s2">&quot;measurements&quot;</span>
+<span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_measurements_dir</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return the measurements root: ``LINGROUP_MEASUREMENTS_DIR`` if set, else the default.</span>
+
+<span class="sd">    Raise FileNotFoundError, naming the variable, when it is set to a path that is</span>
+<span class="sd">    not a directory. The default is not checked: off-cluster it does not exist, and</span>
+<span class="sd">    the readers say so when they need it.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">_MEASUREMENTS_ENV</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">path</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">_DEFAULT_MEASUREMENTS_DIR</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">_MEASUREMENTS_ENV</span><span class="si">}</span><span class="s2"> is set to &#39;</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">&#39;, which is not a directory.&quot;</span>
+        <span class="p">)</span>
+    <span class="k">return</span> <span class="n">path</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_config_dir</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the pipeline configuration directory under the measurements root.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_measurements_dir</span><span class="p">(),</span> <span class="s2">&quot;pipeline&quot;</span><span class="p">,</span> <span class="s2">&quot;config&quot;</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_data_dir</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the data directory under the measurements root.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_measurements_dir</span><span class="p">(),</span> <span class="s2">&quot;data&quot;</span><span class="p">)</span>
+
+
+<span class="n">MEASUREMENTS_DIR</span><span class="p">:</span> <span class="nb">str</span>  <span class="c1">#: Directory for Lin group measurements: ``LINGROUP_MEASUREMENTS_DIR`` if set, else the dedicated space.</span>
+<span class="n">CONFIG_DIR</span><span class="p">:</span> <span class="nb">str</span>  <span class="c1">#: Directory for Lin group pipeline configuration, ``pipeline/config`` under ``MEASUREMENTS_DIR``.</span>
+<span class="n">DATA_DIR</span><span class="p">:</span> <span class="nb">str</span>  <span class="c1">#: Directory for Lin group data, ``data`` under ``MEASUREMENTS_DIR``.</span>
+
+<span class="n">_DIRS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;MEASUREMENTS_DIR&quot;</span><span class="p">:</span> <span class="n">_measurements_dir</span><span class="p">,</span>
+    <span class="s2">&quot;CONFIG_DIR&quot;</span><span class="p">:</span> <span class="n">_config_dir</span><span class="p">,</span>
+    <span class="s2">&quot;DATA_DIR&quot;</span><span class="p">:</span> <span class="n">_data_dir</span><span class="p">,</span>
+<span class="p">}</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="fm">__getattr__</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">_DIRS</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">_DIRS</span><span class="p">[</span><span class="n">name</span><span class="p">]()</span>
+    <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;module </span><span class="si">{</span><span class="vm">__name__</span><span class="si">!r}</span><span class="s2"> has no attribute </span><span class="si">{</span><span class="n">name</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="fm">__dir__</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+    <span class="k">return</span> <span class="nb">sorted</span><span class="p">([</span><span class="o">*</span><span class="nb">globals</span><span class="p">(),</span> <span class="o">*</span><span class="n">_DIRS</span><span class="p">])</span>
+
 
 <span class="c1">#: Where the pipeline configuration is fetched from off-cluster.</span>
 <span class="n">CONFIG_URL</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;https://raw.githubusercontent.com/uataq/data-pipeline/main/config&quot;</span>
@@ -471,12 +524,12 @@
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_read_config</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">io</span><span class="o">.</span><span class="n">StringIO</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Read a pipeline config file from CONFIG_DIR, or fetch it off-cluster.</span>
+<span class="sd">    Read a pipeline config file from the config directory, or fetch it off-cluster.</span>
 
 <span class="sd">    The fetch has a timeout, so a slow or missing network fails the import</span>
 <span class="sd">    with a clear message instead of hanging it.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">CONFIG_DIR</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_config_dir</span><span class="p">(),</span> <span class="n">name</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">io</span><span class="o">.</span><span class="n">StringIO</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
@@ -858,7 +911,7 @@
 <span class="sd">        pd.DataFrame</span>
 <span class="sd">            The parsed data.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">_logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Parsing </span><span class="si">{</span><span class="n">filesystem</span><span class="o">.</span><span class="n">_relpath</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span><span class="w"> </span><span class="n">DATA_DIR</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">_logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Parsing </span><span class="si">{</span><span class="n">filesystem</span><span class="o">.</span><span class="n">_relpath</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span><span class="w"> </span><span class="n">_data_dir</span><span class="p">())</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
         <span class="n">first_field</span> <span class="o">=</span> <span class="n">_read_lines</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">first</span><span class="o">=</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
 
@@ -1139,7 +1192,7 @@
 <span class="sd">        pd.DataFrame</span>
 <span class="sd">            The parsed data.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">_logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Parsing </span><span class="si">{</span><span class="n">filesystem</span><span class="o">.</span><span class="n">_relpath</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span><span class="w"> </span><span class="n">DATA_DIR</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">_logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Parsing </span><span class="si">{</span><span class="n">filesystem</span><span class="o">.</span><span class="n">_relpath</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span><span class="w"> </span><span class="n">_data_dir</span><span class="p">())</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
         <span class="c1"># Adapt column names depending on LGR software version.</span>
         <span class="c1">#  2013-2014 version has 23 columns</span>
@@ -1288,7 +1341,7 @@
 <span class="sd">        pd.DataFrame</span>
 <span class="sd">            The parsed data.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">_logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Parsing </span><span class="si">{</span><span class="n">filesystem</span><span class="o">.</span><span class="n">_relpath</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span><span class="w"> </span><span class="n">DATA_DIR</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">_logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Parsing </span><span class="si">{</span><span class="n">filesystem</span><span class="o">.</span><span class="n">_relpath</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span><span class="w"> </span><span class="n">_data_dir</span><span class="p">())</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
         <span class="n">data_config</span> <span class="o">=</span> <span class="n">DATA_CONFIG</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;instrument&quot;</span><span class="p">]][</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;lvl&quot;</span><span class="p">]]</span>
 
@@ -1335,8 +1388,6 @@
 <span class="sd">        The group name.</span>
 <span class="sd">    datafiles : dict[str, Type[DataFile]]</span>
 <span class="sd">        A dictionary mapping datafile keys to DataFile classes.</span>
-<span class="sd">    data_dir : str</span>
-<span class="sd">        The path to the data directory.</span>
 <span class="sd">    data_config : dict</span>
 <span class="sd">        The data configuration.</span>
 
@@ -1365,15 +1416,19 @@
         <span class="s2">&quot;lgr_ugga&quot;</span><span class="p">:</span> <span class="n">LGR_UGGA_File</span><span class="p">,</span>
     <span class="p">}</span>
 
-    <span class="n">data_dir</span> <span class="o">=</span> <span class="n">DATA_DIR</span>
     <span class="n">data_config</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">DATA_CONFIG</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">data_dir</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;The Lin group data directory, under ``LINGROUP_MEASUREMENTS_DIR`` when it is set.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">_data_dir</span><span class="p">()</span>
 
 <div class="viewcode-block" id="LinGroup.get_lvls">
 <a class="viewcode-back" href="../../../../api/uataq.filesystem.groupspaces.lin.LinGroup.get_lvls.html#uataq.filesystem.groupspaces.lin.LinGroup.get_lvls">[docs]</a>
     <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_lvls</span><span class="p">(</span><span class="n">SID</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">instrument</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the levels with a folder on disk for the instrument, lowest first.&quot;&quot;&quot;</span>
-        <span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">DATA_DIR</span><span class="p">,</span> <span class="n">SID</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="n">instrument</span><span class="p">)</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_data_dir</span><span class="p">(),</span> <span class="n">SID</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="n">instrument</span><span class="p">)</span>
         <span class="n">inst_lvls</span> <span class="o">=</span> <span class="p">[</span><span class="n">d</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="k">if</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">filesystem</span><span class="o">.</span><span class="n">lvls</span><span class="p">]</span>
         <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">inst_lvls</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">filesystem</span><span class="o">.</span><span class="n">lvls</span><span class="o">.</span><span class="fm">__getitem__</span><span class="p">)</span></div>
 
@@ -1399,7 +1454,7 @@
 <span class="sd">        str</span>
 <span class="sd">            The path to the data directory.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">DATA_DIR</span><span class="p">,</span> <span class="n">SID</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="n">instrument</span><span class="p">,</span> <span class="n">lvl</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_data_dir</span><span class="p">(),</span> <span class="n">SID</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="n">instrument</span><span class="p">,</span> <span class="n">lvl</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="LinGroup.get_files">

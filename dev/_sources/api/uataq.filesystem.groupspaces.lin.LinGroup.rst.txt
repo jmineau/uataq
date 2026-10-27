@@ -10,6 +10,13 @@ uataq.filesystem.groupspaces.lin.LinGroup
 
 
 
+.. rubric:: Attributes
+
+.. autosummary::
+   :toctree:
+
+   ~LinGroup.data_dir
+
 
 
 .. rubric:: Methods

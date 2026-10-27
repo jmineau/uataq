@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Installation &#8212; UATAQ 2026.10.1.dev72+ge1e66ef96 documentation</title>
+    <title>Installation &#8212; UATAQ 2026.10.2.dev1+gca841d2c0 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="../_static/documentation_options.js?v=68f43553"></script>
+    <script src="../_static/documentation_options.js?v=bd1dca70"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -59,7 +59,7 @@
     <link rel="prev" title="Getting started" href="index.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.1.dev72+ge1e66ef96" />
+  <meta name="docsearch:version" content="2026.10.2.dev1+gca841d2c0" />
   
     
     <script src="../_static/searchtools.js"></script>
@@ -127,7 +127,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.1.dev72+ge1e66ef96 documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.2.dev1+gca841d2c0 documentation</p>
   
 </a></div>
     
@@ -473,13 +473,14 @@ unhelpful error (see <a class="reference internal" href="#install-errors"><span 
 CHPC.</p></li>
 </ul>
 <p>That is all. You do not set any environment variable: uataq already knows where
-the archive is.</p>
+the archive is. (To read a copy of it, set <code class="docutils literal notranslate"><span class="pre">LINGROUP_MEASUREMENTS_DIR</span></code> to the
+copy’s <code class="docutils literal notranslate"><span class="pre">measurements</span></code> folder; see <a class="reference internal" href="#install-archive-copy"><span class="std std-ref">Reading a copy of the archive</span></a>.)</p>
 </section>
 <section id="install">
 <h2>Install<a class="headerlink" href="#install" title="Link to this heading">#</a></h2>
 <ol class="arabic">
 <li><p><strong>Check that you can read the archive.</strong></p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ls<span class="w"> </span>/uufs/chpc.utah.edu/common/home/lin-group20/measurements/data
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ls<span class="w"> </span>/uufs/chpc.utah.edu/common/home/lin-group25/measurements/data
 </pre></div>
 </div>
 <p>You should see a folder for each site the lin group records (<code class="docutils literal notranslate"><span class="pre">asb</span></code>,
@@ -633,12 +634,32 @@ the Lin group’s own set of compute nodes. If <code class="docutils literal not
 <a class="reference external" href="https://www.chpc.utah.edu/documentation/software/slurm.php">CHPC’s Slurm guide</a>
 for the rest.</p>
 </section>
+<section id="reading-a-copy-of-the-archive">
+<span id="install-archive-copy"></span><h2>Reading a copy of the archive<a class="headerlink" href="#reading-a-copy-of-the-archive" title="Link to this heading">#</a></h2>
+<p>uataq reads the Lin group’s measurements from the group’s dedicated measurements
+space. To read a copy instead (a snapshot kept for a paper, or a test tree), set
+<code class="docutils literal notranslate"><span class="pre">LINGROUP_MEASUREMENTS_DIR</span></code> to the copy’s <code class="docutils literal notranslate"><span class="pre">measurements</span></code> folder, the one that
+holds <code class="docutils literal notranslate"><span class="pre">data</span></code> and <code class="docutils literal notranslate"><span class="pre">pipeline</span></code>. Unset or empty, it means the archive itself.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">LINGROUP_MEASUREMENTS_DIR</span><span class="o">=</span>/path/to/measurements
+</pre></div>
+</div>
+<p>uataq looks the variable up each time it needs a path, so setting it in Python
+after <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">uataq</span></code> works too (<code class="docutils literal notranslate"><span class="pre">os.environ[&quot;LINGROUP_MEASUREMENTS_DIR&quot;]</span> <span class="pre">=</span> <span class="pre">...</span></code>),
+with one exception: the pipeline’s configuration files (<code class="docutils literal notranslate"><span class="pre">data_config.json</span></code> and
+<code class="docutils literal notranslate"><span class="pre">site_config.csv</span></code>) are read once, when uataq is imported, so set the variable
+before the import if the copy’s configuration differs. A value that is not a
+directory raises <code class="docutils literal notranslate"><span class="pre">FileNotFoundError</span></code> naming the variable. The Horel group’s
+folders have no such variable.</p>
+</section>
 <section id="if-something-goes-wrong">
 <span id="install-errors"></span><h2>If something goes wrong<a class="headerlink" href="#if-something-goes-wrong" title="Link to this heading">#</a></h2>
 <dl class="simple">
 <dt><code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span></code> ends with <code class="docutils literal notranslate"><span class="pre">FileNotFoundError:</span> <span class="pre">...</span> <span class="pre">setup.py</span></code></dt><dd><p>You are on CHPC’s system Python 3.6, which cannot install uataq. Run
 <code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">load</span> <span class="pre">python</span></code>, delete the environment if you made it before that
 (<code class="docutils literal notranslate"><span class="pre">rm</span> <span class="pre">-rf</span> <span class="pre">~/venvs/uataq</span></code>), and redo steps 2 to 4.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">FileNotFoundError</span></code> saying <code class="docutils literal notranslate"><span class="pre">LINGROUP_MEASUREMENTS_DIR</span></code> is not a directory</dt><dd><p>The variable is set to a path that does not exist. Fix the path, or run
+<code class="docutils literal notranslate"><span class="pre">unset</span> <span class="pre">LINGROUP_MEASUREMENTS_DIR</span></code> to read the archive itself.</p>
 </dd>
 <dt>The <code class="docutils literal notranslate"><span class="pre">ls</span></code> in step 1, or the read in step 5, fails</dt><dd><p>You are probably not in the <code class="docutils literal notranslate"><span class="pre">lin</span></code> group yet. Run <code class="docutils literal notranslate"><span class="pre">groups</span></code> and see
 <a class="reference internal" href="#what-you-need">What you need</a>.</p>
@@ -705,6 +726,7 @@ node.</p>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-uataq-in-jupyter">Use uataq in Jupyter</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#update-uataq-or-pin-a-version">Update uataq, or pin a version</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-uataq-in-a-slurm-job">Use uataq in a Slurm job</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reading-a-copy-of-the-archive">Reading a copy of the archive</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#if-something-goes-wrong">If something goes wrong</a></li>
 </ul>
   </nav></div>

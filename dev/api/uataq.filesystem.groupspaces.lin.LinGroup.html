@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>uataq.filesystem.groupspaces.lin.LinGroup &#8212; UATAQ 2026.10.1.dev72+ge1e66ef96 documentation</title>
+    <title>uataq.filesystem.groupspaces.lin.LinGroup &#8212; UATAQ 2026.10.2.dev1+gca841d2c0 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="../_static/documentation_options.js?v=68f43553"></script>
+    <script src="../_static/documentation_options.js?v=bd1dca70"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -55,11 +55,11 @@
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="uataq.filesystem.groupspaces.lin.LinGroup.data_path" href="uataq.filesystem.groupspaces.lin.LinGroup.data_path.html" />
+    <link rel="next" title="uataq.filesystem.groupspaces.lin.LinGroup.data_dir" href="uataq.filesystem.groupspaces.lin.LinGroup.data_dir.html" />
     <link rel="prev" title="uataq.filesystem.groupspaces.lin.LinDatFile.parse" href="uataq.filesystem.groupspaces.lin.LinDatFile.parse.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.1.dev72+ge1e66ef96" />
+  <meta name="docsearch:version" content="2026.10.2.dev1+gca841d2c0" />
   
     
     <script src="../_static/searchtools.js"></script>
@@ -127,7 +127,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.1.dev72+ge1e66ef96 documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.2.dev1+gca841d2c0 documentation</p>
   
 </a></div>
     
@@ -635,7 +635,6 @@
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a>) – The group name.</p></li>
 <li><p><strong>datafiles</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.15)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a><em>, </em><em>Type</em><em>[</em><a class="reference internal" href="uataq.filesystem.core.DataFile.html#uataq.filesystem.core.DataFile" title="uataq.filesystem.core.DataFile"><em>DataFile</em></a><em>]</em><em>]</em>) – A dictionary mapping datafile keys to DataFile classes.</p></li>
-<li><p><strong>data_dir</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a>) – The path to the data directory.</p></li>
 <li><p><strong>data_config</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.15)"><em>dict</em></a>) – The data configuration.</p></li>
 </ul>
 </dd>
@@ -647,6 +646,15 @@
 
 </dd></dl>
 
+<p class="rubric">Attributes</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="uataq.filesystem.groupspaces.lin.LinGroup.data_dir.html#uataq.filesystem.groupspaces.lin.LinGroup.data_dir" title="uataq.filesystem.groupspaces.lin.LinGroup.data_dir"><code class="xref py py-obj docutils literal notranslate"><span class="pre">data_dir</span></code></a></p></td>
+<td><p>The Lin group data directory, under <code class="docutils literal notranslate"><span class="pre">LINGROUP_MEASUREMENTS_DIR</span></code> when it is set.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
 <p class="rubric">Methods</p>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table">
 <tbody>
@@ -695,11 +703,11 @@
       </div>
     </a>
     <a class="right-next"
-       href="uataq.filesystem.groupspaces.lin.LinGroup.data_path.html"
+       href="uataq.filesystem.groupspaces.lin.LinGroup.data_dir.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">uataq.filesystem.groupspaces.lin.LinGroup.data_path</p>
+        <p class="prev-next-title">uataq.filesystem.groupspaces.lin.LinGroup.data_dir</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
