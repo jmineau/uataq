@@ -28,6 +28,8 @@ follow [PEP 440](https://peps.python.org/pep-0440/): calendar-based,
   sorts its rows stably, and so does the list of files in one period. The
   default sort could swap them, as it can for TRX01's `lgr_ugga_manual_cal`
   qaqc files, which repeat about 1,400 timestamps a month.
+- A row with no valid GPS time of day gets a NaT with the `ns` unit. The unitless
+  NaT warns on NumPy 2.5 and will become an error in a future NumPy.
 
 ## [2026.10.1] - 2026-10-27
 

@@ -275,5 +275,5 @@ def gps_time_from_time_of_day(
     diff = gps_time - logger
     gps_time = np.where(diff > half_day, gps_time - day, gps_time)
     gps_time = np.where(diff < -half_day, gps_time + day, gps_time)
-    gps_time[~valid] = np.datetime64("NaT")
+    gps_time[~valid] = np.datetime64("NaT", "ns")
     return pd.Series(gps_time, index=index, name="GPS_Time_UTC")
