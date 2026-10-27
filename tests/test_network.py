@@ -408,6 +408,34 @@ class TestNetworkEmptyResult:
         assert caught == []
 
 
+class TestNetworkRowOrder:
+    """Rows on one timestamp keep the site order in every session, as Site.get_obs does (#74)."""
+
+    def test_rows_on_one_timestamp_keep_the_site_order(self):
+        """The default sort (quicksort) swaps tied rows; a stable one cannot."""
+        times = pd.date_range("2024-06-01", periods=1000, freq="min", name="Time_UTC")
+
+        def read_site_data(site, time_range=None, num_processes=1):
+            return pd.DataFrame(
+                {
+                    "SID": site.SID,
+                    "Latitude_deg": 40.7,
+                    "Longitude_deg": -111.9,
+                    "zagl": 1.0,
+                    "instrument": "lgr_ugga",
+                    "CO2d_ppm_cal": 420.0,
+                },
+                index=times,
+            )
+
+        net = Network(["WBB", "SUG"], "CO2")
+        with patch.object(Network, "_read_site_data", side_effect=read_site_data):
+            obs = net.get_obs()
+
+        assert obs.index.is_monotonic_increasing
+        assert obs["SID"].tolist() == ["WBB", "SUG"] * 1000
+
+
 class TestReadSiteData:
     """One site's rows: concentrations, coordinates and height."""
 
