@@ -671,8 +671,8 @@ class MobileSite(Site):
         gps[gps_on] = pd.to_datetime(gps[gps_on], errors="coerce")
 
         # Drop rows with missing obs, time, or location
-        obs.dropna(how="all", inplace=True)
-        gps.dropna(subset=[gps_on, "Latitude_deg", "Longitude_deg"], inplace=True)
+        obs = obs.dropna(how="all")
+        gps = gps.dropna(subset=[gps_on, "Latitude_deg", "Longitude_deg"])
 
         # Number the observations and keep both exact times, to choose
         # between two fixes that fall in one second
@@ -702,7 +702,7 @@ class MobileSite(Site):
         )
 
         # Set Time_UTC as index
-        obs.set_index("Time_UTC", inplace=True)
+        obs = obs.set_index("Time_UTC")
 
         # Convert to geodataframe
         obs = gpd.GeoDataFrame(

@@ -440,7 +440,7 @@ class LinDatFile(filesystem.DataFile):
             data[numeric] = data[numeric].apply(pd.to_numeric, errors="coerce")
 
         # Format time col
-        data.rename(columns={"TIMESTAMP": "Time_UTC"}, inplace=True)
+        data = data.rename(columns={"TIMESTAMP": "Time_UTC"})
         data["Time_UTC"] = pd.to_datetime(
             data.Time_UTC, errors="coerce", format="ISO8601"
         )
@@ -832,7 +832,7 @@ class AirTrendFile(filesystem.DataFile):
         # fraction when the microseconds are 0; without a format pandas infers
         # one from the first row, and a row of the other shape becomes NaT.
         data["time"] = pd.to_datetime(data.time, errors="coerce", format="ISO8601")
-        data.rename(columns={"time": "Time_UTC"}, inplace=True)
+        data = data.rename(columns={"time": "Time_UTC"})
 
         # Coerce numeric columns
         numeric_cols = [
@@ -1035,6 +1035,8 @@ class LinGroup(filesystem.GroupSpace):
         mapping = column_mapping.get(instrument, {})
 
         ### Column specific manipulations ###
+        # Drops and renames below edit the caller's `data` itself (`del`,
+        # assigning `columns`), so a caller holding it sees the new names.
 
         if instrument == "gps":
             if "latitude_dm" in data.columns:
@@ -1050,9 +1052,8 @@ class LinGroup(filesystem.GroupSpace):
                     data[deg] = values // 100 + (values % 100) / 60
                 data["Latitude_deg"] *= np.where(data.n_s == "S", -1, 1)
                 data["Longitude_deg"] *= np.where(data.e_w == "W", -1, 1)
-                data.drop(
-                    columns=["latitude_dm", "longitude_dm", "n_s", "e_w"], inplace=True
-                )
+                for col in ["latitude_dm", "longitude_dm", "n_s", "e_w"]:
+                    del data[col]
             for status in ["status", "Status"]:
                 # Map status to binary
                 if status in data.columns:
@@ -1062,11 +1063,15 @@ class LinGroup(filesystem.GroupSpace):
             for flow in ["flow_ccpm", "Flow_CCmin"]:
                 if flow in data.columns:
                     data[flow] = data[flow] / 1000
-                    data.rename(columns={flow: "Flow_Lpm"}, inplace=True)
+                    data.columns = [
+                        "Flow_Lpm" if c == flow else c for c in data.columns
+                    ]
 
         if "pm25_mgm3" in data.columns:
             data["pm25_mgm3"] = data.pm25_mgm3 * 1000
-            data.rename(columns={"pm25_mgm3": "PM2.5_ugm3"}, inplace=True)
+            data.columns = [
+                "PM2.5_ugm3" if c == "pm25_mgm3" else c for c in data.columns
+            ]
 
         return data.rename(columns=mapping)
 

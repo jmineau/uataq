@@ -296,6 +296,10 @@ follow [PEP 440](https://peps.python.org/pep-0440/): calendar-based,
   found that measure pollutant 'O3'.", which contradicted the list of sites
   that do measure it that follows. More than ten sites given (`sites="all"`)
   are counted, not listed (#113).
+- Reads and `MobileSite.merge_gps` no longer pass `inplace=True` to pandas,
+  which pandas 3.1 deprecates (`Pandas4Warning`, PDEP-8): under 3.1 they warned
+  on every call, and failed any test run that treats warnings as errors. What
+  each function returns and which frames it edits is unchanged (#115).
 
 ## [2026.10.0] - 2026-10-09
 
