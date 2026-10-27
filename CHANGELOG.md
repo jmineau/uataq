@@ -301,6 +301,12 @@ follow [PEP 440](https://peps.python.org/pep-0440/): calendar-based,
   on every call, and failed any test run that treats warnings as errors. What
   each function returns and which frames it edits is unchanged (#115).
 
+### Fixed
+
+- `Network.get_obs` sorts stably, as `Site.get_obs` does (#74): rows on one
+  timestamp keep the order of the sites given, in every session, where the
+  default sort could swap them.
+
 ## [2026.10.0] - 2026-10-09
 
 The first release since 2025.11.0.

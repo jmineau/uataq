@@ -362,7 +362,7 @@ class Network:
             crs="EPSG:4326",
         )
 
-        return gpd.GeoDataFrame(gdf.sort_index())
+        return gpd.GeoDataFrame(gdf.sort_index(kind="stable"))
 
     def _pollutant_instruments(self, site: sites.Site) -> list[Instrument]:
         """Instruments at a site measuring this network's pollutant."""
