@@ -6,7 +6,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>uataq.filesystem.groupspaces.lin &#8212; UATAQ 2026.10.1.dev69+ga4d794fc3 documentation</title>
+    <title>uataq.filesystem.groupspaces.lin &#8212; UATAQ 2026.10.1.dev70+g5964ac40e documentation</title>
   
   
   
@@ -38,7 +38,7 @@
   <link rel="preload" as="script" href="../../../../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="../../../../_static/documentation_options.js?v=d0639ada"></script>
+    <script src="../../../../_static/documentation_options.js?v=7ebfc24c"></script>
     <script src="../../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -56,7 +56,7 @@
     <link rel="search" title="Search" href="../../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.1.dev69+ga4d794fc3" />
+  <meta name="docsearch:version" content="2026.10.1.dev70+g5964ac40e" />
   
     
     <script src="../../../../_static/searchtools.js"></script>
@@ -124,7 +124,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.1.dev69+ga4d794fc3 documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.1.dev70+g5964ac40e documentation</p>
   
 </a></div>
     
@@ -889,7 +889,7 @@
             <span class="n">data</span><span class="p">[</span><span class="n">numeric</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">numeric</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s2">&quot;coerce&quot;</span><span class="p">)</span>
 
         <span class="c1"># Format time col</span>
-        <span class="n">data</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;TIMESTAMP&quot;</span><span class="p">:</span> <span class="s2">&quot;Time_UTC&quot;</span><span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;TIMESTAMP&quot;</span><span class="p">:</span> <span class="s2">&quot;Time_UTC&quot;</span><span class="p">})</span>
         <span class="n">data</span><span class="p">[</span><span class="s2">&quot;Time_UTC&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span>
             <span class="n">data</span><span class="o">.</span><span class="n">Time_UTC</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s2">&quot;coerce&quot;</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;ISO8601&quot;</span>
         <span class="p">)</span>
@@ -1308,7 +1308,7 @@
         <span class="c1"># fraction when the microseconds are 0; without a format pandas infers</span>
         <span class="c1"># one from the first row, and a row of the other shape becomes NaT.</span>
         <span class="n">data</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s2">&quot;coerce&quot;</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;ISO8601&quot;</span><span class="p">)</span>
-        <span class="n">data</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="s2">&quot;Time_UTC&quot;</span><span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="s2">&quot;Time_UTC&quot;</span><span class="p">})</span>
 
         <span class="c1"># Coerce numeric columns</span>
         <span class="n">numeric_cols</span> <span class="o">=</span> <span class="p">[</span>
@@ -1532,6 +1532,8 @@
         <span class="n">mapping</span> <span class="o">=</span> <span class="n">column_mapping</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">instrument</span><span class="p">,</span> <span class="p">{})</span>
 
         <span class="c1">### Column specific manipulations ###</span>
+        <span class="c1"># Drops and renames below edit the caller&#39;s `data` itself (`del`,</span>
+        <span class="c1"># assigning `columns`), so a caller holding it sees the new names.</span>
 
         <span class="k">if</span> <span class="n">instrument</span> <span class="o">==</span> <span class="s2">&quot;gps&quot;</span><span class="p">:</span>
             <span class="k">if</span> <span class="s2">&quot;latitude_dm&quot;</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
@@ -1547,9 +1549,8 @@
                     <span class="n">data</span><span class="p">[</span><span class="n">deg</span><span class="p">]</span> <span class="o">=</span> <span class="n">values</span> <span class="o">//</span> <span class="mi">100</span> <span class="o">+</span> <span class="p">(</span><span class="n">values</span> <span class="o">%</span> <span class="mi">100</span><span class="p">)</span> <span class="o">/</span> <span class="mi">60</span>
                 <span class="n">data</span><span class="p">[</span><span class="s2">&quot;Latitude_deg&quot;</span><span class="p">]</span> <span class="o">*=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">n_s</span> <span class="o">==</span> <span class="s2">&quot;S&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
                 <span class="n">data</span><span class="p">[</span><span class="s2">&quot;Longitude_deg&quot;</span><span class="p">]</span> <span class="o">*=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">e_w</span> <span class="o">==</span> <span class="s2">&quot;W&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-                <span class="n">data</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span>
-                    <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;latitude_dm&quot;</span><span class="p">,</span> <span class="s2">&quot;longitude_dm&quot;</span><span class="p">,</span> <span class="s2">&quot;n_s&quot;</span><span class="p">,</span> <span class="s2">&quot;e_w&quot;</span><span class="p">],</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span>
-                <span class="p">)</span>
+                <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;latitude_dm&quot;</span><span class="p">,</span> <span class="s2">&quot;longitude_dm&quot;</span><span class="p">,</span> <span class="s2">&quot;n_s&quot;</span><span class="p">,</span> <span class="s2">&quot;e_w&quot;</span><span class="p">]:</span>
+                    <span class="k">del</span> <span class="n">data</span><span class="p">[</span><span class="n">col</span><span class="p">]</span>
             <span class="k">for</span> <span class="n">status</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;status&quot;</span><span class="p">,</span> <span class="s2">&quot;Status&quot;</span><span class="p">]:</span>
                 <span class="c1"># Map status to binary</span>
                 <span class="k">if</span> <span class="n">status</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
@@ -1559,11 +1560,15 @@
             <span class="k">for</span> <span class="n">flow</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;flow_ccpm&quot;</span><span class="p">,</span> <span class="s2">&quot;Flow_CCmin&quot;</span><span class="p">]:</span>
                 <span class="k">if</span> <span class="n">flow</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
                     <span class="n">data</span><span class="p">[</span><span class="n">flow</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">flow</span><span class="p">]</span> <span class="o">/</span> <span class="mi">1000</span>
-                    <span class="n">data</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="n">flow</span><span class="p">:</span> <span class="s2">&quot;Flow_Lpm&quot;</span><span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                    <span class="n">data</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span>
+                        <span class="s2">&quot;Flow_Lpm&quot;</span> <span class="k">if</span> <span class="n">c</span> <span class="o">==</span> <span class="n">flow</span> <span class="k">else</span> <span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">columns</span>
+                    <span class="p">]</span>
 
         <span class="k">if</span> <span class="s2">&quot;pm25_mgm3&quot;</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
             <span class="n">data</span><span class="p">[</span><span class="s2">&quot;pm25_mgm3&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">pm25_mgm3</span> <span class="o">*</span> <span class="mi">1000</span>
-            <span class="n">data</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;pm25_mgm3&quot;</span><span class="p">:</span> <span class="s2">&quot;PM2.5_ugm3&quot;</span><span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">data</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="s2">&quot;PM2.5_ugm3&quot;</span> <span class="k">if</span> <span class="n">c</span> <span class="o">==</span> <span class="s2">&quot;pm25_mgm3&quot;</span> <span class="k">else</span> <span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">columns</span>
+            <span class="p">]</span>
 
         <span class="k">return</span> <span class="n">data</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="n">mapping</span><span class="p">)</span></div>
 </div>
