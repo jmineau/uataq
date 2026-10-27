@@ -10,6 +10,15 @@ import pytest
 
 
 @pytest.fixture
+def lin_data_dir(tmp_path, monkeypatch):
+    """Return an empty Lin group data folder, with LINGROUP_MEASUREMENTS_DIR set to its root."""
+    data = tmp_path / "measurements" / "data"
+    data.mkdir(parents=True)
+    monkeypatch.setenv("LINGROUP_MEASUREMENTS_DIR", str(data.parent))
+    return data
+
+
+@pytest.fixture
 def sample_datetime():
     """Return a sample datetime for testing."""
     return dt.datetime(2024, 1, 15, 12, 0, 0)

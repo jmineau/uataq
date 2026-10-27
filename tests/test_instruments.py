@@ -444,14 +444,12 @@ class TestLevelTheInstrumentLacks:
     """A level with no folder says which levels the instrument has (#63)."""
 
     @pytest.fixture
-    def t400(self, tmp_path, monkeypatch):
+    def t400(self, lin_data_dir):
         """WBB's ozone monitor over a lin tree with raw, qaqc and final folders."""
         import uataq
-        from uataq.filesystem.groupspaces import lin
 
-        monkeypatch.setattr(lin, "DATA_DIR", str(tmp_path))
         for lvl in ["raw", "qaqc", "final"]:
-            (tmp_path / "wbb" / "teledyne_t400" / lvl).mkdir(parents=True)
+            (lin_data_dir / "wbb" / "teledyne_t400" / lvl).mkdir(parents=True)
         return uataq.get_site("WBB").instruments["teledyne_t400"]
 
     def test_get_datafiles_names_the_levels_it_has(self, t400):

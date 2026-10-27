@@ -18,6 +18,7 @@ import pandas as pd
 import pytest
 
 from uataq import errors, filesystem
+from uataq.filesystem import core
 from uataq.filesystem.groupspaces import lin
 from uataq.timerange import TimeRange
 
@@ -89,12 +90,78 @@ def test_read_lines_matches_head_and_tail(tmp_path, content, expected):
     assert lin._read_lines(str(path), first=2, last=True) == expected
 
 
+class TestMeasurementsRoot:
+    """LINGROUP_MEASUREMENTS_DIR sets the Lin group root, read when it is used."""
+
+    ENV = "LINGROUP_MEASUREMENTS_DIR"
+    DEFAULT = os.path.join(core.HOME, "lin-group25", "measurements")
+
+    def test_default_is_the_dedicated_space(self, monkeypatch):
+        monkeypatch.delenv(self.ENV, raising=False)
+        assert (
+            self.DEFAULT,
+            os.path.join(self.DEFAULT, "pipeline", "config"),
+            os.path.join(self.DEFAULT, "data"),
+        ) == (lin.MEASUREMENTS_DIR, lin.CONFIG_DIR, lin.DATA_DIR)
+
+    def test_empty_variable_is_unset(self, monkeypatch):
+        monkeypatch.setenv(self.ENV, "")
+        assert lin.MEASUREMENTS_DIR == self.DEFAULT
+
+    def test_variable_moves_all_three_names(self, tmp_path, monkeypatch):
+        monkeypatch.setenv(self.ENV, str(tmp_path))
+        assert (
+            str(tmp_path),
+            str(tmp_path / "pipeline" / "config"),
+            str(tmp_path / "data"),
+        ) == (lin.MEASUREMENTS_DIR, lin.CONFIG_DIR, lin.DATA_DIR)
+
+    def test_set_after_import_takes_effect(self, tmp_path, monkeypatch):
+        """The names are not fixed at import: each read follows the variable."""
+        monkeypatch.delenv(self.ENV, raising=False)
+        before = lin.DATA_DIR
+        monkeypatch.setenv(self.ENV, str(tmp_path))
+        moved = lin.DATA_DIR
+        monkeypatch.delenv(self.ENV)
+        assert (before, moved, lin.DATA_DIR) == (
+            before,
+            str(tmp_path / "data"),
+            before,
+        )
+
+    def test_readers_use_the_variable(self, lin_data_dir):
+        (lin_data_dir / "wbb" / "lgr_ugga" / "final").mkdir(parents=True)
+        group = lin.LinGroup()
+        assert group.data_dir == str(lin_data_dir)
+        assert group.get_lvls("WBB", "lgr_ugga") == ["final"]
+        assert group.data_path("WBB", "lgr_ugga", "final") == str(
+            lin_data_dir / "wbb" / "lgr_ugga" / "final"
+        )
+
+    def test_missing_directory_names_the_variable(self, tmp_path, monkeypatch):
+        monkeypatch.setenv(self.ENV, str(tmp_path / "nowhere"))
+        with pytest.raises(FileNotFoundError, match=self.ENV) as err:
+            _ = lin.DATA_DIR
+        assert "nowhere" in str(err.value)
+        with pytest.raises(FileNotFoundError, match=self.ENV):
+            lin._read_config("data_config.json")  # no fetch instead
+
+    def test_names_are_listed(self):
+        assert {"MEASUREMENTS_DIR", "CONFIG_DIR", "DATA_DIR"} <= set(dir(lin))
+
+    def test_unknown_name_is_an_attribute_error(self):
+        with pytest.raises(AttributeError):
+            _ = lin.NOT_A_NAME
+
+
 class TestReadConfig:
     """Off-cluster config fetches fail fast with a clear message."""
 
     def test_local_file_is_read(self, tmp_path, monkeypatch):
-        (tmp_path / "x.json").write_text('{"a": 1}')
-        monkeypatch.setattr(lin, "CONFIG_DIR", str(tmp_path))
+        config = tmp_path / "pipeline" / "config"
+        config.mkdir(parents=True)
+        (config / "x.json").write_text('{"a": 1}')
+        monkeypatch.setenv("LINGROUP_MEASUREMENTS_DIR", str(tmp_path))
         assert lin._read_config("x.json").read() == '{"a": 1}'
 
     def test_fetch_failure_names_path_and_url(self, tmp_path, monkeypatch):
@@ -105,7 +172,7 @@ class TestReadConfig:
             assert timeout == lin.CONFIG_FETCH_TIMEOUT
             raise urllib.error.URLError("timed out")
 
-        monkeypatch.setattr(lin, "CONFIG_DIR", str(tmp_path))
+        monkeypatch.setenv("LINGROUP_MEASUREMENTS_DIR", str(tmp_path))
         monkeypatch.setattr(urllib.request, "urlopen", fail)
         with pytest.raises(RuntimeError, match="not on CHPC") as err:
             lin._read_config("site_config.csv")
@@ -425,8 +492,8 @@ class TestLGRUGGAFile:
         day = pd.Timestamp("2024-06-03").to_pydatetime()
         assert lin._day_in_range(day, time_range) is overlaps
 
-    def test_get_files_finds_f_files_in_day_dirs(self, tmp_path, monkeypatch):
-        raw = tmp_path / "wbb" / "lgr_ugga" / "raw"
+    def test_get_files_finds_f_files_in_day_dirs(self, lin_data_dir):
+        raw = lin_data_dir / "wbb" / "lgr_ugga" / "raw"
         for name in [
             "01Apr2016/gga01Apr2016_f0000.txt",
             "01Apr2016/gga01Apr2016_b0000.txt",
@@ -436,7 +503,6 @@ class TestLGRUGGAFile:
         ]:
             (raw / name).parent.mkdir(parents=True, exist_ok=True)
             (raw / name).touch()
-        monkeypatch.setattr(lin, "DATA_DIR", str(tmp_path))
 
         files = lin.LinGroup().get_files("WBB", "lgr_ugga", "raw", logger="lgr_ugga")
 
@@ -562,9 +628,8 @@ class TestLinGroup:
     """File discovery over a synthetic data tree."""
 
     @pytest.fixture
-    def data_dir(self, tmp_path, monkeypatch):
-        monkeypatch.setattr(lin, "DATA_DIR", str(tmp_path))
-        return tmp_path
+    def data_dir(self, lin_data_dir):
+        return lin_data_dir
 
     def test_highest_level_ignores_other_dirs(self, data_dir):
         for d in ["raw", "qaqc", "final", "raw_frozen_multiLGRproblem_230202"]:

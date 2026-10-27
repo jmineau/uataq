@@ -9,6 +9,12 @@ follow [PEP 440](https://peps.python.org/pep-0440/): calendar-based,
 
 ### Added
 
+- `LINGROUP_MEASUREMENTS_DIR` sets the Lin group's measurements root when it is
+  set and not empty. It is read each time a path is needed, so setting it after
+  `import uataq` works, except for the pipeline configuration files, which are
+  read at import. `groupspaces.lin.MEASUREMENTS_DIR`, `CONFIG_DIR` and `DATA_DIR`
+  keep their names and follow the variable. A value that is not a directory
+  raises `FileNotFoundError` naming the variable.
 - Raw horel reads take the `*.h5_prior405upgrade` file of a month beside its
   `.h5`. horel split the raw files of the month of each MetOne ES642-to-ES405
   swap (BUS02 2025-03, BUS03 2024-12, TRX01, TRX02 and TRX03 2025-01): the rows
@@ -20,6 +26,9 @@ follow [PEP 440](https://peps.python.org/pep-0440/): calendar-based,
 
 ### Changed
 
+- The default Lin group measurements root is the group's dedicated measurements
+  space, not a link to it in another group space. The data read are the same.
+  `LinGroup.data_dir` is now a property.
 - Docs: rewritten for a new student and organized by task, with no redirects
   from the old addresses. The navbar has four sections, Getting started,
   Guides, Reference and Contributing, each a folder of pages, and the front page
