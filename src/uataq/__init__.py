@@ -266,12 +266,12 @@ def get_network_obs(
     Examples
     --------
     >>> # Get CO2 from multiple sites for January 2024
-    >>> obs = uataq.get_network_obs(
+    >>> obs = uataq.get_network_obs(  # doctest: +SKIP
     ...     sites=["WBB", "SUG", "RPK"], pollutant="CO2", time_range="2024-01"
     ... )
 
     >>> # Get O3 from mobile sites for a time range
-    >>> obs = uataq.get_network_obs(
+    >>> obs = uataq.get_network_obs(  # doctest: +SKIP
     ...     sites=["TRX01", "TRX02"],
     ...     pollutant="O3",
     ...     time_range=["2024-01-01", "2024-01-31"],
