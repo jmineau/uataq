@@ -320,3 +320,47 @@ class TestParseLogPathAcrossDrives:
         with patch("os.path.relpath", self.cross_drive):
             data = lin.LinDatFile(str(path)).parse()
         assert data["pm25_ugm3"].tolist() == [5.0]
+
+
+class TestRowOrder:
+    """Rows on one timestamp keep their file order in every session, as Site.get_obs does (#74)."""
+
+    def test_rows_on_one_timestamp_keep_the_file_order(self):
+        """The default sort (quicksort) swaps tied rows; a stable one cannot."""
+
+        class TaggedFile(filesystem.DataFile):
+            date_slicer = slice(7)
+            file_freq = "M"
+            ext = "dat"
+
+            def parse(self):
+                times = pd.date_range("2024-01-01", periods=1000, freq="min")
+                tag = "a" if "_a." in self.path else "b"
+                return pd.DataFrame({"Time_UTC": times, "src": tag})
+
+        # two files of one month, both with the same 1000 timestamps
+        files = [TaggedFile("/a/2024_01_a.dat"), TaggedFile("/a/2024_01_b.dat")]
+        data = filesystem.parse_datafiles(files, TimeRange("2024-01"), num_processes=1)
+        assert data.index.is_monotonic_increasing
+        assert data["src"].tolist() == ["a", "b"] * 1000
+
+
+class TestFileOrder:
+    """Files of one period keep the order they were listed in, every session."""
+
+    def test_files_in_one_period_keep_the_listed_order(self):
+        """
+        Keep the listed order of files that share a period.
+
+        The default sort (quicksort) swaps them when they are listed out of
+        period order, as horel's prior and final files are.
+        """
+        months = pd.period_range("2020-01", periods=60, freq="M")
+        # all the prior files, then all the final ones: each month has two
+        names = [f"/a/{m.year}_{m.month:02d}_prior.dat" for m in months]
+        names += [f"/a/{m.year}_{m.month:02d}_final.dat" for m in months]
+        files = [MonthFile(name) for name in names]
+        out = filesystem.filter_datafiles(files, TimeRange())
+        # Python's sorted is stable, so this is the listed order within a month
+        expected = [f.path for f in sorted(files, key=lambda f: f.period)]
+        assert [f.path for f in out] == expected
