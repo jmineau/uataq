@@ -45,7 +45,8 @@ the orientation file it should read.
    just quality-check
    ```
 
-4. Run test suite:
+4. Run the test suite (it also runs the `>>>` examples in the docstrings under
+   `src/`; an example that needs data CI lacks gets `# doctest: +SKIP`):
    ```bash
    just test
    ```
@@ -78,6 +79,7 @@ CI (`.github/workflows/`) runs the same `just` recipes:
   release and `stable/` to `gh-pages`.
 - `publish.yml` makes a GitHub Release from a `vYYYY.M.PATCH` tag (see
   Releasing).
+- `lock-upgrade.yml` upgrades `uv.lock` once a month (see Dependency updates).
 
 CI type-checks on Python 3.11. If it disagrees with your newer local `.venv`,
 check in a separate environment so `.venv` is left alone:
@@ -92,7 +94,7 @@ UV_PROJECT_ENVIRONMENT=<dir> uv run --no-sync pyrefly check
 The version comes from git tags (setuptools-scm), so there is no version string
 to bump. Releases are calendar-based: `YYYY.M.PATCH`.
 
-1. Run `just changelog` to draft entries from the commit messages, edit them
+1. Pull requests leave `CHANGELOG.md` alone, so write it now: run `just changelog` to draft entries from the commit messages, edit them
    into `CHANGELOG.md` under `## [Unreleased]`, then rename that heading to
    `## [YYYY.M.PATCH] - YYYY-MM-DD` and start a new empty `## [Unreleased]`
    above it. Commit (`chore(release): YYYY.M.PATCH`) and push to `main`.
@@ -102,6 +104,23 @@ to bump. Releases are calendar-based: `YYYY.M.PATCH`.
 3. The Publish workflow builds the tag and creates the GitHub Release from the
    CHANGELOG section (uataq is not on PyPI); Zenodo archives it. The
    Documentation workflow publishes its docs in the version dropdown.
+
+## Dependency updates
+
+Dependabot opens one pull request a month for each of GitHub Actions and
+pre-commit hooks. Merge it when CI passes.
+
+`uv.lock` (the dev tools and every dependency) is updated by the Upgrade lock
+workflow alone, not by Dependabot, which would leave a package at its old
+version when the newest release needs a newer Python than the oldest one this
+project supports. On the 1st of each month the workflow runs `uv lock --upgrade`
+(`uv.lock` then holds the newest release for each Python; it never raises the
+minimum versions in `pyproject.toml`) and, when the lock changes, opens the pull
+request `chore/lock-upgrade` (or updates it). GitHub does not start workflows on
+a pull request that its own token opened, so the workflow starts Tests, Code
+Quality and Documentation on the branch itself; their results show on the pull
+request. Merge it when they pass. You can also run it by hand: Actions > Upgrade
+lock > Run workflow.
 
 ## Template
 
@@ -115,7 +134,8 @@ made in the template.
 
 - Keep pull requests focused on a single feature or bugfix
 - Write clear, descriptive commit messages
-- Update the changelog if applicable
+- Leave `CHANGELOG.md` alone: the release notes are drafted from your commit
+  messages at release, so write each as the line a user would read
 - Ensure all tests pass
 - Maintain or improve test coverage
 - Update documentation as needed

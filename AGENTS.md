@@ -93,25 +93,24 @@ Driven by `just` and `uv`; CI runs the same recipes.
 
 | Command | What it does |
 |---|---|
-| `just sync` | `uv sync`: uataq (editable) and the dev tools |
-| `just lock` | `uv lock` after changing dependencies; commit `uv.lock` with them |
+| `just sync` / `just lock` | `uv sync`: uataq (editable) and the dev tools / `uv lock` after changing dependencies (commit `uv.lock` with them) |
 | `just quality-check` | `lint` + `type-check` + `docstr` + `test` |
-| `just test` | pytest in parallel (up to 8 workers), skipping `network`, `slow` and `chpc`; extra args go to pytest (`-n 0` for serial) |
-| `just cov` | the same with coverage (what `tests.yml` runs) |
+| `just test` | pytest in parallel (up to 8 workers) over `tests` and the `>>>` examples under `src`, skipping `network`, `slow` and `chpc`; extra args go to pytest (`-n 0` for serial) |
+| `just cov` | `just test` with coverage (what `tests.yml` runs) |
 | `just lint` / `just format` | ruff check and format check / fix and format |
-| `just type-check` | pyrefly |
-| `just docstr` | docstring coverage of the public API, at 100% |
+| `just type-check` / `just docstr` | pyrefly / docstring coverage of the public API, at 100% |
 | `just build-docs` | Sphinx HTML into `docs/_build`, running every example; a warning fails the build |
-| `just docs-serve` | live docs preview on port 8000 |
-| `just pre-commit` | every pre-commit hook on every file |
-| `just changelog` | draft CHANGELOG entries from the commits since the last tag |
+| `just docs-serve` / `just pre-commit` | live docs preview on port 8000 / every pre-commit hook on every file |
+| `just changelog` | at release, draft the CHANGELOG entries from the commits since the last tag |
 | `just dist` / `just version` | build and check the sdist and wheel / print the version |
 | `just release X.Y.Z` | tag and push a release (the maintainer runs it) |
 
-CI runs the same recipes ([CONTRIBUTING.md](CONTRIBUTING.md) describes it). The
-version comes from git tags (setuptools-scm); release steps are in
-CONTRIBUTING.md. Tooling comes from [jmineau/python-template](https://github.com/jmineau/python-template)
-via copier: change it there and run `copier update`.
+CI runs the same recipes (CONTRIBUTING.md describes it, and `lock-upgrade.yml`,
+which upgrades `uv.lock` monthly). A pull request leaves `CHANGELOG.md` alone:
+the maintainer writes it at release. The version comes from git tags
+(setuptools-scm); release steps are in CONTRIBUTING.md. Tooling comes from
+[jmineau/python-template](https://github.com/jmineau/python-template) via copier:
+change it there and run `copier update`.
 
 Conventions: Python 3.11+; ruff rules in `pyproject.toml`; numpy-style
 docstrings with a one-line imperative summary on the second line (D213; tests
@@ -156,13 +155,15 @@ its row in the table in `docs/contributing.rst` ("Writing the docs").
   `.. plot::` directive in a docstring's Examples section (`>>>` lines work),
   or a `.. ipython:: python` block in an `.rst` page (options in
   `docs/contributing.rst`). All `.rst` pages share one IPython session, so each
-  page imports what it uses. Notebooks are off (`docs_notebooks` in copier).
+  page imports what it uses; no multi-line statement may be a block's 10th (or
+  100th): the directive runs only its first line. Notebooks are off.
 - **A running example must not read the archive**, which CI does not have. It
   may use the packaged config (`uataq.get_site`, as on the Sites and
   instruments page), synthetic data, or a public download, and seeds any random
   numbers. Examples that need the archive (listed in `docs/contributing.rst`)
-  are plain `code-block` or `pycon` blocks holding the output of a run on CHPC
-  (in a docstring, `>>>` lines without `.. plot::` are not run: `uataq.gps`).
+  are plain `code-block` or `pycon` blocks holding the output of a run on CHPC.
+  `just test` also runs every `>>>` example under `src/` (`--doctest-modules`):
+  one that needs the archive gets `# doctest: +SKIP` on its `>>>` line.
   When the API they show changes, rerun them there and update the page, and its
   figure in `docs/_static/` if it has one.
 - **The site and instrument tables are generated** on every build
