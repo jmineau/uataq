@@ -291,6 +291,11 @@ follow [PEP 440](https://peps.python.org/pep-0440/): calendar-based,
   the raw level had `O3_ppb_std`; the T300 and T500u mappings already list both
   spellings. A script that read `O3_std_ppb` from a qaqc read must read
   `O3_ppb_std` (#67).
+- `Network`: when none of the sites given measures the pollutant, the error
+  now begins "None of the sites given (CSP) measure O3." instead of "No sites
+  found that measure pollutant 'O3'.", which contradicted the list of sites
+  that do measure it that follows. More than ten sites given (`sites="all"`)
+  are counted, not listed (#113).
 
 ## [2026.10.0] - 2026-10-09
 

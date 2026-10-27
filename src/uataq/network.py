@@ -178,9 +178,10 @@ class Network:
         Raises
         ------
         ValueError
-            If sites is empty or if no sites measure the specified pollutant.
-            The message then lists the sites in the configuration that do
-            measure it.
+            If sites is empty or if none of the sites given measures the
+            specified pollutant. The message names the sites given (their
+            number when there are more than ten) and lists the sites in the
+            configuration that do measure it.
         """
         if not sites:
             raise ValueError("sites cannot be empty.")
@@ -206,9 +207,12 @@ class Network:
                 where = f"Sites that measure it: {', '.join(measuring)}."
             else:
                 where = "No site in the configuration measures it."
-            raise ValueError(
-                f"No sites found that measure pollutant '{self.pollutant}'. {where}"
-            )
+            # Name the sites given, unless there are too many to read (sites="all")
+            if len(self.sites) <= 10:
+                given = f"sites given ({', '.join(self.sites)})"
+            else:
+                given = f"{len(self.sites)} sites given"
+            raise ValueError(f"None of the {given} measure {self.pollutant}. {where}")
 
         _logger.info(
             f"Network initialized for {self.pollutant} at {len(self.site_objects)} sites: "
