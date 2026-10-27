@@ -21,8 +21,11 @@ follow [PEP 440](https://peps.python.org/pep-0440/): calendar-based,
 ### Changed
 
 - Docs: the front page says what uataq is, who it is for and where to start,
-  and lists the pages in groups (Getting started, Guides, Reference, API
-  reference, then Contributing). Its "Naming Convention" section, its table of
+  and the navbar has four sections, Getting started, Guides, Reference and
+  Contributing, in place of one heading per page. Each section's pages are in
+  its left sidebar and in a folder of its own, so their addresses change again
+  (`reading_data.html` is `guides/reading_data.html`); the API reference is the
+  last page of Reference. Its "Naming Convention" section, its table of
   four functions and its second "Contributing" heading are gone: the column
   renaming is in "Columns and flags", the four functions are in the API
   reference, and the Contributing page stays. "Configuration" moved from under

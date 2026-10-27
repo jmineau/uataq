@@ -4,10 +4,10 @@ Sites and instruments
 =====================
 
 The tables on this page are made from the package's
-:doc:`configuration <config>` each time the documentation is built, so they
+:doc:`configuration </reference/config>` each time the documentation is built, so they
 always match the version of uataq they document. They say what the
 configuration says, not what the archive holds: to see which days have data,
-use :doc:`what_data_exists`. The words in the headings are explained in the
+use :doc:`/guides/what_data_exists`. The words in the headings are explained in the
 :ref:`glossary <glossary>` at the end of the page. Every site is in Utah, so the
 local time of all of them is ``America/Denver`` (see :ref:`first-month-utc`).
 
@@ -16,7 +16,7 @@ In both site tables:
 - **Active** is "yes" when at least one instrument at the site has no removal
   date in the configuration. Otherwise it gives the date the last instrument
   was removed. A site can stop sending data before its instruments are marked
-  removed, so check with :doc:`what_data_exists` before you plan on recent data.
+  removed, so check with :doc:`/guides/what_data_exists` before you plan on recent data.
 - **Groups** are the research :term:`groups <group>` whose archives hold the
   site's data.
 - **Pollutants** are every pollutant measured at the site, by its instruments
@@ -44,7 +44,7 @@ Instruments
 One row per :term:`instrument name` in the configuration, with the class that
 reads it and the pollutants it measures. The class pages are under
 :mod:`uataq.instruments`, and what the columns of each level hold is on the
-:doc:`columns` page.
+:doc:`/reference/columns` page.
 
 ``cr1000`` and ``gps`` have no pollutants: one is a datalogger that records
 housekeeping (battery voltage, enclosure temperature), the other a GPS receiver.
@@ -74,7 +74,7 @@ runs when the documentation is built, so its output is current:
     type(site.instruments["teledyne_t400"]).__name__
 
 ``uataq.laboratory.sites`` lists every site ID, and ``site.config`` holds the
-site's own keys (see :doc:`config`). ``repr(site)``, which is what a notebook
+site's own keys (see :doc:`/reference/config`). ``repr(site)``, which is what a notebook
 shows for ``site``, prints the whole entry, with the ``notes`` of the instruments
 that have one: why its dates are what they are, and where its data end.
 
@@ -170,4 +170,4 @@ Glossary
         folder of its own in the lin archive. For what its ``_cal`` and
         ``_raw`` columns hold, see :ref:`when-cal-is-empty`. The
         configuration also lists TRX01's ``lgr_ugga`` with no removal date; to
-        see which of the two has data in a period, use :doc:`what_data_exists`.
+        see which of the two has data in a period, use :doc:`/guides/what_data_exists`.

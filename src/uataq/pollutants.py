@@ -6,7 +6,7 @@ UATAQ concentration columns follow ``{pollutant}[d|channel]_{units}[_cal|_raw]``
 (uncalibrated), ``PM2.5_ugm3``, ``BC6_ngm3`` (aethalometer channel 6). This
 module picks those columns out of a DataFrame and parses their names. What the
 column names mean, with examples, is under :ref:`column-names` on the
-:doc:`columns </columns>` page.
+:doc:`columns </reference/columns>` page.
 
 Display metadata (long names, LaTeX labels, expected ranges) is
 instrument-independent and lives in ``lair.pollutants``; uataq does not import

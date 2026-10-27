@@ -13,7 +13,7 @@ The archive is located through the Horel group space
 ``mesowest_dir=...`` to read a copy elsewhere.
 
 SODAR stations are MesoWest stations, not UATAQ sites, so they are not part of
-the :doc:`configuration </config>` and are read directly with :class:`Sodar`
+the :doc:`configuration </reference/config>` and are read directly with :class:`Sodar`
 rather than through :func:`uataq.read_data`. Profiles are returned as an
 :class:`xarray.Dataset` with dimensions ``(Time_UTC, level)``.
 

@@ -25,7 +25,7 @@ SODAR) are in [docs/contributing.rst](docs/contributing.rst).
 
 - **`config.json` is the source of truth** for sites and instruments. A new
   site or instrument is a config entry (plus a parser if the model is new),
-  never a hard-coded case. `docs/config.rst` documents its keys.
+  never a hard-coded case. `docs/reference/config.rst` documents its keys.
 - **`installation_date`, `removal_date` and `group_dates` are instants**
   (`pd.to_datetime`; a date alone is midnight UTC) and windows are half-open.
   So a `removal_date` is **the midnight after the last sample** at any level;
@@ -69,7 +69,7 @@ SODAR) are in [docs/contributing.rst](docs/contributing.rst).
   exclude a sample exactly at `stop` (`.loc[start:stop]` alone is inclusive).
   A string stop is the end of the period it names (`"2024"` stops at
   2025-01-01). If time semantics change, change `timerange.py` and every
-  public docstring that describes them (`docs/input_parameters.rst` too).
+  public docstring that describes them (`docs/reference/input_parameters.rst` too).
 - **Never write to the data archives.** uataq only reads.
 - **`laboratory` is shared**: don't mutate `laboratory.sites`.
 - **`import uataq` stays light.** `uataq.sodar` (the only xarray user) is not
@@ -141,10 +141,11 @@ What keeps CI green:
 ## Docs
 
 **Each page answers one question a student has, and each fact is written on
-one page; other pages link to it.** The front page (`docs/index.rst`) lists the
-pages in the order a student asks them, in captioned groups. A new fact goes on the
-page that holds its kind; a new page needs a question no page answers, and goes
-in one group. A change that moves a fact or renames or retitles a page updates
+one page; other pages link to it.** The front page (`docs/index.rst`) lists four
+sections, the navbar: Getting started, Guides, Reference (folders of `docs/`,
+each with an `index.rst` listing its pages in the order a student asks them),
+and Contributing. A new fact goes on the page that holds its kind; a new page
+needs a question no page answers, and goes in one section's folder and index. A change that moves a fact or renames or retitles a page updates
 its row in the table in `docs/contributing.rst` ("Writing the docs").
 
 - **The build fails on any warning** (`-W`). It loads intersphinx inventories,

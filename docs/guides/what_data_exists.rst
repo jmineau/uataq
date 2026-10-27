@@ -11,12 +11,12 @@ What data exists
     The archive keeps growing, so the dates at the end of the data, and how
     long a call takes, will have moved on by the time you read this.
 
-Before you read data, find out what there is. The :doc:`sites_and_instruments`
+Before you read data, find out what there is. The :doc:`/reference/sites_and_instruments`
 page says which sites and instruments exist, what each measures and when each
 was installed, as tables and :ref:`in code <sites-in-code>`. That is what the
 sites were set up to measure, and it does not say there is data. This page shows
 the calls that answer the next questions, when the sites have data and whether
-anything is recent. When the answer is "nothing", :doc:`errors` says what each
+anything is recent. When the answer is "nothing", :doc:`/guides/errors` says what each
 error means.
 
 .. list-table::
@@ -26,7 +26,7 @@ error means.
    * - I want to know
      - Use
    * - Which sites measure CH4?
-     - The :doc:`sites_and_instruments` tables, or ``Network("all", "CH4")``
+     - The :doc:`/reference/sites_and_instruments` tables, or ``Network("all", "CH4")``
    * - What a site measures, and since when
      - The same tables, or ``get_site("WBB").pollutants`` and ``.instruments``
    * - When a site has data, and at which level
@@ -36,7 +36,7 @@ error means.
    * - One pollutant from several sites in one table
      - :func:`get_network_obs`, shown under :ref:`several-sites`
    * - Why a read failed or came back empty
-     - :doc:`errors`
+     - :doc:`/guides/errors`
 
 When a site has data
 --------------------
@@ -131,7 +131,7 @@ has no final CO2 for August 2021:
     2  WBB  final 2021-09-01 2022-01-01
 
 :func:`get_obs` always reads the final level, so it has nothing to return for
-that month (see :doc:`errors`).
+that month (see :doc:`/guides/errors`).
 
 A level has data in a bin when a row has a value in a ``_cal`` or a ``_raw``
 column (see :ref:`column-names`), the columns :meth:`Network.get_obs` returns.
@@ -223,7 +223,7 @@ along the bottom, and a bar wherever there is data, shaded by level. It needs
 matplotlib. Pass it the table you already have, so a change of style does not
 read the archive again.
 
-.. figure:: _static/co2_availability.png
+.. figure:: /_static/co2_availability.png
    :alt: Bars for each of 19 sites showing when it has CO2 data, mostly at the
          final level, with short qaqc-only stretches and WBB's first year as
          qaqc only.
@@ -265,4 +265,4 @@ such as ``"3D"``, ``"3 days"`` or ``"12h"``:
 The last row is the newest data the archive holds at that level. This run was at
 02:15 UTC on 12 October, and the newest WBB CO2 row was from 00:42 UTC the same
 day, so the data were about an hour and a half behind. A site that has stopped
-reporting has nothing recent and raises an error (HDP, under :doc:`errors`).
+reporting has nothing recent and raises an error (HDP, under :doc:`/guides/errors`).

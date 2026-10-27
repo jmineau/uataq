@@ -11,7 +11,7 @@ Reading data
     CHPC on 14 October 2026.
 
 For a walk-through from a site to a month of data in local time and a plot,
-start with :doc:`first_month`. This page shows the other ways to read: each
+start with :doc:`/getting_started/first_month`. This page shows the other ways to read: each
 instrument's data on its own, all of a site's observations in one table, one
 pollutant from several sites, and the mobile sites.
 
@@ -79,7 +79,7 @@ The dataframes are indexed by time and have columns for each variable:
 
 Here ``lgr_ugga`` is indexed by ``Time_UTC`` and its columns are
 ``CO2d_ppm_cal``, ``CO2d_ppm_raw``, ``CH4d_ppm_cal``, ``CH4d_ppm_raw`` and
-``H2O_ppm``. The columns of each level are on the :doc:`columns` page.
+``H2O_ppm``. The columns of each level are on the :doc:`/reference/columns` page.
 
 Getting Observations
 --------------------
@@ -94,7 +94,7 @@ the instruments into a single dataframe:
     obs.head()
 
 :ref:`What the final level keeps <what-final-keeps>` is explained on the
-:doc:`columns` page, with the check that proves it. That page also says what
+:doc:`/reference/columns` page, with the check that proves it. That page also says what
 each column of each level holds.
 The observations dataframe is indexed by time and aggregates pollutants into a single dataframe.
 Two formats are available: ``wide`` or ``long``.
