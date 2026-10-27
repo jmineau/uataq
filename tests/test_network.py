@@ -10,7 +10,7 @@ import geopandas as gpd
 import pandas as pd
 import pytest
 
-from uataq import Network, errors, get_site, instruments, sites
+from uataq import Network, errors, get_site, instruments, laboratory, sites
 from uataq.network import _datafile_coverage
 from uataq.timerange import TimeRange
 
@@ -67,7 +67,7 @@ class TestNetworkInitialization:
 
     def test_network_no_valid_sites(self):
         """Test that error is raised if no sites measure the pollutant."""
-        with pytest.raises(ValueError, match="No sites found"):
+        with pytest.raises(ValueError, match="None of the sites given"):
             Network(sites=["NONEXISTENT"], pollutant="CO2")
 
     def test_no_valid_sites_lists_the_sites_that_measure_it(self):
@@ -77,7 +77,7 @@ class TestNetworkInitialization:
 
         message = str(caught.value)
         assert message.startswith(
-            "No sites found that measure pollutant 'O3'. Sites that measure it: "
+            "None of the sites given (CSP) measure O3. Sites that measure it: "
         )
         listed = message.split(": ", 1)[1].rstrip(".").split(", ")
         assert "WBB" in listed
@@ -89,7 +89,18 @@ class TestNetworkInitialization:
             Network(sites=["WBB"], pollutant="nh3")
 
         assert str(caught.value) == (
-            "No sites found that measure pollutant 'NH3'. "
+            "None of the sites given (WBB) measure NH3. "
+            "No site in the configuration measures it."
+        )
+
+    def test_no_valid_sites_with_many_sites_gives_their_number(self):
+        """A long list of sites given is counted, not printed."""
+        with pytest.raises(ValueError) as caught:
+            Network(sites="all", pollutant="nh3")
+
+        n = len(laboratory.sites)
+        assert str(caught.value) == (
+            f"None of the {n} sites given measure NH3. "
             "No site in the configuration measures it."
         )
 
