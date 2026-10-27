@@ -232,7 +232,7 @@ def filter_datafiles(
             "period": [file.period for file in files],
         }
     )
-    df = df.set_index("period").sort_index()
+    df = df.set_index("period").sort_index(kind="stable")
 
     # Filter by time range
     filtered_files = df.loc[time_range.start : time_range.stop, "file"].tolist()
@@ -386,7 +386,11 @@ def parse_datafiles(
         data = pd.concat(parsed)
 
         # Set time as index and filter to time_range
-        data = data.dropna(subset="Time_UTC").set_index("Time_UTC").sort_index()
+        data = (
+            data.dropna(subset="Time_UTC")
+            .set_index("Time_UTC")
+            .sort_index(kind="stable")
+        )
         data = data.loc[time_range.start : time_range.stop]
         if time_range.stop is not None:
             # .loc is inclusive, but time ranges are half-open [start, stop):

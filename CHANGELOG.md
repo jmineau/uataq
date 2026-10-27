@@ -22,6 +22,13 @@ follow [PEP 440](https://peps.python.org/pep-0440/): calendar-based,
   space, not a link to it in another group space. The data read are the same.
   `LinGroup.data_dir` is now a property.
 
+### Fixed
+
+- Rows that share a timestamp keep their file order in every session. A read
+  sorts its rows stably, and so does the list of files in one period. The
+  default sort could swap them, as it can for TRX01's `lgr_ugga_manual_cal`
+  qaqc files, which repeat about 1,400 timestamps a month.
+
 ## [2026.10.1] - 2026-10-27
 
 ### Added
