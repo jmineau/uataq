@@ -18,11 +18,14 @@ platform.
 
 Examples
 --------
-The example reads the archive, so the docs build does not run it.
+The example reads the archive, so neither the docs build nor the tests run it
+(`# doctest: +SKIP`).
 
 >>> import uataq
->>> gps = uataq.read_data("trx01", instruments="gps", time_range="2017-03")["gps"]
->>> moving = gps[gps.Speed_m_s > 1.0]  # works in the GPGGA-only years too
+>>> data = uataq.read_data("trx01", "gps", time_range="2017-03")  # doctest: +SKIP
+>>> gps = data["gps"]  # doctest: +SKIP
+>>> # Speed_m_s is filled in the GPGGA-only years too
+>>> moving = gps[gps.Speed_m_s > 1.0]  # doctest: +SKIP
 """
 
 from __future__ import annotations
