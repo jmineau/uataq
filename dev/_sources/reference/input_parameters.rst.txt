@@ -18,7 +18,7 @@ SID
 
 ``SID`` is the site identifier for a UATAQ site.
 It is a key in the configuration file, such as ``WBB``; case does not matter.
-The :doc:`sites_and_instruments` page lists them.
+The :doc:`/reference/sites_and_instruments` page lists them.
 
 .. _input-instruments:
 
@@ -27,7 +27,7 @@ Instruments
 
 ``instruments`` is a single instrument name or a list of instrument names.
 The instrument name is a key under the site's ``instruments`` in the configuration
-(listed on the :doc:`sites_and_instruments` page).
+(listed on the :doc:`/reference/sites_and_instruments` page).
 
 .. _input-pollutants:
 
@@ -52,7 +52,7 @@ or a mapping of instrument name to group name to choose per instrument.
 With ``group=None`` (the default), each instrument picks its own group: the
 default group (``lin``) when it operates the instrument, otherwise the
 configured operator. When the groups' archives cover different periods (the
-instrument's ``group_dates`` in the :doc:`configuration <config>`), a time
+instrument's ``group_dates`` in the :doc:`configuration </reference/config>`), a time
 range that crosses a boundary is read from each group in turn and the pieces
 are concatenated in time. For example, TRX01 ozone comes from lin through
 October 2017 and from horel after that. Naming a group reads the whole range
@@ -79,8 +79,8 @@ are doing, and on how much control you want over the QAQC.
 
 :func:`get_obs` always reads the ``final`` level. :func:`read_data` reads the
 level you give it. With no ``lvl`` it reads the highest (most processed) level
-the instrument has. :doc:`first_month` shows the same day at ``final`` and at
-``qaqc``, and :doc:`columns` says what each level holds.
+the instrument has. :doc:`/getting_started/first_month` shows the same day at ``final`` and at
+``qaqc``, and :doc:`/reference/columns` says what each level holds.
 
 .. _input-time-range:
 
@@ -89,7 +89,7 @@ Time Range
 
 ``time_range`` filters the returned data to the specified time range.
 Times are UTC, and so are the times in the data. To read a month in local
-time, see :doc:`first_month`.
+time, see :doc:`/getting_started/first_month`.
 
 There are three primary formats for ``time_range``:
 

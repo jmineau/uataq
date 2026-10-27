@@ -8,47 +8,22 @@ Utah Atmospheric Trace-gas and Air Quality (UATAQ)
 uataq reads UATAQ data: the greenhouse-gas and air-quality measurements from
 fixed sites and from TRAX trains and buses, out of the archives that the Lin and
 Horel research groups keep on CHPC. It is written for members of the groups who
-work on CHPC, where the archive is. Start with :doc:`installation`, then
-:doc:`first_month`.
+work on CHPC, where the archive is. Start with
+:doc:`/getting_started/installation`, then :doc:`/getting_started/first_month`.
+
+- :doc:`getting_started/index`: install uataq and read your first month
+- :doc:`guides/index`: find out what data exists, read it, and what to do when
+  a read comes back empty
+- :doc:`reference/index`: the sites, columns, arguments and configuration, and
+  every function and class
+- :doc:`contributing`: how uataq is laid out, and how to add an instrument or
+  change the docs
 
 .. toctree::
-   :maxdepth: 1
-   :caption: Getting started
+   :maxdepth: 2
+   :hidden:
 
-   installation
-   first_month
-
-.. toctree::
-   :maxdepth: 1
-   :caption: Guides
-
-   what_data_exists
-   reading_data
-   errors
-
-.. toctree::
-   :maxdepth: 1
-   :caption: Reference
-
-   sites_and_instruments
-   columns
-   input_parameters
-   config
-
-.. toctree::
-   :maxdepth: 1
-   :caption: API reference
-
-   functions_and_modules
-
-.. toctree::
-   :maxdepth: 1
-
+   getting_started/index
+   guides/index
+   reference/index
    contributing
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`

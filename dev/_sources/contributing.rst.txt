@@ -84,30 +84,32 @@ change that moves a fact, or renames or retitles a page, updates its row here.
    * - Fact
      - Page
    * - Install, environments, Slurm
-     - :doc:`installation`
+     - :doc:`/getting_started/installation`
    * - A first read, in local time
-     - :doc:`first_month`
+     - :doc:`/getting_started/first_month`
    * - When a site has data, the newest data
-     - :doc:`what_data_exists`
+     - :doc:`/guides/what_data_exists`
    * - ``read_data`` and ``get_obs``, the ``long`` format, several sites, mobile sites
-     - :doc:`reading_data`
+     - :doc:`/guides/reading_data`
    * - Errors and empty results
-     - :doc:`errors`
+     - :doc:`/guides/errors`
    * - Sites, instruments, what each measures, glossary
-     - :doc:`sites_and_instruments`
+     - :doc:`/reference/sites_and_instruments`
    * - Columns of each level, column names, ``ID``, flags, what ``final`` keeps, empty ``_cal``
-     - :doc:`columns`
+     - :doc:`/reference/columns`
    * - Arguments: site, instruments, group, level, time range (every form), processes
-     - :doc:`input_parameters`
+     - :doc:`/reference/input_parameters`
    * - Config keys
-     - :doc:`config`
+     - :doc:`/reference/config`
    * - Developer notes
      - Contributing (this page)
    * - Function and class details, what a module is for
-     - the docstrings, on the generated API pages (:doc:`functions_and_modules`)
+     - the docstrings, on the generated API pages (:doc:`/reference/functions_and_modules`)
 
-The front page (``docs/index.rst``) lists the pages in these captioned groups:
-Getting started, Guides, Reference, API reference, then Contributing.
+The front page (``docs/index.rst``) lists four sections, which are the navbar:
+Getting started, Guides and Reference (each a folder of ``docs/`` with an
+``index.rst`` that lists its pages, in the left sidebar) and this page. A new page
+goes in the folder of its section and on that section's ``index.rst``.
 
 **Examples that run in the build.** In an ``.. ipython:: python`` block, ``@savefig
 name.png`` above a plot keeps the figure, and ``:okexcept:`` or ``:okwarning:``
@@ -119,13 +121,13 @@ archive: reading data, what data exists, errors, your first month, columns and
 input parameters.
 
 **The site and instrument tables are generated.** The ``site-catalog`` and
-``instrument-catalog`` directives in ``docs/sites_and_instruments.rst``
+``instrument-catalog`` directives in ``docs/reference/sites_and_instruments.rst``
 (``docs/_ext/catalog.py``) build them from ``uataq.laboratory`` and
 ``uataq.instruments.catalog`` on every build.
 
-**The API reference is generated.** ``docs/functions_and_modules.rst`` lists the
-functions and modules, and each module, class, function and class member gets a page
-in ``docs/api/`` (gitignored; a ``:toctree:`` pointing outside ``docs/`` litters the
+**The API reference is generated.** ``docs/reference/functions_and_modules.rst``
+lists the functions and modules, and each module, class, function and class member gets
+a page in ``docs/api/`` (gitignored; a ``:toctree:`` pointing outside ``docs/`` litters the
 repo root). A module's docstring is its page's text. ``docs/_templates/autosummary/``
 and ``docs/_ext/api_pages.py`` (from python-template, which keeps class members from
 being described twice) build the pages.

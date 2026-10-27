@@ -83,7 +83,7 @@ Instrument inactive
 
 The instrument was not installed at the site in that range. Its window is its
 ``active_range`` (see :ref:`The same in code <sites-in-code>`, on the
-:doc:`sites_and_instruments` page). A range that only touches the window, such
+:doc:`/reference/sites_and_instruments` page). A range that only touches the window, such
 as one that ends the day the instrument was installed, counts as outside it. A
 range that overlaps the window only in part is cut down to it, with no error.
 
@@ -236,7 +236,7 @@ A level the instrument does not have
 Not every instrument has every level, and the message lists the ones this
 instrument has, from least to most processed. Only the lin group's CO2 and CH4
 analyzers have a ``calibrated`` level, and not TRX01's ``lgr_ugga_manual_cal``
-(see :doc:`columns`), so every other instrument, and every instrument in the
+(see :doc:`/reference/columns`), so every other instrument, and every instrument in the
 horel archive, gives this error for it. Leave ``lvl`` out to read the highest
 level the instrument has.
 
