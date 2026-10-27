@@ -7,8 +7,6 @@ follow [PEP 440](https://peps.python.org/pep-0440/): calendar-based,
 
 ## [Unreleased]
 
-## [2026.10.1] - 2026-10-27
-
 ### Added
 
 - `LINGROUP_MEASUREMENTS_DIR` sets the Lin group's measurements root when it is
@@ -17,6 +15,17 @@ follow [PEP 440](https://peps.python.org/pep-0440/): calendar-based,
   read at import. `groupspaces.lin.MEASUREMENTS_DIR`, `CONFIG_DIR` and `DATA_DIR`
   keep their names and follow the variable. A value that is not a directory
   raises `FileNotFoundError` naming the variable.
+
+### Changed
+
+- The default Lin group measurements root is the group's dedicated measurements
+  space, not a link to it in another group space. The data read are the same.
+  `LinGroup.data_dir` is now a property.
+
+## [2026.10.1] - 2026-10-27
+
+### Added
+
 - Raw horel reads take the `*.h5_prior405upgrade` file of a month beside its
   `.h5`. horel split the raw files of the month of each MetOne ES642-to-ES405
   swap (BUS02 2025-03, BUS03 2024-12, TRX01, TRX02 and TRX03 2025-01): the rows
@@ -28,9 +37,6 @@ follow [PEP 440](https://peps.python.org/pep-0440/): calendar-based,
 
 ### Changed
 
-- The default Lin group measurements root is the group's dedicated measurements
-  space, not a link to it in another group space. The data read are the same.
-  `LinGroup.data_dir` is now a property.
 - Docs: rewritten for a new student and organized by task, with no redirects
   from the old addresses. The navbar has four sections, Getting started,
   Guides, Reference and Contributing, each a folder of pages, and the front page
