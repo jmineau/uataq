@@ -830,7 +830,7 @@ class GPS(Instrument):
         if "Speed_kt" in data.columns:
             # convert knots to m/s
             data["Speed_kt"] = data.Speed_kt * 0.514444
-            data.rename(columns={"Speed_kt": "Speed_m_s"}, inplace=True)
+            data = data.rename(columns={"Speed_kt": "Speed_m_s"})
 
         if group == "horel" and "Instrument_Time" in data.columns:
             # horel's Time_UTC is the CR1000 logger's clock, which runs ahead

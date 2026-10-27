@@ -440,17 +440,17 @@ class HorelCSVFile(HorelFile):
             if "GPS_Data_Flagged" in data.columns:
                 # GPS_Data_Flagged == 1 indicates if the vehicle is in/near storage
                 data.loc[data.GPS_Data_Flagged == 1, "QAQC_Flag"] = 20
-                data.drop(columns=["GPS_Data_Flagged"], inplace=True)
+                data = data.drop(columns=["GPS_Data_Flagged"])
             if "GPS_RMC_Valid" in data.columns:
                 # RMC Status message (valid: ['A', 1]; invalid: ['V', 0])
                 data.loc[data.GPS_RMC_Valid == 0, "QAQC_Flag"] = -23
-                data.drop(columns=["GPS_RMC_Valid"], inplace=True)
+                data = data.drop(columns=["GPS_RMC_Valid"])
 
         for flag in ["Ozone_Data_Flagged", "PM2.5_Data_Flagged"]:
             if flag in data.columns:
                 # Replace 1 with -1 (negative flag means bad data)
                 data[flag] = data[flag].replace(1, -1)
-                data.rename(columns={flag: "QAQC_Flag"}, inplace=True)
+                data = data.rename(columns={flag: "QAQC_Flag"})
 
         return data
 
@@ -729,7 +729,8 @@ class HorelGroup(filesystem.GroupSpace):
 
             # Replace ITMP with instrument-specific column name
             new_col = mapping["ITMP"][:-1] + "C"
-            data.rename(columns={"ITMP": new_col}, inplace=True)
+            # Assigning `columns` renames the caller's `data` itself
+            data.columns = [new_col if c == "ITMP" else c for c in data.columns]
 
         return data.rename(columns=mapping)
 

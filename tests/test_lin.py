@@ -926,6 +926,25 @@ class TestStandardizeData:
         assert out["O3_ppb_std"].tolist() == [0.4]
         assert out["O3_ppb"].tolist() == [41.0]
 
+    def test_edits_the_callers_frame(self):
+        """Drops and renames change the frame passed in, not a copy."""
+        gps = pd.DataFrame(
+            {
+                "latitude_dm": [4039.165],
+                "n_s": ["N"],
+                "longitude_dm": [11155.9945],
+                "e_w": ["W"],
+            }
+        )
+        lin.LinGroup.standardize_data("gps", gps)
+        assert not {"latitude_dm", "longitude_dm", "n_s", "e_w"} & set(gps.columns)
+        flow = pd.DataFrame({"flow_ccpm": [1500.0]})
+        lin.LinGroup.standardize_data("2b_205", flow)
+        assert list(flow.columns) == ["Flow_Lpm"]
+        pm = pd.DataFrame({"pm25_mgm3": [0.012]})
+        lin.LinGroup.standardize_data("metone_es642", pm)
+        assert list(pm.columns) == ["PM2.5_ugm3"]
+
     def test_unknown_instrument_is_unchanged(self):
         data = pd.DataFrame({"x": [1.0]})
         assert lin.LinGroup.standardize_data("no_such_instrument", data).equals(data)

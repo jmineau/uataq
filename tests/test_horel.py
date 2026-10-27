@@ -276,6 +276,13 @@ class TestStandardizeData:
         assert "ITMP" not in out.columns
         assert "PM2.5_ugm3" in out.columns
 
+    def test_renames_the_callers_frame(self):
+        """The temperature rename edits the frame passed in, not a copy."""
+        data = pd.DataFrame({"ITMP": [32.0], "PM25": [1.0]})
+        horel.HorelGroup.standardize_data("metone_es405", data)
+        assert "Internal_T_C" in data.columns
+        assert "ITMP" not in data.columns
+
     def test_csv_and_h5_codes_meet(self):
         """The 2B405's raw codes and CSV names give the same columns."""
         raw = pd.DataFrame(columns=["NO1C", "NO2C", "NOXC", "FO3N"])
