@@ -7,6 +7,21 @@ follow [PEP 440](https://peps.python.org/pep-0440/): calendar-based,
 
 ## [Unreleased]
 
+### Added
+
+- `LINGROUP_MEASUREMENTS_DIR` sets the Lin group's measurements root when it is
+  set and not empty. It is read each time a path is needed, so setting it after
+  `import uataq` works, except for the pipeline configuration files, which are
+  read at import. `groupspaces.lin.MEASUREMENTS_DIR`, `CONFIG_DIR` and `DATA_DIR`
+  keep their names and follow the variable. A value that is not a directory
+  raises `FileNotFoundError` naming the variable.
+
+### Changed
+
+- The default Lin group measurements root is the group's dedicated measurements
+  space, not a link to it in another group space. The data read are the same.
+  `LinGroup.data_dir` is now a property.
+
 ## [2026.10.1] - 2026-10-27
 
 ### Added

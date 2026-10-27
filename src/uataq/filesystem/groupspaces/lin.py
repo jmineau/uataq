@@ -23,12 +23,65 @@ _logger = logging.getLogger(__name__)
 
 # TODO: check for reprocessing
 
-#: Directory for Lin group measurements.
-MEASUREMENTS_DIR: str = os.path.join(filesystem.HOME, "lin-group20", "measurements")
-#: Directory for Lin group pipeline configuration.
-CONFIG_DIR: str = os.path.join(MEASUREMENTS_DIR, "pipeline", "config")
-#: Directory for Lin group data.
-DATA_DIR: str = os.path.join(MEASUREMENTS_DIR, "data")
+# The Lin group's measurements root. ``LINGROUP_MEASUREMENTS_DIR`` overrides the
+# default, and is read each time a path is needed (not at import), so setting it
+# after ``import uataq`` works. MEASUREMENTS_DIR, CONFIG_DIR and DATA_DIR are
+# module attributes computed by ``__getattr__`` below, so they follow the
+# variable; the annotations keep their documentation.
+_MEASUREMENTS_ENV: str = "LINGROUP_MEASUREMENTS_DIR"
+_DEFAULT_MEASUREMENTS_DIR: str = os.path.join(
+    filesystem.HOME, "lin-group25", "measurements"
+)
+
+
+def _measurements_dir() -> str:
+    """
+    Return the measurements root: ``LINGROUP_MEASUREMENTS_DIR`` if set, else the default.
+
+    Raise FileNotFoundError, naming the variable, when it is set to a path that is
+    not a directory. The default is not checked: off-cluster it does not exist, and
+    the readers say so when they need it.
+    """
+    path = os.environ.get(_MEASUREMENTS_ENV)
+    if not path:
+        return _DEFAULT_MEASUREMENTS_DIR
+    if not os.path.isdir(path):
+        raise FileNotFoundError(
+            f"{_MEASUREMENTS_ENV} is set to '{path}', which is not a directory."
+        )
+    return path
+
+
+def _config_dir() -> str:
+    """Return the pipeline configuration directory under the measurements root."""
+    return os.path.join(_measurements_dir(), "pipeline", "config")
+
+
+def _data_dir() -> str:
+    """Return the data directory under the measurements root."""
+    return os.path.join(_measurements_dir(), "data")
+
+
+MEASUREMENTS_DIR: str  #: Directory for Lin group measurements: ``LINGROUP_MEASUREMENTS_DIR`` if set, else the dedicated space.
+CONFIG_DIR: str  #: Directory for Lin group pipeline configuration, ``pipeline/config`` under ``MEASUREMENTS_DIR``.
+DATA_DIR: str  #: Directory for Lin group data, ``data`` under ``MEASUREMENTS_DIR``.
+
+_DIRS = {
+    "MEASUREMENTS_DIR": _measurements_dir,
+    "CONFIG_DIR": _config_dir,
+    "DATA_DIR": _data_dir,
+}
+
+
+def __getattr__(name: str) -> str:
+    if name in _DIRS:
+        return _DIRS[name]()
+    raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
+
+
+def __dir__() -> list[str]:
+    return sorted([*globals(), *_DIRS])
+
 
 #: Where the pipeline configuration is fetched from off-cluster.
 CONFIG_URL: str = "https://raw.githubusercontent.com/uataq/data-pipeline/main/config"
@@ -38,12 +91,12 @@ CONFIG_FETCH_TIMEOUT: float = 10
 
 def _read_config(name: str) -> io.StringIO:
     """
-    Read a pipeline config file from CONFIG_DIR, or fetch it off-cluster.
+    Read a pipeline config file from the config directory, or fetch it off-cluster.
 
     The fetch has a timeout, so a slow or missing network fails the import
     with a clear message instead of hanging it.
     """
-    path = os.path.join(CONFIG_DIR, name)
+    path = os.path.join(_config_dir(), name)
     if os.path.exists(path):
         with open(path) as f:
             return io.StringIO(f.read())
@@ -409,7 +462,7 @@ class LinDatFile(filesystem.DataFile):
         pd.DataFrame
             The parsed data.
         """
-        _logger.debug(f"Parsing {filesystem._relpath(self.path, DATA_DIR)}")
+        _logger.debug(f"Parsing {filesystem._relpath(self.path, _data_dir())}")
 
         first_field = _read_lines(self.path, first=1)[0].split(",")[0]
 
@@ -672,7 +725,7 @@ class LGR_UGGA_File(filesystem.DataFile):
         pd.DataFrame
             The parsed data.
         """
-        _logger.debug(f"Parsing {filesystem._relpath(self.path, DATA_DIR)}")
+        _logger.debug(f"Parsing {filesystem._relpath(self.path, _data_dir())}")
 
         # Adapt column names depending on LGR software version.
         #  2013-2014 version has 23 columns
@@ -812,7 +865,7 @@ class AirTrendFile(filesystem.DataFile):
         pd.DataFrame
             The parsed data.
         """
-        _logger.debug(f"Parsing {filesystem._relpath(self.path, DATA_DIR)}")
+        _logger.debug(f"Parsing {filesystem._relpath(self.path, _data_dir())}")
 
         data_config = DATA_CONFIG[self.config["instrument"]][self.config["lvl"]]
 
@@ -855,8 +908,6 @@ class LinGroup(filesystem.GroupSpace):
         The group name.
     datafiles : dict[str, Type[DataFile]]
         A dictionary mapping datafile keys to DataFile classes.
-    data_dir : str
-        The path to the data directory.
     data_config : dict
         The data configuration.
 
@@ -885,13 +936,17 @@ class LinGroup(filesystem.GroupSpace):
         "lgr_ugga": LGR_UGGA_File,
     }
 
-    data_dir = DATA_DIR
     data_config = deepcopy(DATA_CONFIG)
+
+    @property
+    def data_dir(self) -> str:
+        """The Lin group data directory, under ``LINGROUP_MEASUREMENTS_DIR`` when it is set."""
+        return _data_dir()
 
     @staticmethod
     def get_lvls(SID: str, instrument: str) -> list[str]:
         """Return the levels with a folder on disk for the instrument, lowest first."""
-        path = os.path.join(DATA_DIR, SID.lower(), instrument)
+        path = os.path.join(_data_dir(), SID.lower(), instrument)
         inst_lvls = [d for d in os.listdir(path) if d in filesystem.lvls]
         return sorted(inst_lvls, key=filesystem.lvls.__getitem__)
 
@@ -914,7 +969,7 @@ class LinGroup(filesystem.GroupSpace):
         str
             The path to the data directory.
         """
-        return os.path.join(DATA_DIR, SID.lower(), instrument, lvl)
+        return os.path.join(_data_dir(), SID.lower(), instrument, lvl)
 
     def get_files(
         self, SID: str, instrument: str, lvl: str, logger: str = "campbellsci"

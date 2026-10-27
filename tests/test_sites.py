@@ -1167,13 +1167,11 @@ class TestNoDataMessage:
         )
         assert "horel groupspace" in str(e.value)
 
-    def test_through_the_files_on_disk(self, tmp_path, monkeypatch):
+    def test_through_the_files_on_disk(self, lin_data_dir):
         """No file in the month: the real message, built from file names alone."""
         import uataq
-        from uataq.filesystem.groupspaces import lin
 
-        monkeypatch.setattr(lin, "DATA_DIR", str(tmp_path))
-        final = tmp_path / "wbb" / "lgr_ugga" / "final"
+        final = lin_data_dir / "wbb" / "lgr_ugga" / "final"
         final.mkdir(parents=True)
         for month in ["2021_07", "2021_09", "2021_10"]:
             (final / f"{month}_final.dat").touch()
@@ -1367,13 +1365,12 @@ class TestEmptyResultWarning:
         assert obs["O3_ppb"].tolist() == [2.0, 2.0]
         assert caught == []
 
-    def test_through_the_files_on_disk(self, tmp_path, monkeypatch):
+    def test_through_the_files_on_disk(self, lin_data_dir):
         """A month's file with rows on other days: the real read, slice and warning."""
         import uataq
         from uataq.filesystem.groupspaces import lin
 
-        monkeypatch.setattr(lin, "DATA_DIR", str(tmp_path))
-        final = tmp_path / "wbb" / "teledyne_t400" / "final"
+        final = lin_data_dir / "wbb" / "teledyne_t400" / "final"
         final.mkdir(parents=True)
         (final / "2024_06_final.dat").write_text(
             "Time_UTC,O3_ppb\n2024-06-01 00:00:01,47.2\n2024-06-01 00:00:03,47.1\n"
@@ -1600,18 +1597,17 @@ class TestDroppedPollutantWarning:
 
         assert caught == []
 
-    def test_through_the_files_on_disk(self, tmp_path, monkeypatch):
+    def test_through_the_files_on_disk(self, lin_data_dir):
         """No CO2 file in the month, an ozone file with rows: the real read and warning."""
         import uataq
         from uataq.filesystem.groupspaces import lin
 
-        monkeypatch.setattr(lin, "DATA_DIR", str(tmp_path))
-        o3 = tmp_path / "wbb" / "teledyne_t400" / "final"
+        o3 = lin_data_dir / "wbb" / "teledyne_t400" / "final"
         o3.mkdir(parents=True)
         (o3 / "2024_06_final.dat").write_text(
             "Time_UTC,O3_ppb\n2024-06-04 00:00:01,47.2\n2024-06-04 00:00:03,47.1\n"
         )
-        co2 = tmp_path / "wbb" / "lgr_ugga" / "final"
+        co2 = lin_data_dir / "wbb" / "lgr_ugga" / "final"
         co2.mkdir(parents=True)
         (co2 / "2024_05_final.dat").touch()
         config = {"final": {"col_names": ["Time_UTC", "O3_ppb"], "col_types": "Td"}}
@@ -1639,25 +1635,24 @@ class TestLevelTheInstrumentLacks:
     }
 
     @pytest.fixture
-    def archive(self, tmp_path, monkeypatch):
+    def archive(self, lin_data_dir):
         """WBB ozone with a calibrated month; the NO monitor has no such folder."""
         from uataq.filesystem.groupspaces import lin
 
-        monkeypatch.setattr(lin, "DATA_DIR", str(tmp_path))
         for inst, lvls in [
             ("teledyne_t400", ["raw", "qaqc", "calibrated", "final"]),
             ("teledyne_t200", ["raw", "qaqc", "final"]),
         ]:
             for lvl in lvls:
-                (tmp_path / "wbb" / inst / lvl).mkdir(parents=True)
+                (lin_data_dir / "wbb" / inst / lvl).mkdir(parents=True)
         (
-            tmp_path / "wbb" / "teledyne_t400" / "calibrated" / "2024_06_cal.dat"
+            lin_data_dir / "wbb" / "teledyne_t400" / "calibrated" / "2024_06_cal.dat"
         ).write_text(
             "Time_UTC,O3_ppb\n2024-06-01 00:00:01,47.2\n2024-06-01 00:00:03,47.1\n"
         )
         config = {"calibrated": self.COLUMNS}
         with patch.dict(lin.DATA_CONFIG, {"teledyne_t400": config}):
-            yield tmp_path
+            yield lin_data_dir
 
     @pytest.fixture
     def wbb(self):

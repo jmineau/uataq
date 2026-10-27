@@ -24,7 +24,8 @@ What you need
   CHPC.
 
 That is all. You do not set any environment variable: uataq already knows where
-the archive is.
+the archive is. (To read a copy of it, set ``LINGROUP_MEASUREMENTS_DIR`` to the
+copy's ``measurements`` folder; see :ref:`install-archive-copy`.)
 
 Install
 -------
@@ -33,7 +34,7 @@ Install
 
    .. code-block:: bash
 
-      ls /uufs/chpc.utah.edu/common/home/lin-group20/measurements/data
+      ls /uufs/chpc.utah.edu/common/home/lin-group25/measurements/data
 
    You should see a folder for each site the lin group records (``asb``,
    ``csp``, ``dbk``, and so on through ``wbb``), and a few other folders that
@@ -217,6 +218,28 @@ the Lin group's own set of compute nodes. If ``sbatch`` refuses the account,
 `CHPC's Slurm guide <https://www.chpc.utah.edu/documentation/software/slurm.php>`_
 for the rest.
 
+.. _install-archive-copy:
+
+Reading a copy of the archive
+-----------------------------
+
+uataq reads the Lin group's measurements from the group's dedicated measurements
+space. To read a copy instead (a snapshot kept for a paper, or a test tree), set
+``LINGROUP_MEASUREMENTS_DIR`` to the copy's ``measurements`` folder, the one that
+holds ``data`` and ``pipeline``. Unset or empty, it means the archive itself.
+
+.. code-block:: bash
+
+   export LINGROUP_MEASUREMENTS_DIR=/path/to/measurements
+
+uataq looks the variable up each time it needs a path, so setting it in Python
+after ``import uataq`` works too (``os.environ["LINGROUP_MEASUREMENTS_DIR"] = ...``),
+with one exception: the pipeline's configuration files (``data_config.json`` and
+``site_config.csv``) are read once, when uataq is imported, so set the variable
+before the import if the copy's configuration differs. A value that is not a
+directory raises ``FileNotFoundError`` naming the variable. The Horel group's
+folders have no such variable.
+
 .. _install-errors:
 
 If something goes wrong
@@ -226,6 +249,10 @@ If something goes wrong
    You are on CHPC's system Python 3.6, which cannot install uataq. Run
    ``module load python``, delete the environment if you made it before that
    (``rm -rf ~/venvs/uataq``), and redo steps 2 to 4.
+
+``FileNotFoundError`` saying ``LINGROUP_MEASUREMENTS_DIR`` is not a directory
+   The variable is set to a path that does not exist. Fix the path, or run
+   ``unset LINGROUP_MEASUREMENTS_DIR`` to read the archive itself.
 
 The ``ls`` in step 1, or the read in step 5, fails
    You are probably not in the ``lin`` group yet. Run ``groups`` and see
