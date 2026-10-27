@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>When there is nothing to read &#8212; UATAQ 2026.10.1.dev68+gfe7a8fcd9 documentation</title>
+    <title>When there is nothing to read &#8212; UATAQ 2026.10.1.dev69+ga4d794fc3 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="../_static/documentation_options.js?v=2fe2af42"></script>
+    <script src="../_static/documentation_options.js?v=d0639ada"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -59,7 +59,7 @@
     <link rel="prev" title="Mobile sites" href="mobile_sites.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.1.dev68+gfe7a8fcd9" />
+  <meta name="docsearch:version" content="2026.10.1.dev69+ga4d794fc3" />
   
     
     <script src="../_static/searchtools.js"></script>
@@ -127,7 +127,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.1.dev68+gfe7a8fcd9 documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.1.dev69+ga4d794fc3 documentation</p>
   
 </a></div>
     
@@ -689,15 +689,16 @@ has it:</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">Network</span><span class="p">([</span><span class="s2">&quot;CSP&quot;</span><span class="p">],</span> <span class="s2">&quot;O3&quot;</span><span class="p">)</span>
 <span class="gt">Traceback (most recent call last):</span>
 <span class="w">  </span><span class="c">...</span>
-<span class="gr">ValueError</span>: <span class="n">No sites found that measure pollutant &#39;O3&#39;. Sites that measure it: BUS01, BUS02, BUS03, BUS04, BUS05, BUS06, BUS07, BUS08, BUS09, BUS10, BUS11, BUS12, BUS13, BUS14, BUS15, TRX01, TRX02, TRX03, WBB.</span>
+<span class="gr">ValueError</span>: <span class="n">None of the sites given (CSP) measure O3. Sites that measure it: BUS01, BUS02, BUS03, BUS04, BUS05, BUS06, BUS07, BUS08, BUS09, BUS10, BUS11, BUS12, BUS13, BUS14, BUS15, TRX01, TRX02, TRX03, WBB.</span>
 </pre></div>
 </div>
 <p>A misspelled site, or a site that does not measure the pollutant, is dropped from
 a <code class="docutils literal notranslate"><span class="pre">Network</span></code> without an error. The log warns about a misspelled site; a site
 that does not measure the pollutant is dropped without a warning. Print the
 <code class="docutils literal notranslate"><span class="pre">Network</span></code> to see the sites it kept. If none is left you get the second error,
-which lists the sites in the configuration that measure the pollutant, or says
-that none does. A site named twice, in any case (<code class="docutils literal notranslate"><span class="pre">&quot;WBB&quot;</span></code> and <code class="docutils literal notranslate"><span class="pre">&quot;wbb&quot;</span></code>), is
+which names the sites you gave (only their number when there are more than
+ten), then lists the sites in the configuration that measure the pollutant, or
+says that none does. A site named twice, in any case (<code class="docutils literal notranslate"><span class="pre">&quot;WBB&quot;</span></code> and <code class="docutils literal notranslate"><span class="pre">&quot;wbb&quot;</span></code>), is
 read once.</p>
 <p>If the error is about <code class="docutils literal notranslate"><span class="pre">time_range</span></code> itself, see <a class="reference internal" href="../reference/input_parameters.html#input-time-range"><span class="std std-ref">Time range</span></a>.</p>
 </section>

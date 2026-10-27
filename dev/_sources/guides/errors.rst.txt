@@ -276,14 +276,15 @@ None of the sites had data in the range. The log says why for each site.
     >>> Network(["CSP"], "O3")
     Traceback (most recent call last):
       ...
-    ValueError: No sites found that measure pollutant 'O3'. Sites that measure it: BUS01, BUS02, BUS03, BUS04, BUS05, BUS06, BUS07, BUS08, BUS09, BUS10, BUS11, BUS12, BUS13, BUS14, BUS15, TRX01, TRX02, TRX03, WBB.
+    ValueError: None of the sites given (CSP) measure O3. Sites that measure it: BUS01, BUS02, BUS03, BUS04, BUS05, BUS06, BUS07, BUS08, BUS09, BUS10, BUS11, BUS12, BUS13, BUS14, BUS15, TRX01, TRX02, TRX03, WBB.
 
 A misspelled site, or a site that does not measure the pollutant, is dropped from
 a ``Network`` without an error. The log warns about a misspelled site; a site
 that does not measure the pollutant is dropped without a warning. Print the
 ``Network`` to see the sites it kept. If none is left you get the second error,
-which lists the sites in the configuration that measure the pollutant, or says
-that none does. A site named twice, in any case (``"WBB"`` and ``"wbb"``), is
+which names the sites you gave (only their number when there are more than
+ten), then lists the sites in the configuration that measure the pollutant, or
+says that none does. A site named twice, in any case (``"WBB"`` and ``"wbb"``), is
 read once.
 
 If the error is about ``time_range`` itself, see :ref:`input-time-range`.
