@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>uataq.gps &#8212; UATAQ 2026.10.2.dev2+g2d64742f9 documentation</title>
+    <title>uataq.gps &#8212; UATAQ 2026.10.2.dev4+gd81ad1b15 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="../_static/documentation_options.js?v=fc600bcb"></script>
+    <script src="../_static/documentation_options.js?v=1c5284a1"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -59,7 +59,7 @@
     <link rel="prev" title="uataq.filesystem.groupspaces.lin.LinGroup.standardize_data" href="uataq.filesystem.groupspaces.lin.LinGroup.standardize_data.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.2.dev2+g2d64742f9" />
+  <meta name="docsearch:version" content="2026.10.2.dev4+gd81ad1b15" />
   
     
     <script src="../_static/searchtools.js"></script>
@@ -127,7 +127,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.2.dev2+g2d64742f9 documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.2.dev4+gd81ad1b15 documentation</p>
   
 </a></div>
     
@@ -630,10 +630,13 @@ error 0.4 degrees while moving. Position noise becomes speed noise, so widen
 <a class="reference internal" href="uataq.instruments.GPS.estimate_window.html#uataq.instruments.GPS.estimate_window" title="uataq.instruments.GPS.estimate_window"><code class="xref py py-attr docutils literal notranslate"><span class="pre">estimate_window</span></code></a> before thresholding a stationary
 platform.</p>
 <p class="rubric">Examples</p>
-<p>The example reads the archive, so the docs build does not run it.</p>
+<p>The example reads the archive, so neither the docs build nor the tests run it
+(<cite># doctest: +SKIP</cite>).</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">uataq</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">gps</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">read_data</span><span class="p">(</span><span class="s2">&quot;trx01&quot;</span><span class="p">,</span> <span class="n">instruments</span><span class="o">=</span><span class="s2">&quot;gps&quot;</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="s2">&quot;2017-03&quot;</span><span class="p">)[</span><span class="s2">&quot;gps&quot;</span><span class="p">]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">moving</span> <span class="o">=</span> <span class="n">gps</span><span class="p">[</span><span class="n">gps</span><span class="o">.</span><span class="n">Speed_m_s</span> <span class="o">&gt;</span> <span class="mf">1.0</span><span class="p">]</span>  <span class="c1"># works in the GPGGA-only years too</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">read_data</span><span class="p">(</span><span class="s2">&quot;trx01&quot;</span><span class="p">,</span> <span class="s2">&quot;gps&quot;</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="s2">&quot;2017-03&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gps</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;gps&quot;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Speed_m_s is filled in the GPGGA-only years too</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">moving</span> <span class="o">=</span> <span class="n">gps</span><span class="p">[</span><span class="n">gps</span><span class="o">.</span><span class="n">Speed_m_s</span> <span class="o">&gt;</span> <span class="mf">1.0</span><span class="p">]</span>
 </pre></div>
 </div>
 <p class="rubric">Attributes</p>

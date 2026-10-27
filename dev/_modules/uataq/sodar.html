@@ -6,7 +6,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>uataq.sodar &#8212; UATAQ 2026.10.2.dev2+g2d64742f9 documentation</title>
+    <title>uataq.sodar &#8212; UATAQ 2026.10.2.dev4+gd81ad1b15 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="../../_static/documentation_options.js?v=fc600bcb"></script>
+    <script src="../../_static/documentation_options.js?v=1c5284a1"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -56,7 +56,7 @@
     <link rel="search" title="Search" href="../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.2.dev2+g2d64742f9" />
+  <meta name="docsearch:version" content="2026.10.2.dev4+gd81ad1b15" />
   
     
     <script src="../../_static/searchtools.js"></script>
@@ -124,7 +124,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.2.dev2+g2d64742f9 documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.2.dev4+gd81ad1b15 documentation</p>
   
 </a></div>
     
@@ -449,10 +449,12 @@
 
 <span class="sd">Examples</span>
 <span class="sd">--------</span>
+<span class="sd">The examples read the archive, so the tests do not run them.</span>
+
 <span class="sd">&gt;&gt;&gt; from uataq.sodar import Sodar</span>
-<span class="sd">&gt;&gt;&gt; sodar = Sodar(&quot;USDR1&quot;)</span>
-<span class="sd">&gt;&gt;&gt; data = sodar.read_data(time_range=[&quot;2019-01-01&quot;, &quot;2019-01-31&quot;])</span>
-<span class="sd">&gt;&gt;&gt; winds = Sodar.get_winds_at_height(data, height=100)</span>
+<span class="sd">&gt;&gt;&gt; sodar = Sodar(&quot;USDR1&quot;)  # doctest: +SKIP</span>
+<span class="sd">&gt;&gt;&gt; data = sodar.read_data(time_range=[&quot;2019-01-01&quot;, &quot;2019-01-31&quot;])  # doctest: +SKIP</span>
+<span class="sd">&gt;&gt;&gt; winds = Sodar.get_winds_at_height(data, height=100)  # doctest: +SKIP</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">dt</span>

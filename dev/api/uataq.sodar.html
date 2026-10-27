@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>uataq.sodar &#8212; UATAQ 2026.10.2.dev2+g2d64742f9 documentation</title>
+    <title>uataq.sodar &#8212; UATAQ 2026.10.2.dev4+gd81ad1b15 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="../_static/documentation_options.js?v=fc600bcb"></script>
+    <script src="../_static/documentation_options.js?v=1c5284a1"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -59,7 +59,7 @@
     <link rel="prev" title="uataq.timerange.TimeRange.parse_iso" href="uataq.timerange.TimeRange.parse_iso.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.2.dev2+g2d64742f9" />
+  <meta name="docsearch:version" content="2026.10.2.dev4+gd81ad1b15" />
   
     
     <script src="../_static/searchtools.js"></script>
@@ -127,7 +127,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.2.dev2+g2d64742f9 documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.2.dev4+gd81ad1b15 documentation</p>
   
 </a></div>
     
@@ -632,6 +632,7 @@ the <a class="reference internal" href="../reference/config.html"><span class="d
 rather than through <a class="reference internal" href="uataq.read_data.html#uataq.read_data" title="uataq.read_data"><code class="xref py py-func docutils literal notranslate"><span class="pre">uataq.read_data()</span></code></a>. Profiles are returned as an
 <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2026.9.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a> with dimensions <code class="docutils literal notranslate"><span class="pre">(Time_UTC,</span> <span class="pre">level)</span></code>.</p>
 <p class="rubric">Examples</p>
+<p>The examples read the archive, so the tests do not run them.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">uataq.sodar</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sodar</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sodar</span> <span class="o">=</span> <span class="n">Sodar</span><span class="p">(</span><span class="s2">&quot;USDR1&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">sodar</span><span class="o">.</span><span class="n">read_data</span><span class="p">(</span><span class="n">time_range</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;2019-01-01&quot;</span><span class="p">,</span> <span class="s2">&quot;2019-01-31&quot;</span><span class="p">])</span>
