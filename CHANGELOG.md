@@ -7,6 +7,8 @@ follow [PEP 440](https://peps.python.org/pep-0440/): calendar-based,
 
 ## [Unreleased]
 
+## [2026.10.1] - 2026-10-27
+
 ### Added
 
 - Raw horel reads take the `*.h5_prior405upgrade` file of a month beside its
@@ -300,9 +302,6 @@ follow [PEP 440](https://peps.python.org/pep-0440/): calendar-based,
   which pandas 3.1 deprecates (`Pandas4Warning`, PDEP-8): under 3.1 they warned
   on every call, and failed any test run that treats warnings as errors. What
   each function returns and which frames it edits is unchanged (#115).
-
-### Fixed
-
 - `Network.get_obs` sorts stably, as `Site.get_obs` does (#74): rows on one
   timestamp keep the order of the sites given, in every session, where the
   default sort could swap them.
