@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Read data &#8212; UATAQ 2026.10.2.dev7+ga44b1d5ae documentation</title>
+    <title>Read data &#8212; UATAQ 2026.10.2.dev8+ge96a5d379 documentation</title>
   
   
   
@@ -26,27 +26,28 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=64cc4de3f052d77215f0" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=64cc4de3f052d77215f0" rel="stylesheet" />
+  <link href="../_static/styles/theme.css?digest=18bd87630a240e9c25be" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=18bd87630a240e9c25be" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx_autodoc_typehints.css?v=057ac668" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
   
   <!-- So that users can add custom icons -->
-  <script defer src="../_static/scripts/fontawesome.js?digest=64cc4de3f052d77215f0"></script>
+  <script defer src="../_static/scripts/fontawesome.js?digest=18bd87630a240e9c25be"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be" />
 
-    <script src="../_static/documentation_options.js?v=7b944022"></script>
+    <script src="../_static/documentation_options.js?v=1e964fe4"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../_static/copybutton.js?v=f281be69"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'guides/read_data';</script>
     <script>
-        DOCUMENTATION_OPTIONS.theme_version = '0.22.0';
+        DOCUMENTATION_OPTIONS.theme_version = '0.23.0';
         DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://jmineau.github.io/uataq/switcher.json';
         DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
         DOCUMENTATION_OPTIONS.show_version_warning_banner =
@@ -58,8 +59,9 @@
     <link rel="next" title="Data levels and flags" href="data_levels_and_flags.html" />
     <link rel="prev" title="Find sites and data" href="find_sites_and_data.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.2.dev7+ga44b1d5ae" />
+  <meta name="docsearch:version" content="2026.10.2.dev8+ge96a5d379" />
   
     
     <script src="../_static/searchtools.js"></script>
@@ -127,7 +129,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.2.dev7+ga44b1d5ae documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.2.dev8+ge96a5d379 documentation</p>
   
 </a></div>
     
@@ -500,7 +502,7 @@ described once, on <a class="reference internal" href="../reference/input_parame
 CO2 and CH4:</p>
 <div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">uataq</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">obs</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">get_obs</span><span class="p">(</span><span class="s2">&quot;WBB&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;CO2&quot;</span><span class="p">,</span> <span class="s2">&quot;CH4&quot;</span><span class="p">,</span> <span class="s2">&quot;O3&quot;</span><span class="p">],</span> <span class="n">time_range</span><span class="o">=</span><span class="s2">&quot;2025-06-02&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">obs</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">get_obs</span><span class="p">(</span><span class="s2">"WBB"</span><span class="p">,</span> <span class="p">[</span><span class="s2">"CO2"</span><span class="p">,</span> <span class="s2">"CH4"</span><span class="p">,</span> <span class="s2">"O3"</span><span class="p">],</span> <span class="n">time_range</span><span class="o">=</span><span class="s2">"2025-06-02"</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">obs</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
 <span class="go">                         CO2d_ppm_cal  CO2d_ppm_raw  CH4d_ppm_cal  CH4d_ppm_raw  O3_ppb</span>
 <span class="go">Time_UTC</span>
@@ -523,7 +525,7 @@ times, average them over a period, as under <a class="reference internal" href="
 (“Hourly means”): <code class="docutils literal notranslate"><span class="pre">obs.resample(&quot;h&quot;).mean()</span></code>.</p>
 <p>With <code class="docutils literal notranslate"><span class="pre">format=&quot;long&quot;</span></code>, the table has one row per measurement instead, with the
 column name in <code class="docutils literal notranslate"><span class="pre">pollutant</span></code> and the measurement in <code class="docutils literal notranslate"><span class="pre">value</span></code>:</p>
-<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">long</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">get_obs</span><span class="p">(</span><span class="s2">&quot;WBB&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;CO2&quot;</span><span class="p">,</span> <span class="s2">&quot;CH4&quot;</span><span class="p">,</span> <span class="s2">&quot;O3&quot;</span><span class="p">],</span> <span class="n">time_range</span><span class="o">=</span><span class="s2">&quot;2025-06-02&quot;</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;long&quot;</span><span class="p">)</span>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">long</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">get_obs</span><span class="p">(</span><span class="s2">"WBB"</span><span class="p">,</span> <span class="p">[</span><span class="s2">"CO2"</span><span class="p">,</span> <span class="s2">"CH4"</span><span class="p">,</span> <span class="s2">"O3"</span><span class="p">],</span> <span class="n">time_range</span><span class="o">=</span><span class="s2">"2025-06-02"</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">"long"</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">long</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
 <span class="go">                            pollutant       value</span>
 <span class="go">Time_UTC</span>
@@ -542,19 +544,19 @@ sites in Mountain time (as under <a class="reference internal" href="../getting_
 to hourly means, and stacks them with the site ID as the first level of the
 index:</p>
 <div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">frames</span> <span class="o">=</span> <span class="p">{}</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">sid</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;WBB&quot;</span><span class="p">,</span> <span class="s2">&quot;CSP&quot;</span><span class="p">,</span> <span class="s2">&quot;HPL&quot;</span><span class="p">]:</span>
-<span class="gp">... </span>    <span class="n">obs</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">get_obs</span><span class="p">(</span><span class="n">sid</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;CO2&quot;</span><span class="p">,</span> <span class="s2">&quot;CH4&quot;</span><span class="p">],</span> <span class="n">time_range</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;2025-06-01&quot;</span><span class="p">,</span> <span class="s2">&quot;2025-07-01&quot;</span><span class="p">])</span>
-<span class="gp">... </span>    <span class="n">obs</span> <span class="o">=</span> <span class="n">obs</span><span class="o">.</span><span class="n">tz_localize</span><span class="p">(</span><span class="s2">&quot;UTC&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">tz_convert</span><span class="p">(</span><span class="s2">&quot;America/Denver&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s2">&quot;2025-06&quot;</span><span class="p">]</span>
-<span class="gp">... </span>    <span class="n">frames</span><span class="p">[</span><span class="n">sid</span><span class="p">]</span> <span class="o">=</span> <span class="n">obs</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="s2">&quot;h&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">sid</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">"WBB"</span><span class="p">,</span> <span class="s2">"CSP"</span><span class="p">,</span> <span class="s2">"HPL"</span><span class="p">]:</span>
+<span class="gp">... </span>    <span class="n">obs</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">get_obs</span><span class="p">(</span><span class="n">sid</span><span class="p">,</span> <span class="p">[</span><span class="s2">"CO2"</span><span class="p">,</span> <span class="s2">"CH4"</span><span class="p">],</span> <span class="n">time_range</span><span class="o">=</span><span class="p">[</span><span class="s2">"2025-06-01"</span><span class="p">,</span> <span class="s2">"2025-07-01"</span><span class="p">])</span>
+<span class="gp">... </span>    <span class="n">obs</span> <span class="o">=</span> <span class="n">obs</span><span class="o">.</span><span class="n">tz_localize</span><span class="p">(</span><span class="s2">"UTC"</span><span class="p">)</span><span class="o">.</span><span class="n">tz_convert</span><span class="p">(</span><span class="s2">"America/Denver"</span><span class="p">)</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s2">"2025-06"</span><span class="p">]</span>
+<span class="gp">... </span>    <span class="n">frames</span><span class="p">[</span><span class="n">sid</span><span class="p">]</span> <span class="o">=</span> <span class="n">obs</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="s2">"h"</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
 <span class="gp">...</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">hourly</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">frames</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;SID&quot;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">hourly</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">frames</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="s2">"SID"</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">hourly</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
 <span class="go">                               CO2d_ppm_cal  CO2d_ppm_raw  CH4d_ppm_cal  CH4d_ppm_raw</span>
 <span class="go">SID Time_UTC</span>
 <span class="go">WBB 2025-06-01 00:00:00-06:00    441.390343    444.442363      2.003455      2.003101</span>
 <span class="go">    2025-06-01 01:00:00-06:00    440.615488    443.567585      1.996306      1.995796</span>
 <span class="go">    2025-06-01 02:00:00-06:00    435.172711    437.986351      1.995488      1.994749</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">hourly</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="s2">&quot;SID&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">hourly</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="s2">"SID"</span><span class="p">)</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
 <span class="go">SID</span>
 <span class="go">CSP    720</span>
 <span class="go">HPL    720</span>
@@ -564,7 +566,7 @@ index:</p>
 </div>
 <p>It took 2 seconds. Every site’s hourly means are on the same hours, so one
 pollutant can be laid out with a column per site:</p>
-<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">hourly</span><span class="p">[</span><span class="s2">&quot;CH4d_ppm_cal&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">unstack</span><span class="p">(</span><span class="s2">&quot;SID&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">hourly</span><span class="p">[</span><span class="s2">"CH4d_ppm_cal"</span><span class="p">]</span><span class="o">.</span><span class="n">unstack</span><span class="p">(</span><span class="s2">"SID"</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
 <span class="go">SID                             WBB       CSP       HPL</span>
 <span class="go">Time_UTC</span>
 <span class="go">2025-06-01 00:00:00-06:00  2.003455  2.293712  2.035616</span>
@@ -584,14 +586,14 @@ says which sites measure a pollutant.</p>
 <p><a class="reference internal" href="../api/uataq.get_network_obs.html#uataq.get_network_obs" title="uataq.get_network_obs"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_network_obs()</span></code></a> reads one pollutant from several sites and stacks the
 rows in time, with the site and instrument of each row and where it was
 measured:</p>
-<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">net</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">get_network_obs</span><span class="p">([</span><span class="s2">&quot;WBB&quot;</span><span class="p">,</span> <span class="s2">&quot;CSP&quot;</span><span class="p">,</span> <span class="s2">&quot;HPL&quot;</span><span class="p">],</span> <span class="s2">&quot;CH4&quot;</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="s2">&quot;2025-06-02&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">net</span><span class="p">[[</span><span class="s2">&quot;SID&quot;</span><span class="p">,</span> <span class="s2">&quot;instrument&quot;</span><span class="p">,</span> <span class="s2">&quot;CH4d_ppm_cal&quot;</span><span class="p">,</span> <span class="s2">&quot;zagl&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">net</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">get_network_obs</span><span class="p">([</span><span class="s2">"WBB"</span><span class="p">,</span> <span class="s2">"CSP"</span><span class="p">,</span> <span class="s2">"HPL"</span><span class="p">],</span> <span class="s2">"CH4"</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="s2">"2025-06-02"</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">net</span><span class="p">[[</span><span class="s2">"SID"</span><span class="p">,</span> <span class="s2">"instrument"</span><span class="p">,</span> <span class="s2">"CH4d_ppm_cal"</span><span class="p">,</span> <span class="s2">"zagl"</span><span class="p">]]</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
 <span class="go">                     SID instrument  CH4d_ppm_cal  zagl</span>
 <span class="go">Time_UTC</span>
 <span class="go">2025-06-02 00:00:01  WBB   lgr_ugga      1.981142    35</span>
 <span class="go">2025-06-02 00:00:07  HPL   lgr_ugga      1.967279     4</span>
 <span class="go">2025-06-02 00:00:11  WBB   lgr_ugga      1.980728    35</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">net</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;SID&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">net</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">"SID"</span><span class="p">)</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
 <span class="go">SID</span>
 <span class="go">CSP    6226</span>
 <span class="go">HPL    8427</span>
@@ -607,9 +609,9 @@ several pollutants at sites with different instruments have no common shape.
 <a class="reference internal" href="../api/uataq.Network.get_obs.html#uataq.Network.get_obs" title="uataq.Network.get_obs"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Network.get_obs()</span></code></a> does the same from a <a class="reference internal" href="../api/uataq.Network.html#uataq.Network" title="uataq.Network"><code class="xref py py-class docutils literal notranslate"><span class="pre">Network</span></code></a> you already made.</p>
 <p>A site with nothing in the range is left out without an error. HDP stopped in
 February 2025, so asking for June 2025 returns the other two sites:</p>
-<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">net</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">get_network_obs</span><span class="p">([</span><span class="s2">&quot;WBB&quot;</span><span class="p">,</span> <span class="s2">&quot;HDP&quot;</span><span class="p">,</span> <span class="s2">&quot;CSP&quot;</span><span class="p">],</span> <span class="s2">&quot;CO2&quot;</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="s2">&quot;2025-06&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">sorted</span><span class="p">(</span><span class="n">net</span><span class="p">[</span><span class="s2">&quot;SID&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span>
-<span class="go">[&#39;CSP&#39;, &#39;WBB&#39;]</span>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">net</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">get_network_obs</span><span class="p">([</span><span class="s2">"WBB"</span><span class="p">,</span> <span class="s2">"HDP"</span><span class="p">,</span> <span class="s2">"CSP"</span><span class="p">],</span> <span class="s2">"CO2"</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="s2">"2025-06"</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">sorted</span><span class="p">(</span><span class="n">net</span><span class="p">[</span><span class="s2">"SID"</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span>
+<span class="go">['CSP', 'WBB']</span>
 </pre></div>
 </div>
 <p>Check the sites you got back.</p>
@@ -631,10 +633,10 @@ instruments of every site, with their dates.</p>
 <p><a class="reference internal" href="../api/uataq.read_data.html#uataq.read_data" title="uataq.read_data"><code class="xref py py-func docutils literal notranslate"><span class="pre">read_data()</span></code></a> reads instruments by name and gives a dictionary with one
 table for each, at the level you ask for (see
 <a class="reference internal" href="data_levels_and_flags.html"><span class="doc">Data levels and flags</span></a>):</p>
-<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">read_data</span><span class="p">(</span><span class="s2">&quot;WBB&quot;</span><span class="p">,</span> <span class="s2">&quot;lgr_ugga&quot;</span><span class="p">,</span> <span class="n">lvl</span><span class="o">=</span><span class="s2">&quot;qaqc&quot;</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="s2">&quot;2025-06-02&quot;</span><span class="p">)</span>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">read_data</span><span class="p">(</span><span class="s2">"WBB"</span><span class="p">,</span> <span class="s2">"lgr_ugga"</span><span class="p">,</span> <span class="n">lvl</span><span class="o">=</span><span class="s2">"qaqc"</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="s2">"2025-06-02"</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-<span class="go">[&#39;lgr_ugga&#39;]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;lgr_ugga&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span>
+<span class="go">['lgr_ugga']</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span><span class="p">[</span><span class="s2">"lgr_ugga"</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span>
 <span class="go">(8845, 25)</span>
 </pre></div>
 </div>
@@ -643,9 +645,9 @@ table for each, at the level you ask for (see
 is read at the highest level it has. With no instrument named, it reads every
 instrument at the site; the ones with nothing in the range are left out, and
 the log says why (see <a class="reference internal" href="errors.html"><span class="doc">When there is nothing to read</span></a>):</p>
-<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">read_data</span><span class="p">(</span><span class="s2">&quot;WBB&quot;</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="s2">&quot;2025-06-02&quot;</span><span class="p">)</span>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">read_data</span><span class="p">(</span><span class="s2">"WBB"</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="s2">"2025-06-02"</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="p">{</span><span class="n">name</span><span class="p">:</span> <span class="n">table</span><span class="o">.</span><span class="n">shape</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">table</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
-<span class="go">{&#39;lgr_ugga&#39;: (8390, 5), &#39;teledyne_t200&#39;: (41937, 3), &#39;teledyne_t300&#39;: (41937, 1), &#39;teledyne_t400&#39;: (41937, 1)}</span>
+<span class="go">{'lgr_ugga': (8390, 5), 'teledyne_t200': (41937, 3), 'teledyne_t300': (41937, 1), 'teledyne_t400': (41937, 1)}</span>
 </pre></div>
 </div>
 </section>
@@ -674,11 +676,11 @@ Python 3.14 stops with a <code class="docutils literal notranslate"><span class=
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
-    <span class="n">obs</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">get_obs</span><span class="p">(</span><span class="s2">&quot;WBB&quot;</span><span class="p">,</span> <span class="s2">&quot;CO2&quot;</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="s2">&quot;2024&quot;</span><span class="p">,</span> <span class="n">num_processes</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+    <span class="n">obs</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">get_obs</span><span class="p">(</span><span class="s2">"WBB"</span><span class="p">,</span> <span class="s2">"CO2"</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="s2">"2024"</span><span class="p">,</span> <span class="n">num_processes</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
     <span class="o">...</span>
 
 
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
     <span class="n">main</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -782,8 +784,8 @@ measurement was.</p></li>
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0"></script>
-<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0"></script>
+  <script defer src="../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -803,7 +805,7 @@ measurement was.</p></li>
         <div class="footer-item">
 
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.2.0.
   </p>
 </div>
       
@@ -816,7 +818,7 @@ measurement was.</p></li>
         <div class="footer-item">
 <p class="theme-version">
   <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.22.0.
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.23.0.
 </p></div>
       
     </div>

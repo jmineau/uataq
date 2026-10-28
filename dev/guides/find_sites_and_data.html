@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Find sites and data &#8212; UATAQ 2026.10.2.dev7+ga44b1d5ae documentation</title>
+    <title>Find sites and data &#8212; UATAQ 2026.10.2.dev8+ge96a5d379 documentation</title>
   
   
   
@@ -26,27 +26,28 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=64cc4de3f052d77215f0" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=64cc4de3f052d77215f0" rel="stylesheet" />
+  <link href="../_static/styles/theme.css?digest=18bd87630a240e9c25be" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=18bd87630a240e9c25be" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx_autodoc_typehints.css?v=057ac668" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
   
   <!-- So that users can add custom icons -->
-  <script defer src="../_static/scripts/fontawesome.js?digest=64cc4de3f052d77215f0"></script>
+  <script defer src="../_static/scripts/fontawesome.js?digest=18bd87630a240e9c25be"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be" />
 
-    <script src="../_static/documentation_options.js?v=7b944022"></script>
+    <script src="../_static/documentation_options.js?v=1e964fe4"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../_static/copybutton.js?v=f281be69"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'guides/find_sites_and_data';</script>
     <script>
-        DOCUMENTATION_OPTIONS.theme_version = '0.22.0';
+        DOCUMENTATION_OPTIONS.theme_version = '0.23.0';
         DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://jmineau.github.io/uataq/switcher.json';
         DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
         DOCUMENTATION_OPTIONS.show_version_warning_banner =
@@ -58,8 +59,9 @@
     <link rel="next" title="Read data" href="read_data.html" />
     <link rel="prev" title="Guides" href="index.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.2.dev7+ga44b1d5ae" />
+  <meta name="docsearch:version" content="2026.10.2.dev8+ge96a5d379" />
   
     
     <script src="../_static/searchtools.js"></script>
@@ -127,7 +129,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.2.dev7+ga44b1d5ae documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.2.dev8+ge96a5d379 documentation</p>
   
 </a></div>
     
@@ -513,30 +515,30 @@ which instruments it has had:</p>
 
 <span class="gp">In [2]: </span><span class="kn">from</span><span class="w"> </span><span class="nn">uataq</span><span class="w"> </span><span class="kn">import</span> <span class="n">Network</span>
 
-<span class="gp">In [3]: </span><span class="n">site</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">get_site</span><span class="p">(</span><span class="s2">&quot;WBB&quot;</span><span class="p">)</span>
+<span class="gp">In [3]: </span><span class="n">site</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">get_site</span><span class="p">(</span><span class="s2">"WBB"</span><span class="p">)</span>
 
-<span class="gp">In [4]: </span><span class="n">site</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">],</span> <span class="n">site</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;zagl&quot;</span><span class="p">]</span>
-<span class="gh">Out[4]: </span><span class="go">(&#39;William Browning&#39;, 35)</span>
+<span class="gp">In [4]: </span><span class="n">site</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">"name"</span><span class="p">],</span> <span class="n">site</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">"zagl"</span><span class="p">]</span>
+<span class="gh">Out[4]: </span><span class="go">('William Browning', 35)</span>
 
 <span class="gp">In [5]: </span><span class="nb">sorted</span><span class="p">(</span><span class="n">site</span><span class="o">.</span><span class="n">pollutants</span><span class="p">)</span>
-<span class="gh">Out[5]: </span><span class="go">[&#39;BC&#39;, &#39;CH4&#39;, &#39;CO&#39;, &#39;CO2&#39;, &#39;NO&#39;, &#39;NO2&#39;, &#39;NOX&#39;, &#39;O3&#39;, &#39;PM2.5&#39;]</span>
+<span class="gh">Out[5]: </span><span class="go">['BC', 'CH4', 'CO', 'CO2', 'NO', 'NO2', 'NOX', 'O3', 'PM2.5']</span>
 
 <span class="gp">In [6]: </span><span class="p">[</span><span class="n">instrument</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">instrument</span> <span class="ow">in</span> <span class="n">site</span><span class="o">.</span><span class="n">instruments</span><span class="p">]</span>
 <span class="gh">Out[6]: </span>
-<span class="go">[&#39;lgr_ugga&#39;,</span>
-<span class="go"> &#39;magee_ae33&#39;,</span>
-<span class="go"> &#39;metone_es642&#39;,</span>
-<span class="go"> &#39;teledyne_t200&#39;,</span>
-<span class="go"> &#39;teledyne_t300&#39;,</span>
-<span class="go"> &#39;teledyne_t400&#39;,</span>
-<span class="go"> &#39;teledyne_t500u&#39;,</span>
-<span class="go"> &#39;teom_1400ab&#39;]</span>
+<span class="go">['lgr_ugga',</span>
+<span class="go"> 'magee_ae33',</span>
+<span class="go"> 'metone_es642',</span>
+<span class="go"> 'teledyne_t200',</span>
+<span class="go"> 'teledyne_t300',</span>
+<span class="go"> 'teledyne_t400',</span>
+<span class="go"> 'teledyne_t500u',</span>
+<span class="go"> 'teom_1400ab']</span>
 
-<span class="gp">In [7]: </span><span class="n">site</span><span class="o">.</span><span class="n">instruments</span><span class="p">[</span><span class="s2">&quot;teledyne_t400&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">active_range</span>
+<span class="gp">In [7]: </span><span class="n">site</span><span class="o">.</span><span class="n">instruments</span><span class="p">[</span><span class="s2">"teledyne_t400"</span><span class="p">]</span><span class="o">.</span><span class="n">active_range</span>
 <span class="gh">Out[7]: </span><span class="go">TimeRange(start=2016-08-29 00:00:00, stop=None)</span>
 
-<span class="gp">In [8]: </span><span class="nb">type</span><span class="p">(</span><span class="n">site</span><span class="o">.</span><span class="n">instruments</span><span class="p">[</span><span class="s2">&quot;teledyne_t400&quot;</span><span class="p">])</span><span class="o">.</span><span class="vm">__name__</span>
-<span class="gh">Out[8]: </span><span class="go">&#39;Teledyne_T400&#39;</span>
+<span class="gp">In [8]: </span><span class="nb">type</span><span class="p">(</span><span class="n">site</span><span class="o">.</span><span class="n">instruments</span><span class="p">[</span><span class="s2">"teledyne_t400"</span><span class="p">])</span><span class="o">.</span><span class="vm">__name__</span>
+<span class="gh">Out[8]: </span><span class="go">'Teledyne_T400'</span>
 </pre></div>
 </div>
 <p><code class="docutils literal notranslate"><span class="pre">uataq.laboratory.sites</span></code> lists every site ID, and <code class="docutils literal notranslate"><span class="pre">site.config</span></code> holds the
@@ -548,8 +550,8 @@ them in any case when you read data. To go the other way and find the sites that
 measure a pollutant, make a <a class="reference internal" href="../api/uataq.Network.html#uataq.Network" title="uataq.Network"><code class="xref py py-class docutils literal notranslate"><span class="pre">Network</span></code></a>. A <code class="docutils literal notranslate"><span class="pre">Network</span></code> is a list of sites
 and one pollutant, and it is how uataq asks a question across sites; <code class="docutils literal notranslate"><span class="pre">&quot;all&quot;</span></code>
 is every site that measures the pollutant:</p>
-<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [9]: </span><span class="n">Network</span><span class="p">(</span><span class="s2">&quot;all&quot;</span><span class="p">,</span> <span class="s2">&quot;CH4&quot;</span><span class="p">)</span>
-<span class="gh">Out[9]: </span><span class="go">Network(sites=[&#39;CSP&#39;, &#39;FRU&#39;, &#39;HDP&#39;, &#39;HPL&#39;, &#39;LDF&#39;, &#39;ROO&#39;, &#39;TRX01&#39;, &#39;WBB&#39;], pollutant=&#39;CH4&#39;)</span>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [9]: </span><span class="n">Network</span><span class="p">(</span><span class="s2">"all"</span><span class="p">,</span> <span class="s2">"CH4"</span><span class="p">)</span>
+<span class="gh">Out[9]: </span><span class="go">Network(sites=['CSP', 'FRU', 'HDP', 'HPL', 'LDF', 'ROO', 'TRX01', 'WBB'], pollutant='CH4')</span>
 </pre></div>
 </div>
 <p>CH4 is measured at fewer sites than CO2. Of these, WBB (on the University of
@@ -560,7 +562,7 @@ the Uintah Basin, and TRX01 is a TRAX train. The site tables on
 <p>An instrument’s window, its <code class="docutils literal notranslate"><span class="pre">active_range</span></code>, says when it was installed, not
 when it recorded data. That is why <code class="docutils literal notranslate"><span class="pre">PM2.5</span></code> is in WBB’s list although both of
 WBB’s PM2.5 instruments, <code class="docutils literal notranslate"><span class="pre">metone_es642</span></code> and <code class="docutils literal notranslate"><span class="pre">teom_1400ab</span></code>, have an end date:</p>
-<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [10]: </span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">i</span><span class="o">.</span><span class="n">name</span><span class="si">:</span><span class="s2">15</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">i</span><span class="o">.</span><span class="n">active_range</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">site</span><span class="o">.</span><span class="n">instruments</span><span class="p">))</span>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [10]: </span><span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">i</span><span class="o">.</span><span class="n">name</span><span class="si">:</span><span class="s2">15</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">i</span><span class="o">.</span><span class="n">active_range</span><span class="si">}</span><span class="s2">"</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">site</span><span class="o">.</span><span class="n">instruments</span><span class="p">))</span>
 <span class="go">lgr_ugga        After 2013-10-09 00:00:00</span>
 <span class="go">magee_ae33      2020-07-29 00:00:00 to 2024-06-20 00:00:00</span>
 <span class="go">metone_es642    2017-03-07 00:00:00 to 2022-06-08 00:00:00</span>
@@ -577,14 +579,14 @@ WBB’s PM2.5 instruments, <code class="docutils literal notranslate"><span clas
 <p>The examples below read the archive on CHPC, and start from these lines:</p>
 <div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">uataq</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">uataq</span><span class="w"> </span><span class="kn">import</span> <span class="n">Network</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">wbb</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">get_site</span><span class="p">(</span><span class="s2">&quot;WBB&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">wbb</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">get_site</span><span class="p">(</span><span class="s2">"WBB"</span><span class="p">)</span>
 </pre></div>
 </div>
 <p><a class="reference internal" href="../api/uataq.Network.get_availability.html#uataq.Network.get_availability" title="uataq.Network.get_availability"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Network.get_availability()</span></code></a> tells you when sites have data for a pollutant.
 Give it a time range and it returns a table with one row for each stretch of
 time that has data:</p>
-<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">net</span> <span class="o">=</span> <span class="n">Network</span><span class="p">([</span><span class="s2">&quot;WBB&quot;</span><span class="p">,</span> <span class="s2">&quot;CSP&quot;</span><span class="p">,</span> <span class="s2">&quot;HDP&quot;</span><span class="p">],</span> <span class="s2">&quot;CH4&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">avail</span> <span class="o">=</span> <span class="n">net</span><span class="o">.</span><span class="n">get_availability</span><span class="p">([</span><span class="s2">&quot;2024-01-01&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">],</span> <span class="n">freq</span><span class="o">=</span><span class="s2">&quot;W&quot;</span><span class="p">,</span> <span class="n">lvls</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;final&quot;</span><span class="p">])</span>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">net</span> <span class="o">=</span> <span class="n">Network</span><span class="p">([</span><span class="s2">"WBB"</span><span class="p">,</span> <span class="s2">"CSP"</span><span class="p">,</span> <span class="s2">"HDP"</span><span class="p">],</span> <span class="s2">"CH4"</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">avail</span> <span class="o">=</span> <span class="n">net</span><span class="o">.</span><span class="n">get_availability</span><span class="p">([</span><span class="s2">"2024-01-01"</span><span class="p">,</span> <span class="kc">None</span><span class="p">],</span> <span class="n">freq</span><span class="o">=</span><span class="s2">"W"</span><span class="p">,</span> <span class="n">lvls</span><span class="o">=</span><span class="p">[</span><span class="s2">"final"</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">avail</span>
 <span class="go">   SID    lvl      start       stop</span>
 <span class="go">0  WBB  final 2024-01-01 2024-11-25</span>
@@ -603,7 +605,7 @@ no data after that. A site with no data in the range has no rows at all. A
 stop can fall after the day of the run (this one was on 12 October 2026): the
 last weekly bin, from 12 to 19 October, holds the data up to the run.</p>
 <p>To get the first and last date for each site:</p>
-<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">avail</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;SID&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">agg</span><span class="p">(</span><span class="n">first</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;start&quot;</span><span class="p">,</span> <span class="s2">&quot;min&quot;</span><span class="p">),</span> <span class="n">last</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;stop&quot;</span><span class="p">,</span> <span class="s2">&quot;max&quot;</span><span class="p">))</span>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">avail</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">"SID"</span><span class="p">)</span><span class="o">.</span><span class="n">agg</span><span class="p">(</span><span class="n">first</span><span class="o">=</span><span class="p">(</span><span class="s2">"start"</span><span class="p">,</span> <span class="s2">"min"</span><span class="p">),</span> <span class="n">last</span><span class="o">=</span><span class="p">(</span><span class="s2">"stop"</span><span class="p">,</span> <span class="s2">"max"</span><span class="p">))</span>
 <span class="go">         first       last</span>
 <span class="go">SID</span>
 <span class="go">CSP 2024-01-01 2026-10-12</span>
@@ -622,13 +624,13 @@ that a read from one group would not return.</p>
 having data if <strong>any</strong> measurement of the pollutant falls in it. So a coarse bin
 hides a short gap. WBB logged no CO2 at all on 4 March 2024. Daily bins
 (the default) show it, and weekly bins do not:</p>
-<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">co2</span> <span class="o">=</span> <span class="n">Network</span><span class="p">([</span><span class="s2">&quot;WBB&quot;</span><span class="p">],</span> <span class="s2">&quot;CO2&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">co2</span><span class="o">.</span><span class="n">get_availability</span><span class="p">(</span><span class="s2">&quot;2024-03&quot;</span><span class="p">,</span> <span class="n">lvls</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;final&quot;</span><span class="p">])</span>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">co2</span> <span class="o">=</span> <span class="n">Network</span><span class="p">([</span><span class="s2">"WBB"</span><span class="p">],</span> <span class="s2">"CO2"</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">co2</span><span class="o">.</span><span class="n">get_availability</span><span class="p">(</span><span class="s2">"2024-03"</span><span class="p">,</span> <span class="n">lvls</span><span class="o">=</span><span class="p">[</span><span class="s2">"final"</span><span class="p">])</span>
 <span class="go">   SID    lvl      start       stop</span>
 <span class="go">0  WBB  final 2024-03-01 2024-03-04</span>
 <span class="go">1  WBB  final 2024-03-05 2024-03-24</span>
 <span class="go">2  WBB  final 2024-03-25 2024-04-01</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">co2</span><span class="o">.</span><span class="n">get_availability</span><span class="p">(</span><span class="s2">&quot;2024-03&quot;</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="s2">&quot;W&quot;</span><span class="p">,</span> <span class="n">lvls</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;final&quot;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">co2</span><span class="o">.</span><span class="n">get_availability</span><span class="p">(</span><span class="s2">"2024-03"</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="s2">"W"</span><span class="p">,</span> <span class="n">lvls</span><span class="o">=</span><span class="p">[</span><span class="s2">"final"</span><span class="p">])</span>
 <span class="go">   SID    lvl      start       stop</span>
 <span class="go">0  WBB  final 2024-02-26 2024-04-01</span>
 </pre></div>
@@ -644,7 +646,7 @@ either end of the range can reach past it. <code class="docutils literal notrans
 <strong>highest</strong> level that has data in it. A stretch labeled
 <code class="docutils literal notranslate"><span class="pre">qaqc</span></code> was therefore measured, but the final level has nothing for it. WBB
 has no final CO2 for August 2021:</p>
-<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">co2</span><span class="o">.</span><span class="n">get_availability</span><span class="p">(</span><span class="s2">&quot;2021&quot;</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="s2">&quot;M&quot;</span><span class="p">,</span> <span class="n">lvls</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;qaqc&quot;</span><span class="p">,</span> <span class="s2">&quot;final&quot;</span><span class="p">])</span>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">co2</span><span class="o">.</span><span class="n">get_availability</span><span class="p">(</span><span class="s2">"2021"</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="s2">"M"</span><span class="p">,</span> <span class="n">lvls</span><span class="o">=</span><span class="p">[</span><span class="s2">"qaqc"</span><span class="p">,</span> <span class="s2">"final"</span><span class="p">])</span>
 <span class="go">   SID    lvl      start       stop</span>
 <span class="go">0  WBB  final 2021-01-01 2021-08-01</span>
 <span class="go">1  WBB   qaqc 2021-08-01 2021-09-01</span>
@@ -713,13 +715,13 @@ node.</p></li>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
-    <span class="n">net</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">Network</span><span class="p">(</span><span class="s2">&quot;all&quot;</span><span class="p">,</span> <span class="s2">&quot;CO2&quot;</span><span class="p">)</span>
-    <span class="n">avail</span> <span class="o">=</span> <span class="n">net</span><span class="o">.</span><span class="n">get_availability</span><span class="p">(</span><span class="n">freq</span><span class="o">=</span><span class="s2">&quot;M&quot;</span><span class="p">,</span> <span class="n">lvls</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;qaqc&quot;</span><span class="p">,</span> <span class="s2">&quot;final&quot;</span><span class="p">],</span> <span class="n">num_processes</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+    <span class="n">net</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">Network</span><span class="p">(</span><span class="s2">"all"</span><span class="p">,</span> <span class="s2">"CO2"</span><span class="p">)</span>
+    <span class="n">avail</span> <span class="o">=</span> <span class="n">net</span><span class="o">.</span><span class="n">get_availability</span><span class="p">(</span><span class="n">freq</span><span class="o">=</span><span class="s2">"M"</span><span class="p">,</span> <span class="n">lvls</span><span class="o">=</span><span class="p">[</span><span class="s2">"qaqc"</span><span class="p">,</span> <span class="s2">"final"</span><span class="p">],</span> <span class="n">num_processes</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
     <span class="n">ax</span> <span class="o">=</span> <span class="n">net</span><span class="o">.</span><span class="n">plot_availability</span><span class="p">(</span><span class="n">avail</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;co2_availability.png&quot;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s2">&quot;tight&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">"co2_availability.png"</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s2">"tight"</span><span class="p">)</span>
 
 
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
     <span class="n">main</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -759,7 +761,7 @@ data and light bars are qaqc data with nothing in final.</span><a class="headerl
 <p><a class="reference internal" href="../api/uataq.get_recent_obs.html#uataq.get_recent_obs" title="uataq.get_recent_obs"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_recent_obs()</span></code></a> returns the last few days of a site. It reads the same
 level as <a class="reference internal" href="../api/uataq.get_obs.html#uataq.get_obs" title="uataq.get_obs"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_obs()</span></code></a>, and returns the same kind of table. The default is
 10 days:</p>
-<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">obs</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">get_recent_obs</span><span class="p">(</span><span class="s2">&quot;WBB&quot;</span><span class="p">,</span> <span class="n">pollutants</span><span class="o">=</span><span class="s2">&quot;CO2&quot;</span><span class="p">)</span>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">obs</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">get_recent_obs</span><span class="p">(</span><span class="s2">"WBB"</span><span class="p">,</span> <span class="n">pollutants</span><span class="o">=</span><span class="s2">"CO2"</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">obs</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 <span class="go">(79370, 2)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">obs</span><span class="o">.</span><span class="n">tail</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
@@ -774,7 +776,7 @@ level as <a class="reference internal" href="../api/uataq.get_obs.html#uataq.get
 back as 1.3 million rows.</p>
 <p><code class="docutils literal notranslate"><span class="pre">recent</span></code> is a <code class="docutils literal notranslate"><span class="pre">datetime.timedelta</span></code> or any text pandas reads as a time span,
 such as <code class="docutils literal notranslate"><span class="pre">&quot;3D&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;3</span> <span class="pre">days&quot;</span></code> or <code class="docutils literal notranslate"><span class="pre">&quot;12h&quot;</span></code>:</p>
-<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">obs</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">get_recent_obs</span><span class="p">(</span><span class="s2">&quot;WBB&quot;</span><span class="p">,</span> <span class="n">recent</span><span class="o">=</span><span class="s2">&quot;3D&quot;</span><span class="p">,</span> <span class="n">pollutants</span><span class="o">=</span><span class="s2">&quot;CO2&quot;</span><span class="p">)</span>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">obs</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">get_recent_obs</span><span class="p">(</span><span class="s2">"WBB"</span><span class="p">,</span> <span class="n">recent</span><span class="o">=</span><span class="s2">"3D"</span><span class="p">,</span> <span class="n">pollutants</span><span class="o">=</span><span class="s2">"CO2"</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">obs</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">obs</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
 <span class="go">2026-10-09 02:15:05 2026-10-12 00:42:43</span>
 </pre></div>
@@ -867,8 +869,8 @@ reporting has nothing recent and raises an error (HDP, under <a class="reference
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0"></script>
-<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0"></script>
+  <script defer src="../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -888,7 +890,7 @@ reporting has nothing recent and raises an error (HDP, under <a class="reference
         <div class="footer-item">
 
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.2.0.
   </p>
 </div>
       
@@ -901,7 +903,7 @@ reporting has nothing recent and raises an error (HDP, under <a class="reference
         <div class="footer-item">
 <p class="theme-version">
   <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.22.0.
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.23.0.
 </p></div>
       
     </div>

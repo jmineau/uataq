@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Input Parameters &#8212; UATAQ 2026.10.2.dev7+ga44b1d5ae documentation</title>
+    <title>Input Parameters &#8212; UATAQ 2026.10.2.dev8+ge96a5d379 documentation</title>
   
   
   
@@ -26,27 +26,28 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=64cc4de3f052d77215f0" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=64cc4de3f052d77215f0" rel="stylesheet" />
+  <link href="../_static/styles/theme.css?digest=18bd87630a240e9c25be" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=18bd87630a240e9c25be" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx_autodoc_typehints.css?v=057ac668" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
   
   <!-- So that users can add custom icons -->
-  <script defer src="../_static/scripts/fontawesome.js?digest=64cc4de3f052d77215f0"></script>
+  <script defer src="../_static/scripts/fontawesome.js?digest=18bd87630a240e9c25be"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be" />
 
-    <script src="../_static/documentation_options.js?v=7b944022"></script>
+    <script src="../_static/documentation_options.js?v=1e964fe4"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../_static/copybutton.js?v=f281be69"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'reference/input_parameters';</script>
     <script>
-        DOCUMENTATION_OPTIONS.theme_version = '0.22.0';
+        DOCUMENTATION_OPTIONS.theme_version = '0.23.0';
         DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://jmineau.github.io/uataq/switcher.json';
         DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
         DOCUMENTATION_OPTIONS.show_version_warning_banner =
@@ -58,8 +59,9 @@
     <link rel="next" title="Configuration" href="config.html" />
     <link rel="prev" title="Columns" href="columns.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.2.dev7+ga44b1d5ae" />
+  <meta name="docsearch:version" content="2026.10.2.dev8+ge96a5d379" />
   
     
     <script src="../_static/searchtools.js"></script>
@@ -127,7 +129,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.2.dev7+ga44b1d5ae documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.2.dev8+ge96a5d379 documentation</p>
   
 </a></div>
     
@@ -737,18 +739,18 @@ documentation is built; the output is from runs on 12 October 2026.</p>
 <p>Times have no time zone attached. A string with an offset other than <code class="docutils literal notranslate"><span class="pre">Z</span></code> or
 <code class="docutils literal notranslate"><span class="pre">+00:00</span></code> is an error that says so:</p>
 <div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">uataq</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">uataq</span><span class="o">.</span><span class="n">get_obs</span><span class="p">(</span><span class="s2">&quot;WBB&quot;</span><span class="p">,</span> <span class="s2">&quot;CO2&quot;</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="s2">&quot;2025-06-01T00:00-06:00&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">uataq</span><span class="o">.</span><span class="n">get_obs</span><span class="p">(</span><span class="s2">"WBB"</span><span class="p">,</span> <span class="s2">"CO2"</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="s2">"2025-06-01T00:00-06:00"</span><span class="p">)</span>
 <span class="gt">Traceback (most recent call last):</span>
 <span class="w">  </span><span class="c">...</span>
-<span class="gr">ValueError</span>: <span class="n">Invalid time string &#39;2025-06-01T00:00-06:00&#39;. Expected ISO 8601 in UTC, e.g. &#39;2024&#39;, &#39;2024-01&#39;, &#39;2024-01-15&#39;, &#39;2024-01-15T12:30:45&#39;.</span>
+<span class="gr">ValueError</span>: <span class="n">Invalid time string '2025-06-01T00:00-06:00'. Expected ISO 8601 in UTC, e.g. '2024', '2024-01', '2024-01-15', '2024-01-15T12:30:45'.</span>
 </pre></div>
 </div>
 <p>A pandas <code class="docutils literal notranslate"><span class="pre">Timestamp</span></code> must not carry a time zone either. One that does gives
 an error that does not say what to do:</p>
 <div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">start</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="s2">&quot;2025-06-01&quot;</span><span class="p">,</span> <span class="n">tz</span><span class="o">=</span><span class="s2">&quot;America/Denver&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">stop</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="s2">&quot;2025-07-01&quot;</span><span class="p">,</span> <span class="n">tz</span><span class="o">=</span><span class="s2">&quot;America/Denver&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">uataq</span><span class="o">.</span><span class="n">get_obs</span><span class="p">(</span><span class="s2">&quot;WBB&quot;</span><span class="p">,</span> <span class="s2">&quot;CO2&quot;</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="p">[</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">start</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="s2">"2025-06-01"</span><span class="p">,</span> <span class="n">tz</span><span class="o">=</span><span class="s2">"America/Denver"</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">stop</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="s2">"2025-07-01"</span><span class="p">,</span> <span class="n">tz</span><span class="o">=</span><span class="s2">"America/Denver"</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">uataq</span><span class="o">.</span><span class="n">get_obs</span><span class="p">(</span><span class="s2">"WBB"</span><span class="p">,</span> <span class="s2">"CO2"</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="p">[</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">])</span>
 <span class="gt">Traceback (most recent call last):</span>
 <span class="w">  </span><span class="c">...</span>
 <span class="gr">TypeError</span>: <span class="n">Cannot compare tz-naive and tz-aware timestamps</span>
@@ -756,10 +758,10 @@ an error that does not say what to do:</p>
 </div>
 <p>The same happens with <code class="docutils literal notranslate"><span class="pre">tz=&quot;UTC&quot;</span></code>. Convert the times to UTC and take the time
 zone off:</p>
-<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">utc</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">tz_convert</span><span class="p">(</span><span class="s2">&quot;UTC&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">tz_localize</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">)]</span>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">utc</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">tz_convert</span><span class="p">(</span><span class="s2">"UTC"</span><span class="p">)</span><span class="o">.</span><span class="n">tz_localize</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">)]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">utc</span>
-<span class="go">[Timestamp(&#39;2025-06-01 06:00:00&#39;), Timestamp(&#39;2025-07-01 06:00:00&#39;)]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">uataq</span><span class="o">.</span><span class="n">get_obs</span><span class="p">(</span><span class="s2">&quot;WBB&quot;</span><span class="p">,</span> <span class="s2">&quot;CO2&quot;</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="n">utc</span><span class="p">))</span>
+<span class="go">[Timestamp('2025-06-01 06:00:00'), Timestamp('2025-07-01 06:00:00')]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">uataq</span><span class="o">.</span><span class="n">get_obs</span><span class="p">(</span><span class="s2">"WBB"</span><span class="p">,</span> <span class="s2">"CO2"</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="n">utc</span><span class="p">))</span>
 <span class="go">250685</span>
 </pre></div>
 </div>
@@ -770,14 +772,14 @@ rows by converting a longer read and cutting it.</p>
 <h3>Where a range ends<a class="headerlink" href="#where-a-range-ends" title="Link to this heading">#</a></h3>
 <p>An end given as a <code class="docutils literal notranslate"><span class="pre">Timestamp</span></code> stops at that instant, so the same end given as
 a string gives a longer range:</p>
-<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">get_obs</span><span class="p">(</span><span class="s2">&quot;WBB&quot;</span><span class="p">,</span> <span class="s2">&quot;CO2&quot;</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;2025-06-02T06&quot;</span><span class="p">,</span> <span class="s2">&quot;2025-06-03T06&quot;</span><span class="p">])</span>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">get_obs</span><span class="p">(</span><span class="s2">"WBB"</span><span class="p">,</span> <span class="s2">"CO2"</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="p">[</span><span class="s2">"2025-06-02T06"</span><span class="p">,</span> <span class="s2">"2025-06-03T06"</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-<span class="go">Timestamp(&#39;2025-06-03 06:59:53&#39;)</span>
+<span class="go">Timestamp('2025-06-03 06:59:53')</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">get_obs</span><span class="p">(</span>
-<span class="gp">... </span>    <span class="s2">&quot;WBB&quot;</span><span class="p">,</span> <span class="s2">&quot;CO2&quot;</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="s2">&quot;2025-06-02T06&quot;</span><span class="p">),</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="s2">&quot;2025-06-03T06&quot;</span><span class="p">)]</span>
+<span class="gp">... </span>    <span class="s2">"WBB"</span><span class="p">,</span> <span class="s2">"CO2"</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="s2">"2025-06-02T06"</span><span class="p">),</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="s2">"2025-06-03T06"</span><span class="p">)]</span>
 <span class="gp">... </span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">b</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-<span class="go">Timestamp(&#39;2025-06-03 05:59:58&#39;)</span>
+<span class="go">Timestamp('2025-06-03 05:59:58')</span>
 </pre></div>
 </div>
 <p>So the string range is an hour longer. When you want an end at an exact time,
@@ -893,8 +895,8 @@ files. The default, <code class="docutils literal notranslate"><span class="pre"
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0"></script>
-<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0"></script>
+  <script defer src="../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -914,7 +916,7 @@ files. The default, <code class="docutils literal notranslate"><span class="pre"
         <div class="footer-item">
 
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.2.0.
   </p>
 </div>
       
@@ -927,7 +929,7 @@ files. The default, <code class="docutils literal notranslate"><span class="pre"
         <div class="footer-item">
 <p class="theme-version">
   <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.22.0.
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.23.0.
 </p></div>
       
     </div>

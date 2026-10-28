@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Data levels and flags &#8212; UATAQ 2026.10.2.dev7+ga44b1d5ae documentation</title>
+    <title>Data levels and flags &#8212; UATAQ 2026.10.2.dev8+ge96a5d379 documentation</title>
   
   
   
@@ -26,27 +26,28 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=64cc4de3f052d77215f0" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=64cc4de3f052d77215f0" rel="stylesheet" />
+  <link href="../_static/styles/theme.css?digest=18bd87630a240e9c25be" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=18bd87630a240e9c25be" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx_autodoc_typehints.css?v=057ac668" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
   
   <!-- So that users can add custom icons -->
-  <script defer src="../_static/scripts/fontawesome.js?digest=64cc4de3f052d77215f0"></script>
+  <script defer src="../_static/scripts/fontawesome.js?digest=18bd87630a240e9c25be"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be" />
 
-    <script src="../_static/documentation_options.js?v=7b944022"></script>
+    <script src="../_static/documentation_options.js?v=1e964fe4"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../_static/copybutton.js?v=f281be69"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'guides/data_levels_and_flags';</script>
     <script>
-        DOCUMENTATION_OPTIONS.theme_version = '0.22.0';
+        DOCUMENTATION_OPTIONS.theme_version = '0.23.0';
         DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://jmineau.github.io/uataq/switcher.json';
         DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
         DOCUMENTATION_OPTIONS.show_version_warning_banner =
@@ -58,8 +59,9 @@
     <link rel="next" title="Mobile sites" href="mobile_sites.html" />
     <link rel="prev" title="Read data" href="read_data.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.2.dev7+ga44b1d5ae" />
+  <meta name="docsearch:version" content="2026.10.2.dev8+ge96a5d379" />
   
     
     <script src="../_static/searchtools.js"></script>
@@ -127,7 +129,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.2.dev7+ga44b1d5ae documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.2.dev8+ge96a5d379 documentation</p>
   
 </a></div>
     
@@ -546,24 +548,24 @@ level an instrument does not have raises an error that lists the levels it has
 its highest level, so <a class="reference internal" href="../api/uataq.read_data.html#uataq.read_data" title="uataq.read_data"><code class="xref py py-func docutils literal notranslate"><span class="pre">read_data()</span></code></a> reads it with no <code class="docutils literal notranslate"><span class="pre">lvl</span></code>:</p>
 <div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">uataq</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">final</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">read_data</span><span class="p">(</span><span class="s2">&quot;WBB&quot;</span><span class="p">,</span> <span class="s2">&quot;lgr_ugga&quot;</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="s2">&quot;2025-06-02&quot;</span><span class="p">)[</span><span class="s2">&quot;lgr_ugga&quot;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">final</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">read_data</span><span class="p">(</span><span class="s2">"WBB"</span><span class="p">,</span> <span class="s2">"lgr_ugga"</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="s2">"2025-06-02"</span><span class="p">)[</span><span class="s2">"lgr_ugga"</span><span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">final</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
-<span class="go">[&#39;CO2d_ppm_cal&#39;, &#39;CO2d_ppm_raw&#39;, &#39;CH4d_ppm_cal&#39;, &#39;CH4d_ppm_raw&#39;, &#39;H2O_ppm&#39;]</span>
+<span class="go">['CO2d_ppm_cal', 'CO2d_ppm_raw', 'CH4d_ppm_cal', 'CH4d_ppm_raw', 'H2O_ppm']</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">final</span><span class="p">)</span>
 <span class="go">8390</span>
 </pre></div>
 </div>
 <p>The <code class="docutils literal notranslate"><span class="pre">qaqc</span></code> level of the same day has every row the analyzer logged, with the
 columns that say what each row is:</p>
-<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qaqc</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">read_data</span><span class="p">(</span><span class="s2">&quot;WBB&quot;</span><span class="p">,</span> <span class="s2">&quot;lgr_ugga&quot;</span><span class="p">,</span> <span class="n">lvl</span><span class="o">=</span><span class="s2">&quot;qaqc&quot;</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="s2">&quot;2025-06-02&quot;</span><span class="p">)[</span><span class="s2">&quot;lgr_ugga&quot;</span><span class="p">]</span>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qaqc</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">read_data</span><span class="p">(</span><span class="s2">"WBB"</span><span class="p">,</span> <span class="s2">"lgr_ugga"</span><span class="p">,</span> <span class="n">lvl</span><span class="o">=</span><span class="s2">"qaqc"</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="s2">"2025-06-02"</span><span class="p">)[</span><span class="s2">"lgr_ugga"</span><span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">qaqc</span><span class="p">)</span>
 <span class="go">8845</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">qaqc</span><span class="p">[</span><span class="s2">&quot;QAQC_Flag&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qaqc</span><span class="p">[</span><span class="s2">"QAQC_Flag"</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
 <span class="go">QAQC_Flag</span>
 <span class="go"> 0    8586</span>
 <span class="go">-2     259</span>
 <span class="go">Name: count, dtype: int64</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">cal</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">read_data</span><span class="p">(</span><span class="s2">&quot;WBB&quot;</span><span class="p">,</span> <span class="s2">&quot;lgr_ugga&quot;</span><span class="p">,</span> <span class="n">lvl</span><span class="o">=</span><span class="s2">&quot;calibrated&quot;</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="s2">&quot;2025-06-02&quot;</span><span class="p">)[</span><span class="s2">&quot;lgr_ugga&quot;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cal</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">read_data</span><span class="p">(</span><span class="s2">"WBB"</span><span class="p">,</span> <span class="s2">"lgr_ugga"</span><span class="p">,</span> <span class="n">lvl</span><span class="o">=</span><span class="s2">"calibrated"</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="s2">"2025-06-02"</span><span class="p">)[</span><span class="s2">"lgr_ugga"</span><span class="p">]</span>
 </pre></div>
 </div>
 <p>The 8,845 rows are the 8,390 final ones, 259 rows flagged <code class="docutils literal notranslate"><span class="pre">-2</span></code> (<a class="reference internal" href="#flags">Flags</a>) and
@@ -578,7 +580,7 @@ which.</p>
 <p><code class="docutils literal notranslate"><span class="pre">ID</span></code> is the label logged with each row. For the <code class="docutils literal notranslate"><span class="pre">lgr_ugga</span></code> it is <strong>text</strong>,
 the description set on the analyzer’s Multi Inlet Unit (the valve box).
 <code class="docutils literal notranslate"><span class="pre">ID_CO2</span></code> and <code class="docutils literal notranslate"><span class="pre">ID_CH4</span></code> are <strong>numbers</strong> that the pipeline makes from it:</p>
-<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qaqc</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">&quot;ID&quot;</span><span class="p">,</span> <span class="s2">&quot;ID_CO2&quot;</span><span class="p">,</span> <span class="s2">&quot;ID_CH4&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qaqc</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">"ID"</span><span class="p">,</span> <span class="s2">"ID_CO2"</span><span class="p">,</span> <span class="s2">"ID_CH4"</span><span class="p">])</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
 <span class="go">ID                      ID_CO2   ID_CH4</span>
 <span class="go">~406.49~1.91             406.49   1.91       70</span>
 <span class="go">~478.24~2.62             478.24   2.62       63</span>
@@ -616,8 +618,8 @@ which <code class="docutils literal notranslate"><span class="pre">ID</span></co
 <code class="docutils literal notranslate"><span class="pre">ID</span> <span class="pre">==</span> <span class="pre">-10</span></code> selects no rows, because <code class="docutils literal notranslate"><span class="pre">ID</span></code> is text.</p>
 <p>For the <code class="docutils literal notranslate"><span class="pre">licor_6262</span></code> and <code class="docutils literal notranslate"><span class="pre">licor_7000</span></code>, <code class="docutils literal notranslate"><span class="pre">ID</span></code> is already a number, with the
 same codes, and <code class="docutils literal notranslate"><span class="pre">ID_CO2</span></code> is equal to it. They have no <code class="docutils literal notranslate"><span class="pre">ID_CH4</span></code>:</p>
-<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">licor</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">read_data</span><span class="p">(</span><span class="s2">&quot;SUG&quot;</span><span class="p">,</span> <span class="s2">&quot;licor_7000&quot;</span><span class="p">,</span> <span class="n">lvl</span><span class="o">=</span><span class="s2">&quot;qaqc&quot;</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="s2">&quot;2025-06-02&quot;</span><span class="p">)[</span><span class="s2">&quot;licor_7000&quot;</span><span class="p">]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">licor</span><span class="p">[</span><span class="s2">&quot;ID&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">licor</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">read_data</span><span class="p">(</span><span class="s2">"SUG"</span><span class="p">,</span> <span class="s2">"licor_7000"</span><span class="p">,</span> <span class="n">lvl</span><span class="o">=</span><span class="s2">"qaqc"</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="s2">"2025-06-02"</span><span class="p">)[</span><span class="s2">"licor_7000"</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">licor</span><span class="p">[</span><span class="s2">"ID"</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
 <span class="go">ID</span>
 <span class="go">-10.00     7992</span>
 <span class="go">-99.00      459</span>
@@ -626,7 +628,7 @@ same codes, and <code class="docutils literal notranslate"><span class="pre">ID_
 <span class="go"> 487.55      60</span>
 <span class="go"> 524.29       5</span>
 <span class="go">Name: count, dtype: int64</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="n">licor</span><span class="p">[</span><span class="s2">&quot;ID&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">licor</span><span class="p">[</span><span class="s2">&quot;ID_CO2&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="n">licor</span><span class="p">[</span><span class="s2">"ID"</span><span class="p">]</span> <span class="o">==</span> <span class="n">licor</span><span class="p">[</span><span class="s2">"ID_CO2"</span><span class="p">])</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
 <span class="go">np.True_</span>
 </pre></div>
 </div>
@@ -635,7 +637,7 @@ same codes, and <code class="docutils literal notranslate"><span class="pre">ID_
 <span id="what-final-keeps"></span><h2>What the final level keeps<a class="headerlink" href="#what-the-final-level-keeps" title="Link to this heading">#</a></h2>
 <p>The flush rows are flagged (<code class="docutils literal notranslate"><span class="pre">-2</span></code>), but the
 reference tank rows have flag 0, like the outside air:</p>
-<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pd</span><span class="o">.</span><span class="n">crosstab</span><span class="p">(</span><span class="n">qaqc</span><span class="p">[</span><span class="s2">&quot;ID_CO2&quot;</span><span class="p">],</span> <span class="n">qaqc</span><span class="p">[</span><span class="s2">&quot;QAQC_Flag&quot;</span><span class="p">])</span>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pd</span><span class="o">.</span><span class="n">crosstab</span><span class="p">(</span><span class="n">qaqc</span><span class="p">[</span><span class="s2">"ID_CO2"</span><span class="p">],</span> <span class="n">qaqc</span><span class="p">[</span><span class="s2">"QAQC_Flag"</span><span class="p">])</span>
 <span class="go">QAQC_Flag   -2     0</span>
 <span class="go">ID_CO2</span>
 <span class="go">-99.00     259     0</span>
@@ -647,7 +649,7 @@ reference tank rows have flag 0, like the outside air:</p>
 </div>
 <p>So <code class="docutils literal notranslate"><span class="pre">QAQC_Flag</span> <span class="pre">&gt;=</span> <span class="pre">0</span></code> alone keeps the tank rows. The <code class="docutils literal notranslate"><span class="pre">final</span></code> level is the
 <code class="docutils literal notranslate"><span class="pre">calibrated</span></code> rows of the outside air that pass QAQC:</p>
-<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">kept</span> <span class="o">=</span> <span class="n">cal</span><span class="p">[(</span><span class="n">cal</span><span class="p">[</span><span class="s2">&quot;ID_CO2&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="o">-</span><span class="mi">10</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">cal</span><span class="p">[</span><span class="s2">&quot;QAQC_Flag&quot;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)]</span>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">kept</span> <span class="o">=</span> <span class="n">cal</span><span class="p">[(</span><span class="n">cal</span><span class="p">[</span><span class="s2">"ID_CO2"</span><span class="p">]</span> <span class="o">==</span> <span class="o">-</span><span class="mi">10</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">cal</span><span class="p">[</span><span class="s2">"QAQC_Flag"</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">kept</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">final</span><span class="p">)</span>
 <span class="go">(8390, 8390)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">kept</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">final</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
@@ -680,16 +682,16 @@ the <code class="docutils literal notranslate"><span class="pre">2b_205</span></
 <code class="docutils literal notranslate"><span class="pre">QAQC_Flag</span> <span class="pre">=</span> <span class="pre">-1</span></code>, so their flag is 0 (passes) or -1 (flagged). Their <code class="docutils literal notranslate"><span class="pre">final</span></code>
 level is the <code class="docutils literal notranslate"><span class="pre">qaqc</span></code> rows that pass and have a value.
 For the <code class="docutils literal notranslate"><span class="pre">2b_205</span></code> on TRX01 on 1 June 2024:</p>
-<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">o3</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">read_data</span><span class="p">(</span><span class="s2">&quot;TRX01&quot;</span><span class="p">,</span> <span class="s2">&quot;2b_205&quot;</span><span class="p">,</span> <span class="n">lvl</span><span class="o">=</span><span class="s2">&quot;qaqc&quot;</span><span class="p">,</span> <span class="n">group</span><span class="o">=</span><span class="s2">&quot;horel&quot;</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="s2">&quot;2024-06-01&quot;</span><span class="p">)[</span><span class="s2">&quot;2b_205&quot;</span><span class="p">]</span>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">o3</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">read_data</span><span class="p">(</span><span class="s2">"TRX01"</span><span class="p">,</span> <span class="s2">"2b_205"</span><span class="p">,</span> <span class="n">lvl</span><span class="o">=</span><span class="s2">"qaqc"</span><span class="p">,</span> <span class="n">group</span><span class="o">=</span><span class="s2">"horel"</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="s2">"2024-06-01"</span><span class="p">)[</span><span class="s2">"2b_205"</span><span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">o3</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
-<span class="go">[&#39;O3_ppb&#39;, &#39;Flow_Lpm&#39;, &#39;Internal_T_C&#39;, &#39;Internal_P_hPa&#39;, &#39;QAQC_Flag&#39;]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">o3</span><span class="p">[</span><span class="s2">&quot;QAQC_Flag&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+<span class="go">['O3_ppb', 'Flow_Lpm', 'Internal_T_C', 'Internal_P_hPa', 'QAQC_Flag']</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">o3</span><span class="p">[</span><span class="s2">"QAQC_Flag"</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
 <span class="go">QAQC_Flag</span>
 <span class="go"> 0    39134</span>
 <span class="go">-1     4066</span>
 <span class="go">Name: count, dtype: int64</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">final_o3</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">read_data</span><span class="p">(</span><span class="s2">&quot;TRX01&quot;</span><span class="p">,</span> <span class="s2">&quot;2b_205&quot;</span><span class="p">,</span> <span class="n">group</span><span class="o">=</span><span class="s2">&quot;horel&quot;</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="s2">&quot;2024-06-01&quot;</span><span class="p">)[</span><span class="s2">&quot;2b_205&quot;</span><span class="p">]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">kept</span> <span class="o">=</span> <span class="n">o3</span><span class="p">[(</span><span class="n">o3</span><span class="p">[</span><span class="s2">&quot;QAQC_Flag&quot;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">o3</span><span class="p">[</span><span class="s2">&quot;O3_ppb&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">notna</span><span class="p">()]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">final_o3</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">read_data</span><span class="p">(</span><span class="s2">"TRX01"</span><span class="p">,</span> <span class="s2">"2b_205"</span><span class="p">,</span> <span class="n">group</span><span class="o">=</span><span class="s2">"horel"</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="s2">"2024-06-01"</span><span class="p">)[</span><span class="s2">"2b_205"</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">kept</span> <span class="o">=</span> <span class="n">o3</span><span class="p">[(</span><span class="n">o3</span><span class="p">[</span><span class="s2">"QAQC_Flag"</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">o3</span><span class="p">[</span><span class="s2">"O3_ppb"</span><span class="p">]</span><span class="o">.</span><span class="n">notna</span><span class="p">()]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">kept</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">final_o3</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
 <span class="go">True</span>
 </pre></div>
@@ -705,7 +707,7 @@ There are two causes you can see in the data.</p>
 <code class="docutils literal notranslate"><span class="pre">_raw</span></code> columns. This is the case for TRX01’s <a class="reference internal" href="../reference/sites_and_instruments.html#term-lgr_ugga_manual_cal"><span class="xref std std-term">lgr_ugga_manual_cal</span></a>,
 whose <code class="docutils literal notranslate"><span class="pre">_raw</span></code> columns hold the value the LGR software calibrated, not an
 uncalibrated one:</p>
-<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">trax</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">read_data</span><span class="p">(</span><span class="s2">&quot;TRX01&quot;</span><span class="p">,</span> <span class="s2">&quot;lgr_ugga_manual_cal&quot;</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="s2">&quot;2024-09-01&quot;</span><span class="p">)[</span><span class="s2">&quot;lgr_ugga_manual_cal&quot;</span><span class="p">]</span>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">trax</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">read_data</span><span class="p">(</span><span class="s2">"TRX01"</span><span class="p">,</span> <span class="s2">"lgr_ugga_manual_cal"</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="s2">"2024-09-01"</span><span class="p">)[</span><span class="s2">"lgr_ugga_manual_cal"</span><span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">trax</span><span class="o">.</span><span class="n">notna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
 <span class="go">CO2d_ppm_cal       0</span>
 <span class="go">CO2d_ppm_raw    7200</span>
@@ -719,18 +721,18 @@ uncalibrated one:</p>
 not flagged, so they are in the <code class="docutils literal notranslate"><span class="pre">final</span></code> level. A row gets a fit only after
 the analyzer has measured the tanks, and the first tank measurement of a new
 year comes some hours in. At WBB on 1 January 2025:</p>
-<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">jan1</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">read_data</span><span class="p">(</span><span class="s2">&quot;WBB&quot;</span><span class="p">,</span> <span class="s2">&quot;lgr_ugga&quot;</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="s2">&quot;2025-01-01&quot;</span><span class="p">)[</span><span class="s2">&quot;lgr_ugga&quot;</span><span class="p">]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">empty</span> <span class="o">=</span> <span class="n">jan1</span><span class="p">[</span><span class="s2">&quot;CO2d_ppm_cal&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span> <span class="o">&amp;</span> <span class="n">jan1</span><span class="p">[</span><span class="s2">&quot;CO2d_ppm_raw&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">notna</span><span class="p">()</span>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">jan1</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">read_data</span><span class="p">(</span><span class="s2">"WBB"</span><span class="p">,</span> <span class="s2">"lgr_ugga"</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="s2">"2025-01-01"</span><span class="p">)[</span><span class="s2">"lgr_ugga"</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">empty</span> <span class="o">=</span> <span class="n">jan1</span><span class="p">[</span><span class="s2">"CO2d_ppm_cal"</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span> <span class="o">&amp;</span> <span class="n">jan1</span><span class="p">[</span><span class="s2">"CO2d_ppm_raw"</span><span class="p">]</span><span class="o">.</span><span class="n">notna</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">int</span><span class="p">(</span><span class="n">empty</span><span class="o">.</span><span class="n">sum</span><span class="p">()),</span> <span class="n">jan1</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="n">empty</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
-<span class="go">(824, Timestamp(&#39;2025-01-01 02:14:01&#39;))</span>
+<span class="go">(824, Timestamp('2025-01-01 02:14:01'))</span>
 </pre></div>
 </div>
 <p>The <code class="docutils literal notranslate"><span class="pre">calibrated</span></code> level shows the fit starting as the analyzer measures the
 three tanks, one after another. Here is the first row with each value of
 <code class="docutils literal notranslate"><span class="pre">CO2d_n</span></code>:</p>
-<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cal</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">read_data</span><span class="p">(</span><span class="s2">&quot;WBB&quot;</span><span class="p">,</span> <span class="s2">&quot;lgr_ugga&quot;</span><span class="p">,</span> <span class="n">lvl</span><span class="o">=</span><span class="s2">&quot;calibrated&quot;</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="s2">&quot;2025-01-01T02&quot;</span><span class="p">)[</span><span class="s2">&quot;lgr_ugga&quot;</span><span class="p">]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">cols</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;CO2d_ppm_raw&quot;</span><span class="p">,</span> <span class="s2">&quot;CO2d_ppm_cal&quot;</span><span class="p">,</span> <span class="s2">&quot;CO2d_n&quot;</span><span class="p">,</span> <span class="s2">&quot;CO2d_b&quot;</span><span class="p">,</span> <span class="s2">&quot;CO2d_rsq&quot;</span><span class="p">,</span> <span class="s2">&quot;ID_CO2&quot;</span><span class="p">]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">cal</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span><span class="s2">&quot;CO2d_n&quot;</span><span class="p">)[</span><span class="n">cols</span><span class="p">]</span>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cal</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">read_data</span><span class="p">(</span><span class="s2">"WBB"</span><span class="p">,</span> <span class="s2">"lgr_ugga"</span><span class="p">,</span> <span class="n">lvl</span><span class="o">=</span><span class="s2">"calibrated"</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="s2">"2025-01-01T02"</span><span class="p">)[</span><span class="s2">"lgr_ugga"</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cols</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"CO2d_ppm_raw"</span><span class="p">,</span> <span class="s2">"CO2d_ppm_cal"</span><span class="p">,</span> <span class="s2">"CO2d_n"</span><span class="p">,</span> <span class="s2">"CO2d_b"</span><span class="p">,</span> <span class="s2">"CO2d_rsq"</span><span class="p">,</span> <span class="s2">"ID_CO2"</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cal</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span><span class="s2">"CO2d_n"</span><span class="p">)[</span><span class="n">cols</span><span class="p">]</span>
 <span class="go">                     CO2d_ppm_raw  CO2d_ppm_cal  CO2d_n    CO2d_b  CO2d_rsq  ID_CO2</span>
 <span class="go">Time_UTC</span>
 <span class="go">2025-01-01 02:00:00      445.0774           NaN       0       NaN       NaN  -10.00</span>
@@ -744,7 +746,7 @@ on 31 December 2024). Rows can lack a fit at other times too; CO2 and CH4 are
 empty on the same rows. Find them with the line below rather than assuming
 where they are.</p>
 <p>To find these rows in your data:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">empty</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;CO2d_ppm_cal&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span> <span class="o">&amp;</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;CO2d_ppm_raw&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">notna</span><span class="p">()</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">empty</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">"CO2d_ppm_cal"</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span> <span class="o">&amp;</span> <span class="n">df</span><span class="p">[</span><span class="s2">"CO2d_ppm_raw"</span><span class="p">]</span><span class="o">.</span><span class="n">notna</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>Their <code class="docutils literal notranslate"><span class="pre">_raw</span></code> value is not calibrated.</p>
@@ -830,8 +832,8 @@ where they are.</p>
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0"></script>
-<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0"></script>
+  <script defer src="../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -851,7 +853,7 @@ where they are.</p>
         <div class="footer-item">
 
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.2.0.
   </p>
 </div>
       
@@ -864,7 +866,7 @@ where they are.</p>
         <div class="footer-item">
 <p class="theme-version">
   <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.22.0.
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.23.0.
 </p></div>
       
     </div>
