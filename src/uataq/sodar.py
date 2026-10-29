@@ -19,11 +19,13 @@ rather than through :func:`uataq.read_data`. Profiles are returned as an
 
 Examples
 --------
-The examples read the archive, so the tests do not run them.
+The examples read the archive, so the tests do not run them. A station has files
+for some months only (USDR1 has none for 2019): a range with no file raises
+``FileNotFoundError``.
 
 >>> from uataq.sodar import Sodar
 >>> sodar = Sodar("USDR1")  # doctest: +SKIP
->>> data = sodar.read_data(time_range=["2019-01-01", "2019-01-31"])  # doctest: +SKIP
+>>> data = sodar.read_data(time_range=["2021-01-01", "2021-01-31"])  # doctest: +SKIP
 >>> winds = Sodar.get_winds_at_height(data, height=100)  # doctest: +SKIP
 """
 
