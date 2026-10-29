@@ -536,6 +536,10 @@ class TestLGRUGGAFile:
         day = pd.Timestamp("2024-06-03").to_pydatetime()
         assert lin._day_in_range(day, time_range) is overlaps
 
+    def test_get_files_refuses_a_level_other_than_raw(self):
+        with pytest.raises(ValueError, match="Only raw data"):
+            lin.LGR_UGGA_File.get_files("WBB", "lgr_ugga", "qaqc")
+
     def test_get_files_finds_f_files_in_day_dirs(self, lin_data_dir):
         raw = lin_data_dir / "wbb" / "lgr_ugga" / "raw"
         for name in [

@@ -661,8 +661,14 @@ class LGR_UGGA_File(filesystem.DataFile):
         -------
         list[str]
             A list of file paths.
+
+        Raises
+        ------
+        ValueError
+            If ``lvl`` is not ``"raw"``.
         """
-        assert lvl == "raw", "Only raw data is stored in UGGA files"
+        if lvl != "raw":
+            raise ValueError("Only raw data is stored in UGGA files")
         data_path = LinGroup.data_path(SID, instrument, lvl)
         pattern = "*f????.txt"
         if time_range is None:

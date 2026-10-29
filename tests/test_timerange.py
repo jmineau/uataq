@@ -79,11 +79,15 @@ class TestTimeRangeInitialization:
 
     def test_initialization_conflict_raises_error(self):
         """Test that specifying both time_range and start/stop raises error."""
-        with pytest.raises(AssertionError):
+        with pytest.raises(ValueError, match="Cannot specify both"):
             TimeRange(
                 time_range="2024-01-15",
                 start=dt.datetime(2024, 1, 1),
             )
+
+    def test_initialization_conflict_with_stop_raises_error(self):
+        with pytest.raises(ValueError, match="Cannot specify both"):
+            TimeRange(time_range="2024", stop="2025-06-01")
 
     def test_initialization_invalid_format_raises_error(self):
         """Test that invalid format raises ValueError."""
