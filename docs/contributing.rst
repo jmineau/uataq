@@ -297,8 +297,7 @@ a month while the raw 2B file is full).
   dark (final). Compute the availability once and pass it in to restyle.
 - ``Network("all", pollutant)`` is every configured site that measures it. Ozone at
   every site over every year is thousands of files: run it in a Slurm job with
-  ``num_processes="max"``, from a script file with a ``__main__`` guard (Python 3.14
-  starts workers with forkserver, and a script read from stdin cannot spawn them).
+  ``num_processes="max"``, from a script file (see :ref:`large-reads`).
 
 The SODAR archive
 -----------------

@@ -241,7 +241,8 @@ rows) took 3.4 seconds with one process, 2.3 with two, 1.3 with four and 1.0 wit
 eight; six years of CO2 (16 million rows) took 21, 7.0 and 4.7 seconds with one,
 four and eight. Ask for no more processes than cores you were given. A script that uses more than one process needs the
 ``__main__`` guard, or Python 3.14 stops with a ``RuntimeError`` about
-"bootstrapping":
+"bootstrapping" (Python 3.14 starts the workers with forkserver, and a script read
+from stdin cannot spawn them, so run a script file):
 
 .. code-block:: python
 
