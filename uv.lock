@@ -3493,11 +3493,11 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "geopandas" },
-    { name = "numpy" },
-    { name = "pandas" },
+    { name = "geopandas", specifier = ">=1.1.0" },
+    { name = "numpy", specifier = ">=1.24" },
+    { name = "pandas", specifier = ">=2.0" },
     { name = "tables", specifier = ">3.10" },
-    { name = "xarray" },
+    { name = "xarray", specifier = ">=2022.3.0" },
 ]
 
 [package.metadata.requires-dev]
