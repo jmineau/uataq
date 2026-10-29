@@ -564,6 +564,52 @@ def test_prior_and_plain_gps_rows_join_in_time(tmp_path):
     assert data.index.tolist() == [pd.Timestamp(t) for t in times]
 
 
+class TestPilotFileEnd:
+    """
+    November 2018 has a raw file in both the pilot and the main archive.
+
+    The pilot file runs on past the end of the pilot phase with a copy of the
+    main file's rows once a minute, so a read would get those rows twice.
+    """
+
+    STOP = pd.Timestamp(horel.PILOT_PHASE["TRX01"].stop)
+
+    @pytest.fixture
+    def archive(self, tmp_path, monkeypatch):
+        pilot, main = tmp_path / "uutrax_pilot", tmp_path / "uutrax"
+        position = {"GLAT": [40.76, 40.77], "GLON": [-111.89, -111.88]}
+        before, after = (
+            self.STOP - pd.Timedelta("3min"),
+            self.STOP + pd.Timedelta("1min"),
+        )
+        # The pilot's own row, then a copy of a main-archive row
+        write_h5(
+            pilot / "cr1000" / "TRX01_2018_11_cr1000.h5",
+            {"EPOCHTIME": epoch(before, after), **position},
+        )
+        write_h5(
+            main / "cr1000" / "TRX01_2018_11_cr1000.h5",
+            {"EPOCHTIME": epoch(after, after + pd.Timedelta("2s")), **position},
+        )
+        monkeypatch.setattr(horel, "UUTRAX_PILOT_DIR", str(pilot))
+        with patch.dict(horel.lvl_data_dirs, {"raw": [str(pilot), str(main)]}):
+            yield before, after
+
+    def test_each_row_is_read_once(self, archive):
+        before, after = archive
+        gps = get_site("TRX01").instruments["gps"]
+        data = gps.read_data(
+            "horel", "raw", ("2018-11-19", "2018-11-21"), estimate_motion=False
+        )
+        assert data.index.tolist() == [before, after, after + pd.Timedelta("2s")]
+
+    def test_main_archive_file_is_kept_whole(self, archive, tmp_path):
+        _, after = archive
+        path = tmp_path / "uutrax" / "cr1000" / "TRX01_2018_11_cr1000.h5"
+        data = horel.HorelH5File(str(path), "gps").parse()
+        assert data["Time_UTC"].tolist() == [after, after + pd.Timedelta("2s")]
+
+
 class TestParseOnce:
     """
     One ``Site.read_data`` call parses each finalized CSV once.

@@ -34,11 +34,24 @@ UUTRAX_PILOT_DIR: str = os.path.join(HOREL_DIR, "uutrax_pilot")
 #: MesoWest operational data directory (SODAR archive is read by :mod:`uataq.sodar`)
 MESOWEST_DIR: str = os.path.join(HOREL_DIR, "oper", "mesowest")
 
-#: Pilot phase time ranges for UUTRAX data
+#: Pilot phase time ranges for UUTRAX data. A raw file of the pilot archive is
+#: read only before the stop: in 2018-11, the month the pilot ended, the pilot
+#: file runs on to the end of the month with a once-a-minute copy of the main
+#: archive's rows.
 PILOT_PHASE: dict[str, TimeRange] = {
     "TRX01": TimeRange(start="2014-11-11", stop="2018-11-19T20:03:58"),
     "TRX02": TimeRange(start="2016-02-04", stop="2018-11-19T18:53:52"),
 }
+
+
+def _pilot_stop(path: str) -> pd.Timestamp | None:
+    """Return the end of the pilot phase if ``path`` is a pilot-archive file, else None."""
+    pilot_dir = os.path.abspath(UUTRAX_PILOT_DIR)
+    if os.path.dirname(os.path.dirname(os.path.abspath(path))) != pilot_dir:
+        return None
+    phase = PILOT_PHASE.get(os.path.basename(path).split("_")[0])
+    return None if phase is None or phase.stop is None else pd.Timestamp(phase.stop)
+
 
 #: Suffix of the raw files horel set aside when a vehicle's MetOne ES642 was
 #: replaced by an ES405. For the month of each swap, ``{name}.h5`` holds the
@@ -349,6 +362,12 @@ class HorelH5File(HorelFile):
 
         # Format time
         data = self.format_time(data, unit="s")
+
+        # A pilot file runs past the pilot phase with rows the main archive
+        # also holds (see PILOT_PHASE): keep only the pilot's own
+        pilot_stop = _pilot_stop(self.path)
+        if pilot_stop is not None:
+            data = data[data.Time_UTC < pilot_stop]
 
         # Convert horel-group NoData to None
         data = HorelFile.convert_nodata(data)
