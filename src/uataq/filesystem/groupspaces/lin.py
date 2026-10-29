@@ -700,6 +700,8 @@ class LGR_UGGA_File(filesystem.DataFile):
         # Adapt column names depending on LGR software version.
         #  2013-2014 version has 23 columns
         #  2014+ version has 24 columns (MIU split into valve and description)
+        #  77 columns when the software also wrote its fit diagnostics (ROO and
+        #  HPL, 2015-11), between RD1_us_sd and Fit_Flag
 
         data_config = deepcopy(DATA_CONFIG["lgr_ugga"]["raw"])
 
@@ -714,12 +716,22 @@ class LGR_UGGA_File(filesystem.DataFile):
         _, cols, last_line = _read_lines(self.path, first=2, last=True)
         ndelim = cols.count(",")
 
+        usecols = None  # every column
         if ndelim == 0:
             raise ParserError("No deliminators in header!")
         elif ndelim == 23:
             # col_names config has 23 columns, temporarily add fill column
             col_names.insert(22, "fillvalue")
             col_types["fillvalue"] = float
+        elif ndelim != 22:
+            # Another layout: the 21 measurement columns come first, Fit_Flag
+            # is found by name, and the MIU description is last. Read with the
+            # 23 names alone, pandas would take the extra leading fields for
+            # an index and give the names to the wrong fields.
+            header = [name.strip() for name in cols.split(",")]
+            if "Fit_Flag" not in header:
+                raise ParserError(f"Unknown LGR column layout ({ndelim + 1} columns)")
+            usecols = [*range(21), header.index("Fit_Flag"), ndelim]
 
         # Leave out the last line when it is no complete row (an end-of-file
         # mark, or a row cut off by a power cut): it can end mid-number, which
@@ -736,6 +748,7 @@ class LGR_UGGA_File(filesystem.DataFile):
             source,
             header=1,
             names=col_names,
+            usecols=usecols,
             dtype=col_types,
             on_bad_lines="skip",
             na_values=["TO", ""],

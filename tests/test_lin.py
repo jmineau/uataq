@@ -346,6 +346,58 @@ class TestLGRUGGAFile:
         assert data["Fit_Flag"].tolist() == [3.0, 3.0]
         assert data["ID"].tolist() == ["~flush~flush", "atmosphere"]
 
+    def test_parse_the_layout_with_fit_diagnostics(self, tmp_path):
+        """
+        77 columns (ROO and HPL, 2015-11): diagnostics before Fit_Flag.
+
+        The 21 measurement columns, Fit_Flag and the MIU description keep
+        their values; the diagnostics and the valve number are left out.
+        """
+        diagnostics = [f"Diag{i}" for i in range(52)]
+        header = [
+            "Time",
+            *[f"m{i}" for i in range(20)],
+            *diagnostics,
+            "Fit_Flag",
+            "N_Fits_Avg'd",
+            "MIU_VALVE",
+            "MIU_DESC",
+        ]
+        assert len(header) == 77
+        rows = [
+            ugga_row(
+                time,
+                n_numeric=20 + len(diagnostics),
+                tail=("3", "1", "1", "~Atmosphere~Atmosphere"),
+            )
+            for time in ["11/19/2015 15:29:17.950", "11/19/2015 15:29:18.721"]
+        ]
+        path = tmp_path / "gga_2015-11-19_f0000.txt"
+        meta = "VC:2f90039 BD:Jan 16 2014 SN:LGR-14-0237"
+        path.write_text("\n".join([meta, ",".join(header), *rows]) + "\n")
+
+        data = lin.LGR_UGGA_File(str(path)).parse()
+
+        assert list(data.columns) == UGGA_NAMES
+        assert data["Time_UTC"].tolist() == list(
+            pd.to_datetime(["2015-11-19 15:29:17.950", "2015-11-19 15:29:18.721"])
+        )
+        # ugga_row writes 1.9, 2.9, ...: the first numbers are the gases
+        assert data["CH4_ppm"].tolist() == pytest.approx([1.9, 1.9])
+        assert data["RD1_us_sd"].tolist() == pytest.approx([1.9 + 19] * 2)
+        assert data["Fit_Flag"].tolist() == [3.0, 3.0]
+        assert data["ID"].tolist() == ["~Atmosphere~Atmosphere"] * 2
+
+    def test_unknown_layout_raises(self, tmp_path):
+        """A layout with no Fit_Flag to find is not guessed at."""
+        header = ["Time", *[f"m{i}" for i in range(30)]]
+        rows = [ugga_row("11/19/2015 15:29:17.950", n_numeric=30, tail=())]
+        path = tmp_path / "gga_2015-11-19_f0000.txt"
+        meta = "VC:2f90039 BD:Jan 16 2014 SN:LGR-14-0237"
+        path.write_text("\n".join([meta, ",".join(header), *rows]) + "\n")
+        with pytest.raises(errors.ParserError, match="31 columns"):
+            lin.LGR_UGGA_File(str(path)).parse()
+
     def test_incomplete_last_row_is_dropped(self, tmp_path):
         """A row cut off mid-write (a power cut) is skipped, not misread."""
         rows = [
