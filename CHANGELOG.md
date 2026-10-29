@@ -8,6 +8,8 @@ release (`just changelog` drafts them).
 
 ## [Unreleased]
 
+## [2026.10.2] - 2026-10-29
+
 ### Added
 
 - `LINGROUP_MEASUREMENTS_DIR` sets the Lin group's measurements root when it is
@@ -16,12 +18,43 @@ release (`just changelog` drafts them).
   read at import. `groupspaces.lin.MEASUREMENTS_DIR`, `CONFIG_DIR` and `DATA_DIR`
   keep their names and follow the variable. A value that is not a directory
   raises `FileNotFoundError` naming the variable.
+- `MobileSite.get_obs` has an `instrument` column naming the instrument that
+  logged each row, as `get_network_obs` already has. At TRX01 the rows of
+  `lgr_ugga` and `lgr_ugga_manual_cal` share columns, so this is the only way to
+  tell them apart. The column follows the measurement columns and comes before
+  the GPS ones, in wide and long format.
+- `MobileSite.get_obs` warns `EmptyResultWarning` when it read rows but none
+  found a GPS fix (TRX01's methane in 2018-09 and 2018-10, its lin ozone in
+  2017-08), says how many rows were read and points to `include_gps=False`. It
+  returned an empty table without a word.
 
 ### Changed
 
 - The default Lin group measurements root is the group's dedicated measurements
   space, not a link to it in another group space. The data read are the same.
   `LinGroup.data_dir` is now a property.
+- uataq declares minimum versions: geopandas 1.1, numpy 1.24, pandas 2.0 and
+  xarray 2022.3. geopandas 1.0 and older import `shapely.geos`, which warns on
+  shapely 2.1.
+- A bad `TimeRange` (`TimeRange("2024", start="2023-01-01")`), a bad data
+  level in `Instrument.read_data`, and the raw-only check in
+  `LGR_UGGA_File.get_files` raise `ValueError` with the same messages. They were asserts, so under
+  `python -O` the check was skipped and `start` was dropped without a word.
+- Docs: the front page cites Mendoza et al. (2024), the electric bus paper, for
+  the bus data, and no longer cites Mitchell et al. (2018, PNAS), the long-term
+  CO2 record. From a new student's read: the README's installation link works,
+  the pin example names the newest release, wide tables say they are shortened,
+  the loop that skips sites with no data shows its log lines, docstrings say
+  `time_range` is UTC and what `read_data` and `Network.sites` hold, the SODAR
+  example uses a month USDR1 has data for, `num_processes` is said to speed up
+  final-level reads too, and large reads, the Slurm script, the dev setup, the
+  horel clock and the raw-only months each have one page.
+
+### Removed
+
+- `uataq.filesystem.groupspaces.lin.dms2dd`. Nothing called it, and
+  it was wrong for negative degrees (`dms2dd(-111, 53, 24)` gave -110.11, not
+  -111.89); `lair.geo.dms2dd` is the one to use.
 
 ### Fixed
 
@@ -31,6 +64,22 @@ release (`just changelog` drafts them).
   qaqc files, which repeat about 1,400 timestamps a month.
 - A row with no valid GPS time of day gets a NaT with the `ns` unit. The unitless
   NaT warns on NumPy 2.5 and will become an error in a future NumPy.
+- `Site.get_obs` gives each pollutant only its own columns. `"NO"` also
+  returned `NO2_ppb` and `NOx_ppb`, and `"PM1"` returned `PM10_ugm3`; in the long
+  format their values were rows of the same table. WBB's `teom_1400ab`
+  `PM2.5_ugm3_30min` and `PM2.5_ugm3_1hr` (2016-09 to 2017-03) are no longer in
+  `get_obs("PM2.5")`.
+- Raw LGR files with other column layouts are read by their header. Ten files
+  (ROO and HPL, 2015-11) have 77 columns and gave no rows: every name landed on
+  the wrong field. A layout that is neither 23 nor 24 columns takes the 21
+  measurement columns, `Fit_Flag` by name and the MIU description; one without a
+  `Fit_Flag` raises `ParserError`.
+- A raw read of the horel pilot archive keeps only the rows before the pilot
+  phase ends. In 2018-11 TRX01's and TRX02's pilot files run on with a
+  once-a-minute copy of the main archive's rows, so they came back twice
+  (TRX01 `2b_205`: 14,685 of 521,690 rows).
+- `uataq.gps` haversine distances are never NaN. Rounding could put the
+  haversine term just above 1 for near-antipodal points.
 
 ## [2026.10.1] - 2026-10-27
 
