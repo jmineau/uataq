@@ -107,8 +107,9 @@ The month has a file, but there are no rows on that day, at any level (``raw``
 too): the instrument recorded nothing. The read did not fail, so you get an empty
 table and a warning, ``uataq.errors.EmptyResultWarning``. It is a Python warning,
 so it shows without the log. ``get_recent_obs`` and ``get_network_obs`` warn the
-same way when their table has no rows. To silence it, for a loop over days that
-may be empty:
+same way when their table has no rows, and so does ``get_obs`` at a mobile site
+whose rows found no GPS fix (see :ref:`mobile-no-gps`). To silence it, for a loop
+over days that may be empty:
 
 .. code-block:: python
 

@@ -460,6 +460,47 @@ class TestMobileSiteInstrumentColumn:
         assert "instrument" not in obs.columns
 
 
+class TestMobileSiteNoFix:
+    """A mobile get_obs whose rows all miss the GPS says so (TRX01 2018-09)."""
+
+    SPAN = (datetime(2018, 9, 1), datetime(2018, 9, 2))
+
+    @staticmethod
+    def fake_read_data(instruments, group=None, lvl=None, *args, **kwargs):
+        """Methane in September; the GPS read finds only August's fixes."""
+        if instruments == "gps":
+            index = pd.DatetimeIndex(["2018-08-31 23:59:59"], name="Time_UTC")
+            gps = pd.DataFrame(
+                {
+                    "Pi_Time": ["2018-08-31 23:59:59.40"],
+                    "Latitude_deg": [40.7],
+                    "Longitude_deg": [-111.9],
+                },
+                index=index,
+            )
+            return {"gps": gps}
+        index = pd.DatetimeIndex(["2018-09-01 00:00:07"], name="Time_UTC")
+        return {"lgr_ugga": pd.DataFrame({"CH4d_ppm_cal": [2.0]}, index=index)}
+
+    def get_obs(self, **kwargs):
+        import uataq
+
+        site = uataq.get_site("TRX01")
+        with patch.object(site, "read_data", self.fake_read_data):
+            return site.get_obs("CH4", group="lin", time_range=self.SPAN, **kwargs)
+
+    def test_warns_when_no_row_found_a_fix(self):
+        with pytest.warns(errors.EmptyResultWarning, match="1 rows of lgr_ugga"):
+            obs = self.get_obs()
+        assert obs.empty
+
+    def test_without_gps_the_rows_are_there_and_nothing_warns(self):
+        with warnings.catch_warnings():
+            warnings.simplefilter("error")
+            obs = self.get_obs(include_gps=False)
+        assert obs["CH4d_ppm_cal"].tolist() == [2.0]
+
+
 class TestSplitByPlan:
     """Cutting a concatenated read back into its plan's portions (#42)."""
 

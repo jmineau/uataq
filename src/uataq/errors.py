@@ -78,7 +78,9 @@ class EmptyResultWarning(UserWarning):
 
     ``get_obs`` and ``get_recent_obs`` issue it for a table with no rows, and
     so does ``Network.get_obs``. The read did not fail: the archive has files
-    for the range, and nothing in them falls inside it. Silence it with
+    for the range, and nothing in them falls inside it. At a mobile site,
+    ``get_obs`` also issues it when the files hold rows but none of them found
+    a GPS fix. Silence it with
     ``warnings.filterwarnings("ignore", category=uataq.errors.EmptyResultWarning)``.
     """
 

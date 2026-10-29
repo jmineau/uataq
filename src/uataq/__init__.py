@@ -157,7 +157,8 @@ def get_obs(
     -----
     EmptyResultWarning
         If the site has files for the range but no data in them, so the table
-        has no rows.
+        has no rows; at a mobile site also when there are rows but none found
+        a GPS fix.
     DroppedPollutantWarning
         If you name several pollutants and one of them has no data in the
         range, so the table leaves it out.
