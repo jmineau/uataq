@@ -394,7 +394,8 @@ class TestMobileSiteGetObs:
 class TestMobileSiteInstrumentColumn:
     """MobileSite.get_obs says which instrument each row came from."""
 
-    SPAN = (datetime(2024, 9, 1), datetime(2024, 9, 2))
+    # lgr_ugga was removed on 2024-08-28; the span is while it was installed
+    SPAN = (datetime(2024, 8, 1), datetime(2024, 8, 2))
 
     @staticmethod
     def stamp(*times):
@@ -403,7 +404,7 @@ class TestMobileSiteInstrumentColumn:
     def fake_read_data(self, instruments, group=None, lvl=None, *args, **kwargs):
         """TRX01 CO2 from both LGR names, ozone from horel, and a lin GPS."""
         if instruments == "gps":
-            index = self.stamp("2024-09-01 00:00:07", "2024-09-01 00:00:17")
+            index = self.stamp("2024-08-01 00:00:07", "2024-08-01 00:00:17")
             pi = index.strftime("%Y-%m-%d %H:%M:%S.%f")
             gps = pd.DataFrame(
                 {"Pi_Time": pi, "Latitude_deg": 40.7, "Longitude_deg": -111.9},
@@ -412,11 +413,11 @@ class TestMobileSiteInstrumentColumn:
             return {"gps": gps}
         cal = pd.DataFrame(
             {"CO2d_ppm_cal": [430.0], "CO2d_ppm_raw": [432.0]},
-            index=self.stamp("2024-09-01 00:00:07"),
+            index=self.stamp("2024-08-01 00:00:07"),
         )
         manual = pd.DataFrame(
             {"CO2d_ppm_cal": [None], "CO2d_ppm_raw": [433.0]},
-            index=self.stamp("2024-09-01 00:00:17"),
+            index=self.stamp("2024-08-01 00:00:17"),
         )
         return {"lgr_ugga": cal, "lgr_ugga_manual_cal": manual}
 
@@ -452,7 +453,7 @@ class TestMobileSiteInstrumentColumn:
 
         wbb = uataq.get_site("WBB")
         frame = pd.DataFrame(
-            {"CO2d_ppm_cal": [430.0]}, index=self.stamp("2024-09-01 00:00:07")
+            {"CO2d_ppm_cal": [430.0]}, index=self.stamp("2024-08-01 00:00:07")
         )
         with patch.object(wbb, "read_data", return_value={"lgr_ugga": frame}):
             obs = wbb.get_obs("CO2", group="lin", time_range=self.SPAN)
