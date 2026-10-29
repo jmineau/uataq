@@ -43,6 +43,22 @@ class TestHaversine:
             np.deg2rad(1.0), abs=1e-9
         )
 
+    def test_antipodal_pair_is_half_the_circumference(self):
+        # Rounding puts the haversine term at 1 + 2e-16 for this pair, and the
+        # unclipped formula returned NaN.
+        d = gps.haversine(
+            21.638421362768, 43.97847672284806, -21.638421362768, -136.02152327715194
+        )
+        assert d == pytest.approx(np.pi * gps.EARTH_RADIUS_M)
+
+    def test_antipodes_never_nan(self):
+        rng = np.random.default_rng(0)
+        lat = rng.uniform(-90, 90, 20_000)
+        lon = rng.uniform(-180, 180, 20_000)
+        d = gps.haversine(lat, lon, -lat, np.where(lon > 0, lon - 180, lon + 180))
+        assert not np.isnan(d).any()
+        np.testing.assert_allclose(d, np.pi * gps.EARTH_RADIUS_M, rtol=1e-6)
+
 
 class TestBearing:
     @pytest.mark.parametrize(

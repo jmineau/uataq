@@ -83,6 +83,9 @@ def haversine(
         np.sin((lat2 - lat1) / 2) ** 2
         + np.cos(lat1) * np.cos(lat2) * np.sin((lon2 - lon1) / 2) ** 2
     )
+    # Rounding can push a just above 1 for (near-)antipodal points, and then
+    # sqrt(1 - a) is NaN.
+    a = np.clip(a, 0.0, 1.0)
     return 2 * R * np.arctan2(np.sqrt(a), np.sqrt(1 - a))
 
 
