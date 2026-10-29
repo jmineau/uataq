@@ -358,36 +358,6 @@ def _read_lines(path: str, first: int = 0, last: bool = False) -> list[str]:
     return [line.decode(errors="replace").rstrip("\r\n") for line in lines]
 
 
-def dms2dd(d: float = 0.0, m: float = 0.0, s: float = 0.0) -> float:
-    """
-    Degree-minute-second to decimal degree
-
-    Parameters
-    ----------
-    d : float, optional
-        Degrees, by default 0.0
-    m : float, optional
-        Minutes, by default 0.0
-    s : float, optional
-        Seconds, by default 0.0
-
-    Returns
-    -------
-    float
-        Decimal degrees
-
-    Raises
-    ------
-    ValueError
-        If any of the inputs are not floats
-    """
-    try:
-        dd = float(d) + float(m) / 60 + float(s) / 3600
-        return dd
-    except ValueError:
-        return np.nan
-
-
 class LinDatFile(filesystem.DataFile):
     """
     A class for parsing Lin data files.
@@ -1096,7 +1066,7 @@ class LinGroup(filesystem.GroupSpace):
         if instrument == "gps":
             if "latitude_dm" in data.columns:
                 # NMEA ddmm.mmmm to decimal degrees, vectorized: a row-wise
-                # dms2dd took minutes on a month of 1 Hz data
+                # conversion took minutes on a month of 1 Hz data
                 for dm, deg in [
                     ("latitude_dm", "Latitude_deg"),
                     ("longitude_dm", "Longitude_deg"),

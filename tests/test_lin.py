@@ -194,14 +194,6 @@ def write_ugga(path, version: str, rows: list[str], header_cols: int = 23) -> st
     return str(path)
 
 
-class TestDms2dd:
-    def test_converts(self):
-        assert lin.dms2dd(40, 30, 36) == pytest.approx(40.51)
-
-    def test_unparseable_is_nan(self):
-        assert np.isnan(lin.dms2dd("forty", 30))
-
-
 class TestLinDatFile:
     """Pipeline ``.dat`` files: instrument and level come from the path."""
 
