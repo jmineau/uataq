@@ -6,7 +6,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>uataq.network &#8212; UATAQ 2026.10.2.dev11+g66018566e documentation</title>
+    <title>uataq.network &#8212; UATAQ 2026.10.2.dev16+gd95ce252e documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be" />
 
-    <script src="../../_static/documentation_options.js?v=fc5242a2"></script>
+    <script src="../../_static/documentation_options.js?v=071cef0b"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -58,7 +58,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.2.dev11+g66018566e" />
+  <meta name="docsearch:version" content="2026.10.2.dev16+gd95ce252e" />
   
     
     <script src="../../_static/searchtools.js"></script>
@@ -126,7 +126,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.2.dev11+g66018566e documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.2.dev16+gd95ce252e documentation</p>
   
 </a></div>
     
@@ -567,7 +567,9 @@
 <span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>
 <span class="sd">    sites : list[str]</span>
-<span class="sd">        List of site identifiers.</span>
+<span class="sd">        The site IDs given, in upper case and without repeats, including any that</span>
+<span class="sd">        is misspelled or does not measure the pollutant. ``site_objects`` holds the</span>
+<span class="sd">        ones that were kept.</span>
 <span class="sd">    pollutant : str</span>
 <span class="sd">        The pollutant to retrieve data for (uppercase).</span>
 <span class="sd">    site_objects : list[sites.Site]</span>
@@ -722,8 +724,9 @@
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        time_range : TimeRange | TimeRangeTypes, optional</span>
-<span class="sd">            The time range to retrieve data for. Can be a TimeRange object,</span>
-<span class="sd">            string, list, or None (all data). Default is None.</span>
+<span class="sd">            The time range to retrieve data for, in UTC (see :ref:`input-time-range`).</span>
+<span class="sd">            Can be a TimeRange object, string, list, or None (all data).</span>
+<span class="sd">            Default is None.</span>
 <span class="sd">        num_processes : int | Literal["max"], optional</span>
 <span class="sd">            Number of processes to use for parallel data reading. Default is 1.</span>
 
@@ -836,7 +839,8 @@
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        time_range : TimeRange | TimeRangeTypes, optional</span>
-<span class="sd">            The time range to check. Default is None (all data).</span>
+<span class="sd">            The time range to check, in UTC (see :ref:`input-time-range`).</span>
+<span class="sd">            Default is None (all data).</span>
 <span class="sd">        freq : str, optional</span>
 <span class="sd">            The size of a time bin, as a pandas period alias: 'h', 'D', 'W',</span>
 <span class="sd">            'M', ... Default is 'D'.</span>

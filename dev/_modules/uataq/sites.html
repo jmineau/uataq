@@ -6,7 +6,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>uataq.sites &#8212; UATAQ 2026.10.2.dev11+g66018566e documentation</title>
+    <title>uataq.sites &#8212; UATAQ 2026.10.2.dev16+gd95ce252e documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be" />
 
-    <script src="../../_static/documentation_options.js?v=fc5242a2"></script>
+    <script src="../../_static/documentation_options.js?v=071cef0b"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -58,7 +58,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.2.dev11+g66018566e" />
+  <meta name="docsearch:version" content="2026.10.2.dev16+gd95ce252e" />
   
     
     <script src="../../_static/searchtools.js"></script>
@@ -126,7 +126,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.2.dev11+g66018566e documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.2.dev16+gd95ce252e documentation</p>
   
 </a></div>
     
@@ -729,7 +729,8 @@
 <span class="sd">            QAQC. Default is None which reads the highest level available (per</span>
 <span class="sd">            group, when the read is split across groups).</span>
 <span class="sd">        time_range : TimeRange | TimeRangeTypes</span>
-<span class="sd">            The time range to read data. Default is None which reads all available data.</span>
+<span class="sd">            The time range to read data, in UTC (see :ref:`input-time-range`).</span>
+<span class="sd">            Default is None which reads all available data.</span>
 <span class="sd">        num_processes : int or 'max'</span>
 <span class="sd">            The number of processes to use for reading data. Default is 1.</span>
 <span class="sd">        file_pattern : str, optional</span>
@@ -825,7 +826,8 @@
 <span class="sd">            instrument. Default None selects each instrument's group</span>
 <span class="sd">            automatically (see :meth:`~uataq.instruments.Instrument.resolve_group`).</span>
 <span class="sd">        time_range : TimeRange | TimeRangeTypes</span>
-<span class="sd">            The time range to read data. Default is None which reads all available data.</span>
+<span class="sd">            The time range to read data, in UTC (see :ref:`input-time-range`).</span>
+<span class="sd">            Default is None which reads all available data.</span>
 <span class="sd">        num_processes : int, optional</span>
 <span class="sd">            Number of processes to use for reading data. Default is 1.</span>
 
@@ -1195,7 +1197,7 @@
 <span class="sd">            instrument. Default None selects each instrument's group</span>
 <span class="sd">            automatically (see :meth:`~uataq.instruments.Instrument.resolve_group`).</span>
 <span class="sd">        time_range : TimeRange | TimeRangeTypes, optional</span>
-<span class="sd">            Time range to read data. Default is None.</span>
+<span class="sd">            Time range to read data, in UTC (see :ref:`input-time-range`). Default is None.</span>
 <span class="sd">        num_processes : int, optional</span>
 <span class="sd">            Number of processes to use for reading data. Default is 1.</span>
 <span class="sd">        include_gps : bool, optional</span>

@@ -6,7 +6,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>uataq.sodar &#8212; UATAQ 2026.10.2.dev11+g66018566e documentation</title>
+    <title>uataq.sodar &#8212; UATAQ 2026.10.2.dev16+gd95ce252e documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be" />
 
-    <script src="../../_static/documentation_options.js?v=fc5242a2"></script>
+    <script src="../../_static/documentation_options.js?v=071cef0b"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -58,7 +58,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.2.dev11+g66018566e" />
+  <meta name="docsearch:version" content="2026.10.2.dev16+gd95ce252e" />
   
     
     <script src="../../_static/searchtools.js"></script>
@@ -126,7 +126,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.2.dev11+g66018566e documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.2.dev16+gd95ce252e documentation</p>
   
 </a></div>
     
@@ -451,11 +451,13 @@
 
 <span class="sd">Examples</span>
 <span class="sd">--------</span>
-<span class="sd">The examples read the archive, so the tests do not run them.</span>
+<span class="sd">The examples read the archive, so the tests do not run them. A station has files</span>
+<span class="sd">for some months only (USDR1 has none for 2019): a range with no file raises</span>
+<span class="sd">``FileNotFoundError``.</span>
 
 <span class="sd">&gt;&gt;&gt; from uataq.sodar import Sodar</span>
 <span class="sd">&gt;&gt;&gt; sodar = Sodar("USDR1")  # doctest: +SKIP</span>
-<span class="sd">&gt;&gt;&gt; data = sodar.read_data(time_range=["2019-01-01", "2019-01-31"])  # doctest: +SKIP</span>
+<span class="sd">&gt;&gt;&gt; data = sodar.read_data(time_range=["2021-01-01", "2021-01-31"])  # doctest: +SKIP</span>
 <span class="sd">&gt;&gt;&gt; winds = Sodar.get_winds_at_height(data, height=100)  # doctest: +SKIP</span>
 <span class="sd">"""</span>
 

@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Read data &#8212; UATAQ 2026.10.2.dev11+g66018566e documentation</title>
+    <title>Read data &#8212; UATAQ 2026.10.2.dev16+gd95ce252e documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be" />
 
-    <script src="../_static/documentation_options.js?v=fc5242a2"></script>
+    <script src="../_static/documentation_options.js?v=071cef0b"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -61,7 +61,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.2.dev11+g66018566e" />
+  <meta name="docsearch:version" content="2026.10.2.dev16+gd95ce252e" />
   
     
     <script src="../_static/searchtools.js"></script>
@@ -129,7 +129,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.2.dev11+g66018566e documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.2.dev16+gd95ce252e documentation</p>
   
 </a></div>
     
@@ -666,12 +666,15 @@ sites, run your script in a Slurm job (see <a class="reference internal" href=".
 node, and average to hourly means as you read each site, as above, so the
 table you keep stays small.</p>
 <p><code class="docutils literal notranslate"><span class="pre">num_processes</span></code> reads an instrument’s files in several processes at once (see
-<a class="reference internal" href="../reference/input_parameters.html#input-num-processes"><span class="std std-ref">Number of processes</span></a>). It helps when there are many files that are slow
-to read: the <code class="docutils literal notranslate"><span class="pre">raw</span></code> level, and <a class="reference internal" href="../api/uataq.Network.get_availability.html#uataq.Network.get_availability" title="uataq.Network.get_availability"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Network.get_availability()</span></code></a> (see
-<a class="reference internal" href="find_sites_and_data.html"><span class="doc">Find sites and data</span></a>). It does not help at the <code class="docutils literal notranslate"><span class="pre">final</span></code> level:
-the year above took 11.5 seconds with <code class="docutils literal notranslate"><span class="pre">num_processes=4</span></code>, against 4.4 with
-one. A script that uses more than one process needs the <code class="docutils literal notranslate"><span class="pre">__main__</span></code> guard, or
-Python 3.14 stops with a <code class="docutils literal notranslate"><span class="pre">RuntimeError</span></code> about “bootstrapping”:</p>
+<a class="reference internal" href="../reference/input_parameters.html#input-num-processes"><span class="std std-ref">Number of processes</span></a>). It helps most when there are many files, as at
+the <code class="docutils literal notranslate"><span class="pre">raw</span></code> level and in <a class="reference internal" href="../api/uataq.Network.get_availability.html#uataq.Network.get_availability" title="uataq.Network.get_availability"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Network.get_availability()</span></code></a> (see
+<a class="reference internal" href="find_sites_and_data.html"><span class="doc">Find sites and data</span></a>), and it also speeds up the <code class="docutils literal notranslate"><span class="pre">final</span></code> level.
+On a compute node on 29 October 2026, WBB’s CO2 and CH4 for 2024 (2.8 million
+rows) took 3.4 seconds with one process, 2.3 with two, 1.3 with four and 1.0 with
+eight; six years of CO2 (16 million rows) took 21, 7.0 and 4.7 seconds with one,
+four and eight. Ask for no more processes than cores you were given. A script that uses more than one process needs the
+<code class="docutils literal notranslate"><span class="pre">__main__</span></code> guard, or Python 3.14 stops with a <code class="docutils literal notranslate"><span class="pre">RuntimeError</span></code> about
+“bootstrapping”:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">uataq</span>
 
 

@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Your first data &#8212; UATAQ 2026.10.2.dev11+g66018566e documentation</title>
+    <title>Your first data &#8212; UATAQ 2026.10.2.dev16+gd95ce252e documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be" />
 
-    <script src="../_static/documentation_options.js?v=fc5242a2"></script>
+    <script src="../_static/documentation_options.js?v=071cef0b"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -61,7 +61,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.2.dev11+g66018566e" />
+  <meta name="docsearch:version" content="2026.10.2.dev16+gd95ce252e" />
   
     
     <script src="../_static/searchtools.js"></script>
@@ -129,7 +129,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.2.dev11+g66018566e documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.2.dev16+gd95ce252e documentation</p>
   
 </a></div>
     
@@ -495,7 +495,9 @@ what the errors mean when there are none.</p>
 about every 10 seconds. <code class="docutils literal notranslate"><span class="pre">CO2d_ppm_cal</span></code> is the calibrated CO2 dry mole fraction
 in ppm, <code class="docutils literal notranslate"><span class="pre">CO2d_ppm_raw</span></code> is the same measurement before calibration, and the
 <code class="docutils literal notranslate"><span class="pre">CH4d</span></code> columns are the same for methane. The column names are explained under
-<a class="reference internal" href="../reference/columns.html#column-names"><span class="std std-ref">Column names</span></a>.</p>
+<a class="reference internal" href="../reference/columns.html#column-names"><span class="std std-ref">Column names</span></a>. A table wider than the terminal is shortened with <code class="docutils literal notranslate"><span class="pre">...</span></code> or
+wrapped over several lines (a job’s output is 80 characters wide); the pandas
+settings that print every column are at the top of <a class="reference internal" href="../reference/columns.html#wide-tables"><span class="std std-ref">the Columns page</span></a>.</p>
 <p>The rows are the archive’s <code class="docutils literal notranslate"><span class="pre">final</span></code> level: the measurements of the outside air
 that passed quality control, ready to share. <a class="reference internal" href="../guides/data_levels_and_flags.html"><span class="doc">Data levels and flags</span></a>
 says what the other levels hold.</p>
@@ -580,7 +582,7 @@ means.</p>
 <p>An hour with only a few rows still gets a mean. To see how many rows each mean
 has, count them the same way:</p>
 <div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">n</span> <span class="o">=</span> <span class="n">june</span><span class="p">[</span><span class="s2">"CO2d_ppm_cal"</span><span class="p">]</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="s2">"h"</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">n</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">int</span><span class="p">(</span><span class="n">n</span><span class="o">.</span><span class="n">min</span><span class="p">())</span>
 <span class="go">303</span>
 </pre></div>
 </div>

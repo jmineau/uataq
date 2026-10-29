@@ -233,12 +233,15 @@ node, and average to hourly means as you read each site, as above, so the
 table you keep stays small.
 
 ``num_processes`` reads an instrument's files in several processes at once (see
-:ref:`input-num-processes`). It helps when there are many files that are slow
-to read: the ``raw`` level, and :meth:`Network.get_availability` (see
-:doc:`/guides/find_sites_and_data`). It does not help at the ``final`` level:
-the year above took 11.5 seconds with ``num_processes=4``, against 4.4 with
-one. A script that uses more than one process needs the ``__main__`` guard, or
-Python 3.14 stops with a ``RuntimeError`` about "bootstrapping":
+:ref:`input-num-processes`). It helps most when there are many files, as at
+the ``raw`` level and in :meth:`Network.get_availability` (see
+:doc:`/guides/find_sites_and_data`), and it also speeds up the ``final`` level.
+On a compute node on 29 October 2026, WBB's CO2 and CH4 for 2024 (2.8 million
+rows) took 3.4 seconds with one process, 2.3 with two, 1.3 with four and 1.0 with
+eight; six years of CO2 (16 million rows) took 21, 7.0 and 4.7 seconds with one,
+four and eight. Ask for no more processes than cores you were given. A script that uses more than one process needs the
+``__main__`` guard, or Python 3.14 stops with a ``RuntimeError`` about
+"bootstrapping":
 
 .. code-block:: python
 
