@@ -141,6 +141,19 @@ Some of the horel group's data are only at the ``raw`` level, so
 
 Read them with ``uataq.read_data(..., lvl="raw")``.
 
+.. _mobile-no-gps:
+
+Months with no GPS fix
+----------------------
+
+A row that finds no fix of its group's GPS in its second has no position, and
+:func:`get_obs` leaves it out. TRX01's lin GPS has no ``final`` file for
+September and October 2018, nor for August 2017 (that month is only at
+``qaqc``), so the methane of 2018-09 and 2018-10 and the lin ozone of 2017-08
+have no position at all. ``get_obs`` then returns an empty table with an
+``EmptyResultWarning`` that says how many rows were read;
+``get_obs(..., include_gps=False)`` returns them without a position.
+
 Next
 ----
 

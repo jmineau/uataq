@@ -770,7 +770,9 @@ class MobileSite(Site):
         -----
         EmptyResultWarning
             If the instruments' files hold no data in the range (see
-            :meth:`Site.get_obs`).
+            :meth:`Site.get_obs`), or, with ``include_gps``, if they do but no
+            row found a GPS fix (TRX01 has no lin GPS file for 2018-09 and
+            2018-10, so its methane those months has no position).
         DroppedPollutantWarning
             If you name several pollutants and one of them has no data in the
             range (see :meth:`Site.get_obs`).
@@ -791,6 +793,18 @@ class MobileSite(Site):
         }
         if include_gps:
             obs = self.locate(labeled, group, time_range, "final", num_processes)
+            read = {name: len(frame) for name, frame in frames.items() if len(frame)}
+            if obs.empty and read:
+                # Rows were read but none found a fix: a month without a GPS
+                # file, whose neighbors' were read for the Pi clock's margin
+                warnings.warn(
+                    f"No final data located at {self.SID} ({TimeRange(time_range)}): "
+                    + ", ".join(f"{n} rows of {name}" for name, n in read.items())
+                    + " were read, but none found a GPS fix in its second. "
+                    "get_obs(..., include_gps=False) returns them without a position.",
+                    errors.EmptyResultWarning,
+                    stacklevel=2,  # the caller of get_obs
+                )
         else:
             obs = pd.DataFrame(pd.concat(labeled.values()).sort_index(kind="stable"))
         # The label goes after all the measurement columns, before the GPS ones
