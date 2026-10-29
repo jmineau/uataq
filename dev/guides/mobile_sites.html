@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Mobile sites &#8212; UATAQ 2026.10.2.dev23+gfb0f15aa3 documentation</title>
+    <title>Mobile sites &#8212; UATAQ 2026.10.2.dev24+gcb0a79b6c documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be" />
 
-    <script src="../_static/documentation_options.js?v=cbebb55a"></script>
+    <script src="../_static/documentation_options.js?v=5930bdee"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -61,7 +61,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.2.dev23+gfb0f15aa3" />
+  <meta name="docsearch:version" content="2026.10.2.dev24+gcb0a79b6c" />
   
     
     <script src="../_static/searchtools.js"></script>
@@ -129,7 +129,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.2.dev23+gfb0f15aa3 documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.2.dev24+gcb0a79b6c documentation</p>
   
 </a></div>
     
@@ -591,6 +591,16 @@ December 2024, BUS02 in March 2025, and TRX01, TRX02 and TRX03 in January 2025
 </ul>
 <p>Read them with <code class="docutils literal notranslate"><span class="pre">uataq.read_data(...,</span> <span class="pre">lvl=&quot;raw&quot;)</span></code>.</p>
 </section>
+<section id="months-with-no-gps-fix">
+<span id="mobile-no-gps"></span><h2>Months with no GPS fix<a class="headerlink" href="#months-with-no-gps-fix" title="Link to this heading">#</a></h2>
+<p>A row that finds no fix of its group’s GPS in its second has no position, and
+<a class="reference internal" href="../api/uataq.get_obs.html#uataq.get_obs" title="uataq.get_obs"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_obs()</span></code></a> leaves it out. TRX01’s lin GPS has no <code class="docutils literal notranslate"><span class="pre">final</span></code> file for
+September and October 2018, nor for August 2017 (that month is only at
+<code class="docutils literal notranslate"><span class="pre">qaqc</span></code>), so the methane of 2018-09 and 2018-10 and the lin ozone of 2017-08
+have no position at all. <code class="docutils literal notranslate"><span class="pre">get_obs</span></code> then returns an empty table with an
+<code class="docutils literal notranslate"><span class="pre">EmptyResultWarning</span></code> that says how many rows were read;
+<code class="docutils literal notranslate"><span class="pre">get_obs(...,</span> <span class="pre">include_gps=False)</span></code> returns them without a position.</p>
+</section>
 <section id="next">
 <h2>Next<a class="headerlink" href="#next" title="Link to this heading">#</a></h2>
 <ul class="simple">
@@ -651,6 +661,7 @@ December 2024, BUS02 in March 2025, and TRX01, TRX02 and TRX03 in January 2025
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#two-groups-two-clocks">Two groups, two clocks</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#trx01-s-co2-and-ch4">TRX01’s CO2 and CH4</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#months-that-are-only-raw">Months that are only raw</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#months-with-no-gps-fix">Months with no GPS fix</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#next">Next</a></li>
 </ul>
   </nav></div>

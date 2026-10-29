@@ -6,7 +6,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>uataq.errors &#8212; UATAQ 2026.10.2.dev23+gfb0f15aa3 documentation</title>
+    <title>uataq.errors &#8212; UATAQ 2026.10.2.dev24+gcb0a79b6c documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be" />
 
-    <script src="../../_static/documentation_options.js?v=cbebb55a"></script>
+    <script src="../../_static/documentation_options.js?v=5930bdee"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -58,7 +58,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.2.dev23+gfb0f15aa3" />
+  <meta name="docsearch:version" content="2026.10.2.dev24+gcb0a79b6c" />
   
     
     <script src="../../_static/searchtools.js"></script>
@@ -126,7 +126,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.2.dev23+gfb0f15aa3 documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.2.dev24+gcb0a79b6c documentation</p>
   
 </a></div>
     
@@ -542,7 +542,9 @@
 
 <span class="sd">    ``get_obs`` and ``get_recent_obs`` issue it for a table with no rows, and</span>
 <span class="sd">    so does ``Network.get_obs``. The read did not fail: the archive has files</span>
-<span class="sd">    for the range, and nothing in them falls inside it. Silence it with</span>
+<span class="sd">    for the range, and nothing in them falls inside it. At a mobile site,</span>
+<span class="sd">    ``get_obs`` also issues it when the files hold rows but none of them found</span>
+<span class="sd">    a GPS fix. Silence it with</span>
 <span class="sd">    ``warnings.filterwarnings("ignore", category=uataq.errors.EmptyResultWarning)``.</span>
 <span class="sd">    """</span></div>
 
