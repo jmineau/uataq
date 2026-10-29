@@ -133,7 +133,9 @@ class Network:
     Attributes
     ----------
     sites : list[str]
-        List of site identifiers.
+        The site IDs given, in upper case and without repeats, including any that
+        is misspelled or does not measure the pollutant. ``site_objects`` holds the
+        ones that were kept.
     pollutant : str
         The pollutant to retrieve data for (uppercase).
     site_objects : list[sites.Site]
@@ -283,8 +285,9 @@ class Network:
         Parameters
         ----------
         time_range : TimeRange | TimeRangeTypes, optional
-            The time range to retrieve data for. Can be a TimeRange object,
-            string, list, or None (all data). Default is None.
+            The time range to retrieve data for, in UTC (see :ref:`input-time-range`).
+            Can be a TimeRange object, string, list, or None (all data).
+            Default is None.
         num_processes : int | Literal["max"], optional
             Number of processes to use for parallel data reading. Default is 1.
 
@@ -394,7 +397,8 @@ class Network:
         Parameters
         ----------
         time_range : TimeRange | TimeRangeTypes, optional
-            The time range to check. Default is None (all data).
+            The time range to check, in UTC (see :ref:`input-time-range`).
+            Default is None (all data).
         freq : str, optional
             The size of a time bin, as a pandas period alias: 'h', 'D', 'W',
             'M', ... Default is 'D'.
