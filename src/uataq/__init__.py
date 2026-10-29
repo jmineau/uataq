@@ -80,7 +80,8 @@ def read_data(
         on how much control you want over the QAQC. Default None reads the
         highest level the instrument has. See :ref:`data-levels`.
     time_range : str | list[Union[str, dt.datetime, None]] | tuple[Union[str, dt.datetime, None], Union[str, dt.datetime, None]] | slice | None
-        The time range to read data. Default is None which reads all available data.
+        The time range to read data, in UTC (see :ref:`input-time-range`).
+        Default is None which reads all available data.
     num_processes : int | 'max'
         The number of processes to use. Default is 1.
     file_pattern : str | None
@@ -89,7 +90,7 @@ def read_data(
     Returns
     -------
     dict[str, pd.DataFrame]
-        The data.
+        One table for each instrument, keyed by the instrument's name.
     """
     site = get_site(SID)
     data = site.read_data(
@@ -125,7 +126,8 @@ def get_obs(
         instrument. Default None selects each instrument's group
         automatically (see :meth:`uataq.instruments.Instrument.resolve_group`).
     time_range : str | list[Union[str, dt.datetime, None]] | tuple[Union[str, dt.datetime, None], Union[str, dt.datetime, None]] | slice | None
-        The time range to get observations. Default is None which gets all available data.
+        The time range to get observations, in UTC (see :ref:`input-time-range`).
+        Default is None which gets all available data.
     num_processes : int | 'max'
         The number of processes to use. Default is 1.
     kwargs
@@ -195,7 +197,8 @@ def get_recent_obs(
     Returns
     -------
     pd.DataFrame
-        The recent observations.
+        The recent observations, from the final level, in the form
+        :func:`get_obs` returns.
 
     Warns
     -----
@@ -232,8 +235,8 @@ def get_network_obs(
     pollutant : str
         The pollutant to retrieve observations for (e.g., 'CO2', 'O3', 'NO2').
     time_range : TimeRange | TimeRangeTypes, optional
-        The time range to retrieve data for. Can be a TimeRange object,
-        string, list, or None (all data). Default is None.
+        The time range to retrieve data for, in UTC (see :ref:`input-time-range`).
+        Can be a TimeRange object, string, list, or None (all data). Default is None.
     group : str | Mapping[str, str] | None, optional
         The research group to read data from. A name applies to every
         instrument; a mapping of instrument name to group name sets it per

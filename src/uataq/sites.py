@@ -290,7 +290,8 @@ class Site:
             QAQC. Default is None which reads the highest level available (per
             group, when the read is split across groups).
         time_range : TimeRange | TimeRangeTypes
-            The time range to read data. Default is None which reads all available data.
+            The time range to read data, in UTC (see :ref:`input-time-range`).
+            Default is None which reads all available data.
         num_processes : int or 'max'
             The number of processes to use for reading data. Default is 1.
         file_pattern : str, optional
@@ -383,7 +384,8 @@ class Site:
             instrument. Default None selects each instrument's group
             automatically (see :meth:`~uataq.instruments.Instrument.resolve_group`).
         time_range : TimeRange | TimeRangeTypes
-            The time range to read data. Default is None which reads all available data.
+            The time range to read data, in UTC (see :ref:`input-time-range`).
+            Default is None which reads all available data.
         num_processes : int, optional
             Number of processes to use for reading data. Default is 1.
 
@@ -741,7 +743,7 @@ class MobileSite(Site):
             instrument. Default None selects each instrument's group
             automatically (see :meth:`~uataq.instruments.Instrument.resolve_group`).
         time_range : TimeRange | TimeRangeTypes, optional
-            Time range to read data. Default is None.
+            Time range to read data, in UTC (see :ref:`input-time-range`). Default is None.
         num_processes : int, optional
             Number of processes to use for reading data. Default is 1.
         include_gps : bool, optional
