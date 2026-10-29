@@ -5,10 +5,10 @@ Read data
 
 .. note::
 
-    The examples on this page read the UATAQ archive, which is only available
-    on CHPC, and are not run when the documentation is built. The output under
-    each one is from runs on CHPC on 26 October 2026, except under "One
-    pollutant from several sites" (the HDP example, 14 October 2026).
+    The output under each example on this page is from runs on CHPC on 26
+    October 2026, except under "One pollutant from several sites" (the HDP
+    example, 14 October 2026). See :ref:`why the output is recorded
+    <recorded-examples>`.
 
 :doc:`/getting_started/first_data` reads one site. This page shows the other
 reads: several pollutants and several sites in one table, everything an

@@ -151,6 +151,8 @@ change that moves a fact, or renames or retitles a page, updates its row here.
      - :doc:`/getting_started/installation`
    * - A first read, UTC and local time, hourly means, what to write down
      - :doc:`/getting_started/first_data`
+   * - Why the examples show recorded output: they read the archive and are not run in the build
+     - :doc:`/getting_started/first_data`
    * - Which sites measure what, when a site has data, the newest data
      - :doc:`/guides/find_sites_and_data`
    * - Several pollutants and sites, ``get_network_obs``, ``read_data``, large reads

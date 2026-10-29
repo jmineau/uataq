@@ -5,10 +5,8 @@ Columns
 
 .. note::
 
-    The examples on this page read the UATAQ archive, which is only available
-    on CHPC. They are shown as code and are not run when the documentation is
-    built. The output under each one is from runs on CHPC on 12 October 2026.
-    If the data are reprocessed, the numbers can change a little.
+    The output under each example on this page is from runs on CHPC on 12
+    October 2026 (:ref:`why it is recorded <recorded-examples>`).
 
 The columns you get depend on the **instrument** and on the **data level** you
 read (``raw``, ``qaqc``, ``calibrated`` or ``final``; see :ref:`data-levels`). This page says what the columns are, level by level,

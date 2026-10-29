@@ -3,12 +3,16 @@
 Your first data
 ===============
 
+.. _recorded-examples:
+
 .. note::
 
     The examples on this page read the UATAQ archive, which is only available
     on CHPC, and are not run when the documentation is built. The output under
     each one, and the figure, are from runs on CHPC on 26 October 2026. If the
-    data are reprocessed, the numbers can change a little.
+    data are reprocessed, the numbers can change a little. The same holds for
+    every other page whose examples read the archive; each says when its runs
+    were made.
 
 This page takes you from an installed uataq (see
 :doc:`/getting_started/installation`) to a month of CO2 and CH4 from one site,

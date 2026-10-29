@@ -6,11 +6,10 @@ Find sites and data
 .. note::
 
     The examples under "Which sites measure what" use only the package's
-    configuration and run when the documentation is built. The others read the
-    UATAQ archive, which is only available on CHPC, and are not run; their
-    output is from runs on CHPC on 11 October 2026. The archive keeps growing,
-    so the dates at the end of the data, and how long a call takes, will have
-    moved on by the time you read this.
+    configuration and run when the documentation is built. The output of the
+    others is from runs on CHPC on 11 October 2026 (:ref:`why it is recorded <recorded-examples>`). The archive keeps
+    growing, so the dates at the end of the data, and how long a call takes,
+    will have moved on by the time you read this.
 
 Before you read data, find out what there is: which sites measure the pollutant
 you want, and when they have data. The tables on

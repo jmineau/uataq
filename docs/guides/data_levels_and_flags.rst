@@ -5,9 +5,8 @@ Data levels and flags
 
 .. note::
 
-    The examples on this page read the UATAQ archive, which is only available
-    on CHPC, and are not run when the documentation is built. Their output is
-    from runs on CHPC on 12 October 2026.
+    The output of the examples on this page is from runs on CHPC on 12 October
+    2026 (:ref:`why it is recorded <recorded-examples>`).
 
 The archive keeps each instrument's data at up to four **data levels**: the
 same measurements, processed further at each level. This page says what each
