@@ -982,6 +982,50 @@ class TestSiteGetObs:
         assert list(obs.columns) == ["O3_ppb"]
         assert obs["O3_ppb"].tolist() == [40.0]
 
+    @pytest.mark.parametrize("format", ["wide", "long"])
+    def test_a_pollutant_brings_only_its_own_columns(self, site, format):
+        """NO is not NO2 or NOx, though their names start alike."""
+        data = {
+            "2b_405": pd.DataFrame(
+                {"NO_ppb": [1.0, 2.0], "NO2_ppb": [3.0, 4.0], "NOx_ppb": [4.0, 6.0]},
+                self.times,
+            )
+        }
+        with patch.object(sites.Site, "read_data", return_value=data):
+            obs = sites.Site.get_obs(site, "NO", format=format)
+        if format == "wide":
+            assert list(obs.columns) == ["NO_ppb"]
+        else:
+            assert set(obs["pollutant"]) == {"NO_ppb"}
+            assert obs["value"].tolist() == [1.0, 2.0]
+
+    def test_pm1_is_not_pm10(self):
+        import uataq
+
+        site = uataq.get_site("TRX03")
+        times = pd.DatetimeIndex(["2025-06-01"], name="Time_UTC")
+        frame = pd.DataFrame({"PM1_ugm3": [2.0], "PM10_ugm3": [9.0]}, times)
+        with patch.object(
+            sites.Site, "read_data", return_value={"metone_es405": frame}
+        ):
+            obs = sites.Site.get_obs(site, "PM1")
+        assert list(obs.columns) == ["PM1_ugm3"]
+
+    def test_raw_columns_are_kept(self):
+        """TRX01's lgr_ugga_manual_cal has its value only in _raw."""
+        import uataq
+
+        trx01 = uataq.get_site("TRX01")
+        times = pd.DatetimeIndex(["2024-09-01"], name="Time_UTC")
+        frame = pd.DataFrame(
+            {"CO2d_ppm_cal": [None], "CO2d_ppm_raw": [430.0], "H2O_ppm": [9000.0]},
+            times,
+        )
+        data = {"lgr_ugga_manual_cal": frame}
+        with patch.object(sites.Site, "read_data", return_value=data):
+            obs = sites.Site.get_obs(trx01, "CO2")
+        assert list(obs.columns) == ["CO2d_ppm_cal", "CO2d_ppm_raw"]
+
     def test_invalid_format(self, site):
         with (
             patch.object(sites.Site, "read_data", return_value=self.data()),
@@ -1077,11 +1121,12 @@ class TestGetObsColumnOrder:
 
 
             def read_data(instruments, group, lvl, time_range, num_processes):
-                # a column per instrument and pollutant, so the order shows
+                # each instrument's values are its place in the config, so the
+                # order of the rows shows
                 return {
                     name: pd.DataFrame(
                         {
-                            f"{name}_{p}_ppb": [1.0]
+                            f"{p}_ppb": [float(site.instruments.names.index(name))]
                             for p in site.instruments[name].pollutants
                         },
                         times,
@@ -1093,7 +1138,7 @@ class TestGetObsColumnOrder:
             with patch.object(sites.Site, "read_data", side_effect=read_data):
                 obs = sites.Site.get_obs(site, "all")
             print(*obs.columns)
-            print(*obs.notna().idxmax(axis=1))  # each row's first filled column
+            print(obs.to_csv(header=False))
             """
         )
         orders = set()
@@ -1108,7 +1153,7 @@ class TestGetObsColumnOrder:
             orders.add(result.stdout.strip())
 
         assert len(orders) == 1, orders
-        assert "lgr_ugga_CO2_ppb" in orders.pop().split()
+        assert "CO2_ppb" in orders.pop().split()
 
 
 class TestGetObsRowOrder:

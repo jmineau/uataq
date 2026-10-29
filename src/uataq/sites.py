@@ -16,7 +16,7 @@ import pandas as pd
 
 from uataq import errors, instruments
 from uataq.filesystem.core import _parse_once
-from uataq.pollutants import POLLUTANTS
+from uataq.pollutants import POLLUTANTS, concentration_columns
 from uataq.timerange import TimeRange, TimeRangeTypes
 
 _logger = logging.getLogger(__name__)
@@ -145,18 +145,27 @@ def _widen(span: TimeRange, margin: dt.timedelta) -> TimeRange:
 
 
 def _reshape_obs(
-    df: pd.DataFrame, pattern: str, format: Literal["wide", "long"]
+    df: pd.DataFrame, pollutants: list[str], format: Literal["wide", "long"]
 ) -> pd.DataFrame:
-    """Keep one instrument's ``pattern`` columns, wide or melted long."""
+    """
+    Keep one instrument's concentration columns of ``pollutants``, wide or melted long.
+
+    The columns are those :func:`~uataq.pollutants.concentration_columns` picks,
+    ``_raw`` included, so ``NO`` keeps ``NO_ppb`` and not ``NO2_ppb``, and ``PM1``
+    keeps ``PM1_ugm3`` and not ``PM10_ugm3``. They stay in the frame's order.
+    """
+    picked = {
+        c for p in pollutants for c in concentration_columns(p, df.columns, raw=True)
+    }
+    columns = [c for c in df.columns if c in picked]
     if format == "wide":
-        return pd.DataFrame(df.filter(regex=pattern).dropna(how="all"))
+        return pd.DataFrame(df[columns].dropna(how="all"))
     melted = df.reset_index().melt(
         id_vars="Time_UTC",
-        value_vars=list(df.columns),
+        value_vars=columns,
         var_name="pollutant",
         value_name="value",
     )
-    melted = pd.DataFrame(melted[melted["pollutant"].str.contains(pattern)])
     melted = melted.dropna(subset=["value"])
     return melted.set_index("Time_UTC")
 
@@ -394,9 +403,13 @@ class Site:
         pandas.DataFrame
             One dataframe indexed by ``Time_UTC``, with the final-level rows of every
             instrument that measures the requested pollutants, sorted by time.
-            The ``wide`` format has a column for each of their measurement columns
-            (``CO2d_ppm_cal``, ``O3_ppb`` and so on); the ``long`` format has a
-            ``pollutant`` column (those names) and a ``value`` column.
+            The ``wide`` format has a column for each concentration column of
+            the pollutants asked for (``CO2d_ppm_cal`` and ``CO2d_ppm_raw``,
+            ``O3_ppb`` and so on: those
+            :func:`~uataq.pollutants.concentration_columns` picks with
+            ``raw=True``, so ``'NO'`` gives ``NO_ppb`` and not ``NO2_ppb``); the
+            ``long`` format has a ``pollutant`` column (those names) and a
+            ``value`` column.
             The wide columns come instrument by instrument, in the order the
             ``pollutants`` were asked for (a set is sorted; ``'all'`` follows
             the site's config), and the same on every call. Rows on one
@@ -536,10 +549,8 @@ class Site:
                 stacklevel=3,  # the caller of get_obs
             )
 
-        pattern = "|".join(declared)
-
         _logger.info("Combining data by pollutant...")
-        frames = {name: _reshape_obs(df, pattern, format) for name, df in data.items()}
+        frames = {name: _reshape_obs(df, declared, format) for name, df in data.items()}
 
         if not any(len(frame) for frame in frames.values()):
             # An instrument with no files is not in data (read_data logged it
