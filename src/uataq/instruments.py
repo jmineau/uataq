@@ -568,6 +568,9 @@ class Instrument(metaclass=ABCMeta):
 
         Raises
         ------
+        ValueError
+            If ``lvl`` is not one of the data levels in
+            :data:`uataq.filesystem.lvls`.
         ReaderError
             If the group has no such level for the instrument (the message
             says which levels it has), or no file is in the time range.
@@ -576,9 +579,10 @@ class Instrument(metaclass=ABCMeta):
 
         # Format lvl & time_range
         lvl = lvl.lower() if lvl else self.get_highest_lvl(group)
-        assert lvl in filesystem.lvls, (
-            f"Invalid data level '{lvl}'. Must be one of {filesystem.lvls}."
-        )
+        if lvl not in filesystem.lvls:
+            raise ValueError(
+                f"Invalid data level '{lvl}'. Must be one of {filesystem.lvls}."
+            )
         # Clip once, and use the clipped range for both file selection and the
         # row slice, so data logged after a swap cannot be read as this
         # instrument's (see clip_to_active).

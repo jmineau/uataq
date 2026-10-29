@@ -252,7 +252,7 @@ has it:
     ['lgr_ugga']
 
 A level that is not one of ``raw``, ``qaqc``, ``calibrated`` or ``final`` raises
-``AssertionError: Invalid data level`` and lists the four.
+``ValueError: Invalid data level`` and lists the four.
 
 Network surprises
 -----------------

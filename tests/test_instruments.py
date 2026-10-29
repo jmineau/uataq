@@ -477,8 +477,8 @@ class TestLevelTheInstrumentLacks:
     def test_the_highest_level_is_the_last_it_has(self, t400):
         assert t400.get_highest_lvl("lin") == "final"
 
-    def test_a_level_that_does_not_exist_is_still_an_assertion(self, t400):
-        with pytest.raises(AssertionError, match="Invalid data level"):
+    def test_a_level_that_does_not_exist_is_a_value_error(self, t400):
+        with pytest.raises(ValueError, match="Invalid data level"):
             t400.read_data("lin", "gold", "2025-06")
 
     def test_an_inactive_instrument_is_reported_inactive_first(self, t400):

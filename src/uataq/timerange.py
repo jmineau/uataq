@@ -71,10 +71,15 @@ class TimeRange:
     ):
         """
         Initialize a TimeRange object with the specified time range.
+
+        Raises
+        ------
+        ValueError
+            If ``time_range`` is given together with ``start`` or ``stop``, or
+            it is not a string, a pair, a slice or a ``TimeRange``.
         """
-        assert not all([time_range, any([start, stop])]), (
-            "Cannot specify both time_range and start/stop"
-        )
+        if all([time_range, any([start, stop])]):
+            raise ValueError("Cannot specify both time_range and start/stop")
 
         self._start = None
         self._stop = None
