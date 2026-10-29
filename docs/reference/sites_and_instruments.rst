@@ -33,7 +33,9 @@ Mobile sites
 
 Instruments on TRAX trains (``TRX``) and buses (``BUS``). These
 :term:`mobile sites <mobile site>` have no fixed location: the position of each
-measurement comes from the site's ``gps``.
+measurement comes from the site's ``gps``. The number in a mobile site's name is
+the vehicle's UTA fleet number: the light-rail car number for TRAX (``TRAX 1136``)
+and the bus fleet number for a bus (``BUS 18153``).
 
 .. site-catalog::
    :mobile:
