@@ -175,8 +175,14 @@ To go through many sites or months and skip the empty ones, catch the error:
     ...         print(sid, "has no CO2 data in June 2025")
     ...
     WBB 250687 rows
+    WARNING:uataq.sites:Not reading licor_6262@SUG: licor_6262@SUG is inactive in given time_range
     SUG 239760 rows
+    WARNING:uataq.sites:Not reading lgr_ugga@HDP: lgr_ugga@HDP is inactive in given time_range
     HDP has no CO2 data in June 2025
+
+The two ``WARNING`` lines are the log, which is on here. SUG's ``licor_6262`` was
+replaced by the ``licor_7000``, which gave the rows, so the first line is not a
+problem.
 
 Pollutant or site not found
 ---------------------------
