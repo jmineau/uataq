@@ -37,14 +37,10 @@ uataq environment is not active: run ``deactivate`` first, or pip stops with
    uv --version
 
 The last command should print ``uv 0.12`` or newer. Then get the code and set
-it up:
-
-.. code-block:: bash
-
-   git clone https://github.com/jmineau/uataq.git
-   cd uataq
-   uv sync                       # the packages, into .venv (about two minutes)
-   uv run pre-commit install     # turn on the checks at commit time
+it up as the Getting Started steps of
+`CONTRIBUTING.md <https://github.com/jmineau/uataq/blob/main/CONTRIBUTING.md>`_
+say: clone, ``uv sync`` (about two minutes on CHPC) and install the pre-commit
+hooks.
 
 To run the checks that CI runs (lint, types, docstrings and the tests), use a
 compute node, not the login node:
@@ -55,8 +51,7 @@ compute node, not the login node:
 
 It takes about a minute and ends with the number of tests that passed. The tests do
 not need the archive, so you can also develop on your own computer.
-`CONTRIBUTING.md <https://github.com/jmineau/uataq/blob/main/CONTRIBUTING.md>`_
-has the rest of the workflow: branches and pull requests.
+CONTRIBUTING.md has the rest of the workflow: branches and pull requests.
 
 To work on the code while you use it for your own analysis, install your clone
 into the environment from the steps above (an *editable* install, which runs
@@ -174,7 +169,9 @@ change that moves a fact, or renames or retitles a page, updates its row here.
      - :doc:`/reference/input_parameters`
    * - Config keys
      - :doc:`/reference/config`
-   * - Development setup and developer notes
+   * - Development setup: clone, ``uv sync``, pre-commit hooks, the checks, branches and pull requests
+     - CONTRIBUTING.md
+   * - What CHPC changes in that setup, and the developer notes
      - Contributing (this page)
    * - Function and class details, what a module is for
      - the docstrings, on the generated API pages (:doc:`/reference/functions_and_modules`)
@@ -214,9 +211,8 @@ own logger clock:
 - **lin**: the instruments and the GPS are stamped by the platform's Pi computer,
   whose clock cannot always be trusted. The Pi's time is kept as ``Pi_Time``, and
   lin's GPS supplies ``Time_UTC``, which is GPS time.
-- **horel**: ``Time_UTC`` is the CR1000 logger's clock, which on TRX01 ran 1 to
-  20 s ahead of GPS time on dates sampled from 2019 to 2026, drifting between
-  resets. horel's raw GPS files
+- **horel**: ``Time_UTC`` is the CR1000 logger's clock, which runs ahead of GPS
+  time (by how much: :ref:`mobile-clocks`). horel's raw GPS files
   log the receiver's own time of day (``GTIM``, read as ``Instrument_Time``), so
   :meth:`~uataq.instruments.GPS.read_data` adds ``GPS_Time_UTC`` for horel, dated
   from the logger clock across midnight and NaT on rows without a fix. The index
@@ -253,11 +249,10 @@ The MetOne swap files
 At five MetOne swaps (ES642 to ES405) horel split the month's raw files in two:
 ``{SID}_{YYYY}_{MM}_esampler.h5`` holds the ES405's rows from the swap on, and
 ``{SID}_{YYYY}_{MM}_esampler.h5_prior405upgrade`` the ES642's rows from the start of
-the month to the swap (BUS02 2025-03, BUS03 2024-12, TRX01, TRX02 and TRX03
-2025-01). TRX01 to TRX03's ``2b`` and ``cr1000`` folders have the same split for
-January 2025, so their ozone and GPS rows before the swap are only in a
-``prior405upgrade`` file too. The two files of a month share no timestamp. horel's
-qaqc and final files have none of these rows, so raw is the only level with them.
+the month to the swap (which months, and that they are raw only:
+:ref:`mobile-raw-only`). TRX01 to TRX03's ``2b`` and ``cr1000`` folders have the
+same split for January 2025, so their ozone and GPS rows before the swap are only in
+a ``prior405upgrade`` file too. The two files of a month share no timestamp.
 
 The suffix is :data:`uataq.filesystem.groupspaces.horel.PRIOR_405_SUFFIX`.
 ``HorelGroup.get_datafiles`` adds the suffixed file to every raw read except the
