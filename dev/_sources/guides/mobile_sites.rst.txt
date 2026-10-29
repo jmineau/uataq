@@ -43,6 +43,8 @@ ozone. Where the GPS did not record a speed or course, they are computed from
 the positions, and ``Speed_Estimated`` and ``Course_Estimated`` are ``True`` on
 those rows.
 
+.. _mobile-clocks:
+
 Two groups, two clocks
 ----------------------
 
@@ -55,7 +57,7 @@ is on:
 
 - ``lin``: GPS time.
 - ``horel``: the horel logger's clock, which on TRX01 ran 1 to 20 seconds ahead
-  of GPS time (dates sampled from 2019 to 2026).
+  of GPS time (dates sampled from 2019 to 2026), drifting between resets.
 
 So two rows of different groups with the same ``Time_UTC`` can be seconds apart
 in truth. Each row's position is right for its own time; to compare the two
@@ -122,6 +124,8 @@ from those of ``lgr_ugga_manual_cal``. :func:`get_network_obs` has the same
     2024-09-01 00:00:07  TRX01  lgr_ugga_manual_cal           NaN      432.9656       lin
     2024-09-01 00:00:17  TRX01  lgr_ugga_manual_cal           NaN      432.9974       lin
     2024-09-01 00:00:27  TRX01  lgr_ugga_manual_cal           NaN      432.6543       lin
+
+.. _mobile-raw-only:
 
 Months that are only raw
 ------------------------

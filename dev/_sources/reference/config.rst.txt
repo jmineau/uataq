@@ -67,10 +67,10 @@ Each entry under a site's ``instruments`` accepts:
 
     .. note::
 
-        horel's TRX ozone and particulate data are raw-only (the pilot
-        archive) before 2018-11-19, so a ``final``-level read, as
-        :meth:`~uataq.sites.Site.get_obs` makes, has a gap between lin's stop
-        and 2018-11-19.
+        Some of horel's data are only at the ``raw`` level, so a
+        ``final``-level read, as :meth:`~uataq.sites.Site.get_obs` makes, has a
+        gap between lin's stop and horel's first ``final`` data, as in the example
+        above: see :ref:`mobile-raw-only`.
 ``model`` (optional)
     The instrument class to use when it differs from the instrument's name.
 ``notes`` (optional)
