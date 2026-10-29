@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Read data &#8212; UATAQ 2026.10.2.dev9+ge8454c64b documentation</title>
+    <title>Read data &#8212; UATAQ 2026.10.2.dev10+ge786f6db4 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be" />
 
-    <script src="../_static/documentation_options.js?v=48c7267d"></script>
+    <script src="../_static/documentation_options.js?v=202e4e94"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -61,7 +61,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.2.dev9+ge8454c64b" />
+  <meta name="docsearch:version" content="2026.10.2.dev10+ge786f6db4" />
   
     
     <script src="../_static/searchtools.js"></script>
@@ -129,7 +129,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.2.dev9+ge8454c64b documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.2.dev10+ge786f6db4 documentation</p>
   
 </a></div>
     
@@ -618,15 +618,15 @@ February 2025, so asking for June 2025 returns the other two sites:</p>
 </section>
 <section id="which-instrument-a-row-came-from">
 <h2>Which instrument a row came from<a class="headerlink" href="#which-instrument-a-row-came-from" title="Link to this heading">#</a></h2>
-<p><a class="reference internal" href="../api/uataq.get_obs.html#uataq.get_obs" title="uataq.get_obs"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_obs()</span></code></a> reads every instrument at the site that measures the pollutant,
-and its table does not say which instrument a row came from. Most sites have one
-instrument for each pollutant at a time, but some have had two, one after
-another or at once (WBB measured NO2 with two in 2022), and TRX01 has two names
-for its CO2 and CH4 analyzer whose columns mean different things (see
-<a class="reference internal" href="mobile_sites.html"><span class="doc">Mobile sites</span></a>). When it matters, use <a class="reference internal" href="../api/uataq.get_network_obs.html#uataq.get_network_obs" title="uataq.get_network_obs"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_network_obs()</span></code></a>, whose
-<code class="docutils literal notranslate"><span class="pre">instrument</span></code> column says, or read each instrument by name with
-<a class="reference internal" href="../api/uataq.read_data.html#uataq.read_data" title="uataq.read_data"><code class="xref py py-func docutils literal notranslate"><span class="pre">read_data()</span></code></a>. <a class="reference internal" href="../reference/sites_and_instruments.html"><span class="doc">Sites and instruments</span></a> lists the
-instruments of every site, with their dates.</p>
+<p><a class="reference internal" href="../api/uataq.get_obs.html#uataq.get_obs" title="uataq.get_obs"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_obs()</span></code></a> reads every instrument at the site that measures the pollutant.
+At a fixed site its table does not say which instrument a row came from. Most
+fixed sites have one instrument for each pollutant at a time, but some have had
+two, one after another or at once (WBB measured NO2 with two in 2022). When it
+matters, use <a class="reference internal" href="../api/uataq.get_network_obs.html#uataq.get_network_obs" title="uataq.get_network_obs"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_network_obs()</span></code></a>, whose <code class="docutils literal notranslate"><span class="pre">instrument</span></code> column says, or read
+each instrument by name with <a class="reference internal" href="../api/uataq.read_data.html#uataq.read_data" title="uataq.read_data"><code class="xref py py-func docutils literal notranslate"><span class="pre">read_data()</span></code></a>. At a mobile site, <a class="reference internal" href="../api/uataq.get_obs.html#uataq.get_obs" title="uataq.get_obs"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_obs()</span></code></a>
+has the <code class="docutils literal notranslate"><span class="pre">instrument</span></code> column too (see <a class="reference internal" href="mobile_sites.html"><span class="doc">Mobile sites</span></a>).
+<a class="reference internal" href="../reference/sites_and_instruments.html"><span class="doc">Sites and instruments</span></a> lists the instruments of every site,
+with their dates.</p>
 </section>
 <section id="everything-an-instrument-logged">
 <h2>Everything an instrument logged<a class="headerlink" href="#everything-an-instrument-logged" title="Link to this heading">#</a></h2>

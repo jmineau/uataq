@@ -176,15 +176,15 @@ Check the sites you got back.
 Which instrument a row came from
 --------------------------------
 
-:func:`get_obs` reads every instrument at the site that measures the pollutant,
-and its table does not say which instrument a row came from. Most sites have one
-instrument for each pollutant at a time, but some have had two, one after
-another or at once (WBB measured NO2 with two in 2022), and TRX01 has two names
-for its CO2 and CH4 analyzer whose columns mean different things (see
-:doc:`/guides/mobile_sites`). When it matters, use :func:`get_network_obs`, whose
-``instrument`` column says, or read each instrument by name with
-:func:`read_data`. :doc:`/reference/sites_and_instruments` lists the
-instruments of every site, with their dates.
+:func:`get_obs` reads every instrument at the site that measures the pollutant.
+At a fixed site its table does not say which instrument a row came from. Most
+fixed sites have one instrument for each pollutant at a time, but some have had
+two, one after another or at once (WBB measured NO2 with two in 2022). When it
+matters, use :func:`get_network_obs`, whose ``instrument`` column says, or read
+each instrument by name with :func:`read_data`. At a mobile site, :func:`get_obs`
+has the ``instrument`` column too (see :doc:`/guides/mobile_sites`).
+:doc:`/reference/sites_and_instruments` lists the instruments of every site,
+with their dates.
 
 Everything an instrument logged
 -------------------------------
