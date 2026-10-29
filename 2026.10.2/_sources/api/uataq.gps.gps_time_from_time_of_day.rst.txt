@@ -1,0 +1,6 @@
+uataq.gps.gps\_time\_from\_time\_of\_day
+========================================
+
+.. currentmodule:: uataq.gps
+
+.. autofunction:: gps_time_from_time_of_day

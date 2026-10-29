@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Find sites and data &#8212; UATAQ 2026.10.2 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=18bd87630a240e9c25be" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=18bd87630a240e9c25be" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx_autodoc_typehints.css?v=057ac668" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../_static/scripts/fontawesome.js?digest=18bd87630a240e9c25be"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be" />
+
+    <script src="../_static/documentation_options.js?v=52372788"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'guides/find_sites_and_data';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.23.0';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://jmineau.github.io/uataq/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '2026.10.2';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            true;
+        </script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Read data" href="read_data.html" />
+    <link rel="prev" title="Guides" href="index.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="color-scheme" content="light dark"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="2026.10.2" />
+  
+    
+    <script src="../_static/searchtools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button type="button" class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">UATAQ 2026.10.2 documentation</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting_started/index.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Guides
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../reference/index.html">
+    Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../contributing.html">
+    Contributing
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button type="button" class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+      
+        <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button type="button" class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/jmineau/uataq" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button type="button" class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button type="button" class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting_started/index.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Guides
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../reference/index.html">
+    Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../contributing.html">
+    Contributing
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-3"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-3"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-3"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-3">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+        
+          <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button type="button" class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/jmineau/uataq" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item pst-sidebar-collapse"><button type="button" id="pst-collapse-sidebar-button" aria-expanded="true" aria-controls="pst-primary-sidebar">
+  <svg class="pst-icon" role="img" aria-hidden="true" focusable="false" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+    <path fill="currentColor" d="M3 15.5C2.36232 15.5 1.74874 15.2564 1.28478 14.8189C0.820828 14.3815 0.541576 13.7832 0.504167 13.1467L0.5 13L0.5 3C0.499965 2.36232 0.743605 1.74874 1.18107 1.28478C1.61854 0.820828 2.21676 0.541576 2.85333 0.504167L3 0.5L13 0.5C13.6377 0.499965 14.2513 0.743605 14.7152 1.18107C15.1792 1.61854 15.4584 2.21676 15.4958 2.85333L15.5 3L15.5 13C15.5 13.6377 15.2564 14.2513 14.8189 14.7152C14.3815 15.1792 13.7832 15.4584 13.1467 15.4958L13 15.5L3 15.5ZM3 13.8333L10.5 13.8333L10.5 2.16667L3 2.16667C2.79589 2.16669 2.59889 2.24163 2.44636 2.37726C2.29383 2.5129 2.19638 2.69979 2.1725 2.9025L2.16667 3L2.16667 13C2.16669 13.2041 2.24163 13.4011 2.37726 13.5536C2.5129 13.7062 2.69979 13.8036 2.9025 13.8275L3 13.8333ZM6.65583 10.325L6.5775 10.2558L4.91083 8.58917C4.76735 8.44567 4.68116 8.25476 4.66843 8.05223C4.65569 7.84971 4.71729 7.6495 4.84167 7.48917L4.91083 7.41083L6.5775 5.74417C6.72747 5.59471 6.9287 5.50794 7.14032 5.50148C7.35194 5.49502 7.55809 5.56935 7.7169 5.70937C7.8757 5.8494 7.97525 6.04463 7.99533 6.25539C8.01541 6.46616 7.95451 6.67667 7.825 6.84417L7.75583 6.9225L6.67917 8L7.75583 9.0775C7.89931 9.22099 7.98551 9.41191 7.99824 9.61443C8.01097 9.81695 7.94938 10.0172 7.825 10.1775L7.75583 10.2558C7.61234 10.3993 7.42142 10.4855 7.2189 10.4982C7.01638 10.511 6.81617 10.4494 6.65583 10.325Z"/>
+  </svg>
+  <span class="pst-collapse-sidebar-label">Collapse Sidebar</span>
+  <span class="pst-expand-sidebar-label">Expand Sidebar</span>
+</button></div>
+        <div class="sidebar-primary-item">
+
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a aria-current="page" class="current reference internal" href="#">Find sites and data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="read_data.html">Read data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="data_levels_and_flags.html">Data levels and flags</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mobile_sites.html">Mobile sites</a></li>
+<li class="toctree-l1"><a class="reference internal" href="errors.html">When there is nothing to read</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Guides</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Find sites and data</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="find-sites-and-data">
+<h1>Find sites and data<a class="headerlink" href="#find-sites-and-data" title="Link to this heading">#</a></h1>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The examples under “Which sites measure what” use only the package’s
+configuration and run when the documentation is built. The output of the
+others is from runs on CHPC on 11 October 2026 (<a class="reference internal" href="../getting_started/first_data.html#recorded-examples"><span class="std std-ref">why it is recorded</span></a>). The archive keeps
+growing, so the dates at the end of the data, and how long a call takes,
+will have moved on by the time you read this.</p>
+</div>
+<p>Before you read data, find out what there is: which sites measure the pollutant
+you want, and when they have data. The tables on
+<a class="reference internal" href="../reference/sites_and_instruments.html"><span class="doc">Sites and instruments</span></a> say which sites and instruments exist,
+what each measures and when each was installed. That is what the sites were set
+up to measure, not that there are data. This page shows the calls that answer
+both questions, and how recent the data are. When the answer is “nothing”,
+<a class="reference internal" href="errors.html"><span class="doc">When there is nothing to read</span></a> says what each error means.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<colgroup>
+<col style="width: 50.0%" />
+<col style="width: 50.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>I want to know</p></th>
+<th class="head"><p>Use</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Which sites measure CH4?</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Network(&quot;all&quot;,</span> <span class="pre">&quot;CH4&quot;)</span></code>, or the <a class="reference internal" href="../reference/sites_and_instruments.html"><span class="doc">Sites and instruments</span></a> tables</p></td>
+</tr>
+<tr class="row-odd"><td><p>What a site measures, and since when</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">get_site(&quot;WBB&quot;).pollutants</span></code> and <code class="docutils literal notranslate"><span class="pre">.instruments</span></code>, or the same tables</p></td>
+</tr>
+<tr class="row-even"><td><p>When a site has data, and at which level</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Network(...).get_availability(...)</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>The newest data at a site</p></td>
+<td><p><a class="reference internal" href="../api/uataq.get_recent_obs.html#uataq.get_recent_obs" title="uataq.get_recent_obs"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_recent_obs()</span></code></a></p></td>
+</tr>
+<tr class="row-even"><td><p>One pollutant from several sites in one table</p></td>
+<td><p><a class="reference internal" href="read_data.html"><span class="doc">Read data</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>Why a read failed or came back empty</p></td>
+<td><p><a class="reference internal" href="errors.html"><span class="doc">When there is nothing to read</span></a></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<section id="which-sites-measure-what">
+<span id="sites-in-code"></span><h2>Which sites measure what<a class="headerlink" href="#which-sites-measure-what" title="Link to this heading">#</a></h2>
+<p>The tables on <a class="reference internal" href="../reference/sites_and_instruments.html"><span class="doc">Sites and instruments</span></a> come from objects you can
+use yourself. The blocks in this section run when the documentation is built,
+so their output is current. A site object says what the site measures, and
+which instruments it has had:</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [1]: </span><span class="kn">import</span><span class="w"> </span><span class="nn">uataq</span>
+
+<span class="gp">In [2]: </span><span class="kn">from</span><span class="w"> </span><span class="nn">uataq</span><span class="w"> </span><span class="kn">import</span> <span class="n">Network</span>
+
+<span class="gp">In [3]: </span><span class="n">site</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">get_site</span><span class="p">(</span><span class="s2">"WBB"</span><span class="p">)</span>
+
+<span class="gp">In [4]: </span><span class="n">site</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">"name"</span><span class="p">],</span> <span class="n">site</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">"zagl"</span><span class="p">]</span>
+<span class="gh">Out[4]: </span><span class="go">('William Browning', 35)</span>
+
+<span class="gp">In [5]: </span><span class="nb">sorted</span><span class="p">(</span><span class="n">site</span><span class="o">.</span><span class="n">pollutants</span><span class="p">)</span>
+<span class="gh">Out[5]: </span><span class="go">['BC', 'CH4', 'CO', 'CO2', 'NO', 'NO2', 'NOX', 'O3', 'PM2.5']</span>
+
+<span class="gp">In [6]: </span><span class="p">[</span><span class="n">instrument</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">instrument</span> <span class="ow">in</span> <span class="n">site</span><span class="o">.</span><span class="n">instruments</span><span class="p">]</span>
+<span class="gh">Out[6]: </span>
+<span class="go">['lgr_ugga',</span>
+<span class="go"> 'magee_ae33',</span>
+<span class="go"> 'metone_es642',</span>
+<span class="go"> 'teledyne_t200',</span>
+<span class="go"> 'teledyne_t300',</span>
+<span class="go"> 'teledyne_t400',</span>
+<span class="go"> 'teledyne_t500u',</span>
+<span class="go"> 'teom_1400ab']</span>
+
+<span class="gp">In [7]: </span><span class="n">site</span><span class="o">.</span><span class="n">instruments</span><span class="p">[</span><span class="s2">"teledyne_t400"</span><span class="p">]</span><span class="o">.</span><span class="n">active_range</span>
+<span class="gh">Out[7]: </span><span class="go">TimeRange(start=2016-08-29 00:00:00, stop=None)</span>
+
+<span class="gp">In [8]: </span><span class="nb">type</span><span class="p">(</span><span class="n">site</span><span class="o">.</span><span class="n">instruments</span><span class="p">[</span><span class="s2">"teledyne_t400"</span><span class="p">])</span><span class="o">.</span><span class="vm">__name__</span>
+<span class="gh">Out[8]: </span><span class="go">'Teledyne_T400'</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">uataq.laboratory.sites</span></code> lists every site ID, and <code class="docutils literal notranslate"><span class="pre">site.config</span></code> holds the
+site’s own keys (see <a class="reference internal" href="../reference/config.html"><span class="doc">Configuration</span></a>). <code class="docutils literal notranslate"><span class="pre">repr(site)</span></code>, which is what a notebook
+shows for <code class="docutils literal notranslate"><span class="pre">site</span></code>, prints the whole entry, with the <code class="docutils literal notranslate"><span class="pre">notes</span></code> of the instruments
+that have one: why its dates are what they are, and where its data end.</p>
+<p>Pollutant names are upper case (<code class="docutils literal notranslate"><span class="pre">NOx</span></code> is <code class="docutils literal notranslate"><span class="pre">'NOX'</span></code> here), but you can type
+them in any case when you read data. To go the other way and find the sites that
+measure a pollutant, make a <a class="reference internal" href="../api/uataq.Network.html#uataq.Network" title="uataq.Network"><code class="xref py py-class docutils literal notranslate"><span class="pre">Network</span></code></a>. A <code class="docutils literal notranslate"><span class="pre">Network</span></code> is a list of sites
+and one pollutant, and it is how uataq asks a question across sites; <code class="docutils literal notranslate"><span class="pre">&quot;all&quot;</span></code>
+is every site that measures the pollutant:</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [9]: </span><span class="n">Network</span><span class="p">(</span><span class="s2">"all"</span><span class="p">,</span> <span class="s2">"CH4"</span><span class="p">)</span>
+<span class="gh">Out[9]: </span><span class="go">Network(sites=['CSP', 'FRU', 'HDP', 'HPL', 'LDF', 'ROO', 'TRX01', 'WBB'], pollutant='CH4')</span>
+</pre></div>
+</div>
+<p>CH4 is measured at fewer sites than CO2. Of these, WBB (on the University of
+Utah campus) and LDF (the Salt Lake Valley landfill) are in the valley, HDP
+(Hidden Peak) is in the Wasatch Mountains above it, CSP, FRU, HPL and ROO are in
+the Uintah Basin, and TRX01 is a TRAX train. The site tables on
+<a class="reference internal" href="../reference/sites_and_instruments.html"><span class="doc">Sites and instruments</span></a> give each site’s name and position.</p>
+<p>An instrument’s window, its <code class="docutils literal notranslate"><span class="pre">active_range</span></code>, says when it was installed, not
+when it recorded data. That is why <code class="docutils literal notranslate"><span class="pre">PM2.5</span></code> is in WBB’s list although both of
+WBB’s PM2.5 instruments, <code class="docutils literal notranslate"><span class="pre">metone_es642</span></code> and <code class="docutils literal notranslate"><span class="pre">teom_1400ab</span></code>, have an end date:</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [10]: </span><span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">i</span><span class="o">.</span><span class="n">name</span><span class="si">:</span><span class="s2">15</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">i</span><span class="o">.</span><span class="n">active_range</span><span class="si">}</span><span class="s2">"</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">site</span><span class="o">.</span><span class="n">instruments</span><span class="p">))</span>
+<span class="go">lgr_ugga        After 2013-10-09 00:00:00</span>
+<span class="go">magee_ae33      2020-07-29 00:00:00 to 2024-06-20 00:00:00</span>
+<span class="go">metone_es642    2017-03-07 00:00:00 to 2022-06-08 00:00:00</span>
+<span class="go">teledyne_t200   After 2017-01-19 00:00:00</span>
+<span class="go">teledyne_t300   After 2017-05-03 00:00:00</span>
+<span class="go">teledyne_t400   After 2016-08-29 00:00:00</span>
+<span class="go">teledyne_t500u  2020-07-29 00:00:00 to 2023-01-25 00:00:00</span>
+<span class="go">teom_1400ab     2016-09-22 00:00:00 to 2017-03-02 00:00:00</span>
+</pre></div>
+</div>
+</section>
+<section id="when-a-site-has-data">
+<h2>When a site has data<a class="headerlink" href="#when-a-site-has-data" title="Link to this heading">#</a></h2>
+<p>The examples below read the archive on CHPC, and start from these lines:</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">uataq</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">uataq</span><span class="w"> </span><span class="kn">import</span> <span class="n">Network</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">wbb</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">get_site</span><span class="p">(</span><span class="s2">"WBB"</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><a class="reference internal" href="../api/uataq.Network.get_availability.html#uataq.Network.get_availability" title="uataq.Network.get_availability"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Network.get_availability()</span></code></a> tells you when sites have data for a pollutant.
+Give it a time range and it returns a table with one row for each stretch of
+time that has data:</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">net</span> <span class="o">=</span> <span class="n">Network</span><span class="p">([</span><span class="s2">"WBB"</span><span class="p">,</span> <span class="s2">"CSP"</span><span class="p">,</span> <span class="s2">"HDP"</span><span class="p">],</span> <span class="s2">"CH4"</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">avail</span> <span class="o">=</span> <span class="n">net</span><span class="o">.</span><span class="n">get_availability</span><span class="p">([</span><span class="s2">"2024-01-01"</span><span class="p">,</span> <span class="kc">None</span><span class="p">],</span> <span class="n">freq</span><span class="o">=</span><span class="s2">"W"</span><span class="p">,</span> <span class="n">lvls</span><span class="o">=</span><span class="p">[</span><span class="s2">"final"</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">avail</span>
+<span class="go">   SID    lvl      start       stop</span>
+<span class="go">0  WBB  final 2024-01-01 2024-11-25</span>
+<span class="go">1  WBB  final 2024-12-02 2026-10-19</span>
+<span class="go">2  CSP  final 2024-01-01 2024-12-16</span>
+<span class="go">3  CSP  final 2024-12-30 2026-10-12</span>
+<span class="go">4  HDP  final 2024-01-01 2025-02-10</span>
+</pre></div>
+</div>
+<p>Each row is one site (<code class="docutils literal notranslate"><span class="pre">SID</span></code>), one data level (<code class="docutils literal notranslate"><span class="pre">lvl</span></code>) and one stretch from
+<code class="docutils literal notranslate"><span class="pre">start</span></code> up to, but not including, <code class="docutils literal notranslate"><span class="pre">stop</span></code>. The times are UTC, like the data.
+Between two rows of the same site there is a gap with no data: WBB has none for
+the week starting 2024-11-25, and CSP has none for the two weeks starting
+2024-12-16. HDP’s last row stops on 2025-02-10, and nothing follows it: HDP has
+no data after that. A site with no data in the range has no rows at all. A
+stop can fall after the day of the run (this one was on 12 October 2026): the
+last weekly bin, from 12 to 19 October, holds the data up to the run.</p>
+<p>To get the first and last date for each site:</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">avail</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">"SID"</span><span class="p">)</span><span class="o">.</span><span class="n">agg</span><span class="p">(</span><span class="n">first</span><span class="o">=</span><span class="p">(</span><span class="s2">"start"</span><span class="p">,</span> <span class="s2">"min"</span><span class="p">),</span> <span class="n">last</span><span class="o">=</span><span class="p">(</span><span class="s2">"stop"</span><span class="p">,</span> <span class="s2">"max"</span><span class="p">))</span>
+<span class="go">         first       last</span>
+<span class="go">SID</span>
+<span class="go">CSP 2024-01-01 2026-10-12</span>
+<span class="go">HDP 2024-01-01 2025-02-10</span>
+<span class="go">WBB 2024-01-01 2026-10-19</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">last</span></code> is the end of the final bin (see below), not the time of the last
+measurement. With weekly bins it can be up to a week later.</p>
+<p>Mobile sites (<code class="docutils literal notranslate"><span class="pre">TRX01</span></code> and the others) work the same way. For an instrument
+that two research groups log, the call checks both archives, so it can show data
+that a read from one group would not return.</p>
+<section id="bins">
+<h3>Bins<a class="headerlink" href="#bins" title="Link to this heading">#</a></h3>
+<p>The call cuts time into bins, one week here (<code class="docutils literal notranslate"><span class="pre">freq=&quot;W&quot;</span></code>), and a bin counts as
+having data if <strong>any</strong> measurement of the pollutant falls in it. So a coarse bin
+hides a short gap. WBB logged no CO2 at all on 4 March 2024. Daily bins
+(the default) show it, and weekly bins do not:</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">co2</span> <span class="o">=</span> <span class="n">Network</span><span class="p">([</span><span class="s2">"WBB"</span><span class="p">],</span> <span class="s2">"CO2"</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">co2</span><span class="o">.</span><span class="n">get_availability</span><span class="p">(</span><span class="s2">"2024-03"</span><span class="p">,</span> <span class="n">lvls</span><span class="o">=</span><span class="p">[</span><span class="s2">"final"</span><span class="p">])</span>
+<span class="go">   SID    lvl      start       stop</span>
+<span class="go">0  WBB  final 2024-03-01 2024-03-04</span>
+<span class="go">1  WBB  final 2024-03-05 2024-03-24</span>
+<span class="go">2  WBB  final 2024-03-25 2024-04-01</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">co2</span><span class="o">.</span><span class="n">get_availability</span><span class="p">(</span><span class="s2">"2024-03"</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="s2">"W"</span><span class="p">,</span> <span class="n">lvls</span><span class="o">=</span><span class="p">[</span><span class="s2">"final"</span><span class="p">])</span>
+<span class="go">   SID    lvl      start       stop</span>
+<span class="go">0  WBB  final 2024-02-26 2024-04-01</span>
+</pre></div>
+</div>
+<p>The weekly row starts on 2024-02-26 because weeks start on Monday. A bin at
+either end of the range can reach past it. <code class="docutils literal notranslate"><span class="pre">freq</span></code> is a pandas period alias:
+<code class="docutils literal notranslate"><span class="pre">&quot;D&quot;</span></code> (day), <code class="docutils literal notranslate"><span class="pre">&quot;W&quot;</span></code> (week) or <code class="docutils literal notranslate"><span class="pre">&quot;M&quot;</span></code> (month).</p>
+</section>
+<section id="levels">
+<h3>Levels<a class="headerlink" href="#levels" title="Link to this heading">#</a></h3>
+<p>By default the call checks all four data levels (<code class="docutils literal notranslate"><span class="pre">raw</span></code>, <code class="docutils literal notranslate"><span class="pre">qaqc</span></code>,
+<code class="docutils literal notranslate"><span class="pre">calibrated</span></code> and <code class="docutils literal notranslate"><span class="pre">final</span></code>; see <a class="reference internal" href="data_levels_and_flags.html#data-levels"><span class="std std-ref">The four levels</span></a>) and gives each bin the
+<strong>highest</strong> level that has data in it. A stretch labeled
+<code class="docutils literal notranslate"><span class="pre">qaqc</span></code> was therefore measured, but the final level has nothing for it. WBB
+has no final CO2 for August 2021:</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">co2</span><span class="o">.</span><span class="n">get_availability</span><span class="p">(</span><span class="s2">"2021"</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="s2">"M"</span><span class="p">,</span> <span class="n">lvls</span><span class="o">=</span><span class="p">[</span><span class="s2">"qaqc"</span><span class="p">,</span> <span class="s2">"final"</span><span class="p">])</span>
+<span class="go">   SID    lvl      start       stop</span>
+<span class="go">0  WBB  final 2021-01-01 2021-08-01</span>
+<span class="go">1  WBB   qaqc 2021-08-01 2021-09-01</span>
+<span class="go">2  WBB  final 2021-09-01 2022-01-01</span>
+</pre></div>
+</div>
+<p><a class="reference internal" href="../api/uataq.get_obs.html#uataq.get_obs" title="uataq.get_obs"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_obs()</span></code></a> always reads the final level, so it has nothing to return for
+that month (see <a class="reference internal" href="errors.html"><span class="doc">When there is nothing to read</span></a>).</p>
+<p>A level has data in a bin when a row has a value in a <code class="docutils literal notranslate"><span class="pre">_cal</span></code> or a <code class="docutils literal notranslate"><span class="pre">_raw</span></code>
+column (see <a class="reference internal" href="../reference/columns.html#column-names"><span class="std std-ref">Column names</span></a>), the columns <a class="reference internal" href="../api/uataq.Network.get_obs.html#uataq.Network.get_obs" title="uataq.Network.get_obs"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Network.get_obs()</span></code></a> returns.
+TRX01’s <code class="docutils literal notranslate"><span class="pre">lgr_ugga_manual_cal</span></code> fills only <code class="docutils literal notranslate"><span class="pre">_raw</span></code>, and its months
+count as <code class="docutils literal notranslate"><span class="pre">final</span></code>.</p>
+</section>
+<section id="how-long-it-takes">
+<h3>How long it takes<a class="headerlink" href="#how-long-it-takes" title="Link to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">get_availability</span></code> opens and reads every data file in the range. That is the
+only way to know a pollutant was measured: a file can exist and hold nothing for
+the pollutant you asked about. It is quick for a few sites and a short range, and
+slow for everything. These times are for WBB CO2, from one process on a CHPC
+compute node on 26 October 2026:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<colgroup>
+<col style="width: 70.0%" />
+<col style="width: 30.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Call</p></th>
+<th class="head"><p>Time</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Two years (2024 and 2025), all four levels, daily bins (the defaults)</p></td>
+<td><p>146 s</p></td>
+</tr>
+<tr class="row-odd"><td><p>The same, with <code class="docutils literal notranslate"><span class="pre">lvls=[&quot;final&quot;]</span></code></p></td>
+<td><p>8.3 s</p></td>
+</tr>
+<tr class="row-even"><td><p>The same, with <code class="docutils literal notranslate"><span class="pre">lvls=[&quot;final&quot;]</span></code> and <code class="docutils literal notranslate"><span class="pre">freq=&quot;W&quot;</span></code></p></td>
+<td><p>8.3 s</p></td>
+</tr>
+<tr class="row-odd"><td><p>The year 2025 alone, one level: <code class="docutils literal notranslate"><span class="pre">final</span></code>, <code class="docutils literal notranslate"><span class="pre">calibrated</span></code>, <code class="docutils literal notranslate"><span class="pre">qaqc</span></code>, <code class="docutils literal notranslate"><span class="pre">raw</span></code></p></td>
+<td><p>4 s, 10 s, 13 s, 31 s</p></td>
+</tr>
+<tr class="row-even"><td><p>The defaults again, with <code class="docutils literal notranslate"><span class="pre">num_processes=4</span></code></p></td>
+<td><p>36 s</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>So:</p>
+<ul class="simple">
+<li><p><strong>Ask for the levels you need</strong> with <code class="docutils literal notranslate"><span class="pre">lvls</span></code>. The <code class="docutils literal notranslate"><span class="pre">raw</span></code> level has far more
+files than the others and takes about seven times as long as <code class="docutils literal notranslate"><span class="pre">final</span></code>.</p></li>
+<li><p><strong>Give a time range.</strong> With no <code class="docutils literal notranslate"><span class="pre">time_range</span></code> the call covers every year the
+site has data.</p></li>
+<li><p><strong>The bin size hardly matters</strong> for the time. Pick it for the question.</p></li>
+<li><p><strong>Use more processes for many sites.</strong> <code class="docutils literal notranslate"><span class="pre">num_processes</span></code> spreads the files
+over that many processes, and <code class="docutils literal notranslate"><span class="pre">&quot;max&quot;</span></code> uses every core you were given.
+Checking CO2 at all 19 sites that measure it, every year, final level only,
+took 73 s with <code class="docutils literal notranslate"><span class="pre">num_processes=8</span></code> (11 October 2026). Do this in a Slurm job, not on a login
+node.</p></li>
+</ul>
+<p>The script below makes the figure in the next section. It has the <code class="docutils literal notranslate"><span class="pre">__main__</span></code>
+guard (see <a class="reference internal" href="read_data.html#large-reads"><span class="std std-ref">A year or more</span></a>). Save it as <code class="docutils literal notranslate"><span class="pre">availability.py</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">uataq</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+    <span class="n">net</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">Network</span><span class="p">(</span><span class="s2">"all"</span><span class="p">,</span> <span class="s2">"CO2"</span><span class="p">)</span>
+    <span class="n">avail</span> <span class="o">=</span> <span class="n">net</span><span class="o">.</span><span class="n">get_availability</span><span class="p">(</span><span class="n">freq</span><span class="o">=</span><span class="s2">"M"</span><span class="p">,</span> <span class="n">lvls</span><span class="o">=</span><span class="p">[</span><span class="s2">"qaqc"</span><span class="p">,</span> <span class="s2">"final"</span><span class="p">],</span> <span class="n">num_processes</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">net</span><span class="o">.</span><span class="n">plot_availability</span><span class="p">(</span><span class="n">avail</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">"co2_availability.png"</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s2">"tight"</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Then submit it in a job. Take the job script under <a class="reference internal" href="../getting_started/installation.html#install-slurm"><span class="std std-ref">Use uataq in a Slurm job</span></a> and
+change three things: add <code class="docutils literal notranslate"><span class="pre">#SBATCH</span> <span class="pre">--cpus-per-task=8</span></code> (a core for each process),
+set <code class="docutils literal notranslate"><span class="pre">--mem=16G</span></code>, and end with <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">availability.py</span></code>. That job took 7
+minutes, and the figure below is what it drew.</p>
+</section>
+<section id="a-picture">
+<h3>A picture<a class="headerlink" href="#a-picture" title="Link to this heading">#</a></h3>
+<p><a class="reference internal" href="../api/uataq.Network.plot_availability.html#uataq.Network.plot_availability" title="uataq.Network.plot_availability"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Network.plot_availability()</span></code></a> draws the table: a row for each site, time
+along the bottom, and a bar wherever there is data, shaded by level. It needs
+matplotlib. Pass it the table you already have, so a change of style does not
+read the archive again.</p>
+<figure class="align-default" id="id1">
+<img alt="Bars for each of 19 sites showing when it has CO2 data, mostly at the final level, with short qaqc-only stretches and WBB's first year as qaqc only." src="../_images/co2_availability.png" />
+<figcaption>
+<p><span class="caption-text">CO2 at every site that measures it, from the run above. Dark bars are final
+data and light bars are qaqc data with nothing in final.</span><a class="headerlink" href="#id1" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</section>
+</section>
+<section id="the-newest-data">
+<h2>The newest data<a class="headerlink" href="#the-newest-data" title="Link to this heading">#</a></h2>
+<p><a class="reference internal" href="../api/uataq.get_recent_obs.html#uataq.get_recent_obs" title="uataq.get_recent_obs"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_recent_obs()</span></code></a> returns the last few days of a site. It reads the same
+level as <a class="reference internal" href="../api/uataq.get_obs.html#uataq.get_obs" title="uataq.get_obs"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_obs()</span></code></a>, and returns the same kind of table. The default is
+10 days:</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">obs</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">get_recent_obs</span><span class="p">(</span><span class="s2">"WBB"</span><span class="p">,</span> <span class="n">pollutants</span><span class="o">=</span><span class="s2">"CO2"</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">obs</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="go">(79370, 2)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">obs</span><span class="o">.</span><span class="n">tail</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="go">                     CO2d_ppm_cal  CO2d_ppm_raw</span>
+<span class="go">Time_UTC</span>
+<span class="go">2026-10-12 00:42:23    435.893883      438.0069</span>
+<span class="go">2026-10-12 00:42:33    436.246489      438.3621</span>
+<span class="go">2026-10-12 00:42:43    436.133809      438.2486</span>
+</pre></div>
+</div>
+<p>Name the pollutants. With the default <code class="docutils literal notranslate"><span class="pre">pollutants=&quot;all&quot;</span></code>, ten days at WBB came
+back as 1.3 million rows.</p>
+<p><code class="docutils literal notranslate"><span class="pre">recent</span></code> is a <code class="docutils literal notranslate"><span class="pre">datetime.timedelta</span></code> or any text pandas reads as a time span,
+such as <code class="docutils literal notranslate"><span class="pre">&quot;3D&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;3</span> <span class="pre">days&quot;</span></code> or <code class="docutils literal notranslate"><span class="pre">&quot;12h&quot;</span></code>:</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">obs</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">get_recent_obs</span><span class="p">(</span><span class="s2">"WBB"</span><span class="p">,</span> <span class="n">recent</span><span class="o">=</span><span class="s2">"3D"</span><span class="p">,</span> <span class="n">pollutants</span><span class="o">=</span><span class="s2">"CO2"</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">obs</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">obs</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
+<span class="go">2026-10-09 02:15:05 2026-10-12 00:42:43</span>
+</pre></div>
+</div>
+<p>The last row is the newest data the archive holds at that level. This run was at
+02:15 UTC on 12 October, and the newest WBB CO2 row was from 00:42 UTC the same
+day, so the data were about an hour and a half behind. A site that has stopped
+reporting has nothing recent and raises an error (HDP, under <a class="reference internal" href="errors.html"><span class="doc">When there is nothing to read</span></a>).</p>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="index.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Guides</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="read_data.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Read data</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#which-sites-measure-what">Which sites measure what</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#when-a-site-has-data">When a site has data</a><ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bins">Bins</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#levels">Levels</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#how-long-it-takes">How long it takes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-picture">A picture</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-newest-data">The newest data</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  <div class="tocsection sourcelink">
+    <a href="../_sources/guides/find_sites_and_data.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025-2026, James Mineau.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.2.0.
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.23.0.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

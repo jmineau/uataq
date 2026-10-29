@@ -1,0 +1,6 @@
+uataq.errors.ParserError
+========================
+
+.. currentmodule:: uataq.errors
+
+.. autoexception:: ParserError

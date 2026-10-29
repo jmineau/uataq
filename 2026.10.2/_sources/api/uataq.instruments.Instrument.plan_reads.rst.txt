@@ -1,0 +1,6 @@
+uataq.instruments.Instrument.plan\_reads
+========================================
+
+.. currentmodule:: uataq.instruments
+
+.. automethod:: Instrument.plan_reads

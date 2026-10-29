@@ -1,0 +1,6 @@
+uataq.filesystem.groupspaces.horel.column\_mapping
+==================================================
+
+.. currentmodule:: uataq.filesystem.groupspaces.horel
+
+.. autodata:: column_mapping

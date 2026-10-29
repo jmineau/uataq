@@ -1,0 +1,56 @@
+﻿uataq.filesystem
+================
+
+.. automodule:: uataq.filesystem
+   :no-members:
+
+
+.. rubric:: Attributes
+
+.. autosummary::
+   :toctree:
+   :nosignatures:
+
+   DEFAULT_GROUP
+   groups
+   lvls
+
+
+
+.. rubric:: Functions
+
+.. autosummary::
+   :toctree:
+   :nosignatures:
+
+   get_group
+
+
+
+
+
+
+
+
+.. rubric:: Exported from submodules
+
+.. autosummary::
+   :nosignatures:
+
+   ~core.DataFile
+   ~core.GroupSpace
+   ~core.cpu_count
+   ~core.list_files
+   ~core.filter_datafiles
+   ~core.parse_datafiles
+
+
+
+.. rubric:: Modules
+
+.. autosummary::
+   :toctree:
+   :recursive:
+
+   core
+   groupspaces

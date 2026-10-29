@@ -22,14 +22,6 @@ uataq.filesystem.groupspaces.lin
 
 
 
-.. rubric:: Functions
-
-.. autosummary::
-   :toctree:
-   :nosignatures:
-
-   dms2dd
-
 
 
 .. rubric:: Classes

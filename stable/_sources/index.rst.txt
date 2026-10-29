@@ -49,14 +49,15 @@ measurements:
   dioxide (UUCON) and Uintah Basin greenhouse gas networks: instrumentation,
   data, and measurement uncertainty", *Earth System Science Data* 11,
   1291–1308, `doi:10.5194/essd-11-1291-2019 <https://doi.org/10.5194/essd-11-1291-2019>`_.
-- The long-term CO2 record of the Salt Lake Valley sites: Mitchell et al.
-  (2018), "Long-term urban carbon dioxide observations reveal spatial and
-  temporal dynamics related to urban characteristics and growth", *PNAS* 115,
-  2912–2917, `doi:10.1073/pnas.1702393115 <https://doi.org/10.1073/pnas.1702393115>`_.
 - The TRAX trains: Mitchell et al. (2018), "Monitoring of greenhouse gases and
   pollutants across an urban area using a light-rail public transit platform",
   *Atmospheric Environment* 187, 9–23,
   `doi:10.1016/j.atmosenv.2018.05.044 <https://doi.org/10.1016/j.atmosenv.2018.05.044>`_.
+- The electric buses (the Electric Bus Air Quality Observation Project, which
+  began in July 2021): Mendoza et al. (2024), "Electric buses as an air
+  pollution and meteorological observation network: Methodology and preliminary
+  results", *Science of the Total Environment* 951, 175327,
+  `doi:10.1016/j.scitotenv.2024.175327 <https://doi.org/10.1016/j.scitotenv.2024.175327>`_.
 
 To cite uataq itself, use its DOI, in the badge at the top of this page.
 

@@ -1,0 +1,6 @@
+uataq.pollutants.concentration\_columns
+=======================================
+
+.. currentmodule:: uataq.pollutants
+
+.. autofunction:: concentration_columns

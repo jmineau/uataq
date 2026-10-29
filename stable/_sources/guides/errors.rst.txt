@@ -5,12 +5,11 @@ When there is nothing to read
 
 .. note::
 
-    The examples on this page read the UATAQ archive, which is only available
-    on CHPC. They are shown as code and are not run when the documentation is
-    built. The output under each one is from a run on CHPC on 15 October 2026,
-    except under "Pollutant or site not found" and "A level asked of get_obs"
-    (19 October 2026). The archive keeps growing, so what a read returns will
-    have moved on by the time you read this.
+    The output under each example on this page is from a run on CHPC on 15
+    October 2026, except under "Pollutant or site not found" and "A level asked
+    of get_obs" (19 October 2026). The archive keeps growing, so what a read
+    returns will have moved on by the time you read this (:ref:`why the output
+    is recorded <recorded-examples>`).
 
 The archive has gaps. Sites close, instruments are removed or break, and some
 months are missing. A read then raises an error or comes back empty. Each case
@@ -108,8 +107,9 @@ The month has a file, but there are no rows on that day, at any level (``raw``
 too): the instrument recorded nothing. The read did not fail, so you get an empty
 table and a warning, ``uataq.errors.EmptyResultWarning``. It is a Python warning,
 so it shows without the log. ``get_recent_obs`` and ``get_network_obs`` warn the
-same way when their table has no rows. To silence it, for a loop over days that
-may be empty:
+same way when their table has no rows, and so does ``get_obs`` at a mobile site
+whose rows found no GPS fix (see :ref:`mobile-no-gps`). To silence it, for a loop
+over days that may be empty:
 
 .. code-block:: python
 
@@ -175,8 +175,14 @@ To go through many sites or months and skip the empty ones, catch the error:
     ...         print(sid, "has no CO2 data in June 2025")
     ...
     WBB 250687 rows
+    WARNING:uataq.sites:Not reading licor_6262@SUG: licor_6262@SUG is inactive in given time_range
     SUG 239760 rows
+    WARNING:uataq.sites:Not reading lgr_ugga@HDP: lgr_ugga@HDP is inactive in given time_range
     HDP has no CO2 data in June 2025
+
+The two ``WARNING`` lines are the log, which is on here. SUG's ``licor_6262`` was
+replaced by the ``licor_7000``, which gave the rows, so the first line is not a
+problem.
 
 Pollutant or site not found
 ---------------------------
@@ -252,7 +258,7 @@ has it:
     ['lgr_ugga']
 
 A level that is not one of ``raw``, ``qaqc``, ``calibrated`` or ``final`` raises
-``AssertionError: Invalid data level`` and lists the four.
+``ValueError: Invalid data level`` and lists the four.
 
 Network surprises
 -----------------

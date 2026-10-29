@@ -1,0 +1,6 @@
+uataq.instruments.GPS.estimate\_max\_gap
+========================================
+
+.. currentmodule:: uataq.instruments
+
+.. autoattribute:: GPS.estimate_max_gap

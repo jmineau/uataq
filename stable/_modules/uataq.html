@@ -6,7 +6,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>uataq &#8212; UATAQ 2026.10.1 documentation</title>
+    <title>uataq &#8212; UATAQ 2026.10.2 documentation</title>
   
   
   
@@ -25,29 +25,30 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=64cc4de3f052d77215f0" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=64cc4de3f052d77215f0" rel="stylesheet" />
+  <link href="../_static/styles/theme.css?digest=18bd87630a240e9c25be" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=18bd87630a240e9c25be" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx_autodoc_typehints.css?v=057ac668" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
   
   <!-- So that users can add custom icons -->
-  <script defer src="../_static/scripts/fontawesome.js?digest=64cc4de3f052d77215f0"></script>
+  <script defer src="../_static/scripts/fontawesome.js?digest=18bd87630a240e9c25be"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be" />
 
-    <script src="../_static/documentation_options.js?v=65cfade2"></script>
+    <script src="../_static/documentation_options.js?v=52372788"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../_static/copybutton.js?v=f281be69"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/uataq';</script>
     <script>
-        DOCUMENTATION_OPTIONS.theme_version = '0.22.0';
+        DOCUMENTATION_OPTIONS.theme_version = '0.23.0';
         DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://jmineau.github.io/uataq/switcher.json';
-        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '2026.10.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '2026.10.2';
         DOCUMENTATION_OPTIONS.show_version_warning_banner =
             true;
         </script>
@@ -55,8 +56,9 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.1" />
+  <meta name="docsearch:version" content="2026.10.2" />
   
     
     <script src="../_static/searchtools.js"></script>
@@ -124,7 +126,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.1 documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.2 documentation</p>
   
 </a></div>
     
@@ -425,21 +427,21 @@
                 <article class="bd-article">
                   
   <h1>Source code for uataq</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""</span>
 <span class="sd">UATAQ</span>
 
 <span class="sd">Read UATAQ data</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">importlib.metadata</span><span class="w"> </span><span class="kn">import</span> <span class="n">PackageNotFoundError</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">importlib.metadata</span><span class="w"> </span><span class="kn">import</span> <span class="n">version</span> <span class="k">as</span> <span class="n">_version</span>
 
 <span class="k">try</span><span class="p">:</span>
-    <span class="n">__version__</span> <span class="o">=</span> <span class="n">_version</span><span class="p">(</span><span class="s2">&quot;uataq&quot;</span><span class="p">)</span>  <span class="c1"># set by setuptools-scm from git tags</span>
+    <span class="n">__version__</span> <span class="o">=</span> <span class="n">_version</span><span class="p">(</span><span class="s2">"uataq"</span><span class="p">)</span>  <span class="c1"># set by setuptools-scm from git tags</span>
 <span class="k">except</span> <span class="n">PackageNotFoundError</span><span class="p">:</span>  <span class="c1"># pragma: no cover - not installed</span>
-    <span class="n">__version__</span> <span class="o">=</span> <span class="s2">&quot;0+unknown&quot;</span>
-<span class="n">__author__</span> <span class="o">=</span> <span class="s2">&quot;James Mineau&quot;</span>
-<span class="n">__email__</span> <span class="o">=</span> <span class="s2">&quot;jameskmineau@gmail.com&quot;</span>
+    <span class="n">__version__</span> <span class="o">=</span> <span class="s2">"0+unknown"</span>
+<span class="n">__author__</span> <span class="o">=</span> <span class="s2">"James Mineau"</span>
+<span class="n">__email__</span> <span class="o">=</span> <span class="s2">"jameskmineau@gmail.com"</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">dt</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
@@ -447,7 +449,7 @@
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 
-<span class="c1"># Best-practice for libraries: don&#39;t emit output unless the caller opts in.</span>
+<span class="c1"># Best-practice for libraries: don't emit output unless the caller opts in.</span>
 <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span><span class="o">.</span><span class="n">addHandler</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">NullHandler</span><span class="p">())</span>
 
 <span class="c1"># E402: these must follow the NullHandler above -- importing the submodules</span>
@@ -458,7 +460,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">.network</span><span class="w"> </span><span class="kn">import</span> <span class="n">Network</span>  <span class="c1"># noqa: E402</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.timerange</span><span class="w"> </span><span class="kn">import</span> <span class="n">TimeRange</span><span class="p">,</span> <span class="n">TimeRangeTypes</span>  <span class="c1"># noqa: E402</span>
 
-<span class="n">_all_or_mult_strs</span> <span class="o">=</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;all&quot;</span><span class="p">]</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">|</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+<span class="n">_all_or_mult_strs</span> <span class="o">=</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">"all"</span><span class="p">]</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">|</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
 
 <span class="c1">#: UATAQ Laboratory object.</span>
 <span class="c1">#:</span>
@@ -480,37 +482,38 @@
 <a class="viewcode-back" href="../api/uataq.read_data.html#uataq.read_data">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">read_data</span><span class="p">(</span>
     <span class="n">SID</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-    <span class="n">instruments</span><span class="p">:</span> <span class="n">_all_or_mult_strs</span> <span class="o">=</span> <span class="s2">&quot;all&quot;</span><span class="p">,</span>
+    <span class="n">instruments</span><span class="p">:</span> <span class="n">_all_or_mult_strs</span> <span class="o">=</span> <span class="s2">"all"</span><span class="p">,</span>
     <span class="n">group</span><span class="p">:</span> <span class="n">instruments</span><span class="o">.</span><span class="n">GroupSelection</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">lvl</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">time_range</span><span class="p">:</span> <span class="n">TimeRange</span> <span class="o">|</span> <span class="n">TimeRangeTypes</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">num_processes</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;max&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="n">num_processes</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">"max"</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
     <span class="n">file_pattern</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Read data from an instrument at a site.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    SID : str</span>
 <span class="sd">        The site ID.</span>
-<span class="sd">    instruments : str | list[str] | tuple[str] | set[str] | &#39;all&#39;</span>
+<span class="sd">    instruments : str | list[str] | tuple[str] | set[str] | 'all'</span>
 <span class="sd">        The instrument(s) to read data from.</span>
 <span class="sd">    group : str | Mapping[str, str] | None</span>
 <span class="sd">        The research group to read data from. A name applies to every</span>
 <span class="sd">        instrument; a mapping of instrument name to group name sets it per</span>
-<span class="sd">        instrument. Default None selects each instrument&#39;s group</span>
+<span class="sd">        instrument. Default None selects each instrument's group</span>
 <span class="sd">        automatically (see :meth:`uataq.instruments.Instrument.resolve_group`).</span>
 <span class="sd">    lvl : str | None</span>
-<span class="sd">        The data level: ``&#39;raw&#39;``, ``&#39;qaqc&#39;``, ``&#39;calibrated&#39;`` or ``&#39;final&#39;``.</span>
-<span class="sd">        ``&#39;final&#39;`` is the ready-to-share level, with the pipeline&#39;s default</span>
+<span class="sd">        The data level: ``'raw'``, ``'qaqc'``, ``'calibrated'`` or ``'final'``.</span>
+<span class="sd">        ``'final'`` is the ready-to-share level, with the pipeline's default</span>
 <span class="sd">        flags applied; the lower levels are for finer control. Which to use</span>
 <span class="sd">        depends on how clean the data need to be for what you are doing, and</span>
 <span class="sd">        on how much control you want over the QAQC. Default None reads the</span>
 <span class="sd">        highest level the instrument has. See :ref:`data-levels`.</span>
 <span class="sd">    time_range : str | list[Union[str, dt.datetime, None]] | tuple[Union[str, dt.datetime, None], Union[str, dt.datetime, None]] | slice | None</span>
-<span class="sd">        The time range to read data. Default is None which reads all available data.</span>
-<span class="sd">    num_processes : int | &#39;max&#39;</span>
+<span class="sd">        The time range to read data, in UTC (see :ref:`input-time-range`).</span>
+<span class="sd">        Default is None which reads all available data.</span>
+<span class="sd">    num_processes : int | 'max'</span>
 <span class="sd">        The number of processes to use. Default is 1.</span>
 <span class="sd">    file_pattern : str | None</span>
 <span class="sd">        A string pattern to filter the file paths.</span>
@@ -518,8 +521,8 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    dict[str, pd.DataFrame]</span>
-<span class="sd">        The data.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">        One table for each instrument, keyed by the instrument's name.</span>
+<span class="sd">    """</span>
     <span class="n">site</span> <span class="o">=</span> <span class="n">get_site</span><span class="p">(</span><span class="n">SID</span><span class="p">)</span>
     <span class="n">data</span> <span class="o">=</span> <span class="n">site</span><span class="o">.</span><span class="n">read_data</span><span class="p">(</span>
         <span class="n">instruments</span><span class="p">,</span> <span class="n">group</span><span class="p">,</span> <span class="n">lvl</span><span class="p">,</span> <span class="n">time_range</span><span class="p">,</span> <span class="n">num_processes</span><span class="p">,</span> <span class="n">file_pattern</span>
@@ -533,43 +536,44 @@
 <a class="viewcode-back" href="../api/uataq.get_obs.html#uataq.get_obs">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_obs</span><span class="p">(</span>
     <span class="n">SID</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-    <span class="n">pollutants</span><span class="p">:</span> <span class="n">_all_or_mult_strs</span> <span class="o">=</span> <span class="s2">&quot;all&quot;</span><span class="p">,</span>
-    <span class="nb">format</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;wide&quot;</span><span class="p">]</span> <span class="o">|</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;long&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;wide&quot;</span><span class="p">,</span>
+    <span class="n">pollutants</span><span class="p">:</span> <span class="n">_all_or_mult_strs</span> <span class="o">=</span> <span class="s2">"all"</span><span class="p">,</span>
+    <span class="nb">format</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">"wide"</span><span class="p">]</span> <span class="o">|</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">"long"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"wide"</span><span class="p">,</span>
     <span class="n">group</span><span class="p">:</span> <span class="n">instruments</span><span class="o">.</span><span class="n">GroupSelection</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">time_range</span><span class="p">:</span> <span class="n">TimeRange</span> <span class="o">|</span> <span class="n">TimeRangeTypes</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">num_processes</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;max&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="n">num_processes</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">"max"</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
     <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Get observations from a site.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    SID : str</span>
 <span class="sd">        The site ID.</span>
-<span class="sd">    pollutants : str | list[str] | tuple[str] | set[str] | &#39;all&#39;</span>
+<span class="sd">    pollutants : str | list[str] | tuple[str] | set[str] | 'all'</span>
 <span class="sd">        The pollutant(s) to get observations for.</span>
-<span class="sd">    format : &#39;wide&#39; | &#39;long&#39;</span>
-<span class="sd">        The format of the data. Default is &#39;wide&#39;.</span>
+<span class="sd">    format : 'wide' | 'long'</span>
+<span class="sd">        The format of the data. Default is 'wide'.</span>
 <span class="sd">    group : str | Mapping[str, str] | None</span>
 <span class="sd">        The research group to read data from. A name applies to every</span>
 <span class="sd">        instrument; a mapping of instrument name to group name sets it per</span>
-<span class="sd">        instrument. Default None selects each instrument&#39;s group</span>
+<span class="sd">        instrument. Default None selects each instrument's group</span>
 <span class="sd">        automatically (see :meth:`uataq.instruments.Instrument.resolve_group`).</span>
 <span class="sd">    time_range : str | list[Union[str, dt.datetime, None]] | tuple[Union[str, dt.datetime, None], Union[str, dt.datetime, None]] | slice | None</span>
-<span class="sd">        The time range to get observations. Default is None which gets all available data.</span>
-<span class="sd">    num_processes : int | &#39;max&#39;</span>
+<span class="sd">        The time range to get observations, in UTC (see :ref:`input-time-range`).</span>
+<span class="sd">        Default is None which gets all available data.</span>
+<span class="sd">    num_processes : int | 'max'</span>
 <span class="sd">        The number of processes to use. Default is 1.</span>
 <span class="sd">    kwargs</span>
-<span class="sd">        Additional keyword arguments to pass to the site&#39;s `get_obs` method.</span>
+<span class="sd">        Additional keyword arguments to pass to the site's `get_obs` method.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    pd.DataFrame</span>
 <span class="sd">        The observations, from the ``final`` level (see :func:`uataq.read_data`</span>
 <span class="sd">        to read another level). At a mobile site it is a</span>
-<span class="sd">        ``geopandas.GeoDataFrame`` with the position of each row (see</span>
-<span class="sd">        :doc:`/guides/mobile_sites`).</span>
+<span class="sd">        ``geopandas.GeoDataFrame`` with the ``instrument`` that logged each row</span>
+<span class="sd">        and its position (see :doc:`/guides/mobile_sites`).</span>
 
 <span class="sd">    Raises</span>
 <span class="sd">    ------</span>
@@ -587,11 +591,12 @@
 <span class="sd">    -----</span>
 <span class="sd">    EmptyResultWarning</span>
 <span class="sd">        If the site has files for the range but no data in them, so the table</span>
-<span class="sd">        has no rows.</span>
+<span class="sd">        has no rows; at a mobile site also when there are rows but none found</span>
+<span class="sd">        a GPS fix.</span>
 <span class="sd">    DroppedPollutantWarning</span>
 <span class="sd">        If you name several pollutants and one of them has no data in the</span>
 <span class="sd">        range, so the table leaves it out.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">site</span> <span class="o">=</span> <span class="n">get_site</span><span class="p">(</span><span class="n">SID</span><span class="p">)</span>
     <span class="n">obs</span> <span class="o">=</span> <span class="n">site</span><span class="o">.</span><span class="n">get_obs</span><span class="p">(</span><span class="n">pollutants</span><span class="p">,</span> <span class="nb">format</span><span class="p">,</span> <span class="n">group</span><span class="p">,</span> <span class="n">time_range</span><span class="p">,</span> <span class="n">num_processes</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
@@ -604,11 +609,11 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">get_recent_obs</span><span class="p">(</span>
     <span class="n">SID</span><span class="p">,</span>
     <span class="n">recent</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">dt</span><span class="o">.</span><span class="n">timedelta</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">10</span><span class="p">),</span>
-    <span class="n">pollutants</span><span class="p">:</span> <span class="n">_all_or_mult_strs</span> <span class="o">=</span> <span class="s2">&quot;all&quot;</span><span class="p">,</span>
-    <span class="nb">format</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;wide&quot;</span><span class="p">]</span> <span class="o">|</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;long&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;wide&quot;</span><span class="p">,</span>
+    <span class="n">pollutants</span><span class="p">:</span> <span class="n">_all_or_mult_strs</span> <span class="o">=</span> <span class="s2">"all"</span><span class="p">,</span>
+    <span class="nb">format</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">"wide"</span><span class="p">]</span> <span class="o">|</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">"long"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"wide"</span><span class="p">,</span>
     <span class="n">group</span><span class="p">:</span> <span class="n">instruments</span><span class="o">.</span><span class="n">GroupSelection</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Get recent observations from a site.</span>
 
 <span class="sd">    Parameters</span>
@@ -617,30 +622,31 @@
 <span class="sd">        The site ID.</span>
 <span class="sd">    recent : str | dt.timedelta</span>
 <span class="sd">        The recent time range. Default is 10 days.</span>
-<span class="sd">    pollutants : str | list[str] | tuple[str] | set[str] | &#39;all&#39;</span>
+<span class="sd">    pollutants : str | list[str] | tuple[str] | set[str] | 'all'</span>
 <span class="sd">        The pollutant(s) to get observations for.</span>
-<span class="sd">    format : &#39;wide&#39; | &#39;long&#39;</span>
-<span class="sd">        The format of the data. Default is &#39;wide&#39;.</span>
+<span class="sd">    format : 'wide' | 'long'</span>
+<span class="sd">        The format of the data. Default is 'wide'.</span>
 <span class="sd">    group : str | Mapping[str, str] | None</span>
 <span class="sd">        The research group to read data from. A name applies to every</span>
 <span class="sd">        instrument; a mapping of instrument name to group name sets it per</span>
-<span class="sd">        instrument. Default None selects each instrument&#39;s group</span>
+<span class="sd">        instrument. Default None selects each instrument's group</span>
 <span class="sd">        automatically (see :meth:`uataq.instruments.Instrument.resolve_group`).</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    pd.DataFrame</span>
-<span class="sd">        The recent observations.</span>
+<span class="sd">        The recent observations, from the final level, in the form</span>
+<span class="sd">        :func:`get_obs` returns.</span>
 
 <span class="sd">    Warns</span>
 <span class="sd">    -----</span>
 <span class="sd">    EmptyResultWarning</span>
-<span class="sd">        If nothing in the site&#39;s files falls in the range, so the table has no</span>
+<span class="sd">        If nothing in the site's files falls in the range, so the table has no</span>
 <span class="sd">        rows.</span>
 <span class="sd">    DroppedPollutantWarning</span>
 <span class="sd">        If you name several pollutants and one of them has no data in the</span>
 <span class="sd">        range, so the table leaves it out.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">site</span> <span class="o">=</span> <span class="n">get_site</span><span class="p">(</span><span class="n">SID</span><span class="p">)</span>
     <span class="n">obs</span> <span class="o">=</span> <span class="n">site</span><span class="o">.</span><span class="n">get_recent_obs</span><span class="p">(</span><span class="n">recent</span><span class="p">,</span> <span class="n">pollutants</span><span class="p">,</span> <span class="nb">format</span><span class="p">,</span> <span class="n">group</span><span class="p">)</span>
 
@@ -655,9 +661,9 @@
     <span class="n">pollutant</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">time_range</span><span class="p">:</span> <span class="n">TimeRange</span> <span class="o">|</span> <span class="n">TimeRangeTypes</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">group</span><span class="p">:</span> <span class="n">instruments</span><span class="o">.</span><span class="n">GroupSelection</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">num_processes</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;max&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="n">num_processes</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">"max"</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Get observations for a network of sites for a single pollutant.</span>
 
 <span class="sd">    Convenience wrapper around Network.get_obs() that combines measurements</span>
@@ -668,16 +674,16 @@
 <span class="sd">    sites : list[str] | tuple[str, ...]</span>
 <span class="sd">        List of site identifiers to include in the network.</span>
 <span class="sd">    pollutant : str</span>
-<span class="sd">        The pollutant to retrieve observations for (e.g., &#39;CO2&#39;, &#39;O3&#39;, &#39;NO2&#39;).</span>
+<span class="sd">        The pollutant to retrieve observations for (e.g., 'CO2', 'O3', 'NO2').</span>
 <span class="sd">    time_range : TimeRange | TimeRangeTypes, optional</span>
-<span class="sd">        The time range to retrieve data for. Can be a TimeRange object,</span>
-<span class="sd">        string, list, or None (all data). Default is None.</span>
+<span class="sd">        The time range to retrieve data for, in UTC (see :ref:`input-time-range`).</span>
+<span class="sd">        Can be a TimeRange object, string, list, or None (all data). Default is None.</span>
 <span class="sd">    group : str | Mapping[str, str] | None, optional</span>
 <span class="sd">        The research group to read data from. A name applies to every</span>
 <span class="sd">        instrument; a mapping of instrument name to group name sets it per</span>
-<span class="sd">        instrument. Default None selects each instrument&#39;s group</span>
+<span class="sd">        instrument. Default None selects each instrument's group</span>
 <span class="sd">        automatically (see :meth:`uataq.instruments.Instrument.resolve_group`).</span>
-<span class="sd">    num_processes : int | Literal[&quot;max&quot;], optional</span>
+<span class="sd">    num_processes : int | Literal["max"], optional</span>
 <span class="sd">        Number of processes to use for parallel data reading. Default is 1.</span>
 
 <span class="sd">    Returns</span>
@@ -704,35 +710,35 @@
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
 <span class="sd">    &gt;&gt;&gt; # Get CO2 from multiple sites for January 2024</span>
-<span class="sd">    &gt;&gt;&gt; obs = uataq.get_network_obs(</span>
-<span class="sd">    ...     sites=[&quot;WBB&quot;, &quot;SUG&quot;, &quot;RPK&quot;], pollutant=&quot;CO2&quot;, time_range=&quot;2024-01&quot;</span>
+<span class="sd">    &gt;&gt;&gt; obs = uataq.get_network_obs(  # doctest: +SKIP</span>
+<span class="sd">    ...     sites=["WBB", "SUG", "RPK"], pollutant="CO2", time_range="2024-01"</span>
 <span class="sd">    ... )</span>
 
 <span class="sd">    &gt;&gt;&gt; # Get O3 from mobile sites for a time range</span>
-<span class="sd">    &gt;&gt;&gt; obs = uataq.get_network_obs(</span>
-<span class="sd">    ...     sites=[&quot;TRX01&quot;, &quot;TRX02&quot;],</span>
-<span class="sd">    ...     pollutant=&quot;O3&quot;,</span>
-<span class="sd">    ...     time_range=[&quot;2024-01-01&quot;, &quot;2024-01-31&quot;],</span>
+<span class="sd">    &gt;&gt;&gt; obs = uataq.get_network_obs(  # doctest: +SKIP</span>
+<span class="sd">    ...     sites=["TRX01", "TRX02"],</span>
+<span class="sd">    ...     pollutant="O3",</span>
+<span class="sd">    ...     time_range=["2024-01-01", "2024-01-31"],</span>
 <span class="sd">    ... )</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">net</span> <span class="o">=</span> <span class="n">Network</span><span class="p">(</span><span class="n">sites</span><span class="o">=</span><span class="n">sites</span><span class="p">,</span> <span class="n">pollutant</span><span class="o">=</span><span class="n">pollutant</span><span class="p">,</span> <span class="n">group</span><span class="o">=</span><span class="n">group</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">net</span><span class="o">.</span><span class="n">get_obs</span><span class="p">(</span><span class="n">time_range</span><span class="o">=</span><span class="n">time_range</span><span class="p">,</span> <span class="n">num_processes</span><span class="o">=</span><span class="n">num_processes</span><span class="p">)</span></div>
 
 
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="s2">&quot;sites&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;instruments&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;laboratory&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;filesystem&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;pollutants&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;DEFAULT_GROUP&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;get_site&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;read_data&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;get_obs&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;get_recent_obs&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;Network&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;get_network_obs&quot;</span><span class="p">,</span>
+    <span class="s2">"sites"</span><span class="p">,</span>
+    <span class="s2">"instruments"</span><span class="p">,</span>
+    <span class="s2">"laboratory"</span><span class="p">,</span>
+    <span class="s2">"filesystem"</span><span class="p">,</span>
+    <span class="s2">"pollutants"</span><span class="p">,</span>
+    <span class="s2">"DEFAULT_GROUP"</span><span class="p">,</span>
+    <span class="s2">"get_site"</span><span class="p">,</span>
+    <span class="s2">"read_data"</span><span class="p">,</span>
+    <span class="s2">"get_obs"</span><span class="p">,</span>
+    <span class="s2">"get_recent_obs"</span><span class="p">,</span>
+    <span class="s2">"Network"</span><span class="p">,</span>
+    <span class="s2">"get_network_obs"</span><span class="p">,</span>
 <span class="p">]</span>
 </pre></div>
 
@@ -763,8 +769,8 @@
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0"></script>
-<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0"></script>
+  <script defer src="../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -784,7 +790,7 @@
         <div class="footer-item">
 
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.2.0.
   </p>
 </div>
       
@@ -797,7 +803,7 @@
         <div class="footer-item">
 <p class="theme-version">
   <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.22.0.
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.23.0.
 </p></div>
       
     </div>

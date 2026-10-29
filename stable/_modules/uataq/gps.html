@@ -6,7 +6,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>uataq.gps &#8212; UATAQ 2026.10.1 documentation</title>
+    <title>uataq.gps &#8212; UATAQ 2026.10.2 documentation</title>
   
   
   
@@ -25,29 +25,30 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=64cc4de3f052d77215f0" rel="stylesheet" />
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=64cc4de3f052d77215f0" rel="stylesheet" />
+  <link href="../../_static/styles/theme.css?digest=18bd87630a240e9c25be" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=18bd87630a240e9c25be" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx_autodoc_typehints.css?v=057ac668" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
   
   <!-- So that users can add custom icons -->
-  <script defer src="../../_static/scripts/fontawesome.js?digest=64cc4de3f052d77215f0"></script>
+  <script defer src="../../_static/scripts/fontawesome.js?digest=18bd87630a240e9c25be"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
-<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be" />
 
-    <script src="../../_static/documentation_options.js?v=65cfade2"></script>
+    <script src="../../_static/documentation_options.js?v=52372788"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../../_static/copybutton.js?v=f281be69"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/uataq/gps';</script>
     <script>
-        DOCUMENTATION_OPTIONS.theme_version = '0.22.0';
+        DOCUMENTATION_OPTIONS.theme_version = '0.23.0';
         DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://jmineau.github.io/uataq/switcher.json';
-        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '2026.10.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '2026.10.2';
         DOCUMENTATION_OPTIONS.show_version_warning_banner =
             true;
         </script>
@@ -55,8 +56,9 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.1" />
+  <meta name="docsearch:version" content="2026.10.2" />
   
     
     <script src="../../_static/searchtools.js"></script>
@@ -124,7 +126,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.1 documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.2 documentation</p>
   
 </a></div>
     
@@ -428,7 +430,7 @@
                 <article class="bd-article">
                   
   <h1>Source code for uataq.gps</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""</span>
 <span class="sd">GPS helpers: great-circle geometry and motion estimated from positions.</span>
 
 <span class="sd">When a receiver logs only ``GPGGA`` sentences (position, altitude, fix quality)</span>
@@ -448,12 +450,15 @@
 
 <span class="sd">Examples</span>
 <span class="sd">--------</span>
-<span class="sd">The example reads the archive, so the docs build does not run it.</span>
+<span class="sd">The example reads the archive, so neither the docs build nor the tests run it</span>
+<span class="sd">(`# doctest: +SKIP`).</span>
 
 <span class="sd">&gt;&gt;&gt; import uataq</span>
-<span class="sd">&gt;&gt;&gt; gps = uataq.read_data(&quot;trx01&quot;, instruments=&quot;gps&quot;, time_range=&quot;2017-03&quot;)[&quot;gps&quot;]</span>
-<span class="sd">&gt;&gt;&gt; moving = gps[gps.Speed_m_s &gt; 1.0]  # works in the GPGGA-only years too</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">&gt;&gt;&gt; data = uataq.read_data("trx01", "gps", time_range="2017-03")  # doctest: +SKIP</span>
+<span class="sd">&gt;&gt;&gt; gps = data["gps"]  # doctest: +SKIP</span>
+<span class="sd">&gt;&gt;&gt; # Speed_m_s is filled in the GPGGA-only years too</span>
+<span class="sd">&gt;&gt;&gt; moving = gps[gps.Speed_m_s &gt; 1.0]  # doctest: +SKIP</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
@@ -469,11 +474,11 @@
 <span class="n">EARTH_RADIUS_M</span> <span class="o">=</span> <span class="mf">6_371_000.0</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="s2">&quot;EARTH_RADIUS_M&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;bearing&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;estimate_speed_course&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;gps_time_from_time_of_day&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;haversine&quot;</span><span class="p">,</span>
+    <span class="s2">"EARTH_RADIUS_M"</span><span class="p">,</span>
+    <span class="s2">"bearing"</span><span class="p">,</span>
+    <span class="s2">"estimate_speed_course"</span><span class="p">,</span>
+    <span class="s2">"gps_time_from_time_of_day"</span><span class="p">,</span>
+    <span class="s2">"haversine"</span><span class="p">,</span>
 <span class="p">]</span>
 
 
@@ -486,7 +491,7 @@
     <span class="n">lon2</span><span class="p">:</span> <span class="n">npt</span><span class="o">.</span><span class="n">ArrayLike</span><span class="p">,</span>
     <span class="n">R</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">EARTH_RADIUS_M</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Great-circle distance between two points (haversine formula).</span>
 
 <span class="sd">    Parameters</span>
@@ -504,7 +509,7 @@
 <span class="sd">    numpy.ndarray</span>
 <span class="sd">        Distance in the units of ``R``. Inputs are broadcast together, so a</span>
 <span class="sd">        single point against an array of points works.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">lat1</span><span class="p">,</span> <span class="n">lon1</span><span class="p">,</span> <span class="n">lat2</span><span class="p">,</span> <span class="n">lon2</span> <span class="o">=</span> <span class="p">(</span>
         <span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">))</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="p">(</span><span class="n">lat1</span><span class="p">,</span> <span class="n">lon1</span><span class="p">,</span> <span class="n">lat2</span><span class="p">,</span> <span class="n">lon2</span><span class="p">)</span>
     <span class="p">)</span>
@@ -512,6 +517,9 @@
         <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">((</span><span class="n">lat2</span> <span class="o">-</span> <span class="n">lat1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
         <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">lat1</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">lat2</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">((</span><span class="n">lon2</span> <span class="o">-</span> <span class="n">lon1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
     <span class="p">)</span>
+    <span class="c1"># Rounding can push a just above 1 for (near-)antipodal points, and then</span>
+    <span class="c1"># sqrt(1 - a) is NaN.</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
     <span class="k">return</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">R</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">a</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">a</span><span class="p">))</span></div>
 
 
@@ -524,7 +532,7 @@
     <span class="n">lat2</span><span class="p">:</span> <span class="n">npt</span><span class="o">.</span><span class="n">ArrayLike</span><span class="p">,</span>
     <span class="n">lon2</span><span class="p">:</span> <span class="n">npt</span><span class="o">.</span><span class="n">ArrayLike</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Return the initial great-circle bearing from the first point to the second.</span>
 
 <span class="sd">    Parameters</span>
@@ -539,7 +547,7 @@
 <span class="sd">    numpy.ndarray</span>
 <span class="sd">        Bearing in degrees clockwise from true north, in ``[0, 360)``.</span>
 <span class="sd">        Inputs are broadcast together. Coincident points give 0.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">lat1</span><span class="p">,</span> <span class="n">lon1</span><span class="p">,</span> <span class="n">lat2</span><span class="p">,</span> <span class="n">lon2</span> <span class="o">=</span> <span class="p">(</span>
         <span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">))</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="p">(</span><span class="n">lat1</span><span class="p">,</span> <span class="n">lon1</span><span class="p">,</span> <span class="n">lat2</span><span class="p">,</span> <span class="n">lon2</span><span class="p">)</span>
     <span class="p">)</span>
@@ -557,9 +565,9 @@
     <span class="n">longitude</span><span class="p">:</span> <span class="n">npt</span><span class="o">.</span><span class="n">ArrayLike</span><span class="p">,</span>
     <span class="n">time</span><span class="p">:</span> <span class="n">npt</span><span class="o">.</span><span class="n">ArrayLike</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">window</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
-    <span class="n">max_gap</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timedelta</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="s2">&quot;60s&quot;</span><span class="p">,</span>
+    <span class="n">max_gap</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timedelta</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="s2">"60s"</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Estimate speed and course from a sequence of positions.</span>
 
 <span class="sd">    Both are centered differences: the sample at position ``i`` is described by</span>
@@ -600,38 +608,38 @@
 <span class="sd">    longer ``window`` (or aggregate first) before thresholding a stationary</span>
 <span class="sd">    platform, and treat the course as meaningless wherever the speed is at or</span>
 <span class="sd">    below the noise level.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="n">window</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;window must be &gt;= 1, got </span><span class="si">{</span><span class="n">window</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"window must be &gt;= 1, got </span><span class="si">{</span><span class="n">window</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">time</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">latitude</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span>
             <span class="n">latitude</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DatetimeIndex</span>
         <span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">&quot;time is required unless latitude is a Series with a DatetimeIndex&quot;</span>
+                <span class="s2">"time is required unless latitude is a Series with a DatetimeIndex"</span>
             <span class="p">)</span>
         <span class="n">time</span> <span class="o">=</span> <span class="n">latitude</span><span class="o">.</span><span class="n">index</span>
 
-    <span class="n">index</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DatetimeIndex</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">time</span><span class="p">)),</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Time_UTC&quot;</span><span class="p">)</span>
+    <span class="n">index</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DatetimeIndex</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">time</span><span class="p">)),</span> <span class="n">name</span><span class="o">=</span><span class="s2">"Time_UTC"</span><span class="p">)</span>
     <span class="n">lat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">latitude</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
     <span class="n">lon</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">longitude</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">lat</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">lon</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">index</span><span class="p">)):</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;latitude, longitude and time must be the same length, &quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;got </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">lat</span><span class="p">)</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">lon</span><span class="p">)</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">index</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="sa">f</span><span class="s2">"latitude, longitude and time must be the same length, "</span>
+            <span class="sa">f</span><span class="s2">"got </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">lat</span><span class="p">)</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">lon</span><span class="p">)</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">index</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span>
         <span class="p">)</span>
 
     <span class="n">out</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
-        <span class="p">{</span><span class="s2">&quot;Speed_m_s&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="s2">&quot;Course_deg&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">},</span> <span class="n">index</span><span class="o">=</span><span class="n">index</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span>
+        <span class="p">{</span><span class="s2">"Speed_m_s"</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="s2">"Course_deg"</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">},</span> <span class="n">index</span><span class="o">=</span><span class="n">index</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span>
     <span class="p">)</span>
     <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">window</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">out</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">index</span><span class="o">.</span><span class="n">is_monotonic_increasing</span><span class="p">:</span>
         <span class="n">_logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
-            <span class="s2">&quot;GPS times are not in increasing order; speed/course estimates &quot;</span>
-            <span class="s2">&quot;assume time-ordered positions.&quot;</span>
+            <span class="s2">"GPS times are not in increasing order; speed/course estimates "</span>
+            <span class="s2">"assume time-ordered positions."</span>
         <span class="p">)</span>
 
     <span class="n">w</span> <span class="o">=</span> <span class="n">window</span>
@@ -641,7 +649,7 @@
 
     <span class="n">seconds</span> <span class="o">=</span> <span class="n">index</span><span class="o">.</span><span class="n">to_series</span><span class="p">()</span><span class="o">.</span><span class="n">diff</span><span class="p">()</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">total_seconds</span><span class="p">()</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
     <span class="n">dt</span> <span class="o">=</span> <span class="n">index</span><span class="p">[</span><span class="n">hi</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span> <span class="o">-</span> <span class="n">index</span><span class="p">[</span><span class="n">lo</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
-    <span class="n">dt</span> <span class="o">=</span> <span class="n">dt</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">timedelta64</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;s&quot;</span><span class="p">)</span>
+    <span class="n">dt</span> <span class="o">=</span> <span class="n">dt</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">timedelta64</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s2">"s"</span><span class="p">)</span>
 
     <span class="n">dist</span> <span class="o">=</span> <span class="n">haversine</span><span class="p">(</span><span class="n">lat</span><span class="p">[</span><span class="n">lo</span><span class="p">],</span> <span class="n">lon</span><span class="p">[</span><span class="n">lo</span><span class="p">],</span> <span class="n">lat</span><span class="p">[</span><span class="n">hi</span><span class="p">],</span> <span class="n">lon</span><span class="p">[</span><span class="n">hi</span><span class="p">])</span>
     <span class="n">course</span> <span class="o">=</span> <span class="n">bearing</span><span class="p">(</span><span class="n">lat</span><span class="p">[</span><span class="n">lo</span><span class="p">],</span> <span class="n">lon</span><span class="p">[</span><span class="n">lo</span><span class="p">],</span> <span class="n">lat</span><span class="p">[</span><span class="n">hi</span><span class="p">],</span> <span class="n">lon</span><span class="p">[</span><span class="n">hi</span><span class="p">])</span>
@@ -656,11 +664,11 @@
         <span class="n">valid</span> <span class="o">&amp;=</span> <span class="n">step</span> <span class="o">&lt;=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timedelta</span><span class="p">(</span><span class="n">max_gap</span><span class="p">)</span><span class="o">.</span><span class="n">total_seconds</span><span class="p">()</span>
 
     <span class="n">speed</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">valid</span><span class="p">,</span> <span class="n">dist</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">dt</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
-    <span class="c1"># pandas-stubs type .iloc assignment too narrowly for get_loc&#39;s result</span>
+    <span class="c1"># pandas-stubs type .iloc assignment too narrowly for get_loc's result</span>
     <span class="c1"># pyrefly: ignore[unsupported-operation]</span>
-    <span class="n">out</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">center</span><span class="p">,</span> <span class="n">out</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">get_loc</span><span class="p">(</span><span class="s2">&quot;Speed_m_s&quot;</span><span class="p">)]</span> <span class="o">=</span> <span class="n">speed</span>
+    <span class="n">out</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">center</span><span class="p">,</span> <span class="n">out</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">get_loc</span><span class="p">(</span><span class="s2">"Speed_m_s"</span><span class="p">)]</span> <span class="o">=</span> <span class="n">speed</span>
     <span class="c1"># pyrefly: ignore[unsupported-operation]</span>
-    <span class="n">out</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">center</span><span class="p">,</span> <span class="n">out</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">get_loc</span><span class="p">(</span><span class="s2">&quot;Course_deg&quot;</span><span class="p">)]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
+    <span class="n">out</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">center</span><span class="p">,</span> <span class="n">out</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">get_loc</span><span class="p">(</span><span class="s2">"Course_deg"</span><span class="p">)]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
         <span class="n">valid</span><span class="p">,</span> <span class="n">course</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
     <span class="p">)</span>
     <span class="k">return</span> <span class="n">out</span></div>
@@ -672,10 +680,10 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">gps_time_from_time_of_day</span><span class="p">(</span>
     <span class="n">logger_time</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Index</span> <span class="o">|</span> <span class="n">npt</span><span class="o">.</span><span class="n">ArrayLike</span><span class="p">,</span> <span class="n">time_of_day</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span> <span class="o">|</span> <span class="n">npt</span><span class="o">.</span><span class="n">ArrayLike</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Full GPS datetimes from a receiver&#39;s time of day and the logger&#39;s clock.</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Full GPS datetimes from a receiver's time of day and the logger's clock.</span>
 
-<span class="sd">    A receiver that logs only its time of day (``HHMMSS[.ss]``, e.g. horel&#39;s</span>
+<span class="sd">    A receiver that logs only its time of day (``HHMMSS[.ss]``, e.g. horel's</span>
 <span class="sd">    ``GTIM``) needs a date. Each value takes the date of its logger timestamp,</span>
 <span class="sd">    moved a day either way when the two straddle midnight, so the logger clock</span>
 <span class="sd">    only has to be within 12 h of GPS time.</span>
@@ -683,23 +691,23 @@
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    logger_time : pd.DatetimeIndex</span>
-<span class="sd">        The logger&#39;s timestamps (naive UTC), one per row.</span>
+<span class="sd">        The logger's timestamps (naive UTC), one per row.</span>
 <span class="sd">    time_of_day : array-like</span>
-<span class="sd">        The receiver&#39;s time of day as an ``HHMMSS`` number, aligned with</span>
-<span class="sd">        ``logger_time``. NaN, or a value that isn&#39;t a valid time of day, gives</span>
+<span class="sd">        The receiver's time of day as an ``HHMMSS`` number, aligned with</span>
+<span class="sd">        ``logger_time``. NaN, or a value that isn't a valid time of day, gives</span>
 <span class="sd">        NaT.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    pd.Series</span>
 <span class="sd">        GPS time (naive UTC), indexed like ``logger_time``.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># pandas-stubs&#39; DatetimeIndex rejects part of ArrayLike (Buffer); any array of times works</span>
+<span class="sd">    """</span>
+    <span class="c1"># pandas-stubs' DatetimeIndex rejects part of ArrayLike (Buffer); any array of times works</span>
     <span class="c1"># pyrefly: ignore[bad-argument-type]</span>
     <span class="n">index</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DatetimeIndex</span><span class="p">(</span><span class="n">logger_time</span><span class="p">)</span>
-    <span class="n">logger</span> <span class="o">=</span> <span class="n">index</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;datetime64[ns]&quot;</span><span class="p">)</span>
+    <span class="n">logger</span> <span class="o">=</span> <span class="n">index</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="s2">"datetime64[ns]"</span><span class="p">)</span>
     <span class="n">hhmmss</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span>
-        <span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">time_of_day</span><span class="p">)),</span> <span class="n">errors</span><span class="o">=</span><span class="s2">&quot;coerce&quot;</span><span class="p">),</span>
+        <span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">time_of_day</span><span class="p">)),</span> <span class="n">errors</span><span class="o">=</span><span class="s2">"coerce"</span><span class="p">),</span>
         <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">hours</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">hhmmss</span> <span class="o">/</span> <span class="mi">10_000</span><span class="p">)</span>
@@ -708,16 +716,16 @@
     <span class="n">valid</span> <span class="o">=</span> <span class="p">(</span><span class="n">hours</span> <span class="o">&lt;</span> <span class="mi">24</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">minutes</span> <span class="o">&lt;</span> <span class="mi">60</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">seconds</span> <span class="o">&lt;</span> <span class="mi">60</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">hhmmss</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span>
     <span class="c1"># Integer nanoseconds, 0 where invalid (masked to NaT below)</span>
     <span class="n">nanoseconds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">valid</span><span class="p">,</span> <span class="p">(</span><span class="n">hours</span> <span class="o">*</span> <span class="mi">3600</span> <span class="o">+</span> <span class="n">minutes</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">+</span> <span class="n">seconds</span><span class="p">)</span> <span class="o">*</span> <span class="mf">1e9</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-    <span class="n">midnight</span> <span class="o">=</span> <span class="n">logger</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;datetime64[D]&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;datetime64[ns]&quot;</span><span class="p">)</span>
-    <span class="n">gps_time</span> <span class="o">=</span> <span class="n">midnight</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">nanoseconds</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;timedelta64[ns]&quot;</span><span class="p">)</span>
+    <span class="n">midnight</span> <span class="o">=</span> <span class="n">logger</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">"datetime64[D]"</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">"datetime64[ns]"</span><span class="p">)</span>
+    <span class="n">gps_time</span> <span class="o">=</span> <span class="n">midnight</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">nanoseconds</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">"timedelta64[ns]"</span><span class="p">)</span>
 
     <span class="c1"># The receiver crossed midnight before (or after) the logger did</span>
-    <span class="n">half_day</span><span class="p">,</span> <span class="n">day</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">timedelta64</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="s2">&quot;h&quot;</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">timedelta64</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;D&quot;</span><span class="p">)</span>
+    <span class="n">half_day</span><span class="p">,</span> <span class="n">day</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">timedelta64</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="s2">"h"</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">timedelta64</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s2">"D"</span><span class="p">)</span>
     <span class="n">diff</span> <span class="o">=</span> <span class="n">gps_time</span> <span class="o">-</span> <span class="n">logger</span>
     <span class="n">gps_time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">diff</span> <span class="o">&gt;</span> <span class="n">half_day</span><span class="p">,</span> <span class="n">gps_time</span> <span class="o">-</span> <span class="n">day</span><span class="p">,</span> <span class="n">gps_time</span><span class="p">)</span>
     <span class="n">gps_time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">diff</span> <span class="o">&lt;</span> <span class="o">-</span><span class="n">half_day</span><span class="p">,</span> <span class="n">gps_time</span> <span class="o">+</span> <span class="n">day</span><span class="p">,</span> <span class="n">gps_time</span><span class="p">)</span>
-    <span class="n">gps_time</span><span class="p">[</span><span class="o">~</span><span class="n">valid</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">(</span><span class="s2">&quot;NaT&quot;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">gps_time</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">index</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;GPS_Time_UTC&quot;</span><span class="p">)</span></div>
+    <span class="n">gps_time</span><span class="p">[</span><span class="o">~</span><span class="n">valid</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">(</span><span class="s2">"NaT"</span><span class="p">,</span> <span class="s2">"ns"</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">gps_time</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">index</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">"GPS_Time_UTC"</span><span class="p">)</span></div>
 
 </pre></div>
 
@@ -748,8 +756,8 @@
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0"></script>
-<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0"></script>
+  <script defer src="../../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -769,7 +777,7 @@
         <div class="footer-item">
 
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.2.0.
   </p>
 </div>
       
@@ -782,7 +790,7 @@
         <div class="footer-item">
 <p class="theme-version">
   <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.22.0.
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.23.0.
 </p></div>
       
     </div>

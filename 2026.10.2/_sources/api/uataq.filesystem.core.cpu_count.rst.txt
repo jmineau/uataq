@@ -1,0 +1,6 @@
+uataq.filesystem.core.cpu\_count
+================================
+
+.. currentmodule:: uataq.filesystem.core
+
+.. autofunction:: cpu_count

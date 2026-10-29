@@ -6,7 +6,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>uataq.timerange &#8212; UATAQ 2026.10.1 documentation</title>
+    <title>uataq.timerange &#8212; UATAQ 2026.10.2 documentation</title>
   
   
   
@@ -25,29 +25,30 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=64cc4de3f052d77215f0" rel="stylesheet" />
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=64cc4de3f052d77215f0" rel="stylesheet" />
+  <link href="../../_static/styles/theme.css?digest=18bd87630a240e9c25be" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=18bd87630a240e9c25be" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx_autodoc_typehints.css?v=057ac668" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
   
   <!-- So that users can add custom icons -->
-  <script defer src="../../_static/scripts/fontawesome.js?digest=64cc4de3f052d77215f0"></script>
+  <script defer src="../../_static/scripts/fontawesome.js?digest=18bd87630a240e9c25be"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
-<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be" />
 
-    <script src="../../_static/documentation_options.js?v=65cfade2"></script>
+    <script src="../../_static/documentation_options.js?v=52372788"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../../_static/copybutton.js?v=f281be69"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/uataq/timerange';</script>
     <script>
-        DOCUMENTATION_OPTIONS.theme_version = '0.22.0';
+        DOCUMENTATION_OPTIONS.theme_version = '0.23.0';
         DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://jmineau.github.io/uataq/switcher.json';
-        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '2026.10.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '2026.10.2';
         DOCUMENTATION_OPTIONS.show_version_warning_banner =
             true;
         </script>
@@ -55,8 +56,9 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.1" />
+  <meta name="docsearch:version" content="2026.10.2" />
   
     
     <script src="../../_static/searchtools.js"></script>
@@ -124,7 +126,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.1 documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.2 documentation</p>
   
 </a></div>
     
@@ -428,13 +430,13 @@
                 <article class="bd-article">
                   
   <h1>Source code for uataq.timerange</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""</span>
 <span class="sd">Time range handling.</span>
 
 <span class="sd">:class:`TimeRange` normalizes the several ways a caller can ask for a period</span>
 <span class="sd">(a string, a ``(start, stop)`` pair, a list, a slice, or None for everything)</span>
 <span class="sd">into a start and a stop.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">dt</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
@@ -460,24 +462,24 @@
 <span class="c1">#: :ref:`input-time-range`.</span>
 <span class="n">TimeRangeTypes</span> <span class="o">=</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">TimeRangeTuple</span> <span class="o">|</span> <span class="n">TimeRangeList</span> <span class="o">|</span> <span class="nb">slice</span> <span class="o">|</span> <span class="kc">None</span>
 
-<span class="c1"># Each component needs the one before it, so &quot;2024-1-5&quot; fails instead of</span>
+<span class="c1"># Each component needs the one before it, so "2024-1-5" fails instead of</span>
 <span class="c1"># being read as year 2024, hour 1. Only a UTC offset is accepted.</span>
 <span class="n">_ISO8601</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span>
-    <span class="sa">r</span><span class="s2">&quot;^(?P&lt;year&gt;\d</span><span class="si">{4}</span><span class="s2">)&quot;</span>
-    <span class="sa">r</span><span class="s2">&quot;(?:-?(?P&lt;month&gt;\d</span><span class="si">{2}</span><span class="s2">)&quot;</span>
-    <span class="sa">r</span><span class="s2">&quot;(?:-?(?P&lt;day&gt;\d</span><span class="si">{2}</span><span class="s2">)&quot;</span>
-    <span class="sa">r</span><span class="s2">&quot;(?:[T\s](?P&lt;hour&gt;\d{1,2})&quot;</span>
-    <span class="sa">r</span><span class="s2">&quot;(?::?(?P&lt;minute&gt;\d</span><span class="si">{2}</span><span class="s2">)&quot;</span>
-    <span class="sa">r</span><span class="s2">&quot;(?::?(?P&lt;second&gt;\d</span><span class="si">{2}</span><span class="s2">(?:\.\d{1,6})?))?&quot;</span>
-    <span class="sa">r</span><span class="s2">&quot;)?)?)?)?&quot;</span>
-    <span class="sa">r</span><span class="s2">&quot;(?:Z|[+-]00:?00)?$&quot;</span>
+    <span class="sa">r</span><span class="s2">"^(?P&lt;year&gt;\d</span><span class="si">{4}</span><span class="s2">)"</span>
+    <span class="sa">r</span><span class="s2">"(?:-?(?P&lt;month&gt;\d</span><span class="si">{2}</span><span class="s2">)"</span>
+    <span class="sa">r</span><span class="s2">"(?:-?(?P&lt;day&gt;\d</span><span class="si">{2}</span><span class="s2">)"</span>
+    <span class="sa">r</span><span class="s2">"(?:[T\s](?P&lt;hour&gt;\d{1,2})"</span>
+    <span class="sa">r</span><span class="s2">"(?::?(?P&lt;minute&gt;\d</span><span class="si">{2}</span><span class="s2">)"</span>
+    <span class="sa">r</span><span class="s2">"(?::?(?P&lt;second&gt;\d</span><span class="si">{2}</span><span class="s2">(?:\.\d{1,6})?))?"</span>
+    <span class="sa">r</span><span class="s2">")?)?)?)?"</span>
+    <span class="sa">r</span><span class="s2">"(?:Z|[+-]00:?00)?$"</span>
 <span class="p">)</span>
 
 
 <div class="viewcode-block" id="TimeRange">
 <a class="viewcode-back" href="../../api/uataq.timerange.TimeRange.html#uataq.timerange.TimeRange">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">TimeRange</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    TimeRange class to represent a time range with start and stop times.</span>
 
 <span class="sd">    Attributes</span>
@@ -493,22 +495,27 @@
 <span class="sd">    -------</span>
 <span class="sd">    parse_iso(string: str, inclusive: bool = False) -&gt; dt.datetime</span>
 <span class="sd">        Parse an ISO 8601 time string into a datetime.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
 <div class="viewcode-block" id="TimeRange.__init__">
 <a class="viewcode-back" href="../../api/uataq.timerange.TimeRange.html#uataq.timerange.TimeRange.__init__">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">time_range</span><span class="p">:</span> <span class="s2">&quot;TimeRange | TimeRangeTypes&quot;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">time_range</span><span class="p">:</span> <span class="s2">"TimeRange | TimeRangeTypes"</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">start</span><span class="p">:</span> <span class="n">TimeObject</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">stop</span><span class="p">:</span> <span class="n">TimeObject</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Initialize a TimeRange object with the specified time range.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">assert</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">([</span><span class="n">time_range</span><span class="p">,</span> <span class="nb">any</span><span class="p">([</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">])]),</span> <span class="p">(</span>
-            <span class="s2">&quot;Cannot specify both time_range and start/stop&quot;</span>
-        <span class="p">)</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        ValueError</span>
+<span class="sd">            If ``time_range`` is given together with ``start`` or ``stop``, or</span>
+<span class="sd">            it is not a string, a pair, a slice or a ``TimeRange``.</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="nb">all</span><span class="p">([</span><span class="n">time_range</span><span class="p">,</span> <span class="nb">any</span><span class="p">([</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">])]):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Cannot specify both time_range and start/stop"</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_start</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_stop</span> <span class="o">=</span> <span class="kc">None</span>
@@ -531,31 +538,31 @@
                 <span class="c1"># Handle the case when time_range is a slice</span>
                 <span class="n">start</span><span class="p">,</span> <span class="n">stop</span> <span class="o">=</span> <span class="n">time_range</span><span class="o">.</span><span class="n">start</span><span class="p">,</span> <span class="n">time_range</span><span class="o">.</span><span class="n">stop</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid time_range format&quot;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Invalid time_range format"</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">start</span> <span class="o">=</span> <span class="n">start</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">stop</span> <span class="o">=</span> <span class="n">stop</span></div>
 
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;TimeRange(start=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">start</span><span class="si">}</span><span class="s2">, stop=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">stop</span><span class="si">}</span><span class="s2">)&quot;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">"TimeRange(start=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">start</span><span class="si">}</span><span class="s2">, stop=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">stop</span><span class="si">}</span><span class="s2">)"</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">start</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">stop</span><span class="p">]):</span>
-            <span class="k">return</span> <span class="s2">&quot;Entire Observation Period&quot;</span>
+            <span class="k">return</span> <span class="s2">"Entire Observation Period"</span>
         <span class="k">elif</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">start</span><span class="p">:</span>
-            <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Before </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">stop</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="k">return</span> <span class="sa">f</span><span class="s2">"Before </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">stop</span><span class="si">}</span><span class="s2">"</span>
         <span class="k">elif</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">stop</span><span class="p">:</span>
-            <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;After </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">start</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="k">return</span> <span class="sa">f</span><span class="s2">"After </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">start</span><span class="si">}</span><span class="s2">"</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">start</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">stop</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">start</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">stop</span><span class="si">}</span><span class="s2">"</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">iter</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">start</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">stop</span><span class="p">])</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__contains__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
         <span class="c1"># Half-open [start, stop): a string range stops at the start of the</span>
-        <span class="c1"># next period, so TimeRange(&quot;2024&quot;) does not contain 2025-01-01 00:00</span>
+        <span class="c1"># next period, so TimeRange("2024") does not contain 2025-01-01 00:00</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">start</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">stop</span><span class="p">]):</span>
             <span class="c1"># Entire Period - True</span>
             <span class="k">return</span> <span class="kc">True</span>
@@ -569,12 +576,12 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">dt</span><span class="o">.</span><span class="n">datetime</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Start of the range, or None when unbounded.</span>
 
 <span class="sd">        Assigning a string parses it; a date-only string is taken as the</span>
 <span class="sd">        beginning of that day.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_start</span>
 
     <span class="nd">@start</span><span class="o">.</span><span class="n">setter</span>
@@ -586,17 +593,17 @@
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_start</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">start</span><span class="p">)</span><span class="o">.</span><span class="n">to_pydatetime</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid start time format&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Invalid start time format"</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">dt</span><span class="o">.</span><span class="n">datetime</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        End of the range, or None when unbounded.</span>
 
 <span class="sd">        Assigning a string parses it **inclusively**: a date-only string is</span>
-<span class="sd">        taken as the end of that day, so ``&quot;2024-01-01&quot;`` stops at</span>
+<span class="sd">        taken as the end of that day, so ``"2024-01-01"`` stops at</span>
 <span class="sd">        ``2024-01-02 00:00``.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_stop</span>
 
     <span class="nd">@stop</span><span class="o">.</span><span class="n">setter</span>
@@ -608,27 +615,27 @@
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">stop</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_stop</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">stop</span><span class="p">)</span><span class="o">.</span><span class="n">to_pydatetime</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid stop time format&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Invalid stop time format"</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">total_seconds</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Length of the range in seconds.</span>
 
 <span class="sd">        Raises</span>
 <span class="sd">        ------</span>
 <span class="sd">        ValueError</span>
 <span class="sd">            If either end is unbounded.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">start</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">stop</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Both start and stop times must be specified&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Both start and stop times must be specified"</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">stop</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">start</span><span class="p">)</span><span class="o">.</span><span class="n">total_seconds</span><span class="p">()</span>
 
 <div class="viewcode-block" id="TimeRange.parse_iso">
 <a class="viewcode-back" href="../../api/uataq.timerange.TimeRange.parse_iso.html#uataq.timerange.TimeRange.parse_iso">[docs]</a>
     <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">parse_iso</span><span class="p">(</span><span class="n">string</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">inclusive</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">dt</span><span class="o">.</span><span class="n">datetime</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Parse an ISO 8601 time string into a datetime.</span>
 
 <span class="sd">        Accepts ``YYYY``, ``YYYY-MM``, ``YYYY-MM-DD``, then a ``T`` or space</span>
@@ -643,8 +650,8 @@
 <span class="sd">        inclusive : bool</span>
 <span class="sd">            If False (default), return the start of the period the string</span>
 <span class="sd">            names. If True, return its end: one unit of the finest component</span>
-<span class="sd">            given past the start, so ``&quot;2024-01&quot;`` ends at ``2024-02-01``,</span>
-<span class="sd">            ``&quot;2024-01-15T12:30&quot;`` at ``12:31``, and ``&quot;12:30:45.5&quot;`` at</span>
+<span class="sd">            given past the start, so ``"2024-01"`` ends at ``2024-02-01``,</span>
+<span class="sd">            ``"2024-01-15T12:30"`` at ``12:31``, and ``"12:30:45.5"`` at</span>
 <span class="sd">            ``12:30:45.6`` (one unit of the last fractional digit).</span>
 
 <span class="sd">        Returns</span>
@@ -657,39 +664,39 @@
 <span class="sd">        ValueError</span>
 <span class="sd">            If the string is not in one of the accepted forms, carries a</span>
 <span class="sd">            non-UTC offset, or names an impossible date.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">match</span> <span class="o">=</span> <span class="n">_ISO8601</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">string</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">match</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Invalid time string &#39;</span><span class="si">{</span><span class="n">string</span><span class="si">}</span><span class="s2">&#39;. Expected ISO 8601 in UTC, &quot;</span>
-                <span class="s2">&quot;e.g. &#39;2024&#39;, &#39;2024-01&#39;, &#39;2024-01-15&#39;, &#39;2024-01-15T12:30:45&#39;.&quot;</span>
+                <span class="sa">f</span><span class="s2">"Invalid time string '</span><span class="si">{</span><span class="n">string</span><span class="si">}</span><span class="s2">'. Expected ISO 8601 in UTC, "</span>
+                <span class="s2">"e.g. '2024', '2024-01', '2024-01-15', '2024-01-15T12:30:45'."</span>
             <span class="p">)</span>
 
         <span class="n">c</span> <span class="o">=</span> <span class="n">match</span><span class="o">.</span><span class="n">groupdict</span><span class="p">()</span>
-        <span class="n">second</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">fraction</span> <span class="o">=</span> <span class="p">(</span><span class="n">c</span><span class="p">[</span><span class="s2">&quot;second&quot;</span><span class="p">]</span> <span class="ow">or</span> <span class="s2">&quot;0&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">partition</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
+        <span class="n">second</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">fraction</span> <span class="o">=</span> <span class="p">(</span><span class="n">c</span><span class="p">[</span><span class="s2">"second"</span><span class="p">]</span> <span class="ow">or</span> <span class="s2">"0"</span><span class="p">)</span><span class="o">.</span><span class="n">partition</span><span class="p">(</span><span class="s2">"."</span><span class="p">)</span>
         <span class="n">start</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span>
-            <span class="nb">int</span><span class="p">(</span><span class="n">c</span><span class="p">[</span><span class="s2">&quot;year&quot;</span><span class="p">]),</span>
-            <span class="nb">int</span><span class="p">(</span><span class="n">c</span><span class="p">[</span><span class="s2">&quot;month&quot;</span><span class="p">]</span> <span class="ow">or</span> <span class="mi">1</span><span class="p">),</span>
-            <span class="nb">int</span><span class="p">(</span><span class="n">c</span><span class="p">[</span><span class="s2">&quot;day&quot;</span><span class="p">]</span> <span class="ow">or</span> <span class="mi">1</span><span class="p">),</span>
-            <span class="nb">int</span><span class="p">(</span><span class="n">c</span><span class="p">[</span><span class="s2">&quot;hour&quot;</span><span class="p">]</span> <span class="ow">or</span> <span class="mi">0</span><span class="p">),</span>
-            <span class="nb">int</span><span class="p">(</span><span class="n">c</span><span class="p">[</span><span class="s2">&quot;minute&quot;</span><span class="p">]</span> <span class="ow">or</span> <span class="mi">0</span><span class="p">),</span>
+            <span class="nb">int</span><span class="p">(</span><span class="n">c</span><span class="p">[</span><span class="s2">"year"</span><span class="p">]),</span>
+            <span class="nb">int</span><span class="p">(</span><span class="n">c</span><span class="p">[</span><span class="s2">"month"</span><span class="p">]</span> <span class="ow">or</span> <span class="mi">1</span><span class="p">),</span>
+            <span class="nb">int</span><span class="p">(</span><span class="n">c</span><span class="p">[</span><span class="s2">"day"</span><span class="p">]</span> <span class="ow">or</span> <span class="mi">1</span><span class="p">),</span>
+            <span class="nb">int</span><span class="p">(</span><span class="n">c</span><span class="p">[</span><span class="s2">"hour"</span><span class="p">]</span> <span class="ow">or</span> <span class="mi">0</span><span class="p">),</span>
+            <span class="nb">int</span><span class="p">(</span><span class="n">c</span><span class="p">[</span><span class="s2">"minute"</span><span class="p">]</span> <span class="ow">or</span> <span class="mi">0</span><span class="p">),</span>
             <span class="nb">int</span><span class="p">(</span><span class="n">second</span><span class="p">),</span>
-            <span class="nb">int</span><span class="p">(</span><span class="n">fraction</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">))</span> <span class="k">if</span> <span class="n">fraction</span> <span class="k">else</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="nb">int</span><span class="p">(</span><span class="n">fraction</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="s2">"0"</span><span class="p">))</span> <span class="k">if</span> <span class="n">fraction</span> <span class="k">else</span> <span class="mi">0</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">inclusive</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">start</span>
 
         <span class="c1"># Widen by one unit of the finest component given</span>
-        <span class="k">if</span> <span class="n">c</span><span class="p">[</span><span class="s2">&quot;second&quot;</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">c</span><span class="p">[</span><span class="s2">"second"</span><span class="p">]:</span>
             <span class="c1"># e.g. 45 -&gt; +1 s, 45.5 -&gt; +0.1 s, 45.123456 -&gt; +1 us</span>
             <span class="k">return</span> <span class="n">start</span> <span class="o">+</span> <span class="n">dt</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">microseconds</span><span class="o">=</span><span class="mi">10</span> <span class="o">**</span> <span class="p">(</span><span class="mi">6</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">fraction</span><span class="p">)))</span>
-        <span class="k">if</span> <span class="n">c</span><span class="p">[</span><span class="s2">&quot;minute&quot;</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">c</span><span class="p">[</span><span class="s2">"minute"</span><span class="p">]:</span>
             <span class="k">return</span> <span class="n">start</span> <span class="o">+</span> <span class="n">dt</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">minutes</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">c</span><span class="p">[</span><span class="s2">&quot;hour&quot;</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">c</span><span class="p">[</span><span class="s2">"hour"</span><span class="p">]:</span>
             <span class="k">return</span> <span class="n">start</span> <span class="o">+</span> <span class="n">dt</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">hours</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">c</span><span class="p">[</span><span class="s2">&quot;day&quot;</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">c</span><span class="p">[</span><span class="s2">"day"</span><span class="p">]:</span>
             <span class="k">return</span> <span class="n">start</span> <span class="o">+</span> <span class="n">dt</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">c</span><span class="p">[</span><span class="s2">&quot;month&quot;</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">c</span><span class="p">[</span><span class="s2">"month"</span><span class="p">]:</span>
             <span class="k">if</span> <span class="n">start</span><span class="o">.</span><span class="n">month</span> <span class="o">==</span> <span class="mi">12</span><span class="p">:</span>
                 <span class="k">return</span> <span class="n">start</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">year</span><span class="o">=</span><span class="n">start</span><span class="o">.</span><span class="n">year</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">month</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">start</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">month</span><span class="o">=</span><span class="n">start</span><span class="o">.</span><span class="n">month</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
@@ -725,8 +732,8 @@
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0"></script>
-<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0"></script>
+  <script defer src="../../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -746,7 +753,7 @@
         <div class="footer-item">
 
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.2.0.
   </p>
 </div>
       
@@ -759,7 +766,7 @@
         <div class="footer-item">
 <p class="theme-version">
   <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.22.0.
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.23.0.
 </p></div>
       
     </div>

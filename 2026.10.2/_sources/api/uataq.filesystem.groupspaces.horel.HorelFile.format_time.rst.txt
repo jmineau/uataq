@@ -1,0 +1,6 @@
+uataq.filesystem.groupspaces.horel.HorelFile.format\_time
+=========================================================
+
+.. currentmodule:: uataq.filesystem.groupspaces.horel
+
+.. automethod:: HorelFile.format_time

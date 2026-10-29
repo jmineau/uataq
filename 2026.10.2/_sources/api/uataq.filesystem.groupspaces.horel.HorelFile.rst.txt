@@ -1,0 +1,33 @@
+uataq.filesystem.groupspaces.horel.HorelFile
+============================================
+
+.. currentmodule:: uataq.filesystem.groupspaces.horel
+
+.. autoclass:: HorelFile
+   :no-members:
+   :show-inheritance:
+
+
+
+
+
+
+.. rubric:: Methods
+
+.. autosummary::
+   :toctree:
+
+   ~HorelFile.coerce_numeric
+   ~HorelFile.convert_nodata
+   ~HorelFile.format_time
+   ~HorelFile.usecols
+
+
+
+
+.. rubric:: Inherited
+
+
+From :class:`~.DataFile`: :py:obj:`~.DataFile.parse`
+
+

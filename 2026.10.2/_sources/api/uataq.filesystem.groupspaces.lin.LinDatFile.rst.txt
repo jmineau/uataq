@@ -1,0 +1,25 @@
+uataq.filesystem.groupspaces.lin.LinDatFile
+===========================================
+
+.. currentmodule:: uataq.filesystem.groupspaces.lin
+
+.. autoclass:: LinDatFile
+   :no-members:
+   :show-inheritance:
+
+
+
+
+
+
+.. rubric:: Methods
+
+.. autosummary::
+   :toctree:
+
+   ~LinDatFile.get_instrument_name
+   ~LinDatFile.get_lvl
+   ~LinDatFile.parse
+
+
+

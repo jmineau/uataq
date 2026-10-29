@@ -1,0 +1,6 @@
+uataq.instruments.configure\_instrument
+=======================================
+
+.. currentmodule:: uataq.instruments
+
+.. autofunction:: configure_instrument

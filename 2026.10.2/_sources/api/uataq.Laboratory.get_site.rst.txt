@@ -1,0 +1,6 @@
+uataq.Laboratory.get\_site
+==========================
+
+.. currentmodule:: uataq
+
+.. automethod:: Laboratory.get_site

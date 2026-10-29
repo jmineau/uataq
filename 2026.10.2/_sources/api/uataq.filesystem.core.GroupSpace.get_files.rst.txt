@@ -1,0 +1,6 @@
+uataq.filesystem.core.GroupSpace.get\_files
+===========================================
+
+.. currentmodule:: uataq.filesystem.core
+
+.. automethod:: GroupSpace.get_files

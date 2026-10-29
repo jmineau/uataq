@@ -1,0 +1,6 @@
+uataq.filesystem.groupspaces.horel.MESOWEST\_DIR
+================================================
+
+.. currentmodule:: uataq.filesystem.groupspaces.horel
+
+.. autodata:: MESOWEST_DIR

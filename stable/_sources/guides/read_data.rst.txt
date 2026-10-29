@@ -5,10 +5,10 @@ Read data
 
 .. note::
 
-    The examples on this page read the UATAQ archive, which is only available
-    on CHPC, and are not run when the documentation is built. The output under
-    each one is from runs on CHPC on 26 October 2026, except under "One
-    pollutant from several sites" (the HDP example, 14 October 2026).
+    The output under each example on this page is from runs on CHPC on 26
+    October 2026, except under "One pollutant from several sites" (the HDP
+    example, 14 October 2026). See :ref:`why the output is recorded
+    <recorded-examples>`.
 
 :doc:`/getting_started/first_data` reads one site. This page shows the other
 reads: several pollutants and several sites in one table, everything an
@@ -176,15 +176,15 @@ Check the sites you got back.
 Which instrument a row came from
 --------------------------------
 
-:func:`get_obs` reads every instrument at the site that measures the pollutant,
-and its table does not say which instrument a row came from. Most sites have one
-instrument for each pollutant at a time, but some have had two, one after
-another or at once (WBB measured NO2 with two in 2022), and TRX01 has two names
-for its CO2 and CH4 analyzer whose columns mean different things (see
-:doc:`/guides/mobile_sites`). When it matters, use :func:`get_network_obs`, whose
-``instrument`` column says, or read each instrument by name with
-:func:`read_data`. :doc:`/reference/sites_and_instruments` lists the
-instruments of every site, with their dates.
+:func:`get_obs` reads every instrument at the site that measures the pollutant.
+At a fixed site its table does not say which instrument a row came from. Most
+fixed sites have one instrument for each pollutant at a time, but some have had
+two, one after another or at once (WBB measured NO2 with two in 2022). When it
+matters, use :func:`get_network_obs`, whose ``instrument`` column says, or read
+each instrument by name with :func:`read_data`. At a mobile site, :func:`get_obs`
+has the ``instrument`` column too (see :doc:`/guides/mobile_sites`).
+:doc:`/reference/sites_and_instruments` lists the instruments of every site,
+with their dates.
 
 Everything an instrument logged
 -------------------------------
@@ -233,12 +233,16 @@ node, and average to hourly means as you read each site, as above, so the
 table you keep stays small.
 
 ``num_processes`` reads an instrument's files in several processes at once (see
-:ref:`input-num-processes`). It helps when there are many files that are slow
-to read: the ``raw`` level, and :meth:`Network.get_availability` (see
-:doc:`/guides/find_sites_and_data`). It does not help at the ``final`` level:
-the year above took 11.5 seconds with ``num_processes=4``, against 4.4 with
-one. A script that uses more than one process needs the ``__main__`` guard, or
-Python 3.14 stops with a ``RuntimeError`` about "bootstrapping":
+:ref:`input-num-processes`). It helps most when there are many files, as at
+the ``raw`` level and in :meth:`Network.get_availability` (see
+:doc:`/guides/find_sites_and_data`), and it also speeds up the ``final`` level.
+On a compute node on 29 October 2026, WBB's CO2 and CH4 for 2024 (2.8 million
+rows) took 3.4 seconds with one process, 2.3 with two, 1.3 with four and 1.0 with
+eight; six years of CO2 (16 million rows) took 21, 7.0 and 4.7 seconds with one,
+four and eight. Ask for no more processes than cores you were given. A script that uses more than one process needs the
+``__main__`` guard, or Python 3.14 stops with a ``RuntimeError`` about
+"bootstrapping" (Python 3.14 starts the workers with forkserver, and a script read
+from stdin cannot spawn them, so run a script file):
 
 .. code-block:: python
 

@@ -1,0 +1,37 @@
+uataq.instruments.Instrument
+============================
+
+.. currentmodule:: uataq.instruments
+
+.. autoclass:: Instrument
+   :no-members:
+
+
+
+
+.. rubric:: Attributes
+
+.. autosummary::
+   :toctree:
+
+   ~Instrument.active_range
+   ~Instrument.model
+
+
+
+.. rubric:: Methods
+
+.. autosummary::
+   :toctree:
+
+   ~Instrument.clip_to_active
+   ~Instrument.get_datafiles
+   ~Instrument.get_files
+   ~Instrument.get_highest_lvl
+   ~Instrument.plan_reads
+   ~Instrument.read_data
+   ~Instrument.resolve_group
+   ~Instrument.standardize_data
+
+
+

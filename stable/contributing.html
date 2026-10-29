@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Contributing &#8212; UATAQ 2026.10.1 documentation</title>
+    <title>Contributing &#8212; UATAQ 2026.10.2 documentation</title>
   
   
   
@@ -26,29 +26,30 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="_static/styles/theme.css?digest=64cc4de3f052d77215f0" rel="stylesheet" />
-<link href="_static/styles/pydata-sphinx-theme.css?digest=64cc4de3f052d77215f0" rel="stylesheet" />
+  <link href="_static/styles/theme.css?digest=18bd87630a240e9c25be" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=18bd87630a240e9c25be" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx_autodoc_typehints.css?v=057ac668" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
   
   <!-- So that users can add custom icons -->
-  <script defer src="_static/scripts/fontawesome.js?digest=64cc4de3f052d77215f0"></script>
+  <script defer src="_static/scripts/fontawesome.js?digest=18bd87630a240e9c25be"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
-<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be" />
 
-    <script src="_static/documentation_options.js?v=65cfade2"></script>
+    <script src="_static/documentation_options.js?v=52372788"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="_static/copybutton.js?v=f281be69"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'contributing';</script>
     <script>
-        DOCUMENTATION_OPTIONS.theme_version = '0.22.0';
+        DOCUMENTATION_OPTIONS.theme_version = '0.23.0';
         DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://jmineau.github.io/uataq/switcher.json';
-        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '2026.10.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '2026.10.2';
         DOCUMENTATION_OPTIONS.show_version_warning_banner =
             true;
         </script>
@@ -57,8 +58,9 @@
     <link rel="search" title="Search" href="search.html" />
     <link rel="prev" title="uataq.gps.haversine" href="api/uataq.gps.haversine.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.1" />
+  <meta name="docsearch:version" content="2026.10.2" />
   
     
     <script src="_static/searchtools.js"></script>
@@ -126,7 +128,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.1 documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.2 documentation</p>
   
 </a></div>
     
@@ -476,13 +478,10 @@ uv<span class="w"> </span>--version
 </pre></div>
 </div>
 <p>The last command should print <code class="docutils literal notranslate"><span class="pre">uv</span> <span class="pre">0.12</span></code> or newer. Then get the code and set
-it up:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/jmineau/uataq.git
-<span class="nb">cd</span><span class="w"> </span>uataq
-uv<span class="w"> </span>sync<span class="w">                       </span><span class="c1"># the packages, into .venv (about two minutes)</span>
-uv<span class="w"> </span>run<span class="w"> </span>pre-commit<span class="w"> </span>install<span class="w">     </span><span class="c1"># turn on the checks at commit time</span>
-</pre></div>
-</div>
+it up as the Getting Started steps of
+<a class="reference external" href="https://github.com/jmineau/uataq/blob/main/CONTRIBUTING.md">CONTRIBUTING.md</a>
+say: clone, <code class="docutils literal notranslate"><span class="pre">uv</span> <span class="pre">sync</span></code> (about two minutes on CHPC) and install the pre-commit
+hooks.</p>
 <p>To run the checks that CI runs (lint, types, docstrings and the tests), use a
 compute node, not the login node:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>srun<span class="w"> </span>--account<span class="o">=</span>lin-np<span class="w"> </span>--partition<span class="o">=</span>lin-np<span class="w"> </span>--nodes<span class="o">=</span><span class="m">1</span><span class="w"> </span>--ntasks<span class="o">=</span><span class="m">1</span><span class="w"> </span>--cpus-per-task<span class="o">=</span><span class="m">4</span><span class="w"> </span>--mem<span class="o">=</span>8G<span class="w"> </span>--time<span class="o">=</span><span class="m">00</span>:30:00<span class="w"> </span>uv<span class="w"> </span>run<span class="w"> </span>just<span class="w"> </span>quality-check
@@ -490,8 +489,7 @@ compute node, not the login node:</p>
 </div>
 <p>It takes about a minute and ends with the number of tests that passed. The tests do
 not need the archive, so you can also develop on your own computer.
-<a class="reference external" href="https://github.com/jmineau/uataq/blob/main/CONTRIBUTING.md">CONTRIBUTING.md</a>
-has the rest of the workflow: branches and pull requests.</p>
+CONTRIBUTING.md has the rest of the workflow: branches and pull requests.</p>
 <p>To work on the code while you use it for your own analysis, install your clone
 into the environment from the steps above (an <em>editable</em> install, which runs
 the code in your folder as you change it):</p>
@@ -529,7 +527,7 @@ a new shell so your own copy comes first.</p>
     __init__.py      DEFAULT_GROUP, get_group; re-exports core
     core.py          DataFile, GroupSpace, groups, lvls, list_files,
                      filter_datafiles, parse_datafiles, cpu_count
-    groupspaces/     one module per research group&#39;s archive (lin, horel)
+    groupspaces/     one module per research group's archive (lin, horel)
 tests/               pytest
 docs/                Sphinx; docs/_ext/ holds two local extensions
 </pre></div>
@@ -589,34 +587,40 @@ change that moves a fact, or renames or retitles a page, updates its row here.</
 <tr class="row-even"><td><p>A first read, UTC and local time, hourly means, what to write down</p></td>
 <td><p><a class="reference internal" href="getting_started/first_data.html"><span class="doc">Your first data</span></a></p></td>
 </tr>
-<tr class="row-odd"><td><p>Which sites measure what, when a site has data, the newest data</p></td>
+<tr class="row-odd"><td><p>Why the examples show recorded output: they read the archive and are not run in the build</p></td>
+<td><p><a class="reference internal" href="getting_started/first_data.html"><span class="doc">Your first data</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p>Which sites measure what, when a site has data, the newest data</p></td>
 <td><p><a class="reference internal" href="guides/find_sites_and_data.html"><span class="doc">Find sites and data</span></a></p></td>
 </tr>
-<tr class="row-even"><td><p>Several pollutants and sites, <code class="docutils literal notranslate"><span class="pre">get_network_obs</span></code>, <code class="docutils literal notranslate"><span class="pre">read_data</span></code>, large reads</p></td>
+<tr class="row-odd"><td><p>Several pollutants and sites, <code class="docutils literal notranslate"><span class="pre">get_network_obs</span></code>, <code class="docutils literal notranslate"><span class="pre">read_data</span></code>, large reads</p></td>
 <td><p><a class="reference internal" href="guides/read_data.html"><span class="doc">Read data</span></a></p></td>
 </tr>
-<tr class="row-odd"><td><p>The data levels, which level a read gives, <code class="docutils literal notranslate"><span class="pre">ID</span></code>, what <code class="docutils literal notranslate"><span class="pre">final</span></code> keeps, flags, empty <code class="docutils literal notranslate"><span class="pre">_cal</span></code></p></td>
+<tr class="row-even"><td><p>The data levels, which level a read gives, <code class="docutils literal notranslate"><span class="pre">ID</span></code>, what <code class="docutils literal notranslate"><span class="pre">final</span></code> keeps, flags, empty <code class="docutils literal notranslate"><span class="pre">_cal</span></code></p></td>
 <td><p><a class="reference internal" href="guides/data_levels_and_flags.html"><span class="doc">Data levels and flags</span></a></p></td>
 </tr>
-<tr class="row-even"><td><p>Mobile sites: positions, the two clocks, TRX01’s two LGR names, raw-only months</p></td>
+<tr class="row-odd"><td><p>Mobile sites: positions, the two clocks, TRX01’s two LGR names, raw-only months</p></td>
 <td><p><a class="reference internal" href="guides/mobile_sites.html"><span class="doc">Mobile sites</span></a></p></td>
 </tr>
-<tr class="row-odd"><td><p>Errors and empty results</p></td>
+<tr class="row-even"><td><p>Errors and empty results</p></td>
 <td><p><a class="reference internal" href="guides/errors.html"><span class="doc">When there is nothing to read</span></a></p></td>
 </tr>
-<tr class="row-even"><td><p>Sites, instruments, their dates, glossary</p></td>
+<tr class="row-odd"><td><p>Sites, instruments, their dates, glossary</p></td>
 <td><p><a class="reference internal" href="reference/sites_and_instruments.html"><span class="doc">Sites and instruments</span></a></p></td>
 </tr>
-<tr class="row-odd"><td><p>Columns of each instrument and level, column names</p></td>
+<tr class="row-even"><td><p>Columns of each instrument and level, column names</p></td>
 <td><p><a class="reference internal" href="reference/columns.html"><span class="doc">Columns</span></a></p></td>
 </tr>
-<tr class="row-even"><td><p>Arguments: site, instruments, pollutants, format, group, level, time range (every form), processes</p></td>
+<tr class="row-odd"><td><p>Arguments: site, instruments, pollutants, format, group, level, time range (every form), processes</p></td>
 <td><p><a class="reference internal" href="reference/input_parameters.html"><span class="doc">Input Parameters</span></a></p></td>
 </tr>
-<tr class="row-odd"><td><p>Config keys</p></td>
+<tr class="row-even"><td><p>Config keys</p></td>
 <td><p><a class="reference internal" href="reference/config.html"><span class="doc">Configuration</span></a></p></td>
 </tr>
-<tr class="row-even"><td><p>Development setup and developer notes</p></td>
+<tr class="row-odd"><td><p>Development setup: clone, <code class="docutils literal notranslate"><span class="pre">uv</span> <span class="pre">sync</span></code>, pre-commit hooks, the checks, branches and pull requests</p></td>
+<td><p>CONTRIBUTING.md</p></td>
+</tr>
+<tr class="row-even"><td><p>What CHPC changes in that setup, and the developer notes</p></td>
 <td><p>Contributing (this page)</p></td>
 </tr>
 <tr class="row-odd"><td><p>Function and class details, what a module is for</p></td>
@@ -655,9 +659,8 @@ own logger clock:</p>
 <li><p><strong>lin</strong>: the instruments and the GPS are stamped by the platform’s Pi computer,
 whose clock cannot always be trusted. The Pi’s time is kept as <code class="docutils literal notranslate"><span class="pre">Pi_Time</span></code>, and
 lin’s GPS supplies <code class="docutils literal notranslate"><span class="pre">Time_UTC</span></code>, which is GPS time.</p></li>
-<li><p><strong>horel</strong>: <code class="docutils literal notranslate"><span class="pre">Time_UTC</span></code> is the CR1000 logger’s clock, which on TRX01 ran 1 to
-20 s ahead of GPS time on dates sampled from 2019 to 2026, drifting between
-resets. horel’s raw GPS files
+<li><p><strong>horel</strong>: <code class="docutils literal notranslate"><span class="pre">Time_UTC</span></code> is the CR1000 logger’s clock, which runs ahead of GPS
+time (by how much: <a class="reference internal" href="guides/mobile_sites.html#mobile-clocks"><span class="std std-ref">Two groups, two clocks</span></a>). horel’s raw GPS files
 log the receiver’s own time of day (<code class="docutils literal notranslate"><span class="pre">GTIM</span></code>, read as <code class="docutils literal notranslate"><span class="pre">Instrument_Time</span></code>), so
 <a class="reference internal" href="api/uataq.instruments.GPS.read_data.html#uataq.instruments.GPS.read_data" title="uataq.instruments.GPS.read_data"><code class="xref py py-meth docutils literal notranslate"><span class="pre">read_data()</span></code></a> adds <code class="docutils literal notranslate"><span class="pre">GPS_Time_UTC</span></code> for horel, dated
 from the logger clock across midnight and NaT on rows without a fix. The index
@@ -691,11 +694,10 @@ unlocated, with a warning; if none can be read, <code class="docutils literal no
 <p>At five MetOne swaps (ES642 to ES405) horel split the month’s raw files in two:
 <code class="docutils literal notranslate"><span class="pre">{SID}_{YYYY}_{MM}_esampler.h5</span></code> holds the ES405’s rows from the swap on, and
 <code class="docutils literal notranslate"><span class="pre">{SID}_{YYYY}_{MM}_esampler.h5_prior405upgrade</span></code> the ES642’s rows from the start of
-the month to the swap (BUS02 2025-03, BUS03 2024-12, TRX01, TRX02 and TRX03
-2025-01). TRX01 to TRX03’s <code class="docutils literal notranslate"><span class="pre">2b</span></code> and <code class="docutils literal notranslate"><span class="pre">cr1000</span></code> folders have the same split for
-January 2025, so their ozone and GPS rows before the swap are only in a
-<code class="docutils literal notranslate"><span class="pre">prior405upgrade</span></code> file too. The two files of a month share no timestamp. horel’s
-qaqc and final files have none of these rows, so raw is the only level with them.</p>
+the month to the swap (which months, and that they are raw only:
+<a class="reference internal" href="guides/mobile_sites.html#mobile-raw-only"><span class="std std-ref">Months that are only raw</span></a>). TRX01 to TRX03’s <code class="docutils literal notranslate"><span class="pre">2b</span></code> and <code class="docutils literal notranslate"><span class="pre">cr1000</span></code> folders have the
+same split for January 2025, so their ozone and GPS rows before the swap are only in
+a <code class="docutils literal notranslate"><span class="pre">prior405upgrade</span></code> file too. The two files of a month share no timestamp.</p>
 <p>The suffix is <a class="reference internal" href="api/uataq.filesystem.groupspaces.horel.PRIOR_405_SUFFIX.html#uataq.filesystem.groupspaces.horel.PRIOR_405_SUFFIX" title="uataq.filesystem.groupspaces.horel.PRIOR_405_SUFFIX"><code class="xref py py-data docutils literal notranslate"><span class="pre">uataq.filesystem.groupspaces.horel.PRIOR_405_SUFFIX</span></code></a>.
 <code class="docutils literal notranslate"><span class="pre">HorelGroup.get_datafiles</span></code> adds the suffixed file to every raw read except the
 ES405’s, and clipping each instrument to its installed window keeps the two
@@ -709,6 +711,11 @@ belongs to the ES405 alone. Other suffixes in horel’s raw folders
 <code class="docutils literal notranslate"><span class="pre">cr1000/old/*.h5_old</span></code>) are not read. The four LI-COR 6262 to 7000 swaps (DBK,
 HEB, RPK, SUG) are in separate lin folders, so their files cannot mix, but the
 same date rule holds.</p>
+<p>The pilot archive (<code class="docutils literal notranslate"><span class="pre">uutrax_pilot</span></code>) and the main one (<code class="docutils literal notranslate"><span class="pre">uutrax</span></code>) both have a raw
+file for November 2018, the month TRX01’s and TRX02’s pilot phase ended. The pilot
+file goes on to the end of the month with a copy of the main file’s row once a
+minute, so <code class="docutils literal notranslate"><span class="pre">HorelH5File.parse</span></code> keeps a pilot file’s rows only before the stop in
+<a class="reference internal" href="api/uataq.filesystem.groupspaces.horel.PILOT_PHASE.html#uataq.filesystem.groupspaces.horel.PILOT_PHASE" title="uataq.filesystem.groupspaces.horel.PILOT_PHASE"><code class="xref py py-data docutils literal notranslate"><span class="pre">uataq.filesystem.groupspaces.horel.PILOT_PHASE</span></code></a>.</p>
 </section>
 <section id="data-availability-internals">
 <h2>Data availability internals<a class="headerlink" href="#data-availability-internals" title="Link to this heading">#</a></h2>
@@ -736,8 +743,7 @@ colors levels by <code class="docutils literal notranslate"><span class="pre">ua
 dark (final). Compute the availability once and pass it in to restyle.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">Network(&quot;all&quot;,</span> <span class="pre">pollutant)</span></code> is every configured site that measures it. Ozone at
 every site over every year is thousands of files: run it in a Slurm job with
-<code class="docutils literal notranslate"><span class="pre">num_processes=&quot;max&quot;</span></code>, from a script file with a <code class="docutils literal notranslate"><span class="pre">__main__</span></code> guard (Python 3.14
-starts workers with forkserver, and a script read from stdin cannot spawn them).</p></li>
+<code class="docutils literal notranslate"><span class="pre">num_processes=&quot;max&quot;</span></code>, from a script file (see <a class="reference internal" href="guides/read_data.html#large-reads"><span class="std std-ref">A year or more</span></a>).</p></li>
 </ul>
 </section>
 <section id="the-sodar-archive">
@@ -839,8 +845,8 @@ file. Only <code class="docutils literal notranslate"><span class="pre">lvl=&quo
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0"></script>
-<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0"></script>
+  <script defer src="_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -860,7 +866,7 @@ file. Only <code class="docutils literal notranslate"><span class="pre">lvl=&quo
         <div class="footer-item">
 
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.2.0.
   </p>
 </div>
       
@@ -873,7 +879,7 @@ file. Only <code class="docutils literal notranslate"><span class="pre">lvl=&quo
         <div class="footer-item">
 <p class="theme-version">
   <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.22.0.
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.23.0.
 </p></div>
       
     </div>

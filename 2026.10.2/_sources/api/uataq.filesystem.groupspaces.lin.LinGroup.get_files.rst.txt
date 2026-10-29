@@ -1,0 +1,6 @@
+uataq.filesystem.groupspaces.lin.LinGroup.get\_files
+====================================================
+
+.. currentmodule:: uataq.filesystem.groupspaces.lin
+
+.. automethod:: LinGroup.get_files

@@ -1,0 +1,6 @@
+uataq.filesystem.DEFAULT\_GROUP
+===============================
+
+.. currentmodule:: uataq.filesystem
+
+.. autodata:: DEFAULT_GROUP

@@ -1,0 +1,6 @@
+uataq.timerange.TimeRange.total\_seconds
+========================================
+
+.. currentmodule:: uataq.timerange
+
+.. autoproperty:: TimeRange.total_seconds

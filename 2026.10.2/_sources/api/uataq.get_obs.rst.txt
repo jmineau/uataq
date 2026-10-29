@@ -1,0 +1,6 @@
+﻿uataq.get\_obs
+==============
+
+.. currentmodule:: uataq
+
+.. autofunction:: get_obs

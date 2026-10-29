@@ -1,0 +1,6 @@
+uataq.sites.MobileSite.plot
+===========================
+
+.. currentmodule:: uataq.sites
+
+.. automethod:: MobileSite.plot

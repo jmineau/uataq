@@ -6,11 +6,10 @@ Find sites and data
 .. note::
 
     The examples under "Which sites measure what" use only the package's
-    configuration and run when the documentation is built. The others read the
-    UATAQ archive, which is only available on CHPC, and are not run; their
-    output is from runs on CHPC on 11 October 2026. The archive keeps growing,
-    so the dates at the end of the data, and how long a call takes, will have
-    moved on by the time you read this.
+    configuration and run when the documentation is built. The output of the
+    others is from runs on CHPC on 11 October 2026 (:ref:`why it is recorded <recorded-examples>`). The archive keeps
+    growing, so the dates at the end of the data, and how long a call takes,
+    will have moved on by the time you read this.
 
 Before you read data, find out what there is: which sites measure the pollutant
 you want, and when they have data. The tables on
@@ -232,8 +231,8 @@ So:
   took 73 s with ``num_processes=8`` (11 October 2026). Do this in a Slurm job, not on a login
   node.
 
-A script that uses more than one process needs the ``__main__`` guard (see
-:ref:`large-reads`). The script below makes the figure in the next section. Save it as ``availability.py``:
+The script below makes the figure in the next section. It has the ``__main__``
+guard (see :ref:`large-reads`). Save it as ``availability.py``:
 
 .. code-block:: python
 
@@ -250,23 +249,10 @@ A script that uses more than one process needs the ``__main__`` guard (see
     if __name__ == "__main__":
         main()
 
-Then submit it in a job, as under :ref:`install-slurm`, with 8 cores:
-
-.. code-block:: bash
-
-    #!/bin/bash
-    #SBATCH --account=lin-np
-    #SBATCH --partition=lin-np
-    #SBATCH --nodes=1
-    #SBATCH --ntasks=1
-    #SBATCH --cpus-per-task=8
-    #SBATCH --mem=16G
-    #SBATCH --time=00:30:00
-
-    source ~/venvs/uataq/bin/activate
-    python availability.py
-
-That job took 7 minutes, and the figure below is what it drew.
+Then submit it in a job. Take the job script under :ref:`install-slurm` and
+change three things: add ``#SBATCH --cpus-per-task=8`` (a core for each process),
+set ``--mem=16G``, and end with ``python availability.py``. That job took 7
+minutes, and the figure below is what it drew.
 
 A picture
 ^^^^^^^^^
