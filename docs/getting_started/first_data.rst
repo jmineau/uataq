@@ -49,7 +49,9 @@ It takes about a second. You get one table (a pandas ``DataFrame``) with a row
 about every 10 seconds. ``CO2d_ppm_cal`` is the calibrated CO2 dry mole fraction
 in ppm, ``CO2d_ppm_raw`` is the same measurement before calibration, and the
 ``CH4d`` columns are the same for methane. The column names are explained under
-:ref:`column-names`.
+:ref:`column-names`. A table wider than the terminal is shortened with ``...`` or
+wrapped over several lines (a job's output is 80 characters wide); the pandas
+settings that print every column are at the top of :ref:`the Columns page <wide-tables>`.
 
 The rows are the archive's ``final`` level: the measurements of the outside air
 that passed quality control, ready to share. :doc:`/guides/data_levels_and_flags`
@@ -158,7 +160,7 @@ has, count them the same way:
 .. code-block:: pycon
 
     >>> n = june["CO2d_ppm_cal"].resample("h").count()
-    >>> n.min()
+    >>> int(n.min())
     303
 
 Every hour of this month has at least 303 rows (a full hour has about 360). In

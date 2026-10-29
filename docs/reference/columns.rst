@@ -15,6 +15,8 @@ read (``raw``, ``qaqc``, ``calibrated`` or ``final``; see :ref:`data-levels`). T
 for the instruments you are most likely to use. Each section says which
 instrument and level its examples come from.
 
+.. _wide-tables:
+
 The examples print wide tables. These two pandas settings print them in full,
 whatever the width of your terminal:
 
