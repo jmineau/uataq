@@ -200,8 +200,8 @@ Number of processes
 The default, 1, reads them one after another. A larger number uses at most one
 process per file, and ``"max"`` uses every core this process may run on (in a
 Slurm job, the cores you asked for). Keep it at 1 on a login node, which you
-share with everyone logged in. A script that uses more than one process needs a
-``__main__`` guard (see :ref:`large-reads`).
+share with everyone logged in. A script that uses more than one process has its own
+setup: see :ref:`large-reads`.
 
 .. _input-recent:
 

@@ -232,8 +232,8 @@ So:
   took 73 s with ``num_processes=8`` (11 October 2026). Do this in a Slurm job, not on a login
   node.
 
-A script that uses more than one process needs the ``__main__`` guard (see
-:ref:`large-reads`). The script below makes the figure in the next section. Save it as ``availability.py``:
+The script below makes the figure in the next section. It has the ``__main__``
+guard (see :ref:`large-reads`). Save it as ``availability.py``:
 
 .. code-block:: python
 
@@ -250,23 +250,10 @@ A script that uses more than one process needs the ``__main__`` guard (see
     if __name__ == "__main__":
         main()
 
-Then submit it in a job, as under :ref:`install-slurm`, with 8 cores:
-
-.. code-block:: bash
-
-    #!/bin/bash
-    #SBATCH --account=lin-np
-    #SBATCH --partition=lin-np
-    #SBATCH --nodes=1
-    #SBATCH --ntasks=1
-    #SBATCH --cpus-per-task=8
-    #SBATCH --mem=16G
-    #SBATCH --time=00:30:00
-
-    source ~/venvs/uataq/bin/activate
-    python availability.py
-
-That job took 7 minutes, and the figure below is what it drew.
+Then submit it in a job. Take the job script under :ref:`install-slurm` and
+change three things: add ``#SBATCH --cpus-per-task=8`` (a core for each process),
+set ``--mem=16G``, and end with ``python availability.py``. That job took 7
+minutes, and the figure below is what it drew.
 
 A picture
 ^^^^^^^^^
