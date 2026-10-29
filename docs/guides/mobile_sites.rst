@@ -20,9 +20,9 @@ Where each measurement was
 --------------------------
 
 :func:`get_obs` at a mobile site gives a ``geopandas.GeoDataFrame``: the
-concentrations, and for each row its position (``Latitude_deg``,
-``Longitude_deg`` and ``geometry``), the vehicle's speed and course, and
-``GPS_Group``:
+concentrations, for each row the ``instrument`` that logged it, its position
+(``Latitude_deg``, ``Longitude_deg`` and ``geometry``), the vehicle's speed and
+course, and ``GPS_Group``:
 
 .. code-block:: pycon
 
@@ -30,7 +30,7 @@ concentrations, and for each row its position (``Latitude_deg``,
     >>> trx01 = uataq.get_site("TRX01")
     >>> obs = trx01.get_obs(["CO2", "CH4", "O3"], time_range="2024-06-01")
     >>> obs.columns.tolist()
-    ['CO2d_ppm_cal', 'CO2d_ppm_raw', 'CH4d_ppm_cal', 'CH4d_ppm_raw', 'O3_ppb', 'Latitude_deg', 'Longitude_deg', 'Altitude_msl', 'Speed_m_s', 'Course_deg', 'Speed_Estimated', 'Course_Estimated', 'geometry', 'GPS_Group']
+    ['CO2d_ppm_cal', 'CO2d_ppm_raw', 'CH4d_ppm_cal', 'CH4d_ppm_raw', 'O3_ppb', 'instrument', 'Latitude_deg', 'Longitude_deg', 'Altitude_msl', 'Speed_m_s', 'Course_deg', 'Speed_Estimated', 'Course_Estimated', 'geometry', 'GPS_Group']
     >>> obs["GPS_Group"].value_counts()
     GPS_Group
     horel    35135
@@ -70,7 +70,7 @@ the table has no ``Altitude_msl``:
 
     >>> o3 = trx01.get_obs("O3", group="horel", time_range="2024-06-01")
     >>> o3.columns.tolist()
-    ['O3_ppb', 'Latitude_deg', 'Longitude_deg', 'Speed_m_s', 'Speed_Estimated', 'Course_deg', 'Course_Estimated', 'geometry', 'GPS_Group']
+    ['O3_ppb', 'instrument', 'Latitude_deg', 'Longitude_deg', 'Speed_m_s', 'Speed_Estimated', 'Course_deg', 'Course_Estimated', 'geometry', 'GPS_Group']
 
 TRX01's CO2 and CH4
 -------------------
@@ -96,21 +96,22 @@ each:
        software, and ``_cal`` is empty.
 
 (The months are those of the files in the archive in October 2026.)
-:func:`get_obs` reads both and does not say which a row came from. On
-1 September 2024, ``_cal`` is empty:
+:func:`get_obs` reads both, and its ``instrument`` column says which one a row
+came from. On 1 September 2024, ``_cal`` is empty:
 
 .. code-block:: pycon
 
     >>> obs = trx01.get_obs(["CO2", "CH4", "O3"], time_range="2024-09-01")
-    >>> obs[["CO2d_ppm_cal", "CO2d_ppm_raw"]].notna().sum()
-    CO2d_ppm_cal       0
-    CO2d_ppm_raw    7188
-    dtype: int64
+    >>> obs.groupby("instrument")[["CO2d_ppm_cal", "CO2d_ppm_raw", "O3_ppb"]].count()
+                         CO2d_ppm_cal  CO2d_ppm_raw  O3_ppb
+    instrument
+    2b_205                          0             0   26954
+    lgr_ugga_manual_cal             0          7188       0
 
 (The analyzer logged 7,200 rows that day; :func:`get_obs` keeps the 7,188 the
-GPS could place.) So at TRX01, read with :func:`get_network_obs`, whose ``instrument`` column says
-which one each row came from, and take ``_cal`` from ``lgr_ugga`` and ``_raw``
-from ``lgr_ugga_manual_cal``:
+GPS could place.) So take ``_cal`` from the rows of ``lgr_ugga`` and ``_raw``
+from those of ``lgr_ugga_manual_cal``. :func:`get_network_obs` has the same
+``instrument`` column:
 
 .. code-block:: pycon
 

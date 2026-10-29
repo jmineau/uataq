@@ -382,13 +382,82 @@ class TestMobileSiteGetObs:
             index=pd.DatetimeIndex(["2024-06-01"], name="Time_UTC"),
         )
         with (
-            patch.object(sites.Site, "get_obs", return_value=obs),
+            patch.object(sites.Site, "_read_obs", return_value={"2b_205": obs}),
             patch.object(sites.Site, "read_data") as read_data,
         ):
             result = site.get_obs("O3", include_gps=False)
 
         read_data.assert_not_called()
-        assert result.equals(obs)
+        assert result["O3_ppb"].tolist() == [40.0]
+
+
+class TestMobileSiteInstrumentColumn:
+    """MobileSite.get_obs says which instrument each row came from."""
+
+    SPAN = (datetime(2024, 9, 1), datetime(2024, 9, 2))
+
+    @staticmethod
+    def stamp(*times):
+        return pd.DatetimeIndex(pd.to_datetime(list(times)), name="Time_UTC")
+
+    def fake_read_data(self, instruments, group=None, lvl=None, *args, **kwargs):
+        """TRX01 CO2 from both LGR names, ozone from horel, and a lin GPS."""
+        if instruments == "gps":
+            index = self.stamp("2024-09-01 00:00:07", "2024-09-01 00:00:17")
+            pi = index.strftime("%Y-%m-%d %H:%M:%S.%f")
+            gps = pd.DataFrame(
+                {"Pi_Time": pi, "Latitude_deg": 40.7, "Longitude_deg": -111.9},
+                index=index,
+            )
+            return {"gps": gps}
+        cal = pd.DataFrame(
+            {"CO2d_ppm_cal": [430.0], "CO2d_ppm_raw": [432.0]},
+            index=self.stamp("2024-09-01 00:00:07"),
+        )
+        manual = pd.DataFrame(
+            {"CO2d_ppm_cal": [None], "CO2d_ppm_raw": [433.0]},
+            index=self.stamp("2024-09-01 00:00:17"),
+        )
+        return {"lgr_ugga": cal, "lgr_ugga_manual_cal": manual}
+
+    def trx01_obs(self, **kwargs):
+        import uataq
+
+        site = uataq.get_site("TRX01")
+        with patch.object(site, "read_data", self.fake_read_data):
+            return site.get_obs("CO2", group="lin", time_range=self.SPAN, **kwargs)
+
+    @pytest.mark.parametrize("include_gps", [True, False])
+    def test_each_row_names_its_instrument(self, include_gps):
+        obs = self.trx01_obs(include_gps=include_gps)
+
+        assert obs["instrument"].tolist() == ["lgr_ugga", "lgr_ugga_manual_cal"]
+        assert obs["CO2d_ppm_raw"].tolist() == [432.0, 433.0]
+
+    def test_the_label_follows_the_measurements_before_the_gps_columns(self):
+        columns = self.trx01_obs().columns.tolist()
+
+        assert columns[:3] == ["CO2d_ppm_cal", "CO2d_ppm_raw", "instrument"]
+        assert columns.index("Latitude_deg") == 3
+
+    def test_long_format_is_labeled_too(self):
+        obs = self.trx01_obs(format="long", include_gps=False)
+
+        assert obs.columns.tolist() == ["pollutant", "value", "instrument"]
+        # lgr_ugga gives its _cal and _raw values, lgr_ugga_manual_cal only _raw
+        assert obs["instrument"].tolist() == ["lgr_ugga"] * 2 + ["lgr_ugga_manual_cal"]
+
+    def test_a_fixed_site_has_no_such_column(self):
+        import uataq
+
+        wbb = uataq.get_site("WBB")
+        frame = pd.DataFrame(
+            {"CO2d_ppm_cal": [430.0]}, index=self.stamp("2024-09-01 00:00:07")
+        )
+        with patch.object(wbb, "read_data", return_value={"lgr_ugga": frame}):
+            obs = wbb.get_obs("CO2", group="lin", time_range=self.SPAN)
+
+        assert "instrument" not in obs.columns
 
 
 class TestSplitByPlan:
@@ -1527,7 +1596,7 @@ class TestDroppedPollutantWarning:
                 ["PM1", "O3"], include_gps=include_gps, time_range="2025-03-04"
             )
 
-        assert obs.columns.tolist() == ["O3_ppb"]
+        assert obs.columns.tolist() == ["O3_ppb", "instrument"]
         assert len(caught) == 1
 
     def test_its_own_category_silences_it(self, wbb):

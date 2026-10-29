@@ -752,6 +752,11 @@ class MobileSite(Site):
         pandas.DataFrame
             A dataframe containing mobile site observations for each pollutant
             with location data merged (a GeoDataFrame when ``include_gps``).
+            The ``instrument`` column names the instrument each row came from
+            (``lgr_ugga`` or ``lgr_ugga_manual_cal`` for TRX01's CO2 and CH4,
+            whose ``_cal`` and ``_raw`` columns mean different things in
+            each), as in :func:`~uataq.get_network_obs`. Otherwise the columns
+            are those of :meth:`Site.get_obs`, then the GPS columns.
 
         Raises
         ------
@@ -779,13 +784,19 @@ class MobileSite(Site):
         GPS columns.
         """
         _reject_level(kwargs)
-        if not include_gps:
-            return super().get_obs(
-                pollutants, format, group, time_range, num_processes, **kwargs
-            )
-
         frames = self._read_obs(pollutants, format, group, time_range, num_processes)
-        return self.locate(frames, group, time_range, "final", num_processes)
+        # Name the instrument on every row, as get_network_obs does
+        labeled = {
+            name: frame.assign(instrument=name) for name, frame in frames.items()
+        }
+        if include_gps:
+            obs = self.locate(labeled, group, time_range, "final", num_processes)
+        else:
+            obs = pd.DataFrame(pd.concat(labeled.values()).sort_index(kind="stable"))
+        # The label goes after all the measurement columns, before the GPS ones
+        measured = list(dict.fromkeys(c for frame in frames.values() for c in frame))
+        rest = [c for c in obs.columns if c not in measured and c != "instrument"]
+        return obs[[*measured, "instrument", *rest]]
 
     def locate(
         self,
