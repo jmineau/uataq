@@ -196,7 +196,7 @@ Use uataq in a Slurm job
 ------------------------
 
 A login node is for light work, such as a year of one site's CO2 and CH4 at the
-``final`` level, which took 4 seconds and 0.6 GB (see :ref:`large-reads`). For
+``final`` level (how long that takes: :ref:`large-reads`). For
 several years or many sites, the ``raw`` level, or reads in several processes,
 write a job script. The job only has to activate the environment:
 

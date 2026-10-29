@@ -5,12 +5,11 @@ When there is nothing to read
 
 .. note::
 
-    The examples on this page read the UATAQ archive, which is only available
-    on CHPC. They are shown as code and are not run when the documentation is
-    built. The output under each one is from a run on CHPC on 15 October 2026,
-    except under "Pollutant or site not found" and "A level asked of get_obs"
-    (19 October 2026). The archive keeps growing, so what a read returns will
-    have moved on by the time you read this.
+    The output under each example on this page is from a run on CHPC on 15
+    October 2026, except under "Pollutant or site not found" and "A level asked
+    of get_obs" (19 October 2026). The archive keeps growing, so what a read
+    returns will have moved on by the time you read this (:ref:`why the output
+    is recorded <recorded-examples>`).
 
 The archive has gaps. Sites close, instruments are removed or break, and some
 months are missing. A read then raises an error or comes back empty. Each case
