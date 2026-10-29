@@ -182,11 +182,12 @@ with ``--upgrade``:
 
 For results you will publish, install a fixed release by adding its tag, and
 write the version down. ``pip show uataq`` prints the version you have.
-`The releases page <https://github.com/jmineau/uataq/releases>`_ lists the tags.
+`The releases page <https://github.com/jmineau/uataq/releases>`_ lists the tags
+(``v2026.10.1`` was the newest in October 2026).
 
 .. code-block:: bash
 
-   pip install git+https://github.com/jmineau/uataq.git@v2026.10.0
+   pip install git+https://github.com/jmineau/uataq.git@v2026.10.1
    pip show uataq
 
 .. _install-slurm:
