@@ -6,7 +6,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>uataq.instruments &#8212; UATAQ 2026.10.2.dev26+g0247bcf91 documentation</title>
+    <title>uataq.instruments &#8212; UATAQ 2026.10.2.dev27+g4f997f6b2 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be" />
 
-    <script src="../../_static/documentation_options.js?v=e6d804ba"></script>
+    <script src="../../_static/documentation_options.js?v=efcc133e"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -58,7 +58,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.2.dev26+g0247bcf91" />
+  <meta name="docsearch:version" content="2026.10.2.dev27+g4f997f6b2" />
   
     
     <script src="../../_static/searchtools.js"></script>
@@ -126,7 +126,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.2.dev26+g0247bcf91 documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.2.dev27+g4f997f6b2 documentation</p>
   
 </a></div>
     
@@ -1028,6 +1028,9 @@
 
 <span class="sd">        Raises</span>
 <span class="sd">        ------</span>
+<span class="sd">        ValueError</span>
+<span class="sd">            If ``lvl`` is not one of the data levels in</span>
+<span class="sd">            :data:`uataq.filesystem.lvls`.</span>
 <span class="sd">        ReaderError</span>
 <span class="sd">            If the group has no such level for the instrument (the message</span>
 <span class="sd">            says which levels it has), or no file is in the time range.</span>
@@ -1036,9 +1039,10 @@
 
         <span class="c1"># Format lvl &amp; time_range</span>
         <span class="n">lvl</span> <span class="o">=</span> <span class="n">lvl</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">if</span> <span class="n">lvl</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_highest_lvl</span><span class="p">(</span><span class="n">group</span><span class="p">)</span>
-        <span class="k">assert</span> <span class="n">lvl</span> <span class="ow">in</span> <span class="n">filesystem</span><span class="o">.</span><span class="n">lvls</span><span class="p">,</span> <span class="p">(</span>
-            <span class="sa">f</span><span class="s2">"Invalid data level '</span><span class="si">{</span><span class="n">lvl</span><span class="si">}</span><span class="s2">'. Must be one of </span><span class="si">{</span><span class="n">filesystem</span><span class="o">.</span><span class="n">lvls</span><span class="si">}</span><span class="s2">."</span>
-        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">lvl</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">filesystem</span><span class="o">.</span><span class="n">lvls</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">"Invalid data level '</span><span class="si">{</span><span class="n">lvl</span><span class="si">}</span><span class="s2">'. Must be one of </span><span class="si">{</span><span class="n">filesystem</span><span class="o">.</span><span class="n">lvls</span><span class="si">}</span><span class="s2">."</span>
+            <span class="p">)</span>
         <span class="c1"># Clip once, and use the clipped range for both file selection and the</span>
         <span class="c1"># row slice, so data logged after a swap cannot be read as this</span>
         <span class="c1"># instrument's (see clip_to_active).</span>
