@@ -5,9 +5,8 @@ Mobile sites
 
 .. note::
 
-    The examples on this page read the UATAQ archive, which is only available
-    on CHPC, and are not run when the documentation is built. The output under
-    each one is from runs on CHPC on 26 October 2026.
+    The output under each example on this page is from runs on CHPC on 26
+    October 2026 (:ref:`why it is recorded <recorded-examples>`).
 
 The mobile sites are instruments on TRAX light-rail trains (``TRX01`` to
 ``TRX03``) and on buses (``BUS01`` and up) in the Salt Lake Valley. They have no

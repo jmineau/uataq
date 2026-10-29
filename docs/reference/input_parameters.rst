@@ -130,8 +130,8 @@ Two times
 Time zones
 ^^^^^^^^^^
 
-The examples below read the UATAQ archive on CHPC and are not run when the
-documentation is built; the output is from runs on 12 October 2026.
+The output of the examples below is from runs on CHPC on 12 October 2026
+(:ref:`why it is recorded <recorded-examples>`).
 
 Times have no time zone attached. A string with an offset other than ``Z`` or
 ``+00:00`` is an error that says so:
