@@ -28,7 +28,7 @@ source ~/venvs/uataq/bin/activate
 pip install git+https://github.com/jmineau/uataq.git
 ```
 
-The [installation page](https://jmineau.github.io/uataq/dev/installation.html)
+The [installation page](https://jmineau.github.io/uataq/dev/getting_started/installation.html)
 explains each step and has a command that reads a day of data to prove it
 works. It also covers updating, Slurm jobs, and the editable and development
 installs.
