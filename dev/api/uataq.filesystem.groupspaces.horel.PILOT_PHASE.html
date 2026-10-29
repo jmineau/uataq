@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>uataq.filesystem.groupspaces.horel.PILOT_PHASE &#8212; UATAQ 2026.10.2.dev22+g25aefec5a documentation</title>
+    <title>uataq.filesystem.groupspaces.horel.PILOT_PHASE &#8212; UATAQ 2026.10.2.dev23+gfb0f15aa3 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be" />
 
-    <script src="../_static/documentation_options.js?v=3fdb000e"></script>
+    <script src="../_static/documentation_options.js?v=cbebb55a"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -61,7 +61,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.2.dev22+g25aefec5a" />
+  <meta name="docsearch:version" content="2026.10.2.dev23+gfb0f15aa3" />
   
     
     <script src="../_static/searchtools.js"></script>
@@ -129,7 +129,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.2.dev22+g25aefec5a documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.2.dev23+gfb0f15aa3 documentation</p>
   
 </a></div>
     
@@ -630,7 +630,10 @@
 <dl class="py data">
 <dt class="sig sig-object py" id="uataq.filesystem.groupspaces.horel.PILOT_PHASE">
 <span class="sig-prename descclassname"><span class="pre">uataq.filesystem.groupspaces.horel.</span></span><span class="sig-name descname"><span class="pre">PILOT_PHASE</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.15)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="uataq.timerange.TimeRange.html#uataq.timerange.TimeRange" title="uataq.timerange.TimeRange"><span class="pre">TimeRange</span></a><span class="p"><span class="pre">]</span></span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'TRX01':</span> <span class="pre">TimeRange(start=2014-11-11</span> <span class="pre">00:00:00,</span> <span class="pre">stop=2018-11-19</span> <span class="pre">20:03:59),</span> <span class="pre">'TRX02':</span> <span class="pre">TimeRange(start=2016-02-04</span> <span class="pre">00:00:00,</span> <span class="pre">stop=2018-11-19</span> <span class="pre">18:53:53)}</span></span><a class="headerlink" href="#uataq.filesystem.groupspaces.horel.PILOT_PHASE" title="Link to this definition">#</a></dt>
-<dd><p>Pilot phase time ranges for UUTRAX data</p>
+<dd><p>Pilot phase time ranges for UUTRAX data. A raw file of the pilot archive is
+read only before the stop: in 2018-11, the month the pilot ended, the pilot
+file runs on to the end of the month with a once-a-minute copy of the main
+archive’s rows.</p>
 </dd></dl>
 
 </section>

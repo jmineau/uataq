@@ -6,7 +6,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>uataq.filesystem.groupspaces.horel &#8212; UATAQ 2026.10.2.dev22+g25aefec5a documentation</title>
+    <title>uataq.filesystem.groupspaces.horel &#8212; UATAQ 2026.10.2.dev23+gfb0f15aa3 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="../../../../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be" />
 <link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be" />
 
-    <script src="../../../../_static/documentation_options.js?v=3fdb000e"></script>
+    <script src="../../../../_static/documentation_options.js?v=cbebb55a"></script>
     <script src="../../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -58,7 +58,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.2.dev22+g25aefec5a" />
+  <meta name="docsearch:version" content="2026.10.2.dev23+gfb0f15aa3" />
   
     
     <script src="../../../../_static/searchtools.js"></script>
@@ -126,7 +126,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.2.dev22+g25aefec5a documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.2.dev23+gfb0f15aa3 documentation</p>
   
 </a></div>
     
@@ -469,11 +469,24 @@
 <span class="c1">#: MesoWest operational data directory (SODAR archive is read by :mod:`uataq.sodar`)</span>
 <span class="n">MESOWEST_DIR</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">HOREL_DIR</span><span class="p">,</span> <span class="s2">"oper"</span><span class="p">,</span> <span class="s2">"mesowest"</span><span class="p">)</span>
 
-<span class="c1">#: Pilot phase time ranges for UUTRAX data</span>
+<span class="c1">#: Pilot phase time ranges for UUTRAX data. A raw file of the pilot archive is</span>
+<span class="c1">#: read only before the stop: in 2018-11, the month the pilot ended, the pilot</span>
+<span class="c1">#: file runs on to the end of the month with a once-a-minute copy of the main</span>
+<span class="c1">#: archive's rows.</span>
 <span class="n">PILOT_PHASE</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">TimeRange</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s2">"TRX01"</span><span class="p">:</span> <span class="n">TimeRange</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="s2">"2014-11-11"</span><span class="p">,</span> <span class="n">stop</span><span class="o">=</span><span class="s2">"2018-11-19T20:03:58"</span><span class="p">),</span>
     <span class="s2">"TRX02"</span><span class="p">:</span> <span class="n">TimeRange</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="s2">"2016-02-04"</span><span class="p">,</span> <span class="n">stop</span><span class="o">=</span><span class="s2">"2018-11-19T18:53:52"</span><span class="p">),</span>
 <span class="p">}</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_pilot_stop</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Return the end of the pilot phase if ``path`` is a pilot-archive file, else None."""</span>
+    <span class="n">pilot_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">UUTRAX_PILOT_DIR</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">path</span><span class="p">)))</span> <span class="o">!=</span> <span class="n">pilot_dir</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    <span class="n">phase</span> <span class="o">=</span> <span class="n">PILOT_PHASE</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">path</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"_"</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="k">return</span> <span class="kc">None</span> <span class="k">if</span> <span class="n">phase</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">phase</span><span class="o">.</span><span class="n">stop</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="n">phase</span><span class="o">.</span><span class="n">stop</span><span class="p">)</span>
+
 
 <span class="c1">#: Suffix of the raw files horel set aside when a vehicle's MetOne ES642 was</span>
 <span class="c1">#: replaced by an ES405. For the month of each swap, ``{name}.h5`` holds the</span>
@@ -806,6 +819,12 @@
 
         <span class="c1"># Format time</span>
         <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">format_time</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s2">"s"</span><span class="p">)</span>
+
+        <span class="c1"># A pilot file runs past the pilot phase with rows the main archive</span>
+        <span class="c1"># also holds (see PILOT_PHASE): keep only the pilot's own</span>
+        <span class="n">pilot_stop</span> <span class="o">=</span> <span class="n">_pilot_stop</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">pilot_stop</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">data</span><span class="o">.</span><span class="n">Time_UTC</span> <span class="o">&lt;</span> <span class="n">pilot_stop</span><span class="p">]</span>
 
         <span class="c1"># Convert horel-group NoData to None</span>
         <span class="n">data</span> <span class="o">=</span> <span class="n">HorelFile</span><span class="o">.</span><span class="n">convert_nodata</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>

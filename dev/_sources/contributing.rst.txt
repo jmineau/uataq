@@ -270,6 +270,12 @@ belongs to the ES405 alone. Other suffixes in horel's raw folders
 HEB, RPK, SUG) are in separate lin folders, so their files cannot mix, but the
 same date rule holds.
 
+The pilot archive (``uutrax_pilot``) and the main one (``uutrax``) both have a raw
+file for November 2018, the month TRX01's and TRX02's pilot phase ended. The pilot
+file goes on to the end of the month with a copy of the main file's row once a
+minute, so ``HorelH5File.parse`` keeps a pilot file's rows only before the stop in
+:data:`uataq.filesystem.groupspaces.horel.PILOT_PHASE`.
+
 Data availability internals
 ---------------------------
 
