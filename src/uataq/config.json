@@ -684,8 +684,7 @@
                 "loggers": {
                     "lin": "air-trend"
                 },
-                "installation_date": "2014-12-09",
-                "MIU": false
+                "installation_date": "2014-12-09"
             },
             "lgr_ugga_manual_cal": {
                 "model": "lgr_ugga",
@@ -693,7 +692,6 @@
                     "lin": "air-trend"
                 },
                 "installation_date": "2023-11-18",
-                "MIU": false,
                 "notes": "Removed calibration tank and manually calibrated with lgr software periodically."
             }
         }
