@@ -41,7 +41,9 @@ Pollutants
 them, or ``"all"`` (the default) for every pollutant the site has measured.
 Case does not matter: ``"nox"``, ``"NOx"`` and ``"NOX"`` all read NOx. A site's
 ``pollutants`` spell it ``'NOX'``, and the columns ``NOx_ppb`` (see
-:ref:`column-names`).
+:ref:`column-names`). Each pollutant brings only its own columns: ``"NO"`` gives
+``NO_ppb`` and not ``NO2_ppb`` or ``NOx_ppb``, and ``"PM1"`` gives ``PM1_ugm3``
+and not ``PM10_ugm3``.
 
 .. _input-format:
 

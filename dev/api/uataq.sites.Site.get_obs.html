@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>uataq.sites.Site.get_obs &#8212; UATAQ 2026.10.2.dev24+gcb0a79b6c documentation</title>
+    <title>uataq.sites.Site.get_obs &#8212; UATAQ 2026.10.2.dev25+g432e294b1 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be" />
 
-    <script src="../_static/documentation_options.js?v=5930bdee"></script>
+    <script src="../_static/documentation_options.js?v=43a306c0"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -61,7 +61,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.2.dev24+gcb0a79b6c" />
+  <meta name="docsearch:version" content="2026.10.2.dev25+g432e294b1" />
   
     
     <script src="../_static/searchtools.js"></script>
@@ -129,7 +129,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.2.dev24+gcb0a79b6c documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.2.dev25+g432e294b1 documentation</p>
   
 </a></div>
     
@@ -645,9 +645,13 @@ Default is None which reads all available data.</p></li>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>One dataframe indexed by <code class="docutils literal notranslate"><span class="pre">Time_UTC</span></code>, with the final-level rows of every
 instrument that measures the requested pollutants, sorted by time.
-The <code class="docutils literal notranslate"><span class="pre">wide</span></code> format has a column for each of their measurement columns
-(<code class="docutils literal notranslate"><span class="pre">CO2d_ppm_cal</span></code>, <code class="docutils literal notranslate"><span class="pre">O3_ppb</span></code> and so on); the <code class="docutils literal notranslate"><span class="pre">long</span></code> format has a
-<code class="docutils literal notranslate"><span class="pre">pollutant</span></code> column (those names) and a <code class="docutils literal notranslate"><span class="pre">value</span></code> column.
+The <code class="docutils literal notranslate"><span class="pre">wide</span></code> format has a column for each concentration column of
+the pollutants asked for (<code class="docutils literal notranslate"><span class="pre">CO2d_ppm_cal</span></code> and <code class="docutils literal notranslate"><span class="pre">CO2d_ppm_raw</span></code>,
+<code class="docutils literal notranslate"><span class="pre">O3_ppb</span></code> and so on: those
+<a class="reference internal" href="uataq.pollutants.concentration_columns.html#uataq.pollutants.concentration_columns" title="uataq.pollutants.concentration_columns"><code class="xref py py-func docutils literal notranslate"><span class="pre">concentration_columns()</span></code></a> picks with
+<code class="docutils literal notranslate"><span class="pre">raw=True</span></code>, so <code class="docutils literal notranslate"><span class="pre">'NO'</span></code> gives <code class="docutils literal notranslate"><span class="pre">NO_ppb</span></code> and not <code class="docutils literal notranslate"><span class="pre">NO2_ppb</span></code>); the
+<code class="docutils literal notranslate"><span class="pre">long</span></code> format has a <code class="docutils literal notranslate"><span class="pre">pollutant</span></code> column (those names) and a
+<code class="docutils literal notranslate"><span class="pre">value</span></code> column.
 The wide columns come instrument by instrument, in the order the
 <code class="docutils literal notranslate"><span class="pre">pollutants</span></code> were asked for (a set is sorted; <code class="docutils literal notranslate"><span class="pre">'all'</span></code> follows
 the site’s config), and the same on every call. Rows on one
