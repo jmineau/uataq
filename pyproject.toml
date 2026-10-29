@@ -24,11 +24,11 @@ classifiers = [
     "Typing :: Typed",
 ]
 dependencies = [
-    "geopandas",
-    "numpy",
-    "pandas",
+    "geopandas>=1.1.0",  # 1.0 and earlier import shapely.geos, which warns on shapely 2.1
+    "numpy>=1.24",  # geopandas 1.1 needs 1.24
+    "pandas>=2.0",
     "tables>3.10",  # 3.10 compatible with numpy 2.0
-    "xarray",  # uataq.sodar returns (Time_UTC, level) profiles
+    "xarray>=2022.3.0",  # uataq.sodar returns (Time_UTC, level) profiles
 ]
 
 [project.urls]
@@ -94,6 +94,8 @@ filterwarnings = [
     # numpy ignores this one itself (compiled packages such as netCDF4 raise it on
     # import); pytest's "error" filter would bring it back.
     "ignore:numpy.ndarray size changed:RuntimeWarning",
+    # matplotlib before 3.10.7 calls pyparsing methods that pyparsing 3.3 deprecates.
+    "ignore::pyparsing.warnings.PyparsingDeprecationWarning",
 ]
 markers = [
     "network: needs live network access; excluded from default runs",
