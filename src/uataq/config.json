@@ -671,9 +671,9 @@
                 "loggers": {
                     "horel": "campbellsci"
                 },
-                "installation_date": "2016-02-04",
+                "installation_date": "2014-12-05",
                 "removal_date": "2025-01-06 19:30:00",
-                "notes": "The last sample is 2025-01-06 18:10:28 UTC, in horel's raw TRX01_2025_01_esampler.h5_prior405upgrade (horel's qaqc and final files have no ES642 values that month). The removal date is the first raw row of the metone_es405 that replaced it, 2025-01-06 19:30:00 UTC, so one instant ends this instrument and starts that one."
+                "notes": "Installed 2014-12-05. The field team's site note for the day reads \"Installed LGR, GRIMM, E-Sampler, started everything\"; the entry is typed 2015/12/5, but the entries around it are dated 2014/12/2 and 2015/1/3 (which says the station had run for about 25 days), so the year is 2014. Horel's pilot archive holds E-Sampler rows from 2014-11-05, but those before 2014-12-05 are bench rows: the platform's first GPS fixes (2014-11-26 and 2014-12-02) are at the William Browning Building, and the train's first moving fixes are on 2014-12-04. The site notes call the unit the E-Sampler until 2017 and the ES642 after (on 2017/10/27 an ES642 from TRAX 1104 replaced a removed E-Sampler); the catalog takes them as one instrument. The last sample is 2025-01-06 18:10:28 UTC, in horel's raw TRX01_2025_01_esampler.h5_prior405upgrade (horel's qaqc and final files have no ES642 values that month). The removal date is the first raw row of the metone_es405 that replaced it, 2025-01-06 19:30:00 UTC, so one instant ends this instrument and starts that one."
             },
             "metone_es405": {
                 "loggers": {
