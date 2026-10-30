@@ -85,7 +85,9 @@ def read_data(
     num_processes : int | 'max'
         The number of processes to use. Default is 1.
     file_pattern : str | None
-        A string pattern to filter the file paths.
+        Keep only the files whose path contains this text (a plain substring,
+        not a glob or a regular expression). Default None keeps every file. See
+        :ref:`input-file-pattern`.
 
     Returns
     -------
@@ -132,6 +134,8 @@ def get_obs(
         The number of processes to use. Default is 1.
     kwargs
         Additional keyword arguments to pass to the site's `get_obs` method.
+        The only one a site takes is ``include_gps`` (``False`` returns a
+        mobile site's rows without a position; see :ref:`input-include-gps`).
 
     Returns
     -------
