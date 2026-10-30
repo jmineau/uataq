@@ -287,7 +287,8 @@ None of the sites had data in the range. The log says why for each site.
 A misspelled site, or a site that does not measure the pollutant, is dropped from
 a ``Network`` without an error. The log warns about a misspelled site; a site
 that does not measure the pollutant is dropped without a warning. Print the
-``Network`` to see the sites it kept. If none is left you get the second error,
+``Network``, or read its ``sites`` attribute, to see the sites it kept; a loop
+over ``net.sites`` reaches only those. If none is left you get the second error,
 which names the sites you gave (only their number when there are more than
 ten), then lists the sites in the configuration that measure the pollutant, or
 says that none does. A site named twice, in any case (``"WBB"`` and ``"wbb"``), is
