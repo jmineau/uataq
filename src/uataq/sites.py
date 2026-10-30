@@ -170,6 +170,32 @@ def _reshape_obs(
     return melted.set_index("Time_UTC")
 
 
+def _label_instruments(frames: dict[str, pd.DataFrame]) -> dict[str, pd.DataFrame]:
+    """Add an ``instrument`` column to each frame, holding the frame's key."""
+    return {name: frame.assign(instrument=name) for name, frame in frames.items()}
+
+
+def _instrument_after_measurements(
+    obs: pd.DataFrame, frames: dict[str, pd.DataFrame]
+) -> pd.DataFrame:
+    """
+    Order the columns of stacked, labeled ``obs``: measurements, ``instrument``, the rest.
+
+    ``frames`` are the instruments' frames before they were labeled; their columns,
+    in the order they first appear, are the measurements. Any other column
+    (a mobile site's GPS columns) goes after ``instrument``.
+    """
+    measured = list(dict.fromkeys(c for frame in frames.values() for c in frame))
+    rest = [c for c in obs.columns if c not in measured and c != "instrument"]
+    return obs[[*measured, "instrument", *rest]]
+
+
+def _stack_obs(frames: dict[str, pd.DataFrame]) -> pd.DataFrame:
+    """Stack the instruments' frames, labeled, in time order (ties keep their order)."""
+    stacked = pd.concat(_label_instruments(frames).values()).sort_index(kind="stable")
+    return _instrument_after_measurements(pd.DataFrame(stacked), frames)
+
+
 class Site:
     """
     A class representing a site where atmospheric measurements are taken.
@@ -409,7 +435,9 @@ class Site:
             :func:`~uataq.pollutants.concentration_columns` picks with
             ``raw=True``, so ``'NO'`` gives ``NO_ppb`` and not ``NO2_ppb``); the
             ``long`` format has a ``pollutant`` column (those names) and a
-            ``value`` column.
+            ``value`` column. An ``instrument`` column after them names the
+            instrument each row came from (the name ``get_network_obs`` uses), so
+            ``obs.resample("h").mean(numeric_only=True)`` leaves it out.
             The wide columns come instrument by instrument, in the order the
             ``pollutants`` were asked for (a set is sorted; ``'all'`` follows
             the site's config), and the same on every call. Rows on one
@@ -442,7 +470,7 @@ class Site:
         """
         _reject_level(kwargs)
         frames = self._read_obs(pollutants, format, group, time_range, num_processes)
-        return pd.DataFrame(pd.concat(frames.values()).sort_index(kind="stable"))
+        return _stack_obs(frames)
 
     def _not_measured(self, asked: list[str]) -> ValueError:
         """
@@ -765,11 +793,10 @@ class MobileSite(Site):
         pandas.DataFrame
             A dataframe containing mobile site observations for each pollutant
             with location data merged (a GeoDataFrame when ``include_gps``).
-            The ``instrument`` column names the instrument each row came from
-            (``lgr_ugga`` or ``lgr_ugga_manual_cal`` for TRX01's CO2 and CH4,
-            whose ``_cal`` and ``_raw`` columns mean different things in
-            each), as in :func:`~uataq.get_network_obs`. Otherwise the columns
-            are those of :meth:`Site.get_obs`, then the GPS columns.
+            The columns are those of :meth:`Site.get_obs`, including its
+            ``instrument`` column (``lgr_ugga`` or ``lgr_ugga_manual_cal`` for
+            TRX01's CO2 and CH4, whose ``_cal`` and ``_raw`` columns mean
+            different things in each), then the GPS columns.
 
         Raises
         ------
@@ -800,30 +827,25 @@ class MobileSite(Site):
         """
         _reject_level(kwargs)
         frames = self._read_obs(pollutants, format, group, time_range, num_processes)
+        if not include_gps:
+            return _stack_obs(frames)
         # Name the instrument on every row, as get_network_obs does
-        labeled = {
-            name: frame.assign(instrument=name) for name, frame in frames.items()
-        }
-        if include_gps:
-            obs = self.locate(labeled, group, time_range, "final", num_processes)
-            read = {name: len(frame) for name, frame in frames.items() if len(frame)}
-            if obs.empty and read:
-                # Rows were read but none found a fix: a month without a GPS
-                # file, whose neighbors' were read for the Pi clock's margin
-                warnings.warn(
-                    f"No final data located at {self.SID} ({TimeRange(time_range)}): "
-                    + ", ".join(f"{n} rows of {name}" for name, n in read.items())
-                    + " were read, but none found a GPS fix in its second. "
-                    "get_obs(..., include_gps=False) returns them without a position.",
-                    errors.EmptyResultWarning,
-                    stacklevel=2,  # the caller of get_obs
-                )
-        else:
-            obs = pd.DataFrame(pd.concat(labeled.values()).sort_index(kind="stable"))
-        # The label goes after all the measurement columns, before the GPS ones
-        measured = list(dict.fromkeys(c for frame in frames.values() for c in frame))
-        rest = [c for c in obs.columns if c not in measured and c != "instrument"]
-        return obs[[*measured, "instrument", *rest]]
+        obs = self.locate(
+            _label_instruments(frames), group, time_range, "final", num_processes
+        )
+        read = {name: len(frame) for name, frame in frames.items() if len(frame)}
+        if obs.empty and read:
+            # Rows were read but none found a fix: a month without a GPS
+            # file, whose neighbors' were read for the Pi clock's margin
+            warnings.warn(
+                f"No final data located at {self.SID} ({TimeRange(time_range)}): "
+                + ", ".join(f"{n} rows of {name}" for name, n in read.items())
+                + " were read, but none found a GPS fix in its second. "
+                "get_obs(..., include_gps=False) returns them without a position.",
+                errors.EmptyResultWarning,
+                stacklevel=2,  # the caller of get_obs
+            )
+        return _instrument_after_measurements(obs, frames)
 
     def locate(
         self,

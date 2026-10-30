@@ -281,13 +281,13 @@ level as :func:`get_obs`, and returns the same kind of table. The default is
 
     >>> obs = uataq.get_recent_obs("WBB", pollutants="CO2")
     >>> print(obs.shape)
-    (79370, 2)
+    (82846, 3)
     >>> obs.tail(3)
-                         CO2d_ppm_cal  CO2d_ppm_raw
+                         CO2d_ppm_cal  CO2d_ppm_raw instrument
     Time_UTC
-    2026-10-12 00:42:23    435.893883      438.0069
-    2026-10-12 00:42:33    436.246489      438.3621
-    2026-10-12 00:42:43    436.133809      438.2486
+    2026-10-29 22:33:10    453.085968      456.4526   lgr_ugga
+    2026-10-29 22:33:20    453.350899      456.7222   lgr_ugga
+    2026-10-29 22:33:30    453.269853      456.6404   lgr_ugga
 
 Name the pollutants. With the default ``pollutants="all"``, ten days at WBB came
 back as 1.3 million rows.
@@ -299,9 +299,9 @@ such as ``"3D"``, ``"3 days"`` or ``"12h"``:
 
     >>> obs = uataq.get_recent_obs("WBB", recent="3D", pollutants="CO2")
     >>> print(obs.index.min(), obs.index.max())
-    2026-10-09 02:15:05 2026-10-12 00:42:43
+    2026-10-26 23:51:53 2026-10-29 22:33:30
 
 The last row is the newest data the archive holds at that level. This run was at
-02:15 UTC on 12 October, and the newest WBB CO2 row was from 00:42 UTC the same
-day, so the data were about an hour and a half behind. A site that has stopped
+23:51 UTC on 29 October, and the newest WBB CO2 row was from 22:33 UTC the same
+day, so the data were about an hour and a quarter behind. A site that has stopped
 reporting has nothing recent and raises an error (HDP, under :doc:`/guides/errors`).

@@ -33,27 +33,27 @@ Read a month
     >>> import uataq
     >>> obs = uataq.get_obs("WBB", ["CO2", "CH4"], time_range="2025-06")
     >>> obs
-                         CO2d_ppm_cal  CO2d_ppm_raw  CH4d_ppm_cal  CH4d_ppm_raw
+                         CO2d_ppm_cal  CO2d_ppm_raw  CH4d_ppm_cal  CH4d_ppm_raw instrument
     Time_UTC
-    2025-06-01 00:00:03    432.407511      435.5981      2.010693      2.010473
-    2025-06-01 00:00:13    432.561390      435.7535      2.010209      2.009984
-    2025-06-01 00:00:23    433.129237      436.3271      2.010649      2.010428
-    2025-06-01 00:00:33    433.462976      436.6642      2.010474      2.010251
-    2025-06-01 00:00:43    433.639127      436.8421      2.010977      2.010760
-    ...                           ...           ...           ...           ...
-    2025-06-30 23:59:13    427.961767      429.8449      1.976710      1.978463
-    2025-06-30 23:59:23    427.877508      429.7600      1.977210      1.978969
-    2025-06-30 23:59:33    427.763867      429.6455      1.977274      1.979034
-    2025-06-30 23:59:42    427.754553      429.6361      1.977592      1.979355
-    2025-06-30 23:59:52    427.856023      429.7383      1.978085      1.979854
+    2025-06-01 00:00:03    432.407511      435.5981      2.010693      2.010473   lgr_ugga
+    2025-06-01 00:00:13    432.561390      435.7535      2.010209      2.009984   lgr_ugga
+    2025-06-01 00:00:23    433.129237      436.3271      2.010649      2.010428   lgr_ugga
+    2025-06-01 00:00:33    433.462976      436.6642      2.010474      2.010251   lgr_ugga
+    2025-06-01 00:00:43    433.639127      436.8421      2.010977      2.010760   lgr_ugga
+    ...                           ...           ...           ...           ...        ...
+    2025-06-30 23:59:13    427.961767      429.8449      1.976710      1.978463   lgr_ugga
+    2025-06-30 23:59:23    427.877508      429.7600      1.977210      1.978969   lgr_ugga
+    2025-06-30 23:59:33    427.763867      429.6455      1.977274      1.979034   lgr_ugga
+    2025-06-30 23:59:42    427.754553      429.6361      1.977592      1.979355   lgr_ugga
+    2025-06-30 23:59:52    427.856023      429.7383      1.978085      1.979854   lgr_ugga
 
-    [250687 rows x 4 columns]
+    [250687 rows x 5 columns]
 
 It takes about a second. You get one table (a pandas ``DataFrame``) with a row
 about every 10 seconds. ``CO2d_ppm_cal`` is the calibrated CO2 dry mole fraction
 in ppm, ``CO2d_ppm_raw`` is the same measurement before calibration, and the
-``CH4d`` columns are the same for methane. The column names are explained under
-:ref:`column-names`. A table wider than the terminal is shortened with ``...`` or
+``CH4d`` columns are the same for methane, and ``instrument`` names the instrument
+that logged the row. The column names are explained under :ref:`column-names`. A table wider than the terminal is shortened with ``...`` or
 wrapped over several lines (a job's output is 80 characters wide); the pandas
 settings that print every column are at the top of :ref:`the Columns page <wide-tables>`.
 
@@ -89,11 +89,11 @@ is the right one for every site:
 
     >>> local = obs.tz_localize("UTC").tz_convert("America/Denver")
     >>> local.head(3)
-                               CO2d_ppm_cal  CO2d_ppm_raw  CH4d_ppm_cal  CH4d_ppm_raw
+                               CO2d_ppm_cal  CO2d_ppm_raw  CH4d_ppm_cal  CH4d_ppm_raw instrument
     Time_UTC
-    2025-05-31 18:00:03-06:00    432.407511      435.5981      2.010693      2.010473
-    2025-05-31 18:00:13-06:00    432.561390      435.7535      2.010209      2.009984
-    2025-05-31 18:00:23-06:00    433.129237      436.3271      2.010649      2.010428
+    2025-05-31 18:00:03-06:00    432.407511      435.5981      2.010693      2.010473   lgr_ugga
+    2025-05-31 18:00:13-06:00    432.561390      435.7535      2.010209      2.009984   lgr_ugga
+    2025-05-31 18:00:23-06:00    433.129237      436.3271      2.010649      2.010428   lgr_ugga
 
 The same measurements, now labeled in local time; ``-06:00`` is the offset from
 UTC. (The index keeps the name ``Time_UTC``. Rename it if that confuses you:
@@ -144,7 +144,7 @@ time first, so that the hours and days are local:
 
 .. code-block:: pycon
 
-    >>> hourly = june.resample("h").mean()
+    >>> hourly = june.resample("h").mean(numeric_only=True)
     >>> hourly.head(3)
                                CO2d_ppm_cal  CO2d_ppm_raw  CH4d_ppm_cal  CH4d_ppm_raw
     Time_UTC
@@ -156,7 +156,8 @@ time first, so that the hours and days are local:
 
 Each row is the mean of one hour, labeled with the hour's start: the first row
 is 00:00 to 00:59 on 1 June, local time. ``"D"`` in place of ``"h"`` gives daily
-means.
+means. ``numeric_only=True`` leaves out the ``instrument`` column, which is text
+and has no mean; without it pandas raises a ``TypeError``.
 
 An hour with only a few rows still gets a mean. To see how many rows each mean
 has, count them the same way:
@@ -190,7 +191,7 @@ shaded, for both gases. Save it as ``daily_cycle.py``:
     june = obs.loc["2025-06"]
 
     # Hourly means, then their 25th, 50th and 75th percentiles for each hour of the day
-    hourly = june.resample("h").mean()
+    hourly = june.resample("h").mean(numeric_only=True)
     by_hour = hourly.groupby(hourly.index.hour).quantile([0.25, 0.5, 0.75])
 
     fig, axes = plt.subplots(2, 1, figsize=(7, 6), sharex=True)
@@ -232,12 +233,13 @@ six hours off.
 What to write down
 ------------------
 
-The table does not say where its numbers came from. When you use them, write
-down:
+The table says which instrument each row came from, but not the rest. When you
+use the numbers, write down:
 
 - **The instrument.** :func:`get_obs` reads every instrument at the site that
-  measures the pollutant. At WBB that is one, the ``lgr_ugga`` (a Los Gatos
-  Research analyzer, which measures CO2 and CH4):
+  measures the pollutant, and the ``instrument`` column names the one that
+  logged each row. At WBB that is one for CO2 and CH4, the ``lgr_ugga`` (a Los
+  Gatos Research analyzer, which measures both):
 
   .. code-block:: pycon
 
@@ -246,7 +248,8 @@ down:
       ['lgr_ugga']
 
   A site can have more than one instrument for a pollutant, one after another
-  or at the same time; :doc:`/guides/read_data` shows how to tell them apart.
+  or at the same time; the ``instrument`` column tells their rows apart (see
+  :doc:`/guides/read_data`).
 - **The data level**: ``final``, the level :func:`get_obs` always reads.
 - **The research group** whose archive it came from: ``lin`` for WBB. A read
   picks the group for you (see :ref:`input-group`).
