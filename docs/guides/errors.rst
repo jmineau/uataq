@@ -141,7 +141,7 @@ One of several pollutants missing
     WARNING:uataq.sites:Error reading lgr_ugga@WBB data from lin groupspace: No files found within the specified time range (files run from 2014-02 to 2026-10, with gaps).
     <stdin>:1: DroppedPollutantWarning: No final data found for CO2 at WBB (2021-08-01 00:00:00 to 2021-09-01 00:00:00): lgr_ugga gave none, so the table leaves out CO2.
     >>> both.columns.tolist()
-    ['O3_ppb']
+    ['O3_ppb', 'instrument']
 
 When you ask for several pollutants, the ones with data come back and the ones
 without are left out. A warning, ``uataq.errors.DroppedPollutantWarning``, names

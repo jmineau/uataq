@@ -137,9 +137,10 @@ def get_obs(
     -------
     pd.DataFrame
         The observations, from the ``final`` level (see :func:`uataq.read_data`
-        to read another level). At a mobile site it is a
-        ``geopandas.GeoDataFrame`` with the ``instrument`` that logged each row
-        and its position (see :doc:`/guides/mobile_sites`).
+        to read another level), with an ``instrument`` column naming the
+        instrument each row came from. At a mobile site it is a
+        ``geopandas.GeoDataFrame`` that also has the position of each row (see
+        :doc:`/guides/mobile_sites`).
 
     Raises
     ------

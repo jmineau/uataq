@@ -447,17 +447,70 @@ class TestMobileSiteInstrumentColumn:
         # lgr_ugga gives its _cal and _raw values, lgr_ugga_manual_cal only _raw
         assert obs["instrument"].tolist() == ["lgr_ugga"] * 2 + ["lgr_ugga_manual_cal"]
 
-    def test_a_fixed_site_has_no_such_column(self):
+
+class TestFixedSiteInstrumentColumn:
+    """Site.get_obs says which instrument each row came from, as MobileSite does."""
+
+    times = pd.DatetimeIndex(
+        ["2022-03-01 00:00:00", "2022-03-01 00:00:10"], name="Time_UTC"
+    )
+
+    @pytest.fixture
+    def wbb(self):
         import uataq
 
-        wbb = uataq.get_site("WBB")
-        frame = pd.DataFrame(
-            {"CO2d_ppm_cal": [430.0]}, index=self.stamp("2024-09-01 00:00:07")
-        )
-        with patch.object(wbb, "read_data", return_value={"lgr_ugga": frame}):
-            obs = wbb.get_obs("CO2", group="lin", time_range=self.SPAN)
+        return uataq.get_site("WBB")
 
-        assert "instrument" not in obs.columns
+    def two_no2_instruments(self):
+        """WBB's NO2 in 2022 came from two instruments at once."""
+        return {
+            "teledyne_t200": pd.DataFrame(
+                {"NO2_ppb": [13.0, 14.0], "NOx_ppb": [20.0, 21.0]}, self.times
+            ),
+            "teledyne_t500u": pd.DataFrame({"NO2_ppb": [15.0, 16.0]}, self.times),
+        }
+
+    def get_obs(self, wbb, pollutants, **kwargs):
+        data = self.two_no2_instruments()
+        with patch.object(wbb, "read_data", return_value=data):
+            return wbb.get_obs(pollutants, time_range="2022-03-01", **kwargs)
+
+    def test_each_row_names_its_instrument(self, wbb):
+        obs = self.get_obs(wbb, "NO2")
+
+        assert obs.columns.tolist() == ["NO2_ppb", "instrument"]
+        # Rows on one time keep the order of the instruments
+        assert obs["instrument"].tolist() == ["teledyne_t200", "teledyne_t500u"] * 2
+        assert obs["NO2_ppb"].tolist() == [13.0, 15.0, 14.0, 16.0]
+
+    def test_the_label_follows_the_measurements_of_every_instrument(self, wbb):
+        obs = self.get_obs(wbb, ["NO2", "NOx"])
+
+        assert obs.columns.tolist() == ["NO2_ppb", "NOx_ppb", "instrument"]
+
+    def test_long_format_is_labeled_too(self, wbb):
+        obs = self.get_obs(wbb, "NO2", format="long")
+
+        assert obs.columns.tolist() == ["pollutant", "value", "instrument"]
+        assert obs["instrument"].tolist() == ["teledyne_t200", "teledyne_t500u"] * 2
+
+    def test_rows_and_values_are_those_without_the_label(self, wbb):
+        data = self.two_no2_instruments()
+        with patch.object(wbb, "read_data", return_value=data):
+            obs = wbb.get_obs("NO2", time_range="2022-03-01")
+        unlabeled = pd.concat(
+            [data["teledyne_t200"][["NO2_ppb"]], data["teledyne_t500u"][["NO2_ppb"]]]
+        ).sort_index(kind="stable")
+
+        pd.testing.assert_frame_equal(obs.drop(columns="instrument"), unlabeled)
+
+    def test_the_hourly_mean_needs_numeric_only(self, wbb):
+        obs = self.get_obs(wbb, "NO2")
+
+        hourly = obs.resample("h").mean(numeric_only=True)
+
+        assert hourly.columns.tolist() == ["NO2_ppb"]
+        assert hourly["NO2_ppb"].tolist() == [14.5]
 
 
 class TestMobileSiteNoFix:
@@ -854,7 +907,7 @@ class TestPollutantCase:
 
         assert read_data.call_args.args[0] == ["2b_405"]
         # "NOX" must still select the declared-case NOx_ppb column
-        assert list(obs.columns) == ["NOx_ppb"]
+        assert list(obs.columns) == ["NOx_ppb", "instrument"]
 
     def test_read_data_lowercases_a_set(self):
 
@@ -966,7 +1019,7 @@ class TestSiteGetObs:
         with patch.object(sites.Site, "read_data", return_value=self.data()):
             obs = sites.Site.get_obs(site, ["O3", "NO2"], format="long")
 
-        assert list(obs.columns) == ["pollutant", "value"]
+        assert list(obs.columns) == ["pollutant", "value", "instrument"]
         assert obs.index.name == "Time_UTC"
         # Diagnostics and missing values are dropped; NO2 rows survive NO's
         assert sorted(zip(obs["pollutant"], obs["value"], strict=True)) == [
@@ -979,7 +1032,7 @@ class TestSiteGetObs:
         data = {"2b_205": self.data()["2b_205"]}
         with patch.object(sites.Site, "read_data", return_value=data):
             obs = sites.Site.get_obs(site, "O3")
-        assert list(obs.columns) == ["O3_ppb"]
+        assert list(obs.columns) == ["O3_ppb", "instrument"]
         assert obs["O3_ppb"].tolist() == [40.0]
 
     @pytest.mark.parametrize("format", ["wide", "long"])
@@ -994,7 +1047,7 @@ class TestSiteGetObs:
         with patch.object(sites.Site, "read_data", return_value=data):
             obs = sites.Site.get_obs(site, "NO", format=format)
         if format == "wide":
-            assert list(obs.columns) == ["NO_ppb"]
+            assert list(obs.columns) == ["NO_ppb", "instrument"]
         else:
             assert set(obs["pollutant"]) == {"NO_ppb"}
             assert obs["value"].tolist() == [1.0, 2.0]
@@ -1009,7 +1062,7 @@ class TestSiteGetObs:
             sites.Site, "read_data", return_value={"metone_es405": frame}
         ):
             obs = sites.Site.get_obs(site, "PM1")
-        assert list(obs.columns) == ["PM1_ugm3"]
+        assert list(obs.columns) == ["PM1_ugm3", "instrument"]
 
     def test_raw_columns_are_kept(self):
         """TRX01's lgr_ugga_manual_cal has its value only in _raw."""
@@ -1024,7 +1077,7 @@ class TestSiteGetObs:
         data = {"lgr_ugga_manual_cal": frame}
         with patch.object(sites.Site, "read_data", return_value=data):
             obs = sites.Site.get_obs(trx01, "CO2")
-        assert list(obs.columns) == ["CO2d_ppm_cal", "CO2d_ppm_raw"]
+        assert list(obs.columns) == ["CO2d_ppm_cal", "CO2d_ppm_raw", "instrument"]
 
     def test_invalid_format(self, site):
         with (
@@ -1092,8 +1145,9 @@ class TestGetObsColumnOrder:
         assert read_data.call_args.args[0] == instruments
         # The columns follow, instrument by instrument (those the pollutants match)
         expected = [c for name in instruments for c in self.columns[name]]
-        assert list(obs.columns) == [c for c in expected if c in obs.columns]
-        assert len(obs.columns) > 0
+        measured = [c for c in expected if c in obs.columns]
+        assert list(obs.columns) == [*measured, "instrument"]
+        assert len(measured) > 0
 
     def test_all_skips_a_pollutant_that_was_only_looked_up(self, site):
         """pollutant_instruments is a defaultdict: a miss leaves an empty key."""
@@ -1588,7 +1642,10 @@ class TestDroppedPollutantWarning:
         ):
             obs = wbb.get_obs(["CO2", "O3"], time_range="2024-03-04")
 
-        assert obs.columns.tolist() == ["O3_ppb"]  # what is returned is unchanged
+        assert obs.columns.tolist() == [
+            "O3_ppb",
+            "instrument",
+        ]  # what is returned is unchanged
         assert [str(w.message) for w in caught] == [
             f"No final data found for CO2 at WBB {self.RANGE}: "
             "lgr_ugga gave none, so the table leaves out CO2."
@@ -1650,7 +1707,7 @@ class TestDroppedPollutantWarning:
         ):
             obs = wbb.get_obs(["BC", "O3"], time_range="2024-07-04")
 
-        assert obs.columns.tolist() == ["O3_ppb"]
+        assert obs.columns.tolist() == ["O3_ppb", "instrument"]
 
     def test_get_recent_obs_warns(self, wbb):
         with (
@@ -1695,7 +1752,7 @@ class TestDroppedPollutantWarning:
             warnings.filterwarnings("ignore", category=errors.DroppedPollutantWarning)
             obs = wbb.get_obs(["CO2", "O3"], time_range="2024-03-04")
 
-        assert obs.columns.tolist() == ["O3_ppb"]
+        assert obs.columns.tolist() == ["O3_ppb", "instrument"]
         assert caught == []
 
     def test_all_pollutants_with_data_does_not_warn(self, wbb):

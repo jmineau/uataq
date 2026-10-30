@@ -186,8 +186,8 @@ its row in the table in `docs/contributing.rst` ("Writing the docs").
   there would be imported as one. That is why SODAR is `uataq/sodar.py`.
 - **`filesystem.groups` is filled by importing the group-space modules**, so
   don't reorder the imports in `filesystem/__init__.py` without checking.
-- `read_data` returns a dict of frames, one per instrument; `get_obs` returns
-  one frame. Don't confuse them when wrapping.
+- `read_data` returns a dict of frames, one per instrument; `get_obs` one frame
+  with a text `instrument` column (take means with `numeric_only=True`).
 - `get_network_obs` and `Network` take one pollutant on purpose: several
   pollutants across mixed sites have no common shape.
 - The top-level `uataq.read_data` does not forward `estimate_motion=False`
