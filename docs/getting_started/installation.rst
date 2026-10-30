@@ -77,7 +77,7 @@ Install
    pip release after it is harmless.
 
 5. **Check that it reads real data.** This reads one day of CO2 from the WBB
-   site (William Browning, on the University of Utah campus):
+   site (William Browning Building, on the University of Utah campus):
 
    .. code-block:: bash
 
