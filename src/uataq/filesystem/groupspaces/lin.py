@@ -778,6 +778,10 @@ class LGR_UGGA_File(filesystem.DataFile):
         return data
 
 
+# The start of an air-trend time, which the logger writes with isoformat()
+_ISO_TIME_START = re.compile(rb"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}")
+
+
 class AirTrendFile(filesystem.DataFile):
     """
     A class for parsing AirTrend data files.
@@ -861,10 +865,17 @@ class AirTrendFile(filesystem.DataFile):
         col_names = data_config["col_names"]
         col_types = data_config["col_types"]
 
+        # A few files have no header line and open with a data row; skipping
+        # the first line would drop that row. The pipeline keeps every line
+        # that holds a time, so it keeps the row.
+        with open(self.path, "rb") as f:
+            first_line = f.readline()
+        has_header = _ISO_TIME_START.match(first_line) is None
+
         data = pd.read_csv(
             self.path,
             names=col_names,
-            header=0,
+            header=0 if has_header else None,
             na_values=["XXXX"],
             on_bad_lines="skip",
             low_memory=False,
