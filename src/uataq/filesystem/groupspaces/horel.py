@@ -522,7 +522,7 @@ class HorelCSVFinalizedFile(HorelCSVFile):
         Parse the CSV file, finalize the data, and return a DataFrame.
     """
 
-    final_patterns = ["UTC", "Ambient", "ppb", "ugm3", "deg", "m_s"]
+    final_patterns = ["UTC", "Ambient", "ppb", "ugm3", "deg", "m_s", "msl"]
 
     def parse(self) -> pd.DataFrame:
         """

@@ -64,14 +64,15 @@ groups' measurements, average over a period longer than that, such as a minute.
 On a few days the lin computer's clock was hours or days off, and then a lin row
 can have a ``Time_UTC`` outside the range you asked for.
 
-To read one group only, name it. The horel group's GPS records no altitude, so
-the table has no ``Altitude_msl``:
+To read one group only, name it. Both groups' GPS record the altitude, so the
+table has ``Altitude_msl`` either way (this output is from a run on 30 October
+2026):
 
 .. code-block:: pycon
 
     >>> o3 = trx01.get_obs("O3", group="horel", time_range="2024-06-01")
     >>> o3.columns.tolist()
-    ['O3_ppb', 'instrument', 'Latitude_deg', 'Longitude_deg', 'Speed_m_s', 'Speed_Estimated', 'Course_deg', 'Course_Estimated', 'geometry', 'GPS_Group']
+    ['O3_ppb', 'instrument', 'Latitude_deg', 'Longitude_deg', 'Altitude_msl', 'Speed_m_s', 'Speed_Estimated', 'Course_deg', 'Course_Estimated', 'geometry', 'GPS_Group']
 
 TRX01's CO2 and CH4
 -------------------
