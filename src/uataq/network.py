@@ -391,7 +391,7 @@ class Network:
         self,
         time_range: TimeRange | TimeRangeTypes | None = None,
         freq: str = "D",
-        lvls: list[str] | None = None,
+        lvls: str | list[str] | None = None,
         num_processes: int | Literal["max"] = 1,
     ) -> pd.DataFrame:
         """
@@ -412,9 +412,10 @@ class Network:
         freq : str, optional
             The size of a time bin, as a pandas period alias: 'h', 'D', 'W',
             'M', ... Default is 'D'.
-        lvls : list[str], optional
-            The data levels to check. Default is None, every level in
-            :data:`uataq.filesystem.lvls`. Checking fewer is faster.
+        lvls : str | list[str], optional
+            The data levels to check; one level may be given as a string.
+            Default is None, every level in :data:`uataq.filesystem.lvls`.
+            Checking fewer is faster.
         num_processes : int | 'max', optional
             Number of processes used to parse files. Default is 1. A whole
             network is thousands of files; use a compute node.
@@ -432,6 +433,8 @@ class Network:
         an instrument is checked (TRX01 ozone, for instance, is in both the
         lin and horel archives), not only the one ``get_obs`` would read.
         """
+        if isinstance(lvls, str):  # one level, not a sequence of letters
+            lvls = [lvls]
         lvls = lvls or list(filesystem.lvls)
         if invalid := set(lvls) - set(filesystem.lvls):
             raise ValueError(

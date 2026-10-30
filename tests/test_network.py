@@ -554,6 +554,32 @@ class TestAvailabilityGroups:
         assert self.groups_checked(monkeypatch, group="horel") == {"horel"}
 
 
+class TestAvailabilityLevels:
+    """The levels get_availability checks."""
+
+    def levels_checked(self, monkeypatch, lvls) -> set[str]:
+        calls = []
+
+        def get_datafiles(self, group, lvl, time_range, pattern=None):
+            calls.append(lvl)
+            return []
+
+        monkeypatch.setattr(instruments.Instrument, "get_datafiles", get_datafiles)
+        Network(["WBB"], "CO2").get_availability(
+            ["2024-06-01", "2024-06-02"], lvls=lvls
+        )
+        return set(calls)
+
+    def test_a_level_as_a_string_is_one_level(self, monkeypatch):
+        """A string is one level, not a sequence of letters (#173)."""
+        assert self.levels_checked(monkeypatch, "final") == {"final"}
+        assert self.levels_checked(monkeypatch, ["final"]) == {"final"}
+
+    def test_an_unknown_level_string_is_named_whole(self):
+        with pytest.raises(ValueError, match=r"Invalid level\(s\) \{'finl'\}"):
+            Network(["WBB"], "CO2").get_availability(lvls="finl")
+
+
 def test_coverage_drops_rows_stamped_in_the_future(caplog):
     """A corrupt timestamp in the far future must not become a bin."""
     future = pd.Timestamp.now() + pd.Timedelta(days=400)
