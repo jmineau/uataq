@@ -168,6 +168,17 @@ column_mapping: dict[str, dict[str, str]] = {
     },
 }
 
+#: The ES642 column names that horel's qaqc and final files use for an ES405's
+#: values over some dates (the instrument's ``es642_column_dates`` in the
+#: configuration), each with the ES405 column name it stands for.
+#: ``usecols`` reads them for the ES405, and ``MetOne_ES405.standardize_data``
+#: renames them inside those dates and drops them outside.
+ES405_UNDER_ES642_NAMES: dict[str, str] = {
+    name: "ES405_" + name.removeprefix("ES642_")
+    for name in column_mapping["metone_es642"]
+    if name.startswith("ES642_")
+}
+
 
 class HorelFile(filesystem.DataFile, metaclass=ABCMeta):
     """
@@ -237,6 +248,9 @@ class HorelFile(filesystem.DataFile, metaclass=ABCMeta):
             True if the column should be used, False otherwise.
         """
         columns = [self.time_col] + [*column_mapping[self.instrument]]
+        if self.instrument == "metone_es405":
+            # Over some dates the ES405's values carry the ES642's names
+            columns += [*ES405_UNDER_ES642_NAMES]
         return col in columns
 
     def format_time(self, data: pd.DataFrame, **kwargs) -> pd.DataFrame:
@@ -522,7 +536,9 @@ class HorelCSVFinalizedFile(HorelCSVFile):
         Parse the CSV file, finalize the data, and return a DataFrame.
     """
 
-    final_patterns = ["UTC", "Ambient", "ppb", "ugm3", "deg", "m_s"]
+    # The last pattern keeps the ES642 names an ES405 reads
+    # (ES405_UNDER_ES642_NAMES), which standardize_data does not rename here
+    final_patterns = ["UTC", "Ambient", "ppb", "ugm3", "deg", "m_s", "^ES642_"]
 
     def parse(self) -> pd.DataFrame:
         """

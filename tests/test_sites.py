@@ -959,8 +959,13 @@ class TestSiteGetObs:
     def test_all_reads_every_pollutant_instrument(self, site):
         with patch.object(sites.Site, "read_data", return_value=self.data()) as read:
             sites.Site.get_obs(site, "all")
-        # The config's order: BUS01 lists 2b_205, 2b_405, then metone_es642
-        assert read.call_args.args[0] == ["2b_205", "2b_405", "metone_es642"]
+        # The config's order: BUS01 lists 2b_205, 2b_405, metone_es642, metone_es405
+        assert read.call_args.args[0] == [
+            "2b_205",
+            "2b_405",
+            "metone_es642",
+            "metone_es405",
+        ]
         assert read.call_args.args[2] == "final"
 
     def test_long_format(self, site):
@@ -1056,6 +1061,7 @@ class TestGetObsColumnOrder:
         "2b_205": {"O3_ppb": [40.0, 41.0]},
         "2b_405": {"NO_ppb": [1.0, 2.0], "NO2_ppb": [3.0, 4.0]},
         "metone_es642": {"PM2.5_ugm3": [5.0, 6.0]},
+        "metone_es405": {"PM10_ugm3": [7.0, 8.0]},
     }
 
     @pytest.fixture
@@ -1075,13 +1081,19 @@ class TestGetObsColumnOrder:
         [
             (["O3", "NO2"], ["2b_205", "2b_405"]),
             (["NO2", "O3"], ["2b_405", "2b_205"]),
-            (("PM2.5", "NO", "O3"), ["metone_es642", "2b_405", "2b_205"]),
+            (
+                ("PM2.5", "NO", "O3"),
+                ["metone_es642", "metone_es405", "2b_405", "2b_205"],
+            ),
             # an instrument measuring two of them is read once, where it first appears
             (["NO", "O3", "NO2"], ["2b_405", "2b_205"]),
             (["no2", "o3"], ["2b_405", "2b_205"]),
-            ("all", ["2b_205", "2b_405", "metone_es642"]),
+            ("all", ["2b_205", "2b_405", "metone_es642", "metone_es405"]),
             # a set has no order of its own, so it is sorted
-            ({"O3", "NO2", "PM2.5"}, ["2b_405", "2b_205", "metone_es642"]),
+            (
+                {"O3", "NO2", "PM2.5"},
+                ["2b_405", "2b_205", "metone_es642", "metone_es405"],
+            ),
         ],
     )
     def test_instruments_are_read_in_a_fixed_order(self, site, pollutants, instruments):
@@ -1104,7 +1116,12 @@ class TestGetObsColumnOrder:
             sites.Site, "read_data", side_effect=self.read_data
         ) as read_data:
             sites.Site.get_obs(fresh, "all")
-        assert read_data.call_args.args[0] == ["2b_205", "2b_405", "metone_es642"]
+        assert read_data.call_args.args[0] == [
+            "2b_205",
+            "2b_405",
+            "metone_es642",
+            "metone_es405",
+        ]
 
     def test_order_does_not_depend_on_the_hash_seed(self):
         """Columns and rows on one timestamp are the same under four hash seeds."""
@@ -1160,9 +1177,15 @@ class TestGetObsColumnOrder:
 class TestGetObsRowOrder:
     """Rows on one timestamp keep the instrument order in every session (#63)."""
 
-    #: BUS01 reads 2b_205, 2b_405 and metone_es642 for these, in the order asked
+    #: BUS01 reads 2b_205, 2b_405, metone_es642 and metone_es405 for these, in
+    #: the order asked
     asked = ["O3", "NO2", "PM2.5"]
-    columns = {"2b_205": "O3_ppb", "2b_405": "NO2_ppb", "metone_es642": "PM2.5_ugm3"}
+    columns = {
+        "2b_205": "O3_ppb",
+        "2b_405": "NO2_ppb",
+        "metone_es642": "PM2.5_ugm3",
+        "metone_es405": "PM2.5_ugm3",
+    }
 
     @pytest.fixture
     def site(self):
@@ -1194,7 +1217,8 @@ class TestGetObsRowOrder:
             obs = sites.Site.get_obs(site, ["PM2.5", "O3", "NO2"])
 
         names = obs.notna().idxmax(axis=1)
-        assert names.tolist() == ["PM2.5_ugm3", "O3_ppb", "NO2_ppb"] * 1000
+        pm25, o3, no2 = "PM2.5_ugm3", "O3_ppb", "NO2_ppb"
+        assert names.tolist() == [pm25, pm25, o3, no2] * 1000
 
 
 FILES_RUN = "No files found within the specified time range (files run from 2021-09 to 2026-07, with gaps)."
@@ -1990,5 +2014,6 @@ class TestUnmeasuredPollutant:
         import uataq
 
         assert self.message(uataq.get_site("BUS01"), ["O3", "CO2"]) == (
-            "Not measured at BUS01: CO2. BUS01 measures NO, NO2, NOx, O3, PM2.5."
+            "Not measured at BUS01: CO2. "
+            "BUS01 measures NO, NO2, NOx, O3, PM1, PM10, PM2.5, PM4."
         )

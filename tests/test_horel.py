@@ -18,7 +18,7 @@ import pytest
 import tables
 
 from uataq import get_site
-from uataq.errors import ReaderError
+from uataq.errors import InactiveInstrumentError, ReaderError
 from uataq.filesystem import core
 from uataq.filesystem.groupspaces import horel
 from uataq.timerange import TimeRange
@@ -678,3 +678,205 @@ class TestParseOnce:
         parallel = self.read("final", time_range=time_range, num_processes=2)
         for name in self.INSTRUMENTS:
             pd.testing.assert_frame_equal(parallel[name], serial[name])
+
+
+#: A BUS-like finalized file whose ES405 values carry the ES642's column names
+ES642_NAMED = [
+    "Timestamp",
+    "ES642_PM2.5_Concentration",
+    "ES642_Air_Flow_Rate",
+    "ES642_Internal_Air_Temperature",
+    "ES642_Internal_Relative_Humidity",
+    "ES642_Internal_Air_Pressure",
+    "ES642_Error_Code",
+    "PM2.5_Data_Flagged",
+]
+ES642_UNITS = ["UTC", "ug/m3", "L/min", "degC", "%", "hpa", "code", "binary"]
+
+#: The same file with the ES405's own names (and its PM1, PM4 and PM10)
+ES405_NAMED = [
+    "Timestamp",
+    "ES405_PM1_Concentration",
+    "ES405_PM2.5_Concentration",
+    "ES405_PM4_Concentration",
+    "ES405_PM10_Concentration",
+    "ES405_Air_Flow_Rate",
+    "ES405_Internal_Air_Temperature",
+    "ES405_Internal_Relative_Humidity",
+    "ES405_Internal_Air_Pressure",
+    "ES405_Error_Code",
+    "PM2.5_Data_Flagged",
+]
+ES405_UNITS = ["UTC", "ug/m3", "ug/m3", "ug/m3", "ug/m3", "L/min", "degC", "%"]
+ES405_UNITS += ["hpa", "code", "binary"]
+
+
+def es642_named_rows(day: str, pm: list[float]) -> list[list]:
+    """Rows of ``ES642_NAMED``: one a minute from ``day``, PM2.5 as given."""
+    times = pd.date_range(day, periods=len(pm), freq="1min")
+    return [
+        [t.strftime("%Y-%m-%dT%H:%M:%S"), v, 1.9, 20.5, 31.0, 850.0, 0, 0]
+        for t, v in zip(times, pm, strict=True)
+    ]
+
+
+class TestES405UnderES642Names:
+    """
+    The ES405 reads horel's ES642-named columns as its own inside a window.
+
+    Horel's qaqc and final files name BUS01's and BUS02's ES405 values for the
+    ES642 for a few months after each swap. The catalog's ``es642_column_dates``
+    says when, and the ES405 reads those columns only inside that window.
+    """
+
+    @pytest.fixture
+    def archive(self, tmp_path):
+        """BUS01 2026-03 and 2026-04 and BUS02 2025-04 and 2025-12 qaqc files."""
+        ebus = tmp_path / "csv_finalized_ebus"
+        write_csv_gz(
+            ebus / "BUS01_2026_03.csv.gz",
+            ES642_NAMED,
+            ES642_UNITS,
+            es642_named_rows("2026-03-02 20:21", [4.0, 5.0, 6.0]),
+        )
+        april = [
+            ["2026-04-01T00:23:00", 1.0, 2.0, 3.0, 4.0, 1.9, 20.5, 31.0, 850.0, 0, 0],
+            ["2026-04-01T00:24:00", 1.5, 2.5, 3.5, 4.5, 1.9, 20.5, 31.0, 850.0, 0, 0],
+        ]  # fmt: skip
+        write_csv_gz(ebus / "BUS01_2026_04.csv.gz", ES405_NAMED, ES405_UNITS, april)
+        # BUS02's ES405 is installed from 2025-03-13, but its ES642-named files
+        # are the ES642's or empty until 2025-11: not the ES405's
+        write_csv_gz(
+            ebus / "BUS02_2025_04.csv.gz",
+            ES642_NAMED,
+            ES642_UNITS,
+            es642_named_rows("2025-04-02 00:00", [7.0, 8.0]),
+        )
+        write_csv_gz(
+            ebus / "BUS02_2025_12.csv.gz",
+            ES642_NAMED,
+            ES642_UNITS,
+            es642_named_rows("2025-12-02 17:22", [9.0, 10.0]),
+        )
+        # BUS03 has no window: its ES642-named file is never the ES405's
+        write_csv_gz(
+            ebus / "BUS03_2025_02.csv.gz",
+            ES642_NAMED,
+            ES642_UNITS,
+            es642_named_rows("2025-02-02 00:00", [11.0]),
+        )
+        dirs = {"qaqc": [str(tmp_path)], "final": [str(tmp_path)]}
+        with patch.dict(horel.lvl_data_dirs, dirs):
+            yield tmp_path
+
+    @staticmethod
+    def read(SID: str, lvl: str, time_range):
+        es405 = get_site(SID).instruments["metone_es405"]
+        return es405.read_data("horel", lvl, time_range)
+
+    @pytest.mark.parametrize("lvl", ["qaqc", "final"])
+    def test_bus01_reads_the_es642_names_as_its_own(self, archive, lvl):
+        data = self.read("BUS01", lvl, "2026-03")
+        assert data["PM2.5_ugm3"].tolist() == [4.0, 5.0, 6.0]
+        assert data.index[0] == pd.Timestamp("2026-03-02 20:21")
+        assert not any(c.startswith("ES642_") for c in data.columns)
+
+    def test_qaqc_has_every_column_of_the_es405(self, archive):
+        data = self.read("BUS01", "qaqc", "2026-03")
+        assert data["Flow_Lpm"].tolist() == [1.9] * 3
+        assert data["Internal_T_C"].tolist() == [20.5] * 3
+        assert data["Internal_RH_pct"].tolist() == [31.0] * 3
+        assert data["Internal_P_hPa"].tolist() == [850.0] * 3
+        assert data["QAQC_Flag"].tolist() == [0] * 3
+        assert "PM1_ugm3" not in data.columns  # the ES642's files hold no PM1
+
+    @pytest.mark.parametrize("lvl", ["qaqc", "final"])
+    def test_es405_names_are_read_as_before(self, archive, lvl):
+        data = self.read("BUS01", lvl, "2026-04")
+        assert data["PM2.5_ugm3"].tolist() == [2.0, 2.5]
+        assert data["PM1_ugm3"].tolist() == [1.0, 1.5]
+
+    @pytest.mark.parametrize("lvl", ["qaqc", "final"])
+    def test_a_read_across_the_stop_has_one_column_each(self, archive, lvl):
+        """March (ES642 names) and April (ES405 names) in one read."""
+        data = self.read("BUS01", lvl, ["2026-03-01", "2026-04-02"])
+        assert data.columns.is_unique
+        assert data["PM2.5_ugm3"].tolist() == [4.0, 5.0, 6.0, 2.0, 2.5]
+        # PM1 exists only from April on
+        assert data["PM1_ugm3"].isna().tolist() == [True] * 3 + [False] * 2
+
+    @pytest.mark.parametrize("lvl", ["qaqc", "final"])
+    def test_bus02_reads_its_window(self, archive, lvl):
+        data = self.read("BUS02", lvl, "2025-12")
+        assert data["PM2.5_ugm3"].tolist() == [9.0, 10.0]
+
+    @pytest.mark.parametrize(
+        ("SID", "month"), [("BUS02", "2025-04"), ("BUS03", "2025-02")]
+    )
+    @pytest.mark.parametrize("lvl", ["qaqc", "final"])
+    def test_es642_names_outside_the_window_are_not_the_es405s(
+        self, archive, SID, month, lvl
+    ):
+        """BUS02 before 2025-11 and BUS03, which has no window, read no PM2.5."""
+        try:
+            data = self.read(SID, lvl, month)
+        except ReaderError:
+            return  # the final level drops rows with no observation
+        assert "PM2.5_ugm3" not in data.columns or data["PM2.5_ugm3"].isna().all()
+
+    def test_es642_no_longer_reads_the_es405s_months(self, archive):
+        """BUS01's ES642 was removed before the ES405's values began."""
+        es642 = get_site("BUS01").instruments["metone_es642"]
+        with pytest.raises(InactiveInstrumentError):
+            es642.read_data("horel", "qaqc", "2026-03")
+
+    def test_get_obs_finds_pm25(self, archive, monkeypatch):
+        """The case that came back empty: get_obs for BUS01 in 2026-03."""
+        monkeypatch.setattr(horel, "UUTRAX_DIR", str(archive))
+        obs = get_site("BUS01").get_obs(
+            "PM2.5", time_range="2026-03", include_gps=False
+        )
+        assert obs["PM2.5_ugm3"].tolist() == [4.0, 5.0, 6.0]
+
+    def test_window_edges_are_half_open(self):
+        """A file that straddles the window's stop keeps the rows before it."""
+        es405 = get_site("BUS01").instruments["metone_es405"]
+        times = pd.to_datetime(["2026-03-31 23:59", "2026-04-01 00:00"])
+        frame = pd.DataFrame(
+            {"Time_UTC": times, "ES642_PM2.5_Concentration": [1.0, 2.0]}
+        )
+        out = es405.standardize_data("horel", frame)
+        assert out["PM2.5_ugm3"].isna().tolist() == [False, True]
+        # Time as the index, as Instrument.read_data has it
+        out = es405.standardize_data("horel", frame.set_index("Time_UTC"))
+        assert out["PM2.5_ugm3"].isna().tolist() == [False, True]
+
+    def test_standardize_leaves_the_callers_frame_alone(self):
+        es405 = get_site("BUS01").instruments["metone_es405"]
+        frame = pd.DataFrame(
+            {
+                "Time_UTC": pd.to_datetime(["2026-03-02 20:21"]),
+                "ES642_PM2.5_Concentration": [1.0],
+            }
+        )
+        es405.standardize_data("horel", frame)
+        assert list(frame.columns) == ["Time_UTC", "ES642_PM2.5_Concentration"]
+
+    def test_names_stand_for_es405_columns(self):
+        """Each ES642 name read for the ES405 maps to a column the ES405 has."""
+        assert horel.ES405_UNDER_ES642_NAMES
+        for name in horel.ES405_UNDER_ES642_NAMES.values():
+            assert name in horel.column_mapping["metone_es405"]
+
+    def test_only_the_es405_reads_them(self, tmp_path):
+        path = write_csv_gz(
+            tmp_path / "csv_finalized_ebus" / "BUS01_2026_03.csv.gz",
+            ES642_NAMED,
+            ES642_UNITS,
+            es642_named_rows("2026-03-02 20:21", [4.0]),
+        )
+        es405 = horel.HorelCSVFile(path, "metone_es405").parse()
+        es642 = horel.HorelCSVFile(path, "metone_es642").parse()
+        assert "ES642_PM2.5_Concentration" in es405.columns
+        assert "ES642_PM2.5_Concentration" in es642.columns
+        assert "2B_Ozone_Concentration" not in es405.columns

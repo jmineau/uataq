@@ -104,10 +104,13 @@ class Instrument(metaclass=ABCMeta):
         self.loggers = set(loggers.values())
         self.group_dates = self._parse_group_dates(config.get("group_dates"))
 
-    def _parse_group_dates(self, group_dates: dict | None) -> dict[str, TimeRange]:
+    def _parse_group_dates(
+        self, group_dates: dict | None, key: str = "group_dates"
+    ) -> dict[str, TimeRange]:
         """
-        Parse the config's ``group_dates`` into a TimeRange per group.
+        Parse a config key of windows by group into a TimeRange per group.
 
+        The key is ``group_dates``, or ``es642_column_dates`` for the ES405.
         Each entry is ``group: [start, stop]``, a half-open ``[start, stop)``
         window. Either end may be null for unbounded (in practice, the
         instrument's installation or removal). Dates are read as exact
@@ -124,19 +127,17 @@ class Instrument(metaclass=ABCMeta):
         for group, dates in (group_dates or {}).items():
             if group not in self.groups:
                 raise ValueError(
-                    f"group_dates for {self} names '{group}', which does not "
+                    f"{key} for {self} names '{group}', which does not "
                     f"operate it. Operators: {self.groups}."
                 )
             if not isinstance(dates, (list, tuple)) or len(dates) != 2:
                 raise ValueError(
-                    f"group_dates['{group}'] for {self} must be [start, stop], "
-                    f"got {dates!r}."
+                    f"{key}['{group}'] for {self} must be [start, stop], got {dates!r}."
                 )
             start, stop = (pd.to_datetime(d) if d else None for d in dates)
             if start is not None and stop is not None and start >= stop:
                 raise ValueError(
-                    f"group_dates['{group}'] for {self} ends before it starts: "
-                    f"{dates!r}."
+                    f"{key}['{group}'] for {self} ends before it starts: {dates!r}."
                 )
             windows[group] = TimeRange(start=start, stop=stop)
         return windows
@@ -945,10 +946,98 @@ class MetOne_ES405(Instrument, SensorMixin):
     Replaced the ES-642 at several sites. The horel group names both models
     ``esampler`` on disk, so only the configured installation and removal
     dates separate them -- see :meth:`Instrument.clip_to_active`.
+
+    Horel's qaqc and final files of BUS01 and BUS02 name this instrument's
+    values with the ES-642's column names for a few months after the swap. The
+    configuration's ``es642_column_dates`` says when, and the read takes those
+    columns as this instrument's inside that window only.
+
+    Attributes
+    ----------
+    es642_column_dates : dict[str, TimeRange]
+        When each group's files give this instrument's values under the
+        ES-642's column names (config ``es642_column_dates``). A group not
+        listed never does.
     """
 
     model = "metone_es405"
     pollutants = ("PM1", "PM2.5", "PM4", "PM10")
+
+    def __init__(self, SID: str, name: str, loggers: dict, config: dict):
+        """
+        Initialize the ES-405, reading the configuration's ``es642_column_dates``.
+
+        Parameters
+        ----------
+        SID : str
+            Site ID where the instrument is installed.
+        name : str
+            Name of the instrument.
+        loggers : dict
+            Dictionary of loggers used by different research groups.
+        config : dict
+            Configuration settings for the instrument.
+        """
+        super().__init__(SID, name, loggers, config)
+        self.es642_column_dates = self._parse_group_dates(
+            config.get("es642_column_dates"), "es642_column_dates"
+        )
+
+    def standardize_data(self, group: str, data: pd.DataFrame) -> pd.DataFrame:
+        """
+        Standardize the data, taking ES-642 column names as this instrument's.
+
+        Columns named for the ES-642 are this instrument's values inside the
+        group's ``es642_column_dates`` window: there they are renamed to the
+        ES-405 names before the usual standardizing, and outside it they are
+        dropped (they belong to an ES-642 or to no one).
+
+        Parameters
+        ----------
+        group : str
+            The research group whose data to standardize.
+        data : pandas.DataFrame
+            The data to standardize, with the time as the ``Time_UTC`` index or
+            column.
+
+        Returns
+        -------
+        pandas.DataFrame
+            The standardized data.
+        """
+        mislabeled = [c for c in data.columns if str(c).startswith("ES642_")]
+        if not mislabeled:
+            return super().standardize_data(group, data)
+
+        times = pd.DatetimeIndex(
+            data["Time_UTC"] if "Time_UTC" in data.columns else data.index
+        )
+        window = self.es642_column_dates.get(group)
+        if window is None:
+            inside = np.zeros(len(times), dtype=bool)
+        else:
+            start, stop = (None if t is None else pd.Timestamp(t) for t in window)
+            inside = np.ones(len(times), dtype=bool)
+            if start is not None:
+                inside &= np.asarray(times >= start)
+            if stop is not None:
+                inside &= np.asarray(times < stop)
+
+        # The ES405's values under the ES642's names, outside the window gone.
+        # Standardized apart from the rest, which can hold the same quantities
+        # under the ES405's names (or, at the final level, already renamed).
+        own = data[mislabeled].where(
+            np.broadcast_to(inside[:, None], (len(data), len(mislabeled)))
+        )
+        own = own.rename(columns=lambda c: "ES405_" + c.removeprefix("ES642_"))
+        own = super().standardize_data(group, own)
+        data = super().standardize_data(group, data.drop(columns=mislabeled))
+        for column in own.columns:
+            values = own[column].to_numpy()
+            if column in data.columns:
+                values = np.where(data[column].notna(), data[column].to_numpy(), values)
+            data[column] = values
+        return data
 
 
 class MetOne_ES642(Instrument, SensorMixin):

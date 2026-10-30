@@ -71,6 +71,15 @@ Each entry under a site's ``instruments`` accepts:
         ``final``-level read, as :meth:`~uataq.sites.Site.get_obs` makes, has a
         gap between lin's stop and horel's first ``final`` data, as in the example
         above: see :ref:`mobile-raw-only`.
+``es642_column_dates`` (optional)
+    Only for a ``metone_es405``: map of research group to a ``[start, stop]``
+    pair, the half-open window ``[start, stop)`` in which that group's qaqc and
+    final files give the instrument's values under the ``metone_es642``'s column
+    names (``ES642_PM2.5_Concentration`` and so on). Inside the window the
+    ES405 reads those columns as its own; outside it ignores them. Horel's
+    files do this at BUS01 (``["2026-02-01", "2026-04-01"]``) and BUS02
+    (``["2025-11-01", "2026-04-01"]``) for the months after each swap, and use
+    the ES405's own names from April 2026.
 ``model`` (optional)
     The instrument class to use when it differs from the instrument's name.
 ``notes`` (optional)

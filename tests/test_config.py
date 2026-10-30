@@ -41,6 +41,7 @@ LAST_SAMPLES = {
 #: Instruments replaced at the same site by one measuring the same thing:
 #: (site, removed, replacement). The two must not be active at once.
 SWAPS = [
+    ("BUS01", "metone_es642", "metone_es405"),
     ("BUS02", "metone_es642", "metone_es405"),
     ("BUS03", "metone_es642", "metone_es405"),
     ("TRX01", "metone_es642", "metone_es405"),
@@ -111,9 +112,11 @@ def test_swapped_instruments_do_not_overlap(SID, removed, replacement):
 
 
 #: The MetOne swaps, from horel's raw files: the ES642's last sample (in the
-#: month's ``esampler.h5_prior405upgrade``) and the ES405's first row (in the
-#: month's plain ``esampler.h5``)
+#: month's ``esampler.h5_prior405upgrade``, except BUS01's, whose swap fell in
+#: a gap with no file) and the ES405's first row (in the month's plain
+#: ``esampler.h5``)
 METONE_SWAPS = {
+    "BUS01": ("2025-10-09 02:17:10", "2026-02-17 21:28:00"),
     "BUS02": ("2025-03-13 00:37:10", "2025-03-13 02:38:00"),
     "BUS03": ("2024-12-05 05:47:35", "2024-12-05 06:09:00"),
     "TRX01": ("2025-01-06 18:10:28", "2025-01-06 19:30:00"),
@@ -139,3 +142,29 @@ def test_every_removal_after_installation():
             start, stop = inst.active_range
             if stop is not None:
                 assert start < stop, inst
+
+
+#: The ES405s whose horel qaqc and final files carry their values under the
+#: ES642's column names, with the first month of such files and the first month
+#: with the ES405's own names
+ES642_COLUMN_DATES = {
+    "BUS01": ("2026-02-01", "2026-04-01"),
+    "BUS02": ("2025-11-01", "2026-04-01"),
+}
+
+
+@pytest.mark.parametrize("SID", sorted(ES642_COLUMN_DATES))
+def test_es405_says_when_its_values_carry_es642_names(SID):
+    start, stop = (pd.Timestamp(t) for t in ES642_COLUMN_DATES[SID])
+    es405 = instrument(SID, "metone_es405")
+    assert list(es405.es642_column_dates) == ["horel"]
+    assert tuple(es405.es642_column_dates["horel"]) == (start, stop)
+    # The ES405 owns rows inside the window, or it would read nothing there
+    assert es405.active_range.start < stop
+
+
+def test_only_these_es405s_have_es642_column_dates():
+    for SID in uataq.laboratory.sites:
+        for inst in uataq.get_site(SID).instruments:
+            if inst.model == "metone_es405" and SID not in ES642_COLUMN_DATES:
+                assert inst.es642_column_dates == {}
