@@ -133,13 +133,13 @@ class Network:
     Attributes
     ----------
     sites : list[str]
-        The site IDs given, in upper case and without repeats, including any that
-        is misspelled or does not measure the pollutant. ``site_objects`` holds the
-        ones that were kept.
+        The IDs of the sites the network kept, in the order given: a site that
+        is misspelled or does not measure the pollutant is not in the list.
+        A site named twice is listed once.
     pollutant : str
         The pollutant to retrieve data for (uppercase).
     site_objects : list[sites.Site]
-        List of Site or MobileSite objects that measure the specified pollutant.
+        The Site or MobileSite object of each site in ``sites``.
     group : str | Mapping[str, str] | None
         The research group to read data from, or None to select each
         instrument's group automatically.
@@ -156,7 +156,7 @@ class Network:
 
     def __init__(
         self,
-        sites: list[str] | tuple[str, ...] | Literal["all"],
+        sites: str | list[str] | tuple[str, ...],
         pollutant: str,
         group: GroupSelection = None,
     ):
@@ -165,9 +165,11 @@ class Network:
 
         Parameters
         ----------
-        sites : list[str] | tuple[str, ...] | 'all'
+        sites : str | list[str] | tuple[str, ...]
             List of site identifiers to include in the network, or 'all' for
             every configured site (those not measuring the pollutant drop out).
+            A single site ID as a string, such as ``"WBB"``, is a network of
+            that one site, the same as ``["WBB"]``.
         pollutant : str
             The pollutant to measure. Will be converted to uppercase.
             Examples: 'CO2', 'O3', 'NO2', 'PM2.5', 'BC'
@@ -189,14 +191,17 @@ class Network:
             raise ValueError("sites cannot be empty.")
         if sites == "all":
             sites = _laboratory.laboratory.sites
+        elif isinstance(sites, str):  # one site ID, not a sequence of letters
+            sites = [sites]
 
         # Upper-case, then drop repeats ("WBB" and "wbb" name one site) and keep the order
-        self.sites = list(dict.fromkeys(s.upper() for s in sites))
+        given = list(dict.fromkeys(s.upper() for s in sites))
         self.pollutant = pollutant.upper()
         self.group = group
 
-        # Validate and filter sites
-        self.site_objects = self._validate_sites()
+        # Keep the sites that exist and measure the pollutant
+        self.site_objects = self._validate_sites(given)
+        self.sites = [site.SID for site in self.site_objects]
 
         if not self.site_objects:
             # Point to the sites in the configuration that do measure it
@@ -210,11 +215,11 @@ class Network:
             else:
                 where = "No site in the configuration measures it."
             # Name the sites given, unless there are too many to read (sites="all")
-            if len(self.sites) <= 10:
-                given = f"sites given ({', '.join(self.sites)})"
+            if len(given) <= 10:
+                names = f"sites given ({', '.join(given)})"
             else:
-                given = f"{len(self.sites)} sites given"
-            raise ValueError(f"None of the {given} measure {self.pollutant}. {where}")
+                names = f"{len(given)} sites given"
+            raise ValueError(f"None of the {names} measure {self.pollutant}. {where}")
 
         _logger.info(
             f"Network initialized for {self.pollutant} at {len(self.site_objects)} sites: "
@@ -229,9 +234,14 @@ class Network:
         site_ids = [site.SID for site in self.site_objects]
         return f"Network: {self.pollutant} at {site_ids}"
 
-    def _validate_sites(self) -> list[sites.Site]:
+    def _validate_sites(self, given: list[str]) -> list[sites.Site]:
         """
         Validate that all sites exist and measure the requested pollutant.
+
+        Parameters
+        ----------
+        given : list[str]
+            The site IDs given, in upper case and without repeats.
 
         Returns
         -------
@@ -246,7 +256,7 @@ class Network:
         """
         valid_sites = []
 
-        for sid in self.sites:
+        for sid in given:
             try:
                 site = _laboratory.get_site(sid)
             except ValueError as e:
@@ -381,7 +391,7 @@ class Network:
         self,
         time_range: TimeRange | TimeRangeTypes | None = None,
         freq: str = "D",
-        lvls: list[str] | None = None,
+        lvls: str | list[str] | None = None,
         num_processes: int | Literal["max"] = 1,
     ) -> pd.DataFrame:
         """
@@ -402,9 +412,10 @@ class Network:
         freq : str, optional
             The size of a time bin, as a pandas period alias: 'h', 'D', 'W',
             'M', ... Default is 'D'.
-        lvls : list[str], optional
-            The data levels to check. Default is None, every level in
-            :data:`uataq.filesystem.lvls`. Checking fewer is faster.
+        lvls : str | list[str], optional
+            The data levels to check; one level may be given as a string.
+            Default is None, every level in :data:`uataq.filesystem.lvls`.
+            Checking fewer is faster.
         num_processes : int | 'max', optional
             Number of processes used to parse files. Default is 1. A whole
             network is thousands of files; use a compute node.
@@ -422,6 +433,8 @@ class Network:
         an instrument is checked (TRX01 ozone, for instance, is in both the
         lin and horel archives), not only the one ``get_obs`` would read.
         """
+        if isinstance(lvls, str):  # one level, not a sequence of letters
+            lvls = [lvls]
         lvls = lvls or list(filesystem.lvls)
         if invalid := set(lvls) - set(filesystem.lvls):
             raise ValueError(

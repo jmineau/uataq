@@ -217,7 +217,7 @@ def get_recent_obs(
 
 
 def get_network_obs(
-    sites: list[str] | tuple[str, ...],
+    sites: str | list[str] | tuple[str, ...],
     pollutant: str,
     time_range: TimeRange | TimeRangeTypes = None,
     group: instruments.GroupSelection = None,
@@ -231,8 +231,11 @@ def get_network_obs(
 
     Parameters
     ----------
-    sites : list[str] | tuple[str, ...]
-        List of site identifiers to include in the network.
+    sites : str | list[str] | tuple[str, ...]
+        List of site identifiers to include in the network, or ``'all'`` for
+        every configured site (those not measuring the pollutant drop out).
+        A single site ID as a string, such as ``"TRX01"``, is a network of
+        that one site, the same as ``["TRX01"]``.
     pollutant : str
         The pollutant to retrieve observations for (e.g., 'CO2', 'O3', 'NO2').
     time_range : TimeRange | TimeRangeTypes, optional

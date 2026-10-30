@@ -45,6 +45,55 @@ class TestNetworkInitialization:
         assert net.sites == ["WBB", "SUG"]
         assert [site.SID for site in net.site_objects] == ["WBB", "SUG"]
 
+    def test_sites_holds_only_the_sites_kept(self):
+        """A misspelled site and a site that does not measure the pollutant are not in sites."""
+        assert "O3" not in get_site("CSP").pollutants  # CSP measures CO2 and CH4
+        net = Network(sites=["WBB", "WBBB", "CSP", "sug"], pollutant="O3")
+        assert net.sites == ["WBB"]
+        assert net.sites == [site.SID for site in net.site_objects]
+
+        net = Network(sites=["WBB", "WBBB", "CSP", "sug"], pollutant="CO2")
+        assert net.sites == ["WBB", "CSP", "SUG"]  # the order given
+
+    def test_sites_of_all_measure_the_pollutant(self):
+        """Looping over sites after Network("all", ...) reaches only sites with the pollutant."""
+        net = Network(sites="all", pollutant="CO2")
+        assert 0 < len(net.sites) < len(laboratory.sites)
+        assert all("CO2" in get_site(sid).pollutants for sid in net.sites)
+        assert net.sites == [site.SID for site in net.site_objects]
+
+    @pytest.mark.parametrize("given", ["WBB", "wbb", "Wbb"])
+    def test_one_site_id_as_a_string_is_one_site(self, given):
+        """A string is one site ID, not a sequence of letters (#173)."""
+        net = Network(sites=given, pollutant="CO2")
+        assert net.sites == ["WBB"]
+        assert [site.SID for site in net.site_objects] == ["WBB"]
+        assert repr(net) == repr(Network(sites=["WBB"], pollutant="CO2"))
+
+    def test_one_site_id_with_digits_as_a_string(self):
+        """TRX01 is not T, R, X, 0 and 1 (#173)."""
+        assert Network(sites="trx01", pollutant="CO2").sites == ["TRX01"]
+
+    def test_a_list_and_a_tuple_of_sites(self):
+        assert Network(sites=["WBB", "sug"], pollutant="CO2").sites == ["WBB", "SUG"]
+        assert Network(sites=("WBB", "sug"), pollutant="CO2").sites == ["WBB", "SUG"]
+
+    def test_the_string_all_is_every_site_not_a_site_id(self):
+        net = Network(sites="all", pollutant="CO2")
+        assert len(net.sites) > 1
+
+    def test_an_unknown_site_string_is_named_whole(self):
+        """The error names the string given, not its letters (#173)."""
+        with pytest.raises(ValueError) as caught:
+            Network(sites="WBBB", pollutant="CO2")
+        assert str(caught.value).startswith(
+            "None of the sites given (WBBB) measure CO2. Sites that measure it: "
+        )
+
+    def test_an_empty_string_is_no_sites(self):
+        with pytest.raises(ValueError, match="sites cannot be empty"):
+            Network(sites="", pollutant="CO2")
+
     def test_network_empty_sites_list(self):
         """Test that empty sites list raises ValueError."""
         with pytest.raises(ValueError, match="sites cannot be empty"):
@@ -503,6 +552,32 @@ class TestAvailabilityGroups:
 
     def test_only_the_named_group(self, monkeypatch):
         assert self.groups_checked(monkeypatch, group="horel") == {"horel"}
+
+
+class TestAvailabilityLevels:
+    """The levels get_availability checks."""
+
+    def levels_checked(self, monkeypatch, lvls) -> set[str]:
+        calls = []
+
+        def get_datafiles(self, group, lvl, time_range, pattern=None):
+            calls.append(lvl)
+            return []
+
+        monkeypatch.setattr(instruments.Instrument, "get_datafiles", get_datafiles)
+        Network(["WBB"], "CO2").get_availability(
+            ["2024-06-01", "2024-06-02"], lvls=lvls
+        )
+        return set(calls)
+
+    def test_a_level_as_a_string_is_one_level(self, monkeypatch):
+        """A string is one level, not a sequence of letters (#173)."""
+        assert self.levels_checked(monkeypatch, "final") == {"final"}
+        assert self.levels_checked(monkeypatch, ["final"]) == {"final"}
+
+    def test_an_unknown_level_string_is_named_whole(self):
+        with pytest.raises(ValueError, match=r"Invalid level\(s\) \{'finl'\}"):
+            Network(["WBB"], "CO2").get_availability(lvls="finl")
 
 
 def test_coverage_drops_rows_stamped_in_the_future(caplog):

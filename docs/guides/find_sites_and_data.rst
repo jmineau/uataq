@@ -69,7 +69,9 @@ Pollutant names are upper case (``NOx`` is ``'NOX'`` here), but you can type
 them in any case when you read data. To go the other way and find the sites that
 measure a pollutant, make a :class:`Network`. A ``Network`` is a list of sites
 and one pollutant, and it is how uataq asks a question across sites; ``"all"``
-is every site that measures the pollutant:
+is every site that measures the pollutant, and one site ID given as a string,
+``Network("WBB", "CO2")``, is the network of that site, the same as
+``Network(["WBB"], "CO2")``:
 
 .. ipython:: python
 
@@ -80,6 +82,8 @@ Utah campus) and LDF (the Salt Lake Valley landfill) are in the valley, HDP
 (Hidden Peak) is in the Wasatch Mountains above it, CSP, FRU, HPL and ROO are in
 the Uintah Basin, and TRX01 is a TRAX train. The site tables on
 :doc:`/reference/sites_and_instruments` give each site's name and position.
+The network's ``sites`` attribute lists the same sites by ID, so a loop over
+``net.sites`` reaches only sites that measure the pollutant.
 
 An instrument's window, its ``active_range``, says when it was installed, not
 when it recorded data. That is why ``PM2.5`` is in WBB's list although both of
