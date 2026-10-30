@@ -139,3 +139,13 @@ def test_every_removal_after_installation():
             start, stop = inst.active_range
             if stop is not None:
                 assert start < stop, inst
+
+
+def test_trx01_es642_installed_on_the_day_of_the_site_note():
+    """The field team's entry is typed 2015/12/5 but belongs to 2014 (#157)."""
+    start = instrument("TRX01", "metone_es642").active_range.start
+    assert start == pd.Timestamp("2014-12-05")
+    # TRX02's ES642 is the one installed on 2016-02-04
+    assert instrument("TRX02", "metone_es642").active_range.start == pd.Timestamp(
+        "2016-02-04"
+    )

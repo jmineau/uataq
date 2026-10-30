@@ -18,7 +18,7 @@ import pytest
 import tables
 
 from uataq import get_site
-from uataq.errors import ReaderError
+from uataq.errors import InactiveInstrumentError, ReaderError
 from uataq.filesystem import core
 from uataq.filesystem.groupspaces import horel
 from uataq.timerange import TimeRange
@@ -678,3 +678,43 @@ class TestParseOnce:
         parallel = self.read("final", time_range=time_range, num_processes=2)
         for name in self.INSTRUMENTS:
             pd.testing.assert_frame_equal(parallel[name], serial[name])
+
+
+class TestTRX01PilotPM:
+    """
+    TRX01's pilot ES642 rows are readable from its installation day.
+
+    It was installed on 2014-12-05, so the pilot-archive rows from then on are
+    readable and the bench rows before it are not.
+    """
+
+    @pytest.fixture
+    def archive(self, tmp_path, monkeypatch):
+        pilot = tmp_path / "uutrax_pilot"
+        pm = {"PM25": [3.0, 4.0], "FLOW": [2.0, 2.0], "ITMP": [60.0, 60.0]}
+        write_h5(
+            pilot / "esampler" / "TRX01_2014_11_esampler.h5",
+            {"EPOCHTIME": epoch("2014-11-05 19:50", "2014-11-26 18:53"), **pm},
+        )
+        write_h5(
+            pilot / "esampler" / "TRX01_2014_12_esampler.h5",
+            {"EPOCHTIME": epoch("2014-12-05 18:58", "2014-12-06 00:31"), **pm},
+        )
+        monkeypatch.setattr(horel, "UUTRAX_PILOT_DIR", str(pilot))
+        with patch.dict(horel.lvl_data_dirs, {"raw": [str(pilot)]}):
+            yield
+
+    def test_rows_from_the_installation_day_are_read(self, archive):
+        es642 = get_site("TRX01").instruments["metone_es642"]
+        data = es642.read_data("horel", "raw", ("2014-12-01", "2015-01-01"))
+        assert data.index.tolist() == [
+            pd.Timestamp("2014-12-05 18:58"),
+            pd.Timestamp("2014-12-06 00:31"),
+        ]
+
+    def test_bench_rows_before_it_are_not(self, archive):
+        es642 = get_site("TRX01").instruments["metone_es642"]
+        with pytest.raises(InactiveInstrumentError):
+            es642.read_data("horel", "raw", ("2014-11-01", pd.Timestamp("2014-12-05")))
+        data = es642.read_data("horel", "raw", ("2014-11-01", "2015-01-01"))
+        assert data.index.min() == pd.Timestamp("2014-12-05 18:58")
