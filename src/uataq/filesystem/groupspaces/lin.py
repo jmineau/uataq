@@ -533,6 +533,11 @@ class LGR_UGGA_File(filesystem.DataFile):
         (re.compile(r"^gga_(\d{4}-\d{2}-\d{2})_"), "%Y-%m-%d"),
     )
 
+    #: The day the analyzers' clocks were switched from Mountain time to UTC,
+    #: as ``(start, stop)``. Raw times before it are Mountain time, and the
+    #: rows of the day itself are dropped (see ``parse``).
+    utc_clock_switch = (pd.Timestamp("2015-12-29"), pd.Timestamp("2015-12-30"))
+
     def __init__(self, path: str):
         self.path = path
         self.meta = self.get_meta(path)
@@ -696,6 +701,10 @@ class LGR_UGGA_File(filesystem.DataFile):
         """
         Parse files transferred directly from LGR software.
 
+        Times before :attr:`utc_clock_switch` are Mountain time in the file
+        and are converted to UTC; the rows of the day of the switch are
+        dropped, as the pipeline drops them.
+
         Returns
         -------
         pd.DataFrame
@@ -775,6 +784,39 @@ class LGR_UGGA_File(filesystem.DataFile):
             data.Time_UTC.str.strip(), format="%m/%d/%Y %H:%M:%S.%f", errors="coerce"
         )
 
+        return self._mountain_time_to_utc(data)
+
+    @classmethod
+    def _mountain_time_to_utc(cls, data: pd.DataFrame) -> pd.DataFrame:
+        """
+        Give the rows logged in Mountain time their UTC time, as the pipeline does.
+
+        The analyzers' clocks ran on Mountain time (America/Denver, with
+        daylight saving) until they were switched to UTC on 29 December 2015.
+        As in the pipeline's ``lgr_ugga_init.r``, a time before that day is
+        converted to UTC and the rows of that day, whose times have no single
+        offset, are dropped. Both passes through the hour that repeats when
+        daylight saving ends are taken as daylight time, where the pipeline
+        puts them; a time in the hour daylight saving skips (no file has one)
+        is taken as standard time, as the pipeline's R does. Each row's own
+        time decides, as in the pipeline, not the file's name. A file with no
+        row before the end of the switch day is returned unchanged.
+        """
+        start, stop = cls.utc_clock_switch
+        times = data["Time_UTC"]
+        if not (times < stop).any():
+            return data
+
+        data = data[~((times >= start) & (times < stop))].copy()
+        local = data["Time_UTC"] < start
+        data.loc[local, "Time_UTC"] = (
+            data.loc[local, "Time_UTC"]
+            .dt.tz_localize(
+                "America/Denver", ambiguous=True, nonexistent=pd.Timedelta(hours=1)
+            )
+            .dt.tz_convert("UTC")
+            .dt.tz_localize(None)
+        )
         return data
 
 

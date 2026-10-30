@@ -61,7 +61,12 @@ For the CO2 and CH4 analyzers (the ``lgr_ugga``, ``licor_6262`` and
        ``ID_CH4``), and ``QAQC_Flag``. Not calibrated.
    * - ``raw``
      - The analyzer's columns as they were logged, with ``ID`` but without
-       ``ID_CO2``, ``ID_CH4`` or ``QAQC_Flag``.
+       ``ID_CO2``, ``ID_CH4`` or ``QAQC_Flag``. The ``lgr_ugga`` clocks ran on
+       Mountain time until 29 December 2015, when they were switched to UTC:
+       uataq converts the times logged before that day to UTC and leaves out
+       the rows of the day itself, as the pipeline does for ``qaqc``. Both
+       passes through the hour that repeats when daylight saving ends
+       (1 to 2 a.m.) are taken as daylight time, as in the pipeline.
 
 .. _which-level:
 
