@@ -69,7 +69,9 @@ Pollutant names are upper case (``NOx`` is ``'NOX'`` here), but you can type
 them in any case when you read data. To go the other way and find the sites that
 measure a pollutant, make a :class:`Network`. A ``Network`` is a list of sites
 and one pollutant, and it is how uataq asks a question across sites; ``"all"``
-is every site that measures the pollutant:
+is every site that measures the pollutant, and one site ID given as a string,
+``Network("WBB", "CO2")``, is the network of that site, the same as
+``Network(["WBB"], "CO2")``:
 
 .. ipython:: python
 

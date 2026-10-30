@@ -156,7 +156,7 @@ class Network:
 
     def __init__(
         self,
-        sites: list[str] | tuple[str, ...] | Literal["all"],
+        sites: str | list[str] | tuple[str, ...],
         pollutant: str,
         group: GroupSelection = None,
     ):
@@ -165,9 +165,11 @@ class Network:
 
         Parameters
         ----------
-        sites : list[str] | tuple[str, ...] | 'all'
+        sites : str | list[str] | tuple[str, ...]
             List of site identifiers to include in the network, or 'all' for
             every configured site (those not measuring the pollutant drop out).
+            A single site ID as a string, such as ``"WBB"``, is a network of
+            that one site, the same as ``["WBB"]``.
         pollutant : str
             The pollutant to measure. Will be converted to uppercase.
             Examples: 'CO2', 'O3', 'NO2', 'PM2.5', 'BC'
@@ -189,6 +191,8 @@ class Network:
             raise ValueError("sites cannot be empty.")
         if sites == "all":
             sites = _laboratory.laboratory.sites
+        elif isinstance(sites, str):  # one site ID, not a sequence of letters
+            sites = [sites]
 
         # Upper-case, then drop repeats ("WBB" and "wbb" name one site) and keep the order
         given = list(dict.fromkeys(s.upper() for s in sites))

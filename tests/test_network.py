@@ -62,6 +62,38 @@ class TestNetworkInitialization:
         assert all("CO2" in get_site(sid).pollutants for sid in net.sites)
         assert net.sites == [site.SID for site in net.site_objects]
 
+    @pytest.mark.parametrize("given", ["WBB", "wbb", "Wbb"])
+    def test_one_site_id_as_a_string_is_one_site(self, given):
+        """A string is one site ID, not a sequence of letters (#173)."""
+        net = Network(sites=given, pollutant="CO2")
+        assert net.sites == ["WBB"]
+        assert [site.SID for site in net.site_objects] == ["WBB"]
+        assert repr(net) == repr(Network(sites=["WBB"], pollutant="CO2"))
+
+    def test_one_site_id_with_digits_as_a_string(self):
+        """TRX01 is not T, R, X, 0 and 1 (#173)."""
+        assert Network(sites="trx01", pollutant="CO2").sites == ["TRX01"]
+
+    def test_a_list_and_a_tuple_of_sites(self):
+        assert Network(sites=["WBB", "sug"], pollutant="CO2").sites == ["WBB", "SUG"]
+        assert Network(sites=("WBB", "sug"), pollutant="CO2").sites == ["WBB", "SUG"]
+
+    def test_the_string_all_is_every_site_not_a_site_id(self):
+        net = Network(sites="all", pollutant="CO2")
+        assert len(net.sites) > 1
+
+    def test_an_unknown_site_string_is_named_whole(self):
+        """The error names the string given, not its letters (#173)."""
+        with pytest.raises(ValueError) as caught:
+            Network(sites="WBBB", pollutant="CO2")
+        assert str(caught.value).startswith(
+            "None of the sites given (WBBB) measure CO2. Sites that measure it: "
+        )
+
+    def test_an_empty_string_is_no_sites(self):
+        with pytest.raises(ValueError, match="sites cannot be empty"):
+            Network(sites="", pollutant="CO2")
+
     def test_network_empty_sites_list(self):
         """Test that empty sites list raises ValueError."""
         with pytest.raises(ValueError, match="sites cannot be empty"):
