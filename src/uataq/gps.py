@@ -151,7 +151,7 @@ def estimate_speed_course(
     max_gap : str or pandas.Timedelta, optional
         Longest interval between *consecutive* samples that may fall inside
         the difference. Where a larger gap is spanned the estimate is NaN,
-        because a straight chord across a gap is not the path travelled.
+        because a straight chord across a gap is not the path traveled.
         ``None`` disables the check.
 
     Returns
