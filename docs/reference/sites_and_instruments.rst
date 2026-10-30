@@ -127,6 +127,8 @@ Glossary
         tank and manually calibrated with lgr software periodically." It has
         ``"model": "lgr_ugga"``, so it is read like any ``lgr_ugga``, from a
         folder of its own in the lin archive. For what its ``_cal`` and
-        ``_raw`` columns hold, see :ref:`when-cal-is-empty`. The
-        configuration also lists TRX01's ``lgr_ugga`` with no removal date; to
-        see which of the two has data in a period, use :doc:`/guides/find_sites_and_data`.
+        ``_raw`` columns hold, see :ref:`when-cal-is-empty`. TRX01's
+        ``lgr_ugga`` is installed until 2024-08-28, so both are installed
+        from 2023-11-18 to then. :doc:`/guides/mobile_sites` says in which
+        months each has data, and :doc:`/guides/find_sites_and_data` shows
+        which has data in any period.
