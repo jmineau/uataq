@@ -538,6 +538,10 @@ class LGR_UGGA_File(filesystem.DataFile):
     #: rows of the day itself are dropped (see ``parse``).
     utc_clock_switch = (pd.Timestamp("2015-12-29"), pd.Timestamp("2015-12-30"))
 
+    #: The most the conversion moves a time later, that of Mountain standard
+    #: time (UTC-7).
+    max_utc_shift = pd.Timedelta(hours=7)
+
     def __init__(self, path: str):
         self.path = path
         self.meta = self.get_meta(path)
@@ -1043,7 +1047,11 @@ class LinGroup(filesystem.GroupSpace):
         ``lgr_ugga`` file names do not line up with their contents, so the
         range is widened by a day on each side, only the day folders that
         overlap it are listed, and only the files whose name falls in it have
-        their header read. GPS defaults to the ``gpgga`` sentence files.
+        their header read. A range that starts before the end of
+        :attr:`LGR_UGGA_File.utc_clock_switch` starts earlier still, by
+        :attr:`LGR_UGGA_File.max_utc_shift`: converted to UTC, a file of
+        Mountain times can hold rows of the day after the next. GPS defaults
+        to the ``gpgga`` sentence files.
         """
         # Custom handling for raw Lin files
         if lvl == "raw":
@@ -1059,7 +1067,14 @@ class LinGroup(filesystem.GroupSpace):
                 # Add a day on either side to ensure we get all the data
                 # Construct new TimeRange to avoid modifing original range
                 one_day = pd.Timedelta(days=1)
-                start = time_range.start - one_day if time_range.start else None
+                start_pad = one_day
+                switch_end = LGR_UGGA_File.utc_clock_switch[1]
+                if time_range.start and time_range.start < switch_end:
+                    # A file named for a day can run to 24 h after its start
+                    # late that evening, and its Mountain times move up to 7 h
+                    # later: so it can reach into the day after the next.
+                    start_pad += LGR_UGGA_File.max_utc_shift
+                start = time_range.start - start_pad if time_range.start else None
                 stop = time_range.stop + one_day if time_range.stop else None
                 time_range = TimeRange(start=start, stop=stop)
                 try:
