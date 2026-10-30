@@ -8,14 +8,6 @@ release (`just changelog` drafts them).
 
 ## [Unreleased]
 
-### Changed
-
-- **`Network.sites` holds only the sites the network kept** (breaking): it
-  listed every name given, including a misspelled one and any site that does not
-  measure the pollutant (36 for `Network("all", "CO2")`, of which 19 measure it),
-  so a loop over it reached sites with no data. It is now the ID of each entry
-  of `site_objects`, in the order given.
-
 ## [2026.10.2] - 2026-10-29
 
 ### Added
