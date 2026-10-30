@@ -275,11 +275,11 @@ first raw row.
 For some months after the swaps at BUS01 and BUS02, horel's qaqc and final files
 name the ES405's values with the ES642's column names (``ES642_PM2.5_Concentration``).
 The ES405's ``es642_column_dates`` in ``config.json`` says when
-(:doc:`/reference/config`): inside that window
-:meth:`uataq.instruments.MetOne_ES405.standardize_data` renames those columns to
-the ES405's, and outside it drops them, so the ES642-named columns of a file
-before the window (BUS02, March to May 2025, which are empty) are not read as
-the ES405's.
+(:doc:`/reference/config`): a file read for the ES405 takes those columns as its
+own for rows inside that window, and drops them outside it, so the ES642-named
+columns of BUS02's files from March to May 2025, which come before the window,
+are not read as the ES405's. ``MetOne_ES405.get_datafiles`` hands the window to
+the files.
 
 The pilot archive (``uutrax_pilot``) and the main one (``uutrax``) both have a raw
 file for November 2018, the month TRX01's and TRX02's pilot phase ended. The pilot

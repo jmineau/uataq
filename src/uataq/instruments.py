@@ -949,7 +949,7 @@ class MetOne_ES405(Instrument, SensorMixin):
 
     Horel's qaqc and final files of BUS01 and BUS02 name this instrument's
     values with the ES-642's column names for a few months after the swap. The
-    configuration's ``es642_column_dates`` says when, and the read takes those
+    configuration's ``es642_column_dates`` says when, and the files take those
     columns as this instrument's inside that window only.
 
     Attributes
@@ -983,61 +983,42 @@ class MetOne_ES405(Instrument, SensorMixin):
             config.get("es642_column_dates"), "es642_column_dates"
         )
 
-    def standardize_data(self, group: str, data: pd.DataFrame) -> pd.DataFrame:
+    def get_datafiles(
+        self,
+        group: str,
+        lvl: str,
+        time_range: TimeRange | TimeRangeTypes,
+        pattern: str | None = None,
+    ) -> list[filesystem.DataFile]:
         """
-        Standardize the data, taking ES-642 column names as this instrument's.
+        Get data files for the given level and time range from the groupspace.
 
-        Columns named for the ES-642 are this instrument's values inside the
-        group's ``es642_column_dates`` window: there they are renamed to the
-        ES-405 names before the usual standardizing, and outside it they are
-        dropped (they belong to an ES-642 or to no one).
+        As :meth:`Instrument.get_datafiles`, and each file is told the group's
+        ``es642_column_dates``, so that it takes its ES-642-named columns as
+        this instrument's inside that window and ignores them outside it.
 
         Parameters
         ----------
         group : str
-            The research group whose data to standardize.
-        data : pandas.DataFrame
-            The data to standardize, with the time as the ``Time_UTC`` index or
-            column.
+            The research group whose data to retrieve.
+        lvl : str
+            The level of the data to retrieve.
+        time_range : TimeRange | TimeRangeTypes
+            The time range of the data to retrieve.
+        pattern : str
+            A string pattern to filter the file paths.
 
         Returns
         -------
-        pandas.DataFrame
-            The standardized data.
+        list[DataFile]
+            A list of data files.
         """
-        mislabeled = [c for c in data.columns if str(c).startswith("ES642_")]
-        if not mislabeled:
-            return super().standardize_data(group, data)
-
-        times = pd.DatetimeIndex(
-            data["Time_UTC"] if "Time_UTC" in data.columns else data.index
-        )
+        datafiles = super().get_datafiles(group, lvl, time_range, pattern)
         window = self.es642_column_dates.get(group)
-        if window is None:
-            inside = np.zeros(len(times), dtype=bool)
-        else:
-            start, stop = (None if t is None else pd.Timestamp(t) for t in window)
-            inside = np.ones(len(times), dtype=bool)
-            if start is not None:
-                inside &= np.asarray(times >= start)
-            if stop is not None:
-                inside &= np.asarray(times < stop)
-
-        # The ES405's values under the ES642's names, outside the window gone.
-        # Standardized apart from the rest, which can hold the same quantities
-        # under the ES405's names (or, at the final level, already renamed).
-        own = data[mislabeled].where(
-            np.broadcast_to(inside[:, None], (len(data), len(mislabeled)))
-        )
-        own = own.rename(columns=lambda c: "ES405_" + c.removeprefix("ES642_"))
-        own = super().standardize_data(group, own)
-        data = super().standardize_data(group, data.drop(columns=mislabeled))
-        for column in own.columns:
-            values = own[column].to_numpy()
-            if column in data.columns:
-                values = np.where(data[column].notna(), data[column].to_numpy(), values)
-            data[column] = values
-        return data
+        for datafile in datafiles:
+            # pyrefly: ignore[missing-attribute]
+            datafile.es642_column_dates = window
+        return datafiles
 
 
 class MetOne_ES642(Instrument, SensorMixin):

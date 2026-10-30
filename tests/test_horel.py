@@ -838,29 +838,47 @@ class TestES405UnderES642Names:
         )
         assert obs["PM2.5_ugm3"].tolist() == [4.0, 5.0, 6.0]
 
-    def test_window_edges_are_half_open(self):
-        """A file that straddles the window's stop keeps the rows before it."""
-        es405 = get_site("BUS01").instruments["metone_es405"]
-        times = pd.to_datetime(["2026-03-31 23:59", "2026-04-01 00:00"])
-        frame = pd.DataFrame(
-            {"Time_UTC": times, "ES642_PM2.5_Concentration": [1.0, 2.0]}
-        )
-        out = es405.standardize_data("horel", frame)
-        assert out["PM2.5_ugm3"].isna().tolist() == [False, True]
-        # Time as the index, as Instrument.read_data has it
-        out = es405.standardize_data("horel", frame.set_index("Time_UTC"))
-        assert out["PM2.5_ugm3"].isna().tolist() == [False, True]
+    def test_final_keeps_only_the_final_columns(self, archive):
+        """A file with ES642 names gives the same final columns as the ES405's own."""
+        data = self.read("BUS01", "final", "2026-03")
+        assert list(data.columns) == ["PM2.5_ugm3"]
 
-    def test_standardize_leaves_the_callers_frame_alone(self):
-        es405 = get_site("BUS01").instruments["metone_es405"]
-        frame = pd.DataFrame(
-            {
-                "Time_UTC": pd.to_datetime(["2026-03-02 20:21"]),
-                "ES642_PM2.5_Concentration": [1.0],
-            }
+    def test_window_edges_are_half_open(self, tmp_path):
+        """A file that straddles the window's stop takes the rows before it."""
+        path = write_csv_gz(
+            tmp_path / "csv_finalized_ebus" / "BUS01_2026_03.csv.gz",
+            ES642_NAMED,
+            ES642_UNITS,
+            es642_named_rows("2026-03-31 23:59", [1.0, 2.0]),
         )
-        es405.standardize_data("horel", frame)
-        assert list(frame.columns) == ["Time_UTC", "ES642_PM2.5_Concentration"]
+        datafile = horel.HorelCSVFile(path, "metone_es405")
+        datafile.es642_column_dates = TimeRange(
+            start=pd.Timestamp("2026-02-01"), stop=pd.Timestamp("2026-04-01")
+        )
+        data = datafile.parse()
+        assert data["ES405_PM2.5_Concentration"].isna().tolist() == [False, True]
+        assert not any(c.startswith("ES642_") for c in data.columns)
+
+    def test_a_file_with_no_dates_takes_none(self, tmp_path):
+        path = write_csv_gz(
+            tmp_path / "csv_finalized_ebus" / "BUS01_2026_03.csv.gz",
+            ES642_NAMED,
+            ES642_UNITS,
+            es642_named_rows("2026-03-02 20:21", [4.0]),
+        )
+        data = horel.HorelCSVFile(path, "metone_es405").parse()
+        assert list(data.columns) == ["Time_UTC", "QAQC_Flag"]
+
+    def test_the_instrument_hands_its_dates_to_the_files(self, archive):
+        es405 = get_site("BUS01").instruments["metone_es405"]
+        for datafile in es405.get_datafiles("horel", "qaqc", "2026-03"):
+            assert tuple(datafile.es642_column_dates) == (
+                pd.Timestamp("2026-02-01"),
+                pd.Timestamp("2026-04-01"),
+            )
+        bus03 = get_site("BUS03").instruments["metone_es405"]
+        for datafile in bus03.get_datafiles("horel", "qaqc", "2025-02"):
+            assert datafile.es642_column_dates is None
 
     def test_names_stand_for_es405_columns(self):
         """Each ES642 name read for the ES405 maps to a column the ES405 has."""
@@ -868,15 +886,18 @@ class TestES405UnderES642Names:
         for name in horel.ES405_UNDER_ES642_NAMES.values():
             assert name in horel.column_mapping["metone_es405"]
 
-    def test_only_the_es405_reads_them(self, tmp_path):
+    def test_only_the_es405_takes_them_as_its_own(self, tmp_path):
         path = write_csv_gz(
             tmp_path / "csv_finalized_ebus" / "BUS01_2026_03.csv.gz",
             ES642_NAMED,
             ES642_UNITS,
             es642_named_rows("2026-03-02 20:21", [4.0]),
         )
-        es405 = horel.HorelCSVFile(path, "metone_es405").parse()
+        es405 = horel.HorelCSVFile(path, "metone_es405")
+        es405.es642_column_dates = TimeRange(
+            start=pd.Timestamp("2026-02-01"), stop=pd.Timestamp("2026-04-01")
+        )
+        assert "ES405_PM2.5_Concentration" in es405.parse().columns
         es642 = horel.HorelCSVFile(path, "metone_es642").parse()
-        assert "ES642_PM2.5_Concentration" in es405.columns
         assert "ES642_PM2.5_Concentration" in es642.columns
-        assert "2B_Ozone_Concentration" not in es405.columns
+        assert "ES405_PM2.5_Concentration" not in es642.columns
