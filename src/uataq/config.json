@@ -395,6 +395,7 @@
     },
     "FRU": {
         "name": "Fruitland",
+        "is_active": false,
         "latitude": 40.20873,
         "longitude": -110.8403,
         "zagl": 4,
@@ -403,7 +404,9 @@
         },
         "instruments": {
             "lgr_ugga": {
-                "installation_date": "2015-03-19"
+                "installation_date": "2015-03-19",
+                "removal_date": "2026-04-04",
+                "notes": "The last sample is 2026-04-03 16:46:03 UTC (raw 16:46:03.679 and qaqc; calibrated and final end 15:29:51 that day), so the removal date is the next midnight. The site was decommissioned on 2026-04-03 (as reported in the group's Teams channel)."
             }
         }
     },
