@@ -237,7 +237,10 @@ the ``2b_205``.
 The horel group's ozone (``2b_205``) and particle (``metone_es642``,
 ``metone_es405``) monitors mark a flagged row with 1, and uataq turns that into
 ``QAQC_Flag = -1``, so their flag is 0 (passes) or -1 (flagged). Their ``final``
-level is the ``qaqc`` rows that pass and have a value.
+level is the ``qaqc`` rows that pass and have a value: an ozone or PM2.5
+concentration. The ``metone_es642``'s ``Ambient_T_C`` and ``Ambient_P_hPa``
+(the sampler's own temperature and pressure) stay in ``final``, but only on
+rows that have a PM2.5 value.
 For the ``2b_205`` on TRX01 on 1 June 2024:
 
 .. code-block:: pycon
