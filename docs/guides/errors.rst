@@ -7,7 +7,8 @@ When there is nothing to read
 
     The output under each example on this page is from a run on CHPC on 15
     October 2026, except under "Pollutant or site not found" and "A level asked
-    of get_obs" (19 October 2026). The archive keeps growing, so what a read
+    of get_obs" (19 October 2026) and under "A group that does not log the
+    instrument" (30 October 2026). The archive keeps growing, so what a read
     returns will have moved on by the time you read this (:ref:`why the output
     is recorded <recorded-examples>`).
 
@@ -115,6 +116,8 @@ over days that may be empty:
 
     import warnings
 
+    import uataq
+
     warnings.filterwarnings("ignore", category=uataq.errors.EmptyResultWarning)
 
 To see where the gaps in a month are, look at the time between rows:
@@ -153,6 +156,8 @@ raises that error only when none of them has data. To silence the warning:
 .. code-block:: python
 
     import warnings
+
+    import uataq
 
     warnings.filterwarnings("ignore", category=uataq.errors.DroppedPollutantWarning)
 
@@ -227,6 +232,28 @@ error. To read another level, call ``read_data``, which gives a dictionary with
 one table for each instrument:
 ``uataq.read_data("WBB", "lgr_ugga", lvl="qaqc", time_range="2025-06")``.
 :ref:`data-levels` says what each level is for.
+
+A group that does not log the instrument
+----------------------------------------
+
+.. code-block:: pycon
+
+    >>> uataq.get_obs("WBB", "CO2", group="horel", time_range="2025-06")
+    WARNING:uataq.sites:Error reading lgr_ugga@WBB data from horel groupspace: horel group invalid for lgr_ugga@WBB
+    Traceback (most recent call last):
+      ...
+    uataq.errors.ReaderError: No final data found for CO2 at WBB: lgr_ugga in horel groupspace: horel group invalid for lgr_ugga@WBB.
+    >>> uataq.get_obs("WBB", "CO2", group="hore1", time_range="2025-06")
+    Traceback (most recent call last):
+      ...
+    ValueError: Invalid group: hore1
+
+``group`` (see :ref:`input-group`) is ``"lin"`` or ``"horel"``. The first error
+is for a group that does not log that instrument: the lin group logs every
+instrument at WBB, and the horel group none. The second is for a name that is
+neither group. A site's ``groups`` (``sorted(wbb.groups)`` is ``['lin']``, and
+the Groups column of :doc:`/reference/sites_and_instruments` lists them) says
+which archives log it. Leave ``group`` out and each instrument picks its own.
 
 A level the instrument does not have
 ------------------------------------
