@@ -313,7 +313,7 @@ column_mapping: dict[str, dict[str, str]] = {
         "samp_pres_inhga": "Internal_P_inHgA",
         "Samp_Pres_inHgA": "Internal_P_inHgA",
         "samp_temp_c": "Internal_T_C",
-        "Samp_Temp_C": "Internal_T_C",
+        "Samp_T_C": "Internal_T_C",
         "bench_t_c": "Bench_T_C",
         "box_t_c": "Instrument_T_C",
         "Box_T_C": "Instrument_T_C",
