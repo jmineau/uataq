@@ -137,6 +137,23 @@ def get_site(SID: str) -> sites.Site:
     Returns
     -------
     sites.Site
-        A site object.
+        A site object: a :class:`~uataq.sites.MobileSite` for a train or a bus,
+        else a :class:`~uataq.sites.Site`.
+
+    Raises
+    ------
+    ValueError
+        If the site ID is not in the configuration file (see
+        :doc:`/guides/errors`).
+
+    Examples
+    --------
+    The case of the ID does not matter:
+
+    >>> import uataq
+    >>> uataq.get_site("wbb").SID
+    'WBB'
+    >>> type(uataq.get_site("TRX01")).__name__
+    'MobileSite'
     """
     return laboratory.get_site(SID)

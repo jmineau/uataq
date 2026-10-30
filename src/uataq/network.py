@@ -273,7 +273,9 @@ class Network:
         Get observations for the network across all sites.
 
         Combines data from all sites into a single GeoDataFrame with spatial coordinates,
-        always using the highest available data level (consistent with Site.get_obs()).
+        reading the highest data level each instrument has. That is ``final``, as
+        :meth:`~uataq.sites.Site.get_obs` reads, except at a horel vehicle with no
+        finalized files at all, which is read at ``raw`` (see :ref:`which-level`).
         For stationary sites, coordinates are repeated for each timestamp.
         For mobile sites, coordinates vary with GPS data.
 
