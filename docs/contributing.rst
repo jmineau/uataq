@@ -276,9 +276,11 @@ For some months after the swaps at BUS01 and BUS02, horel's qaqc and final files
 name the ES405's values with the ES642's column names (``ES642_PM2.5_Concentration``).
 The ES405's ``es642_column_dates`` in ``config.json`` says when
 (:doc:`/reference/config`): a file read for the ES405 takes those columns as its
-own for rows inside that window, and drops them outside it, so the ES642-named
-columns of BUS02's files from March to May 2025, which come before the window,
-are not read as the ES405's. ``MetOne_ES405.get_datafiles`` hands the window to
+own for rows inside that window, and drops them outside it. BUS02's window
+starts at the ES405's installation: its files from March to May 2025 hold the
+ES405's flow, temperature, humidity, pressure and error code under the ES642's
+names, but their PM2.5 under that name is empty, so qaqc has those diagnostics
+and no PM2.5 for the period. ``MetOne_ES405.get_datafiles`` hands the window to
 the files.
 
 The pilot archive (``uutrax_pilot``) and the main one (``uutrax``) both have a raw

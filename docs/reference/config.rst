@@ -78,8 +78,12 @@ Each entry under a site's ``instruments`` accepts:
     names (``ES642_PM2.5_Concentration`` and so on). Inside the window the
     ES405 reads those columns as its own; outside it ignores them. Horel's
     files do this at BUS01 (``["2026-02-01", "2026-04-01"]``) and BUS02
-    (``["2025-11-01", "2026-04-01"]``) for the months after each swap, and use
-    the ES405's own names from April 2026.
+    (``["2025-03-13 02:38:00", "2026-04-01"]``) for the months after each swap,
+    and use the ES405's own names from April 2026. At BUS02 the window starts
+    at the ES405's installation because its flow, temperature, humidity,
+    pressure and error code are under ES642 names from then; its PM2.5 under
+    that name is empty until November 2025, so qaqc has no PM2.5 for
+    2025-03-13 to 2025-11-01 (the raw file has it).
 ``model`` (optional)
     The instrument class to use when it differs from the instrument's name.
 ``notes`` (optional)

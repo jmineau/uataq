@@ -744,13 +744,21 @@ class TestES405UnderES642Names:
             ["2026-04-01T00:24:00", 1.5, 2.5, 3.5, 4.5, 1.9, 20.5, 31.0, 850.0, 0, 0],
         ]  # fmt: skip
         write_csv_gz(ebus / "BUS01_2026_04.csv.gz", ES405_NAMED, ES405_UNITS, april)
-        # BUS02's ES405 is installed from 2025-03-13, but its ES642-named files
-        # are the ES642's or empty until 2025-11: not the ES405's
+        # BUS02's ES405 is installed from 2025-03-13: its files from then hold
+        # its flow, temperature and the rest under the ES642's names, and an
+        # empty PM2.5 (-9999) under that name until 2025-11
         write_csv_gz(
             ebus / "BUS02_2025_04.csv.gz",
             ES642_NAMED,
             ES642_UNITS,
-            es642_named_rows("2025-04-02 00:00", [7.0, 8.0]),
+            es642_named_rows("2025-04-02 00:00", [-9999.0, -9999.0]),
+        )
+        # before the installation (the ES642's time) nothing is the ES405's
+        write_csv_gz(
+            ebus / "BUS02_2025_02.csv.gz",
+            ES642_NAMED,
+            ES642_UNITS,
+            es642_named_rows("2025-02-02 00:00", [12.0]),
         )
         write_csv_gz(
             ebus / "BUS02_2025_12.csv.gz",
@@ -810,18 +818,34 @@ class TestES405UnderES642Names:
         data = self.read("BUS02", lvl, "2025-12")
         assert data["PM2.5_ugm3"].tolist() == [9.0, 10.0]
 
+    def test_bus02_qaqc_has_the_diagnostics_from_the_installation(self, archive):
+        """Flow, temperature and the rest under ES642 names; the PM2.5 is empty."""
+        data = self.read("BUS02", "qaqc", "2025-04")
+        assert data["Flow_Lpm"].tolist() == [1.9, 1.9]
+        assert data["Internal_T_C"].tolist() == [20.5, 20.5]
+        assert data["Internal_RH_pct"].tolist() == [31.0, 31.0]
+        assert data["Internal_P_hPa"].tolist() == [850.0, 850.0]
+        assert data["Status"].tolist() == [0, 0]
+        assert data["PM2.5_ugm3"].isna().all()
+
+    def test_bus02_final_has_no_rows_for_the_empty_pm25(self, archive):
+        """The final level keeps the PM columns only, and they are empty."""
+        data = self.read("BUS02", "final", "2025-04")
+        assert list(data.columns) == ["PM2.5_ugm3"]
+        assert data.empty
+
     @pytest.mark.parametrize(
-        ("SID", "month"), [("BUS02", "2025-04"), ("BUS03", "2025-02")]
+        ("SID", "month"), [("BUS02", "2025-02"), ("BUS03", "2025-02")]
     )
     @pytest.mark.parametrize("lvl", ["qaqc", "final"])
     def test_es642_names_outside_the_window_are_not_the_es405s(
         self, archive, SID, month, lvl
     ):
-        """BUS02 before 2025-11 and BUS03, which has no window, read no PM2.5."""
+        """BUS02 before its installation and BUS03, which has no window, read none."""
         try:
             data = self.read(SID, lvl, month)
-        except ReaderError:
-            return  # the final level drops rows with no observation
+        except (ReaderError, InactiveInstrumentError):
+            return  # not installed yet, or no row with an observation at final
         assert "PM2.5_ugm3" not in data.columns or data["PM2.5_ugm3"].isna().all()
 
     def test_es642_no_longer_reads_the_es405s_months(self, archive):

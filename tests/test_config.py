@@ -145,11 +145,11 @@ def test_every_removal_after_installation():
 
 
 #: The ES405s whose horel qaqc and final files carry their values under the
-#: ES642's column names, with the first month of such files and the first month
+#: ES642's column names, with when such files start and the first month
 #: with the ES405's own names
 ES642_COLUMN_DATES = {
     "BUS01": ("2026-02-01", "2026-04-01"),
-    "BUS02": ("2025-11-01", "2026-04-01"),
+    "BUS02": ("2025-03-13 02:38:00", "2026-04-01"),
 }
 
 
