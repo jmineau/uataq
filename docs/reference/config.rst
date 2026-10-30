@@ -15,7 +15,7 @@ Each site is an entry of the configuration, keyed by its :term:`SID` (``WBB``).
 It accepts:
 
 ``name``
-    The site's name, such as ``"William Browning"``.
+    The site's name, such as ``"William Browning Building"``.
 ``latitude`` / ``longitude``
     A fixed site's position, in degrees (longitude is negative in Utah). A mobile
     site has neither: its ``gps`` gives the position of each measurement.
