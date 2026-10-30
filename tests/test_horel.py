@@ -444,6 +444,29 @@ class TestHorelGPSRead:
         # The invalid-RMC row is dropped
         assert data["Speed_m_s"].tolist() == [0.0, 5.5]
 
+    @pytest.mark.parametrize(
+        "write, columns, altitude",
+        [
+            (write_trx, ["Latitude_deg", "Longitude_deg", "Altitude_msl"],
+             [1325.4, 1325.7, 1325.9]),
+            (write_bus, ["Latitude_deg", "Longitude_deg", "Altitude_msl",
+                         "Speed_m_s", "Course_deg"], [1301.1, 1301.1]),
+        ],
+        ids=["trx", "bus"],
+    )  # fmt: skip
+    def test_final_csv_keeps_altitude(self, tmp_path, write, columns, altitude):
+        """The finalized CSV's Elevation is Altitude_msl at final, as at qaqc."""
+        path = write(tmp_path)
+        final = horel.HorelCSVFinalizedFile(path, "gps").parse()
+        qaqc = horel.HorelGroup.standardize_data(
+            "gps", horel.HorelCSVFile(path, "gps").parse()
+        )
+
+        assert list(final.columns) == ["Time_UTC", *columns]
+        assert final["Altitude_msl"].tolist() == altitude
+        at_final = qaqc.set_index("Time_UTC").loc[final["Time_UTC"], "Altitude_msl"]
+        assert at_final.tolist() == altitude
+
 
 #: The five MetOne swaps: the ES642's last raw row (in the month's
 #: ``esampler.h5_prior405upgrade`` file) and the ES405's first (in the
