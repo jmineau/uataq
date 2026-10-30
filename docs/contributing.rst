@@ -268,7 +268,20 @@ belongs to the ES405 alone. Other suffixes in horel's raw folders
 (``TRX01_2024_02_cr1000.h5_bad``, which is empty, and the pilot archive's
 ``cr1000/old/*.h5_old``) are not read. The four LI-COR 6262 to 7000 swaps (DBK,
 HEB, RPK, SUG) are in separate lin folders, so their files cannot mix, but the
-same date rule holds.
+same date rule holds. BUS01's swap is a sixth MetOne swap with no split files: it
+fell in a gap of several months with no file at all, and the instant is the ES405's
+first raw row.
+
+For some months after the swaps at BUS01 and BUS02, horel's qaqc and final files
+name the ES405's values with the ES642's column names (``ES642_PM2.5_Concentration``).
+The ES405's ``es642_column_dates`` in ``config.json`` says when
+(:doc:`/reference/config`): a file read for the ES405 takes those columns as its
+own for rows inside that window, and drops them outside it. BUS02's window
+starts at the ES405's installation: its files from March to May 2025 hold the
+ES405's flow, temperature, humidity, pressure and error code under the ES642's
+names, but their PM2.5 under that name is empty, so qaqc has those diagnostics
+and no PM2.5 for the period. ``MetOne_ES405.get_datafiles`` hands the window to
+the files.
 
 The pilot archive (``uutrax_pilot``) and the main one (``uutrax``) both have a raw
 file for November 2018, the month TRX01's and TRX02's pilot phase ended. The pilot

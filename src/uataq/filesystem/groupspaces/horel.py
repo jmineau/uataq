@@ -168,6 +168,17 @@ column_mapping: dict[str, dict[str, str]] = {
     },
 }
 
+#: The ES642 column names that horel's qaqc and final files use for an ES405's
+#: values over some dates (the instrument's ``es642_column_dates`` in the
+#: configuration), each with the ES405 column name it stands for.
+#: A qaqc or final file read for the ES405 takes them as its own inside those
+#: dates and drops them outside (``HorelCSVFile.parse``).
+ES405_UNDER_ES642_NAMES: dict[str, str] = {
+    name: "ES405_" + name.removeprefix("ES642_")
+    for name in column_mapping["metone_es642"]
+    if name.startswith("ES642_")
+}
+
 
 class HorelFile(filesystem.DataFile, metaclass=ABCMeta):
     """
@@ -191,6 +202,10 @@ class HorelFile(filesystem.DataFile, metaclass=ABCMeta):
         The time column name.
     instrument : str
         The instrument name.
+    es642_column_dates : TimeRange or None
+        For an ES405 file: when the file's ES642-named columns are the ES405's
+        (the instrument's config ``es642_column_dates`` for this group, set by
+        ``MetOne_ES405.get_datafiles``). None takes none of them.
 
     Methods
     -------
@@ -205,6 +220,7 @@ class HorelFile(filesystem.DataFile, metaclass=ABCMeta):
     date_slicer = slice(6, 13)
     file_freq = "M"
     time_col: str
+    es642_column_dates: TimeRange | None = None
 
     def __init__(self, path: str, instrument: str):
         """
@@ -237,6 +253,9 @@ class HorelFile(filesystem.DataFile, metaclass=ABCMeta):
             True if the column should be used, False otherwise.
         """
         columns = [self.time_col] + [*column_mapping[self.instrument]]
+        if self.instrument == "metone_es405":
+            # Over some dates the ES405's values carry the ES642's names
+            columns += [*ES405_UNDER_ES642_NAMES]
         return col in columns
 
     def format_time(self, data: pd.DataFrame, **kwargs) -> pd.DataFrame:
@@ -446,6 +465,9 @@ class HorelCSVFile(HorelFile):
         # Format time
         data = self.format_time(data, format="ISO8601")
 
+        # The ES405's values under the ES642's names, over some dates
+        data = self._take_es642_names(data)
+
         # Convert horel-group NoData to None
         data = HorelFile.convert_nodata(data)
 
@@ -472,6 +494,40 @@ class HorelCSVFile(HorelFile):
                 data = data.rename(columns={flag: "QAQC_Flag"})
 
         return data
+
+    def _take_es642_names(self, data: pd.DataFrame) -> pd.DataFrame:
+        """
+        Rename the ES642-named columns to the ES405's where they are its own.
+
+        Only an ES405's file has them (see ``usecols``). Inside the file's
+        ``es642_column_dates`` they become the ES405's columns
+        (``ES405_UNDER_ES642_NAMES``); outside it, and with no dates, they are
+        dropped, as an ES405 read never took them before.
+        """
+        named = [c for c in data.columns if c in ES405_UNDER_ES642_NAMES]
+        if self.instrument != "metone_es405" or not named:
+            return data
+        rest = data.drop(columns=named)
+        window = self.es642_column_dates
+        if window is None:
+            return rest
+        start, stop = (None if t is None else pd.Timestamp(t) for t in window)
+        times = pd.DatetimeIndex(data["Time_UTC"])
+        inside = np.ones(len(times), dtype=bool)
+        if start is not None:
+            inside &= np.asarray(times >= start)
+        if stop is not None:
+            inside &= np.asarray(times < stop)
+        own = data[named].where(
+            np.broadcast_to(inside[:, None], (len(data), len(named)))
+        )
+        for column in named:
+            name = ES405_UNDER_ES642_NAMES[column]
+            values = own[column].to_numpy()
+            if name in rest.columns:
+                values = np.where(rest[name].notna(), rest[name].to_numpy(), values)
+            rest[name] = values
+        return rest
 
     def _read_csv(self, usecols: Callable[[str], bool]) -> pd.DataFrame:
         """Read the file's columns that ``usecols`` takes, below the units row."""
