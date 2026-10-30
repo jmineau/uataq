@@ -160,7 +160,7 @@ We welcome feature requests! Please:
 ## Questions?
 
 If you have questions, please:
-- Check existing issues and discussions
+- Check existing [issues](https://github.com/jmineau/uataq/issues), open and closed
 - Open a new issue with the "question" label
 - Reach out to the maintainers
 
