@@ -687,6 +687,8 @@
                     "lin": "air-trend"
                 },
                 "installation_date": "2014-12-09",
+                "removal_date": "2024-08-28",
+                "notes": "The last sample is 2024-08-27 17:44:49 UTC (raw and qaqc; calibrated and final end 2024-08-20 20:09:10), so the removal date is the next midnight. The lin pipeline's site configuration switched TRX01 to lgr_ugga_manual_cal on 2024-09-19, and that instrument has data from 2023-11-18 on.",
                 "MIU": false
             },
             "lgr_ugga_manual_cal": {
