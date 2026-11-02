@@ -6,7 +6,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>uataq.filesystem.groupspaces.lin &#8212; UATAQ 2026.10.3.dev18+g188e30b8c documentation</title>
+    <title>uataq.filesystem.groupspaces.lin &#8212; UATAQ 2026.10.3.dev19+g9402c5df8 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="../../../../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be" />
 <link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be" />
 
-    <script src="../../../../_static/documentation_options.js?v=75dfe69b"></script>
+    <script src="../../../../_static/documentation_options.js?v=cf4c76e1"></script>
     <script src="../../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -58,7 +58,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.3.dev18+g188e30b8c" />
+  <meta name="docsearch:version" content="2026.10.3.dev19+g9402c5df8" />
   
     
     <script src="../../../../_static/searchtools.js"></script>
@@ -126,7 +126,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.3.dev18+g188e30b8c documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.3.dev19+g9402c5df8 documentation</p>
   
 </a></div>
     
@@ -1246,6 +1246,10 @@
 
 
 
+<span class="c1"># The start of an air-trend time, which the logger writes with isoformat()</span>
+<span class="n">_ISO_TIME_START</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">rb</span><span class="s2">"\d</span><span class="si">{4}</span><span class="s2">-\d</span><span class="si">{2}</span><span class="s2">-\d</span><span class="si">{2}</span><span class="s2">T\d</span><span class="si">{2}</span><span class="s2">:\d</span><span class="si">{2}</span><span class="s2">"</span><span class="p">)</span>
+
+
 <div class="viewcode-block" id="AirTrendFile">
 <a class="viewcode-back" href="../../../../api/uataq.filesystem.groupspaces.lin.AirTrendFile.html#uataq.filesystem.groupspaces.lin.AirTrendFile">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">AirTrendFile</span><span class="p">(</span><span class="n">filesystem</span><span class="o">.</span><span class="n">DataFile</span><span class="p">):</span>
@@ -1336,10 +1340,17 @@
         <span class="n">col_names</span> <span class="o">=</span> <span class="n">data_config</span><span class="p">[</span><span class="s2">"col_names"</span><span class="p">]</span>
         <span class="n">col_types</span> <span class="o">=</span> <span class="n">data_config</span><span class="p">[</span><span class="s2">"col_types"</span><span class="p">]</span>
 
+        <span class="c1"># A few files have no header line and open with a data row; skipping</span>
+        <span class="c1"># the first line would drop that row. The pipeline keeps every line</span>
+        <span class="c1"># that holds a time, so it keeps the row.</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="s2">"rb"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">first_line</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
+        <span class="n">has_header</span> <span class="o">=</span> <span class="n">_ISO_TIME_START</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">first_line</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span>
+
         <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span>
             <span class="n">names</span><span class="o">=</span><span class="n">col_names</span><span class="p">,</span>
-            <span class="n">header</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+            <span class="n">header</span><span class="o">=</span><span class="mi">0</span> <span class="k">if</span> <span class="n">has_header</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
             <span class="n">na_values</span><span class="o">=</span><span class="p">[</span><span class="s2">"XXXX"</span><span class="p">],</span>
             <span class="n">on_bad_lines</span><span class="o">=</span><span class="s2">"skip"</span><span class="p">,</span>
             <span class="n">low_memory</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
