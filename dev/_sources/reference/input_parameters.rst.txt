@@ -1,6 +1,6 @@
 .. currentmodule:: uataq
 
-Input Parameters
+Input parameters
 ================
 
 The reading functions share their arguments, and each one is described once,
@@ -219,6 +219,49 @@ Recent
 File pattern
 ------------
 
-``file_pattern`` (:func:`read_data`) keeps only the files whose names match it.
+``file_pattern`` (:func:`read_data`) keeps only the files whose path contains
+this text. It is a plain substring of the whole path, not a glob or a regular
+expression, so ``"*gprmc*"`` matches nothing and the read finds no files. The
+default, ``None``, keeps every file.
+
 Its main use is to pick the NMEA sentence type of the lin group's raw GPS
-files. The default, ``None``, keeps every file.
+files, which have a file for each (``2024-06-01_gprmc.csv`` and
+``2024-06-01_gpgga.csv``). The ``gprmc`` file has the date, status, speed and
+course, and the ``gpgga`` file has the altitude, fix quality and number of
+satellites. By default both are read and joined (the output is from a run on
+CHPC on 30 October 2026):
+
+.. code-block:: pycon
+
+    >>> import uataq
+    >>> gps = uataq.read_data("TRX01", "gps", lvl="raw", time_range="2024-06-01")["gps"]
+    >>> gps.shape
+    (86400, 10)
+    >>> rmc = uataq.read_data(
+    ...     "TRX01", "gps", lvl="raw", time_range="2024-06-01", file_pattern="gprmc"
+    ... )["gps"]
+    >>> rmc.shape
+    (86400, 9)
+    >>> sorted(set(gps.columns) - set(rmc.columns))
+    ['Altitude_msl', 'Fix_Quality', 'N_Satellites']
+
+.. _input-include-gps:
+
+Include GPS
+-----------
+
+``include_gps`` (a mobile site's :meth:`~uataq.sites.MobileSite.get_obs`, which
+:func:`get_obs` passes it to) is ``True`` by default: each row gets the position
+of the vehicle, and a row the GPS cannot place is left out (see
+:ref:`mobile-no-gps`). ``include_gps=False`` returns the measurements alone, as
+a plain ``DataFrame``, with every row. A fixed site has no GPS and ignores it.
+For TRX01's CO2 on 1 June 2024 (a run on CHPC on 30 October 2026):
+
+.. code-block:: pycon
+
+    >>> placed = uataq.get_obs("TRX01", "CO2", time_range="2024-06-01")
+    >>> alone = uataq.get_obs("TRX01", "CO2", time_range="2024-06-01", include_gps=False)
+    >>> type(placed).__name__, placed.shape
+    ('GeoDataFrame', (8611, 12))
+    >>> type(alone).__name__, alone.shape
+    ('DataFrame', (8622, 3))

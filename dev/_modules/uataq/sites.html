@@ -6,7 +6,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>uataq.sites &#8212; UATAQ 2026.10.3.dev6+gc4d2f8160 documentation</title>
+    <title>uataq.sites &#8212; UATAQ 2026.10.3.dev10+gfcb0b26a1 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be" />
 
-    <script src="../../_static/documentation_options.js?v=cb69ca0c"></script>
+    <script src="../../_static/documentation_options.js?v=92ec85d8"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -58,7 +58,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.3.dev6+gc4d2f8160" />
+  <meta name="docsearch:version" content="2026.10.3.dev10+gfcb0b26a1" />
   
     
     <script src="../../_static/searchtools.js"></script>
@@ -126,7 +126,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.3.dev6+gc4d2f8160 documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.3.dev10+gfcb0b26a1 documentation</p>
   
 </a></div>
     
@@ -743,7 +743,9 @@
 <span class="sd">        num_processes : int or 'max'</span>
 <span class="sd">            The number of processes to use for reading data. Default is 1.</span>
 <span class="sd">        file_pattern : str, optional</span>
-<span class="sd">            The file pattern to use for filtering files. Default is None.</span>
+<span class="sd">            Keep only the files whose path contains this text (a plain</span>
+<span class="sd">            substring, not a glob or a regular expression). Default is None,</span>
+<span class="sd">            which keeps every file. See :ref:`input-file-pattern`.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>

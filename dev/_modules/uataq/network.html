@@ -6,7 +6,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>uataq.network &#8212; UATAQ 2026.10.3.dev6+gc4d2f8160 documentation</title>
+    <title>uataq.network &#8212; UATAQ 2026.10.3.dev10+gfcb0b26a1 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be" />
 
-    <script src="../../_static/documentation_options.js?v=cb69ca0c"></script>
+    <script src="../../_static/documentation_options.js?v=92ec85d8"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -58,7 +58,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.3.dev6+gc4d2f8160" />
+  <meta name="docsearch:version" content="2026.10.3.dev10+gfcb0b26a1" />
   
     
     <script src="../../_static/searchtools.js"></script>
@@ -126,7 +126,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.3.dev6+gc4d2f8160 documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.3.dev10+gfcb0b26a1 documentation</p>
   
 </a></div>
     
@@ -712,7 +712,9 @@
 <span class="sd">        Get observations for the network across all sites.</span>
 
 <span class="sd">        Combines data from all sites into a single GeoDataFrame with spatial coordinates,</span>
-<span class="sd">        always using the highest available data level (consistent with Site.get_obs()).</span>
+<span class="sd">        reading the highest data level each instrument has. That is ``final``, as</span>
+<span class="sd">        :meth:`~uataq.sites.Site.get_obs` reads, except at a horel vehicle with no</span>
+<span class="sd">        finalized files at all, which is read at ``raw`` (see :ref:`which-level`).</span>
 <span class="sd">        For stationary sites, coordinates are repeated for each timestamp.</span>
 <span class="sd">        For mobile sites, coordinates vary with GPS data.</span>
 

@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>When there is nothing to read &#8212; UATAQ 2026.10.3.dev6+gc4d2f8160 documentation</title>
+    <title>When there is nothing to read &#8212; UATAQ 2026.10.3.dev10+gfcb0b26a1 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be" />
 
-    <script src="../_static/documentation_options.js?v=cb69ca0c"></script>
+    <script src="../_static/documentation_options.js?v=92ec85d8"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -61,7 +61,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.3.dev6+gc4d2f8160" />
+  <meta name="docsearch:version" content="2026.10.3.dev10+gfcb0b26a1" />
   
     
     <script src="../_static/searchtools.js"></script>
@@ -129,7 +129,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.3.dev6+gc4d2f8160 documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.3.dev10+gfcb0b26a1 documentation</p>
   
 </a></div>
     
@@ -461,7 +461,8 @@
 <p class="admonition-title">Note</p>
 <p>The output under each example on this page is from a run on CHPC on 15
 October 2026, except under “Pollutant or site not found” and “A level asked
-of get_obs” (19 October 2026). The archive keeps growing, so what a read
+of get_obs” (19 October 2026) and under “A group that does not log the
+instrument” (30 October 2026). The archive keeps growing, so what a read
 returns will have moved on by the time you read this (<a class="reference internal" href="../getting_started/first_data.html#recorded-examples"><span class="std std-ref">why the output
 is recorded</span></a>).</p>
 </div>
@@ -552,6 +553,8 @@ whose rows found no GPS fix (see <a class="reference internal" href="mobile_site
 over days that may be empty:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
 
+<span class="kn">import</span><span class="w"> </span><span class="nn">uataq</span>
+
 <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">"ignore"</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="n">uataq</span><span class="o">.</span><span class="n">errors</span><span class="o">.</span><span class="n">EmptyResultWarning</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -584,6 +587,8 @@ shows without the log. To see why an instrument gave none, ask for that
 pollutant alone: the error is the one under <a class="reference internal" href="#no-data-found">No data found</a>. A read of several
 raises that error only when none of them has data. To silence the warning:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">uataq</span>
 
 <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">"ignore"</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="n">uataq</span><span class="o">.</span><span class="n">errors</span><span class="o">.</span><span class="n">DroppedPollutantWarning</span><span class="p">)</span>
 </pre></div>
@@ -651,6 +656,26 @@ error. To read another level, call <code class="docutils literal notranslate"><s
 one table for each instrument:
 <code class="docutils literal notranslate"><span class="pre">uataq.read_data(&quot;WBB&quot;,</span> <span class="pre">&quot;lgr_ugga&quot;,</span> <span class="pre">lvl=&quot;qaqc&quot;,</span> <span class="pre">time_range=&quot;2025-06&quot;)</span></code>.
 <a class="reference internal" href="data_levels_and_flags.html#data-levels"><span class="std std-ref">The four levels</span></a> says what each level is for.</p>
+</section>
+<section id="a-group-that-does-not-log-the-instrument">
+<h2>A group that does not log the instrument<a class="headerlink" href="#a-group-that-does-not-log-the-instrument" title="Link to this heading">#</a></h2>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">uataq</span><span class="o">.</span><span class="n">get_obs</span><span class="p">(</span><span class="s2">"WBB"</span><span class="p">,</span> <span class="s2">"CO2"</span><span class="p">,</span> <span class="n">group</span><span class="o">=</span><span class="s2">"horel"</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="s2">"2025-06"</span><span class="p">)</span>
+<span class="go">WARNING:uataq.sites:Error reading lgr_ugga@WBB data from horel groupspace: horel group invalid for lgr_ugga@WBB</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="w">  </span><span class="c">...</span>
+<span class="gr">uataq.errors.ReaderError</span>: <span class="n">No final data found for CO2 at WBB: lgr_ugga in horel groupspace: horel group invalid for lgr_ugga@WBB.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">uataq</span><span class="o">.</span><span class="n">get_obs</span><span class="p">(</span><span class="s2">"WBB"</span><span class="p">,</span> <span class="s2">"CO2"</span><span class="p">,</span> <span class="n">group</span><span class="o">=</span><span class="s2">"hore1"</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="s2">"2025-06"</span><span class="p">)</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="w">  </span><span class="c">...</span>
+<span class="gr">ValueError</span>: <span class="n">Invalid group: hore1</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">group</span></code> (see <a class="reference internal" href="../reference/input_parameters.html#input-group"><span class="std std-ref">Research group</span></a>) is <code class="docutils literal notranslate"><span class="pre">&quot;lin&quot;</span></code> or <code class="docutils literal notranslate"><span class="pre">&quot;horel&quot;</span></code>. The first error
+is for a group that does not log that instrument: the lin group logs every
+instrument at WBB, and the horel group none. The second is for a name that is
+neither group. A site’s <code class="docutils literal notranslate"><span class="pre">groups</span></code> (<code class="docutils literal notranslate"><span class="pre">sorted(wbb.groups)</span></code> is <code class="docutils literal notranslate"><span class="pre">['lin']</span></code>, and
+the Groups column of <a class="reference internal" href="../reference/sites_and_instruments.html"><span class="doc">Sites and instruments</span></a> lists them) says
+which archives log it. Leave <code class="docutils literal notranslate"><span class="pre">group</span></code> out and each instrument picks its own.</p>
 </section>
 <section id="a-level-the-instrument-does-not-have">
 <h2>A level the instrument does not have<a class="headerlink" href="#a-level-the-instrument-does-not-have" title="Link to this heading">#</a></h2>
@@ -764,6 +789,7 @@ read once.</p>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#one-of-several-pollutants-missing">One of several pollutants missing</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pollutant-or-site-not-found">Pollutant or site not found</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-level-asked-of-get-obs">A level asked of get_obs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-group-that-does-not-log-the-instrument">A group that does not log the instrument</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-level-the-instrument-does-not-have">A level the instrument does not have</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#network-surprises">Network surprises</a></li>
 </ul>

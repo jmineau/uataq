@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Sites and instruments &#8212; UATAQ 2026.10.3.dev6+gc4d2f8160 documentation</title>
+    <title>Sites and instruments &#8212; UATAQ 2026.10.3.dev10+gfcb0b26a1 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be" />
 
-    <script src="../_static/documentation_options.js?v=cb69ca0c"></script>
+    <script src="../_static/documentation_options.js?v=92ec85d8"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -61,7 +61,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.3.dev6+gc4d2f8160" />
+  <meta name="docsearch:version" content="2026.10.3.dev10+gfcb0b26a1" />
   
     
     <script src="../_static/searchtools.js"></script>
@@ -129,7 +129,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.3.dev6+gc4d2f8160 documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.3.dev10+gfcb0b26a1 documentation</p>
   
 </a></div>
     
@@ -392,7 +392,7 @@
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
 <li class="toctree-l1 current active"><a aria-current="page" class="current reference internal" href="#">Sites and instruments</a></li>
 <li class="toctree-l1"><a class="reference internal" href="columns.html">Columns</a></li>
-<li class="toctree-l1"><a class="reference internal" href="input_parameters.html">Input Parameters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="input_parameters.html">Input parameters</a></li>
 <li class="toctree-l1"><a class="reference internal" href="config.html">Configuration</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="functions_and_modules.html">Functions and modules</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../api/uataq.get_obs.html">uataq.get_obs</a></li>
@@ -1361,9 +1361,11 @@ which pollutants the instrument measures.</p>
 tank and manually calibrated with lgr software periodically.” It has
 <code class="docutils literal notranslate"><span class="pre">&quot;model&quot;:</span> <span class="pre">&quot;lgr_ugga&quot;</span></code>, so it is read like any <code class="docutils literal notranslate"><span class="pre">lgr_ugga</span></code>, from a
 folder of its own in the lin archive. For what its <code class="docutils literal notranslate"><span class="pre">_cal</span></code> and
-<code class="docutils literal notranslate"><span class="pre">_raw</span></code> columns hold, see <a class="reference internal" href="../guides/data_levels_and_flags.html#when-cal-is-empty"><span class="std std-ref">When _cal is empty</span></a>. The
-configuration also lists TRX01’s <code class="docutils literal notranslate"><span class="pre">lgr_ugga</span></code> with no removal date; to
-see which of the two has data in a period, use <a class="reference internal" href="../guides/find_sites_and_data.html"><span class="doc">Find sites and data</span></a>.</p>
+<code class="docutils literal notranslate"><span class="pre">_raw</span></code> columns hold, see <a class="reference internal" href="../guides/data_levels_and_flags.html#when-cal-is-empty"><span class="std std-ref">When _cal is empty</span></a>. TRX01’s
+<code class="docutils literal notranslate"><span class="pre">lgr_ugga</span></code> is installed until 2024-08-28, so both are installed
+from 2023-11-18 to then. <a class="reference internal" href="../guides/mobile_sites.html"><span class="doc">Mobile sites</span></a> says in which
+months each has data, and <a class="reference internal" href="../guides/find_sites_and_data.html"><span class="doc">Find sites and data</span></a> shows
+which has data in any period.</p>
 </dd>
 </dl>
 </section>
