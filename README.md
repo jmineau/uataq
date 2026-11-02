@@ -25,10 +25,10 @@ archive. On a CHPC login node:
 module load python    # the system Python is 3.6; uataq needs 3.11 or newer
 python3 -m venv ~/venvs/uataq
 source ~/venvs/uataq/bin/activate
-pip install git+https://github.com/jmineau/uataq.git
+pip install git+https://github.com/jmineau/uataq.git@v2026.10.2
 ```
 
-The [installation page](https://jmineau.github.io/uataq/dev/getting_started/installation.html)
+The [installation page](https://jmineau.github.io/uataq/stable/getting_started/installation.html)
 explains each step and has a command that reads a day of data to prove it
 works. It also covers updating, Slurm jobs, and the editable and development
 installs.

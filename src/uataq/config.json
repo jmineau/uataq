@@ -37,7 +37,19 @@
                 "installation_date": "2021-09-28"
             },
             "metone_es642": {
-                "installation_date": "2021-09-28"
+                "installation_date": "2021-09-28",
+                "removal_date": "2026-02-17 21:28:00",
+                "notes": "The last sample is 2025-10-09 02:17:10 UTC (raw, qaqc and final). Horel has no BUS01 file from 2025-11 to 2026-01, so the swap fell in that gap. The removal date is the first raw row of the metone_es405 that replaced it, 2026-02-17 21:28:00 UTC, so one instant ends this instrument and starts that one."
+            },
+            "metone_es405": {
+                "installation_date": "2026-02-17 21:28:00",
+                "es642_column_dates": {
+                    "horel": [
+                        "2026-02-01",
+                        "2026-04-01"
+                    ]
+                },
+                "notes": "Replaced the metone_es642. The installation date is this instrument's first raw row, 2026-02-17 21:28:00 UTC, in BUS01_2026_02_esampler.h5 (60 s rows with PM01, PM04 and PM10; the ES642's were 5 s rows with PM25 alone). Horel's qaqc and final files of 2026-02 and 2026-03 give its values under the ES642's column names (all 36,435 ES642_PM2.5_Concentration values of 2026-03 equal the raw PM25 of the same minute) and use ES405 names from 2026-04, so es642_column_dates ends on 2026-04-01. The metone_es642's last sample is 2025-10-09 02:17:10 UTC, so no row of one is read as the other's."
             }
         }
     },
@@ -69,7 +81,13 @@
             },
             "metone_es405": {
                 "installation_date": "2025-03-13 02:38:00",
-                "notes": "Replaced the metone_es642. The installation date is this instrument's first raw row, 2025-03-13 02:38:00 UTC, in BUS02_2025_03_esampler.h5, which holds only its rows; horel's qaqc and final files of that month have no ES405 columns. The metone_es642's last sample is 2025-03-13 00:37:10 UTC, so no row of one is read as the other's."
+                "es642_column_dates": {
+                    "horel": [
+                        "2025-03-13 02:38:00",
+                        "2026-04-01"
+                    ]
+                },
+                "notes": "Replaced the metone_es642. The installation date is this instrument's first raw row, 2025-03-13 02:38:00 UTC, in BUS02_2025_03_esampler.h5, which holds only its rows; horel's qaqc and final files of that month have no ES405 columns. The metone_es642's last sample is 2025-03-13 00:37:10 UTC, so no row of one is read as the other's. Horel's qaqc and final files give this instrument's flow, temperature, humidity, pressure and error code under the ES642's column names from its installation to 2026-03 (every value equals the raw ES405 at the same minute), and its PM values from 2025-11 (the ES642-named PM2.5 of 2025-03 to 2025-05 is empty, while the raw file has it); they use ES405 names from 2026-04, so es642_column_dates is [2025-03-13 02:38:00, 2026-04-01)."
             }
         }
     },
@@ -395,6 +413,7 @@
     },
     "FRU": {
         "name": "Fruitland",
+        "is_active": false,
         "latitude": 40.20873,
         "longitude": -110.8403,
         "zagl": 4,
@@ -403,7 +422,9 @@
         },
         "instruments": {
             "lgr_ugga": {
-                "installation_date": "2015-03-19"
+                "installation_date": "2015-03-19",
+                "removal_date": "2026-04-04",
+                "notes": "The last sample is 2026-04-03 16:46:03 UTC (raw 16:46:03.679 and qaqc; calibrated and final end 15:29:51 that day), so the removal date is the next midnight. The site was decommissioned on 2026-04-03 (as reported in the group's Teams channel)."
             }
         }
     },
@@ -671,9 +692,9 @@
                 "loggers": {
                     "horel": "campbellsci"
                 },
-                "installation_date": "2016-02-04",
+                "installation_date": "2014-12-05",
                 "removal_date": "2025-01-06 19:30:00",
-                "notes": "The last sample is 2025-01-06 18:10:28 UTC, in horel's raw TRX01_2025_01_esampler.h5_prior405upgrade (horel's qaqc and final files have no ES642 values that month). The removal date is the first raw row of the metone_es405 that replaced it, 2025-01-06 19:30:00 UTC, so one instant ends this instrument and starts that one."
+                "notes": "Installed 2014-12-05. The field team's site note for the day reads \"Installed LGR, GRIMM, E-Sampler, started everything\"; the entry is typed 2015/12/5, but the entries around it are dated 2014/12/2 and 2015/1/3 (which says the station had run for about 25 days), so the year is 2014. Horel's pilot archive holds E-Sampler rows from 2014-11-05, but those before 2014-12-05 are bench rows: the platform's first GPS fixes (2014-11-26 and 2014-12-02) are at the William Browning Building, and the train's first moving fixes are on 2014-12-04. The site notes call the unit the E-Sampler until 2017 and the ES642 after (on 2017/10/27 an ES642 from TRAX 1104 replaced a removed E-Sampler); the catalog takes them as one instrument. The last sample is 2025-01-06 18:10:28 UTC, in horel's raw TRX01_2025_01_esampler.h5_prior405upgrade (horel's qaqc and final files have no ES642 values that month). The removal date is the first raw row of the metone_es405 that replaced it, 2025-01-06 19:30:00 UTC, so one instant ends this instrument and starts that one."
             },
             "metone_es405": {
                 "loggers": {
@@ -688,8 +709,7 @@
                 },
                 "installation_date": "2014-12-09",
                 "removal_date": "2024-08-28",
-                "notes": "The last sample is 2024-08-27 17:44:49 UTC (raw and qaqc; calibrated and final end 2024-08-20 20:09:10), so the removal date is the next midnight. The lin pipeline's site configuration switched TRX01 to lgr_ugga_manual_cal on 2024-09-19, and that instrument has data from 2023-11-18 on.",
-                "MIU": false
+                "notes": "The last sample is 2024-08-27 17:44:49 UTC (raw and qaqc; calibrated and final end 2024-08-20 20:09:10), so the removal date is the next midnight. The lin pipeline's site configuration switched TRX01 to lgr_ugga_manual_cal on 2024-09-19, and that instrument has data from 2023-11-18 on."
             },
             "lgr_ugga_manual_cal": {
                 "model": "lgr_ugga",
@@ -697,7 +717,6 @@
                     "lin": "air-trend"
                 },
                 "installation_date": "2023-11-18",
-                "MIU": false,
                 "notes": "Removed calibration tank and manually calibrated with lgr software periodically."
             }
         }
@@ -793,7 +812,7 @@
         }
     },
     "WBB": {
-        "name": "William Browning",
+        "name": "William Browning Building",
         "latitude": 40.766189,
         "longitude": -111.847672,
         "zagl": 35,

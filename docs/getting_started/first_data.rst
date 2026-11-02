@@ -17,7 +17,7 @@ Your first data
 This page takes you from an installed uataq (see
 :doc:`/getting_started/installation`) to a month of CO2 and CH4 from one site,
 in local time, as hourly means, and a plot of their daily cycle. The example is
-WBB (William Browning, on the University of Utah campus) in June 2025.
+WBB (William Browning Building, on the University of Utah campus) in June 2025.
 
 To pick another site, pollutant or month, first check that there are data:
 :doc:`/guides/find_sites_and_data` shows how, and :doc:`/guides/errors` says
