@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Configuration &#8212; UATAQ 2026.10.3.dev19+g9402c5df8 documentation</title>
+    <title>Configuration &#8212; UATAQ 2026.10.3.dev20+g7edea17b7 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be" />
 
-    <script src="../_static/documentation_options.js?v=cf4c76e1"></script>
+    <script src="../_static/documentation_options.js?v=3890eb2f"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -61,7 +61,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.3.dev19+g9402c5df8" />
+  <meta name="docsearch:version" content="2026.10.3.dev20+g7edea17b7" />
   
     
     <script src="../_static/searchtools.js"></script>
@@ -129,7 +129,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.3.dev19+g9402c5df8 documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.3.dev20+g7edea17b7 documentation</p>
   
 </a></div>
     
@@ -509,7 +509,10 @@
 <li class="toctree-l3"><a class="reference internal" href="../api/uataq.instruments.Licor_6262.html">uataq.instruments.Licor_6262</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/uataq.instruments.Licor_7000.html">uataq.instruments.Licor_7000</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/uataq.instruments.Magee_AE33.html">uataq.instruments.Magee_AE33</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/uataq.instruments.MetOne_ES405.html">uataq.instruments.MetOne_ES405</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/uataq.instruments.MetOne_ES405.html">uataq.instruments.MetOne_ES405</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/uataq.instruments.MetOne_ES405.get_datafiles.html">uataq.instruments.MetOne_ES405.get_datafiles</a></li>
+</ul>
+</details></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/uataq.instruments.MetOne_ES642.html">uataq.instruments.MetOne_ES642</a></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../api/uataq.instruments.SensorMixin.html">uataq.instruments.SensorMixin</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="../api/uataq.instruments.SensorMixin.pollutants.html">uataq.instruments.SensorMixin.pollutants</a></li>
@@ -681,6 +684,19 @@ the midnight after lin’s last sample.</p>
 gap between lin’s stop and horel’s first <code class="docutils literal notranslate"><span class="pre">final</span></code> data, as in the example
 above: see <a class="reference internal" href="../guides/mobile_sites.html#mobile-raw-only"><span class="std std-ref">Months that are only raw</span></a>.</p>
 </div>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">es642_column_dates</span></code> (optional)</dt><dd><p>Only for a <code class="docutils literal notranslate"><span class="pre">metone_es405</span></code>: map of research group to a <code class="docutils literal notranslate"><span class="pre">[start,</span> <span class="pre">stop]</span></code>
+pair, the half-open window <code class="docutils literal notranslate"><span class="pre">[start,</span> <span class="pre">stop)</span></code> in which that group’s qaqc and
+final files give the instrument’s values under the <code class="docutils literal notranslate"><span class="pre">metone_es642</span></code>’s column
+names (<code class="docutils literal notranslate"><span class="pre">ES642_PM2.5_Concentration</span></code> and so on). Inside the window the
+ES405 reads those columns as its own; outside it ignores them. Horel’s
+files do this at BUS01 (<code class="docutils literal notranslate"><span class="pre">[&quot;2026-02-01&quot;,</span> <span class="pre">&quot;2026-04-01&quot;]</span></code>) and BUS02
+(<code class="docutils literal notranslate"><span class="pre">[&quot;2025-03-13</span> <span class="pre">02:38:00&quot;,</span> <span class="pre">&quot;2026-04-01&quot;]</span></code>) for the months after each swap,
+and use the ES405’s own names from April 2026. At BUS02 the window starts
+at the ES405’s installation because its flow, temperature, humidity,
+pressure and error code are under ES642 names from then; its PM2.5 under
+that name is empty until November 2025, so qaqc has no PM2.5 for
+2025-03-13 to 2025-11-01 (the raw file has it).</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">model</span></code> (optional)</dt><dd><p>The instrument class to use when it differs from the instrument’s name.</p>
 </dd>

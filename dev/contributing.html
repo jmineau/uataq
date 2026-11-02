@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Contributing &#8212; UATAQ 2026.10.3.dev19+g9402c5df8 documentation</title>
+    <title>Contributing &#8212; UATAQ 2026.10.3.dev20+g7edea17b7 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be" />
 
-    <script src="_static/documentation_options.js?v=cf4c76e1"></script>
+    <script src="_static/documentation_options.js?v=3890eb2f"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -60,7 +60,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.3.dev19+g9402c5df8" />
+  <meta name="docsearch:version" content="2026.10.3.dev20+g7edea17b7" />
   
     
     <script src="_static/searchtools.js"></script>
@@ -128,7 +128,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.3.dev19+g9402c5df8 documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.3.dev20+g7edea17b7 documentation</p>
   
 </a></div>
     
@@ -710,7 +710,19 @@ belongs to the ES405 alone. Other suffixes in horel’s raw folders
 (<code class="docutils literal notranslate"><span class="pre">TRX01_2024_02_cr1000.h5_bad</span></code>, which is empty, and the pilot archive’s
 <code class="docutils literal notranslate"><span class="pre">cr1000/old/*.h5_old</span></code>) are not read. The four LI-COR 6262 to 7000 swaps (DBK,
 HEB, RPK, SUG) are in separate lin folders, so their files cannot mix, but the
-same date rule holds.</p>
+same date rule holds. BUS01’s swap is a sixth MetOne swap with no split files: it
+fell in a gap of several months with no file at all, and the instant is the ES405’s
+first raw row.</p>
+<p>For some months after the swaps at BUS01 and BUS02, horel’s qaqc and final files
+name the ES405’s values with the ES642’s column names (<code class="docutils literal notranslate"><span class="pre">ES642_PM2.5_Concentration</span></code>).
+The ES405’s <code class="docutils literal notranslate"><span class="pre">es642_column_dates</span></code> in <code class="docutils literal notranslate"><span class="pre">config.json</span></code> says when
+(<a class="reference internal" href="reference/config.html"><span class="doc">Configuration</span></a>): a file read for the ES405 takes those columns as its
+own for rows inside that window, and drops them outside it. BUS02’s window
+starts at the ES405’s installation: its files from March to May 2025 hold the
+ES405’s flow, temperature, humidity, pressure and error code under the ES642’s
+names, but their PM2.5 under that name is empty, so qaqc has those diagnostics
+and no PM2.5 for the period. <code class="docutils literal notranslate"><span class="pre">MetOne_ES405.get_datafiles</span></code> hands the window to
+the files.</p>
 <p>The pilot archive (<code class="docutils literal notranslate"><span class="pre">uutrax_pilot</span></code>) and the main one (<code class="docutils literal notranslate"><span class="pre">uutrax</span></code>) both have a raw
 file for November 2018, the month TRX01’s and TRX02’s pilot phase ended. The pilot
 file goes on to the end of the month with a copy of the main file’s row once a

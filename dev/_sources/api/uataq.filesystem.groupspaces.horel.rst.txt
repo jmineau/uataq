@@ -19,6 +19,7 @@ uataq.filesystem.groupspaces.horel
    PRIOR_405_SUFFIX
    lvl_data_dirs
    column_mapping
+   ES405_UNDER_ES642_NAMES
 
 
 
