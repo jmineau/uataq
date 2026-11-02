@@ -379,14 +379,79 @@ class TestLGRUGGAFile:
         data = lin.LGR_UGGA_File(str(path)).parse()
 
         assert list(data.columns) == UGGA_NAMES
+        # Mountain standard time in the file (before the switch to UTC)
         assert data["Time_UTC"].tolist() == list(
-            pd.to_datetime(["2015-11-19 15:29:17.950", "2015-11-19 15:29:18.721"])
+            pd.to_datetime(["2015-11-19 22:29:17.950", "2015-11-19 22:29:18.721"])
         )
         # ugga_row writes 1.9, 2.9, ...: the first numbers are the gases
         assert data["CH4_ppm"].tolist() == pytest.approx([1.9, 1.9])
         assert data["RD1_us_sd"].tolist() == pytest.approx([1.9 + 19] * 2)
         assert data["Fit_Flag"].tolist() == [3.0, 3.0]
         assert data["ID"].tolist() == ["~Atmosphere~Atmosphere"] * 2
+
+    @pytest.mark.parametrize(
+        "logged, utc",
+        [
+            ("06/15/2015 15:37:54.729", "2015-06-15 21:37:54.729"),  # MDT, +6 h
+            ("11/20/2015 12:00:00.000", "2015-11-20 19:00:00.000"),  # MST, +7 h
+            ("12/28/2015 23:59:59.900", "2015-12-29 06:59:59.900"),  # last MST day
+            # the hour that repeats when daylight saving ends is taken as
+            # daylight time, where the pipeline puts it
+            ("11/01/2015 01:30:00.000", "2015-11-01 07:30:00.000"),
+            ("11/01/2015 02:00:00.000", "2015-11-01 09:00:00.000"),  # MST again
+            ("12/30/2015 00:00:00.500", "2015-12-30 00:00:00.500"),  # UTC clock
+            ("01/15/2016 12:00:00.000", "2016-01-15 12:00:00.000"),
+        ],
+    )
+    def test_mountain_time_before_the_switch_becomes_utc(self, tmp_path, logged, utc):
+        """
+        Raw times before 2015-12-29 are Mountain time, as the pipeline reads them.
+
+        Its qaqc file has the reading logged at 06/15/2015 15:37:54 at 21:37:54.
+        """
+        path = write_ugga(
+            tmp_path / "gga_2015-06-15_f0000.txt",
+            "2f90039",
+            [ugga_row(logged, tail=("3", "3", "atmosphere"))],
+            header_cols=24,
+        )
+        data = lin.LGR_UGGA_File(path).parse()
+        assert data["Time_UTC"].tolist() == [pd.Timestamp(utc)]
+
+    def test_rows_of_the_switch_day_are_dropped(self, tmp_path):
+        """2015-12-29, the day the clocks were switched, has no single offset."""
+        times = [
+            "12/28/2015 23:59:59.000",
+            "12/29/2015 00:00:00.000",
+            "12/29/2015 13:00:00.000",
+            "12/29/2015 23:59:59.999",
+            "12/30/2015 00:00:00.000",
+        ]
+        path = write_ugga(
+            tmp_path / "gga_2015-12-29_f0000.txt",
+            "2f90039",
+            [ugga_row(t, tail=("3", "3", "atmosphere")) for t in times],
+            header_cols=24,
+        )
+        data = lin.LGR_UGGA_File(path).parse()
+        assert data["Time_UTC"].tolist() == list(
+            pd.to_datetime(["2015-12-29 06:59:59", "2015-12-30 00:00:00"])
+        )
+        assert data["CH4_ppm"].tolist() == pytest.approx([1.9, 1.9])
+
+    def test_both_passes_of_the_fall_back_hour_are_daylight_time(self, tmp_path):
+        """The analyzer logs 01:00-02:00 twice on the day daylight saving ends."""
+        times = ["11/01/2015 01:59:50.000", "11/01/2015 01:00:00.000"]
+        path = write_ugga(
+            tmp_path / "gga_2015-11-01_f0000.txt",
+            "2f90039",
+            [ugga_row(t, tail=("3", "3", "atmosphere")) for t in times],
+            header_cols=24,
+        )
+        data = lin.LGR_UGGA_File(path).parse()
+        assert data["Time_UTC"].tolist() == list(
+            pd.to_datetime(["2015-11-01 07:59:50", "2015-11-01 07:00:00"])
+        )
 
     def test_unknown_layout_raises(self, tmp_path):
         """A layout with no Fit_Flag to find is not guessed at."""
@@ -759,6 +824,103 @@ class TestLinGroup:
             "2024-06-03",
             "2024-06-04",
         ]
+
+    def test_raw_ugga_read_of_a_utc_day_finds_its_mountain_time_rows(self, data_dir):
+        """
+        Before 2015-12-29, a UTC day starts in the file of the day before.
+
+        06/15/2015 22:00 MDT is 2015-06-16 04:00 UTC: a read of 2015-06-16 has
+        it, and a read of 2015-06-15 does not.
+        """
+        raw = data_dir / "wbb" / "lgr_ugga" / "raw"
+        rows = {
+            "15Jun2015": ["06/15/2015 12:00:00.000", "06/15/2015 22:00:00.000"],
+            "16Jun2015": ["06/16/2015 12:00:00.000"],
+        }
+        for day, times in rows.items():
+            write_ugga(
+                raw / day / f"gga{day}_f0000.txt",
+                "904M",
+                [ugga_row(t, tail=("3", "V:1 Atmosphere")) for t in times],
+            )
+
+        def read(day):
+            time_range = TimeRange(day)
+            datafiles = lin.LinGroup().get_datafiles(
+                "WBB", "lgr_ugga", "raw", "lgr_ugga", time_range
+            )
+            with patch.dict(lin.DATA_CONFIG, {"lgr_ugga": UGGA_CONFIG}):
+                return filesystem.parse_datafiles(datafiles, time_range).index.tolist()
+
+        assert read("2015-06-15") == [pd.Timestamp("2015-06-15 18:00")]
+        assert read("2015-06-16") == list(
+            pd.to_datetime(["2015-06-16 04:00", "2015-06-16 18:00"])
+        )
+
+    def test_raw_ugga_read_finds_rows_two_days_after_the_file_name(self, data_dir):
+        """
+        A file started late in the evening, converted to UTC, reaches day D+2.
+
+        As ROO's 2015-03-25 file: 23:27 MDT on 03-25 to 23:00 on 03-26, so
+        2015-03-26 05:27 to 2015-03-27 05:00 UTC. A read of 2015-03-27 must
+        open it, not only the 2015-03-26 file that starts at 05:27 UTC.
+        """
+        raw = data_dir / "roo" / "lgr_ugga" / "raw"
+        rows = {
+            "2015-03-25": [
+                "03/25/2015 23:27:00.000",
+                "03/26/2015 18:30:00.000",
+                "03/26/2015 23:00:00.000",
+            ],
+            "2015-03-26": ["03/26/2015 23:27:00.000"],
+        }
+        for day, times in rows.items():
+            write_ugga(
+                raw / day / f"gga_{day}_f0000.txt",
+                "2f90039",
+                [ugga_row(t, tail=("3", "3", "atmosphere")) for t in times],
+                header_cols=24,
+            )
+
+        time_range = TimeRange("2015-03-27")
+        datafiles = lin.LinGroup().get_datafiles(
+            "ROO", "lgr_ugga", "raw", "lgr_ugga", time_range
+        )
+        with patch.dict(lin.DATA_CONFIG, {"lgr_ugga": UGGA_CONFIG}):
+            data = filesystem.parse_datafiles(datafiles, time_range)
+
+        assert data.index.tolist() == list(
+            pd.to_datetime(["2015-03-27 00:30", "2015-03-27 05:00", "2015-03-27 05:27"])
+        )
+
+    @pytest.mark.parametrize(
+        "day, periods",
+        [
+            # before the switch: two days and 7 h earlier, so D-2 is opened
+            ("2015-06-03", ["2015-06-01", "2015-06-02", "2015-06-03", "2015-06-04"]),
+            ("2015-12-29", ["2015-12-27", "2015-12-28", "2015-12-29", "2015-12-30"]),
+            # from the end of the switch day on: one day, as before
+            ("2015-12-30", ["2015-12-29", "2015-12-30", "2015-12-31"]),
+            ("2016-06-03", ["2016-06-02", "2016-06-03", "2016-06-04"]),
+        ],
+    )
+    def test_raw_ugga_range_is_widened_more_before_the_switch(
+        self, data_dir, day, periods
+    ):
+        raw = data_dir / "wbb" / "lgr_ugga" / "raw"
+        for d in pd.date_range(pd.Timestamp(day) - pd.Timedelta(days=4), periods=9):
+            name = f"{d:%Y-%m-%d}"
+            write_ugga(
+                raw / name / f"gga_{name}_f0000.txt",
+                "2f90039",
+                [ugga_row(f"{d:%m/%d/%Y} 12:00:00.000", tail=("3", "3", "atm"))],
+                header_cols=24,
+            )
+
+        datafiles = lin.LinGroup().get_datafiles(
+            "WBB", "lgr_ugga", "raw", "lgr_ugga", TimeRange(day)
+        )
+        assert sorted(str(d.period) for d in datafiles) == periods
 
     @pytest.fixture
     def ugga_days(self, data_dir):
