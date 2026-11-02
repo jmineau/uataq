@@ -15,7 +15,9 @@ uataq.filesystem.groupspaces.lin.LGR\_UGGA\_File
 .. autosummary::
    :toctree:
 
+   ~LGR_UGGA_File.max_utc_shift
    ~LGR_UGGA_File.name_date_formats
+   ~LGR_UGGA_File.utc_clock_switch
 
 
 

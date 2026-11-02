@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>uataq.filesystem.groupspaces.lin.LGR_UGGA_File &#8212; UATAQ 2026.10.3.dev22+g500368bad documentation</title>
+    <title>uataq.filesystem.groupspaces.lin.LGR_UGGA_File &#8212; UATAQ 2026.10.3.dev23+g4f9fcb8f3 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be" />
 
-    <script src="../_static/documentation_options.js?v=6a5cdda0"></script>
+    <script src="../_static/documentation_options.js?v=eefa9eb9"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -56,12 +56,12 @@
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="uataq.filesystem.groupspaces.lin.LGR_UGGA_File.name_date_formats" href="uataq.filesystem.groupspaces.lin.LGR_UGGA_File.name_date_formats.html" />
+    <link rel="next" title="uataq.filesystem.groupspaces.lin.LGR_UGGA_File.max_utc_shift" href="uataq.filesystem.groupspaces.lin.LGR_UGGA_File.max_utc_shift.html" />
     <link rel="prev" title="uataq.filesystem.groupspaces.lin.AirTrendFile.parse" href="uataq.filesystem.groupspaces.lin.AirTrendFile.parse.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.3.dev22+g500368bad" />
+  <meta name="docsearch:version" content="2026.10.3.dev23+g4f9fcb8f3" />
   
     
     <script src="../_static/searchtools.js"></script>
@@ -129,7 +129,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.3.dev22+g500368bad documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.3.dev23+g4f9fcb8f3 documentation</p>
   
 </a></div>
     
@@ -666,8 +666,14 @@
 <p class="rubric">Attributes</p>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="uataq.filesystem.groupspaces.lin.LGR_UGGA_File.name_date_formats.html#uataq.filesystem.groupspaces.lin.LGR_UGGA_File.name_date_formats" title="uataq.filesystem.groupspaces.lin.LGR_UGGA_File.name_date_formats"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name_date_formats</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="uataq.filesystem.groupspaces.lin.LGR_UGGA_File.max_utc_shift.html#uataq.filesystem.groupspaces.lin.LGR_UGGA_File.max_utc_shift" title="uataq.filesystem.groupspaces.lin.LGR_UGGA_File.max_utc_shift"><code class="xref py py-obj docutils literal notranslate"><span class="pre">max_utc_shift</span></code></a></p></td>
+<td><p>The most the conversion moves a time later, that of Mountain standard time (UTC-7).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="uataq.filesystem.groupspaces.lin.LGR_UGGA_File.name_date_formats.html#uataq.filesystem.groupspaces.lin.LGR_UGGA_File.name_date_formats" title="uataq.filesystem.groupspaces.lin.LGR_UGGA_File.name_date_formats"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name_date_formats</span></code></a></p></td>
 <td><p>The two ways the LGR software has named its files, matched on the name itself rather than looked up by software version, so a new version that keeps either style needs no change: <code class="docutils literal notranslate"><span class="pre">gga01Apr2014_f0000.txt</span></code> (904M, WBB 2014-2016) and <code class="docutils literal notranslate"><span class="pre">gga_2015-11-17_f0000.txt</span></code> (2f90039, cf32204).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="uataq.filesystem.groupspaces.lin.LGR_UGGA_File.utc_clock_switch.html#uataq.filesystem.groupspaces.lin.LGR_UGGA_File.utc_clock_switch" title="uataq.filesystem.groupspaces.lin.LGR_UGGA_File.utc_clock_switch"><code class="xref py py-obj docutils literal notranslate"><span class="pre">utc_clock_switch</span></code></a></p></td>
+<td><p>The day the analyzers' clocks were switched from Mountain time to UTC, as <code class="docutils literal notranslate"><span class="pre">(start,</span> <span class="pre">stop)</span></code>.</p></td>
 </tr>
 </tbody>
 </table>
@@ -712,11 +718,11 @@
       </div>
     </a>
     <a class="right-next"
-       href="uataq.filesystem.groupspaces.lin.LGR_UGGA_File.name_date_formats.html"
+       href="uataq.filesystem.groupspaces.lin.LGR_UGGA_File.max_utc_shift.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">uataq.filesystem.groupspaces.lin.LGR_UGGA_File.name_date_formats</p>
+        <p class="prev-next-title">uataq.filesystem.groupspaces.lin.LGR_UGGA_File.max_utc_shift</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

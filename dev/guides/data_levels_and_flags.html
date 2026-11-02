@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Data levels and flags &#8212; UATAQ 2026.10.3.dev22+g500368bad documentation</title>
+    <title>Data levels and flags &#8212; UATAQ 2026.10.3.dev23+g4f9fcb8f3 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be" />
 
-    <script src="../_static/documentation_options.js?v=6a5cdda0"></script>
+    <script src="../_static/documentation_options.js?v=eefa9eb9"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -61,7 +61,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.3.dev22+g500368bad" />
+  <meta name="docsearch:version" content="2026.10.3.dev23+g4f9fcb8f3" />
   
     
     <script src="../_static/searchtools.js"></script>
@@ -129,7 +129,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.3.dev22+g500368bad documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.3.dev23+g4f9fcb8f3 documentation</p>
   
 </a></div>
     
@@ -517,7 +517,12 @@ calibration fit, the <code class="docutils literal notranslate"><span class="pre
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">raw</span></code></p></td>
 <td><p>The analyzer’s columns as they were logged, with <code class="docutils literal notranslate"><span class="pre">ID</span></code> but without
-<code class="docutils literal notranslate"><span class="pre">ID_CO2</span></code>, <code class="docutils literal notranslate"><span class="pre">ID_CH4</span></code> or <code class="docutils literal notranslate"><span class="pre">QAQC_Flag</span></code>.</p></td>
+<code class="docutils literal notranslate"><span class="pre">ID_CO2</span></code>, <code class="docutils literal notranslate"><span class="pre">ID_CH4</span></code> or <code class="docutils literal notranslate"><span class="pre">QAQC_Flag</span></code>. The <code class="docutils literal notranslate"><span class="pre">lgr_ugga</span></code> clocks ran on
+Mountain time until 29 December 2015, when they were switched to UTC:
+uataq converts the times logged before that day to UTC and leaves out
+the rows of the day itself, as the pipeline does for <code class="docutils literal notranslate"><span class="pre">qaqc</span></code>. Both
+passes through the hour that repeats when daylight saving ends
+(1 to 2 a.m.) are taken as daylight time, as in the pipeline.</p></td>
 </tr>
 </tbody>
 </table>
