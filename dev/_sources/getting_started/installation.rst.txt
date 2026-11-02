@@ -66,11 +66,13 @@ Install
    files that go unused for 60 days.
 
 4. **Install uataq.** ``pip`` is Python's installer. uataq is not on PyPI (the
-   usual package index), so you point pip at its GitHub repository.
+   usual package index), so you point pip at its GitHub repository. The
+   ``@v2026.10.2`` at the end names a release, the newest when this page was
+   written (:ref:`install-update` shows how to find a newer one).
 
    .. code-block:: bash
 
-      pip install git+https://github.com/jmineau/uataq.git
+      pip install git+https://github.com/jmineau/uataq.git@v2026.10.2
 
    pip prints a long list while it works (about two minutes). The last line
    that matters starts with ``Successfully installed``. A notice about a new
@@ -128,7 +130,7 @@ takes 0.6 GB in ``~/.conda/envs``:
    module load miniforge3
    conda create -y -n uataq python=3.12
    conda activate uataq
-   pip install git+https://github.com/jmineau/uataq.git
+   pip install git+https://github.com/jmineau/uataq.git@v2026.10.2
 
 Each time you log in
 --------------------
@@ -170,25 +172,30 @@ Your notebooks then run the environment's Python, with uataq. (The two lines
 are CHPC's instructions for a custom environment; the environment itself was
 tested up to a Jupyter kernel that imports uataq.)
 
+.. _install-update:
+
 Update uataq, or pin a version
 ------------------------------
 
-The install above gets the newest code. To update later, run the same command
-with ``--upgrade``:
+The install above names a release by its tag, ``@v2026.10.2``. Each release
+has a tag of the form ``vYYYY.M.PATCH``. `The releases page
+<https://github.com/jmineau/uataq/releases>`_ lists them, newest first. To
+update later, run the install again with ``--upgrade`` and the newest tag:
 
 .. code-block:: bash
 
-   pip install --upgrade git+https://github.com/jmineau/uataq.git
+   pip install --upgrade git+https://github.com/jmineau/uataq.git@v2026.10.2
 
-For results you will publish, install a fixed release by adding its tag, and
-write the version down. ``pip show uataq`` prints the version you have.
-`The releases page <https://github.com/jmineau/uataq/releases>`_ lists the tags
-(``v2026.10.2`` was the newest in October 2026).
+For results you will publish, keep the tag you installed and write the version
+down. ``pip show uataq`` prints the version you have:
 
 .. code-block:: bash
 
-   pip install git+https://github.com/jmineau/uataq.git@v2026.10.2
    pip show uataq
+
+To try changes made since the last release, leave off the ``@`` and the tag.
+That installs the code on the ``main`` branch, which these docs may not yet
+describe (the version switcher in the header has a ``dev`` copy that does).
 
 .. _install-slurm:
 
