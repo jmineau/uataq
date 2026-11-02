@@ -304,7 +304,9 @@ class Site:
         num_processes : int or 'max'
             The number of processes to use for reading data. Default is 1.
         file_pattern : str, optional
-            The file pattern to use for filtering files. Default is None.
+            Keep only the files whose path contains this text (a plain
+            substring, not a glob or a regular expression). Default is None,
+            which keeps every file. See :ref:`input-file-pattern`.
 
         Returns
         -------

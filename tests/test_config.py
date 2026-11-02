@@ -21,6 +21,7 @@ LAST_SAMPLES = {
     ("BUS01", "2b_405"): "2022-05-09 17:42:50",
     ("BUS03", "2b_405"): "2024-05-14 17:56:15",
     ("DBK", "licor_6262"): "2022-05-13 15:32:10",
+    ("FRU", "lgr_ugga"): "2026-04-03 16:46:03.679",
     ("IMC", "licor_6262"): "2020-09-15 23:19:20",
     ("LDF", "lgr_ugga"): "2023-09-28 20:16:39.61",
     ("LG2", "licor_6262"): "2022-05-11 16:16:00",
@@ -168,3 +169,13 @@ def test_only_these_es405s_have_es642_column_dates():
         for inst in uataq.get_site(SID).instruments:
             if inst.model == "metone_es405" and SID not in ES642_COLUMN_DATES:
                 assert inst.es642_column_dates == {}
+
+
+def test_trx01_es642_installed_on_the_day_of_the_site_note():
+    """The field team's entry is typed 2015/12/5 but belongs to 2014 (#157)."""
+    start = instrument("TRX01", "metone_es642").active_range.start
+    assert start == pd.Timestamp("2014-12-05")
+    # TRX02's ES642 is the one installed on 2016-02-04
+    assert instrument("TRX02", "metone_es642").active_range.start == pd.Timestamp(
+        "2016-02-04"
+    )

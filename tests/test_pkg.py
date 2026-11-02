@@ -223,3 +223,8 @@ class TestLaboratory:
 
     def test_str(self):
         assert str(Laboratory(self.config)) == "UATAQ Laboratory"
+
+
+def test_wbb_is_named_the_william_browning_building():
+    """The name slv's tables use too (the board, 2026-10-30)."""
+    assert uataq.get_site("WBB").config["name"] == "William Browning Building"

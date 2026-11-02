@@ -578,7 +578,7 @@ class HorelCSVFinalizedFile(HorelCSVFile):
         Parse the CSV file, finalize the data, and return a DataFrame.
     """
 
-    final_patterns = ["UTC", "Ambient", "ppb", "ugm3", "deg", "m_s"]
+    final_patterns = ["UTC", "Ambient", "ppb", "ugm3", "deg", "m_s", "msl"]
 
     def parse(self) -> pd.DataFrame:
         """
@@ -603,8 +603,14 @@ class HorelCSVFinalizedFile(HorelCSVFile):
         data = pd.DataFrame(data.filter(regex="|".join(self.final_patterns)))
 
         # Drop rows without obs. Time_UTC is always set, so it can't count:
-        # a plain dropna(how="all") never dropped anything.
+        # a plain dropna(how="all") never dropped anything. An instrument that
+        # measures a concentration keeps a row only with one: the ES642's
+        # Ambient columns (its own temperature and pressure) have values on
+        # rows with no PM2.5. The GPS and the logger have no concentration, so
+        # any of their columns counts.
         obs_columns = [c for c in data.columns if c != "Time_UTC"]
+        concentrations = list(data.filter(regex="ppb|ugm3").columns)
+        obs_columns = concentrations or obs_columns
         return data.dropna(how="all", subset=obs_columns)
 
 

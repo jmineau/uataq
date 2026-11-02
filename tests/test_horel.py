@@ -444,6 +444,29 @@ class TestHorelGPSRead:
         # The invalid-RMC row is dropped
         assert data["Speed_m_s"].tolist() == [0.0, 5.5]
 
+    @pytest.mark.parametrize(
+        "write, columns, altitude",
+        [
+            (write_trx, ["Latitude_deg", "Longitude_deg", "Altitude_msl"],
+             [1325.4, 1325.7, 1325.9]),
+            (write_bus, ["Latitude_deg", "Longitude_deg", "Altitude_msl",
+                         "Speed_m_s", "Course_deg"], [1301.1, 1301.1]),
+        ],
+        ids=["trx", "bus"],
+    )  # fmt: skip
+    def test_final_csv_keeps_altitude(self, tmp_path, write, columns, altitude):
+        """The finalized CSV's Elevation is Altitude_msl at final, as at qaqc."""
+        path = write(tmp_path)
+        final = horel.HorelCSVFinalizedFile(path, "gps").parse()
+        qaqc = horel.HorelGroup.standardize_data(
+            "gps", horel.HorelCSVFile(path, "gps").parse()
+        )
+
+        assert list(final.columns) == ["Time_UTC", *columns]
+        assert final["Altitude_msl"].tolist() == altitude
+        at_final = qaqc.set_index("Time_UTC").loc[final["Time_UTC"], "Altitude_msl"]
+        assert at_final.tolist() == altitude
+
 
 #: The five MetOne swaps: the ES642's last raw row (in the month's
 #: ``esampler.h5_prior405upgrade`` file) and the ES405's first (in the
@@ -925,3 +948,43 @@ class TestES405UnderES642Names:
         es642 = horel.HorelCSVFile(path, "metone_es642").parse()
         assert "ES642_PM2.5_Concentration" in es642.columns
         assert "ES405_PM2.5_Concentration" not in es642.columns
+
+
+class TestTRX01PilotPM:
+    """
+    TRX01's pilot ES642 rows are readable from its installation day.
+
+    It was installed on 2014-12-05, so the pilot-archive rows from then on are
+    readable and the bench rows before it are not.
+    """
+
+    @pytest.fixture
+    def archive(self, tmp_path, monkeypatch):
+        pilot = tmp_path / "uutrax_pilot"
+        pm = {"PM25": [3.0, 4.0], "FLOW": [2.0, 2.0], "ITMP": [60.0, 60.0]}
+        write_h5(
+            pilot / "esampler" / "TRX01_2014_11_esampler.h5",
+            {"EPOCHTIME": epoch("2014-11-05 19:50", "2014-11-26 18:53"), **pm},
+        )
+        write_h5(
+            pilot / "esampler" / "TRX01_2014_12_esampler.h5",
+            {"EPOCHTIME": epoch("2014-12-05 18:58", "2014-12-06 00:31"), **pm},
+        )
+        monkeypatch.setattr(horel, "UUTRAX_PILOT_DIR", str(pilot))
+        with patch.dict(horel.lvl_data_dirs, {"raw": [str(pilot)]}):
+            yield
+
+    def test_rows_from_the_installation_day_are_read(self, archive):
+        es642 = get_site("TRX01").instruments["metone_es642"]
+        data = es642.read_data("horel", "raw", ("2014-12-01", "2015-01-01"))
+        assert data.index.tolist() == [
+            pd.Timestamp("2014-12-05 18:58"),
+            pd.Timestamp("2014-12-06 00:31"),
+        ]
+
+    def test_bench_rows_before_it_are_not(self, archive):
+        es642 = get_site("TRX01").instruments["metone_es642"]
+        with pytest.raises(InactiveInstrumentError):
+            es642.read_data("horel", "raw", ("2014-11-01", pd.Timestamp("2014-12-05")))
+        data = es642.read_data("horel", "raw", ("2014-11-01", "2015-01-01"))
+        assert data.index.min() == pd.Timestamp("2014-12-05 18:58")
