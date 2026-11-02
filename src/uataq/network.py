@@ -133,13 +133,13 @@ class Network:
     Attributes
     ----------
     sites : list[str]
-        The site IDs given, in upper case and without repeats, including any that
-        is misspelled or does not measure the pollutant. ``site_objects`` holds the
-        ones that were kept.
+        The IDs of the sites the network kept, in the order given: a site that
+        is misspelled or does not measure the pollutant is not in the list.
+        A site named twice is listed once.
     pollutant : str
         The pollutant to retrieve data for (uppercase).
     site_objects : list[sites.Site]
-        List of Site or MobileSite objects that measure the specified pollutant.
+        The Site or MobileSite object of each site in ``sites``.
     group : str | Mapping[str, str] | None
         The research group to read data from, or None to select each
         instrument's group automatically.
@@ -191,12 +191,13 @@ class Network:
             sites = _laboratory.laboratory.sites
 
         # Upper-case, then drop repeats ("WBB" and "wbb" name one site) and keep the order
-        self.sites = list(dict.fromkeys(s.upper() for s in sites))
+        given = list(dict.fromkeys(s.upper() for s in sites))
         self.pollutant = pollutant.upper()
         self.group = group
 
-        # Validate and filter sites
-        self.site_objects = self._validate_sites()
+        # Keep the sites that exist and measure the pollutant
+        self.site_objects = self._validate_sites(given)
+        self.sites = [site.SID for site in self.site_objects]
 
         if not self.site_objects:
             # Point to the sites in the configuration that do measure it
@@ -210,11 +211,11 @@ class Network:
             else:
                 where = "No site in the configuration measures it."
             # Name the sites given, unless there are too many to read (sites="all")
-            if len(self.sites) <= 10:
-                given = f"sites given ({', '.join(self.sites)})"
+            if len(given) <= 10:
+                names = f"sites given ({', '.join(given)})"
             else:
-                given = f"{len(self.sites)} sites given"
-            raise ValueError(f"None of the {given} measure {self.pollutant}. {where}")
+                names = f"{len(given)} sites given"
+            raise ValueError(f"None of the {names} measure {self.pollutant}. {where}")
 
         _logger.info(
             f"Network initialized for {self.pollutant} at {len(self.site_objects)} sites: "
@@ -229,9 +230,14 @@ class Network:
         site_ids = [site.SID for site in self.site_objects]
         return f"Network: {self.pollutant} at {site_ids}"
 
-    def _validate_sites(self) -> list[sites.Site]:
+    def _validate_sites(self, given: list[str]) -> list[sites.Site]:
         """
         Validate that all sites exist and measure the requested pollutant.
+
+        Parameters
+        ----------
+        given : list[str]
+            The site IDs given, in upper case and without repeats.
 
         Returns
         -------
@@ -246,7 +252,7 @@ class Network:
         """
         valid_sites = []
 
-        for sid in self.sites:
+        for sid in given:
             try:
                 site = _laboratory.get_site(sid)
             except ValueError as e:

@@ -45,6 +45,23 @@ class TestNetworkInitialization:
         assert net.sites == ["WBB", "SUG"]
         assert [site.SID for site in net.site_objects] == ["WBB", "SUG"]
 
+    def test_sites_holds_only_the_sites_kept(self):
+        """A misspelled site and a site that does not measure the pollutant are not in sites."""
+        assert "O3" not in get_site("CSP").pollutants  # CSP measures CO2 and CH4
+        net = Network(sites=["WBB", "WBBB", "CSP", "sug"], pollutant="O3")
+        assert net.sites == ["WBB"]
+        assert net.sites == [site.SID for site in net.site_objects]
+
+        net = Network(sites=["WBB", "WBBB", "CSP", "sug"], pollutant="CO2")
+        assert net.sites == ["WBB", "CSP", "SUG"]  # the order given
+
+    def test_sites_of_all_measure_the_pollutant(self):
+        """Looping over sites after Network("all", ...) reaches only sites with the pollutant."""
+        net = Network(sites="all", pollutant="CO2")
+        assert 0 < len(net.sites) < len(laboratory.sites)
+        assert all("CO2" in get_site(sid).pollutants for sid in net.sites)
+        assert net.sites == [site.SID for site in net.site_objects]
+
     def test_network_empty_sites_list(self):
         """Test that empty sites list raises ValueError."""
         with pytest.raises(ValueError, match="sites cannot be empty"):
