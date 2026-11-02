@@ -104,10 +104,13 @@ class Instrument(metaclass=ABCMeta):
         self.loggers = set(loggers.values())
         self.group_dates = self._parse_group_dates(config.get("group_dates"))
 
-    def _parse_group_dates(self, group_dates: dict | None) -> dict[str, TimeRange]:
+    def _parse_group_dates(
+        self, group_dates: dict | None, key: str = "group_dates"
+    ) -> dict[str, TimeRange]:
         """
-        Parse the config's ``group_dates`` into a TimeRange per group.
+        Parse a config key of windows by group into a TimeRange per group.
 
+        The key is ``group_dates``, or ``es642_column_dates`` for the ES405.
         Each entry is ``group: [start, stop]``, a half-open ``[start, stop)``
         window. Either end may be null for unbounded (in practice, the
         instrument's installation or removal). Dates are read as exact
@@ -124,19 +127,17 @@ class Instrument(metaclass=ABCMeta):
         for group, dates in (group_dates or {}).items():
             if group not in self.groups:
                 raise ValueError(
-                    f"group_dates for {self} names '{group}', which does not "
+                    f"{key} for {self} names '{group}', which does not "
                     f"operate it. Operators: {self.groups}."
                 )
             if not isinstance(dates, (list, tuple)) or len(dates) != 2:
                 raise ValueError(
-                    f"group_dates['{group}'] for {self} must be [start, stop], "
-                    f"got {dates!r}."
+                    f"{key}['{group}'] for {self} must be [start, stop], got {dates!r}."
                 )
             start, stop = (pd.to_datetime(d) if d else None for d in dates)
             if start is not None and stop is not None and start >= stop:
                 raise ValueError(
-                    f"group_dates['{group}'] for {self} ends before it starts: "
-                    f"{dates!r}."
+                    f"{key}['{group}'] for {self} ends before it starts: {dates!r}."
                 )
             windows[group] = TimeRange(start=start, stop=stop)
         return windows
@@ -945,10 +946,79 @@ class MetOne_ES405(Instrument, SensorMixin):
     Replaced the ES-642 at several sites. The horel group names both models
     ``esampler`` on disk, so only the configured installation and removal
     dates separate them -- see :meth:`Instrument.clip_to_active`.
+
+    Horel's qaqc and final files of BUS01 and BUS02 name this instrument's
+    values with the ES-642's column names for a few months after the swap. The
+    configuration's ``es642_column_dates`` says when, and the files take those
+    columns as this instrument's inside that window only.
+
+    Attributes
+    ----------
+    es642_column_dates : dict[str, TimeRange]
+        When each group's files give this instrument's values under the
+        ES-642's column names (config ``es642_column_dates``). A group not
+        listed never does.
     """
 
     model = "metone_es405"
     pollutants = ("PM1", "PM2.5", "PM4", "PM10")
+
+    def __init__(self, SID: str, name: str, loggers: dict, config: dict):
+        """
+        Initialize the ES-405, reading the configuration's ``es642_column_dates``.
+
+        Parameters
+        ----------
+        SID : str
+            Site ID where the instrument is installed.
+        name : str
+            Name of the instrument.
+        loggers : dict
+            Dictionary of loggers used by different research groups.
+        config : dict
+            Configuration settings for the instrument.
+        """
+        super().__init__(SID, name, loggers, config)
+        self.es642_column_dates = self._parse_group_dates(
+            config.get("es642_column_dates"), "es642_column_dates"
+        )
+
+    def get_datafiles(
+        self,
+        group: str,
+        lvl: str,
+        time_range: TimeRange | TimeRangeTypes,
+        pattern: str | None = None,
+    ) -> list[filesystem.DataFile]:
+        """
+        Get data files for the given level and time range from the groupspace.
+
+        As :meth:`Instrument.get_datafiles`, and each file is told the group's
+        ``es642_column_dates``, so that it takes its ES-642-named columns as
+        this instrument's inside that window and ignores them outside it.
+
+        Parameters
+        ----------
+        group : str
+            The research group whose data to retrieve.
+        lvl : str
+            The level of the data to retrieve.
+        time_range : TimeRange | TimeRangeTypes
+            The time range of the data to retrieve.
+        pattern : str
+            A string pattern to filter the file paths.
+
+        Returns
+        -------
+        list[DataFile]
+            A list of data files.
+        """
+        datafiles = super().get_datafiles(group, lvl, time_range, pattern)
+        window = self.es642_column_dates.get(group)
+        for datafile in datafiles:
+            # pyrefly: ignore[missing-attribute]
+            datafile.es642_column_dates = window
+        return datafiles
 
 
 class MetOne_ES642(Instrument, SensorMixin):

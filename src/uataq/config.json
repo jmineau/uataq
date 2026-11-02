@@ -37,7 +37,19 @@
                 "installation_date": "2021-09-28"
             },
             "metone_es642": {
-                "installation_date": "2021-09-28"
+                "installation_date": "2021-09-28",
+                "removal_date": "2026-02-17 21:28:00",
+                "notes": "The last sample is 2025-10-09 02:17:10 UTC (raw, qaqc and final). Horel has no BUS01 file from 2025-11 to 2026-01, so the swap fell in that gap. The removal date is the first raw row of the metone_es405 that replaced it, 2026-02-17 21:28:00 UTC, so one instant ends this instrument and starts that one."
+            },
+            "metone_es405": {
+                "installation_date": "2026-02-17 21:28:00",
+                "es642_column_dates": {
+                    "horel": [
+                        "2026-02-01",
+                        "2026-04-01"
+                    ]
+                },
+                "notes": "Replaced the metone_es642. The installation date is this instrument's first raw row, 2026-02-17 21:28:00 UTC, in BUS01_2026_02_esampler.h5 (60 s rows with PM01, PM04 and PM10; the ES642's were 5 s rows with PM25 alone). Horel's qaqc and final files of 2026-02 and 2026-03 give its values under the ES642's column names (all 36,435 ES642_PM2.5_Concentration values of 2026-03 equal the raw PM25 of the same minute) and use ES405 names from 2026-04, so es642_column_dates ends on 2026-04-01. The metone_es642's last sample is 2025-10-09 02:17:10 UTC, so no row of one is read as the other's."
             }
         }
     },
@@ -69,7 +81,13 @@
             },
             "metone_es405": {
                 "installation_date": "2025-03-13 02:38:00",
-                "notes": "Replaced the metone_es642. The installation date is this instrument's first raw row, 2025-03-13 02:38:00 UTC, in BUS02_2025_03_esampler.h5, which holds only its rows; horel's qaqc and final files of that month have no ES405 columns. The metone_es642's last sample is 2025-03-13 00:37:10 UTC, so no row of one is read as the other's."
+                "es642_column_dates": {
+                    "horel": [
+                        "2025-03-13 02:38:00",
+                        "2026-04-01"
+                    ]
+                },
+                "notes": "Replaced the metone_es642. The installation date is this instrument's first raw row, 2025-03-13 02:38:00 UTC, in BUS02_2025_03_esampler.h5, which holds only its rows; horel's qaqc and final files of that month have no ES405 columns. The metone_es642's last sample is 2025-03-13 00:37:10 UTC, so no row of one is read as the other's. Horel's qaqc and final files give this instrument's flow, temperature, humidity, pressure and error code under the ES642's column names from its installation to 2026-03 (every value equals the raw ES405 at the same minute), and its PM values from 2025-11 (the ES642-named PM2.5 of 2025-03 to 2025-05 is empty, while the raw file has it); they use ES405 names from 2026-04, so es642_column_dates is [2025-03-13 02:38:00, 2026-04-01)."
             }
         }
     },
