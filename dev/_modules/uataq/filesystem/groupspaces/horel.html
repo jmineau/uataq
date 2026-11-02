@@ -6,7 +6,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>uataq.filesystem.groupspaces.horel &#8212; UATAQ 2026.10.3.dev15+gf46345531 documentation</title>
+    <title>uataq.filesystem.groupspaces.horel &#8212; UATAQ 2026.10.3.dev17+g2b3f6f8d2 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="../../../../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be" />
 <link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be" />
 
-    <script src="../../../../_static/documentation_options.js?v=7f3219ba"></script>
+    <script src="../../../../_static/documentation_options.js?v=af185964"></script>
     <script src="../../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -58,7 +58,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.3.dev15+gf46345531" />
+  <meta name="docsearch:version" content="2026.10.3.dev17+g2b3f6f8d2" />
   
     
     <script src="../../../../_static/searchtools.js"></script>
@@ -126,7 +126,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.3.dev15+gf46345531 documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.3.dev17+g2b3f6f8d2 documentation</p>
   
 </a></div>
     
@@ -1016,8 +1016,14 @@
         <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">regex</span><span class="o">=</span><span class="s2">"|"</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">final_patterns</span><span class="p">)))</span>
 
         <span class="c1"># Drop rows without obs. Time_UTC is always set, so it can't count:</span>
-        <span class="c1"># a plain dropna(how="all") never dropped anything.</span>
+        <span class="c1"># a plain dropna(how="all") never dropped anything. An instrument that</span>
+        <span class="c1"># measures a concentration keeps a row only with one: the ES642's</span>
+        <span class="c1"># Ambient columns (its own temperature and pressure) have values on</span>
+        <span class="c1"># rows with no PM2.5. The GPS and the logger have no concentration, so</span>
+        <span class="c1"># any of their columns counts.</span>
         <span class="n">obs_columns</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="n">c</span> <span class="o">!=</span> <span class="s2">"Time_UTC"</span><span class="p">]</span>
+        <span class="n">concentrations</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">regex</span><span class="o">=</span><span class="s2">"ppb|ugm3"</span><span class="p">)</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+        <span class="n">obs_columns</span> <span class="o">=</span> <span class="n">concentrations</span> <span class="ow">or</span> <span class="n">obs_columns</span>
         <span class="k">return</span> <span class="n">data</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">how</span><span class="o">=</span><span class="s2">"all"</span><span class="p">,</span> <span class="n">subset</span><span class="o">=</span><span class="n">obs_columns</span><span class="p">)</span></div>
 </div>
 

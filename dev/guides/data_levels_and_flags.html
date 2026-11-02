@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Data levels and flags &#8212; UATAQ 2026.10.3.dev15+gf46345531 documentation</title>
+    <title>Data levels and flags &#8212; UATAQ 2026.10.3.dev17+g2b3f6f8d2 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be" />
 
-    <script src="../_static/documentation_options.js?v=7f3219ba"></script>
+    <script src="../_static/documentation_options.js?v=af185964"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -61,7 +61,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.3.dev15+gf46345531" />
+  <meta name="docsearch:version" content="2026.10.3.dev17+g2b3f6f8d2" />
   
     
     <script src="../_static/searchtools.js"></script>
@@ -129,7 +129,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.3.dev15+gf46345531 documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.3.dev17+g2b3f6f8d2 documentation</p>
   
 </a></div>
     
@@ -679,7 +679,10 @@ the <code class="docutils literal notranslate"><span class="pre">2b_205</span></
 <p>The horel group’s ozone (<code class="docutils literal notranslate"><span class="pre">2b_205</span></code>) and particle (<code class="docutils literal notranslate"><span class="pre">metone_es642</span></code>,
 <code class="docutils literal notranslate"><span class="pre">metone_es405</span></code>) monitors mark a flagged row with 1, and uataq turns that into
 <code class="docutils literal notranslate"><span class="pre">QAQC_Flag</span> <span class="pre">=</span> <span class="pre">-1</span></code>, so their flag is 0 (passes) or -1 (flagged). Their <code class="docutils literal notranslate"><span class="pre">final</span></code>
-level is the <code class="docutils literal notranslate"><span class="pre">qaqc</span></code> rows that pass and have a value.
+level is the <code class="docutils literal notranslate"><span class="pre">qaqc</span></code> rows that pass and have a value: an ozone or PM2.5
+concentration. The <code class="docutils literal notranslate"><span class="pre">metone_es642</span></code>’s <code class="docutils literal notranslate"><span class="pre">Ambient_T_C</span></code> and <code class="docutils literal notranslate"><span class="pre">Ambient_P_hPa</span></code>
+(the sampler’s own temperature and pressure) stay in <code class="docutils literal notranslate"><span class="pre">final</span></code>, but only on
+rows that have a PM2.5 value.
 For the <code class="docutils literal notranslate"><span class="pre">2b_205</span></code> on TRX01 on 1 June 2024:</p>
 <div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">o3</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">read_data</span><span class="p">(</span><span class="s2">"TRX01"</span><span class="p">,</span> <span class="s2">"2b_205"</span><span class="p">,</span> <span class="n">lvl</span><span class="o">=</span><span class="s2">"qaqc"</span><span class="p">,</span> <span class="n">group</span><span class="o">=</span><span class="s2">"horel"</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="s2">"2024-06-01"</span><span class="p">)[</span><span class="s2">"2b_205"</span><span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">o3</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
