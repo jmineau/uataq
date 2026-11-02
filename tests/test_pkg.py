@@ -167,6 +167,17 @@ class TestTopLevelHelpers:
         (net,) = built
         assert (net.sites, net.pollutant, net.group) == (["WBB"], "CO2", "lin")
 
+    def test_get_network_obs_takes_one_site_id_as_a_string(self):
+        built = []
+
+        def get_obs(self, time_range=None, num_processes=1):
+            built.append(self)
+
+        with patch.object(uataq.Network, "get_obs", get_obs):
+            uataq.get_network_obs("trx01", "co2", group="lin")
+        (net,) = built
+        assert net.sites == ["TRX01"]
+
 
 class TestLaboratory:
     """Building sites from a configuration."""
