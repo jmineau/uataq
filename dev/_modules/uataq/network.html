@@ -6,7 +6,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>uataq.network &#8212; UATAQ 2026.10.3.dev21+g3f8a6ce69 documentation</title>
+    <title>uataq.network &#8212; UATAQ 2026.10.3.dev22+g500368bad documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be" />
 
-    <script src="../../_static/documentation_options.js?v=383641ba"></script>
+    <script src="../../_static/documentation_options.js?v=6a5cdda0"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -58,7 +58,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.3.dev21+g3f8a6ce69" />
+  <meta name="docsearch:version" content="2026.10.3.dev22+g500368bad" />
   
     
     <script src="../../_static/searchtools.js"></script>
@@ -126,7 +126,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.3.dev21+g3f8a6ce69 documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.3.dev22+g500368bad documentation</p>
   
 </a></div>
     
@@ -592,7 +592,7 @@
 <a class="viewcode-back" href="../../api/uataq.Network.html#uataq.Network.__init__">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">sites</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">|</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">"all"</span><span class="p">],</span>
+        <span class="n">sites</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span>
         <span class="n">pollutant</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">group</span><span class="p">:</span> <span class="n">GroupSelection</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
@@ -601,9 +601,11 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        sites : list[str] | tuple[str, ...] | 'all'</span>
+<span class="sd">        sites : str | list[str] | tuple[str, ...]</span>
 <span class="sd">            List of site identifiers to include in the network, or 'all' for</span>
 <span class="sd">            every configured site (those not measuring the pollutant drop out).</span>
+<span class="sd">            A single site ID as a string, such as ``"WBB"``, is a network of</span>
+<span class="sd">            that one site, the same as ``["WBB"]``.</span>
 <span class="sd">        pollutant : str</span>
 <span class="sd">            The pollutant to measure. Will be converted to uppercase.</span>
 <span class="sd">            Examples: 'CO2', 'O3', 'NO2', 'PM2.5', 'BC'</span>
@@ -625,6 +627,8 @@
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"sites cannot be empty."</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">sites</span> <span class="o">==</span> <span class="s2">"all"</span><span class="p">:</span>
             <span class="n">sites</span> <span class="o">=</span> <span class="n">_laboratory</span><span class="o">.</span><span class="n">laboratory</span><span class="o">.</span><span class="n">sites</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sites</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>  <span class="c1"># one site ID, not a sequence of letters</span>
+            <span class="n">sites</span> <span class="o">=</span> <span class="p">[</span><span class="n">sites</span><span class="p">]</span>
 
         <span class="c1"># Upper-case, then drop repeats ("WBB" and "wbb" name one site) and keep the order</span>
         <span class="n">given</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">dict</span><span class="o">.</span><span class="n">fromkeys</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">sites</span><span class="p">))</span>
@@ -831,7 +835,7 @@
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">time_range</span><span class="p">:</span> <span class="n">TimeRange</span> <span class="o">|</span> <span class="n">TimeRangeTypes</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">freq</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"D"</span><span class="p">,</span>
-        <span class="n">lvls</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">lvls</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">num_processes</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">"max"</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""</span>
@@ -852,9 +856,10 @@
 <span class="sd">        freq : str, optional</span>
 <span class="sd">            The size of a time bin, as a pandas period alias: 'h', 'D', 'W',</span>
 <span class="sd">            'M', ... Default is 'D'.</span>
-<span class="sd">        lvls : list[str], optional</span>
-<span class="sd">            The data levels to check. Default is None, every level in</span>
-<span class="sd">            :data:`uataq.filesystem.lvls`. Checking fewer is faster.</span>
+<span class="sd">        lvls : str | list[str], optional</span>
+<span class="sd">            The data levels to check; one level may be given as a string.</span>
+<span class="sd">            Default is None, every level in :data:`uataq.filesystem.lvls`.</span>
+<span class="sd">            Checking fewer is faster.</span>
 <span class="sd">        num_processes : int | 'max', optional</span>
 <span class="sd">            Number of processes used to parse files. Default is 1. A whole</span>
 <span class="sd">            network is thousands of files; use a compute node.</span>
@@ -872,6 +877,8 @@
 <span class="sd">        an instrument is checked (TRX01 ozone, for instance, is in both the</span>
 <span class="sd">        lin and horel archives), not only the one ``get_obs`` would read.</span>
 <span class="sd">        """</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">lvls</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>  <span class="c1"># one level, not a sequence of letters</span>
+            <span class="n">lvls</span> <span class="o">=</span> <span class="p">[</span><span class="n">lvls</span><span class="p">]</span>
         <span class="n">lvls</span> <span class="o">=</span> <span class="n">lvls</span> <span class="ow">or</span> <span class="nb">list</span><span class="p">(</span><span class="n">filesystem</span><span class="o">.</span><span class="n">lvls</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">invalid</span> <span class="o">:=</span> <span class="nb">set</span><span class="p">(</span><span class="n">lvls</span><span class="p">)</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">filesystem</span><span class="o">.</span><span class="n">lvls</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
