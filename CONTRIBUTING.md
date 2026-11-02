@@ -97,7 +97,10 @@ to bump. Releases are calendar-based: `YYYY.M.PATCH`.
 1. Pull requests leave `CHANGELOG.md` alone, so write it now: run `just changelog` to draft entries from the commit messages, edit them
    into `CHANGELOG.md` under `## [Unreleased]`, then rename that heading to
    `## [YYYY.M.PATCH] - YYYY-MM-DD` and start a new empty `## [Unreleased]`
-   above it. Commit (`chore(release): YYYY.M.PATCH`) and push to `main`.
+   above it. In the same commit, change the tag in the install commands to the new
+   release (`vYYYY.M.PATCH`); `grep -rnE 'v20[0-9]{2}\.[0-9]+\.[0-9]+' README.md docs` lists
+   them (the README and the Installation page, in the commands and the text). Commit
+   (`chore(release): YYYY.M.PATCH`) and push to `main`.
 2. Run `just release YYYY.M.PATCH`. It checks that the tree is clean, that
    `main` is in sync with GitHub, and that the version is newer than every
    existing tag, then pushes the tag `vYYYY.M.PATCH`.
