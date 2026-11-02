@@ -49,9 +49,9 @@ def concentration_columns(
     Matches ``{pollutant}_{unit}`` with a concentration unit, e.g. ``O3_ppb``,
     ``CO2d_ppm`` (dry mole fraction), ``CH4d_ppm_cal`` (calibrated),
     ``PM2.5_ugm3`` or ``BC6_ngm3`` (an aethalometer channel). Instrument
-    diagnostics that share the prefix, like ``O3_Meas_mV`` or ``NO2_Slope``,
-    spreads like ``O3_ppb_std``, and other pollutants sharing the prefix (``NO``
-    vs ``NO2_ppb``) are not matches.
+    diagnostics that share the prefix (``O3_Meas_mV``, ``NO2_Slope``), spreads
+    (``O3_ppb_std``) and other pollutants sharing the prefix (``NO`` vs
+    ``NO2_ppb``) are not matches.
 
     Parameters
     ----------
