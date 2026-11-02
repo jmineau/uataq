@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Find sites and data &#8212; UATAQ 2026.10.3.dev20+g7edea17b7 documentation</title>
+    <title>Find sites and data &#8212; UATAQ 2026.10.3.dev21+g3f8a6ce69 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be" />
 
-    <script src="../_static/documentation_options.js?v=3890eb2f"></script>
+    <script src="../_static/documentation_options.js?v=383641ba"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -61,7 +61,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.3.dev20+g7edea17b7" />
+  <meta name="docsearch:version" content="2026.10.3.dev21+g3f8a6ce69" />
   
     
     <script src="../_static/searchtools.js"></script>
@@ -129,7 +129,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.3.dev20+g7edea17b7 documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.3.dev21+g3f8a6ce69 documentation</p>
   
 </a></div>
     
@@ -557,7 +557,9 @@ is every site that measures the pollutant:</p>
 Utah campus) and LDF (the Salt Lake Valley landfill) are in the valley, HDP
 (Hidden Peak) is in the Wasatch Mountains above it, CSP, FRU, HPL and ROO are in
 the Uintah Basin, and TRX01 is a TRAX train. The site tables on
-<a class="reference internal" href="../reference/sites_and_instruments.html"><span class="doc">Sites and instruments</span></a> give each site’s name and position.</p>
+<a class="reference internal" href="../reference/sites_and_instruments.html"><span class="doc">Sites and instruments</span></a> give each site’s name and position.
+The network’s <code class="docutils literal notranslate"><span class="pre">sites</span></code> attribute lists the same sites by ID, so a loop over
+<code class="docutils literal notranslate"><span class="pre">net.sites</span></code> reaches only sites that measure the pollutant.</p>
 <p>An instrument’s window, its <code class="docutils literal notranslate"><span class="pre">active_range</span></code>, says when it was installed, not
 when it recorded data. That is why <code class="docutils literal notranslate"><span class="pre">PM2.5</span></code> is in WBB’s list although both of
 WBB’s PM2.5 instruments, <code class="docutils literal notranslate"><span class="pre">metone_es642</span></code> and <code class="docutils literal notranslate"><span class="pre">teom_1400ab</span></code>, have an end date:</p>

@@ -6,7 +6,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>uataq.network &#8212; UATAQ 2026.10.3.dev20+g7edea17b7 documentation</title>
+    <title>uataq.network &#8212; UATAQ 2026.10.3.dev21+g3f8a6ce69 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be" />
 
-    <script src="../../_static/documentation_options.js?v=3890eb2f"></script>
+    <script src="../../_static/documentation_options.js?v=383641ba"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -58,7 +58,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.3.dev20+g7edea17b7" />
+  <meta name="docsearch:version" content="2026.10.3.dev21+g3f8a6ce69" />
   
     
     <script src="../../_static/searchtools.js"></script>
@@ -126,7 +126,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.3.dev20+g7edea17b7 documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.3.dev21+g3f8a6ce69 documentation</p>
   
 </a></div>
     
@@ -567,13 +567,13 @@
 <span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>
 <span class="sd">    sites : list[str]</span>
-<span class="sd">        The site IDs given, in upper case and without repeats, including any that</span>
-<span class="sd">        is misspelled or does not measure the pollutant. ``site_objects`` holds the</span>
-<span class="sd">        ones that were kept.</span>
+<span class="sd">        The IDs of the sites the network kept, in the order given: a site that</span>
+<span class="sd">        is misspelled or does not measure the pollutant is not in the list.</span>
+<span class="sd">        A site named twice is listed once.</span>
 <span class="sd">    pollutant : str</span>
 <span class="sd">        The pollutant to retrieve data for (uppercase).</span>
 <span class="sd">    site_objects : list[sites.Site]</span>
-<span class="sd">        List of Site or MobileSite objects that measure the specified pollutant.</span>
+<span class="sd">        The Site or MobileSite object of each site in ``sites``.</span>
 <span class="sd">    group : str | Mapping[str, str] | None</span>
 <span class="sd">        The research group to read data from, or None to select each</span>
 <span class="sd">        instrument's group automatically.</span>
@@ -627,12 +627,13 @@
             <span class="n">sites</span> <span class="o">=</span> <span class="n">_laboratory</span><span class="o">.</span><span class="n">laboratory</span><span class="o">.</span><span class="n">sites</span>
 
         <span class="c1"># Upper-case, then drop repeats ("WBB" and "wbb" name one site) and keep the order</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">sites</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">dict</span><span class="o">.</span><span class="n">fromkeys</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">sites</span><span class="p">))</span>
+        <span class="n">given</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">dict</span><span class="o">.</span><span class="n">fromkeys</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">sites</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pollutant</span> <span class="o">=</span> <span class="n">pollutant</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">group</span> <span class="o">=</span> <span class="n">group</span>
 
-        <span class="c1"># Validate and filter sites</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">site_objects</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validate_sites</span><span class="p">()</span>
+        <span class="c1"># Keep the sites that exist and measure the pollutant</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">site_objects</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validate_sites</span><span class="p">(</span><span class="n">given</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sites</span> <span class="o">=</span> <span class="p">[</span><span class="n">site</span><span class="o">.</span><span class="n">SID</span> <span class="k">for</span> <span class="n">site</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">site_objects</span><span class="p">]</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">site_objects</span><span class="p">:</span>
             <span class="c1"># Point to the sites in the configuration that do measure it</span>
@@ -646,11 +647,11 @@
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">where</span> <span class="o">=</span> <span class="s2">"No site in the configuration measures it."</span>
             <span class="c1"># Name the sites given, unless there are too many to read (sites="all")</span>
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sites</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">10</span><span class="p">:</span>
-                <span class="n">given</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"sites given (</span><span class="si">{</span><span class="s1">', '</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sites</span><span class="p">)</span><span class="si">}</span><span class="s2">)"</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">given</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">10</span><span class="p">:</span>
+                <span class="n">names</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"sites given (</span><span class="si">{</span><span class="s1">', '</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">given</span><span class="p">)</span><span class="si">}</span><span class="s2">)"</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">given</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sites</span><span class="p">)</span><span class="si">}</span><span class="s2"> sites given"</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"None of the </span><span class="si">{</span><span class="n">given</span><span class="si">}</span><span class="s2"> measure </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">pollutant</span><span class="si">}</span><span class="s2">. </span><span class="si">{</span><span class="n">where</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+                <span class="n">names</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">given</span><span class="p">)</span><span class="si">}</span><span class="s2"> sites given"</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"None of the </span><span class="si">{</span><span class="n">names</span><span class="si">}</span><span class="s2"> measure </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">pollutant</span><span class="si">}</span><span class="s2">. </span><span class="si">{</span><span class="n">where</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
         <span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
             <span class="sa">f</span><span class="s2">"Network initialized for </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">pollutant</span><span class="si">}</span><span class="s2"> at </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">site_objects</span><span class="p">)</span><span class="si">}</span><span class="s2"> sites: "</span>
@@ -666,9 +667,14 @@
         <span class="n">site_ids</span> <span class="o">=</span> <span class="p">[</span><span class="n">site</span><span class="o">.</span><span class="n">SID</span> <span class="k">for</span> <span class="n">site</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">site_objects</span><span class="p">]</span>
         <span class="k">return</span> <span class="sa">f</span><span class="s2">"Network: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">pollutant</span><span class="si">}</span><span class="s2"> at </span><span class="si">{</span><span class="n">site_ids</span><span class="si">}</span><span class="s2">"</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">_validate_sites</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">sites</span><span class="o">.</span><span class="n">Site</span><span class="p">]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_validate_sites</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">given</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">sites</span><span class="o">.</span><span class="n">Site</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Validate that all sites exist and measure the requested pollutant.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        given : list[str]</span>
+<span class="sd">            The site IDs given, in upper case and without repeats.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -683,7 +689,7 @@
 <span class="sd">        """</span>
         <span class="n">valid_sites</span> <span class="o">=</span> <span class="p">[]</span>
 
-        <span class="k">for</span> <span class="n">sid</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sites</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">sid</span> <span class="ow">in</span> <span class="n">given</span><span class="p">:</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">site</span> <span class="o">=</span> <span class="n">_laboratory</span><span class="o">.</span><span class="n">get_site</span><span class="p">(</span><span class="n">sid</span><span class="p">)</span>
             <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>

@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>When there is nothing to read &#8212; UATAQ 2026.10.3.dev20+g7edea17b7 documentation</title>
+    <title>When there is nothing to read &#8212; UATAQ 2026.10.3.dev21+g3f8a6ce69 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be" />
 
-    <script src="../_static/documentation_options.js?v=3890eb2f"></script>
+    <script src="../_static/documentation_options.js?v=383641ba"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -61,7 +61,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.3.dev20+g7edea17b7" />
+  <meta name="docsearch:version" content="2026.10.3.dev21+g3f8a6ce69" />
   
     
     <script src="../_static/searchtools.js"></script>
@@ -129,7 +129,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.3.dev20+g7edea17b7 documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.3.dev21+g3f8a6ce69 documentation</p>
   
 </a></div>
     
@@ -727,7 +727,8 @@ has it:</p>
 <p>A misspelled site, or a site that does not measure the pollutant, is dropped from
 a <code class="docutils literal notranslate"><span class="pre">Network</span></code> without an error. The log warns about a misspelled site; a site
 that does not measure the pollutant is dropped without a warning. Print the
-<code class="docutils literal notranslate"><span class="pre">Network</span></code> to see the sites it kept. If none is left you get the second error,
+<code class="docutils literal notranslate"><span class="pre">Network</span></code>, or read its <code class="docutils literal notranslate"><span class="pre">sites</span></code> attribute, to see the sites it kept; a loop
+over <code class="docutils literal notranslate"><span class="pre">net.sites</span></code> reaches only those. If none is left you get the second error,
 which names the sites you gave (only their number when there are more than
 ten), then lists the sites in the configuration that measure the pollutant, or
 says that none does. A site named twice, in any case (<code class="docutils literal notranslate"><span class="pre">&quot;WBB&quot;</span></code> and <code class="docutils literal notranslate"><span class="pre">&quot;wbb&quot;</span></code>), is

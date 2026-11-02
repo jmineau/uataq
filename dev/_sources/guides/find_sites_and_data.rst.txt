@@ -80,6 +80,8 @@ Utah campus) and LDF (the Salt Lake Valley landfill) are in the valley, HDP
 (Hidden Peak) is in the Wasatch Mountains above it, CSP, FRU, HPL and ROO are in
 the Uintah Basin, and TRX01 is a TRAX train. The site tables on
 :doc:`/reference/sites_and_instruments` give each site's name and position.
+The network's ``sites`` attribute lists the same sites by ID, so a loop over
+``net.sites`` reaches only sites that measure the pollutant.
 
 An instrument's window, its ``active_range``, says when it was installed, not
 when it recorded data. That is why ``PM2.5`` is in WBB's list although both of
