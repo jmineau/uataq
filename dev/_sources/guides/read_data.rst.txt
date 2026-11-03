@@ -46,39 +46,39 @@ CO2 and CH4:
     >>> import uataq
     >>> obs = uataq.get_obs("WBB", ["CO2", "CH4", "O3"], time_range="2025-06-02")
     >>> obs.head(3)
-                             CO2d_ppm_cal  CO2d_ppm_raw  CH4d_ppm_cal  CH4d_ppm_raw  O3_ppb
+                             CO2d_ppm_cal  CO2d_ppm_raw  CH4d_ppm_cal  CH4d_ppm_raw  O3_ppb     instrument
     Time_UTC
-    2025-06-02 00:00:01.000    431.852558      434.8026      1.981142      1.979105     NaN
-    2025-06-02 00:00:01.740           NaN           NaN           NaN           NaN    58.7
-    2025-06-02 00:00:03.780           NaN           NaN           NaN           NaN    58.6
-    >>> obs.notna().sum()
-    CO2d_ppm_cal     8390
-    CO2d_ppm_raw     8390
-    CH4d_ppm_cal     8390
-    CH4d_ppm_raw     8390
-    O3_ppb          41937
-    dtype: int64
+    2025-06-02 00:00:01.000    431.852558      434.8026      1.981142      1.979105     NaN       lgr_ugga
+    2025-06-02 00:00:01.740           NaN           NaN           NaN           NaN    58.7  teledyne_t400
+    2025-06-02 00:00:03.780           NaN           NaN           NaN           NaN    58.6  teledyne_t400
+    >>> obs.groupby("instrument").count()
+                   CO2d_ppm_cal  CO2d_ppm_raw  CH4d_ppm_cal  CH4d_ppm_raw  O3_ppb
+    instrument
+    lgr_ugga               8390          8390          8390          8390       0
+    teledyne_t400             0             0             0             0   41937
 
 **Each instrument logs on its own times**, so a row has values from one
-instrument and is empty in the other columns. The CO2 and CH4 analyzer logs
-about every 10 seconds, the ozone monitor about every 2. To put them on common
-times, average them over a period, as under :doc:`/getting_started/first_data`
-("Hourly means"): ``obs.resample("h").mean()``.
+instrument, named in the ``instrument`` column, and is empty in the other
+columns. The CO2 and CH4 analyzer logs about every 10 seconds, the ozone monitor
+about every 2. To put them on common times, average them over a period, as under
+:doc:`/getting_started/first_data` ("Hourly means"):
+``obs.resample("h").mean(numeric_only=True)``.
 
 With ``format="long"``, the table has one row per measurement instead, with the
-column name in ``pollutant`` and the measurement in ``value``:
+column name in ``pollutant``, the measurement in ``value`` and the instrument in
+``instrument``:
 
 .. code-block:: pycon
 
     >>> long = uataq.get_obs("WBB", ["CO2", "CH4", "O3"], time_range="2025-06-02", format="long")
     >>> long.head(5)
-                                pollutant       value
+                                pollutant       value     instrument
     Time_UTC
-    2025-06-02 00:00:01.000  CO2d_ppm_cal  431.852558
-    2025-06-02 00:00:01.000  CO2d_ppm_raw  434.802600
-    2025-06-02 00:00:01.000  CH4d_ppm_cal    1.981142
-    2025-06-02 00:00:01.000  CH4d_ppm_raw    1.979105
-    2025-06-02 00:00:01.740        O3_ppb   58.700000
+    2025-06-02 00:00:01.000  CO2d_ppm_cal  431.852558       lgr_ugga
+    2025-06-02 00:00:01.000  CO2d_ppm_raw  434.802600       lgr_ugga
+    2025-06-02 00:00:01.000  CH4d_ppm_cal    1.981142       lgr_ugga
+    2025-06-02 00:00:01.000  CH4d_ppm_raw    1.979105       lgr_ugga
+    2025-06-02 00:00:01.740        O3_ppb   58.700000  teledyne_t400
 
 .. _several-sites:
 
@@ -87,7 +87,8 @@ Several sites and pollutants
 
 For several sites, read each one and stack them. This reads June 2025 at three
 sites in Mountain time (as under :ref:`first-data-local-month`), averages each
-to hourly means, and stacks them with the site ID as the first level of the
+to hourly means (``numeric_only=True`` leaves out the text ``instrument``
+column), and stacks them with the site ID as the first level of the
 index:
 
 .. code-block:: pycon
@@ -96,7 +97,7 @@ index:
     >>> for sid in ["WBB", "CSP", "HPL"]:
     ...     obs = uataq.get_obs(sid, ["CO2", "CH4"], time_range=["2025-06-01", "2025-07-01"])
     ...     obs = obs.tz_localize("UTC").tz_convert("America/Denver").loc["2025-06"]
-    ...     frames[sid] = obs.resample("h").mean()
+    ...     frames[sid] = obs.resample("h").mean(numeric_only=True)
     ...
     >>> hourly = pd.concat(frames, names=["SID"])
     >>> hourly.head(3)
@@ -176,15 +177,26 @@ Check the sites you got back.
 Which instrument a row came from
 --------------------------------
 
-:func:`get_obs` reads every instrument at the site that measures the pollutant.
-At a fixed site its table does not say which instrument a row came from. Most
-fixed sites have one instrument for each pollutant at a time, but some have had
-two, one after another or at once (WBB measured NO2 with two in 2022). When it
-matters, use :func:`get_network_obs`, whose ``instrument`` column says, or read
-each instrument by name with :func:`read_data`. At a mobile site, :func:`get_obs`
-has the ``instrument`` column too (see :doc:`/guides/mobile_sites`).
+:func:`get_obs` reads every instrument at the site that measures the pollutant,
+and its ``instrument`` column says which one logged each row (the same name
+:func:`get_network_obs` gives). Most sites have one instrument for each pollutant
+at a time, but some have had two, one after another or at once (WBB measured NO2
+with two in 2022):
+
+.. code-block:: pycon
+
+    >>> no2 = uataq.get_obs("WBB", "NO2", time_range="2022-03-01")
+    >>> no2["instrument"].value_counts()
+    instrument
+    teledyne_t200     40282
+    teledyne_t500u    40282
+    Name: count, dtype: int64
+
+To read one instrument alone, use :func:`read_data` with its name.
 :doc:`/reference/sites_and_instruments` lists the instruments of every site,
-with their dates.
+with their dates. A mobile site has the column too; at TRX01 it
+is how you tell ``lgr_ugga`` from ``lgr_ugga_manual_cal`` (see
+:doc:`/guides/mobile_sites`).
 
 Everything an instrument logged
 -------------------------------

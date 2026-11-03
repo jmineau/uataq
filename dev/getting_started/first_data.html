@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Your first data &#8212; UATAQ 2026.10.3.dev23+g4f9fcb8f3 documentation</title>
+    <title>Your first data &#8212; UATAQ 2026.10.3.dev24+g4cccbb501 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be" />
 
-    <script src="../_static/documentation_options.js?v=eefa9eb9"></script>
+    <script src="../_static/documentation_options.js?v=dbf9dd93"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -61,7 +61,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.3.dev23+g4f9fcb8f3" />
+  <meta name="docsearch:version" content="2026.10.3.dev24+g4cccbb501" />
   
     
     <script src="../_static/searchtools.js"></script>
@@ -129,7 +129,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.3.dev23+g4f9fcb8f3 documentation</p>
+    <p class="title logo__title">UATAQ 2026.10.3.dev24+g4cccbb501 documentation</p>
   
 </a></div>
     
@@ -476,28 +476,28 @@ what the errors mean when there are none.</p>
 <div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">uataq</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">obs</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">get_obs</span><span class="p">(</span><span class="s2">"WBB"</span><span class="p">,</span> <span class="p">[</span><span class="s2">"CO2"</span><span class="p">,</span> <span class="s2">"CH4"</span><span class="p">],</span> <span class="n">time_range</span><span class="o">=</span><span class="s2">"2025-06"</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">obs</span>
-<span class="go">                     CO2d_ppm_cal  CO2d_ppm_raw  CH4d_ppm_cal  CH4d_ppm_raw</span>
+<span class="go">                     CO2d_ppm_cal  CO2d_ppm_raw  CH4d_ppm_cal  CH4d_ppm_raw instrument</span>
 <span class="go">Time_UTC</span>
-<span class="go">2025-06-01 00:00:03    432.407511      435.5981      2.010693      2.010473</span>
-<span class="go">2025-06-01 00:00:13    432.561390      435.7535      2.010209      2.009984</span>
-<span class="go">2025-06-01 00:00:23    433.129237      436.3271      2.010649      2.010428</span>
-<span class="go">2025-06-01 00:00:33    433.462976      436.6642      2.010474      2.010251</span>
-<span class="go">2025-06-01 00:00:43    433.639127      436.8421      2.010977      2.010760</span>
-<span class="go">...                           ...           ...           ...           ...</span>
-<span class="go">2025-06-30 23:59:13    427.961767      429.8449      1.976710      1.978463</span>
-<span class="go">2025-06-30 23:59:23    427.877508      429.7600      1.977210      1.978969</span>
-<span class="go">2025-06-30 23:59:33    427.763867      429.6455      1.977274      1.979034</span>
-<span class="go">2025-06-30 23:59:42    427.754553      429.6361      1.977592      1.979355</span>
-<span class="go">2025-06-30 23:59:52    427.856023      429.7383      1.978085      1.979854</span>
+<span class="go">2025-06-01 00:00:03    432.407511      435.5981      2.010693      2.010473   lgr_ugga</span>
+<span class="go">2025-06-01 00:00:13    432.561390      435.7535      2.010209      2.009984   lgr_ugga</span>
+<span class="go">2025-06-01 00:00:23    433.129237      436.3271      2.010649      2.010428   lgr_ugga</span>
+<span class="go">2025-06-01 00:00:33    433.462976      436.6642      2.010474      2.010251   lgr_ugga</span>
+<span class="go">2025-06-01 00:00:43    433.639127      436.8421      2.010977      2.010760   lgr_ugga</span>
+<span class="go">...                           ...           ...           ...           ...        ...</span>
+<span class="go">2025-06-30 23:59:13    427.961767      429.8449      1.976710      1.978463   lgr_ugga</span>
+<span class="go">2025-06-30 23:59:23    427.877508      429.7600      1.977210      1.978969   lgr_ugga</span>
+<span class="go">2025-06-30 23:59:33    427.763867      429.6455      1.977274      1.979034   lgr_ugga</span>
+<span class="go">2025-06-30 23:59:42    427.754553      429.6361      1.977592      1.979355   lgr_ugga</span>
+<span class="go">2025-06-30 23:59:52    427.856023      429.7383      1.978085      1.979854   lgr_ugga</span>
 
-<span class="go">[250687 rows x 4 columns]</span>
+<span class="go">[250687 rows x 5 columns]</span>
 </pre></div>
 </div>
 <p>It takes about a second. You get one table (a pandas <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code>) with a row
 about every 10 seconds. <code class="docutils literal notranslate"><span class="pre">CO2d_ppm_cal</span></code> is the calibrated CO2 dry mole fraction
 in ppm, <code class="docutils literal notranslate"><span class="pre">CO2d_ppm_raw</span></code> is the same measurement before calibration, and the
-<code class="docutils literal notranslate"><span class="pre">CH4d</span></code> columns are the same for methane. The column names are explained under
-<a class="reference internal" href="../reference/columns.html#column-names"><span class="std std-ref">Column names</span></a>. A table wider than the terminal is shortened with <code class="docutils literal notranslate"><span class="pre">...</span></code> or
+<code class="docutils literal notranslate"><span class="pre">CH4d</span></code> columns are the same for methane, and <code class="docutils literal notranslate"><span class="pre">instrument</span></code> names the instrument
+that logged the row. The column names are explained under <a class="reference internal" href="../reference/columns.html#column-names"><span class="std std-ref">Column names</span></a>. A table wider than the terminal is shortened with <code class="docutils literal notranslate"><span class="pre">...</span></code> or
 wrapped over several lines (a job’s output is 80 characters wide); the pandas
 settings that print every column are at the top of <a class="reference internal" href="../reference/columns.html#wide-tables"><span class="std std-ref">the Columns page</span></a>.</p>
 <p>The rows are the archive’s <code class="docutils literal notranslate"><span class="pre">final</span></code> level: the measurements of the outside air
@@ -523,11 +523,11 @@ them to the <code class="docutils literal notranslate"><span class="pre">America
 is the right one for every site:</p>
 <div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">local</span> <span class="o">=</span> <span class="n">obs</span><span class="o">.</span><span class="n">tz_localize</span><span class="p">(</span><span class="s2">"UTC"</span><span class="p">)</span><span class="o">.</span><span class="n">tz_convert</span><span class="p">(</span><span class="s2">"America/Denver"</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">local</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
-<span class="go">                           CO2d_ppm_cal  CO2d_ppm_raw  CH4d_ppm_cal  CH4d_ppm_raw</span>
+<span class="go">                           CO2d_ppm_cal  CO2d_ppm_raw  CH4d_ppm_cal  CH4d_ppm_raw instrument</span>
 <span class="go">Time_UTC</span>
-<span class="go">2025-05-31 18:00:03-06:00    432.407511      435.5981      2.010693      2.010473</span>
-<span class="go">2025-05-31 18:00:13-06:00    432.561390      435.7535      2.010209      2.009984</span>
-<span class="go">2025-05-31 18:00:23-06:00    433.129237      436.3271      2.010649      2.010428</span>
+<span class="go">2025-05-31 18:00:03-06:00    432.407511      435.5981      2.010693      2.010473   lgr_ugga</span>
+<span class="go">2025-05-31 18:00:13-06:00    432.561390      435.7535      2.010209      2.009984   lgr_ugga</span>
+<span class="go">2025-05-31 18:00:23-06:00    433.129237      436.3271      2.010649      2.010428   lgr_ugga</span>
 </pre></div>
 </div>
 <p>The same measurements, now labeled in local time; <code class="docutils literal notranslate"><span class="pre">-06:00</span></code> is the offset from
@@ -567,7 +567,7 @@ of the month and end it on the first day of the next.</p>
 <h2>Hourly means<a class="headerlink" href="#hourly-means" title="Link to this heading">#</a></h2>
 <p>pandas averages a table over fixed periods with <code class="docutils literal notranslate"><span class="pre">resample</span></code>. Convert to local
 time first, so that the hours and days are local:</p>
-<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">hourly</span> <span class="o">=</span> <span class="n">june</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="s2">"h"</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">hourly</span> <span class="o">=</span> <span class="n">june</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="s2">"h"</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">numeric_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">hourly</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
 <span class="go">                           CO2d_ppm_cal  CO2d_ppm_raw  CH4d_ppm_cal  CH4d_ppm_raw</span>
 <span class="go">Time_UTC</span>
@@ -580,7 +580,8 @@ time first, so that the hours and days are local:</p>
 </div>
 <p>Each row is the mean of one hour, labeled with the hour’s start: the first row
 is 00:00 to 00:59 on 1 June, local time. <code class="docutils literal notranslate"><span class="pre">&quot;D&quot;</span></code> in place of <code class="docutils literal notranslate"><span class="pre">&quot;h&quot;</span></code> gives daily
-means.</p>
+means. <code class="docutils literal notranslate"><span class="pre">numeric_only=True</span></code> leaves out the <code class="docutils literal notranslate"><span class="pre">instrument</span></code> column, which is text
+and has no mean; without it pandas raises a <code class="docutils literal notranslate"><span class="pre">TypeError</span></code>.</p>
 <p>An hour with only a few rows still gets a mean. To see how many rows each mean
 has, count them the same way:</p>
 <div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">n</span> <span class="o">=</span> <span class="n">june</span><span class="p">[</span><span class="s2">"CO2d_ppm_cal"</span><span class="p">]</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="s2">"h"</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
@@ -607,7 +608,7 @@ shaded, for both gases. Save it as <code class="docutils literal notranslate"><s
 <span class="n">june</span> <span class="o">=</span> <span class="n">obs</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s2">"2025-06"</span><span class="p">]</span>
 
 <span class="c1"># Hourly means, then their 25th, 50th and 75th percentiles for each hour of the day</span>
-<span class="n">hourly</span> <span class="o">=</span> <span class="n">june</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="s2">"h"</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">hourly</span> <span class="o">=</span> <span class="n">june</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="s2">"h"</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">numeric_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">by_hour</span> <span class="o">=</span> <span class="n">hourly</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">hourly</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">hour</span><span class="p">)</span><span class="o">.</span><span class="n">quantile</span><span class="p">([</span><span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.75</span><span class="p">])</span>
 
 <span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -645,19 +646,21 @@ six hours off.</p>
 </section>
 <section id="what-to-write-down">
 <h2>What to write down<a class="headerlink" href="#what-to-write-down" title="Link to this heading">#</a></h2>
-<p>The table does not say where its numbers came from. When you use them, write
-down:</p>
+<p>The table says which instrument each row came from, but not the rest. When you
+use the numbers, write down:</p>
 <ul>
 <li><p><strong>The instrument.</strong> <a class="reference internal" href="../api/uataq.get_obs.html#uataq.get_obs" title="uataq.get_obs"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_obs()</span></code></a> reads every instrument at the site that
-measures the pollutant. At WBB that is one, the <code class="docutils literal notranslate"><span class="pre">lgr_ugga</span></code> (a Los Gatos
-Research analyzer, which measures CO2 and CH4):</p>
+measures the pollutant, and the <code class="docutils literal notranslate"><span class="pre">instrument</span></code> column names the one that
+logged each row. At WBB that is one for CO2 and CH4, the <code class="docutils literal notranslate"><span class="pre">lgr_ugga</span></code> (a Los
+Gatos Research analyzer, which measures both):</p>
 <div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">wbb</span> <span class="o">=</span> <span class="n">uataq</span><span class="o">.</span><span class="n">get_site</span><span class="p">(</span><span class="s2">"WBB"</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">instrument</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">instrument</span> <span class="ow">in</span> <span class="n">wbb</span><span class="o">.</span><span class="n">pollutant_instruments</span><span class="p">[</span><span class="s2">"CO2"</span><span class="p">]]</span>
 <span class="go">['lgr_ugga']</span>
 </pre></div>
 </div>
 <p>A site can have more than one instrument for a pollutant, one after another
-or at the same time; <a class="reference internal" href="../guides/read_data.html"><span class="doc">Read data</span></a> shows how to tell them apart.</p>
+or at the same time; the <code class="docutils literal notranslate"><span class="pre">instrument</span></code> column tells their rows apart (see
+<a class="reference internal" href="../guides/read_data.html"><span class="doc">Read data</span></a>).</p>
 </li>
 <li><p><strong>The data level</strong>: <code class="docutils literal notranslate"><span class="pre">final</span></code>, the level <a class="reference internal" href="../api/uataq.get_obs.html#uataq.get_obs" title="uataq.get_obs"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_obs()</span></code></a> always reads.</p></li>
 <li><p><strong>The research group</strong> whose archive it came from: <code class="docutils literal notranslate"><span class="pre">lin</span></code> for WBB. A read
