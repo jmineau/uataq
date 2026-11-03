@@ -245,8 +245,16 @@ after ``import uataq`` works too (``os.environ["LINGROUP_MEASUREMENTS_DIR"] = ..
 with one exception: the pipeline's configuration files (``data_config.json`` and
 ``site_config.csv``) are read once, when uataq is imported, so set the variable
 before the import if the copy's configuration differs. A value that is not a
-directory raises ``FileNotFoundError`` naming the variable. The Horel group's
-folders have no such variable.
+directory raises ``FileNotFoundError`` naming the variable.
+
+The Horel group's root works the same way, through ``UATAQ_HOREL_DIR``: unset or
+empty, it means the group's own space; set, it is read each time a path is
+needed, and a value that is not a directory raises ``FileNotFoundError`` naming
+the variable.
+
+.. code-block:: bash
+
+   export UATAQ_HOREL_DIR=/path/to/horel-group
 
 .. _install-errors:
 
@@ -261,6 +269,10 @@ If something goes wrong
 ``FileNotFoundError`` saying ``LINGROUP_MEASUREMENTS_DIR`` is not a directory
    The variable is set to a path that does not exist. Fix the path, or run
    ``unset LINGROUP_MEASUREMENTS_DIR`` to read the archive itself.
+
+``FileNotFoundError`` saying ``UATAQ_HOREL_DIR`` is not a directory
+   The variable is set to a path that does not exist. Fix the path, or run
+   ``unset UATAQ_HOREL_DIR`` to read the archive itself.
 
 The ``ls`` in step 1, or the read in step 5, fails
    You are probably not in the ``lin`` group yet. Run ``groups`` and see

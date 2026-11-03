@@ -211,9 +211,10 @@ class TestSodarInit:
 
     def test_defaults_to_horel_mesowest_dir(self, tmp_path, monkeypatch):
         """Without mesowest_dir the Horel group space location is used."""
-        write_metadata(tmp_path, "USDR1")
-        monkeypatch.setattr(horel, "MESOWEST_DIR", str(tmp_path))
-        assert Sodar("USDR1").archive_dir == archive_dir(tmp_path)
+        mesowest_dir = tmp_path / "oper" / "mesowest"
+        write_metadata(mesowest_dir, "USDR1")
+        monkeypatch.setenv("UATAQ_HOREL_DIR", str(tmp_path))
+        assert Sodar("USDR1").archive_dir == archive_dir(mesowest_dir)
 
     def test_missing_archive(self, tmp_path):
         """A missing archive directory fails clearly."""
