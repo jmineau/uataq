@@ -67,12 +67,12 @@ Install
 
 4. **Install uataq.** ``pip`` is Python's installer. uataq is not on PyPI (the
    usual package index), so you point pip at its GitHub repository. The
-   ``@v2026.10.2`` at the end names a release, the newest when this page was
+   ``@v2026.11.0`` at the end names a release, the newest when this page was
    written (:ref:`install-update` shows how to find a newer one).
 
    .. code-block:: bash
 
-      pip install git+https://github.com/jmineau/uataq.git@v2026.10.2
+      pip install git+https://github.com/jmineau/uataq.git@v2026.11.0
 
    pip prints a long list while it works (about two minutes). The last line
    that matters starts with ``Successfully installed``. A notice about a new
@@ -130,7 +130,7 @@ takes 0.6 GB in ``~/.conda/envs``:
    module load miniforge3
    conda create -y -n uataq python=3.12
    conda activate uataq
-   pip install git+https://github.com/jmineau/uataq.git@v2026.10.2
+   pip install git+https://github.com/jmineau/uataq.git@v2026.11.0
 
 Each time you log in
 --------------------
@@ -177,14 +177,14 @@ tested up to a Jupyter kernel that imports uataq.)
 Update uataq, or pin a version
 ------------------------------
 
-The install above names a release by its tag, ``@v2026.10.2``. Each release
+The install above names a release by its tag, ``@v2026.11.0``. Each release
 has a tag of the form ``vYYYY.M.PATCH``. `The releases page
 <https://github.com/jmineau/uataq/releases>`_ lists them, newest first. To
 update later, run the install again with ``--upgrade`` and the newest tag:
 
 .. code-block:: bash
 
-   pip install --upgrade git+https://github.com/jmineau/uataq.git@v2026.10.2
+   pip install --upgrade git+https://github.com/jmineau/uataq.git@v2026.11.0
 
 For results you will publish, keep the tag you installed and write the version
 down. ``pip show uataq`` prints the version you have:
