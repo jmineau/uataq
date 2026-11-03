@@ -8,6 +8,28 @@ release (`just changelog` drafts them).
 
 ## [Unreleased]
 
+## [2026.11.0] - 2026-11-03
+
+### Added
+
+- `Site.get_obs` and `MobileSite.get_obs` label each row with its instrument in an `instrument` column after the measurement columns, built the same way for both. The column holds text, so a plain `.mean()` on the table now needs `numeric_only=True` (or the measurement columns picked first). Row counts and values are unchanged. (#163)
+
+### Changed
+
+- **Breaking:** `Network.sites` lists only the sites the network kept, in the order given, not every name that was asked for (a misspelled site or one that does not measure the pollutant is no longer in it). The "none of the sites given" error still names the sites the caller gave. (#165, #167)
+- **Breaking:** a site ID given as a string is one site: `Network("WBB", "CO2")` and `get_network_obs("TRX01", "CO2")` are the network of that site, and so is `get_availability(lvls="final")`. A string used to be iterated as letters and never made a network. `"all"` is unchanged. (#174)
+- **Data change:** `read_data(..., "lgr_ugga", lvl="raw")` before 2015-12-29 returns UTC times. Those raw files were logged in Mountain time, so times move later by 6 h in summer and 7 h in winter, as the pipeline's `lgr_ugga_init.r` does, and the raw rows of 2015-12-29 (89,144 rows at the five sites) are left out. A raw read that starts before 2015-12-30 opens files from two days before its start. (#175, #178)
+- The `teledyne_t500u` qaqc level names its sample temperature `Internal_T_C`, as its raw level and the T300 and T400 do, where it came out as `Samp_T_C`. The values are the same. (#185, #188)
+- WBB is named the William Browning Building. (#172)
+
+### Fixed
+
+- A horel GPS read at `final` keeps `Altitude_msl`, equal row for row to the qaqc read. (#176, #177)
+- The horel `final` level drops an ES642 row that has an ambient temperature or pressure but no PM2.5. Every other horel final read is the same. (#186, #189)
+- The ES405 values that horel's qaqc and final files name for the ES642 at BUS01 and BUS02 are read. (#171)
+- The first row of an air-trend raw file that has no header line is kept. (#187)
+- Removal dates are corrected where the last reading shows a later one: BUS03's `2b_405` (#156), TRX01's `lgr_ugga` (#162) and FRU's `lgr_ugga` (#170). TRX01's `metone_es642` is installed on 2014-12-05, the day of the field team's note. (#169)
+
 ## [2026.10.2] - 2026-10-29
 
 ### Added
