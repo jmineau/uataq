@@ -1,0 +1,15 @@
+uataq.pollutants.ConcentrationColumn
+====================================
+
+.. currentmodule:: uataq.pollutants
+
+.. autoclass:: ConcentrationColumn
+   :no-members:
+
+
+
+
+
+
+
+

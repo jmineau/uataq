@@ -1,0 +1,6 @@
+uataq.Network.plot\_availability
+================================
+
+.. currentmodule:: uataq
+
+.. automethod:: Network.plot_availability

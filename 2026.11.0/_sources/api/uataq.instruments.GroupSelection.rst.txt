@@ -1,0 +1,6 @@
+uataq.instruments.GroupSelection
+================================
+
+.. currentmodule:: uataq.instruments
+
+.. autodata:: GroupSelection

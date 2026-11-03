@@ -1,0 +1,6 @@
+uataq.instruments.GPS.estimate\_window
+======================================
+
+.. currentmodule:: uataq.instruments
+
+.. autoattribute:: GPS.estimate_window

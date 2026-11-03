@@ -66,18 +66,20 @@ Install
    files that go unused for 60 days.
 
 4. **Install uataq.** ``pip`` is Python's installer. uataq is not on PyPI (the
-   usual package index), so you point pip at its GitHub repository.
+   usual package index), so you point pip at its GitHub repository. The
+   ``@v2026.11.0`` at the end names a release, the newest when this page was
+   written (:ref:`install-update` shows how to find a newer one).
 
    .. code-block:: bash
 
-      pip install git+https://github.com/jmineau/uataq.git
+      pip install git+https://github.com/jmineau/uataq.git@v2026.11.0
 
    pip prints a long list while it works (about two minutes). The last line
    that matters starts with ``Successfully installed``. A notice about a new
    pip release after it is harmless.
 
 5. **Check that it reads real data.** This reads one day of CO2 from the WBB
-   site (William Browning, on the University of Utah campus):
+   site (William Browning Building, on the University of Utah campus):
 
    .. code-block:: bash
 
@@ -87,21 +89,21 @@ Install
 
    .. code-block:: text
 
-                           CO2d_ppm_cal  CO2d_ppm_raw
+                           CO2d_ppm_cal  CO2d_ppm_raw instrument
       Time_UTC
-      2025-06-02 00:00:01    431.852558      434.8026
-      2025-06-02 00:00:11    431.612346      434.5594
-      2025-06-02 00:00:21    431.812938      434.7615
-      2025-06-02 00:00:30    431.939531      434.8889
-      2025-06-02 00:00:40    432.130721      435.0815
-      ...                           ...           ...
-      2025-06-02 23:59:20    429.260744      431.1932
-      2025-06-02 23:59:29    429.139982      431.0713
-      2025-06-02 23:59:39    429.083069      431.0138
-      2025-06-02 23:59:49    429.033293      430.9635
-      2025-06-02 23:59:59    429.157492      431.0887
+      2025-06-02 00:00:01    431.852558      434.8026   lgr_ugga
+      2025-06-02 00:00:11    431.612346      434.5594   lgr_ugga
+      2025-06-02 00:00:21    431.812938      434.7615   lgr_ugga
+      2025-06-02 00:00:30    431.939531      434.8889   lgr_ugga
+      2025-06-02 00:00:40    432.130721      435.0815   lgr_ugga
+      ...                           ...           ...        ...
+      2025-06-02 23:59:20    429.260744      431.1932   lgr_ugga
+      2025-06-02 23:59:29    429.139982      431.0713   lgr_ugga
+      2025-06-02 23:59:39    429.083069      431.0138   lgr_ugga
+      2025-06-02 23:59:49    429.033293      430.9635   lgr_ugga
+      2025-06-02 23:59:59    429.157492      431.0887   lgr_ugga
 
-      [8390 rows x 2 columns]
+      [8390 rows x 3 columns]
 
    If you see a table like this, the install works and you can read the
    archive. (The row count can change if the data are reprocessed.)
@@ -128,7 +130,7 @@ takes 0.6 GB in ``~/.conda/envs``:
    module load miniforge3
    conda create -y -n uataq python=3.12
    conda activate uataq
-   pip install git+https://github.com/jmineau/uataq.git
+   pip install git+https://github.com/jmineau/uataq.git@v2026.11.0
 
 Each time you log in
 --------------------
@@ -170,25 +172,30 @@ Your notebooks then run the environment's Python, with uataq. (The two lines
 are CHPC's instructions for a custom environment; the environment itself was
 tested up to a Jupyter kernel that imports uataq.)
 
+.. _install-update:
+
 Update uataq, or pin a version
 ------------------------------
 
-The install above gets the newest code. To update later, run the same command
-with ``--upgrade``:
+The install above names a release by its tag, ``@v2026.11.0``. Each release
+has a tag of the form ``vYYYY.M.PATCH``. `The releases page
+<https://github.com/jmineau/uataq/releases>`_ lists them, newest first. To
+update later, run the install again with ``--upgrade`` and the newest tag:
 
 .. code-block:: bash
 
-   pip install --upgrade git+https://github.com/jmineau/uataq.git
+   pip install --upgrade git+https://github.com/jmineau/uataq.git@v2026.11.0
 
-For results you will publish, install a fixed release by adding its tag, and
-write the version down. ``pip show uataq`` prints the version you have.
-`The releases page <https://github.com/jmineau/uataq/releases>`_ lists the tags
-(``v2026.10.2`` was the newest in October 2026).
+For results you will publish, keep the tag you installed and write the version
+down. ``pip show uataq`` prints the version you have:
 
 .. code-block:: bash
 
-   pip install git+https://github.com/jmineau/uataq.git@v2026.10.2
    pip show uataq
+
+To try changes made since the last release, leave off the ``@`` and the tag.
+That installs the code on the ``main`` branch, which these docs may not yet
+describe (the version switcher in the header has a ``dev`` copy that does).
 
 .. _install-slurm:
 

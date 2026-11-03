@@ -1,0 +1,22 @@
+uataq.filesystem.core.DataFile
+==============================
+
+.. currentmodule:: uataq.filesystem.core
+
+.. autoclass:: DataFile
+   :no-members:
+
+
+
+
+
+
+.. rubric:: Methods
+
+.. autosummary::
+   :toctree:
+
+   ~DataFile.parse
+
+
+

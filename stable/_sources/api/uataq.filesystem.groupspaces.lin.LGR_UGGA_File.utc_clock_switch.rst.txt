@@ -1,0 +1,6 @@
+uataq.filesystem.groupspaces.lin.LGR\_UGGA\_File.utc\_clock\_switch
+===================================================================
+
+.. currentmodule:: uataq.filesystem.groupspaces.lin
+
+.. autoattribute:: LGR_UGGA_File.utc_clock_switch

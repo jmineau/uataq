@@ -1,0 +1,41 @@
+﻿uataq.sodar
+===========
+
+.. automodule:: uataq.sodar
+   :no-members:
+
+
+.. rubric:: Attributes
+
+.. autosummary::
+   :toctree:
+   :nosignatures:
+
+   NODATA
+
+
+
+.. rubric:: Functions
+
+.. autosummary::
+   :toctree:
+   :nosignatures:
+
+   list_stations
+
+
+
+.. rubric:: Classes
+
+.. autosummary::
+   :toctree:
+   :nosignatures:
+
+   Sodar
+
+
+
+
+
+
+

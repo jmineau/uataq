@@ -1,0 +1,6 @@
+uataq.filesystem.core.parse\_datafiles
+======================================
+
+.. currentmodule:: uataq.filesystem.core
+
+.. autofunction:: parse_datafiles

@@ -1,0 +1,6 @@
+uataq.instruments.Instrument.get\_files
+=======================================
+
+.. currentmodule:: uataq.instruments
+
+.. automethod:: Instrument.get_files

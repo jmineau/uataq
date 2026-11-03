@@ -1,0 +1,6 @@
+uataq.filesystem.core.filter\_datafiles
+=======================================
+
+.. currentmodule:: uataq.filesystem.core
+
+.. autofunction:: filter_datafiles

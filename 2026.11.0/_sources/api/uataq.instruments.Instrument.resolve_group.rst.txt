@@ -1,0 +1,6 @@
+uataq.instruments.Instrument.resolve\_group
+===========================================
+
+.. currentmodule:: uataq.instruments
+
+.. automethod:: Instrument.resolve_group

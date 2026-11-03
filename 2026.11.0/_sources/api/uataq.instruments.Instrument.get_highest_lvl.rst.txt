@@ -1,0 +1,6 @@
+uataq.instruments.Instrument.get\_highest\_lvl
+==============================================
+
+.. currentmodule:: uataq.instruments
+
+.. automethod:: Instrument.get_highest_lvl

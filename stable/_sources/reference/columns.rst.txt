@@ -33,6 +33,9 @@ In every table
 - The concentration columns follow one naming pattern for every instrument,
   level and research group: ``CO2d_ppm_cal``, ``O3_ppb``, ``PM2.5_ugm3`` and so
   on. `Column names`_ explains the pattern.
+- :func:`get_obs` and :func:`get_network_obs` add an ``instrument`` column after
+  the concentration columns, a text column that names the instrument each row
+  came from. Take a mean with ``mean(numeric_only=True)`` to leave it out.
 - uataq renames many of the instruments' other columns to common names, so
   that a quantity has the same name across instruments and groups. For example,
   the ``lgr_ugga``'s cavity pressure is ``Cavity_P_torr`` in the pipeline's

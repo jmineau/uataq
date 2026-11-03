@@ -1,0 +1,6 @@
+uataq.filesystem.groupspaces.lin.LGR\_UGGA\_File.max\_utc\_shift
+================================================================
+
+.. currentmodule:: uataq.filesystem.groupspaces.lin
+
+.. autoattribute:: LGR_UGGA_File.max_utc_shift

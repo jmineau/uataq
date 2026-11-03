@@ -1,0 +1,6 @@
+uataq.filesystem.groupspaces.lin.LinGroup.data\_path
+====================================================
+
+.. currentmodule:: uataq.filesystem.groupspaces.lin
+
+.. automethod:: LinGroup.data_path

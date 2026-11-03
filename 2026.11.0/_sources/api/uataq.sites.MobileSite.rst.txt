@@ -1,0 +1,33 @@
+uataq.sites.MobileSite
+======================
+
+.. currentmodule:: uataq.sites
+
+.. autoclass:: MobileSite
+   :no-members:
+   :show-inheritance:
+
+
+
+
+
+
+.. rubric:: Methods
+
+.. autosummary::
+   :toctree:
+
+   ~MobileSite.get_obs
+   ~MobileSite.locate
+   ~MobileSite.merge_gps
+   ~MobileSite.plot
+
+
+
+
+.. rubric:: Inherited
+
+
+From :class:`~.Site`: :py:obj:`~.Site.get_recent_obs`, :py:obj:`~.Site.read_data`
+
+

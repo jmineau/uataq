@@ -1,0 +1,6 @@
+uataq.filesystem.groupspaces.horel.PILOT\_PHASE
+===============================================
+
+.. currentmodule:: uataq.filesystem.groupspaces.horel
+
+.. autodata:: PILOT_PHASE

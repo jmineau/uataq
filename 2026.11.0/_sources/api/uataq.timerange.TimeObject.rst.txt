@@ -1,0 +1,6 @@
+uataq.timerange.TimeObject
+==========================
+
+.. currentmodule:: uataq.timerange
+
+.. autodata:: TimeObject

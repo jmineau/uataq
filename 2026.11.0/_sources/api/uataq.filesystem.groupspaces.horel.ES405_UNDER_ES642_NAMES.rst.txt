@@ -1,0 +1,6 @@
+uataq.filesystem.groupspaces.horel.ES405\_UNDER\_ES642\_NAMES
+=============================================================
+
+.. currentmodule:: uataq.filesystem.groupspaces.horel
+
+.. autodata:: ES405_UNDER_ES642_NAMES

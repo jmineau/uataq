@@ -1,0 +1,6 @@
+uataq.filesystem.core.GroupSpace.get\_datafile\_key
+===================================================
+
+.. currentmodule:: uataq.filesystem.core
+
+.. automethod:: GroupSpace.get_datafile_key

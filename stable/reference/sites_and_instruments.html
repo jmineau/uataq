@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Sites and instruments &#8212; UATAQ 2026.10.2 documentation</title>
+    <title>Sites and instruments &#8212; UATAQ 2026.11.0 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be" />
 
-    <script src="../_static/documentation_options.js?v=52372788"></script>
+    <script src="../_static/documentation_options.js?v=b06263a2"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -49,7 +49,7 @@
     <script>
         DOCUMENTATION_OPTIONS.theme_version = '0.23.0';
         DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://jmineau.github.io/uataq/switcher.json';
-        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '2026.10.2';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '2026.11.0';
         DOCUMENTATION_OPTIONS.show_version_warning_banner =
             true;
         </script>
@@ -61,7 +61,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.2" />
+  <meta name="docsearch:version" content="2026.11.0" />
   
     
     <script src="../_static/searchtools.js"></script>
@@ -129,7 +129,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.2 documentation</p>
+    <p class="title logo__title">UATAQ 2026.11.0 documentation</p>
   
 </a></div>
     
@@ -392,7 +392,7 @@
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
 <li class="toctree-l1 current active"><a aria-current="page" class="current reference internal" href="#">Sites and instruments</a></li>
 <li class="toctree-l1"><a class="reference internal" href="columns.html">Columns</a></li>
-<li class="toctree-l1"><a class="reference internal" href="input_parameters.html">Input Parameters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="input_parameters.html">Input parameters</a></li>
 <li class="toctree-l1"><a class="reference internal" href="config.html">Configuration</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="functions_and_modules.html">Functions and modules</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../api/uataq.get_obs.html">uataq.get_obs</a></li>
@@ -509,7 +509,10 @@
 <li class="toctree-l3"><a class="reference internal" href="../api/uataq.instruments.Licor_6262.html">uataq.instruments.Licor_6262</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/uataq.instruments.Licor_7000.html">uataq.instruments.Licor_7000</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/uataq.instruments.Magee_AE33.html">uataq.instruments.Magee_AE33</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/uataq.instruments.MetOne_ES405.html">uataq.instruments.MetOne_ES405</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/uataq.instruments.MetOne_ES405.html">uataq.instruments.MetOne_ES405</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/uataq.instruments.MetOne_ES405.get_datafiles.html">uataq.instruments.MetOne_ES405.get_datafiles</a></li>
+</ul>
+</details></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/uataq.instruments.MetOne_ES642.html">uataq.instruments.MetOne_ES642</a></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../api/uataq.instruments.SensorMixin.html">uataq.instruments.SensorMixin</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="../api/uataq.instruments.SensorMixin.pollutants.html">uataq.instruments.SensorMixin.pollutants</a></li>
@@ -701,11 +704,11 @@ are cut to those dates.</p></li>
 <td><p>Fruitland</p></td>
 <td><p>40.20873, -110.8403</p></td>
 <td><p>4</p></td>
-<td><p>yes</p></td>
+<td><p>no, since 2026-04-04</p></td>
 <td><p>lin</p></td>
 <td><p>CO2, CH4</p></td>
 <td><ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">lgr_ugga</span></code> since 2015-03-19</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">lgr_ugga</span></code> 2015-03-19 to 2026-04-04</p></li>
 </ul>
 </td>
 </tr>
@@ -870,7 +873,7 @@ are cut to those dates.</p></li>
 </td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">WBB</span></code></p></td>
-<td><p>William Browning</p></td>
+<td><p>William Browning Building</p></td>
 <td><p>40.766189, -111.847672</p></td>
 <td><p>35</p></td>
 <td><p>yes</p></td>
@@ -896,7 +899,9 @@ are cut to those dates.</p></li>
 <h2>Mobile sites<a class="headerlink" href="#mobile-sites" title="Link to this heading">#</a></h2>
 <p>Instruments on TRAX trains (<code class="docutils literal notranslate"><span class="pre">TRX</span></code>) and buses (<code class="docutils literal notranslate"><span class="pre">BUS</span></code>). These
 <a class="reference internal" href="#term-mobile-site"><span class="xref std std-term">mobile sites</span></a> have no fixed location: the position of each
-measurement comes from the site’s <code class="docutils literal notranslate"><span class="pre">gps</span></code>.</p>
+measurement comes from the site’s <code class="docutils literal notranslate"><span class="pre">gps</span></code>. The number in a mobile site’s name is
+the vehicle’s UTA fleet number: the light-rail car number for TRAX (<code class="docutils literal notranslate"><span class="pre">TRAX</span> <span class="pre">1136</span></code>)
+and the bus fleet number for a bus (<code class="docutils literal notranslate"><span class="pre">BUS</span> <span class="pre">18153</span></code>).</p>
 <div class="pst-scrollable-table-container"><table class="table">
 <colgroup>
 <col style="width: 10.0%" />
@@ -920,13 +925,14 @@ measurement comes from the site’s <code class="docutils literal notranslate"><
 <td><p>BUS 18153</p></td>
 <td><p>yes</p></td>
 <td><p>horel</p></td>
-<td><p>O3, NO, NO2, NOx, PM2.5</p></td>
+<td><p>O3, NO, NO2, NOx, PM2.5, PM1, PM4, PM10</p></td>
 <td><ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">2b_205</span></code> since 2021-09-28</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">2b_405</span></code> 2021-09-28 to 2022-05-10</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">cr1000</span></code> since 2021-09-28</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">gps</span></code> since 2021-09-28</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">metone_es642</span></code> since 2021-09-28</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">metone_es642</span></code> 2021-09-28 to 2026-02-17 21:28:00 UTC</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">metone_es405</span></code> since 2026-02-17 21:28:00 UTC</p></li>
 </ul>
 </td>
 </tr>
@@ -952,7 +958,7 @@ measurement comes from the site’s <code class="docutils literal notranslate"><
 <td><p>O3, NO, NO2, NOx, PM2.5, PM1, PM4, PM10</p></td>
 <td><ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">2b_205</span></code> since 2022-02-05</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">2b_405</span></code> since 2023-01-20</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">2b_405</span></code> 2023-01-20 to 2024-05-15</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">cr1000</span></code> since 2022-02-05</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">gps</span></code> since 2022-02-05</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">metone_es642</span></code> 2022-02-05 to 2024-12-05 06:09:00 UTC</p></li>
@@ -1125,9 +1131,9 @@ measurement comes from the site’s <code class="docutils literal notranslate"><
 <li><p><code class="docutils literal notranslate"><span class="pre">2b_205</span></code> since 2015-05-13</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">cr1000</span></code> since 2014-11-11</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">gps</span></code> since 2014-11-11</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">metone_es642</span></code> 2016-02-04 to 2025-01-06 19:30:00 UTC</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">metone_es642</span></code> 2014-12-05 to 2025-01-06 19:30:00 UTC</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">metone_es405</span></code> since 2025-01-06 19:30:00 UTC</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">lgr_ugga</span></code> since 2014-12-09</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">lgr_ugga</span></code> 2014-12-09 to 2024-08-28</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">lgr_ugga_manual_cal</span></code> since 2023-11-18</p></li>
 </ul>
 </td>
@@ -1257,7 +1263,7 @@ housekeeping (battery voltage, enclosure temperature), the other a GPS receiver.
 <td><p><a class="reference internal" href="../api/uataq.instruments.MetOne_ES405.html#uataq.instruments.MetOne_ES405" title="uataq.instruments.MetOne_ES405"><code class="xref py py-class docutils literal notranslate"><span class="pre">MetOne_ES405</span></code></a></p></td>
 <td><p>Met One E-Sampler ES-405, reporting PM1, PM2.5, PM4 and PM10.</p></td>
 <td><p>PM1, PM2.5, PM4, PM10</p></td>
-<td><p>BUS02, BUS03, BUS04, BUS05, BUS06, BUS07, BUS08, BUS09, BUS10, BUS11, BUS12, BUS13, BUS14, BUS15, TRX01, TRX02, TRX03</p></td>
+<td><p>BUS01, BUS02, BUS03, BUS04, BUS05, BUS06, BUS07, BUS08, BUS09, BUS10, BUS11, BUS12, BUS13, BUS14, BUS15, TRX01, TRX02, TRX03</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">metone_es642</span></code></p></td>
 <td><p><a class="reference internal" href="../api/uataq.instruments.MetOne_ES642.html#uataq.instruments.MetOne_ES642" title="uataq.instruments.MetOne_ES642"><code class="xref py py-class docutils literal notranslate"><span class="pre">MetOne_ES642</span></code></a></p></td>
@@ -1359,9 +1365,11 @@ which pollutants the instrument measures.</p>
 tank and manually calibrated with lgr software periodically.” It has
 <code class="docutils literal notranslate"><span class="pre">&quot;model&quot;:</span> <span class="pre">&quot;lgr_ugga&quot;</span></code>, so it is read like any <code class="docutils literal notranslate"><span class="pre">lgr_ugga</span></code>, from a
 folder of its own in the lin archive. For what its <code class="docutils literal notranslate"><span class="pre">_cal</span></code> and
-<code class="docutils literal notranslate"><span class="pre">_raw</span></code> columns hold, see <a class="reference internal" href="../guides/data_levels_and_flags.html#when-cal-is-empty"><span class="std std-ref">When _cal is empty</span></a>. The
-configuration also lists TRX01’s <code class="docutils literal notranslate"><span class="pre">lgr_ugga</span></code> with no removal date; to
-see which of the two has data in a period, use <a class="reference internal" href="../guides/find_sites_and_data.html"><span class="doc">Find sites and data</span></a>.</p>
+<code class="docutils literal notranslate"><span class="pre">_raw</span></code> columns hold, see <a class="reference internal" href="../guides/data_levels_and_flags.html#when-cal-is-empty"><span class="std std-ref">When _cal is empty</span></a>. TRX01’s
+<code class="docutils literal notranslate"><span class="pre">lgr_ugga</span></code> is installed until 2024-08-28, so both are installed
+from 2023-11-18 to then. <a class="reference internal" href="../guides/mobile_sites.html"><span class="doc">Mobile sites</span></a> says in which
+months each has data, and <a class="reference internal" href="../guides/find_sites_and_data.html"><span class="doc">Find sites and data</span></a> shows
+which has data in any period.</p>
 </dd>
 </dl>
 </section>

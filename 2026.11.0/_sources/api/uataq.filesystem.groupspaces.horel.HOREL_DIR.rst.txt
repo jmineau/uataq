@@ -1,0 +1,6 @@
+uataq.filesystem.groupspaces.horel.HOREL\_DIR
+=============================================
+
+.. currentmodule:: uataq.filesystem.groupspaces.horel
+
+.. autodata:: HOREL_DIR

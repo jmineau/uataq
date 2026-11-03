@@ -1,0 +1,6 @@
+uataq.Network.get\_availability
+===============================
+
+.. currentmodule:: uataq
+
+.. automethod:: Network.get_availability

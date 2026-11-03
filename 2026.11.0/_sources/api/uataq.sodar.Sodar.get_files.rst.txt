@@ -1,0 +1,6 @@
+uataq.sodar.Sodar.get\_files
+============================
+
+.. currentmodule:: uataq.sodar
+
+.. automethod:: Sodar.get_files

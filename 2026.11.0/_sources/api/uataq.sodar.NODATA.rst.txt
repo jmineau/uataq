@@ -1,0 +1,6 @@
+uataq.sodar.NODATA
+==================
+
+.. currentmodule:: uataq.sodar
+
+.. autodata:: NODATA

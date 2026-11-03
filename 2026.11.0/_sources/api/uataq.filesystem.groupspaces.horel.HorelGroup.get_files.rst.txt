@@ -1,0 +1,6 @@
+uataq.filesystem.groupspaces.horel.HorelGroup.get\_files
+========================================================
+
+.. currentmodule:: uataq.filesystem.groupspaces.horel
+
+.. automethod:: HorelGroup.get_files

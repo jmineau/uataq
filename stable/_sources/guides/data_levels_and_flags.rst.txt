@@ -61,7 +61,12 @@ For the CO2 and CH4 analyzers (the ``lgr_ugga``, ``licor_6262`` and
        ``ID_CH4``), and ``QAQC_Flag``. Not calibrated.
    * - ``raw``
      - The analyzer's columns as they were logged, with ``ID`` but without
-       ``ID_CO2``, ``ID_CH4`` or ``QAQC_Flag``.
+       ``ID_CO2``, ``ID_CH4`` or ``QAQC_Flag``. The ``lgr_ugga`` clocks ran on
+       Mountain time until 29 December 2015, when they were switched to UTC:
+       uataq converts the times logged before that day to UTC and leaves out
+       the rows of the day itself, as the pipeline does for ``qaqc``. Both
+       passes through the hour that repeats when daylight saving ends
+       (1 to 2 a.m.) are taken as daylight time, as in the pipeline.
 
 .. _which-level:
 
@@ -237,7 +242,10 @@ the ``2b_205``.
 The horel group's ozone (``2b_205``) and particle (``metone_es642``,
 ``metone_es405``) monitors mark a flagged row with 1, and uataq turns that into
 ``QAQC_Flag = -1``, so their flag is 0 (passes) or -1 (flagged). Their ``final``
-level is the ``qaqc`` rows that pass and have a value.
+level is the ``qaqc`` rows that pass and have a value: an ozone or PM2.5
+concentration. The ``metone_es642``'s ``Ambient_T_C`` and ``Ambient_P_hPa``
+(the sampler's own temperature and pressure) stay in ``final``, but only on
+rows that have a PM2.5 value.
 For the ``2b_205`` on TRX01 on 1 June 2024:
 
 .. code-block:: pycon

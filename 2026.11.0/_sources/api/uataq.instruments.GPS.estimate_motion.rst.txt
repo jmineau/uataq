@@ -1,0 +1,6 @@
+uataq.instruments.GPS.estimate\_motion
+======================================
+
+.. currentmodule:: uataq.instruments
+
+.. automethod:: GPS.estimate_motion

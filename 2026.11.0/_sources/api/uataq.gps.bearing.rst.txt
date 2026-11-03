@@ -1,0 +1,6 @@
+uataq.gps.bearing
+=================
+
+.. currentmodule:: uataq.gps
+
+.. autofunction:: bearing

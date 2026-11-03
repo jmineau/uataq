@@ -1,0 +1,6 @@
+uataq.instruments.SensorMixin.pollutants
+========================================
+
+.. currentmodule:: uataq.instruments
+
+.. autoattribute:: SensorMixin.pollutants

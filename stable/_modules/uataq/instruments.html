@@ -6,7 +6,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>uataq.instruments &#8212; UATAQ 2026.10.2 documentation</title>
+    <title>uataq.instruments &#8212; UATAQ 2026.11.0 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be" />
 
-    <script src="../../_static/documentation_options.js?v=52372788"></script>
+    <script src="../../_static/documentation_options.js?v=b06263a2"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -48,7 +48,7 @@
     <script>
         DOCUMENTATION_OPTIONS.theme_version = '0.23.0';
         DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://jmineau.github.io/uataq/switcher.json';
-        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '2026.10.2';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '2026.11.0';
         DOCUMENTATION_OPTIONS.show_version_warning_banner =
             true;
         </script>
@@ -58,7 +58,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.2" />
+  <meta name="docsearch:version" content="2026.11.0" />
   
     
     <script src="../../_static/searchtools.js"></script>
@@ -126,7 +126,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.2 documentation</p>
+    <p class="title logo__title">UATAQ 2026.11.0 documentation</p>
   
 </a></div>
     
@@ -541,10 +541,13 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">group_dates</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_group_dates</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"group_dates"</span><span class="p">))</span></div>
 
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">_parse_group_dates</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">group_dates</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">|</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">TimeRange</span><span class="p">]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_parse_group_dates</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">group_dates</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"group_dates"</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">TimeRange</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">"""</span>
-<span class="sd">        Parse the config's ``group_dates`` into a TimeRange per group.</span>
+<span class="sd">        Parse a config key of windows by group into a TimeRange per group.</span>
 
+<span class="sd">        The key is ``group_dates``, or ``es642_column_dates`` for the ES405.</span>
 <span class="sd">        Each entry is ``group: [start, stop]``, a half-open ``[start, stop)``</span>
 <span class="sd">        window. Either end may be null for unbounded (in practice, the</span>
 <span class="sd">        instrument's installation or removal). Dates are read as exact</span>
@@ -561,19 +564,17 @@
         <span class="k">for</span> <span class="n">group</span><span class="p">,</span> <span class="n">dates</span> <span class="ow">in</span> <span class="p">(</span><span class="n">group_dates</span> <span class="ow">or</span> <span class="p">{})</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="k">if</span> <span class="n">group</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">groups</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">"group_dates for </span><span class="si">{</span><span class="bp">self</span><span class="si">}</span><span class="s2"> names '</span><span class="si">{</span><span class="n">group</span><span class="si">}</span><span class="s2">', which does not "</span>
+                    <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2"> for </span><span class="si">{</span><span class="bp">self</span><span class="si">}</span><span class="s2"> names '</span><span class="si">{</span><span class="n">group</span><span class="si">}</span><span class="s2">', which does not "</span>
                     <span class="sa">f</span><span class="s2">"operate it. Operators: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">groups</span><span class="si">}</span><span class="s2">."</span>
                 <span class="p">)</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dates</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">))</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">dates</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">"group_dates['</span><span class="si">{</span><span class="n">group</span><span class="si">}</span><span class="s2">'] for </span><span class="si">{</span><span class="bp">self</span><span class="si">}</span><span class="s2"> must be [start, stop], "</span>
-                    <span class="sa">f</span><span class="s2">"got </span><span class="si">{</span><span class="n">dates</span><span class="si">!r}</span><span class="s2">."</span>
+                    <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">['</span><span class="si">{</span><span class="n">group</span><span class="si">}</span><span class="s2">'] for </span><span class="si">{</span><span class="bp">self</span><span class="si">}</span><span class="s2"> must be [start, stop], got </span><span class="si">{</span><span class="n">dates</span><span class="si">!r}</span><span class="s2">."</span>
                 <span class="p">)</span>
             <span class="n">start</span><span class="p">,</span> <span class="n">stop</span> <span class="o">=</span> <span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">d</span><span class="p">)</span> <span class="k">if</span> <span class="n">d</span> <span class="k">else</span> <span class="kc">None</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">dates</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">start</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">stop</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">start</span> <span class="o">&gt;=</span> <span class="n">stop</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">"group_dates['</span><span class="si">{</span><span class="n">group</span><span class="si">}</span><span class="s2">'] for </span><span class="si">{</span><span class="bp">self</span><span class="si">}</span><span class="s2"> ends before it starts: "</span>
-                    <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">dates</span><span class="si">!r}</span><span class="s2">."</span>
+                    <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">['</span><span class="si">{</span><span class="n">group</span><span class="si">}</span><span class="s2">'] for </span><span class="si">{</span><span class="bp">self</span><span class="si">}</span><span class="s2"> ends before it starts: </span><span class="si">{</span><span class="n">dates</span><span class="si">!r}</span><span class="s2">."</span>
                 <span class="p">)</span>
             <span class="n">windows</span><span class="p">[</span><span class="n">group</span><span class="p">]</span> <span class="o">=</span> <span class="n">TimeRange</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="o">=</span><span class="n">stop</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">windows</span>
@@ -1454,10 +1455,85 @@
 <span class="sd">    Replaced the ES-642 at several sites. The horel group names both models</span>
 <span class="sd">    ``esampler`` on disk, so only the configured installation and removal</span>
 <span class="sd">    dates separate them -- see :meth:`Instrument.clip_to_active`.</span>
+
+<span class="sd">    Horel's qaqc and final files of BUS01 and BUS02 name this instrument's</span>
+<span class="sd">    values with the ES-642's column names for a few months after the swap. The</span>
+<span class="sd">    configuration's ``es642_column_dates`` says when, and the files take those</span>
+<span class="sd">    columns as this instrument's inside that window only.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    es642_column_dates : dict[str, TimeRange]</span>
+<span class="sd">        When each group's files give this instrument's values under the</span>
+<span class="sd">        ES-642's column names (config ``es642_column_dates``). A group not</span>
+<span class="sd">        listed never does.</span>
 <span class="sd">    """</span>
 
     <span class="n">model</span> <span class="o">=</span> <span class="s2">"metone_es405"</span>
-    <span class="n">pollutants</span> <span class="o">=</span> <span class="p">(</span><span class="s2">"PM1"</span><span class="p">,</span> <span class="s2">"PM2.5"</span><span class="p">,</span> <span class="s2">"PM4"</span><span class="p">,</span> <span class="s2">"PM10"</span><span class="p">)</span></div>
+    <span class="n">pollutants</span> <span class="o">=</span> <span class="p">(</span><span class="s2">"PM1"</span><span class="p">,</span> <span class="s2">"PM2.5"</span><span class="p">,</span> <span class="s2">"PM4"</span><span class="p">,</span> <span class="s2">"PM10"</span><span class="p">)</span>
+
+<div class="viewcode-block" id="MetOne_ES405.__init__">
+<a class="viewcode-back" href="../../api/uataq.instruments.MetOne_ES405.html#uataq.instruments.MetOne_ES405.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">SID</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">loggers</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Initialize the ES-405, reading the configuration's ``es642_column_dates``.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        SID : str</span>
+<span class="sd">            Site ID where the instrument is installed.</span>
+<span class="sd">        name : str</span>
+<span class="sd">            Name of the instrument.</span>
+<span class="sd">        loggers : dict</span>
+<span class="sd">            Dictionary of loggers used by different research groups.</span>
+<span class="sd">        config : dict</span>
+<span class="sd">            Configuration settings for the instrument.</span>
+<span class="sd">        """</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">SID</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">loggers</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">es642_column_dates</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_group_dates</span><span class="p">(</span>
+            <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"es642_column_dates"</span><span class="p">),</span> <span class="s2">"es642_column_dates"</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="MetOne_ES405.get_datafiles">
+<a class="viewcode-back" href="../../api/uataq.instruments.MetOne_ES405.get_datafiles.html#uataq.instruments.MetOne_ES405.get_datafiles">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_datafiles</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">group</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">lvl</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">time_range</span><span class="p">:</span> <span class="n">TimeRange</span> <span class="o">|</span> <span class="n">TimeRangeTypes</span><span class="p">,</span>
+        <span class="n">pattern</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">filesystem</span><span class="o">.</span><span class="n">DataFile</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Get data files for the given level and time range from the groupspace.</span>
+
+<span class="sd">        As :meth:`Instrument.get_datafiles`, and each file is told the group's</span>
+<span class="sd">        ``es642_column_dates``, so that it takes its ES-642-named columns as</span>
+<span class="sd">        this instrument's inside that window and ignores them outside it.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        group : str</span>
+<span class="sd">            The research group whose data to retrieve.</span>
+<span class="sd">        lvl : str</span>
+<span class="sd">            The level of the data to retrieve.</span>
+<span class="sd">        time_range : TimeRange | TimeRangeTypes</span>
+<span class="sd">            The time range of the data to retrieve.</span>
+<span class="sd">        pattern : str</span>
+<span class="sd">            A string pattern to filter the file paths.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        list[DataFile]</span>
+<span class="sd">            A list of data files.</span>
+<span class="sd">        """</span>
+        <span class="n">datafiles</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">get_datafiles</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">lvl</span><span class="p">,</span> <span class="n">time_range</span><span class="p">,</span> <span class="n">pattern</span><span class="p">)</span>
+        <span class="n">window</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">es642_column_dates</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">group</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">datafile</span> <span class="ow">in</span> <span class="n">datafiles</span><span class="p">:</span>
+            <span class="c1"># pyrefly: ignore[missing-attribute]</span>
+            <span class="n">datafile</span><span class="o">.</span><span class="n">es642_column_dates</span> <span class="o">=</span> <span class="n">window</span>
+        <span class="k">return</span> <span class="n">datafiles</span></div>
+</div>
 
 
 

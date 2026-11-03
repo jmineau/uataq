@@ -1,0 +1,6 @@
+uataq.sodar.Sodar.species\_measured
+===================================
+
+.. currentmodule:: uataq.sodar
+
+.. autoattribute:: Sodar.species_measured

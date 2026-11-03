@@ -1,0 +1,6 @@
+uataq.errors.DroppedPollutantWarning
+====================================
+
+.. currentmodule:: uataq.errors
+
+.. autoexception:: DroppedPollutantWarning

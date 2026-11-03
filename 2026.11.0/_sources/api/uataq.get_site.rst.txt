@@ -1,0 +1,6 @@
+﻿uataq.get\_site
+===============
+
+.. currentmodule:: uataq
+
+.. autofunction:: get_site

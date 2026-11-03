@@ -1,0 +1,6 @@
+uataq.sites.MobileSite.get\_obs
+===============================
+
+.. currentmodule:: uataq.sites
+
+.. automethod:: MobileSite.get_obs

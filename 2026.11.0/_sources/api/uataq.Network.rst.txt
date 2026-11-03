@@ -1,0 +1,24 @@
+﻿uataq.Network
+=============
+
+.. currentmodule:: uataq
+
+.. autoclass:: Network
+   :no-members:
+
+
+
+
+
+
+.. rubric:: Methods
+
+.. autosummary::
+   :toctree:
+
+   ~Network.get_availability
+   ~Network.get_obs
+   ~Network.plot_availability
+
+
+
