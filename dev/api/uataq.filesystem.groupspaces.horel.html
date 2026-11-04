@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>uataq.filesystem.groupspaces.horel &#8212; UATAQ 2026.10.3.dev25+g3f33accc3 documentation</title>
+    <title>uataq.filesystem.groupspaces.horel &#8212; UATAQ 2026.11.1.dev1+gc91c45fab documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be" />
 
-    <script src="../_static/documentation_options.js?v=3fd577ba"></script>
+    <script src="../_static/documentation_options.js?v=68dc36b5"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -61,7 +61,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.3.dev25+g3f33accc3" />
+  <meta name="docsearch:version" content="2026.11.1.dev1+gc91c45fab" />
   
     
     <script src="../_static/searchtools.js"></script>
@@ -129,7 +129,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.3.dev25+g3f33accc3 documentation</p>
+    <p class="title logo__title">UATAQ 2026.11.1.dev1+gc91c45fab documentation</p>
   
 </a></div>
     
@@ -633,25 +633,25 @@
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="uataq.filesystem.groupspaces.horel.HOREL_DIR.html#uataq.filesystem.groupspaces.horel.HOREL_DIR" title="uataq.filesystem.groupspaces.horel.HOREL_DIR"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HOREL_DIR</span></code></a></p></td>
-<td><p>Horel group directory</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">UATAQ_HOREL_DIR</span></code> if set, else the default.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="uataq.filesystem.groupspaces.horel.UUTRAX_DIR.html#uataq.filesystem.groupspaces.horel.UUTRAX_DIR" title="uataq.filesystem.groupspaces.horel.UUTRAX_DIR"><code class="xref py py-obj docutils literal notranslate"><span class="pre">UUTRAX_DIR</span></code></a></p></td>
-<td><p>UUTRAX directory</p></td>
+<td><p>UUTRAX directory, <code class="docutils literal notranslate"><span class="pre">uutrax</span></code> under <code class="docutils literal notranslate"><span class="pre">HOREL_DIR</span></code>.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="uataq.filesystem.groupspaces.horel.UUTRAX_PILOT_DIR.html#uataq.filesystem.groupspaces.horel.UUTRAX_PILOT_DIR" title="uataq.filesystem.groupspaces.horel.UUTRAX_PILOT_DIR"><code class="xref py py-obj docutils literal notranslate"><span class="pre">UUTRAX_PILOT_DIR</span></code></a></p></td>
-<td><p>UUTRAX pilot directory</p></td>
+<td><p>UUTRAX pilot directory, <code class="docutils literal notranslate"><span class="pre">uutrax_pilot</span></code> under <code class="docutils literal notranslate"><span class="pre">HOREL_DIR</span></code>.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="uataq.filesystem.groupspaces.horel.MESOWEST_DIR.html#uataq.filesystem.groupspaces.horel.MESOWEST_DIR" title="uataq.filesystem.groupspaces.horel.MESOWEST_DIR"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MESOWEST_DIR</span></code></a></p></td>
-<td><p>MesoWest operational data directory (SODAR archive is read by <a class="reference internal" href="uataq.sodar.html#module-uataq.sodar" title="uataq.sodar"><code class="xref py py-mod docutils literal notranslate"><span class="pre">uataq.sodar</span></code></a>)</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="uataq.filesystem.groupspaces.horel.PILOT_PHASE.html#uataq.filesystem.groupspaces.horel.PILOT_PHASE" title="uataq.filesystem.groupspaces.horel.PILOT_PHASE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PILOT_PHASE</span></code></a></p></td>
-<td><p>Pilot phase time ranges for UUTRAX data.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="uataq.filesystem.groupspaces.horel.PRIOR_405_SUFFIX.html#uataq.filesystem.groupspaces.horel.PRIOR_405_SUFFIX" title="uataq.filesystem.groupspaces.horel.PRIOR_405_SUFFIX"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PRIOR_405_SUFFIX</span></code></a></p></td>
-<td><p>Suffix of the raw files horel set aside when a vehicle's MetOne ES642 was replaced by an ES405.</p></td>
+<td><p>MesoWest operational data directory (SODAR archive is read by <a class="reference internal" href="uataq.sodar.html#module-uataq.sodar" title="uataq.sodar"><code class="xref py py-mod docutils literal notranslate"><span class="pre">uataq.sodar</span></code></a>), <code class="docutils literal notranslate"><span class="pre">oper/mesowest</span></code> under <code class="docutils literal notranslate"><span class="pre">HOREL_DIR</span></code>.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="uataq.filesystem.groupspaces.horel.lvl_data_dirs.html#uataq.filesystem.groupspaces.horel.lvl_data_dirs" title="uataq.filesystem.groupspaces.horel.lvl_data_dirs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">lvl_data_dirs</span></code></a></p></td>
-<td><p>Data levels for UUTRAX data</p></td>
+<td><p>Directories to search for each data level, from the current UUTRAX roots.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="uataq.filesystem.groupspaces.horel.PILOT_PHASE.html#uataq.filesystem.groupspaces.horel.PILOT_PHASE" title="uataq.filesystem.groupspaces.horel.PILOT_PHASE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PILOT_PHASE</span></code></a></p></td>
+<td><p>Pilot phase time ranges for UUTRAX data.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="uataq.filesystem.groupspaces.horel.PRIOR_405_SUFFIX.html#uataq.filesystem.groupspaces.horel.PRIOR_405_SUFFIX" title="uataq.filesystem.groupspaces.horel.PRIOR_405_SUFFIX"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PRIOR_405_SUFFIX</span></code></a></p></td>
+<td><p>Suffix of the raw files horel set aside when a vehicle's MetOne ES642 was replaced by an ES405.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="uataq.filesystem.groupspaces.horel.column_mapping.html#uataq.filesystem.groupspaces.horel.column_mapping" title="uataq.filesystem.groupspaces.horel.column_mapping"><code class="xref py py-obj docutils literal notranslate"><span class="pre">column_mapping</span></code></a></p></td>
 <td><p>Horel to UATAQ column mapping</p></td>

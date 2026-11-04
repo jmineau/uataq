@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Installation &#8212; UATAQ 2026.10.3.dev25+g3f33accc3 documentation</title>
+    <title>Installation &#8212; UATAQ 2026.11.1.dev1+gc91c45fab documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be" />
 
-    <script src="../_static/documentation_options.js?v=3fd577ba"></script>
+    <script src="../_static/documentation_options.js?v=68dc36b5"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -61,7 +61,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.10.3.dev25+g3f33accc3" />
+  <meta name="docsearch:version" content="2026.11.1.dev1+gc91c45fab" />
   
     
     <script src="../_static/searchtools.js"></script>
@@ -129,7 +129,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.10.3.dev25+g3f33accc3 documentation</p>
+    <p class="title logo__title">UATAQ 2026.11.1.dev1+gc91c45fab documentation</p>
   
 </a></div>
     
@@ -654,8 +654,14 @@ after <code class="docutils literal notranslate"><span class="pre">import</span>
 with one exception: the pipeline’s configuration files (<code class="docutils literal notranslate"><span class="pre">data_config.json</span></code> and
 <code class="docutils literal notranslate"><span class="pre">site_config.csv</span></code>) are read once, when uataq is imported, so set the variable
 before the import if the copy’s configuration differs. A value that is not a
-directory raises <code class="docutils literal notranslate"><span class="pre">FileNotFoundError</span></code> naming the variable. The Horel group’s
-folders have no such variable.</p>
+directory raises <code class="docutils literal notranslate"><span class="pre">FileNotFoundError</span></code> naming the variable.</p>
+<p>The Horel group’s root works the same way, through <code class="docutils literal notranslate"><span class="pre">UATAQ_HOREL_DIR</span></code>: unset or
+empty, it means the group’s own space; set, it is read each time a path is
+needed, and a value that is not a directory raises <code class="docutils literal notranslate"><span class="pre">FileNotFoundError</span></code> naming
+the variable.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">UATAQ_HOREL_DIR</span><span class="o">=</span>/path/to/horel-group
+</pre></div>
+</div>
 </section>
 <section id="if-something-goes-wrong">
 <span id="install-errors"></span><h2>If something goes wrong<a class="headerlink" href="#if-something-goes-wrong" title="Link to this heading">#</a></h2>
@@ -666,6 +672,9 @@ folders have no such variable.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">FileNotFoundError</span></code> saying <code class="docutils literal notranslate"><span class="pre">LINGROUP_MEASUREMENTS_DIR</span></code> is not a directory</dt><dd><p>The variable is set to a path that does not exist. Fix the path, or run
 <code class="docutils literal notranslate"><span class="pre">unset</span> <span class="pre">LINGROUP_MEASUREMENTS_DIR</span></code> to read the archive itself.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">FileNotFoundError</span></code> saying <code class="docutils literal notranslate"><span class="pre">UATAQ_HOREL_DIR</span></code> is not a directory</dt><dd><p>The variable is set to a path that does not exist. Fix the path, or run
+<code class="docutils literal notranslate"><span class="pre">unset</span> <span class="pre">UATAQ_HOREL_DIR</span></code> to read the archive itself.</p>
 </dd>
 <dt>The <code class="docutils literal notranslate"><span class="pre">ls</span></code> in step 1, or the read in step 5, fails</dt><dd><p>You are probably not in the <code class="docutils literal notranslate"><span class="pre">lin</span></code> group yet. Run <code class="docutils literal notranslate"><span class="pre">groups</span></code> and see
 <a class="reference internal" href="#what-you-need">What you need</a>.</p>
