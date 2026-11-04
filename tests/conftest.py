@@ -19,6 +19,13 @@ def lin_data_dir(tmp_path, monkeypatch):
 
 
 @pytest.fixture
+def horel_dir(tmp_path, monkeypatch):
+    """Return an empty Horel group root, with UATAQ_HOREL_DIR set to it."""
+    monkeypatch.setenv("UATAQ_HOREL_DIR", str(tmp_path))
+    return tmp_path
+
+
+@pytest.fixture
 def sample_datetime():
     """Return a sample datetime for testing."""
     return dt.datetime(2024, 1, 15, 12, 0, 0)

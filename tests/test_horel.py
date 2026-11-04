@@ -120,13 +120,87 @@ def test_column_names_do_not_depend_on_level():
             assert "_hpa" not in name, f"{instrument}: {name} should be hPa"
 
 
-def test_get_files_skips_a_missing_level_dir(tmp_path):
+class TestHorelRoot:
+    """UATAQ_HOREL_DIR sets the Horel group root, read when it is used."""
+
+    ENV = "UATAQ_HOREL_DIR"
+    DEFAULT = os.path.join(core.HOME, "horel-group")
+
+    def test_default_is_the_dedicated_space(self, monkeypatch):
+        monkeypatch.delenv(self.ENV, raising=False)
+        assert (
+            self.DEFAULT,
+            os.path.join(self.DEFAULT, "uutrax"),
+            os.path.join(self.DEFAULT, "uutrax_pilot"),
+            os.path.join(self.DEFAULT, "oper", "mesowest"),
+        ) == (
+            horel.HOREL_DIR,
+            horel.UUTRAX_DIR,
+            horel.UUTRAX_PILOT_DIR,
+            horel.MESOWEST_DIR,
+        )
+
+    def test_empty_variable_is_unset(self, monkeypatch):
+        monkeypatch.setenv(self.ENV, "")
+        assert horel.HOREL_DIR == self.DEFAULT
+
+    def test_variable_moves_all_names(self, tmp_path, monkeypatch):
+        monkeypatch.setenv(self.ENV, str(tmp_path))
+        assert (
+            str(tmp_path),
+            str(tmp_path / "uutrax"),
+            str(tmp_path / "uutrax_pilot"),
+            str(tmp_path / "oper" / "mesowest"),
+        ) == (
+            horel.HOREL_DIR,
+            horel.UUTRAX_DIR,
+            horel.UUTRAX_PILOT_DIR,
+            horel.MESOWEST_DIR,
+        )
+        assert horel.lvl_data_dirs == {
+            "raw": [str(tmp_path / "uutrax_pilot"), str(tmp_path / "uutrax")],
+            "qaqc": [str(tmp_path / "uutrax")],
+            "final": [str(tmp_path / "uutrax")],
+        }
+
+    def test_set_after_import_takes_effect(self, tmp_path, monkeypatch):
+        """The names are not fixed at import: each read follows the variable."""
+        monkeypatch.delenv(self.ENV, raising=False)
+        before = horel.UUTRAX_DIR
+        monkeypatch.setenv(self.ENV, str(tmp_path))
+        moved = horel.UUTRAX_DIR
+        monkeypatch.delenv(self.ENV)
+        assert (before, moved, horel.UUTRAX_DIR) == (
+            before,
+            str(tmp_path / "uutrax"),
+            before,
+        )
+
+    def test_missing_directory_names_the_variable(self, tmp_path, monkeypatch):
+        monkeypatch.setenv(self.ENV, str(tmp_path / "nowhere"))
+        with pytest.raises(FileNotFoundError, match=self.ENV) as err:
+            _ = horel.HOREL_DIR
+        assert "nowhere" in str(err.value)
+
+    def test_names_are_listed(self):
+        assert {
+            "HOREL_DIR",
+            "UUTRAX_DIR",
+            "UUTRAX_PILOT_DIR",
+            "MESOWEST_DIR",
+            "lvl_data_dirs",
+        } <= set(dir(horel))
+
+    def test_unknown_name_is_an_attribute_error(self):
+        with pytest.raises(AttributeError):
+            _ = horel.NOT_A_NAME
+
+
+def test_get_files_skips_a_missing_level_dir(horel_dir):
     """The pilot archive has no nox dir; raw reads used to crash on it (#26)."""
-    pilot, main = tmp_path / "uutrax_pilot", tmp_path / "uutrax"
-    (main / "nox").mkdir(parents=True)
-    (main / "nox" / "BUS03_2024_04_nox.h5").touch()
-    with patch.dict(horel.lvl_data_dirs, {"raw": [str(pilot), str(main)]}):
-        files = horel.HorelGroup().get_files("BUS03", "2b_405", "raw")
+    (horel_dir / "uutrax" / "nox").mkdir(parents=True)
+    (horel_dir / "uutrax" / "nox" / "BUS03_2024_04_nox.h5").touch()
+    files = horel.HorelGroup().get_files("BUS03", "2b_405", "raw")
     assert [os.path.basename(f) for f in files] == ["BUS03_2024_04_nox.h5"]
 
 
@@ -323,14 +397,8 @@ class TestHorelGroup:
             main / "csv_finalized_ebus" / "BUS01_2024_06.csv.gz",
         ]:
             f.touch()
-        monkeypatch.setattr(horel, "UUTRAX_DIR", str(main))
-        dirs = {
-            "raw": [str(pilot), str(main)],
-            "qaqc": [str(main)],
-            "final": [str(main)],
-        }
-        with patch.dict(horel.lvl_data_dirs, dirs):
-            yield tmp_path
+        monkeypatch.setenv("UATAQ_HOREL_DIR", str(tmp_path))
+        yield tmp_path
 
     @staticmethod
     def names(paths) -> list[str]:
@@ -407,16 +475,15 @@ class TestHorelGroup:
 class TestHorelGPSRead:
     """GPS through the Instrument, from a synthetic cr1000 table."""
 
-    def test_recorded_speed_is_already_m_s(self, tmp_path):
+    def test_recorded_speed_is_already_m_s(self, horel_dir):
         """
         Horel's RSPD is in m/s, so reading it applies no knots conversion.
 
         The h5 variable metadata and the CSV units row say so, and it matches
         the speed from positions. Lin's knots conversion must not apply.
         """
-        main = tmp_path / "uutrax"
         write_h5(
-            main / "cr1000" / "BUS01_2024_06_cr1000.h5",
+            horel_dir / "uutrax" / "cr1000" / "BUS01_2024_06_cr1000.h5",
             {
                 "EPOCHTIME": [JUNE, JUNE + 5, JUNE + 10],
                 "GLAT": [40.7639, 40.7640, 40.7641],
@@ -429,10 +496,9 @@ class TestHorelGPSRead:
             },
         )
         gps = get_site("BUS01").instruments["gps"]
-        with patch.dict(horel.lvl_data_dirs, {"raw": [str(main)]}):
-            data = gps.read_data(
-                "horel", "raw", ["2024-06-01", "2024-06-02"], estimate_motion=False
-            )
+        data = gps.read_data(
+            "horel", "raw", ["2024-06-01", "2024-06-02"], estimate_motion=False
+        )
 
         assert data["Speed_m_s"].tolist() == pytest.approx([0.0, 2.0, 10.0])
         assert data["Latitude_deg"].iloc[1] == pytest.approx(40.7640)
@@ -495,8 +561,9 @@ class TestPrior405UpgradeFiles:
     """
 
     @pytest.fixture
-    def swap(self, SID, tmp_path):
+    def swap(self, SID, tmp_path, monkeypatch):
         """Write the swap month's two files, the month before, and stray files."""
+        monkeypatch.setenv("UATAQ_HOREL_DIR", str(tmp_path))
         last, first = (pd.Timestamp(t) for t in SWAPS[SID])
         month = first.to_period("M")
         start = month.start_time
@@ -523,8 +590,7 @@ class TestPrior405UpgradeFiles:
                 folder / f"{name}.{stray}",
                 {"EPOCHTIME": epoch(start + pd.Timedelta("1h")), "PM25": [99.0]},
             )
-        with patch.dict(horel.lvl_data_dirs, {"raw": [str(tmp_path / "uutrax")]}):
-            yield start, (month + 1).start_time, last, first
+        yield start, (month + 1).start_time, last, first
 
     def test_es642_reads_the_prior_file_up_to_the_swap(self, SID, swap):
         start, stop, last, _ = swap
@@ -561,9 +627,9 @@ class TestPrior405UpgradeFiles:
         assert data.index.tolist() == [before, before + pd.Timedelta("2s")]
 
 
-def test_prior_and_plain_gps_rows_join_in_time(tmp_path):
+def test_prior_and_plain_gps_rows_join_in_time(horel_dir):
     """TRX01's GPS (cr1000) was split at the swap too; the two files meet in order."""
-    folder = tmp_path / "uutrax" / "cr1000"
+    folder = horel_dir / "uutrax" / "cr1000"
     position = {"GLAT": [40.76, 40.77], "GLON": [-111.89, -111.88]}
     write_h5(
         folder / "TRX01_2025_01_cr1000.h5_prior405upgrade",
@@ -574,10 +640,9 @@ def test_prior_and_plain_gps_rows_join_in_time(tmp_path):
         {"EPOCHTIME": epoch("2025-01-06 19:30:00", "2025-01-06 19:30:05"), **position},
     )
     gps = get_site("TRX01").instruments["gps"]
-    with patch.dict(horel.lvl_data_dirs, {"raw": [str(tmp_path / "uutrax")]}):
-        data = gps.read_data(
-            "horel", "raw", ("2025-01-01", "2025-01-31"), estimate_motion=False
-        )
+    data = gps.read_data(
+        "horel", "raw", ("2025-01-01", "2025-01-31"), estimate_motion=False
+    )
     times = [
         "2025-01-01",
         "2025-01-06 18:10:28",
@@ -614,9 +679,8 @@ class TestPilotFileEnd:
             main / "cr1000" / "TRX01_2018_11_cr1000.h5",
             {"EPOCHTIME": epoch(after, after + pd.Timedelta("2s")), **position},
         )
-        monkeypatch.setattr(horel, "UUTRAX_PILOT_DIR", str(pilot))
-        with patch.dict(horel.lvl_data_dirs, {"raw": [str(pilot), str(main)]}):
-            yield before, after
+        monkeypatch.setenv("UATAQ_HOREL_DIR", str(tmp_path))
+        yield before, after
 
     def test_each_row_is_read_once(self, archive):
         before, after = archive
@@ -645,19 +709,19 @@ class TestParseOnce:
     INSTRUMENTS = ["2b_205", "cr1000", "gps", "metone_es642"]
 
     @pytest.fixture
-    def archive(self, tmp_path):
+    def archive(self, tmp_path, monkeypatch):
         """TRX01's 2024-05 and 2024-06 finalized files."""
-        write_trx(tmp_path)
+        monkeypatch.setenv("UATAQ_HOREL_DIR", str(tmp_path))
+        uutrax = tmp_path / "uutrax"
+        write_trx(uutrax)
         may = [[row[0].replace("-06-", "-05-"), *row[1:]] for row in TRX_ROWS]
         write_csv_gz(
-            tmp_path / "csv_finalized" / "TRX01_2024_05.csv.gz",
+            uutrax / "csv_finalized" / "TRX01_2024_05.csv.gz",
             TRX_HEADER,
             TRX_UNITS,
             may,
         )
-        dirs = {"qaqc": [str(tmp_path)], "final": [str(tmp_path)]}
-        with patch.dict(horel.lvl_data_dirs, dirs):
-            yield tmp_path
+        yield tmp_path
 
     @staticmethod
     def read(lvl: str, time_range="2024-06", instruments=None, num_processes=1):
@@ -753,9 +817,10 @@ class TestES405UnderES642Names:
     """
 
     @pytest.fixture
-    def archive(self, tmp_path):
+    def archive(self, tmp_path, monkeypatch):
         """BUS01 2026-03 and 2026-04 and BUS02 2025-04 and 2025-12 qaqc files."""
-        ebus = tmp_path / "csv_finalized_ebus"
+        monkeypatch.setenv("UATAQ_HOREL_DIR", str(tmp_path))
+        ebus = tmp_path / "uutrax" / "csv_finalized_ebus"
         write_csv_gz(
             ebus / "BUS01_2026_03.csv.gz",
             ES642_NAMED,
@@ -796,9 +861,7 @@ class TestES405UnderES642Names:
             ES642_UNITS,
             es642_named_rows("2025-02-02 00:00", [11.0]),
         )
-        dirs = {"qaqc": [str(tmp_path)], "final": [str(tmp_path)]}
-        with patch.dict(horel.lvl_data_dirs, dirs):
-            yield tmp_path
+        yield tmp_path
 
     @staticmethod
     def read(SID: str, lvl: str, time_range):
@@ -877,9 +940,8 @@ class TestES405UnderES642Names:
         with pytest.raises(InactiveInstrumentError):
             es642.read_data("horel", "qaqc", "2026-03")
 
-    def test_get_obs_finds_pm25(self, archive, monkeypatch):
+    def test_get_obs_finds_pm25(self, archive):
         """The case that came back empty: get_obs for BUS01 in 2026-03."""
-        monkeypatch.setattr(horel, "UUTRAX_DIR", str(archive))
         obs = get_site("BUS01").get_obs(
             "PM2.5", time_range="2026-03", include_gps=False
         )
@@ -970,9 +1032,8 @@ class TestTRX01PilotPM:
             pilot / "esampler" / "TRX01_2014_12_esampler.h5",
             {"EPOCHTIME": epoch("2014-12-05 18:58", "2014-12-06 00:31"), **pm},
         )
-        monkeypatch.setattr(horel, "UUTRAX_PILOT_DIR", str(pilot))
-        with patch.dict(horel.lvl_data_dirs, {"raw": [str(pilot)]}):
-            yield
+        monkeypatch.setenv("UATAQ_HOREL_DIR", str(tmp_path))
+        yield
 
     def test_rows_from_the_installation_day_are_read(self, archive):
         es642 = get_site("TRX01").instruments["metone_es642"]

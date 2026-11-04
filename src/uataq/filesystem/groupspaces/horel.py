@@ -19,20 +19,92 @@ from uataq.timerange import TimeRange
 
 _logger = logging.getLogger(__name__)
 
-#: Horel group directory
-HOREL_DIR: str = os.path.join(filesystem.HOME, "horel-group")
+# The Horel group's root directory. ``UATAQ_HOREL_DIR`` overrides the default,
+# and is read each time a path is needed (not at import), so setting it after
+# ``import uataq`` works. HOREL_DIR, UUTRAX_DIR, UUTRAX_PILOT_DIR,
+# MESOWEST_DIR and lvl_data_dirs are module attributes computed by
+# ``__getattr__`` below, so they follow the variable; the annotations keep
+# their documentation. Unlike the Lin group, no group-wide variable is
+# exported for this root at login, so uataq names its own.
+_HOREL_ENV: str = "UATAQ_HOREL_DIR"
+_DEFAULT_HOREL_DIR: str = os.path.join(filesystem.HOME, "horel-group")
 
-# UUTRAX directories
-#   Consider UUTRAX project as part of UATAQ (includes TRX, BUS, RAIL, HAWTH)
+
+def _horel_dir() -> str:
+    """
+    Return the Horel group root: ``UATAQ_HOREL_DIR`` if set, else the default.
+
+    Raise FileNotFoundError, naming the variable, when it is set to a path that is
+    not a directory. The default is not checked: off-cluster it does not exist.
+    """
+    path = os.environ.get(_HOREL_ENV)
+    if not path:
+        return _DEFAULT_HOREL_DIR
+    if not os.path.isdir(path):
+        raise FileNotFoundError(
+            f"{_HOREL_ENV} is set to '{path}', which is not a directory."
+        )
+    return path
+
+
+def _uutrax_dir() -> str:
+    """Return the UUTRAX directory under the Horel root."""
+    return os.path.join(_horel_dir(), "uutrax")
+
+
+def _uutrax_pilot_dir() -> str:
+    """Return the UUTRAX pilot-phase directory under the Horel root."""
+    return os.path.join(_horel_dir(), "uutrax_pilot")
+
+
+def _mesowest_dir() -> str:
+    """Return the MesoWest operational data directory under the Horel root."""
+    return os.path.join(_horel_dir(), "oper", "mesowest")
+
+
+def _lvl_data_dirs() -> dict[str, list[str]]:
+    """Return the UUTRAX data directories for each level, from the current roots."""
+    uutrax_dir = _uutrax_dir()
+    return {
+        "raw": [_uutrax_pilot_dir(), uutrax_dir],
+        "qaqc": [uutrax_dir],
+        "final": [uutrax_dir],
+    }
+
+
+#: Horel group root: ``UATAQ_HOREL_DIR`` if set, else the default.
+HOREL_DIR: str
+# Consider UUTRAX project as part of UATAQ (includes TRX, BUS, RAIL, HAWTH)
 #   TODO add rail and hawth
 #   Includes a pilot phase which does not have QAQC data
-#: UUTRAX directory
-UUTRAX_DIR: str = os.path.join(HOREL_DIR, "uutrax")
-#: UUTRAX pilot directory
-UUTRAX_PILOT_DIR: str = os.path.join(HOREL_DIR, "uutrax_pilot")
+#: UUTRAX directory, ``uutrax`` under ``HOREL_DIR``.
+UUTRAX_DIR: str
+#: UUTRAX pilot directory, ``uutrax_pilot`` under ``HOREL_DIR``.
+UUTRAX_PILOT_DIR: str
+#: MesoWest operational data directory (SODAR archive is read by
+#: :mod:`uataq.sodar`), ``oper/mesowest`` under ``HOREL_DIR``.
+MESOWEST_DIR: str
+#: Directories to search for each data level, from the current UUTRAX roots.
+lvl_data_dirs: dict[str, list]
 
-#: MesoWest operational data directory (SODAR archive is read by :mod:`uataq.sodar`)
-MESOWEST_DIR: str = os.path.join(HOREL_DIR, "oper", "mesowest")
+_DIRS = {
+    "HOREL_DIR": _horel_dir,
+    "UUTRAX_DIR": _uutrax_dir,
+    "UUTRAX_PILOT_DIR": _uutrax_pilot_dir,
+    "MESOWEST_DIR": _mesowest_dir,
+    "lvl_data_dirs": _lvl_data_dirs,
+}
+
+
+def __getattr__(name: str) -> str | dict[str, list[str]]:
+    if name in _DIRS:
+        return _DIRS[name]()
+    raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
+
+
+def __dir__() -> list[str]:
+    return sorted([*globals(), *_DIRS])
+
 
 #: Pilot phase time ranges for UUTRAX data. A raw file of the pilot archive is
 #: read only before the stop: in 2018-11, the month the pilot ended, the pilot
@@ -46,7 +118,7 @@ PILOT_PHASE: dict[str, TimeRange] = {
 
 def _pilot_stop(path: str) -> pd.Timestamp | None:
     """Return the end of the pilot phase if ``path`` is a pilot-archive file, else None."""
-    pilot_dir = os.path.abspath(UUTRAX_PILOT_DIR)
+    pilot_dir = os.path.abspath(_uutrax_pilot_dir())
     if os.path.dirname(os.path.dirname(os.path.abspath(path))) != pilot_dir:
         return None
     phase = PILOT_PHASE.get(os.path.basename(path).split("_")[0])
@@ -60,13 +132,6 @@ def _pilot_stop(path: str) -> pd.Timestamp | None:
 #: the GPS's in ``2b`` and ``cr1000``. Raw reads take both files of the month,
 #: for every instrument but the ES405, which none of those rows belong to.
 PRIOR_405_SUFFIX: str = "_prior405upgrade"
-
-#: Data levels for UUTRAX data
-lvl_data_dirs: dict[str, list] = {
-    "raw": [UUTRAX_PILOT_DIR, UUTRAX_DIR],
-    "qaqc": [UUTRAX_DIR],
-    "final": [UUTRAX_DIR],
-}
 
 #: Horel to UATAQ column mapping
 column_mapping: dict[str, dict[str, str]] = {
@@ -368,7 +433,7 @@ class HorelH5File(HorelFile):
         pd.DataFrame
             A DataFrame containing the parsed data.
         """
-        _logger.debug(f"Parsing {filesystem._relpath(self.path, HOREL_DIR)}")
+        _logger.debug(f"Parsing {filesystem._relpath(self.path, _horel_dir())}")
 
         with pytbls.open_file(self.path, mode="r") as f:
             # the node is a Table; type checkers only know the generic Node type
@@ -531,7 +596,7 @@ class HorelCSVFile(HorelFile):
 
     def _read_csv(self, usecols: Callable[[str], bool]) -> pd.DataFrame:
         """Read the file's columns that ``usecols`` takes, below the units row."""
-        _logger.debug(f"Parsing {filesystem._relpath(self.path, HOREL_DIR)}")
+        _logger.debug(f"Parsing {filesystem._relpath(self.path, _horel_dir())}")
         return pd.read_csv(self.path, compression="gzip", skiprows=[1], usecols=usecols)
 
     def _used_by_any_instrument(self, col: str) -> bool:
@@ -650,7 +715,7 @@ class HorelGroup(filesystem.GroupSpace):
     @staticmethod
     def get_lvls(SID: str, instrument: str) -> list[str]:
         """Return the levels horel keeps: raw, qaqc and final."""
-        return list(lvl_data_dirs)
+        return list(_lvl_data_dirs())
 
     @staticmethod
     def get_highest_lvl(SID: str, instrument: str) -> str:
@@ -660,7 +725,7 @@ class HorelGroup(filesystem.GroupSpace):
         )
         # UUTRAX_PILOT_DIR is the pilot phase which does not have qaqc/final data
         site_files = filesystem.list_files(
-            os.path.join(UUTRAX_DIR, finalized_dir), pattern=f"{SID.upper()}*"
+            os.path.join(_uutrax_dir(), finalized_dir), pattern=f"{SID.upper()}*"
         )
         return "final" if len(site_files) > 0 else "raw"
 
@@ -683,7 +748,7 @@ class HorelGroup(filesystem.GroupSpace):
         }
         instrument = instrument_mapper.get(instrument, instrument)
 
-        data_dirs = lvl_data_dirs.get(lvl)
+        data_dirs = _lvl_data_dirs().get(lvl)
         if data_dirs is None:
             raise ValueError(f"Invalid data level: {lvl} for group: {self.name}")
 
