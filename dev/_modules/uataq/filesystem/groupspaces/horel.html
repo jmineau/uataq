@@ -6,7 +6,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>uataq.filesystem.groupspaces.horel &#8212; UATAQ 2026.11.1.dev2+geed0bf43f documentation</title>
+    <title>uataq.filesystem.groupspaces.horel &#8212; UATAQ 2026.11.1.dev3+gae3db25e6 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="../../../../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be" />
 <link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be" />
 
-    <script src="../../../../_static/documentation_options.js?v=2f5fd2a5"></script>
+    <script src="../../../../_static/documentation_options.js?v=b980fd86"></script>
     <script src="../../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -58,7 +58,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.11.1.dev2+geed0bf43f" />
+  <meta name="docsearch:version" content="2026.11.1.dev3+gae3db25e6" />
   
     
     <script src="../../../../_static/searchtools.js"></script>
@@ -126,7 +126,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.11.1.dev2+geed0bf43f documentation</p>
+    <p class="title logo__title">UATAQ 2026.11.1.dev3+gae3db25e6 documentation</p>
   
 </a></div>
     
@@ -629,6 +629,14 @@
         <span class="s2">"RSTS"</span><span class="p">:</span> <span class="s2">"Status"</span><span class="p">,</span>
         <span class="s2">"GPS_RMC_Valid"</span><span class="p">:</span> <span class="s2">"Status"</span><span class="p">,</span>
         <span class="s2">"GPS_Data_Flagged"</span><span class="p">:</span> <span class="s2">"QAQC_Flag"</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">"lgr_no2"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="c1"># pilot raw only (TRX02, 2016-06 to 2017-06): one row a minute, each</span>
+        <span class="c1"># the mean of the minute before its time</span>
+        <span class="s2">"NO2C"</span><span class="p">:</span> <span class="s2">"NO2_ppb"</span><span class="p">,</span>
+        <span class="s2">"NO2SE"</span><span class="p">:</span> <span class="s2">"NO2_ppb_se"</span><span class="p">,</span>
+        <span class="s2">"PSLG"</span><span class="p">:</span> <span class="s2">"Internal_P_hPa"</span><span class="p">,</span>
+        <span class="s2">"TCLG"</span><span class="p">:</span> <span class="s2">"Internal_T_C"</span><span class="p">,</span>
     <span class="p">},</span>
     <span class="s2">"metone_es405"</span><span class="p">:</span> <span class="p">{</span>
         <span class="s2">"PM01"</span><span class="p">:</span> <span class="s2">"PM1_ugm3"</span><span class="p">,</span>
@@ -1224,6 +1232,7 @@
             <span class="s2">"2b_205"</span><span class="p">:</span> <span class="s2">"2b"</span><span class="p">,</span>
             <span class="s2">"2b_405"</span><span class="p">:</span> <span class="s2">"nox"</span><span class="p">,</span>
             <span class="s2">"gps"</span><span class="p">:</span> <span class="s2">"cr1000"</span><span class="p">,</span>
+            <span class="s2">"lgr_no2"</span><span class="p">:</span> <span class="s2">"no2"</span><span class="p">,</span>
             <span class="s2">"metone_es642"</span><span class="p">:</span> <span class="s2">"esampler"</span><span class="p">,</span>
             <span class="s2">"metone_es405"</span><span class="p">:</span> <span class="s2">"esampler"</span><span class="p">,</span>  <span class="c1"># both metones are called esampler in horel-group</span>
         <span class="p">}</span>
