@@ -207,6 +207,16 @@ column_mapping: dict[str, dict[str, str]] = {
         "flow_lpm": "Flow_Lpm",
         "Flow_Lmin": "Flow_Lpm",
     },
+    "met": {
+        # air-trend's raw names; the pipeline's final files have the new ones
+        "case_t_c": "Case_T_C",
+        "case_t2_c": "Case_T2_C",
+        "case_rh_pct": "Case_RH_pct",
+        "case_p_hpa": "Case_P_hPa",
+        "amb_t_c": "Ambient_T_C",
+        "amb_rh_pct": "Ambient_RH_pct",
+        "box_t_c": "Box_T_C",
+    },
     "metone_es642": {
         "RECORD": "Record",
         "batt_volt_Min": "Battery_Voltage_V",

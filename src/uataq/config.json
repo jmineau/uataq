@@ -757,6 +757,14 @@
                 "removal_date": "2017-06-21",
                 "notes": "The last sample is 2017-06-20 05:28:52 UTC (raw, qaqc and final), so the removal date is the next midnight. The teledyne_t500u that measures NO2 on TRX02 now starts on 2020-12-22."
             },
+            "met": {
+                "loggers": {
+                    "lin": "air-trend"
+                },
+                "installation_date": "2016-02-04",
+                "removal_date": "2017-06-21",
+                "notes": "Air-trend's temperature, humidity and pressure sensors. The first sample is 2016-02-04 00:30:18 UTC and the last 2017-06-20 05:28:51 UTC (raw and final; the pipeline wrote no qaqc for it), so the removal date is the next midnight."
+            },
             "metone_es642": {
                 "loggers": {
                     "horel": "campbellsci",
