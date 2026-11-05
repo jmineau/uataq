@@ -195,6 +195,14 @@ column_mapping: dict[str, dict[str, str]] = {
         "GPS_RMC_Valid": "Status",
         "GPS_Data_Flagged": "QAQC_Flag",
     },
+    "lgr_no2": {
+        # pilot raw only (TRX02, 2016-06 to 2017-06): one row a minute, each
+        # the mean of the minute before its time
+        "NO2C": "NO2_ppb",
+        "NO2SE": "NO2_ppb_se",
+        "PSLG": "Internal_P_hPa",
+        "TCLG": "Internal_T_C",
+    },
     "metone_es405": {
         "PM01": "PM1_ugm3",
         "ES405_PM1_Concentration": "PM1_ugm3",
@@ -743,6 +751,7 @@ class HorelGroup(filesystem.GroupSpace):
             "2b_205": "2b",
             "2b_405": "nox",
             "gps": "cr1000",
+            "lgr_no2": "no2",
             "metone_es642": "esampler",
             "metone_es405": "esampler",  # both metones are called esampler in horel-group
         }

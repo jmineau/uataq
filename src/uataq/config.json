@@ -751,11 +751,12 @@
             },
             "lgr_no2": {
                 "loggers": {
+                    "horel": "campbellsci",
                     "lin": "air-trend"
                 },
                 "installation_date": "2016-06-27",
                 "removal_date": "2017-06-21",
-                "notes": "The last sample is 2017-06-20 05:28:52 UTC (raw, qaqc and final), so the removal date is the next midnight. The teledyne_t500u that measures NO2 on TRX02 now starts on 2020-12-22."
+                "notes": "The last sample is 2017-06-20 05:28:52 UTC (raw, qaqc and final), so the removal date is the next midnight. horel logged the same analyzer once a minute (pilot raw only, 2016-06-27 17:45 to 2017-06-20 05:29): each row is the mean of the minute before its time (on 2016-10-17 it matches lin's minute means to r = 0.993, 0.08 ppb higher on average). The teledyne_t500u that measures NO2 on TRX02 now starts on 2020-12-22."
             },
             "met": {
                 "loggers": {
