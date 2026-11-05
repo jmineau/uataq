@@ -1049,3 +1049,56 @@ class TestTRX01PilotPM:
             es642.read_data("horel", "raw", ("2014-11-01", pd.Timestamp("2014-12-05")))
         data = es642.read_data("horel", "raw", ("2014-11-01", "2015-01-01"))
         assert data.index.min() == pd.Timestamp("2014-12-05 18:58")
+
+
+class TestPilotNO2:
+    """TRX02's LGR NO2 as horel logged it, in the pilot archive's ``no2`` folder (#160)."""
+
+    TIMES = [pd.Timestamp("2016-10-17 00:00"), pd.Timestamp("2016-10-17 00:01")]
+
+    @pytest.fixture
+    def no2(self, tmp_path, monkeypatch):
+        write_h5(
+            tmp_path / "uutrax_pilot" / "no2" / "TRX02_2016_10_no2.h5",
+            {
+                "EPOCHTIME": epoch(*self.TIMES),
+                "NO2C": [2.9, 3.05],
+                "NO2SE": [0.03, 0.03],
+                "PSLG": [399.23, 399.23],
+                "TCLG": [25.05, 25.03],
+            },
+        )
+        monkeypatch.setenv("UATAQ_HOREL_DIR", str(tmp_path))
+        return get_site("TRX02").instruments["lgr_no2"]
+
+    def test_raw_read(self, no2):
+        data = no2.read_data("horel", "raw", "2016-10-17")
+        assert data.index.tolist() == self.TIMES
+        assert {"NO2_ppb", "NO2_ppb_se", "Internal_P_hPa", "Internal_T_C"} <= set(
+            data.columns
+        )
+        assert data["NO2_ppb"].tolist() == pytest.approx([2.9, 3.05])
+
+    def test_lin_stays_the_default(self, no2):
+        """A read with no group goes to lin's copy, as before horel was added."""
+        assert no2.resolve_group(None) == "lin"
+        assert [g for g, _ in no2.plan_reads(None, "2016-10")] == ["lin"]
+
+
+@pytest.mark.chpc
+def test_pilot_no2_is_lins_analyzer_a_minute_later():
+    """Each horel NO2 row is the mean of lin's samples over the minute before it (#160)."""
+    no2 = get_site("TRX02").instruments["lgr_no2"]
+    day = "2016-10-17"
+    horel_no2 = no2.read_data("horel", "raw", day)["NO2_ppb"]
+    lin_no2 = no2.read_data("lin", "qaqc", day)["NO2_ppb"]
+    minute_means = lin_no2.resample("1min").mean().shift(1, freq="1min")
+    both = (
+        horel_no2.rename("horel")
+        .to_frame()
+        .join(minute_means.rename("lin"), how="inner")
+        .dropna()
+    )
+    assert len(both) > 1300
+    assert both["horel"].corr(both["lin"]) > 0.99
+    assert abs((both["horel"] - both["lin"]).mean()) < 0.2
