@@ -48,8 +48,9 @@ reads it and the pollutants it measures. The class pages are under
 :mod:`uataq.instruments`, and what the columns of each level hold is on the
 :doc:`/reference/columns` page.
 
-``cr1000`` and ``gps`` have no pollutants: one is a datalogger that records
-housekeeping (battery voltage, enclosure temperature), the other a GPS receiver.
+``cr1000``, ``gps`` and ``met`` have no pollutants: a datalogger that records
+housekeeping (battery voltage, enclosure temperature), a GPS receiver, and
+temperature, humidity and pressure sensors.
 ``get_obs`` never reads them, ``read_data`` does, and a :term:`mobile site`'s
 ``get_obs`` uses its ``gps`` to place each measurement.
 
