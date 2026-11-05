@@ -939,6 +939,20 @@ class Magee_AE33(Instrument, SensorMixin):
     pollutants = ("BC",)
 
 
+class Met(Instrument):
+    """
+    Temperature, humidity and pressure sensors logged by air-trend.
+
+    Not a pollutant sensor: like :class:`CR1000`, ``get_obs`` never reads it,
+    ``read_data`` does. Only TRX02 has one, from 2016 to 2017 (lin group). Its
+    columns keep the lin pipeline's names: the instrument case's
+    ``Case_T_C``, ``Case_T2_C``, ``Case_RH_pct`` and ``Case_P_hPa``, the
+    outside air's ``Ambient_T_C`` and ``Ambient_RH_pct``, and ``Box_T_C``.
+    """
+
+    model = "met"
+
+
 class MetOne_ES405(Instrument, SensorMixin):
     """
     Met One E-Sampler ES-405, reporting PM1, PM2.5, PM4 and PM10.
@@ -1082,6 +1096,7 @@ catalog: dict[str, type[Instrument]] = {
     "licor_6262": Licor_6262,
     "licor_7000": Licor_7000,
     "magee_ae33": Magee_AE33,
+    "met": Met,
     "metone_es405": MetOne_ES405,
     "metone_es642": MetOne_ES642,
     "teledyne_t200": Teledyne_T200,
