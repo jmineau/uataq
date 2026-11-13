@@ -8,6 +8,15 @@ release (`just changelog` drafts them).
 
 ## [Unreleased]
 
+## [2026.11.1] - 2026-11-13
+
+### Added
+
+- `uataq.gsv`: `gsv.get_obs` reads the Google Street View cars' Salt Lake observations (May 2019 to March 2020) as one time-sorted table with positions, for chosen pollutants, cars and a time range. The QC flags are kept, and `good_only=True` keeps only rows with a good position and empties values whose flag is not 0. It reads the Lin group's merged table on CHPC or the published copy (doi:10.5281/zenodo.7605718). A module of its own like `uataq.sodar`, not a site of the network. (#195, #196)
+- TRX02's temperature, humidity and pressure sensors (2016-02-04 to 2017-06-20) are readable through a new `Met` instrument. (#160, #193)
+- `get_obs(group="horel")` reads TRX02's LGR NO2 from the Horel group's pilot archive (2016-06-27 to 2017-06-20), where each row is the mean of the minute before its time. The default group is still `lin`, so existing calls do not change. (#160, #194)
+- `UATAQ_HOREL_DIR` points the package at the Horel group's archive root. It is read each time a path is needed, so setting it after `import uataq` takes effect, and a value that is not a directory raises `FileNotFoundError` naming the variable. (#110, #192)
+
 ## [2026.11.0] - 2026-11-03
 
 ### Added
