@@ -1,0 +1,6 @@
+uataq.filesystem.groupspaces.lin.column\_mapping
+================================================
+
+.. currentmodule:: uataq.filesystem.groupspaces.lin
+
+.. autodata:: column_mapping

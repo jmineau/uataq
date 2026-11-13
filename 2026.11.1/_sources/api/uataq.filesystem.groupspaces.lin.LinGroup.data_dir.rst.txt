@@ -1,0 +1,6 @@
+uataq.filesystem.groupspaces.lin.LinGroup.data\_dir
+===================================================
+
+.. currentmodule:: uataq.filesystem.groupspaces.lin
+
+.. autoproperty:: LinGroup.data_dir

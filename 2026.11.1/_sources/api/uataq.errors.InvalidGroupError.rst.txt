@@ -1,0 +1,6 @@
+uataq.errors.InvalidGroupError
+==============================
+
+.. currentmodule:: uataq.errors
+
+.. autoexception:: InvalidGroupError

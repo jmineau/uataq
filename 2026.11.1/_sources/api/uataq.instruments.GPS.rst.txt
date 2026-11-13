@@ -1,0 +1,39 @@
+uataq.instruments.GPS
+=====================
+
+.. currentmodule:: uataq.instruments
+
+.. autoclass:: GPS
+   :no-members:
+   :show-inheritance:
+
+
+
+
+.. rubric:: Attributes
+
+.. autosummary::
+   :toctree:
+
+   ~GPS.estimate_max_gap
+   ~GPS.estimate_window
+
+
+
+.. rubric:: Methods
+
+.. autosummary::
+   :toctree:
+
+   ~GPS.estimate_motion
+   ~GPS.read_data
+
+
+
+
+.. rubric:: Inherited
+
+
+From :class:`~.Instrument`: :py:obj:`~.Instrument.active_range`, :py:obj:`~.Instrument.clip_to_active`, :py:obj:`~.Instrument.get_datafiles`, :py:obj:`~.Instrument.get_files`, :py:obj:`~.Instrument.get_highest_lvl`, :py:obj:`~.Instrument.model`, :py:obj:`~.Instrument.plan_reads`, :py:obj:`~.Instrument.resolve_group`, :py:obj:`~.Instrument.standardize_data`
+
+

@@ -1,0 +1,6 @@
+﻿uataq.read\_data
+================
+
+.. currentmodule:: uataq
+
+.. autofunction:: read_data

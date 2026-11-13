@@ -1,0 +1,6 @@
+uataq.filesystem.groupspaces.lin.LinDatFile.get\_lvl
+====================================================
+
+.. currentmodule:: uataq.filesystem.groupspaces.lin
+
+.. automethod:: LinDatFile.get_lvl

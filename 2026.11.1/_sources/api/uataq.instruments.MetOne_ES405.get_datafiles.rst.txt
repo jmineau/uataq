@@ -1,0 +1,6 @@
+uataq.instruments.MetOne\_ES405.get\_datafiles
+==============================================
+
+.. currentmodule:: uataq.instruments
+
+.. automethod:: MetOne_ES405.get_datafiles

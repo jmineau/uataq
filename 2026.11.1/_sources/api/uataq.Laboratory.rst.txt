@@ -1,0 +1,22 @@
+﻿uataq.Laboratory
+================
+
+.. currentmodule:: uataq
+
+.. autoclass:: Laboratory
+   :no-members:
+
+
+
+
+
+
+.. rubric:: Methods
+
+.. autosummary::
+   :toctree:
+
+   ~Laboratory.get_site
+
+
+

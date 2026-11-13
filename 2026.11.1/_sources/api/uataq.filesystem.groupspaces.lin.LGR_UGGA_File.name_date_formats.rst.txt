@@ -1,0 +1,6 @@
+uataq.filesystem.groupspaces.lin.LGR\_UGGA\_File.name\_date\_formats
+====================================================================
+
+.. currentmodule:: uataq.filesystem.groupspaces.lin
+
+.. autoattribute:: LGR_UGGA_File.name_date_formats

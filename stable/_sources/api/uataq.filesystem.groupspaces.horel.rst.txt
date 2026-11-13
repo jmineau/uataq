@@ -15,9 +15,9 @@ uataq.filesystem.groupspaces.horel
    UUTRAX_DIR
    UUTRAX_PILOT_DIR
    MESOWEST_DIR
+   lvl_data_dirs
    PILOT_PHASE
    PRIOR_405_SUFFIX
-   lvl_data_dirs
    column_mapping
    ES405_UNDER_ES642_NAMES
 

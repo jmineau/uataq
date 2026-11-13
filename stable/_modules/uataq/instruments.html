@@ -6,7 +6,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>uataq.instruments &#8212; UATAQ 2026.11.0 documentation</title>
+    <title>uataq.instruments &#8212; UATAQ 2026.11.1 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be" />
 
-    <script src="../../_static/documentation_options.js?v=b06263a2"></script>
+    <script src="../../_static/documentation_options.js?v=141ae7bb"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -48,7 +48,7 @@
     <script>
         DOCUMENTATION_OPTIONS.theme_version = '0.23.0';
         DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://jmineau.github.io/uataq/switcher.json';
-        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '2026.11.0';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '2026.11.1';
         DOCUMENTATION_OPTIONS.show_version_warning_banner =
             true;
         </script>
@@ -58,7 +58,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.11.0" />
+  <meta name="docsearch:version" content="2026.11.1" />
   
     
     <script src="../../_static/searchtools.js"></script>
@@ -126,7 +126,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.11.0 documentation</p>
+    <p class="title logo__title">UATAQ 2026.11.1 documentation</p>
   
 </a></div>
     
@@ -1446,6 +1446,23 @@
 
 
 
+<div class="viewcode-block" id="Met">
+<a class="viewcode-back" href="../../api/uataq.instruments.Met.html#uataq.instruments.Met">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Met</span><span class="p">(</span><span class="n">Instrument</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Temperature, humidity and pressure sensors logged by air-trend.</span>
+
+<span class="sd">    Not a pollutant sensor: like :class:`CR1000`, ``get_obs`` never reads it,</span>
+<span class="sd">    ``read_data`` does. Only TRX02 has one, from 2016 to 2017 (lin group). Its</span>
+<span class="sd">    columns keep the lin pipeline's names: the instrument case's</span>
+<span class="sd">    ``Case_T_C``, ``Case_T2_C``, ``Case_RH_pct`` and ``Case_P_hPa``, the</span>
+<span class="sd">    outside air's ``Ambient_T_C`` and ``Ambient_RH_pct``, and ``Box_T_C``.</span>
+<span class="sd">    """</span>
+
+    <span class="n">model</span> <span class="o">=</span> <span class="s2">"met"</span></div>
+
+
+
 <div class="viewcode-block" id="MetOne_ES405">
 <a class="viewcode-back" href="../../api/uataq.instruments.MetOne_ES405.html#uataq.instruments.MetOne_ES405">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">MetOne_ES405</span><span class="p">(</span><span class="n">Instrument</span><span class="p">,</span> <span class="n">SensorMixin</span><span class="p">):</span>
@@ -1616,6 +1633,7 @@
     <span class="s2">"licor_6262"</span><span class="p">:</span> <span class="n">Licor_6262</span><span class="p">,</span>
     <span class="s2">"licor_7000"</span><span class="p">:</span> <span class="n">Licor_7000</span><span class="p">,</span>
     <span class="s2">"magee_ae33"</span><span class="p">:</span> <span class="n">Magee_AE33</span><span class="p">,</span>
+    <span class="s2">"met"</span><span class="p">:</span> <span class="n">Met</span><span class="p">,</span>
     <span class="s2">"metone_es405"</span><span class="p">:</span> <span class="n">MetOne_ES405</span><span class="p">,</span>
     <span class="s2">"metone_es642"</span><span class="p">:</span> <span class="n">MetOne_ES642</span><span class="p">,</span>
     <span class="s2">"teledyne_t200"</span><span class="p">:</span> <span class="n">Teledyne_T200</span><span class="p">,</span>

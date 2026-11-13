@@ -1,0 +1,6 @@
+uataq.gsv.TABLE
+===============
+
+.. currentmodule:: uataq.gsv
+
+.. autodata:: TABLE

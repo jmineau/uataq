@@ -1,0 +1,28 @@
+uataq.filesystem.core.GroupSpace
+================================
+
+.. currentmodule:: uataq.filesystem.core
+
+.. autoclass:: GroupSpace
+   :no-members:
+
+
+
+
+
+
+.. rubric:: Methods
+
+.. autosummary::
+   :toctree:
+
+   ~GroupSpace.get_datafile_class
+   ~GroupSpace.get_datafile_key
+   ~GroupSpace.get_datafiles
+   ~GroupSpace.get_files
+   ~GroupSpace.get_highest_lvl
+   ~GroupSpace.get_lvls
+   ~GroupSpace.standardize_data
+
+
+

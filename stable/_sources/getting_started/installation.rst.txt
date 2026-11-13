@@ -67,12 +67,12 @@ Install
 
 4. **Install uataq.** ``pip`` is Python's installer. uataq is not on PyPI (the
    usual package index), so you point pip at its GitHub repository. The
-   ``@v2026.11.0`` at the end names a release, the newest when this page was
+   ``@v2026.11.1`` at the end names a release, the newest when this page was
    written (:ref:`install-update` shows how to find a newer one).
 
    .. code-block:: bash
 
-      pip install git+https://github.com/jmineau/uataq.git@v2026.11.0
+      pip install git+https://github.com/jmineau/uataq.git@v2026.11.1
 
    pip prints a long list while it works (about two minutes). The last line
    that matters starts with ``Successfully installed``. A notice about a new
@@ -130,7 +130,7 @@ takes 0.6 GB in ``~/.conda/envs``:
    module load miniforge3
    conda create -y -n uataq python=3.12
    conda activate uataq
-   pip install git+https://github.com/jmineau/uataq.git@v2026.11.0
+   pip install git+https://github.com/jmineau/uataq.git@v2026.11.1
 
 Each time you log in
 --------------------
@@ -177,14 +177,14 @@ tested up to a Jupyter kernel that imports uataq.)
 Update uataq, or pin a version
 ------------------------------
 
-The install above names a release by its tag, ``@v2026.11.0``. Each release
+The install above names a release by its tag, ``@v2026.11.1``. Each release
 has a tag of the form ``vYYYY.M.PATCH``. `The releases page
 <https://github.com/jmineau/uataq/releases>`_ lists them, newest first. To
 update later, run the install again with ``--upgrade`` and the newest tag:
 
 .. code-block:: bash
 
-   pip install --upgrade git+https://github.com/jmineau/uataq.git@v2026.11.0
+   pip install --upgrade git+https://github.com/jmineau/uataq.git@v2026.11.1
 
 For results you will publish, keep the tag you installed and write the version
 down. ``pip show uataq`` prints the version you have:
@@ -245,8 +245,16 @@ after ``import uataq`` works too (``os.environ["LINGROUP_MEASUREMENTS_DIR"] = ..
 with one exception: the pipeline's configuration files (``data_config.json`` and
 ``site_config.csv``) are read once, when uataq is imported, so set the variable
 before the import if the copy's configuration differs. A value that is not a
-directory raises ``FileNotFoundError`` naming the variable. The Horel group's
-folders have no such variable.
+directory raises ``FileNotFoundError`` naming the variable.
+
+The Horel group's root works the same way, through ``UATAQ_HOREL_DIR``: unset or
+empty, it means the group's own space; set, it is read each time a path is
+needed, and a value that is not a directory raises ``FileNotFoundError`` naming
+the variable.
+
+.. code-block:: bash
+
+   export UATAQ_HOREL_DIR=/path/to/horel-group
 
 .. _install-errors:
 
@@ -261,6 +269,10 @@ If something goes wrong
 ``FileNotFoundError`` saying ``LINGROUP_MEASUREMENTS_DIR`` is not a directory
    The variable is set to a path that does not exist. Fix the path, or run
    ``unset LINGROUP_MEASUREMENTS_DIR`` to read the archive itself.
+
+``FileNotFoundError`` saying ``UATAQ_HOREL_DIR`` is not a directory
+   The variable is set to a path that does not exist. Fix the path, or run
+   ``unset UATAQ_HOREL_DIR`` to read the archive itself.
 
 The ``ls`` in step 1, or the read in step 5, fails
    You are probably not in the ``lin`` group yet. Run ``groups`` and see

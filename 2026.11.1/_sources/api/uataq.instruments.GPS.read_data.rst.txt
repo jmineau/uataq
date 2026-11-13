@@ -1,0 +1,6 @@
+uataq.instruments.GPS.read\_data
+================================
+
+.. currentmodule:: uataq.instruments
+
+.. automethod:: GPS.read_data

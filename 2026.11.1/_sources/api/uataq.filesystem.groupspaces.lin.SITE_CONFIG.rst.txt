@@ -1,0 +1,6 @@
+uataq.filesystem.groupspaces.lin.SITE\_CONFIG
+=============================================
+
+.. currentmodule:: uataq.filesystem.groupspaces.lin
+
+.. autodata:: SITE_CONFIG

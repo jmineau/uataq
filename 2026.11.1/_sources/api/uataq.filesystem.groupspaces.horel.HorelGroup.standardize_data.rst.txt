@@ -1,0 +1,6 @@
+uataq.filesystem.groupspaces.horel.HorelGroup.standardize\_data
+===============================================================
+
+.. currentmodule:: uataq.filesystem.groupspaces.horel
+
+.. automethod:: HorelGroup.standardize_data

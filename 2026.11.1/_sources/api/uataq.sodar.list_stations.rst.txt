@@ -1,0 +1,6 @@
+uataq.sodar.list\_stations
+==========================
+
+.. currentmodule:: uataq.sodar
+
+.. autofunction:: list_stations

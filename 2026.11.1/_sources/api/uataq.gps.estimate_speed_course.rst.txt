@@ -1,0 +1,6 @@
+uataq.gps.estimate\_speed\_course
+=================================
+
+.. currentmodule:: uataq.gps
+
+.. autofunction:: estimate_speed_course

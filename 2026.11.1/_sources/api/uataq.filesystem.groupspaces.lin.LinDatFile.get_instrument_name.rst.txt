@@ -1,0 +1,6 @@
+uataq.filesystem.groupspaces.lin.LinDatFile.get\_instrument\_name
+=================================================================
+
+.. currentmodule:: uataq.filesystem.groupspaces.lin
+
+.. automethod:: LinDatFile.get_instrument_name

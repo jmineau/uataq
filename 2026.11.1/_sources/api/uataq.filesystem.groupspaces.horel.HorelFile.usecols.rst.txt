@@ -1,0 +1,6 @@
+uataq.filesystem.groupspaces.horel.HorelFile.usecols
+====================================================
+
+.. currentmodule:: uataq.filesystem.groupspaces.horel
+
+.. automethod:: HorelFile.usecols

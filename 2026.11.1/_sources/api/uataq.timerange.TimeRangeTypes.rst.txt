@@ -1,0 +1,6 @@
+uataq.timerange.TimeRangeTypes
+==============================
+
+.. currentmodule:: uataq.timerange
+
+.. autodata:: TimeRangeTypes

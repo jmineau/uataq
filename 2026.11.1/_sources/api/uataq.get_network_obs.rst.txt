@@ -1,0 +1,6 @@
+﻿uataq.get\_network\_obs
+=======================
+
+.. currentmodule:: uataq
+
+.. autofunction:: get_network_obs

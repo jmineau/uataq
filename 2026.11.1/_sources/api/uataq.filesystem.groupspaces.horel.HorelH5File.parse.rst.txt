@@ -1,0 +1,6 @@
+uataq.filesystem.groupspaces.horel.HorelH5File.parse
+====================================================
+
+.. currentmodule:: uataq.filesystem.groupspaces.horel
+
+.. automethod:: HorelH5File.parse

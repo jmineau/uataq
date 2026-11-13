@@ -1,0 +1,6 @@
+uataq.instruments.Instrument.model
+==================================
+
+.. currentmodule:: uataq.instruments
+
+.. autoattribute:: Instrument.model

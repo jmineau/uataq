@@ -50,6 +50,18 @@ and are read on their own.
 
    sodar
 
+Street View cars
+----------------
+
+The Google Street View cars' observations in Salt Lake City (2019 to 2020), a
+campaign and not UATAQ sites, read on their own.
+
+.. autosummary::
+   :toctree: ../api
+   :recursive:
+
+   gsv
+
 Internals
 ---------
 

@@ -1,0 +1,6 @@
+uataq.filesystem.groupspaces.horel.UUTRAX\_DIR
+==============================================
+
+.. currentmodule:: uataq.filesystem.groupspaces.horel
+
+.. autodata:: UUTRAX_DIR

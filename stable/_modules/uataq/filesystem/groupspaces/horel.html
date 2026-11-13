@@ -6,7 +6,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>uataq.filesystem.groupspaces.horel &#8212; UATAQ 2026.11.0 documentation</title>
+    <title>uataq.filesystem.groupspaces.horel &#8212; UATAQ 2026.11.1 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="../../../../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be" />
 <link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be" />
 
-    <script src="../../../../_static/documentation_options.js?v=b06263a2"></script>
+    <script src="../../../../_static/documentation_options.js?v=141ae7bb"></script>
     <script src="../../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -48,7 +48,7 @@
     <script>
         DOCUMENTATION_OPTIONS.theme_version = '0.23.0';
         DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://jmineau.github.io/uataq/switcher.json';
-        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '2026.11.0';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '2026.11.1';
         DOCUMENTATION_OPTIONS.show_version_warning_banner =
             true;
         </script>
@@ -58,7 +58,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.11.0" />
+  <meta name="docsearch:version" content="2026.11.1" />
   
     
     <script src="../../../../_static/searchtools.js"></script>
@@ -126,7 +126,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.11.0 documentation</p>
+    <p class="title logo__title">UATAQ 2026.11.1 documentation</p>
   
 </a></div>
     
@@ -454,20 +454,92 @@
 
 <span class="n">_logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
-<span class="c1">#: Horel group directory</span>
-<span class="n">HOREL_DIR</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">filesystem</span><span class="o">.</span><span class="n">HOME</span><span class="p">,</span> <span class="s2">"horel-group"</span><span class="p">)</span>
+<span class="c1"># The Horel group's root directory. ``UATAQ_HOREL_DIR`` overrides the default,</span>
+<span class="c1"># and is read each time a path is needed (not at import), so setting it after</span>
+<span class="c1"># ``import uataq`` works. HOREL_DIR, UUTRAX_DIR, UUTRAX_PILOT_DIR,</span>
+<span class="c1"># MESOWEST_DIR and lvl_data_dirs are module attributes computed by</span>
+<span class="c1"># ``__getattr__`` below, so they follow the variable; the annotations keep</span>
+<span class="c1"># their documentation. Unlike the Lin group, no group-wide variable is</span>
+<span class="c1"># exported for this root at login, so uataq names its own.</span>
+<span class="n">_HOREL_ENV</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"UATAQ_HOREL_DIR"</span>
+<span class="n">_DEFAULT_HOREL_DIR</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">filesystem</span><span class="o">.</span><span class="n">HOME</span><span class="p">,</span> <span class="s2">"horel-group"</span><span class="p">)</span>
 
-<span class="c1"># UUTRAX directories</span>
-<span class="c1">#   Consider UUTRAX project as part of UATAQ (includes TRX, BUS, RAIL, HAWTH)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_horel_dir</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Return the Horel group root: ``UATAQ_HOREL_DIR`` if set, else the default.</span>
+
+<span class="sd">    Raise FileNotFoundError, naming the variable, when it is set to a path that is</span>
+<span class="sd">    not a directory. The default is not checked: off-cluster it does not exist.</span>
+<span class="sd">    """</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">_HOREL_ENV</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">path</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">_DEFAULT_HOREL_DIR</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">_HOREL_ENV</span><span class="si">}</span><span class="s2"> is set to '</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">', which is not a directory."</span>
+        <span class="p">)</span>
+    <span class="k">return</span> <span class="n">path</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_uutrax_dir</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Return the UUTRAX directory under the Horel root."""</span>
+    <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_horel_dir</span><span class="p">(),</span> <span class="s2">"uutrax"</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_uutrax_pilot_dir</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Return the UUTRAX pilot-phase directory under the Horel root."""</span>
+    <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_horel_dir</span><span class="p">(),</span> <span class="s2">"uutrax_pilot"</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_mesowest_dir</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Return the MesoWest operational data directory under the Horel root."""</span>
+    <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_horel_dir</span><span class="p">(),</span> <span class="s2">"oper"</span><span class="p">,</span> <span class="s2">"mesowest"</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_lvl_data_dirs</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">"""Return the UUTRAX data directories for each level, from the current roots."""</span>
+    <span class="n">uutrax_dir</span> <span class="o">=</span> <span class="n">_uutrax_dir</span><span class="p">()</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">"raw"</span><span class="p">:</span> <span class="p">[</span><span class="n">_uutrax_pilot_dir</span><span class="p">(),</span> <span class="n">uutrax_dir</span><span class="p">],</span>
+        <span class="s2">"qaqc"</span><span class="p">:</span> <span class="p">[</span><span class="n">uutrax_dir</span><span class="p">],</span>
+        <span class="s2">"final"</span><span class="p">:</span> <span class="p">[</span><span class="n">uutrax_dir</span><span class="p">],</span>
+    <span class="p">}</span>
+
+
+<span class="c1">#: Horel group root: ``UATAQ_HOREL_DIR`` if set, else the default.</span>
+<span class="n">HOREL_DIR</span><span class="p">:</span> <span class="nb">str</span>
+<span class="c1"># Consider UUTRAX project as part of UATAQ (includes TRX, BUS, RAIL, HAWTH)</span>
 <span class="c1">#   TODO add rail and hawth</span>
 <span class="c1">#   Includes a pilot phase which does not have QAQC data</span>
-<span class="c1">#: UUTRAX directory</span>
-<span class="n">UUTRAX_DIR</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">HOREL_DIR</span><span class="p">,</span> <span class="s2">"uutrax"</span><span class="p">)</span>
-<span class="c1">#: UUTRAX pilot directory</span>
-<span class="n">UUTRAX_PILOT_DIR</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">HOREL_DIR</span><span class="p">,</span> <span class="s2">"uutrax_pilot"</span><span class="p">)</span>
+<span class="c1">#: UUTRAX directory, ``uutrax`` under ``HOREL_DIR``.</span>
+<span class="n">UUTRAX_DIR</span><span class="p">:</span> <span class="nb">str</span>
+<span class="c1">#: UUTRAX pilot directory, ``uutrax_pilot`` under ``HOREL_DIR``.</span>
+<span class="n">UUTRAX_PILOT_DIR</span><span class="p">:</span> <span class="nb">str</span>
+<span class="c1">#: MesoWest operational data directory (SODAR archive is read by</span>
+<span class="c1">#: :mod:`uataq.sodar`), ``oper/mesowest`` under ``HOREL_DIR``.</span>
+<span class="n">MESOWEST_DIR</span><span class="p">:</span> <span class="nb">str</span>
+<span class="c1">#: Directories to search for each data level, from the current UUTRAX roots.</span>
+<span class="n">lvl_data_dirs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">]</span>
 
-<span class="c1">#: MesoWest operational data directory (SODAR archive is read by :mod:`uataq.sodar`)</span>
-<span class="n">MESOWEST_DIR</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">HOREL_DIR</span><span class="p">,</span> <span class="s2">"oper"</span><span class="p">,</span> <span class="s2">"mesowest"</span><span class="p">)</span>
+<span class="n">_DIRS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"HOREL_DIR"</span><span class="p">:</span> <span class="n">_horel_dir</span><span class="p">,</span>
+    <span class="s2">"UUTRAX_DIR"</span><span class="p">:</span> <span class="n">_uutrax_dir</span><span class="p">,</span>
+    <span class="s2">"UUTRAX_PILOT_DIR"</span><span class="p">:</span> <span class="n">_uutrax_pilot_dir</span><span class="p">,</span>
+    <span class="s2">"MESOWEST_DIR"</span><span class="p">:</span> <span class="n">_mesowest_dir</span><span class="p">,</span>
+    <span class="s2">"lvl_data_dirs"</span><span class="p">:</span> <span class="n">_lvl_data_dirs</span><span class="p">,</span>
+<span class="p">}</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="fm">__getattr__</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
+    <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">_DIRS</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">_DIRS</span><span class="p">[</span><span class="n">name</span><span class="p">]()</span>
+    <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"module </span><span class="si">{</span><span class="vm">__name__</span><span class="si">!r}</span><span class="s2"> has no attribute </span><span class="si">{</span><span class="n">name</span><span class="si">!r}</span><span class="s2">"</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="fm">__dir__</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+    <span class="k">return</span> <span class="nb">sorted</span><span class="p">([</span><span class="o">*</span><span class="nb">globals</span><span class="p">(),</span> <span class="o">*</span><span class="n">_DIRS</span><span class="p">])</span>
+
 
 <span class="c1">#: Pilot phase time ranges for UUTRAX data. A raw file of the pilot archive is</span>
 <span class="c1">#: read only before the stop: in 2018-11, the month the pilot ended, the pilot</span>
@@ -481,7 +553,7 @@
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_pilot_stop</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Return the end of the pilot phase if ``path`` is a pilot-archive file, else None."""</span>
-    <span class="n">pilot_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">UUTRAX_PILOT_DIR</span><span class="p">)</span>
+    <span class="n">pilot_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">_uutrax_pilot_dir</span><span class="p">())</span>
     <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">path</span><span class="p">)))</span> <span class="o">!=</span> <span class="n">pilot_dir</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span>
     <span class="n">phase</span> <span class="o">=</span> <span class="n">PILOT_PHASE</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">path</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"_"</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
@@ -495,13 +567,6 @@
 <span class="c1">#: the GPS's in ``2b`` and ``cr1000``. Raw reads take both files of the month,</span>
 <span class="c1">#: for every instrument but the ES405, which none of those rows belong to.</span>
 <span class="n">PRIOR_405_SUFFIX</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"_prior405upgrade"</span>
-
-<span class="c1">#: Data levels for UUTRAX data</span>
-<span class="n">lvl_data_dirs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">"raw"</span><span class="p">:</span> <span class="p">[</span><span class="n">UUTRAX_PILOT_DIR</span><span class="p">,</span> <span class="n">UUTRAX_DIR</span><span class="p">],</span>
-    <span class="s2">"qaqc"</span><span class="p">:</span> <span class="p">[</span><span class="n">UUTRAX_DIR</span><span class="p">],</span>
-    <span class="s2">"final"</span><span class="p">:</span> <span class="p">[</span><span class="n">UUTRAX_DIR</span><span class="p">],</span>
-<span class="p">}</span>
 
 <span class="c1">#: Horel to UATAQ column mapping</span>
 <span class="n">column_mapping</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{</span>
@@ -564,6 +629,14 @@
         <span class="s2">"RSTS"</span><span class="p">:</span> <span class="s2">"Status"</span><span class="p">,</span>
         <span class="s2">"GPS_RMC_Valid"</span><span class="p">:</span> <span class="s2">"Status"</span><span class="p">,</span>
         <span class="s2">"GPS_Data_Flagged"</span><span class="p">:</span> <span class="s2">"QAQC_Flag"</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">"lgr_no2"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="c1"># pilot raw only (TRX02, 2016-06 to 2017-06): one row a minute, each</span>
+        <span class="c1"># the mean of the minute before its time</span>
+        <span class="s2">"NO2C"</span><span class="p">:</span> <span class="s2">"NO2_ppb"</span><span class="p">,</span>
+        <span class="s2">"NO2SE"</span><span class="p">:</span> <span class="s2">"NO2_ppb_se"</span><span class="p">,</span>
+        <span class="s2">"PSLG"</span><span class="p">:</span> <span class="s2">"Internal_P_hPa"</span><span class="p">,</span>
+        <span class="s2">"TCLG"</span><span class="p">:</span> <span class="s2">"Internal_T_C"</span><span class="p">,</span>
     <span class="p">},</span>
     <span class="s2">"metone_es405"</span><span class="p">:</span> <span class="p">{</span>
         <span class="s2">"PM01"</span><span class="p">:</span> <span class="s2">"PM1_ugm3"</span><span class="p">,</span>
@@ -825,7 +898,7 @@
 <span class="sd">        pd.DataFrame</span>
 <span class="sd">            A DataFrame containing the parsed data.</span>
 <span class="sd">        """</span>
-        <span class="n">_logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Parsing </span><span class="si">{</span><span class="n">filesystem</span><span class="o">.</span><span class="n">_relpath</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span><span class="w"> </span><span class="n">HOREL_DIR</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="n">_logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Parsing </span><span class="si">{</span><span class="n">filesystem</span><span class="o">.</span><span class="n">_relpath</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span><span class="w"> </span><span class="n">_horel_dir</span><span class="p">())</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
         <span class="k">with</span> <span class="n">pytbls</span><span class="o">.</span><span class="n">open_file</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">"r"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
             <span class="c1"># the node is a Table; type checkers only know the generic Node type</span>
@@ -995,7 +1068,7 @@
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_read_csv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">usecols</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">str</span><span class="p">],</span> <span class="nb">bool</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Read the file's columns that ``usecols`` takes, below the units row."""</span>
-        <span class="n">_logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Parsing </span><span class="si">{</span><span class="n">filesystem</span><span class="o">.</span><span class="n">_relpath</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span><span class="w"> </span><span class="n">HOREL_DIR</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="n">_logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Parsing </span><span class="si">{</span><span class="n">filesystem</span><span class="o">.</span><span class="n">_relpath</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span><span class="w"> </span><span class="n">_horel_dir</span><span class="p">())</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">compression</span><span class="o">=</span><span class="s2">"gzip"</span><span class="p">,</span> <span class="n">skiprows</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">usecols</span><span class="o">=</span><span class="n">usecols</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_used_by_any_instrument</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">col</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
@@ -1125,7 +1198,7 @@
     <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_lvls</span><span class="p">(</span><span class="n">SID</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">instrument</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">"""Return the levels horel keeps: raw, qaqc and final."""</span>
-        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">lvl_data_dirs</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">_lvl_data_dirs</span><span class="p">())</span></div>
 
 
 <div class="viewcode-block" id="HorelGroup.get_highest_lvl">
@@ -1138,7 +1211,7 @@
         <span class="p">)</span>
         <span class="c1"># UUTRAX_PILOT_DIR is the pilot phase which does not have qaqc/final data</span>
         <span class="n">site_files</span> <span class="o">=</span> <span class="n">filesystem</span><span class="o">.</span><span class="n">list_files</span><span class="p">(</span>
-            <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">UUTRAX_DIR</span><span class="p">,</span> <span class="n">finalized_dir</span><span class="p">),</span> <span class="n">pattern</span><span class="o">=</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">SID</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="si">}</span><span class="s2">*"</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_uutrax_dir</span><span class="p">(),</span> <span class="n">finalized_dir</span><span class="p">),</span> <span class="n">pattern</span><span class="o">=</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">SID</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="si">}</span><span class="s2">*"</span>
         <span class="p">)</span>
         <span class="k">return</span> <span class="s2">"final"</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">site_files</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="s2">"raw"</span></div>
 
@@ -1159,12 +1232,13 @@
             <span class="s2">"2b_205"</span><span class="p">:</span> <span class="s2">"2b"</span><span class="p">,</span>
             <span class="s2">"2b_405"</span><span class="p">:</span> <span class="s2">"nox"</span><span class="p">,</span>
             <span class="s2">"gps"</span><span class="p">:</span> <span class="s2">"cr1000"</span><span class="p">,</span>
+            <span class="s2">"lgr_no2"</span><span class="p">:</span> <span class="s2">"no2"</span><span class="p">,</span>
             <span class="s2">"metone_es642"</span><span class="p">:</span> <span class="s2">"esampler"</span><span class="p">,</span>
             <span class="s2">"metone_es405"</span><span class="p">:</span> <span class="s2">"esampler"</span><span class="p">,</span>  <span class="c1"># both metones are called esampler in horel-group</span>
         <span class="p">}</span>
         <span class="n">instrument</span> <span class="o">=</span> <span class="n">instrument_mapper</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">instrument</span><span class="p">,</span> <span class="n">instrument</span><span class="p">)</span>
 
-        <span class="n">data_dirs</span> <span class="o">=</span> <span class="n">lvl_data_dirs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">lvl</span><span class="p">)</span>
+        <span class="n">data_dirs</span> <span class="o">=</span> <span class="n">_lvl_data_dirs</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">lvl</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">data_dirs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Invalid data level: </span><span class="si">{</span><span class="n">lvl</span><span class="si">}</span><span class="s2"> for group: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 

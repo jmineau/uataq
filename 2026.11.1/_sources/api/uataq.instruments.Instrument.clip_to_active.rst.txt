@@ -1,0 +1,6 @@
+uataq.instruments.Instrument.clip\_to\_active
+=============================================
+
+.. currentmodule:: uataq.instruments
+
+.. automethod:: Instrument.clip_to_active

@@ -1,0 +1,6 @@
+uataq.filesystem.groupspaces.horel.HorelCSVFile.parse
+=====================================================
+
+.. currentmodule:: uataq.filesystem.groupspaces.horel
+
+.. automethod:: HorelCSVFile.parse

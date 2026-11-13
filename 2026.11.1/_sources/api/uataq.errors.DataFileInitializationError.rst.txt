@@ -1,0 +1,6 @@
+uataq.errors.DataFileInitializationError
+========================================
+
+.. currentmodule:: uataq.errors
+
+.. autoexception:: DataFileInitializationError

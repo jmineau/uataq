@@ -1,0 +1,6 @@
+uataq.gsv.POLLUTANTS
+====================
+
+.. currentmodule:: uataq.gsv
+
+.. autodata:: POLLUTANTS

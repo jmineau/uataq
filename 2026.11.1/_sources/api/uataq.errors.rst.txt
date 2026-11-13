@@ -1,0 +1,33 @@
+﻿uataq.errors
+============
+
+.. automodule:: uataq.errors
+   :no-members:
+
+
+
+
+
+
+
+
+.. rubric:: Exceptions
+
+.. autosummary::
+   :toctree:
+   :nosignatures:
+
+   DataFileInitializationError
+   DroppedPollutantWarning
+   EmptyResultWarning
+   InactiveInstrumentError
+   InstrumentNotFoundError
+   InvalidGroupError
+   ParserError
+   PollutantNotMeasured
+   ReaderError
+
+
+
+
+

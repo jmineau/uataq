@@ -1,0 +1,6 @@
+uataq.timerange.TimeRange.stop
+==============================
+
+.. currentmodule:: uataq.timerange
+
+.. autoproperty:: TimeRange.stop

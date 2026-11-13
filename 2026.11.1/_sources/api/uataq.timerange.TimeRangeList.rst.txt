@@ -1,0 +1,6 @@
+uataq.timerange.TimeRangeList
+=============================
+
+.. currentmodule:: uataq.timerange
+
+.. autodata:: TimeRangeList

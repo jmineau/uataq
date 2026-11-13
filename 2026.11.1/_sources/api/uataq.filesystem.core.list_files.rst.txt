@@ -1,0 +1,6 @@
+uataq.filesystem.core.list\_files
+=================================
+
+.. currentmodule:: uataq.filesystem.core
+
+.. autofunction:: list_files

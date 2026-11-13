@@ -1,0 +1,6 @@
+uataq.errors.InactiveInstrumentError
+====================================
+
+.. currentmodule:: uataq.errors
+
+.. autoexception:: InactiveInstrumentError

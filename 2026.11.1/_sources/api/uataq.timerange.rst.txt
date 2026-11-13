@@ -1,0 +1,36 @@
+﻿uataq.timerange
+===============
+
+.. automodule:: uataq.timerange
+   :no-members:
+
+
+.. rubric:: Attributes
+
+.. autosummary::
+   :toctree:
+   :nosignatures:
+
+   TimeObject
+   TimeRangeTuple
+   TimeRangeList
+   TimeRangeTypes
+
+
+
+
+
+.. rubric:: Classes
+
+.. autosummary::
+   :toctree:
+   :nosignatures:
+
+   TimeRange
+
+
+
+
+
+
+

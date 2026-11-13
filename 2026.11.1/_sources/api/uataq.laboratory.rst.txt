@@ -1,0 +1,6 @@
+﻿uataq.laboratory
+================
+
+.. currentmodule:: uataq
+
+.. autodata:: laboratory
