@@ -276,6 +276,13 @@ Other data
 They are not UATAQ sites, so they are read with :class:`~uataq.sodar.Sodar`
 rather than the functions on this page; its page has an example.
 
+:mod:`uataq.gsv` reads the two Google Street View cars that measured CH4, CO2,
+O3, black carbon, CO, NO, NO2 and PM2.5 on the valley's roads from May 2019 to
+June 2020. They were a campaign, not UATAQ sites, so :func:`uataq.gsv.get_obs`
+reads them: one table with each car's position, the pollutants you ask for and
+their QC flags. Its page says what the columns are and where the public copy of
+the data is.
+
 Next
 ----
 
