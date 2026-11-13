@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Contributing &#8212; UATAQ 2026.11.1.dev3+gae3db25e6 documentation</title>
+    <title>Contributing &#8212; UATAQ 2026.11.1.dev4+g65b804496 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be" />
 
-    <script src="_static/documentation_options.js?v=b980fd86"></script>
+    <script src="_static/documentation_options.js?v=f9e2ba43"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -60,7 +60,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.11.1.dev3+gae3db25e6" />
+  <meta name="docsearch:version" content="2026.11.1.dev4+g65b804496" />
   
     
     <script src="_static/searchtools.js"></script>
@@ -128,7 +128,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.11.1.dev3+gae3db25e6 documentation</p>
+    <p class="title logo__title">UATAQ 2026.11.1.dev4+g65b804496 documentation</p>
   
 </a></div>
     
@@ -520,6 +520,8 @@ a new shell so your own copy comes first.</p>
                      gps_time_from_time_of_day
   sodar.py           Horel/MesoWest SODAR profiles (Sodar, list_stations);
                      standalone, not in config.json, not imported by uataq
+  gsv.py             Google Street View cars, Salt Lake City 2019-2020 (get_obs);
+                     standalone, not in config.json, not imported by uataq
   timerange.py       TimeRange and the TimeRangeTypes alias
   errors.py          ReaderError and its subclasses, ParserError, EmptyResultWarning,
                      DroppedPollutantWarning, ...
@@ -784,6 +786,42 @@ two-dimensional <code class="docutils literal notranslate"><span class="pre">(Ti
 cannot carry, and its scale factors live in a per-station file outside the data
 file. Only <code class="docutils literal notranslate"><span class="pre">lvl=&quot;raw&quot;</span></code> exists; any other level raises <code class="docutils literal notranslate"><span class="pre">ValueError</span></code>.</p>
 </section>
+<section id="the-street-view-tables">
+<h2>The Street View tables<a class="headerlink" href="#the-street-view-tables" title="Link to this heading">#</a></h2>
+<p><a class="reference internal" href="api/uataq.gsv.html#module-uataq.gsv" title="uataq.gsv"><code class="xref py py-mod docutils literal notranslate"><span class="pre">uataq.gsv</span></code></a> reads the Google Street View campaign (two cars, <code class="docutils literal notranslate"><span class="pre">lone</span></code> and
+<code class="docutils literal notranslate"><span class="pre">star</span></code>, May 2019 to June 2020; Lin et al., 2023), whose tables are CSV files in
+<code class="docutils literal notranslate"><span class="pre">gsv/tables/</span></code> under <a class="reference internal" href="api/uataq.filesystem.groupspaces.lin.DATA_DIR.html#uataq.filesystem.groupspaces.lin.DATA_DIR" title="uataq.filesystem.groupspaces.lin.DATA_DIR"><code class="xref py py-data docutils literal notranslate"><span class="pre">uataq.filesystem.groupspaces.lin.DATA_DIR</span></code></a>. They were
+pulled once from the project’s database in 2021 and do not change:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">1_{instrument}.csv</span></code>: what each instrument logged.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">2_{instrument}.csv</span></code>: the same with a <code class="docutils literal notranslate"><span class="pre">qc</span></code> flag, the baseline (<code class="docutils literal notranslate"><span class="pre">_base</span></code>) and
+enhancement (<code class="docutils literal notranslate"><span class="pre">_ex</span></code>) of each concentration, and <code class="docutils literal notranslate"><span class="pre">inlet_lag_applied</span></code>, the
+seconds its times were shifted by.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">3_primary_keys.csv</span></code>: the merged table, one row per car and second with the
+position and every pollutant, which <a class="reference internal" href="api/uataq.gsv.get_obs.html#uataq.gsv.get_obs" title="uataq.gsv.get_obs"><code class="xref py py-func docutils literal notranslate"><span class="pre">uataq.gsv.get_obs()</span></code></a> reads.
+<code class="docutils literal notranslate"><span class="pre">3_primary_keys_nulled.csv</span></code> is the same with every value whose flag is not 0
+emptied, which <code class="docutils literal notranslate"><span class="pre">good_only=True</span></code> gives from the one file.</p></li>
+</ul>
+<p>Seen in the merged table (13 November 2026): 9,891,163 rows of 36 columns, 2.8 GB;
+<strong>the rows are not in time order</strong>, so a read passes over the whole file (on a
+compute node about 20 s and 1 GB for one pollutant, 40 s and 10 GB for all of them);
+no car has two rows in one second,
+but the two cars share seconds; O3 has no <code class="docutils literal notranslate"><span class="pre">_ex</span></code> or <code class="docutils literal notranslate"><span class="pre">_base</span></code>; <code class="docutils literal notranslate"><span class="pre">bc_ngm3</span></code> equals
+the aethalometer’s channel 6, hence <code class="docutils literal notranslate"><span class="pre">BC6_ngm3</span></code>; a pollutant’s flag is empty
+exactly where its value is. The one concentration the merged table lacks is the
+Picarro G2401’s CH4 (<code class="docutils literal notranslate"><span class="pre">ch4d_ppb</span></code> in <code class="docutils literal notranslate"><span class="pre">2_picarro_g2401.csv</span></code>, on <code class="docutils literal notranslate"><span class="pre">star</span></code> from 14
+to 29 August 2019); its CH4 column is the other analyzer’s, the LGR’s.</p>
+<p>The published copy (<code class="docutils literal notranslate"><span class="pre">GSV_SLC.csv</span></code>, <a class="reference external" href="https://doi.org/10.5281/zenodo.7605718">doi:10.5281/zenodo.7605718</a>) has the same 36 columns, written
+differently: times without a UTC offset, <code class="docutils literal notranslate"><span class="pre">NA</span></code> for an empty cell, text in quotes,
+rows in time order. Read with <code class="docutils literal notranslate"><span class="pre">get_obs</span></code>, its 9,834,946 rows equal the group’s
+table in every column; the group’s table has 56,217 more, all in June 2020 with the
+cars parked or without a fix. <code class="docutils literal notranslate"><span class="pre">get_obs</span></code> reads both, and <code class="docutils literal notranslate"><span class="pre">tests/test_gsv.py</span></code>
+writes a few rows in each. Its README is where <a class="reference internal" href="api/uataq.gsv.QC_FLAGS.html#uataq.gsv.QC_FLAGS" title="uataq.gsv.QC_FLAGS"><code class="xref py py-data docutils literal notranslate"><span class="pre">uataq.gsv.QC_FLAGS</span></code></a> comes
+from.</p>
+<p>The cars are standalone, outside <code class="docutils literal notranslate"><span class="pre">config.json</span></code>, <code class="docutils literal notranslate"><span class="pre">Instrument</span></code> and <code class="docutils literal notranslate"><span class="pre">GroupSpace</span></code>,
+because they were a campaign with one finished table: no sites, levels or research
+groups to choose between.</p>
+</section>
 </section>
 
 
@@ -832,6 +870,7 @@ file. Only <code class="docutils literal notranslate"><span class="pre">lvl=&quo
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-metone-swap-files">The MetOne swap files</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-availability-internals">Data availability internals</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-sodar-archive">The SODAR archive</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-street-view-tables">The Street View tables</a></li>
 </ul>
   </nav></div>
 

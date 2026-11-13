@@ -1,0 +1,6 @@
+uataq.gsv.get\_obs
+==================
+
+.. currentmodule:: uataq.gsv
+
+.. autofunction:: get_obs

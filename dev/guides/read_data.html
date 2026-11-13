@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Read data &#8212; UATAQ 2026.11.1.dev3+gae3db25e6 documentation</title>
+    <title>Read data &#8212; UATAQ 2026.11.1.dev4+g65b804496 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be" />
 
-    <script src="../_static/documentation_options.js?v=b980fd86"></script>
+    <script src="../_static/documentation_options.js?v=f9e2ba43"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -61,7 +61,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.11.1.dev3+gae3db25e6" />
+  <meta name="docsearch:version" content="2026.11.1.dev4+g65b804496" />
   
     
     <script src="../_static/searchtools.js"></script>
@@ -129,7 +129,7 @@
   
   
   
-    <p class="title logo__title">UATAQ 2026.11.1.dev3+gae3db25e6 documentation</p>
+    <p class="title logo__title">UATAQ 2026.11.1.dev4+g65b804496 documentation</p>
   
 </a></div>
     
@@ -703,6 +703,12 @@ from stdin cannot spawn them, so run a script file):</p>
 <p><a class="reference internal" href="../api/uataq.sodar.html#module-uataq.sodar" title="uataq.sodar"><code class="xref py py-mod docutils literal notranslate"><span class="pre">uataq.sodar</span></code></a> reads the wind profiles of the horel group’s SODAR stations.
 They are not UATAQ sites, so they are read with <a class="reference internal" href="../api/uataq.sodar.Sodar.html#uataq.sodar.Sodar" title="uataq.sodar.Sodar"><code class="xref py py-class docutils literal notranslate"><span class="pre">Sodar</span></code></a>
 rather than the functions on this page; its page has an example.</p>
+<p><a class="reference internal" href="../api/uataq.gsv.html#module-uataq.gsv" title="uataq.gsv"><code class="xref py py-mod docutils literal notranslate"><span class="pre">uataq.gsv</span></code></a> reads the two Google Street View cars that measured CH4, CO2,
+O3, black carbon, CO, NO, NO2 and PM2.5 on the valley’s roads from May 2019 to
+June 2020. They were a campaign, not UATAQ sites, so <a class="reference internal" href="../api/uataq.gsv.get_obs.html#uataq.gsv.get_obs" title="uataq.gsv.get_obs"><code class="xref py py-func docutils literal notranslate"><span class="pre">uataq.gsv.get_obs()</span></code></a>
+reads them: one table with each car’s position, the pollutants you ask for and
+their QC flags. Its page says what the columns are and where the public copy of
+the data is.</p>
 </section>
 <section id="next">
 <h2>Next<a class="headerlink" href="#next" title="Link to this heading">#</a></h2>
