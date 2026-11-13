@@ -88,6 +88,8 @@ Module layout
                          gps_time_from_time_of_day
       sodar.py           Horel/MesoWest SODAR profiles (Sodar, list_stations);
                          standalone, not in config.json, not imported by uataq
+      gsv.py             Google Street View cars, Salt Lake City 2019-2020 (get_obs);
+                         standalone, not in config.json, not imported by uataq
       timerange.py       TimeRange and the TimeRangeTypes alias
       errors.py          ReaderError and its subclasses, ParserError, EmptyResultWarning,
                          DroppedPollutantWarning, ...
@@ -345,3 +347,43 @@ because its stations are MesoWest stations rather than UATAQ sites, its output i
 two-dimensional ``(Time_UTC, level)``, which the pandas ``DataFile`` pipeline
 cannot carry, and its scale factors live in a per-station file outside the data
 file. Only ``lvl="raw"`` exists; any other level raises ``ValueError``.
+
+The Street View tables
+----------------------
+
+:mod:`uataq.gsv` reads the Google Street View campaign (two cars, ``lone`` and
+``star``, May 2019 to June 2020; Lin et al., 2023), whose tables are CSV files in
+``gsv/tables/`` under :data:`uataq.filesystem.groupspaces.lin.DATA_DIR`. They were
+pulled once from the project's database in 2021 and do not change:
+
+- ``1_{instrument}.csv``: what each instrument logged.
+- ``2_{instrument}.csv``: the same with a ``qc`` flag, the baseline (``_base``) and
+  enhancement (``_ex``) of each concentration, and ``inlet_lag_applied``, the
+  seconds its times were shifted by.
+- ``3_primary_keys.csv``: the merged table, one row per car and second with the
+  position and every pollutant, which :func:`uataq.gsv.get_obs` reads.
+  ``3_primary_keys_nulled.csv`` is the same with every value whose flag is not 0
+  emptied, which ``good_only=True`` gives from the one file.
+
+Seen in the merged table (13 November 2026): 9,891,163 rows of 36 columns, 2.8 GB;
+**the rows are not in time order**, so a read passes over the whole file (on a
+compute node about 20 s and 1 GB for one pollutant, 40 s and 10 GB for all of them);
+no car has two rows in one second,
+but the two cars share seconds; O3 has no ``_ex`` or ``_base``; ``bc_ngm3`` equals
+the aethalometer's channel 6, hence ``BC6_ngm3``; a pollutant's flag is empty
+exactly where its value is. The one concentration the merged table lacks is the
+Picarro G2401's CH4 (``ch4d_ppb`` in ``2_picarro_g2401.csv``, on ``star`` from 14
+to 29 August 2019); its CH4 column is the other analyzer's, the LGR's.
+
+The published copy (``GSV_SLC.csv``, `doi:10.5281/zenodo.7605718
+<https://doi.org/10.5281/zenodo.7605718>`_) has the same 36 columns, written
+differently: times without a UTC offset, ``NA`` for an empty cell, text in quotes,
+rows in time order. Read with ``get_obs``, its 9,834,946 rows equal the group's
+table in every column; the group's table has 56,217 more, all in June 2020 with the
+cars parked or without a fix. ``get_obs`` reads both, and ``tests/test_gsv.py``
+writes a few rows in each. Its README is where :data:`uataq.gsv.QC_FLAGS` comes
+from.
+
+The cars are standalone, outside ``config.json``, ``Instrument`` and ``GroupSpace``,
+because they were a campaign with one finished table: no sites, levels or research
+groups to choose between.

@@ -19,7 +19,7 @@ import name `uataq`; installed from GitHub, not on PyPI. Contribution mechanics
 are in [CONTRIBUTING.md](CONTRIBUTING.md); the module layout and how a read flows,
 adding an instrument or a group space, how the docs are organized and generated,
 and longer developer notes (mobile clocks, the MetOne swap files, availability,
-SODAR) are in [docs/contributing.rst](docs/contributing.rst).
+SODAR, the Street View tables) are in [docs/contributing.rst](docs/contributing.rst).
 
 ## Invariants
 
