@@ -10,13 +10,19 @@ import json
 import logging
 import os
 import re
+import warnings
 from copy import deepcopy
 
 import numpy as np
 import pandas as pd
 
 import uataq.filesystem.core as filesystem
-from uataq.errors import DataFileInitializationError, ParserError, ReaderError
+from uataq.errors import (
+    DataFileInitializationError,
+    DataFileWarning,
+    ParserError,
+    ReaderError,
+)
 from uataq.timerange import TimeRange
 
 _logger = logging.getLogger(__name__)
@@ -403,6 +409,16 @@ class LinDatFile(filesystem.DataFile):
     ext = "dat"
 
     def __init__(self, path: str):
+        # The pipeline writes one file a month, YYYY_MM_<lvl>.dat, in the folder
+        # of its level. Anything else in the folder (a copy kept as
+        # 2024_06_final_old.dat, a README.dat) is not one of its files: reading
+        # it would repeat rows or fail on a name that is no period.
+        name = os.path.basename(path)
+        lvl = os.path.basename(os.path.dirname(path))
+        if not re.fullmatch(rf"\d{{4}}_\d{{2}}_{re.escape(lvl)}\.dat", name):
+            raise DataFileInitializationError(
+                f"{name} is not one of the pipeline's monthly files (YYYY_MM_{lvl}.dat)"
+            )
         super().__init__(path)
 
         # Get instrument name and lvl from file path
@@ -437,10 +453,27 @@ class LinDatFile(filesystem.DataFile):
         """
         Parse a Lin data file.
 
+        A pipeline file's header must name the columns the pipeline's config
+        lists for the instrument and level; the columns are taken by name, so
+        a file with the same columns in another order reads correctly. A file
+        without a header (the old logger files) takes the config's names in
+        order, so it must have that many columns. A file with no rows gives an
+        empty table.
+
         Returns
         -------
         pd.DataFrame
             The parsed data.
+
+        Raises
+        ------
+        ParserError
+            If the header or the column count does not match the config.
+
+        Warns
+        -----
+        DataFileWarning
+            If some rows have a time that is not ISO 8601; they are dropped.
         """
         _logger.debug(f"Parsing {filesystem._relpath(self.path, _data_dir())}")
 
@@ -450,35 +483,88 @@ class LinDatFile(filesystem.DataFile):
             # campbellsci files with their own header
             data = pd.read_csv(self.path, on_bad_lines="skip")
         else:
-            # The pipeline's files have a header (Time_UTC, ...) and old
-            # logger files none; either way the config names the columns.
-            # Skip a header line instead of reading it in as a row, which
-            # left every column object dtype.
-            config = DATA_CONFIG[self.instrument][self.lvl]
-            col_names = config["col_names"]
-            has_header = pd.isna(pd.to_datetime(first_field, errors="coerce"))
-            data = pd.read_csv(
-                self.path,
-                header=None,
-                skiprows=1 if has_header else 0,
-                on_bad_lines="skip",
-            )
-            data.columns = col_names
-            # A stray text row would still leave a column object dtype
-            numeric = [
-                col
-                for col, dtype in zip(col_names, config["col_types"], strict=False)
-                if dtype == "d"
-            ]
-            data[numeric] = data[numeric].apply(pd.to_numeric, errors="coerce")
+            data = self._read_pipeline_file(first_field)
+        data = data.rename(columns={"TIMESTAMP": "Time_UTC"})
 
         # Format time col
-        data = data.rename(columns={"TIMESTAMP": "Time_UTC"})
-        data["Time_UTC"] = pd.to_datetime(
-            data.Time_UTC, errors="coerce", format="ISO8601"
-        )
+        times = pd.to_datetime(data.Time_UTC, errors="coerce", format="ISO8601")
+        if first_field != "TIMESTAMP":
+            # The rows with no time at all were dropped before; these have one
+            # that is not ISO 8601
+            unparsed = times.isna() & data.Time_UTC.notna()
+            if unparsed.any():
+                warnings.warn(
+                    f"{self.path}: {int(unparsed.sum())} of {len(data)} rows have "
+                    f"a Time_UTC that is not ISO 8601 (the first is "
+                    f"{data.Time_UTC[unparsed].iloc[0]!r}) and are dropped.",
+                    DataFileWarning,
+                    stacklevel=2,
+                )
+        data["Time_UTC"] = times
 
         return data
+
+    def _read_pipeline_file(self, first_field: str) -> pd.DataFrame:
+        """
+        Read a pipeline file and name its columns from the config.
+
+        The header (Time_UTC, ...) is checked against the config, and old
+        logger files have none: then the config names the columns by position.
+        """
+        try:
+            config = DATA_CONFIG[self.instrument][self.lvl]
+        except KeyError:
+            raise ParserError(
+                f"the pipeline config has no columns for {self.instrument} {self.lvl}"
+            ) from None
+        # The config calls the time column TIMESTAMP at some levels; the files'
+        # header, when there is one, Time_UTC
+        col_names = ["Time_UTC" if c == "TIMESTAMP" else c for c in config["col_names"]]
+        has_header = pd.isna(pd.to_datetime(first_field, errors="coerce"))
+        try:
+            data = pd.read_csv(
+                self.path,
+                header=0 if has_header else None,
+                on_bad_lines="skip",
+            )
+        except pd.errors.EmptyDataError:
+            # No rows (an empty file, or a header alone): an empty table
+            data = pd.DataFrame(columns=col_names)
+        if has_header:
+            # The header may be all there is (no rows), or the columns may come
+            # in another order than the config's: take them by name
+            _check_columns(self.path, list(data.columns), col_names)
+            data = data[col_names]
+        elif data.shape[1] != len(col_names):
+            raise ParserError(
+                f"it has no header and {data.shape[1]} columns, but the pipeline "
+                f"config lists {len(col_names)} for {self.instrument} {self.lvl}"
+            )
+        else:
+            data.columns = col_names
+        # A stray text row would still leave a column object dtype
+        numeric = [
+            col
+            for col, dtype in zip(col_names, config["col_types"], strict=False)
+            if dtype == "d"
+        ]
+        data[numeric] = data[numeric].apply(pd.to_numeric, errors="coerce")
+        return data
+
+
+def _check_columns(path: str, found: list[str], expected: list[str]) -> None:
+    """Raise ParserError if the header's columns are not the config's, ignoring order."""
+    missing = [c for c in expected if c not in found]
+    extra = [c for c in found if c not in expected]
+    if missing or extra or len(found) != len(expected):
+        said = []
+        if extra:
+            said.append(f"has {', '.join(extra)}, which the config lacks")
+        if missing:
+            said.append(f"lacks {', '.join(missing)}, which the config lists")
+        if not said:
+            said.append("repeats a column")
+        raise ParserError(f"its header {'; and '.join(said)}")
 
 
 def _day_in_range(day: dt.datetime, time_range: TimeRange) -> bool:
@@ -1001,9 +1087,22 @@ class LinGroup(filesystem.GroupSpace):
 
     @staticmethod
     def get_lvls(SID: str, instrument: str) -> list[str]:
-        """Return the levels with a folder on disk for the instrument, lowest first."""
+        """
+        Return the levels with a folder on disk for the instrument, lowest first.
+
+        Raises
+        ------
+        ReaderError
+            If the archive has no folder for the instrument at the site.
+        """
         path = os.path.join(_data_dir(), SID.lower(), instrument)
-        inst_lvls = [d for d in os.listdir(path) if d in filesystem.lvls]
+        try:
+            names = os.listdir(path)
+        except FileNotFoundError:
+            raise ReaderError(
+                f"the lin archive has no folder for {instrument} at {SID} ({path})"
+            ) from None
+        inst_lvls = [d for d in names if d in filesystem.lvls]
         return sorted(inst_lvls, key=filesystem.lvls.__getitem__)
 
     @staticmethod

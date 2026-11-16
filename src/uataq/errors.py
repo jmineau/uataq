@@ -95,3 +95,15 @@ class DroppedPollutantWarning(UserWarning):
     fail: the other pollutants are returned. Silence it with
     ``warnings.filterwarnings("ignore", category=uataq.errors.DroppedPollutantWarning)``.
     """
+
+
+class DataFileWarning(UserWarning):
+    """
+    Warned when a data file is not what the reader expects and a read went on.
+
+    The read did not fail, but part of the archive did not make it into the
+    result: a file that could not be parsed is skipped, rows whose time cannot
+    be read are dropped, or two rows of the files read share a time (the files
+    may overlap, or repeat rows). The message names the file. Silence it with
+    ``warnings.filterwarnings("ignore", category=uataq.errors.DataFileWarning)``.
+    """

@@ -1883,7 +1883,11 @@ class TestLevelTheInstrumentLacks:
             for lvl in lvls:
                 (lin_data_dir / "wbb" / inst / lvl).mkdir(parents=True)
         (
-            lin_data_dir / "wbb" / "teledyne_t400" / "calibrated" / "2024_06_cal.dat"
+            lin_data_dir
+            / "wbb"
+            / "teledyne_t400"
+            / "calibrated"
+            / "2024_06_calibrated.dat"
         ).write_text(
             "Time_UTC,O3_ppb\n2024-06-01 00:00:01,47.2\n2024-06-01 00:00:03,47.1\n"
         )
