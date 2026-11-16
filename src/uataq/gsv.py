@@ -241,9 +241,14 @@ def _value_columns(table_column: str, header: Iterable[str]) -> list[str]:
 
 
 def _times(text: pd.Series) -> pd.Series:
-    """Parse the tables' times, with or without a UTC offset."""
+    """Parse the tables' times, with or without a UTC offset, as naive UTC."""
     # "2019-07-16 18:22:10+00:00" on CHPC, "2019-07-16 18:22:10" on Zenodo
-    return pd.to_datetime(text.str.slice(0, 19), format="%Y-%m-%d %H:%M:%S")
+    # (UTC either way). A time with another offset is converted to UTC.
+    return (
+        pd.to_datetime(text, format="ISO8601", utc=True)
+        .dt.tz_convert("UTC")
+        .dt.tz_localize(None)
+    )
 
 
 def _read_picarro(
@@ -320,7 +325,9 @@ def get_obs(
         The merged table, or the folder that holds ``3_primary_keys.csv``.
         Default None reads the Lin group's copy on CHPC. The published
         ``GSV_SLC.csv`` reads the same way. CH4 also reads the Picarro's CH4
-        from ``2_picarro_g2401.csv`` in the same folder.
+        from ``2_picarro_g2401.csv`` in the same folder. The tables' ``time``
+        is UTC; one written with another offset (``-06:00``) is converted to
+        UTC.
 
     Returns
     -------
@@ -419,30 +426,32 @@ def get_obs(
     _logger.debug(f"Reading {usecols} from {file}")
     # The rows are not in time order, so every read passes over the whole file.
     kept = []
-    for chunk in pd.read_csv(
+    # the with block closes the file when a chunk raises, as one with a bad time does
+    with pd.read_csv(
         file,
         usecols=usecols,
         dtype={"system_id": str, "polygon": str},
         chunksize=_CHUNK_ROWS,
-    ):
-        has_value = chunk[[item[0] for item in merged]].notna().any(axis=1)
-        if picarro is not None:
-            # a row of the Picarro's table has its flag, whatever its CH4
-            has_value |= chunk[_PICARRO_CH4[2]].notna()
-        rows = chunk[chunk["system_id"].isin(chosen_cars) & has_value].copy()
-        rows["time"] = _times(rows["time"])
-        if start is not None:
-            rows = rows[rows["time"] >= pd.Timestamp(start)]
-        if stop is not None:
-            rows = rows[rows["time"] < pd.Timestamp(stop)]
-        if picarro is not None:
-            rows = rows.merge(picarro, on=["time", "system_id"], how="left")
-        if good_only:
-            rows = rows[rows["qc_gps"] == 0].copy()
-            for _, _, flag, values in series:
-                bad = rows[flag] != 0
-                rows.loc[bad, values] = float("nan")
-        kept.append(rows[rows[measured].notna().any(axis=1)])
+    ) as chunks:
+        for chunk in chunks:
+            has_value = chunk[[item[0] for item in merged]].notna().any(axis=1)
+            if picarro is not None:
+                # a row of the Picarro's table has its flag, whatever its CH4
+                has_value |= chunk[_PICARRO_CH4[2]].notna()
+            rows = chunk[chunk["system_id"].isin(chosen_cars) & has_value].copy()
+            rows["time"] = _times(rows["time"])
+            if start is not None:
+                rows = rows[rows["time"] >= pd.Timestamp(start)]
+            if stop is not None:
+                rows = rows[rows["time"] < pd.Timestamp(stop)]
+            if picarro is not None:
+                rows = rows.merge(picarro, on=["time", "system_id"], how="left")
+            if good_only:
+                rows = rows[rows["qc_gps"] == 0].copy()
+                for _, _, flag, values in series:
+                    bad = rows[flag] != 0
+                    rows.loc[bad, values] = float("nan")
+            kept.append(rows[rows[measured].notna().any(axis=1)])
 
     if not kept:  # a file with a header and no rows
         kept = [pd.DataFrame(columns=columns)]

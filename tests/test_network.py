@@ -46,14 +46,28 @@ class TestNetworkInitialization:
         assert [site.SID for site in net.site_objects] == ["WBB", "SUG"]
 
     def test_sites_holds_only_the_sites_kept(self):
-        """A misspelled site and a site that does not measure the pollutant are not in sites."""
+        """A site that does not measure the pollutant is not in sites."""
         assert "O3" not in get_site("CSP").pollutants  # CSP measures CO2 and CH4
-        net = Network(sites=["WBB", "WBBB", "CSP", "sug"], pollutant="O3")
+        net = Network(sites=["WBB", "CSP", "sug"], pollutant="O3")
         assert net.sites == ["WBB"]
         assert net.sites == [site.SID for site in net.site_objects]
 
-        net = Network(sites=["WBB", "WBBB", "CSP", "sug"], pollutant="CO2")
+        net = Network(sites=["WBB", "CSP", "sug"], pollutant="CO2")
         assert net.sites == ["WBB", "CSP", "SUG"]  # the order given
+
+    def test_a_misspelled_site_raises_and_is_named(self):
+        """A site dropped quietly made a partial read look complete (#199)."""
+        with pytest.raises(ValueError, match=r"Site 'WBX' not found") as caught:
+            Network(sites=["WBB", "WBX"], pollutant="CO2")
+        assert "uataq.laboratory.sites" in str(caught.value)
+
+    def test_every_unknown_site_is_named(self):
+        with pytest.raises(ValueError, match=r"Sites 'WBX', 'SGU' not found"):
+            Network(sites=["WBB", "wbx", "SUG", "sgu"], pollutant="CO2")
+
+    def test_a_misspelled_site_raises_whatever_the_pollutant(self):
+        with pytest.raises(ValueError, match="'WBBB' not found"):
+            Network(sites=["WBB", "WBBB", "CSP"], pollutant="O3")
 
     def test_sites_of_all_measure_the_pollutant(self):
         """Looping over sites after Network("all", ...) reaches only sites with the pollutant."""
@@ -86,9 +100,7 @@ class TestNetworkInitialization:
         """The error names the string given, not its letters (#173)."""
         with pytest.raises(ValueError) as caught:
             Network(sites="WBBB", pollutant="CO2")
-        assert str(caught.value).startswith(
-            "None of the sites given (WBBB) measure CO2. Sites that measure it: "
-        )
+        assert str(caught.value).startswith("Site 'WBBB' not found")
 
     def test_an_empty_string_is_no_sites(self):
         with pytest.raises(ValueError, match="sites cannot be empty"):
@@ -100,11 +112,9 @@ class TestNetworkInitialization:
             Network(sites=[], pollutant="CO2")
 
     def test_network_site_not_found(self):
-        """Test that non-existent site is skipped with warning."""
-        net = Network(sites=["NONEXISTENT", "WBB"], pollutant="CO2")
-        # Should only have WBB in the valid sites
-        assert len(net.site_objects) == 1
-        assert net.site_objects[0].SID == "WBB"
+        """A site that is not in the configuration raises, and is named (#199)."""
+        with pytest.raises(ValueError, match="Site 'NONEXISTENT' not found"):
+            Network(sites=["NONEXISTENT", "WBB"], pollutant="CO2")
 
     def test_network_pollutant_not_measured(self):
         """Test that sites not measuring the pollutant are excluded."""
@@ -117,7 +127,7 @@ class TestNetworkInitialization:
     def test_network_no_valid_sites(self):
         """Test that error is raised if no sites measure the pollutant."""
         with pytest.raises(ValueError, match="None of the sites given"):
-            Network(sites=["NONEXISTENT"], pollutant="CO2")
+            Network(sites=["CSP"], pollutant="O3")  # CSP measures CO2 and CH4
 
     def test_no_valid_sites_lists_the_sites_that_measure_it(self):
         """The error lists the configured sites that measure it, not those given (#100)."""
