@@ -49,9 +49,15 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
 html_theme = "pydata_sphinx_theme"
 html_static_path = ["_static"]
+html_favicon = "_static/uataq-icon-light.svg"
 
 html_theme_options = {
     "github_url": "https://github.com/jmineau/uataq",
+    "logo": {  # the icon (no wordmark) in the navbar; the theme picks by light/dark mode
+        "image_light": "_static/uataq-icon-light.svg",
+        "image_dark": "_static/uataq-icon-dark.svg",
+        "alt_text": "UATAQ",
+    },
     "show_toc_level": 2,
     "navbar_align": "left",
     "navbar_end": ["version-switcher", "theme-switcher", "navbar-icon-links"],
