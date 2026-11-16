@@ -373,7 +373,14 @@ but the two cars share seconds; O3 has no ``_ex`` or ``_base``; ``bc_ngm3`` equa
 the aethalometer's channel 6, hence ``BC6_ngm3``; a pollutant's flag is empty
 exactly where its value is. The one concentration the merged table lacks is the
 Picarro G2401's CH4 (``ch4d_ppb`` in ``2_picarro_g2401.csv``, on ``star`` from 14
-to 29 August 2019); its CH4 column is the other analyzer's, the LGR's.
+to 29 August 2019); its CH4 column is the other analyzer's, the LGR's. For CH4,
+``get_obs`` also reads the Picarro's table, beside the merged one, and joins its
+``ch4d_ppb`` (with ``_ex`` and ``_base``) on the second and the car: every row of
+the Picarro's table is in the merged table, and the merged ``qc_picarro_g2401`` is
+the table's own ``qc``, so one flag serves its CO and CH4. The two analyzers never
+have a value in the same car-second, and whether they agree is not checked. The
+public copy has no Picarro table, and without it ``get_obs`` leaves the Picarro's
+CH4 out and warns.
 
 The published copy (``GSV_SLC.csv``, `doi:10.5281/zenodo.7605718
 <https://doi.org/10.5281/zenodo.7605718>`_) has the same 36 columns, written

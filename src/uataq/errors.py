@@ -92,6 +92,7 @@ class DroppedPollutantWarning(UserWarning):
     ``get_obs`` and ``get_recent_obs`` issue it when none of the instruments
     that measure a pollutant you asked for gave data (no files for the range,
     or not installed then), so the table has no column for it. The read did not
-    fail: the other pollutants are returned. Silence it with
+    fail: the other pollutants are returned. ``uataq.gsv.get_obs`` issues it when
+    the Picarro's CH4 table is missing. Silence it with
     ``warnings.filterwarnings("ignore", category=uataq.errors.DroppedPollutantWarning)``.
     """
