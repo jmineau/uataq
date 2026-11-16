@@ -134,8 +134,8 @@ class Network:
     ----------
     sites : list[str]
         The IDs of the sites the network kept, in the order given: a site that
-        is misspelled or does not measure the pollutant is not in the list.
-        A site named twice is listed once.
+        does not measure the pollutant is not in the list. A site named twice
+        is listed once.
     pollutant : str
         The pollutant to retrieve data for (uppercase).
     site_objects : list[sites.Site]
@@ -182,7 +182,9 @@ class Network:
         Raises
         ------
         ValueError
-            If sites is empty or if none of the sites given measures the
+            If sites is empty, if a site ID is not in the configuration (the
+            message names it, and says where the IDs are listed), or if none
+            of the sites given measures the
             specified pollutant. The message names the sites given (their
             number when there are more than ten) and lists the sites in the
             configuration that do measure it.
@@ -252,16 +254,21 @@ class Network:
         Raises
         ------
         ValueError
-            If a site ID is not found in the configuration.
+            If a site ID is not found in the configuration. A misspelled ID
+            raises, since a read that drops it would look complete.
         """
+        unknown = [sid for sid in given if sid not in _laboratory.laboratory.sites]
+        if unknown:
+            raise ValueError(
+                f"Site{'s' if len(unknown) > 1 else ''} "
+                f"{', '.join(repr(sid) for sid in unknown)} not found in the "
+                "configuration file. The site IDs are in uataq.laboratory.sites."
+            )
+
         valid_sites = []
 
         for sid in given:
-            try:
-                site = _laboratory.get_site(sid)
-            except ValueError as e:
-                _logger.warning(f"Site '{sid}' not found: {e}")
-                continue
+            site = _laboratory.get_site(sid)
 
             # Check if site measures the requested pollutant
             if self.pollutant in site.pollutants:

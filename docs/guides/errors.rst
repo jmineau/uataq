@@ -7,8 +7,9 @@ When there is nothing to read
 
     The output under each example on this page is from a run on CHPC on 15
     October 2026, except under "Pollutant or site not found" and "A level asked
-    of get_obs" (19 October 2026) and under "A group that does not log the
-    instrument" (30 October 2026). The archive keeps growing, so what a read
+    of get_obs" (19 October 2026), under "A group that does not log the
+    instrument" (30 October 2026) and under "Network surprises" (16 November
+    2026). The archive keeps growing, so what a read
     returns will have moved on by the time you read this (:ref:`why the output
     is recorded <recorded-examples>`).
 
@@ -304,21 +305,24 @@ None of the sites had data in the range. The log says why for each site.
 .. code-block:: pycon
 
     >>> Network(["WBB", "WBBB"], "CO2")
-    WARNING:uataq.network:Site 'WBBB' not found: Site 'WBBB' not found in the configuration file.
-    Network(sites=['WBB'], pollutant='CO2')
+    Traceback (most recent call last):
+      ...
+    ValueError: Site 'WBBB' not found in the configuration file. The site IDs are in uataq.laboratory.sites.
+    >>> Network(["WBB", "SUG"], "O3")
+    Network: O3 at ['WBB']
     >>> Network(["CSP"], "O3")
     Traceback (most recent call last):
       ...
     ValueError: None of the sites given (CSP) measure O3. Sites that measure it: BUS01, BUS02, BUS03, BUS04, BUS05, BUS06, BUS07, BUS08, BUS09, BUS10, BUS11, BUS12, BUS13, BUS14, BUS15, TRX01, TRX02, TRX03, WBB.
 
-A misspelled site, or a site that does not measure the pollutant, is dropped from
-a ``Network`` without an error. The log warns about a misspelled site; a site
-that does not measure the pollutant is dropped without a warning. Print the
-``Network``, or read its ``sites`` attribute, to see the sites it kept; a loop
-over ``net.sites`` reaches only those. If none is left you get the second error,
-which names the sites you gave (only their number when there are more than
-ten), then lists the sites in the configuration that measure the pollutant, or
-says that none does. A site named twice, in any case (``"WBB"`` and ``"wbb"``), is
-read once.
+A misspelled site raises an error that names it (every misspelled ID is named),
+since a network that dropped it would return fewer sites than you asked for and
+look complete. A site that does not measure the pollutant is dropped without an
+error, as SUG is above: print the ``Network``, or read its ``sites`` attribute,
+to see the sites it kept; a loop over ``net.sites`` reaches only those. If none
+is left you get the last error, which names the sites you gave (only their
+number when there are more than ten), then lists the sites in the configuration
+that measure the pollutant, or says that none does. A site named twice, in any
+case (``"WBB"`` and ``"wbb"``), is read once.
 
 If the error is about ``time_range`` itself, see :ref:`input-time-range`.

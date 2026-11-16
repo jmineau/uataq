@@ -250,7 +250,8 @@ def get_obs(
     path : str | os.PathLike | None
         The merged table, or the folder that holds ``3_primary_keys.csv``.
         Default None reads the Lin group's copy on CHPC. The published
-        ``GSV_SLC.csv`` reads the same way.
+        ``GSV_SLC.csv`` reads the same way. The table's ``time`` is UTC; one
+        written with another offset (``-06:00``) is converted to UTC.
 
     Returns
     -------
@@ -268,7 +269,8 @@ def get_obs(
     Raises
     ------
     ValueError
-        If a pollutant or a car is not one the campaign had.
+        If a pollutant or a car is not one the campaign had, or a ``time`` in
+        the table is not ISO 8601.
     FileNotFoundError
         If there is no table at ``path`` (or, with no ``path``, on this machine).
     ParserError
@@ -321,30 +323,36 @@ def get_obs(
     _logger.debug(f"Reading {usecols} from {file}")
     # The rows are not in time order, so every read passes over the whole file.
     kept = []
-    for chunk in pd.read_csv(
+    # the with block closes the file when a chunk raises, as one with a bad time does
+    with pd.read_csv(
         file,
         usecols=usecols,
         dtype={"system_id": str, "polygon": str},
         chunksize=_CHUNK_ROWS,
-    ):
-        rows = chunk[
-            chunk["system_id"].isin(chosen_cars) & chunk[measured].notna().any(axis=1)
-        ].copy()
-        # "2019-07-16 18:22:10+00:00" on CHPC, "2019-07-16 18:22:10" on Zenodo
-        rows["time"] = pd.to_datetime(
-            rows["time"].str.slice(0, 19), format="%Y-%m-%d %H:%M:%S"
-        )
-        if start is not None:
-            rows = rows[rows["time"] >= pd.Timestamp(start)]
-        if stop is not None:
-            rows = rows[rows["time"] < pd.Timestamp(stop)]
-        if good_only:
-            rows = rows[rows["qc_gps"] == 0].copy()
-            for pollutant in chosen:
-                bad = rows[flags[pollutant]] != 0
-                rows.loc[bad, values[pollutant]] = float("nan")
-            rows = rows[rows[measured].notna().any(axis=1)]
-        kept.append(rows)
+    ) as chunks:
+        for chunk in chunks:
+            rows = chunk[
+                chunk["system_id"].isin(chosen_cars)
+                & chunk[measured].notna().any(axis=1)
+            ].copy()
+            # "2019-07-16 18:22:10+00:00" on CHPC, "2019-07-16 18:22:10" on Zenodo
+            # (UTC either way). A time with another offset is converted to UTC.
+            rows["time"] = (
+                pd.to_datetime(rows["time"], format="ISO8601", utc=True)
+                .dt.tz_convert("UTC")
+                .dt.tz_localize(None)
+            )
+            if start is not None:
+                rows = rows[rows["time"] >= pd.Timestamp(start)]
+            if stop is not None:
+                rows = rows[rows["time"] < pd.Timestamp(stop)]
+            if good_only:
+                rows = rows[rows["qc_gps"] == 0].copy()
+                for pollutant in chosen:
+                    bad = rows[flags[pollutant]] != 0
+                    rows.loc[bad, values[pollutant]] = float("nan")
+                rows = rows[rows[measured].notna().any(axis=1)]
+            kept.append(rows)
 
     if not kept:  # a file with a header and no rows
         kept = [pd.DataFrame(columns=usecols)]

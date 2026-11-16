@@ -283,3 +283,40 @@ def test_real_table_ch4():
     assert obs.index[0] == pd.Timestamp("2019-06-06 18:22:10")
     assert obs.index[-1] == pd.Timestamp("2019-10-21 18:57:04")
     assert set(obs["system_id"]) == {"lone", "star"}
+
+
+def test_a_time_with_another_offset_is_converted_to_utc(tmp_path):
+    """A table written in local time was read as UTC, six or seven hours off (#199)."""
+    table = pd.DataFrame(ROWS[:1], columns=HEADER)
+    table["time"] = "2019-07-16 12:00:02-06:00"
+    table.to_csv(tmp_path / gsv.TABLE, index=False)
+
+    obs = gsv.get_obs("CH4", path=tmp_path)
+
+    assert obs.index.to_list() == [pd.Timestamp("2019-07-16 18:00:02")]
+    # the range is in UTC too
+    assert len(gsv.get_obs("CH4", time_range="2019-07-16 18", path=tmp_path)) == 1
+    with pytest.warns(errors.EmptyResultWarning):
+        assert gsv.get_obs("CH4", time_range="2019-07-16 12", path=tmp_path).empty
+
+
+def test_times_with_and_without_an_offset_in_one_table_agree(tmp_path):
+    table = pd.DataFrame(ROWS[:2], columns=HEADER)
+    table["time"] = ["2019-07-16 18:00:02+00:00", "2019-07-16 12:00:00-06:00"]
+    table.to_csv(tmp_path / gsv.TABLE, index=False)
+
+    obs = gsv.get_obs("CH4", path=tmp_path)
+
+    assert obs.index.to_list() == [
+        pd.Timestamp("2019-07-16 18:00:00"),
+        pd.Timestamp("2019-07-16 18:00:02"),
+    ]
+
+
+def test_a_time_that_is_not_iso_8601_raises(tmp_path):
+    table = pd.DataFrame(ROWS[:1], columns=HEADER)
+    table["time"] = "07/16/2019 18:00"
+    table.to_csv(tmp_path / gsv.TABLE, index=False)
+
+    with pytest.raises(ValueError, match="07/16/2019 18:00"):
+        gsv.get_obs("CH4", path=tmp_path)
