@@ -14,10 +14,8 @@ jobs go to a compute node through *Slurm*, CHPC's job scheduler (see
 What you need
 -------------
 
-* **A CHPC account in the** ``lin`` **group.** The archive is stored in the Lin
-  group's space, and only members of the group can read it. The command
-  ``groups`` lists your groups. If ``lin`` is not in the list, ask your advisor
-  to have you added.
+* **A CHPC account.** The archive is stored in the Lin and Horel groups' spaces,
+  and any CHPC account can read it: you do not need to be in either group.
 * **Python 3.11 or newer.** The Python you get when you log in (``python3``) is
   version 3.6.8, which is too old, and ``pip install`` fails on it with an
   unhelpful error (see :ref:`install-errors`). Step 2 loads a newer Python from
@@ -275,8 +273,8 @@ If something goes wrong
    ``unset UATAQ_HOREL_DIR`` to read the archive itself.
 
 The ``ls`` in step 1, or the read in step 5, fails
-   You are probably not in the ``lin`` group yet. Run ``groups`` and see
-   `What you need`_.
+   You are probably not on CHPC: the archive is only there. Log in to a CHPC
+   login node (see `What you need`_) and run the step again.
 
 The steps on this page were last checked in October 2026 on a Notchpeak login
 node.

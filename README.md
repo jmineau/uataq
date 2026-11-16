@@ -25,8 +25,8 @@ Full documentation is available at [https://jmineau.github.io/uataq/](https://jm
 ## Installation
 
 uataq reads the UATAQ data archive, which lives on CHPC, so install it there.
-You need a CHPC account in the `lin` group, which gives you read access to the
-archive. On a CHPC login node:
+Any CHPC account can read the archive; you do not need to be in a research
+group. On a CHPC login node:
 
 ```bash
 module load python    # the system Python is 3.6; uataq needs 3.11 or newer
