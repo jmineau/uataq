@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>uataq.gsv.get_obs &#8212; UATAQ 2026.11.2.dev2+g2952c6027 documentation</title>
+    <title>uataq.gsv.get_obs &#8212; UATAQ 2026.11.2.dev3+gfd407acfc documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be" />
 
-    <script src="../_static/documentation_options.js?v=9053f260"></script>
+    <script src="../_static/documentation_options.js?v=90419728"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -62,7 +62,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.11.2.dev2+g2952c6027" />
+  <meta name="docsearch:version" content="2026.11.2.dev3+gfd407acfc" />
   
     
     <script src="../_static/searchtools.js"></script>
@@ -480,6 +480,7 @@
 <li class="toctree-l2 current active has-children"><a class="reference internal" href="uataq.gsv.html">uataq.gsv</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="uataq.gsv.TABLE.html">uataq.gsv.TABLE</a></li>
 <li class="toctree-l3"><a class="reference internal" href="uataq.gsv.CARS.html">uataq.gsv.CARS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="uataq.gsv.TABLE_PICARRO.html">uataq.gsv.TABLE_PICARRO</a></li>
 <li class="toctree-l3"><a class="reference internal" href="uataq.gsv.POLLUTANTS.html">uataq.gsv.POLLUTANTS</a></li>
 <li class="toctree-l3"><a class="reference internal" href="uataq.gsv.QC_FLAGS.html">uataq.gsv.QC_FLAGS</a></li>
 <li class="toctree-l3 current active"><a aria-current="page" class="current reference internal" href="#">uataq.gsv.get_obs</a></li>
@@ -660,7 +661,8 @@ flag is not 0, and rows left with no value are dropped. Default False
 returns every row as the table has it, for you to filter on the flags.</p></li>
 <li><p><strong>path</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a> | <a class="reference external" href="https://docs.python.org/3/library/os.html#os.PathLike" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">PathLike</span></code></a> | <span class="highlight sphinx_autodoc_typehints-value"><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.15)"><code class="xref py py-obj docutils literal notranslate"><span class="kc"><span class="pre">None</span></span></code></a></span></span>) – The merged table, or the folder that holds <code class="docutils literal notranslate"><span class="pre">3_primary_keys.csv</span></code>.
 Default None reads the Lin group’s copy on CHPC. The published
-<code class="docutils literal notranslate"><span class="pre">GSV_SLC.csv</span></code> reads the same way.</p></li>
+<code class="docutils literal notranslate"><span class="pre">GSV_SLC.csv</span></code> reads the same way. CH4 also reads the Picarro’s CH4
+from <code class="docutils literal notranslate"><span class="pre">2_picarro_g2401.csv</span></code> in the same folder.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -671,8 +673,9 @@ can sample in the same second, so the index repeats. The columns are
 <code class="docutils literal notranslate"><span class="pre">polygon</span></code> (the drive area the car was in, if any), <code class="docutils literal notranslate"><span class="pre">qc_gps</span></code> and,
 for each pollutant, its value, enhancement (<code class="docutils literal notranslate"><span class="pre">_ex</span></code>), baseline
 (<code class="docutils literal notranslate"><span class="pre">_base</span></code>) and QC flag: for CH4, <code class="docutils literal notranslate"><span class="pre">CH4d_ppm</span></code>, <code class="docutils literal notranslate"><span class="pre">CH4d_ppm_ex</span></code>,
-<code class="docutils literal notranslate"><span class="pre">CH4d_ppm_base</span></code> and <code class="docutils literal notranslate"><span class="pre">qc_lgr_mgga</span></code>. <a class="reference internal" href="uataq.gsv.QC_FLAGS.html#uataq.gsv.QC_FLAGS" title="uataq.gsv.QC_FLAGS"><code class="xref py py-data docutils literal notranslate"><span class="pre">QC_FLAGS</span></code></a> says what a
-flag’s value means.</p>
+<code class="docutils literal notranslate"><span class="pre">CH4d_ppm_base</span></code> and <code class="docutils literal notranslate"><span class="pre">qc_lgr_mgga</span></code>. CH4 also has the Picarro’s, in
+ppb: <code class="docutils literal notranslate"><span class="pre">CH4d_ppb</span></code>, <code class="docutils literal notranslate"><span class="pre">CH4d_ppb_ex</span></code>, <code class="docutils literal notranslate"><span class="pre">CH4d_ppb_base</span></code> and, as for its CO,
+<code class="docutils literal notranslate"><span class="pre">qc_picarro_g2401</span></code>. <a class="reference internal" href="uataq.gsv.QC_FLAGS.html#uataq.gsv.QC_FLAGS" title="uataq.gsv.QC_FLAGS"><code class="xref py py-data docutils literal notranslate"><span class="pre">QC_FLAGS</span></code></a> says what a flag’s value means.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v3.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></a></span></p>
@@ -681,11 +684,16 @@ flag’s value means.</p>
 <dd class="field-even"><ul class="simple">
 <li><p><a class="reference external" href="https://docs.python.org/3/builtins/exceptions.html#ValueError" title="(in Python v3.15)"><strong>ValueError</strong></a> – If a pollutant or a car is not one the campaign had.</p></li>
 <li><p><a class="reference external" href="https://docs.python.org/3/builtins/exceptions.html#FileNotFoundError" title="(in Python v3.15)"><strong>FileNotFoundError</strong></a> – If there is no table at <code class="docutils literal notranslate"><span class="pre">path</span></code> (or, with no <code class="docutils literal notranslate"><span class="pre">path</span></code>, on this machine).</p></li>
-<li><p><a class="reference internal" href="uataq.errors.ParserError.html#uataq.errors.ParserError" title="uataq.errors.ParserError"><strong>ParserError</strong></a> – If the file lacks one of the merged table’s columns.</p></li>
+<li><p><a class="reference internal" href="uataq.errors.ParserError.html#uataq.errors.ParserError" title="uataq.errors.ParserError"><strong>ParserError</strong></a> – If the file lacks one of the merged table’s columns, or the Picarro’s
+    table lacks its CH4.</p></li>
 </ul>
 </dd>
 <dt class="field-odd">Warns<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>EmptyResultWarning</strong> – If no row matches, so the table has no rows.</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>EmptyResultWarning</strong> – If no row matches, so the table has no rows.</p></li>
+<li><p><strong>DroppedPollutantWarning</strong> – If CH4 is asked for and <code class="docutils literal notranslate"><span class="pre">2_picarro_g2401.csv</span></code> is not beside the merged
+table (the public copy has none): the Picarro’s CH4 is left out.</p></li>
+</ul>
 </dd>
 </dl>
 <div class="admonition seealso">

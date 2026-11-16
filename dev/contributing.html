@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Contributing &#8212; UATAQ 2026.11.2.dev2+g2952c6027 documentation</title>
+    <title>Contributing &#8212; UATAQ 2026.11.2.dev3+gfd407acfc documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be" />
 
-    <script src="_static/documentation_options.js?v=9053f260"></script>
+    <script src="_static/documentation_options.js?v=90419728"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -61,7 +61,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.11.2.dev2+g2952c6027" />
+  <meta name="docsearch:version" content="2026.11.2.dev3+gfd407acfc" />
   
     
     <script src="_static/searchtools.js"></script>
@@ -817,7 +817,14 @@ but the two cars share seconds; O3 has no <code class="docutils literal notransl
 the aethalometer’s channel 6, hence <code class="docutils literal notranslate"><span class="pre">BC6_ngm3</span></code>; a pollutant’s flag is empty
 exactly where its value is. The one concentration the merged table lacks is the
 Picarro G2401’s CH4 (<code class="docutils literal notranslate"><span class="pre">ch4d_ppb</span></code> in <code class="docutils literal notranslate"><span class="pre">2_picarro_g2401.csv</span></code>, on <code class="docutils literal notranslate"><span class="pre">star</span></code> from 14
-to 29 August 2019); its CH4 column is the other analyzer’s, the LGR’s.</p>
+to 29 August 2019); its CH4 column is the other analyzer’s, the LGR’s. For CH4,
+<code class="docutils literal notranslate"><span class="pre">get_obs</span></code> also reads the Picarro’s table, beside the merged one, and joins its
+<code class="docutils literal notranslate"><span class="pre">ch4d_ppb</span></code> (with <code class="docutils literal notranslate"><span class="pre">_ex</span></code> and <code class="docutils literal notranslate"><span class="pre">_base</span></code>) on the second and the car: every row of
+the Picarro’s table is in the merged table, and the merged <code class="docutils literal notranslate"><span class="pre">qc_picarro_g2401</span></code> is
+the table’s own <code class="docutils literal notranslate"><span class="pre">qc</span></code>, so one flag serves its CO and CH4. The two analyzers never
+have a value in the same car-second, and whether they agree is not checked. The
+public copy has no Picarro table, and without it <code class="docutils literal notranslate"><span class="pre">get_obs</span></code> leaves the Picarro’s
+CH4 out and warns.</p>
 <p>The published copy (<code class="docutils literal notranslate"><span class="pre">GSV_SLC.csv</span></code>, <a class="reference external" href="https://doi.org/10.5281/zenodo.7605718">doi:10.5281/zenodo.7605718</a>) has the same 36 columns, written
 differently: times without a UTC offset, <code class="docutils literal notranslate"><span class="pre">NA</span></code> for an empty cell, text in quotes,
 rows in time order. Read with <code class="docutils literal notranslate"><span class="pre">get_obs</span></code>, its 9,834,946 rows equal the group’s
