@@ -152,11 +152,15 @@ def get_obs(
         If no instrument at the site has data for the pollutants in the range.
         The message says why for each one (see :doc:`/guides/errors`).
     ValueError
-        If a pollutant is not measured at the site. The message says which
-        pollutants the site does measure.
+        If a pollutant is not measured at the site (the message says which
+        pollutants the site does measure), if ``group`` is a mapping with a
+        key that is not an instrument at the site, or if ``time_range`` is
+        empty (``""`` or ``[]``) or starts after it stops.
     TypeError
-        If you pass ``lvl`` or ``level``: ``get_obs`` always reads the
-        ``final`` level. Use :func:`uataq.read_data` to read another.
+        If you pass ``lvl`` or ``level`` (``get_obs`` always reads the
+        ``final`` level; use :func:`uataq.read_data` to read another), any
+        other keyword it does not take (a misspelled ``time_range``, say), or
+        a ``group`` that is not a str, a mapping or None.
 
     Warns
     -----
@@ -269,6 +273,11 @@ def get_network_obs(
     ------
     ~uataq.errors.ReaderError
         If none of the sites has data for the pollutant in the range.
+    ValueError
+        If ``group`` is a mapping with a key that is not an instrument at any
+        of the sites.
+    TypeError
+        If ``group`` is not a str, a mapping or None.
 
     Warns
     -----
