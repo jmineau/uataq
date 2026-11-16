@@ -92,6 +92,8 @@ Dates after a site was taken down give this error too: HDP after 7 February
 ``get_recent_obs("HDP", pollutants="CO2")``: nothing is recent at a site that
 stopped.
 
+.. _zero-rows:
+
 Zero rows, no error
 -------------------
 
@@ -286,6 +288,38 @@ has it:
 
 A level that is not one of ``raw``, ``qaqc``, ``calibrated`` or ``final`` raises
 ``ValueError: Invalid data level`` and lists the four.
+
+A file that is not what the reader expects
+------------------------------------------
+
+The lin group's pipeline writes one file a month, ``YYYY_MM_<level>.dat``, in
+the folder of its level. uataq reads those and nothing else in the folder (a
+copy kept as ``2024_06_final_old.dat`` or a ``README.dat`` is left alone), and
+it checks each file against the pipeline's column list for the instrument and
+level:
+
+- A header that names other columns than the list (a renamed column, an extra
+  one, a missing one), or a file with no header and another number of columns,
+  cannot be read as that instrument's. The file is skipped with a
+  ``uataq.errors.DataFileWarning`` that names it and says what differs, and the
+  other months are still read. When every file in the range is skipped, you get
+  a ``ReaderError`` that names the first one. A header with the right columns in
+  another order is read by name.
+- A file with no rows (empty, or a header alone) gives no rows, and the empty
+  result is the :ref:`warning above <zero-rows>` when nothing else in the range
+  has any.
+- Rows whose ``Time_UTC`` is not ISO 8601 (``06/01/2024 01:00``) are dropped,
+  with a ``DataFileWarning`` that names the file and counts them.
+- Rows that share a ``Time_UTC`` (two files that overlap, or rows repeated in
+  one file) are all returned, with a ``DataFileWarning`` that names the files.
+  Drop them with ``obs[~obs.index.duplicated()]`` when they are repeats.
+- An instrument the config lists at a site but the archive has no folder for
+  gives a ``ReaderError`` for that instrument, so a read of several instruments
+  or sites carries on with the others.
+
+Like the empty-result warning, a ``DataFileWarning`` shows without the log, and
+silences with ``warnings.filterwarnings("ignore",
+category=uataq.errors.DataFileWarning)``.
 
 Network surprises
 -----------------

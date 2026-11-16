@@ -85,7 +85,7 @@ SODAR, the Street View tables) are in [docs/contributing.rst](docs/contributing.
   attaches a `NullHandler`. No `print()` in library code. Logging is off
   until the user turns it on, so what a user must see anyway (a table with no
   rows, a pollutant left out) is a `warnings.warn` of a category defined in
-  `errors.py` (`EmptyResultWarning`, `DroppedPollutantWarning`).
+  `errors.py` (`EmptyResultWarning`, `DroppedPollutantWarning`, `DataFileWarning`).
 
 ## Development workflow
 

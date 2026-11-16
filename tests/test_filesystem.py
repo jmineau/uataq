@@ -340,7 +340,10 @@ class TestRowOrder:
 
         # two files of one month, both with the same 1000 timestamps
         files = [TaggedFile("/a/2024_01_a.dat"), TaggedFile("/a/2024_01_b.dat")]
-        data = filesystem.parse_datafiles(files, TimeRange("2024-01"), num_processes=1)
+        with pytest.warns(errors.DataFileWarning, match="1000 rows repeat"):
+            data = filesystem.parse_datafiles(
+                files, TimeRange("2024-01"), num_processes=1
+            )
         assert data.index.is_monotonic_increasing
         assert data["src"].tolist() == ["a", "b"] * 1000
 

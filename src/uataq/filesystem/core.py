@@ -5,6 +5,7 @@ Classes and functions for working in the CHPC UATAQ filesystem.
 import logging
 import multiprocessing
 import os
+import warnings
 from abc import ABCMeta, abstractmethod
 from collections.abc import Iterator
 from contextlib import contextmanager
@@ -289,7 +290,9 @@ def _forget_parsed_files() -> None:
     _parsed_files.set(None)
 
 
-def _parse_datafile(datafile: DataFile) -> pd.DataFrame | None:
+def _parse_datafile(
+    datafile: DataFile,
+) -> tuple[pd.DataFrame | None, str | None, list[tuple[type[Warning], str]]]:
     """
     Private function to parse a single data file.
 
@@ -300,13 +303,53 @@ def _parse_datafile(datafile: DataFile) -> pd.DataFrame | None:
 
     Returns
     -------
-    pd.DataFrame
-        A DataFrame containing the parsed data.
+    tuple
+        The parsed DataFrame (None when the file could not be parsed), the
+        reason it could not be (else None), and the warnings the parse raised
+        as ``(category, message)`` pairs. A pool worker's warnings never reach
+        the caller's filters, so the caller issues them again.
     """
-    try:
-        return datafile.parse()
-    except errors.ParserError as e:
-        _logger.warning(f"Error parsing {datafile}: {e}")
+    reason = None
+    with warnings.catch_warnings(record=True) as caught:
+        warnings.simplefilter("always")
+        try:
+            data = datafile.parse()
+        except errors.ParserError as e:
+            _logger.warning(f"Error parsing {datafile}: {e}")
+            data = None
+            reason = f"{datafile}: {e}"
+    return data, reason, [(w.category, str(w.message)) for w in caught]
+
+
+def _warn_repeated_times(
+    files: list[DataFile], datasets: list[pd.DataFrame | None], data: pd.DataFrame
+) -> None:
+    """
+    Warn when rows of the result share a time, and name the files that hold them.
+
+    Two monthly files that overlap, or rows repeated inside one file, put each
+    such row in the table twice. The data are not changed.
+    """
+    repeated = data.index[data.index.duplicated()]
+    if repeated.empty:
+        return
+    times = repeated.unique()
+    holding = [
+        str(file)
+        for file, frame in zip(files, datasets, strict=True)
+        if frame is not None and frame["Time_UTC"].isin(times).any()
+    ]
+    named = ", ".join(holding[:3]) + (
+        f" and {len(holding) - 3} more" if len(holding) > 3 else ""
+    )
+    warnings.warn(
+        f"{len(repeated)} rows repeat the Time_UTC of an earlier row (the first "
+        f"is {times[0]}), so they appear more than once in the table. They are "
+        f"in: {named}. The files may overlap or repeat rows; the data are "
+        "returned as read.",
+        errors.DataFileWarning,
+        stacklevel=2,
+    )
 
 
 def parse_datafiles(
@@ -362,7 +405,7 @@ def parse_datafiles(
     # If only one process is requested, execute the function sequentially
     if processes == 1:
         _logger.debug("Parsing files sequentially...")
-        datasets = [_parse_datafile(f) for f in files]
+        results = [_parse_datafile(f) for f in files]
     else:
         _logger.debug(f"Parsing files in parallel with {processes} processes...")
 
@@ -370,20 +413,30 @@ def parse_datafiles(
         with multiprocessing.Pool(
             processes=processes, initializer=_forget_parsed_files
         ) as pool:
-            datasets = pool.map(func=_parse_datafile, iterable=files)
+            results = pool.map(func=_parse_datafile, iterable=files)
+
+    datasets = [data for data, _, _ in results]
+    reasons = [reason for _, reason, _ in results if reason is not None]
+    if driver == "pandas" and all(data is None for data in datasets):
+        # ReaderError, not pd.concat's ValueError, so Site.read_data skips
+        # this instrument instead of abandoning the whole site
+        why = f": {reasons[0]}" if reasons else ""
+        more = f" (and {len(reasons) - 1} more)" if len(reasons) > 1 else ""
+        raise errors.ReaderError(
+            f"None of the {len(files)} data file(s) could be parsed{why}{more}"
+        )
+    # Say what the parses said, and which files were skipped, in this process
+    for _, reason, notes in results:
+        for category, message in notes:
+            warnings.warn(message, category, stacklevel=2)
+        if reason is not None:
+            warnings.warn(f"Skipped {reason}", errors.DataFileWarning, stacklevel=2)
 
     # Concatenate the datasets
     _logger.info("Concatenating datasets and reducing rows to time range...")
     if driver == "pandas":
         # a datafile that failed to parse contributes None
-        parsed = [d for d in datasets if d is not None]
-        if not parsed:
-            # ReaderError, not pd.concat's ValueError, so Site.read_data skips
-            # this instrument instead of abandoning the whole site
-            raise errors.ReaderError(
-                f"None of the {len(files)} data file(s) could be parsed."
-            )
-        data = pd.concat(parsed)
+        data = pd.concat([d for d in datasets if d is not None])
 
         # Set time as index and filter to time_range
         data = (
@@ -396,6 +449,7 @@ def parse_datafiles(
             # .loc is inclusive, but time ranges are half-open [start, stop):
             # a sample exactly at stop belongs to the next range (#9)
             data = data[data.index < time_range.stop]
+        _warn_repeated_times(files, datasets, data)
     elif driver == "xarray":
         # TODO
         raise NotImplementedError("xarray driver not implemented yet.")
