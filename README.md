@@ -1,3 +1,10 @@
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/_static/uataq-logo-dark.svg">
+    <img src="docs/_static/uataq-logo-light.svg" alt="UATAQ logo" width="160">
+  </picture>
+</p>
+
 # Utah Atmospheric Trace-gas and Air Quality (UATAQ)
 
 [![Tests](https://github.com/jmineau/uataq/actions/workflows/tests.yml/badge.svg)](https://github.com/jmineau/uataq/actions/workflows/tests.yml)
