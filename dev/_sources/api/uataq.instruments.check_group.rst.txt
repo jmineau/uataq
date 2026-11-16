@@ -1,0 +1,6 @@
+uataq.instruments.check\_group
+==============================
+
+.. currentmodule:: uataq.instruments
+
+.. autofunction:: check_group

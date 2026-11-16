@@ -23,6 +23,7 @@
    :toctree:
    :nosignatures:
 
+   check_group
    configure_instrument
 
 

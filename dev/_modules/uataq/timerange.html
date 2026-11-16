@@ -6,7 +6,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>uataq.timerange &#8212; UATAQ 2026.11.2.dev3+gfd407acfc documentation</title>
+    <title>uataq.timerange &#8212; UATAQ 2026.11.2.dev4+g727df8d1a documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be" />
 
-    <script src="../../_static/documentation_options.js?v=90419728"></script>
+    <script src="../../_static/documentation_options.js?v=3b9a2388"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -59,7 +59,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.11.2.dev3+gfd407acfc" />
+  <meta name="docsearch:version" content="2026.11.2.dev4+g727df8d1a" />
   
     
     <script src="../../_static/searchtools.js"></script>
@@ -519,9 +519,11 @@
 <span class="sd">        ------</span>
 <span class="sd">        ValueError</span>
 <span class="sd">            If ``time_range`` is given together with ``start`` or ``stop``, or</span>
-<span class="sd">            it is not a string, a pair, a slice or a ``TimeRange``.</span>
+<span class="sd">            it is not a string, a pair, a slice or a ``TimeRange`` (an empty</span>
+<span class="sd">            string or list is not "everything": pass None for that), or the</span>
+<span class="sd">            start is after the stop.</span>
 <span class="sd">        """</span>
-        <span class="k">if</span> <span class="nb">all</span><span class="p">([</span><span class="n">time_range</span><span class="p">,</span> <span class="nb">any</span><span class="p">([</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">])]):</span>
+        <span class="k">if</span> <span class="n">time_range</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="p">(</span><span class="n">start</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">stop</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Cannot specify both time_range and start/stop"</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_start</span> <span class="o">=</span> <span class="kc">None</span>
@@ -529,26 +531,34 @@
 
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">time_range</span><span class="p">,</span> <span class="n">TimeRange</span><span class="p">):</span>
             <span class="n">start</span><span class="p">,</span> <span class="n">stop</span> <span class="o">=</span> <span class="n">time_range</span><span class="o">.</span><span class="n">start</span><span class="p">,</span> <span class="n">time_range</span><span class="o">.</span><span class="n">stop</span>
-        <span class="k">elif</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">([</span><span class="n">time_range</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">]):</span>
-            <span class="n">start</span> <span class="o">=</span> <span class="kc">None</span>
-            <span class="n">stop</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="k">elif</span> <span class="n">time_range</span><span class="p">:</span>
-            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">time_range</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-                <span class="c1"># Handle the case when time_range is a string</span>
-                <span class="n">start</span> <span class="o">=</span> <span class="n">TimeRange</span><span class="o">.</span><span class="n">parse_iso</span><span class="p">(</span><span class="n">time_range</span><span class="p">)</span>
-                <span class="n">stop</span> <span class="o">=</span> <span class="n">TimeRange</span><span class="o">.</span><span class="n">parse_iso</span><span class="p">(</span><span class="n">time_range</span><span class="p">,</span> <span class="n">inclusive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">time_range</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">))</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">time_range</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
-                <span class="c1"># Handle the case when time_range is a list/tuple</span>
-                <span class="c1">#   representing start and stop</span>
-                <span class="n">start</span><span class="p">,</span> <span class="n">stop</span> <span class="o">=</span> <span class="n">time_range</span>
-            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">time_range</span><span class="p">,</span> <span class="nb">slice</span><span class="p">):</span>
-                <span class="c1"># Handle the case when time_range is a slice</span>
-                <span class="n">start</span><span class="p">,</span> <span class="n">stop</span> <span class="o">=</span> <span class="n">time_range</span><span class="o">.</span><span class="n">start</span><span class="p">,</span> <span class="n">time_range</span><span class="o">.</span><span class="n">stop</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Invalid time_range format"</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">time_range</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">pass</span>  <span class="c1"># everything, or the start and stop given</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">time_range</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="c1"># Handle the case when time_range is a string</span>
+            <span class="n">start</span> <span class="o">=</span> <span class="n">TimeRange</span><span class="o">.</span><span class="n">parse_iso</span><span class="p">(</span><span class="n">time_range</span><span class="p">)</span>
+            <span class="n">stop</span> <span class="o">=</span> <span class="n">TimeRange</span><span class="o">.</span><span class="n">parse_iso</span><span class="p">(</span><span class="n">time_range</span><span class="p">,</span> <span class="n">inclusive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">time_range</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">))</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">time_range</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="c1"># Handle the case when time_range is a list/tuple</span>
+            <span class="c1">#   representing start and stop</span>
+            <span class="n">start</span><span class="p">,</span> <span class="n">stop</span> <span class="o">=</span> <span class="n">time_range</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">time_range</span><span class="p">,</span> <span class="nb">slice</span><span class="p">):</span>
+            <span class="c1"># Handle the case when time_range is a slice</span>
+            <span class="n">start</span><span class="p">,</span> <span class="n">stop</span> <span class="o">=</span> <span class="n">time_range</span><span class="o">.</span><span class="n">start</span><span class="p">,</span> <span class="n">time_range</span><span class="o">.</span><span class="n">stop</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">"Invalid time_range </span><span class="si">{</span><span class="n">time_range</span><span class="si">!r}</span><span class="s2">. Use a string such as "</span>
+                <span class="s2">"'2024-06', a [start, stop] pair, a slice, or None for "</span>
+                <span class="s2">"everything."</span>
+            <span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">start</span> <span class="o">=</span> <span class="n">start</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">stop</span> <span class="o">=</span> <span class="n">stop</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stop</span> <span class="o">=</span> <span class="n">stop</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">start</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">stop</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">start</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">stop</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">"Invalid time_range: the start (</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">start</span><span class="si">}</span><span class="s2">) is after the "</span>
+                <span class="sa">f</span><span class="s2">"stop (</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">stop</span><span class="si">}</span><span class="s2">); a date given as the stop ends at the end of "</span>
+                <span class="s2">"that day."</span>
+            <span class="p">)</span></div>
 
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
