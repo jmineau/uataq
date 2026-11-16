@@ -13,8 +13,7 @@ John Lin's group (every fixed site, and some of the trains' instruments) and
 John Horel's group (the buses, and the trains' other instruments). uataq reads
 both, so you do not need to know where or how either stores its files.
 
-It is written for members of the groups who work on CHPC, where the archives
-are. A month of CO2 and CH4 from one site is one call:
+It runs on CHPC, where the archives are, and any CHPC account can read them. A month of CO2 and CH4 from one site is one call:
 
 .. code-block:: pycon
 
