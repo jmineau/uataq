@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>When there is nothing to read &#8212; UATAQ 2026.11.2.dev4+g727df8d1a documentation</title>
+    <title>When there is nothing to read &#8212; UATAQ 2026.11.2.dev5+gf2abcbbc2 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be" />
 
-    <script src="../_static/documentation_options.js?v=3b9a2388"></script>
+    <script src="../_static/documentation_options.js?v=12aea379"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -62,7 +62,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.11.2.dev4+g727df8d1a" />
+  <meta name="docsearch:version" content="2026.11.2.dev5+gf2abcbbc2" />
   
     
     <script src="../_static/searchtools.js"></script>
@@ -542,7 +542,7 @@ range that overlaps the window only in part is cut down to it, with no error.</p
 stopped.</p>
 </section>
 <section id="zero-rows-no-error">
-<h2>Zero rows, no error<a class="headerlink" href="#zero-rows-no-error" title="Link to this heading">#</a></h2>
+<span id="zero-rows"></span><h2>Zero rows, no error<a class="headerlink" href="#zero-rows-no-error" title="Link to this heading">#</a></h2>
 <div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">wbb_obs</span> <span class="o">=</span> <span class="n">wbb</span><span class="o">.</span><span class="n">get_obs</span><span class="p">(</span><span class="s2">"CO2"</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="s2">"2024-03"</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">wbb_obs</span><span class="p">))</span>
 <span class="go">206114</span>
@@ -711,6 +711,37 @@ has it:</p>
 <p>A level that is not one of <code class="docutils literal notranslate"><span class="pre">raw</span></code>, <code class="docutils literal notranslate"><span class="pre">qaqc</span></code>, <code class="docutils literal notranslate"><span class="pre">calibrated</span></code> or <code class="docutils literal notranslate"><span class="pre">final</span></code> raises
 <code class="docutils literal notranslate"><span class="pre">ValueError:</span> <span class="pre">Invalid</span> <span class="pre">data</span> <span class="pre">level</span></code> and lists the four.</p>
 </section>
+<section id="a-file-that-is-not-what-the-reader-expects">
+<h2>A file that is not what the reader expects<a class="headerlink" href="#a-file-that-is-not-what-the-reader-expects" title="Link to this heading">#</a></h2>
+<p>The lin group’s pipeline writes one file a month, <code class="docutils literal notranslate"><span class="pre">YYYY_MM_&lt;level&gt;.dat</span></code>, in
+the folder of its level. uataq reads those and nothing else in the folder (a
+copy kept as <code class="docutils literal notranslate"><span class="pre">2024_06_final_old.dat</span></code> or a <code class="docutils literal notranslate"><span class="pre">README.dat</span></code> is left alone), and
+it checks each file against the pipeline’s column list for the instrument and
+level:</p>
+<ul class="simple">
+<li><p>A header that names other columns than the list (a renamed column, an extra
+one, a missing one), or a file with no header and another number of columns,
+cannot be read as that instrument’s. The file is skipped with a
+<code class="docutils literal notranslate"><span class="pre">uataq.errors.DataFileWarning</span></code> that names it and says what differs, and the
+other months are still read. When every file in the range is skipped, you get
+a <code class="docutils literal notranslate"><span class="pre">ReaderError</span></code> that names the first one. A header with the right columns in
+another order is read by name.</p></li>
+<li><p>A file with no rows (empty, or a header alone) gives no rows, and the empty
+result is the <a class="reference internal" href="#zero-rows"><span class="std std-ref">warning above</span></a> when nothing else in the range
+has any.</p></li>
+<li><p>Rows whose <code class="docutils literal notranslate"><span class="pre">Time_UTC</span></code> is not ISO 8601 (<code class="docutils literal notranslate"><span class="pre">06/01/2024</span> <span class="pre">01:00</span></code>) are dropped,
+with a <code class="docutils literal notranslate"><span class="pre">DataFileWarning</span></code> that names the file and counts them.</p></li>
+<li><p>Rows that share a <code class="docutils literal notranslate"><span class="pre">Time_UTC</span></code> (two files that overlap, or rows repeated in
+one file) are all returned, with a <code class="docutils literal notranslate"><span class="pre">DataFileWarning</span></code> that names the files.
+Drop them with <code class="docutils literal notranslate"><span class="pre">obs[~obs.index.duplicated()]</span></code> when they are repeats.</p></li>
+<li><p>An instrument the config lists at a site but the archive has no folder for
+gives a <code class="docutils literal notranslate"><span class="pre">ReaderError</span></code> for that instrument, so a read of several instruments
+or sites carries on with the others.</p></li>
+</ul>
+<p>Like the empty-result warning, a <code class="docutils literal notranslate"><span class="pre">DataFileWarning</span></code> shows without the log, and
+silences with <code class="docutils literal notranslate"><span class="pre">warnings.filterwarnings(&quot;ignore&quot;,</span>
+<span class="pre">category=uataq.errors.DataFileWarning)</span></code>.</p>
+</section>
 <section id="network-surprises">
 <h2>Network surprises<a class="headerlink" href="#network-surprises" title="Link to this heading">#</a></h2>
 <div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">uataq</span><span class="o">.</span><span class="n">get_network_obs</span><span class="p">([</span><span class="s2">"HDP"</span><span class="p">],</span> <span class="s2">"CO2"</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="s2">"2025-06"</span><span class="p">)</span>
@@ -799,6 +830,7 @@ read once.</p>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-level-asked-of-get-obs">A level asked of get_obs</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-group-that-does-not-log-the-instrument">A group that does not log the instrument</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-level-the-instrument-does-not-have">A level the instrument does not have</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-file-that-is-not-what-the-reader-expects">A file that is not what the reader expects</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#network-surprises">Network surprises</a></li>
 </ul>
   </nav></div>

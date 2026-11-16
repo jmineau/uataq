@@ -92,7 +92,7 @@ Module layout
                          standalone, not in config.json, not imported by uataq
       timerange.py       TimeRange and the TimeRangeTypes alias
       errors.py          ReaderError and its subclasses, ParserError, EmptyResultWarning,
-                         DroppedPollutantWarning, ...
+                         DroppedPollutantWarning, DataFileWarning, ...
       filesystem/
         __init__.py      DEFAULT_GROUP, get_group; re-exports core
         core.py          DataFile, GroupSpace, groups, lvls, list_files,

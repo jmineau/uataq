@@ -1,0 +1,6 @@
+uataq.errors.DataFileWarning
+============================
+
+.. currentmodule:: uataq.errors
+
+.. autoexception:: DataFileWarning

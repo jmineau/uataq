@@ -6,7 +6,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>uataq.filesystem.groupspaces.lin &#8212; UATAQ 2026.11.2.dev4+g727df8d1a documentation</title>
+    <title>uataq.filesystem.groupspaces.lin &#8212; UATAQ 2026.11.2.dev5+gf2abcbbc2 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="../../../../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be" />
 <link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be" />
 
-    <script src="../../../../_static/documentation_options.js?v=3b9a2388"></script>
+    <script src="../../../../_static/documentation_options.js?v=12aea379"></script>
     <script src="../../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -59,7 +59,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.11.2.dev4+g727df8d1a" />
+  <meta name="docsearch:version" content="2026.11.2.dev5+gf2abcbbc2" />
   
     
     <script src="../../../../_static/searchtools.js"></script>
@@ -452,13 +452,19 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">copy</span><span class="w"> </span><span class="kn">import</span> <span class="n">deepcopy</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">uataq.filesystem.core</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">filesystem</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">uataq.errors</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataFileInitializationError</span><span class="p">,</span> <span class="n">ParserError</span><span class="p">,</span> <span class="n">ReaderError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">uataq.errors</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">DataFileInitializationError</span><span class="p">,</span>
+    <span class="n">DataFileWarning</span><span class="p">,</span>
+    <span class="n">ParserError</span><span class="p">,</span>
+    <span class="n">ReaderError</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">uataq.timerange</span><span class="w"> </span><span class="kn">import</span> <span class="n">TimeRange</span>
 
 <span class="n">_logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
@@ -849,6 +855,16 @@
 <div class="viewcode-block" id="LinDatFile.__init__">
 <a class="viewcode-back" href="../../../../api/uataq.filesystem.groupspaces.lin.LinDatFile.html#uataq.filesystem.groupspaces.lin.LinDatFile.__init__">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="c1"># The pipeline writes one file a month, YYYY_MM_&lt;lvl&gt;.dat, in the folder</span>
+        <span class="c1"># of its level. Anything else in the folder (a copy kept as</span>
+        <span class="c1"># 2024_06_final_old.dat, a README.dat) is not one of its files: reading</span>
+        <span class="c1"># it would repeat rows or fail on a name that is no period.</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+        <span class="n">lvl</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">path</span><span class="p">))</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">re</span><span class="o">.</span><span class="n">fullmatch</span><span class="p">(</span><span class="sa">rf</span><span class="s2">"\d</span><span class="se">{{</span><span class="s2">4</span><span class="se">}}</span><span class="s2">_\d</span><span class="se">{{</span><span class="s2">2</span><span class="se">}}</span><span class="s2">_</span><span class="si">{</span><span class="n">re</span><span class="o">.</span><span class="n">escape</span><span class="p">(</span><span class="n">lvl</span><span class="p">)</span><span class="si">}</span><span class="s2">\.dat"</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">DataFileInitializationError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> is not one of the pipeline's monthly files (YYYY_MM_</span><span class="si">{</span><span class="n">lvl</span><span class="si">}</span><span class="s2">.dat)"</span>
+            <span class="p">)</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
 
         <span class="c1"># Get instrument name and lvl from file path</span>
@@ -892,10 +908,27 @@
 <span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Parse a Lin data file.</span>
 
+<span class="sd">        A pipeline file's header must name the columns the pipeline's config</span>
+<span class="sd">        lists for the instrument and level; the columns are taken by name, so</span>
+<span class="sd">        a file with the same columns in another order reads correctly. A file</span>
+<span class="sd">        without a header (the old logger files) takes the config's names in</span>
+<span class="sd">        order, so it must have that many columns. A file with no rows gives an</span>
+<span class="sd">        empty table.</span>
+
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        pd.DataFrame</span>
 <span class="sd">            The parsed data.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        ParserError</span>
+<span class="sd">            If the header or the column count does not match the config.</span>
+
+<span class="sd">        Warns</span>
+<span class="sd">        -----</span>
+<span class="sd">        DataFileWarning</span>
+<span class="sd">            If some rows have a time that is not ISO 8601; they are dropped.</span>
 <span class="sd">        """</span>
         <span class="n">_logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Parsing </span><span class="si">{</span><span class="n">filesystem</span><span class="o">.</span><span class="n">_relpath</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span><span class="w"> </span><span class="n">_data_dir</span><span class="p">())</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
@@ -905,37 +938,90 @@
             <span class="c1"># campbellsci files with their own header</span>
             <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">on_bad_lines</span><span class="o">=</span><span class="s2">"skip"</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="c1"># The pipeline's files have a header (Time_UTC, ...) and old</span>
-            <span class="c1"># logger files none; either way the config names the columns.</span>
-            <span class="c1"># Skip a header line instead of reading it in as a row, which</span>
-            <span class="c1"># left every column object dtype.</span>
-            <span class="n">config</span> <span class="o">=</span> <span class="n">DATA_CONFIG</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">instrument</span><span class="p">][</span><span class="bp">self</span><span class="o">.</span><span class="n">lvl</span><span class="p">]</span>
-            <span class="n">col_names</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s2">"col_names"</span><span class="p">]</span>
-            <span class="n">has_header</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">isna</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">first_field</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s2">"coerce"</span><span class="p">))</span>
-            <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span>
-                <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                <span class="n">skiprows</span><span class="o">=</span><span class="mi">1</span> <span class="k">if</span> <span class="n">has_header</span> <span class="k">else</span> <span class="mi">0</span><span class="p">,</span>
-                <span class="n">on_bad_lines</span><span class="o">=</span><span class="s2">"skip"</span><span class="p">,</span>
-            <span class="p">)</span>
-            <span class="n">data</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">col_names</span>
-            <span class="c1"># A stray text row would still leave a column object dtype</span>
-            <span class="n">numeric</span> <span class="o">=</span> <span class="p">[</span>
-                <span class="n">col</span>
-                <span class="k">for</span> <span class="n">col</span><span class="p">,</span> <span class="n">dtype</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">col_names</span><span class="p">,</span> <span class="n">config</span><span class="p">[</span><span class="s2">"col_types"</span><span class="p">],</span> <span class="n">strict</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-                <span class="k">if</span> <span class="n">dtype</span> <span class="o">==</span> <span class="s2">"d"</span>
-            <span class="p">]</span>
-            <span class="n">data</span><span class="p">[</span><span class="n">numeric</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">numeric</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s2">"coerce"</span><span class="p">)</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_read_pipeline_file</span><span class="p">(</span><span class="n">first_field</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">"TIMESTAMP"</span><span class="p">:</span> <span class="s2">"Time_UTC"</span><span class="p">})</span>
 
         <span class="c1"># Format time col</span>
-        <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">"TIMESTAMP"</span><span class="p">:</span> <span class="s2">"Time_UTC"</span><span class="p">})</span>
-        <span class="n">data</span><span class="p">[</span><span class="s2">"Time_UTC"</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span>
-            <span class="n">data</span><span class="o">.</span><span class="n">Time_UTC</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s2">"coerce"</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">"ISO8601"</span>
-        <span class="p">)</span>
+        <span class="n">times</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">Time_UTC</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s2">"coerce"</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">"ISO8601"</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">first_field</span> <span class="o">!=</span> <span class="s2">"TIMESTAMP"</span><span class="p">:</span>
+            <span class="c1"># The rows with no time at all were dropped before; these have one</span>
+            <span class="c1"># that is not ISO 8601</span>
+            <span class="n">unparsed</span> <span class="o">=</span> <span class="n">times</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span> <span class="o">&amp;</span> <span class="n">data</span><span class="o">.</span><span class="n">Time_UTC</span><span class="o">.</span><span class="n">notna</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">unparsed</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
+                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">unparsed</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span><span class="si">}</span><span class="s2"> of </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="si">}</span><span class="s2"> rows have "</span>
+                    <span class="sa">f</span><span class="s2">"a Time_UTC that is not ISO 8601 (the first is "</span>
+                    <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">Time_UTC</span><span class="p">[</span><span class="n">unparsed</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">!r}</span><span class="s2">) and are dropped."</span><span class="p">,</span>
+                    <span class="n">DataFileWarning</span><span class="p">,</span>
+                    <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                <span class="p">)</span>
+        <span class="n">data</span><span class="p">[</span><span class="s2">"Time_UTC"</span><span class="p">]</span> <span class="o">=</span> <span class="n">times</span>
 
         <span class="k">return</span> <span class="n">data</span></div>
-</div>
 
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_read_pipeline_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">first_field</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Read a pipeline file and name its columns from the config.</span>
+
+<span class="sd">        The header (Time_UTC, ...) is checked against the config, and old</span>
+<span class="sd">        logger files have none: then the config names the columns by position.</span>
+<span class="sd">        """</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">config</span> <span class="o">=</span> <span class="n">DATA_CONFIG</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">instrument</span><span class="p">][</span><span class="bp">self</span><span class="o">.</span><span class="n">lvl</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">ParserError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">"the pipeline config has no columns for </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">instrument</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">lvl</span><span class="si">}</span><span class="s2">"</span>
+            <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="kc">None</span>
+        <span class="c1"># The config calls the time column TIMESTAMP at some levels; the files'</span>
+        <span class="c1"># header, when there is one, Time_UTC</span>
+        <span class="n">col_names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"Time_UTC"</span> <span class="k">if</span> <span class="n">c</span> <span class="o">==</span> <span class="s2">"TIMESTAMP"</span> <span class="k">else</span> <span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">config</span><span class="p">[</span><span class="s2">"col_names"</span><span class="p">]]</span>
+        <span class="n">has_header</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">isna</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">first_field</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s2">"coerce"</span><span class="p">))</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span>
+                <span class="n">header</span><span class="o">=</span><span class="mi">0</span> <span class="k">if</span> <span class="n">has_header</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+                <span class="n">on_bad_lines</span><span class="o">=</span><span class="s2">"skip"</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">except</span> <span class="n">pd</span><span class="o">.</span><span class="n">errors</span><span class="o">.</span><span class="n">EmptyDataError</span><span class="p">:</span>
+            <span class="c1"># No rows (an empty file, or a header alone): an empty table</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="n">col_names</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">has_header</span><span class="p">:</span>
+            <span class="c1"># The header may be all there is (no rows), or the columns may come</span>
+            <span class="c1"># in another order than the config's: take them by name</span>
+            <span class="n">_check_columns</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">),</span> <span class="n">col_names</span><span class="p">)</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">col_names</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">col_names</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">ParserError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">"it has no header and </span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2"> columns, but the pipeline "</span>
+                <span class="sa">f</span><span class="s2">"config lists </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">col_names</span><span class="p">)</span><span class="si">}</span><span class="s2"> for </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">instrument</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">lvl</span><span class="si">}</span><span class="s2">"</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">data</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">col_names</span>
+        <span class="c1"># A stray text row would still leave a column object dtype</span>
+        <span class="n">numeric</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">col</span>
+            <span class="k">for</span> <span class="n">col</span><span class="p">,</span> <span class="n">dtype</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">col_names</span><span class="p">,</span> <span class="n">config</span><span class="p">[</span><span class="s2">"col_types"</span><span class="p">],</span> <span class="n">strict</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">dtype</span> <span class="o">==</span> <span class="s2">"d"</span>
+        <span class="p">]</span>
+        <span class="n">data</span><span class="p">[</span><span class="n">numeric</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">numeric</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s2">"coerce"</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">data</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_check_columns</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">found</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">expected</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Raise ParserError if the header's columns are not the config's, ignoring order."""</span>
+    <span class="n">missing</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">expected</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">found</span><span class="p">]</span>
+    <span class="n">extra</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">found</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">expected</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">missing</span> <span class="ow">or</span> <span class="n">extra</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">found</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">expected</span><span class="p">):</span>
+        <span class="n">said</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="n">extra</span><span class="p">:</span>
+            <span class="n">said</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">"has </span><span class="si">{</span><span class="s1">', '</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">extra</span><span class="p">)</span><span class="si">}</span><span class="s2">, which the config lacks"</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">missing</span><span class="p">:</span>
+            <span class="n">said</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">"lacks </span><span class="si">{</span><span class="s1">', '</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">missing</span><span class="p">)</span><span class="si">}</span><span class="s2">, which the config lists"</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">said</span><span class="p">:</span>
+            <span class="n">said</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"repeats a column"</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">ParserError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"its header </span><span class="si">{</span><span class="s1">'; and '</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">said</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_day_in_range</span><span class="p">(</span><span class="n">day</span><span class="p">:</span> <span class="n">dt</span><span class="o">.</span><span class="n">datetime</span><span class="p">,</span> <span class="n">time_range</span><span class="p">:</span> <span class="n">TimeRange</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
@@ -1489,9 +1575,22 @@
 <a class="viewcode-back" href="../../../../api/uataq.filesystem.groupspaces.lin.LinGroup.get_lvls.html#uataq.filesystem.groupspaces.lin.LinGroup.get_lvls">[docs]</a>
     <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_lvls</span><span class="p">(</span><span class="n">SID</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">instrument</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">"""Return the levels with a folder on disk for the instrument, lowest first."""</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Return the levels with a folder on disk for the instrument, lowest first.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        ReaderError</span>
+<span class="sd">            If the archive has no folder for the instrument at the site.</span>
+<span class="sd">        """</span>
         <span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_data_dir</span><span class="p">(),</span> <span class="n">SID</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="n">instrument</span><span class="p">)</span>
-        <span class="n">inst_lvls</span> <span class="o">=</span> <span class="p">[</span><span class="n">d</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="k">if</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">filesystem</span><span class="o">.</span><span class="n">lvls</span><span class="p">]</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">names</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">ReaderError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">"the lin archive has no folder for </span><span class="si">{</span><span class="n">instrument</span><span class="si">}</span><span class="s2"> at </span><span class="si">{</span><span class="n">SID</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">)"</span>
+            <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="kc">None</span>
+        <span class="n">inst_lvls</span> <span class="o">=</span> <span class="p">[</span><span class="n">d</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">names</span> <span class="k">if</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">filesystem</span><span class="o">.</span><span class="n">lvls</span><span class="p">]</span>
         <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">inst_lvls</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">filesystem</span><span class="o">.</span><span class="n">lvls</span><span class="o">.</span><span class="fm">__getitem__</span><span class="p">)</span></div>
 
 

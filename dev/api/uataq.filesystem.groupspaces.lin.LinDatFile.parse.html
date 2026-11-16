@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>uataq.filesystem.groupspaces.lin.LinDatFile.parse &#8212; UATAQ 2026.11.2.dev4+g727df8d1a documentation</title>
+    <title>uataq.filesystem.groupspaces.lin.LinDatFile.parse &#8212; UATAQ 2026.11.2.dev5+gf2abcbbc2 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be" />
 
-    <script src="../_static/documentation_options.js?v=3b9a2388"></script>
+    <script src="../_static/documentation_options.js?v=12aea379"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -62,7 +62,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.11.2.dev4+g727df8d1a" />
+  <meta name="docsearch:version" content="2026.11.2.dev5+gf2abcbbc2" />
   
     
     <script src="../_static/searchtools.js"></script>
@@ -439,6 +439,7 @@
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="uataq.errors.html">uataq.errors</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3"><a class="reference internal" href="uataq.errors.DataFileInitializationError.html">uataq.errors.DataFileInitializationError</a></li>
+<li class="toctree-l3"><a class="reference internal" href="uataq.errors.DataFileWarning.html">uataq.errors.DataFileWarning</a></li>
 <li class="toctree-l3"><a class="reference internal" href="uataq.errors.DroppedPollutantWarning.html">uataq.errors.DroppedPollutantWarning</a></li>
 <li class="toctree-l3"><a class="reference internal" href="uataq.errors.EmptyResultWarning.html">uataq.errors.EmptyResultWarning</a></li>
 <li class="toctree-l3"><a class="reference internal" href="uataq.errors.InactiveInstrumentError.html">uataq.errors.InactiveInstrumentError</a></li>
@@ -655,12 +656,24 @@
 <dt class="sig sig-object py" id="uataq.filesystem.groupspaces.lin.LinDatFile.parse">
 <span class="sig-prename descclassname"><span class="pre">LinDatFile.</span></span><span class="sig-name descname"><span class="pre">parse</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/uataq/filesystem/groupspaces/lin.html#LinDatFile.parse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uataq.filesystem.groupspaces.lin.LinDatFile.parse" title="Link to this definition">#</a></dt>
 <dd><p>Parse a Lin data file.</p>
+<p>A pipeline file’s header must name the columns the pipeline’s config
+lists for the instrument and level; the columns are taken by name, so
+a file with the same columns in another order reads correctly. A file
+without a header (the old logger files) takes the config’s names in
+order, so it must have that many columns. A file with no rows gives an
+empty table.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The parsed data.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v3.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></a></span></p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="uataq.errors.ParserError.html#uataq.errors.ParserError" title="uataq.errors.ParserError"><strong>ParserError</strong></a> – If the header or the column count does not match the config.</p>
+</dd>
+<dt class="field-even">Warns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>DataFileWarning</strong> – If some rows have a time that is not ISO 8601; they are dropped.</p>
 </dd>
 </dl>
 </dd></dl>
