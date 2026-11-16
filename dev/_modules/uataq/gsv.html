@@ -6,7 +6,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>uataq.gsv &#8212; UATAQ 2026.11.2.dev6+gb772e3102 documentation</title>
+    <title>uataq.gsv &#8212; UATAQ 2026.11.2.dev7+ga3cd6a8e1 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be" />
 
-    <script src="../../_static/documentation_options.js?v=735aabf1"></script>
+    <script src="../../_static/documentation_options.js?v=1f44a99b"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -59,7 +59,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.11.2.dev6+gb772e3102" />
+  <meta name="docsearch:version" content="2026.11.2.dev7+ga3cd6a8e1" />
   
     
     <script src="../../_static/searchtools.js"></script>
@@ -680,9 +680,14 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_times</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""Parse the tables' times, with or without a UTC offset."""</span>
+<span class="w">    </span><span class="sd">"""Parse the tables' times, with or without a UTC offset, as naive UTC."""</span>
     <span class="c1"># "2019-07-16 18:22:10+00:00" on CHPC, "2019-07-16 18:22:10" on Zenodo</span>
-    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">text</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">19</span><span class="p">),</span> <span class="nb">format</span><span class="o">=</span><span class="s2">"%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S"</span><span class="p">)</span>
+    <span class="c1"># (UTC either way). A time with another offset is converted to UTC.</span>
+    <span class="k">return</span> <span class="p">(</span>
+        <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">"ISO8601"</span><span class="p">,</span> <span class="n">utc</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">tz_convert</span><span class="p">(</span><span class="s2">"UTC"</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">tz_localize</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+    <span class="p">)</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_read_picarro</span><span class="p">(</span>
@@ -761,7 +766,9 @@
 <span class="sd">        The merged table, or the folder that holds ``3_primary_keys.csv``.</span>
 <span class="sd">        Default None reads the Lin group's copy on CHPC. The published</span>
 <span class="sd">        ``GSV_SLC.csv`` reads the same way. CH4 also reads the Picarro's CH4</span>
-<span class="sd">        from ``2_picarro_g2401.csv`` in the same folder.</span>
+<span class="sd">        from ``2_picarro_g2401.csv`` in the same folder. The tables' ``time``</span>
+<span class="sd">        is UTC; one written with another offset (``-06:00``) is converted to</span>
+<span class="sd">        UTC.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -860,30 +867,32 @@
     <span class="n">_logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Reading </span><span class="si">{</span><span class="n">usecols</span><span class="si">}</span><span class="s2"> from </span><span class="si">{</span><span class="n">file</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
     <span class="c1"># The rows are not in time order, so every read passes over the whole file.</span>
     <span class="n">kept</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
+    <span class="c1"># the with block closes the file when a chunk raises, as one with a bad time does</span>
+    <span class="k">with</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
         <span class="n">file</span><span class="p">,</span>
         <span class="n">usecols</span><span class="o">=</span><span class="n">usecols</span><span class="p">,</span>
         <span class="n">dtype</span><span class="o">=</span><span class="p">{</span><span class="s2">"system_id"</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="s2">"polygon"</span><span class="p">:</span> <span class="nb">str</span><span class="p">},</span>
         <span class="n">chunksize</span><span class="o">=</span><span class="n">_CHUNK_ROWS</span><span class="p">,</span>
-    <span class="p">):</span>
-        <span class="n">has_value</span> <span class="o">=</span> <span class="n">chunk</span><span class="p">[[</span><span class="n">item</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">merged</span><span class="p">]]</span><span class="o">.</span><span class="n">notna</span><span class="p">()</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">picarro</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="c1"># a row of the Picarro's table has its flag, whatever its CH4</span>
-            <span class="n">has_value</span> <span class="o">|=</span> <span class="n">chunk</span><span class="p">[</span><span class="n">_PICARRO_CH4</span><span class="p">[</span><span class="mi">2</span><span class="p">]]</span><span class="o">.</span><span class="n">notna</span><span class="p">()</span>
-        <span class="n">rows</span> <span class="o">=</span> <span class="n">chunk</span><span class="p">[</span><span class="n">chunk</span><span class="p">[</span><span class="s2">"system_id"</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">chosen_cars</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">has_value</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-        <span class="n">rows</span><span class="p">[</span><span class="s2">"time"</span><span class="p">]</span> <span class="o">=</span> <span class="n">_times</span><span class="p">(</span><span class="n">rows</span><span class="p">[</span><span class="s2">"time"</span><span class="p">])</span>
-        <span class="k">if</span> <span class="n">start</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">rows</span> <span class="o">=</span> <span class="n">rows</span><span class="p">[</span><span class="n">rows</span><span class="p">[</span><span class="s2">"time"</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="n">start</span><span class="p">)]</span>
-        <span class="k">if</span> <span class="n">stop</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">rows</span> <span class="o">=</span> <span class="n">rows</span><span class="p">[</span><span class="n">rows</span><span class="p">[</span><span class="s2">"time"</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="n">stop</span><span class="p">)]</span>
-        <span class="k">if</span> <span class="n">picarro</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">rows</span> <span class="o">=</span> <span class="n">rows</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">picarro</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="s2">"time"</span><span class="p">,</span> <span class="s2">"system_id"</span><span class="p">],</span> <span class="n">how</span><span class="o">=</span><span class="s2">"left"</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">good_only</span><span class="p">:</span>
-            <span class="n">rows</span> <span class="o">=</span> <span class="n">rows</span><span class="p">[</span><span class="n">rows</span><span class="p">[</span><span class="s2">"qc_gps"</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-            <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">flag</span><span class="p">,</span> <span class="n">values</span> <span class="ow">in</span> <span class="n">series</span><span class="p">:</span>
-                <span class="n">bad</span> <span class="o">=</span> <span class="n">rows</span><span class="p">[</span><span class="n">flag</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span>
-                <span class="n">rows</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">bad</span><span class="p">,</span> <span class="n">values</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s2">"nan"</span><span class="p">)</span>
-        <span class="n">kept</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">rows</span><span class="p">[</span><span class="n">rows</span><span class="p">[</span><span class="n">measured</span><span class="p">]</span><span class="o">.</span><span class="n">notna</span><span class="p">()</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)])</span>
+    <span class="p">)</span> <span class="k">as</span> <span class="n">chunks</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="n">chunks</span><span class="p">:</span>
+            <span class="n">has_value</span> <span class="o">=</span> <span class="n">chunk</span><span class="p">[[</span><span class="n">item</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">merged</span><span class="p">]]</span><span class="o">.</span><span class="n">notna</span><span class="p">()</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">picarro</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="c1"># a row of the Picarro's table has its flag, whatever its CH4</span>
+                <span class="n">has_value</span> <span class="o">|=</span> <span class="n">chunk</span><span class="p">[</span><span class="n">_PICARRO_CH4</span><span class="p">[</span><span class="mi">2</span><span class="p">]]</span><span class="o">.</span><span class="n">notna</span><span class="p">()</span>
+            <span class="n">rows</span> <span class="o">=</span> <span class="n">chunk</span><span class="p">[</span><span class="n">chunk</span><span class="p">[</span><span class="s2">"system_id"</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">chosen_cars</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">has_value</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="n">rows</span><span class="p">[</span><span class="s2">"time"</span><span class="p">]</span> <span class="o">=</span> <span class="n">_times</span><span class="p">(</span><span class="n">rows</span><span class="p">[</span><span class="s2">"time"</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">start</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">rows</span> <span class="o">=</span> <span class="n">rows</span><span class="p">[</span><span class="n">rows</span><span class="p">[</span><span class="s2">"time"</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="n">start</span><span class="p">)]</span>
+            <span class="k">if</span> <span class="n">stop</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">rows</span> <span class="o">=</span> <span class="n">rows</span><span class="p">[</span><span class="n">rows</span><span class="p">[</span><span class="s2">"time"</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="n">stop</span><span class="p">)]</span>
+            <span class="k">if</span> <span class="n">picarro</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">rows</span> <span class="o">=</span> <span class="n">rows</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">picarro</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="s2">"time"</span><span class="p">,</span> <span class="s2">"system_id"</span><span class="p">],</span> <span class="n">how</span><span class="o">=</span><span class="s2">"left"</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">good_only</span><span class="p">:</span>
+                <span class="n">rows</span> <span class="o">=</span> <span class="n">rows</span><span class="p">[</span><span class="n">rows</span><span class="p">[</span><span class="s2">"qc_gps"</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+                <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">flag</span><span class="p">,</span> <span class="n">values</span> <span class="ow">in</span> <span class="n">series</span><span class="p">:</span>
+                    <span class="n">bad</span> <span class="o">=</span> <span class="n">rows</span><span class="p">[</span><span class="n">flag</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span>
+                    <span class="n">rows</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">bad</span><span class="p">,</span> <span class="n">values</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s2">"nan"</span><span class="p">)</span>
+            <span class="n">kept</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">rows</span><span class="p">[</span><span class="n">rows</span><span class="p">[</span><span class="n">measured</span><span class="p">]</span><span class="o">.</span><span class="n">notna</span><span class="p">()</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)])</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">kept</span><span class="p">:</span>  <span class="c1"># a file with a header and no rows</span>
         <span class="n">kept</span> <span class="o">=</span> <span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="n">columns</span><span class="p">)]</span>

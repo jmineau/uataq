@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>uataq.Network &#8212; UATAQ 2026.11.2.dev6+gb772e3102 documentation</title>
+    <title>uataq.Network &#8212; UATAQ 2026.11.2.dev7+ga3cd6a8e1 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be" />
 
-    <script src="../_static/documentation_options.js?v=735aabf1"></script>
+    <script src="../_static/documentation_options.js?v=1f44a99b"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -62,7 +62,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.11.2.dev6+gb772e3102" />
+  <meta name="docsearch:version" content="2026.11.2.dev7+ga3cd6a8e1" />
   
     
     <script src="../_static/searchtools.js"></script>
@@ -650,8 +650,8 @@ for a single pollutant, handling spatial coordinates appropriately for each site
 <dt class="field-odd">Variables<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>sites</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.15)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a><em>]</em>) – The IDs of the sites the network kept, in the order given: a site that
-is misspelled or does not measure the pollutant is not in the list.
-A site named twice is listed once.</p></li>
+does not measure the pollutant is not in the list. A site named twice
+is listed once.</p></li>
 <li><p><strong>pollutant</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a>) – The pollutant to retrieve data for (uppercase).</p></li>
 <li><p><strong>site_objects</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.15)"><em>list</em></a><em>[</em><a class="reference internal" href="uataq.sites.Site.html#uataq.sites.Site" title="uataq.sites.Site"><em>sites.Site</em></a><em>]</em>) – The Site or MobileSite object of each site in <code class="docutils literal notranslate"><span class="pre">sites</span></code>.</p></li>
 <li><p><strong>group</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a><em> | </em><em>Mapping</em><em>[</em><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a><em>] </em><em>| </em><em>None</em>) – The research group to read data from, or None to select each
@@ -680,7 +680,9 @@ automatically (see <a class="reference internal" href="uataq.instruments.Instrum
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
-<li><p><a class="reference external" href="https://docs.python.org/3/builtins/exceptions.html#ValueError" title="(in Python v3.15)"><strong>ValueError</strong></a> – If sites is empty or if none of the sites given measures the
+<li><p><a class="reference external" href="https://docs.python.org/3/builtins/exceptions.html#ValueError" title="(in Python v3.15)"><strong>ValueError</strong></a> – If sites is empty, if a site ID is not in the configuration (the
+    message names it, and says where the IDs are listed), or if none
+    of the sites given measures the
     specified pollutant. The message names the sites given (their
     number when there are more than ten) and lists the sites in the
     configuration that do measure it. Also if <code class="docutils literal notranslate"><span class="pre">group</span></code> is a mapping

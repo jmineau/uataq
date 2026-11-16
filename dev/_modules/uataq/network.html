@@ -6,7 +6,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>uataq.network &#8212; UATAQ 2026.11.2.dev6+gb772e3102 documentation</title>
+    <title>uataq.network &#8212; UATAQ 2026.11.2.dev7+ga3cd6a8e1 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be" />
 
-    <script src="../../_static/documentation_options.js?v=735aabf1"></script>
+    <script src="../../_static/documentation_options.js?v=1f44a99b"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -59,7 +59,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.11.2.dev6+gb772e3102" />
+  <meta name="docsearch:version" content="2026.11.2.dev7+ga3cd6a8e1" />
   
     
     <script src="../../_static/searchtools.js"></script>
@@ -576,8 +576,8 @@
 <span class="sd">    ----------</span>
 <span class="sd">    sites : list[str]</span>
 <span class="sd">        The IDs of the sites the network kept, in the order given: a site that</span>
-<span class="sd">        is misspelled or does not measure the pollutant is not in the list.</span>
-<span class="sd">        A site named twice is listed once.</span>
+<span class="sd">        does not measure the pollutant is not in the list. A site named twice</span>
+<span class="sd">        is listed once.</span>
 <span class="sd">    pollutant : str</span>
 <span class="sd">        The pollutant to retrieve data for (uppercase).</span>
 <span class="sd">    site_objects : list[sites.Site]</span>
@@ -626,7 +626,9 @@
 <span class="sd">        Raises</span>
 <span class="sd">        ------</span>
 <span class="sd">        ValueError</span>
-<span class="sd">            If sites is empty or if none of the sites given measures the</span>
+<span class="sd">            If sites is empty, if a site ID is not in the configuration (the</span>
+<span class="sd">            message names it, and says where the IDs are listed), or if none</span>
+<span class="sd">            of the sites given measures the</span>
 <span class="sd">            specified pollutant. The message names the sites given (their</span>
 <span class="sd">            number when there are more than ten) and lists the sites in the</span>
 <span class="sd">            configuration that do measure it. Also if ``group`` is a mapping</span>
@@ -712,16 +714,21 @@
 <span class="sd">        Raises</span>
 <span class="sd">        ------</span>
 <span class="sd">        ValueError</span>
-<span class="sd">            If a site ID is not found in the configuration.</span>
+<span class="sd">            If a site ID is not found in the configuration. A misspelled ID</span>
+<span class="sd">            raises, since a read that drops it would look complete.</span>
 <span class="sd">        """</span>
+        <span class="n">unknown</span> <span class="o">=</span> <span class="p">[</span><span class="n">sid</span> <span class="k">for</span> <span class="n">sid</span> <span class="ow">in</span> <span class="n">given</span> <span class="k">if</span> <span class="n">sid</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">_laboratory</span><span class="o">.</span><span class="n">laboratory</span><span class="o">.</span><span class="n">sites</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">unknown</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">"Site</span><span class="si">{</span><span class="s1">'s'</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="n">unknown</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">''</span><span class="si">}</span><span class="s2"> "</span>
+                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="s1">', '</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">sid</span><span class="p">)</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">sid</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">unknown</span><span class="p">)</span><span class="si">}</span><span class="s2"> not found in the "</span>
+                <span class="s2">"configuration file. The site IDs are in uataq.laboratory.sites."</span>
+            <span class="p">)</span>
+
         <span class="n">valid_sites</span> <span class="o">=</span> <span class="p">[]</span>
 
         <span class="k">for</span> <span class="n">sid</span> <span class="ow">in</span> <span class="n">given</span><span class="p">:</span>
-            <span class="k">try</span><span class="p">:</span>
-                <span class="n">site</span> <span class="o">=</span> <span class="n">_laboratory</span><span class="o">.</span><span class="n">get_site</span><span class="p">(</span><span class="n">sid</span><span class="p">)</span>
-            <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-                <span class="n">_logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Site '</span><span class="si">{</span><span class="n">sid</span><span class="si">}</span><span class="s2">' not found: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-                <span class="k">continue</span>
+            <span class="n">site</span> <span class="o">=</span> <span class="n">_laboratory</span><span class="o">.</span><span class="n">get_site</span><span class="p">(</span><span class="n">sid</span><span class="p">)</span>
 
             <span class="c1"># Check if site measures the requested pollutant</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pollutant</span> <span class="ow">in</span> <span class="n">site</span><span class="o">.</span><span class="n">pollutants</span><span class="p">:</span>
