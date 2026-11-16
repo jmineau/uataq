@@ -233,6 +233,10 @@ one table for each instrument:
 ``uataq.read_data("WBB", "lgr_ugga", lvl="qaqc", time_range="2025-06")``.
 :ref:`data-levels` says what each level is for.
 
+Any other keyword ``get_obs`` does not take raises a ``TypeError`` that lists the
+ones it does. That catches a misspelled ``time_rnge=``, which would otherwise
+have read the whole archive instead of the range you meant.
+
 A group that does not log the instrument
 ----------------------------------------
 
@@ -254,6 +258,11 @@ instrument at WBB, and the horel group none. The second is for a name that is
 neither group. A site's ``groups`` (``sorted(wbb.groups)`` is ``['lin']``, and
 the Groups column of :doc:`/reference/sites_and_instruments` lists them) says
 which archives log it. Leave ``group`` out and each instrument picks its own.
+
+A ``group`` that is not a name or a dictionary of instrument names to group
+names (a list, say) raises a ``TypeError``, and a dictionary with a key that is
+not an instrument at the site (``"lgr-ugga"`` for ``"lgr_ugga"``) raises a
+``ValueError`` that lists the site's instruments.
 
 A level the instrument does not have
 ------------------------------------
