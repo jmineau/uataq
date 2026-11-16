@@ -33,6 +33,31 @@ ReadPlan = list[tuple[str, TimeRange]]
 _logger = logging.getLogger(__name__)
 
 
+def check_group(group: object) -> None:
+    """
+    Check that ``group`` is a valid group selection.
+
+    Raises
+    ------
+    TypeError
+        If ``group`` is not a group name, a mapping of instrument name to group
+        name, or None, or a mapping's value is neither a group name nor None.
+    """
+    if group is None or isinstance(group, str):
+        return
+    if not isinstance(group, Mapping):
+        raise TypeError(
+            "group must be a group name such as 'lin', a mapping of instrument "
+            f"name to group name, or None, not {group!r}."
+        )
+    for name, named in group.items():
+        if named is not None and not isinstance(named, str):
+            raise TypeError(
+                f"group must name each instrument's group with a str, but "
+                f"group[{name!r}] is {named!r}."
+            )
+
+
 def _in_prose(words: list[str]) -> str:
     """Join words as prose: ``raw``, ``raw and qaqc``, ``raw, qaqc and final``."""
     if not words:
@@ -174,6 +199,8 @@ class Instrument(metaclass=ABCMeta):
         ------
         InvalidGroupError
             If no registered groupspace operates this instrument.
+        TypeError
+            If ``group`` is not a str, a mapping or None.
 
         Notes
         -----
@@ -204,6 +231,7 @@ class Instrument(metaclass=ABCMeta):
 
     def _named_group(self, group: GroupSelection) -> str | None:
         """Return the group the caller named for this instrument, or None for auto."""
+        check_group(group)
         if isinstance(group, Mapping):
             group = group.get(self.name, group.get(self.name.lower()))
         return group if isinstance(group, str) else None

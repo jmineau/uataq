@@ -6,13 +6,14 @@ import logging
 import multiprocessing
 import warnings
 from collections import defaultdict
+from collections.abc import Mapping
 from typing import Literal
 
 import geopandas as gpd
 import pandas as pd
 
 from uataq import _laboratory, errors, filesystem, sites
-from uataq.instruments import GroupSelection, Instrument
+from uataq.instruments import GroupSelection, Instrument, check_group
 from uataq.pollutants import concentration_columns
 from uataq.timerange import TimeRange, TimeRangeTypes
 
@@ -187,10 +188,14 @@ class Network:
             of the sites given measures the
             specified pollutant. The message names the sites given (their
             number when there are more than ten) and lists the sites in the
-            configuration that do measure it.
+            configuration that do measure it. Also if ``group`` is a mapping
+            with a key that is not an instrument at any of the sites.
+        TypeError
+            If ``group`` is not a str, a mapping or None.
         """
         if not sites:
             raise ValueError("sites cannot be empty.")
+        check_group(group)
         if sites == "all":
             sites = _laboratory.laboratory.sites
         elif isinstance(sites, str):  # one site ID, not a sequence of letters
@@ -222,6 +227,17 @@ class Network:
             else:
                 names = f"{len(given)} sites given"
             raise ValueError(f"None of the {names} measure {self.pollutant}. {where}")
+
+        if isinstance(group, Mapping):
+            # A key may be an instrument at any one of the sites
+            known = {n for site in self.site_objects for n in site.instruments.names}
+            unknown = [name for name in group if name not in known]
+            if unknown:
+                raise ValueError(
+                    f"group names {', '.join(repr(name) for name in unknown)}, "
+                    f"which {'is' if len(unknown) == 1 else 'are'} not at any "
+                    f"site of the network ({', '.join(self.sites)})."
+                )
 
         _logger.info(
             f"Network initialized for {self.pollutant} at {len(self.site_objects)} sites: "
@@ -635,9 +651,13 @@ class Network:
         # Read raw instrument data at the highest/final level. A None group is
         # passed through so each instrument resolves its own: a site's
         # instruments are not all operated by the same research group.
+        group = self.group
+        if isinstance(group, Mapping):
+            # Site.read_data rejects the keys that are another site's instruments
+            group = {name: g for name, g in group.items() if name in site.instruments}
         data_dict = site.read_data(
             instruments=instruments_to_read,
-            group=self.group,
+            group=group,
             lvl=None,  # Gets highest available level
             time_range=time_range,
             num_processes=num_processes,

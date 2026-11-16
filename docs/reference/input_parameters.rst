@@ -63,7 +63,9 @@ Research group
 
 ``group`` is the research group whose archive is read: ``"lin"`` or ``"horel"``
 (the keys of ``uataq.filesystem.groups``), or a dictionary from instrument name
-to group, to choose for each instrument.
+to group, to choose for each instrument. Anything else (a list, say) raises a
+``TypeError``, and a dictionary key that is not an instrument at the site (a
+misspelled ``"lgr-ugga"``) raises a ``ValueError``.
 
 With ``group=None`` (the default), each instrument picks its own: the lin group
 when it operates the instrument, otherwise the group that does. When two groups'
@@ -127,7 +129,11 @@ Two times
     A list, tuple or slice of a start and a stop: ``datetime`` objects, pandas
     ``Timestamp`` objects or strings as above. A stop given as a string is the
     end of the period it names, so ``["2020-01-01", "2020-01-31"]`` includes all
-    of 31 January. ``None`` for either end leaves that side open.
+    of 31 January. ``None`` for either end leaves that side open. A start
+    after the stop raises a ``ValueError``.
+
+An empty string, an empty list or any other form raises a ``ValueError``: only
+``None`` means everything.
 
 Time zones
 ^^^^^^^^^^

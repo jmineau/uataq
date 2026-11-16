@@ -26,6 +26,14 @@ Not every pollutant was measured the whole time: CH4 from June to October 2019
 (on ``star`` until 13 August, on ``lone`` from 16 August), CO on ``star`` in the
 second half of August 2019, and O3 on ``star`` only.
 
+CH4 has two analyzers. The merged table holds the LGR's, and :func:`get_obs`
+returns it as ``CH4d_ppm``. ``star`` also carried a Picarro G2401, on 14 to 29
+August 2019, whose CH4 (``ch4d_ppb``, in ppb) is in the table of its own,
+``2_picarro_g2401.csv``, beside the merged one. For CH4 :func:`get_obs` reads
+that table too and adds the Picarro's as ``CH4d_ppb``; it shares its QC flag with
+the Picarro's CO. The two analyzers never sampled in the same second, and
+whether they agree is not checked. The public copy has no Picarro CH4.
+
 Examples
 --------
 The examples read the table, so the tests do not run them; the output is from a
@@ -33,10 +41,13 @@ run on CHPC on 13 November 2026. The rows of the table are not in time order,
 so every read passes over the whole 2.8 GB file: about 20 s and 1 GB of memory
 for one pollutant, 40 s and 10 GB for all of them. Run it on a compute node.
 
-The cars' methane on one day, good data only:
+The cars' methane on one day, good data only (the Picarro's CH4 columns are empty
+before 14 August 2019, so they are dropped here):
 
 >>> from uataq import gsv
->>> obs = gsv.get_obs("CH4", time_range="2019-07-16", good_only=True)  # doctest: +SKIP
+>>> obs = gsv.get_obs(  # doctest: +SKIP
+...     "CH4", time_range="2019-07-16", good_only=True
+... ).dropna(axis=1, how="all")
 >>> obs  # doctest: +SKIP
                     system_id  Latitude_deg  Longitude_deg polygon  qc_gps  CH4d_ppm  CH4d_ppm_ex  CH4d_ppm_base  qc_lgr_mgga
 Time_UTC
@@ -66,6 +77,7 @@ the flags. :data:`QC_FLAGS` says what a flag's value means:
 'time recent outage > 1 hour'
 """
 
+import datetime as dt
 import logging
 import os
 import warnings
@@ -98,6 +110,14 @@ _COLUMNS: dict[str, tuple[str, str, str]] = {
     "NO2": ("no2_ppb", "NO2_ppb", "qc_teledyne_t500u"),
     "PM2.5": ("pm25_ugm3", "PM2.5_ugm3", "qc_thermo_pdr_1500"),
 }
+
+# The Picarro's CH4, which the merged table lacks: its column in TABLE_PICARRO, its
+# column in the result, and its QC flag, which is the merged table's own column
+# for the Picarro (the one of its CO).
+_PICARRO_CH4 = ("ch4d_ppb", "CH4d_ppb", "qc_picarro_g2401")
+
+#: File name of the Picarro's table, beside the merged one.
+TABLE_PICARRO: str = "2_picarro_g2401.csv"
 
 #: The pollutants the cars measured, in the table's order.
 POLLUTANTS: tuple[str, ...] = tuple(_COLUMNS)
@@ -220,6 +240,60 @@ def _value_columns(table_column: str, header: Iterable[str]) -> list[str]:
     return [col for col in candidates if col in header]
 
 
+def _times(text: pd.Series) -> pd.Series:
+    """Parse the tables' times, with or without a UTC offset, as naive UTC."""
+    # "2019-07-16 18:22:10+00:00" on CHPC, "2019-07-16 18:22:10" on Zenodo
+    # (UTC either way). A time with another offset is converted to UTC.
+    return (
+        pd.to_datetime(text, format="ISO8601", utc=True)
+        .dt.tz_convert("UTC")
+        .dt.tz_localize(None)
+    )
+
+
+def _read_picarro(
+    merged_file: str,
+    cars: list[str],
+    start: dt.datetime | None,
+    stop: dt.datetime | None,
+) -> pd.DataFrame | None:
+    """
+    Return the Picarro's CH4 columns by time and car, or None without its table.
+
+    The table is ``2_picarro_g2401.csv`` in the folder of the merged one (the
+    public copy has none, so None, with a warning).
+    """
+    file = os.path.join(os.path.dirname(merged_file), TABLE_PICARRO)
+    if not os.path.isfile(file):
+        warnings.warn(
+            f"The Picarro's CH4 is left out: there is no {TABLE_PICARRO} beside "
+            f"{merged_file}. The public copy has none; the Lin group's is in the "
+            "same folder as the merged table.",
+            errors.DroppedPollutantWarning,
+            stacklevel=3,
+        )
+        return None
+    header = pd.read_csv(file, nrows=0).columns
+    values = _value_columns(_PICARRO_CH4[0], header)
+    missing = [
+        col for col in ["time", "system_id", _PICARRO_CH4[0]] if col not in header
+    ]
+    if missing:
+        raise errors.ParserError(
+            f"{file} is not the Picarro's table: it has no {', '.join(missing)}"
+        )
+    obs = pd.read_csv(
+        file, usecols=["time", "system_id", *values], dtype={"system_id": str}
+    )
+    obs["time"] = _times(obs["time"])
+    obs = obs[obs["system_id"].isin(cars)]
+    if start is not None:
+        obs = obs[obs["time"] >= pd.Timestamp(start)]
+    if stop is not None:
+        obs = obs[obs["time"] < pd.Timestamp(stop)]
+    return obs.reset_index(drop=True)
+
+
 def get_obs(
     pollutants: str | Iterable[str] = "all",
     cars: str | Iterable[str] = "all",
@@ -250,8 +324,10 @@ def get_obs(
     path : str | os.PathLike | None
         The merged table, or the folder that holds ``3_primary_keys.csv``.
         Default None reads the Lin group's copy on CHPC. The published
-        ``GSV_SLC.csv`` reads the same way. The table's ``time`` is UTC; one
-        written with another offset (``-06:00``) is converted to UTC.
+        ``GSV_SLC.csv`` reads the same way. CH4 also reads the Picarro's CH4
+        from ``2_picarro_g2401.csv`` in the same folder. The tables' ``time``
+        is UTC; one written with another offset (``-06:00``) is converted to
+        UTC.
 
     Returns
     -------
@@ -263,23 +339,27 @@ def get_obs(
         ``polygon`` (the drive area the car was in, if any), ``qc_gps`` and,
         for each pollutant, its value, enhancement (``_ex``), baseline
         (``_base``) and QC flag: for CH4, ``CH4d_ppm``, ``CH4d_ppm_ex``,
-        ``CH4d_ppm_base`` and ``qc_lgr_mgga``. :data:`QC_FLAGS` says what a
-        flag's value means.
+        ``CH4d_ppm_base`` and ``qc_lgr_mgga``. CH4 also has the Picarro's, in
+        ppb: ``CH4d_ppb``, ``CH4d_ppb_ex``, ``CH4d_ppb_base`` and, as for its CO,
+        ``qc_picarro_g2401``. :data:`QC_FLAGS` says what a flag's value means.
 
     Raises
     ------
     ValueError
-        If a pollutant or a car is not one the campaign had, or a ``time`` in
-        the table is not ISO 8601.
+        If a pollutant or a car is not one the campaign had.
     FileNotFoundError
         If there is no table at ``path`` (or, with no ``path``, on this machine).
     ParserError
-        If the file lacks one of the merged table's columns.
+        If the file lacks one of the merged table's columns, or the Picarro's
+        table lacks its CH4.
 
     Warns
     -----
     EmptyResultWarning
         If no row matches, so the table has no rows.
+    DroppedPollutantWarning
+        If CH4 is asked for and ``2_picarro_g2401.csv`` is not beside the merged
+        table (the public copy has none): the Picarro's CH4 is left out.
 
     See Also
     --------
@@ -306,19 +386,42 @@ def get_obs(
     for pollutant in chosen:
         table_column, _, flag = _COLUMNS[pollutant]
         needed += [table_column, flag]
+    if "CH4" in chosen:
+        needed.append(_PICARRO_CH4[2])
     missing = [col for col in needed if col not in header]
     if missing:
         raise errors.ParserError(
             f"{file} is not the merged Street View table: it has no {', '.join(missing)}"
         )
 
-    # Each pollutant's value columns in the table, and every column to read
-    values = {p: _value_columns(_COLUMNS[p][0], header) for p in chosen}
-    flags = {p: _COLUMNS[p][2] for p in chosen}
-    usecols = ["time", *_POSITION]
+    # The Picarro's CH4 comes from a table of its own, beside the merged one
+    picarro = _read_picarro(file, chosen_cars, start, stop) if "CH4" in chosen else None
+
+    # Each series to return, in the table's order: its column in the table, its
+    # name in the result, its QC flag and its value columns (value, enhancement,
+    # baseline) that the source table has.
+    series = []
     for pollutant in chosen:
-        usecols += [*values[pollutant], flags[pollutant]]
-    measured = [_COLUMNS[p][0] for p in chosen]
+        table_column, name, flag = _COLUMNS[pollutant]
+        series.append((table_column, name, flag, _value_columns(table_column, header)))
+        if pollutant == "CH4" and picarro is not None:
+            table_column, name, flag = _PICARRO_CH4
+            values = _value_columns(table_column, picarro.columns)
+            series.append((table_column, name, flag, values))
+
+    merged = [item for item in series if item[0] != _PICARRO_CH4[0]]
+    # the columns to read from the merged table, and those of the result
+    usecols = ["time", *_POSITION]
+    for _, _, flag, values in merged:
+        usecols += [*values, flag]
+    if picarro is not None:
+        usecols.append(_PICARRO_CH4[2])
+    usecols = list(dict.fromkeys(usecols))  # the Picarro's CO and CH4 share a flag
+    columns = ["time", *_POSITION]
+    for _, _, flag, values in series:
+        columns += [*values, flag]
+    columns = list(dict.fromkeys(columns))
+    measured = [item[0] for item in series]
 
     _logger.debug(f"Reading {usecols} from {file}")
     # The rows are not in time order, so every read passes over the whole file.
@@ -331,36 +434,31 @@ def get_obs(
         chunksize=_CHUNK_ROWS,
     ) as chunks:
         for chunk in chunks:
-            rows = chunk[
-                chunk["system_id"].isin(chosen_cars)
-                & chunk[measured].notna().any(axis=1)
-            ].copy()
-            # "2019-07-16 18:22:10+00:00" on CHPC, "2019-07-16 18:22:10" on Zenodo
-            # (UTC either way). A time with another offset is converted to UTC.
-            rows["time"] = (
-                pd.to_datetime(rows["time"], format="ISO8601", utc=True)
-                .dt.tz_convert("UTC")
-                .dt.tz_localize(None)
-            )
+            has_value = chunk[[item[0] for item in merged]].notna().any(axis=1)
+            if picarro is not None:
+                # a row of the Picarro's table has its flag, whatever its CH4
+                has_value |= chunk[_PICARRO_CH4[2]].notna()
+            rows = chunk[chunk["system_id"].isin(chosen_cars) & has_value].copy()
+            rows["time"] = _times(rows["time"])
             if start is not None:
                 rows = rows[rows["time"] >= pd.Timestamp(start)]
             if stop is not None:
                 rows = rows[rows["time"] < pd.Timestamp(stop)]
+            if picarro is not None:
+                rows = rows.merge(picarro, on=["time", "system_id"], how="left")
             if good_only:
                 rows = rows[rows["qc_gps"] == 0].copy()
-                for pollutant in chosen:
-                    bad = rows[flags[pollutant]] != 0
-                    rows.loc[bad, values[pollutant]] = float("nan")
-                rows = rows[rows[measured].notna().any(axis=1)]
-            kept.append(rows)
+                for _, _, flag, values in series:
+                    bad = rows[flag] != 0
+                    rows.loc[bad, values] = float("nan")
+            kept.append(rows[rows[measured].notna().any(axis=1)])
 
     if not kept:  # a file with a header and no rows
-        kept = [pd.DataFrame(columns=usecols)]
-    obs = pd.concat(kept, ignore_index=True)[usecols]
+        kept = [pd.DataFrame(columns=columns)]
+    obs = pd.concat(kept, ignore_index=True)[columns]
     names = {"time": "Time_UTC", **_POSITION}
-    for pollutant in chosen:
-        table_column, name, _ = _COLUMNS[pollutant]
-        for col in values[pollutant]:
+    for table_column, name, _, values in series:
+        for col in values:
             names[col] = name + col.removeprefix(table_column)
     obs = obs.rename(columns=names)
     obs["Time_UTC"] = pd.to_datetime(obs["Time_UTC"]).dt.as_unit("ns")

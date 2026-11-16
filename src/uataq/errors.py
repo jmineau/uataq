@@ -92,6 +92,19 @@ class DroppedPollutantWarning(UserWarning):
     ``get_obs`` and ``get_recent_obs`` issue it when none of the instruments
     that measure a pollutant you asked for gave data (no files for the range,
     or not installed then), so the table has no column for it. The read did not
-    fail: the other pollutants are returned. Silence it with
+    fail: the other pollutants are returned. ``uataq.gsv.get_obs`` issues it when
+    the Picarro's CH4 table is missing. Silence it with
     ``warnings.filterwarnings("ignore", category=uataq.errors.DroppedPollutantWarning)``.
+    """
+
+
+class DataFileWarning(UserWarning):
+    """
+    Warned when a data file is not what the reader expects and a read went on.
+
+    The read did not fail, but part of the archive did not make it into the
+    result: a file that could not be parsed is skipped, rows whose time cannot
+    be read are dropped, or two rows of the files read share a time (the files
+    may overlap, or repeat rows). The message names the file. Silence it with
+    ``warnings.filterwarnings("ignore", category=uataq.errors.DataFileWarning)``.
     """

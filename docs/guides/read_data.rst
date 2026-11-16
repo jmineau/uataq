@@ -280,8 +280,9 @@ rather than the functions on this page; its page has an example.
 O3, black carbon, CO, NO, NO2 and PM2.5 on the valley's roads from May 2019 to
 June 2020. They were a campaign, not UATAQ sites, so :func:`uataq.gsv.get_obs`
 reads them: one table with each car's position, the pollutants you ask for and
-their QC flags. Its page says what the columns are and where the public copy of
-the data is.
+their QC flags. CH4 comes from both analyzers the cars carried, the LGR's in
+ppm and, from 14 to 29 August 2019, the Picarro's in ppb. Its page says what
+the columns are and where the public copy of the data is.
 
 Next
 ----

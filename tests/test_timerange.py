@@ -355,10 +355,8 @@ class TestTimeRangeEdgeCases:
         assert tr.stop.microsecond == 654321
 
     def test_reverse_order_range(self):
-        """Test time range where start is after stop (should still work)."""
+        """A start after the stop raises instead of reading nothing (#199)."""
         start = dt.datetime(2024, 1, 31)
         stop = dt.datetime(2024, 1, 1)
-        tr = TimeRange(start=start, stop=stop)
-        # Object should be created, but total_seconds will be negative
-        assert tr.start == start
-        assert tr.stop == stop
+        with pytest.raises(ValueError, match="is after the stop"):
+            TimeRange(start=start, stop=stop)
