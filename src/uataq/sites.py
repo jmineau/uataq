@@ -51,8 +51,14 @@ def _no_data(asked: str, lvl: str | None, SID: str, detail: str) -> errors.Reade
     return error
 
 
-def _reject_level(kwargs: Mapping[str, object]) -> None:
-    """Raise TypeError if ``get_obs`` was given a level, which it never takes."""
+def _reject_kwargs(kwargs: Mapping[str, object]) -> None:
+    """
+    Raise TypeError for a keyword ``get_obs`` does not take.
+
+    ``include_gps`` is the one a site takes through ``**kwargs`` (a fixed site
+    has no GPS and ignores it). A level gets its own message: ``get_obs``
+    never takes one.
+    """
     for name in ("lvl", "level"):
         if name in kwargs:
             raise TypeError(
@@ -60,6 +66,14 @@ def _reject_level(kwargs: Mapping[str, object]) -> None:
                 "always reads the final level; to read another, call "
                 f"read_data(..., lvl={kwargs[name]!r})."
             )
+    unknown = [name for name in kwargs if name != "include_gps"]
+    if unknown:
+        raise TypeError(
+            "get_obs() got unexpected keyword argument(s) "
+            f"{', '.join(repr(name) for name in unknown)}. Its keywords are "
+            "pollutants, format, group, time_range, num_processes and "
+            "include_gps."
+        )
 
 
 def _read_plan(
@@ -291,6 +305,20 @@ class Site:
     def __str__(self):
         return f"{self.__class__.__name__}: {self.SID}"
 
+    def _check_group(self, group: instruments.GroupSelection) -> None:
+        """Raise if ``group`` is not a valid selection, or names an instrument not here."""
+        instruments.check_group(group)
+        if isinstance(group, Mapping):
+            unknown = [name for name in group if name not in self.instruments]
+            if unknown:
+                raise ValueError(
+                    f"group names {', '.join(repr(name) for name in unknown)}, "
+                    f"which {'is' if len(unknown) == 1 else 'are'} not "
+                    f"{'an instrument' if len(unknown) == 1 else 'instruments'} "
+                    f"at {self.SID}. Its instruments are "
+                    f"{', '.join(self.instruments.names)}."
+                )
+
     def read_data(
         self,
         instruments: _all_or_mult_strs = "all",
@@ -346,7 +374,14 @@ class Site:
             says, for each, why it gave none: the files it looked for, and the
             first and last period it has files for, or the levels it has when
             it has none at ``lvl``.
+        TypeError
+            If ``group`` is not a str, a mapping or None.
+        ValueError
+            If ``group`` is a mapping with a key that is not an instrument at
+            the site.
         """
+        self._check_group(group)
+
         # Format instruments
         if instruments == "all":
             instruments = self.instruments.names
@@ -453,8 +488,13 @@ class Site:
             uataq reads at other sites (``Not measured at ...``) from a name
             it does not know (``Invalid pollutant(s)``).
         TypeError
-            If you pass ``lvl`` or ``level``: ``get_obs`` always reads the
-            ``final`` level. Use :func:`uataq.read_data` to read another.
+            If you pass ``lvl`` or ``level`` (``get_obs`` always reads the
+            ``final`` level; use :func:`uataq.read_data` to read another), or
+            any other keyword it does not take (a misspelled ``time_range``,
+            say), or a ``group`` that is not a str, a mapping or None.
+        ValueError
+            If ``group`` is a mapping with a key that is not an instrument at
+            the site.
 
         Warns
         -----
@@ -470,7 +510,7 @@ class Site:
             and when none of the pollutants has data the read raises
             :class:`~uataq.errors.ReaderError` instead.
         """
-        _reject_level(kwargs)
+        _reject_kwargs(kwargs)
         frames = self._read_obs(pollutants, format, group, time_range, num_processes)
         return _stack_obs(frames)
 
@@ -803,10 +843,12 @@ class MobileSite(Site):
         Raises
         ------
         ValueError
-            If a pollutant is not measured at the site (see :meth:`Site.get_obs`).
+            If a pollutant is not measured at the site, or ``group`` names an
+            instrument the site does not have (see :meth:`Site.get_obs`).
         TypeError
-            If you pass ``lvl`` or ``level``: ``get_obs`` always reads the
-            ``final`` level (see :meth:`Site.get_obs`).
+            If you pass ``lvl`` or ``level``, another keyword ``get_obs`` does
+            not take, or a ``group`` that is not a str, a mapping or None (see
+            :meth:`Site.get_obs`).
 
         Warns
         -----
@@ -827,7 +869,7 @@ class MobileSite(Site):
         from lin and ozone from horel, so the result can mix both groups'
         GPS columns.
         """
-        _reject_level(kwargs)
+        _reject_kwargs(kwargs)
         frames = self._read_obs(pollutants, format, group, time_range, num_processes)
         if not include_gps:
             return _stack_obs(frames)

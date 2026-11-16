@@ -76,9 +76,11 @@ class TimeRange:
         ------
         ValueError
             If ``time_range`` is given together with ``start`` or ``stop``, or
-            it is not a string, a pair, a slice or a ``TimeRange``.
+            it is not a string, a pair, a slice or a ``TimeRange`` (an empty
+            string or list is not "everything": pass None for that), or the
+            start is after the stop.
         """
-        if all([time_range, any([start, stop])]):
+        if time_range is not None and (start is not None or stop is not None):
             raise ValueError("Cannot specify both time_range and start/stop")
 
         self._start = None
@@ -86,26 +88,34 @@ class TimeRange:
 
         if isinstance(time_range, TimeRange):
             start, stop = time_range.start, time_range.stop
-        elif not any([time_range, start, stop]):
-            start = None
-            stop = None
-        elif time_range:
-            if isinstance(time_range, str):
-                # Handle the case when time_range is a string
-                start = TimeRange.parse_iso(time_range)
-                stop = TimeRange.parse_iso(time_range, inclusive=True)
-            elif isinstance(time_range, (list, tuple)) and len(time_range) == 2:
-                # Handle the case when time_range is a list/tuple
-                #   representing start and stop
-                start, stop = time_range
-            elif isinstance(time_range, slice):
-                # Handle the case when time_range is a slice
-                start, stop = time_range.start, time_range.stop
-            else:
-                raise ValueError("Invalid time_range format")
+        elif time_range is None:
+            pass  # everything, or the start and stop given
+        elif isinstance(time_range, str):
+            # Handle the case when time_range is a string
+            start = TimeRange.parse_iso(time_range)
+            stop = TimeRange.parse_iso(time_range, inclusive=True)
+        elif isinstance(time_range, (list, tuple)) and len(time_range) == 2:
+            # Handle the case when time_range is a list/tuple
+            #   representing start and stop
+            start, stop = time_range
+        elif isinstance(time_range, slice):
+            # Handle the case when time_range is a slice
+            start, stop = time_range.start, time_range.stop
+        else:
+            raise ValueError(
+                f"Invalid time_range {time_range!r}. Use a string such as "
+                "'2024-06', a [start, stop] pair, a slice, or None for "
+                "everything."
+            )
 
         self.start = start
         self.stop = stop
+        if self.start is not None and self.stop is not None and self.start > self.stop:
+            raise ValueError(
+                f"Invalid time_range: the start ({self.start}) is after the "
+                f"stop ({self.stop}); a date given as the stop ends at the end of "
+                "that day."
+            )
 
     def __repr__(self):
         return f"TimeRange(start={self.start}, stop={self.stop})"
