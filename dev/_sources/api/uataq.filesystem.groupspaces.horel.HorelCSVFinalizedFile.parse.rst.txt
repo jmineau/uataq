@@ -2,5 +2,4 @@ uataq.filesystem.groupspaces.horel.HorelCSVFinalizedFile.parse
 ==============================================================
 
 .. currentmodule:: uataq.filesystem.groupspaces.horel
-
 .. automethod:: HorelCSVFinalizedFile.parse

@@ -1,0 +1,6 @@
+uataq.filesystem.groupspaces.lin.LGR\_UGGA\_File.file\_freq
+===========================================================
+
+.. currentmodule:: uataq.filesystem.groupspaces.lin
+
+.. autoattribute:: LGR_UGGA_File.file_freq

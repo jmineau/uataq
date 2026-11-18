@@ -9,10 +9,13 @@ uataq.timerange.TimeRange
 
 
 
+
+
 .. rubric:: Attributes
 
 .. autosummary::
    :toctree:
+   :nosignatures:
 
    ~TimeRange.start
    ~TimeRange.stop

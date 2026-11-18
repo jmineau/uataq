@@ -10,12 +10,17 @@ uataq.filesystem.groupspaces.lin.LinGroup
 
 
 
+
+
 .. rubric:: Attributes
 
 .. autosummary::
    :toctree:
+   :nosignatures:
 
    ~LinGroup.data_dir
+   ~LinGroup.datafiles
+   ~LinGroup.name
 
 
 

@@ -1,0 +1,6 @@
+uataq.instruments.LGR\_NO2.pollutants
+=====================================
+
+.. currentmodule:: uataq.instruments
+
+.. autoattribute:: LGR_NO2.pollutants

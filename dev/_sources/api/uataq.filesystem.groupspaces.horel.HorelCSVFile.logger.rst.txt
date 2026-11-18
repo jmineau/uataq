@@ -1,0 +1,6 @@
+uataq.filesystem.groupspaces.horel.HorelCSVFile.logger
+======================================================
+
+.. currentmodule:: uataq.filesystem.groupspaces.horel
+
+.. autoattribute:: HorelCSVFile.logger

@@ -1,0 +1,6 @@
+uataq.filesystem.groupspaces.horel.HorelGroup.datafiles
+=======================================================
+
+.. currentmodule:: uataq.filesystem.groupspaces.horel
+
+.. autoattribute:: HorelGroup.datafiles

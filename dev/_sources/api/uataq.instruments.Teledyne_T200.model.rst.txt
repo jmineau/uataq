@@ -1,0 +1,6 @@
+uataq.instruments.Teledyne\_T200.model
+======================================
+
+.. currentmodule:: uataq.instruments
+
+.. autoattribute:: Teledyne_T200.model

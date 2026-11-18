@@ -12,6 +12,18 @@ uataq.filesystem.groupspaces.horel.HorelH5File
 
 
 
+.. rubric:: Attributes
+
+.. autosummary::
+   :toctree:
+   :nosignatures:
+
+   ~HorelH5File.ext
+   ~HorelH5File.logger
+   ~HorelH5File.time_col
+
+
+
 .. rubric:: Methods
 
 .. autosummary::
@@ -25,6 +37,6 @@ uataq.filesystem.groupspaces.horel.HorelH5File
 .. rubric:: Inherited
 
 
-From :class:`~.HorelFile`: :py:obj:`~.HorelFile.coerce_numeric`, :py:obj:`~.HorelFile.convert_nodata`, :py:obj:`~.HorelFile.format_time`, :py:obj:`~.HorelFile.usecols`
+From :class:`~.HorelFile`: :py:obj:`~.HorelFile.coerce_numeric`, :py:obj:`~.HorelFile.convert_nodata`, :py:obj:`~.HorelFile.date_slicer`, :py:obj:`~.HorelFile.file_freq`, :py:obj:`~.HorelFile.format_time`, :py:obj:`~.HorelFile.usecols`
 
 

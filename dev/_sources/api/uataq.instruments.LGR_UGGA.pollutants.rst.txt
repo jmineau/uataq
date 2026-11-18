@@ -1,0 +1,6 @@
+uataq.instruments.LGR\_UGGA.pollutants
+======================================
+
+.. currentmodule:: uataq.instruments
+
+.. autoattribute:: LGR_UGGA.pollutants

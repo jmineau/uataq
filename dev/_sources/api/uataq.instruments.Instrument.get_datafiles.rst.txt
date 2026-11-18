@@ -2,5 +2,4 @@ uataq.instruments.Instrument.get\_datafiles
 ===========================================
 
 .. currentmodule:: uataq.instruments
-
 .. automethod:: Instrument.get_datafiles

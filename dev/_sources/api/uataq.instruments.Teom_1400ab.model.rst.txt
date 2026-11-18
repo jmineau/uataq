@@ -1,0 +1,6 @@
+uataq.instruments.Teom\_1400ab.model
+====================================
+
+.. currentmodule:: uataq.instruments
+
+.. autoattribute:: Teom_1400ab.model

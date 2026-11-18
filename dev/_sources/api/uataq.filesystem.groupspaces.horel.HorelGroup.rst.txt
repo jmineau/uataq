@@ -12,6 +12,17 @@ uataq.filesystem.groupspaces.horel.HorelGroup
 
 
 
+.. rubric:: Attributes
+
+.. autosummary::
+   :toctree:
+   :nosignatures:
+
+   ~HorelGroup.datafiles
+   ~HorelGroup.name
+
+
+
 .. rubric:: Methods
 
 .. autosummary::

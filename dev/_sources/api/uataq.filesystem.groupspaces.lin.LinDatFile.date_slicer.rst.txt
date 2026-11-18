@@ -1,0 +1,6 @@
+uataq.filesystem.groupspaces.lin.LinDatFile.date\_slicer
+========================================================
+
+.. currentmodule:: uataq.filesystem.groupspaces.lin
+
+.. autoattribute:: LinDatFile.date_slicer

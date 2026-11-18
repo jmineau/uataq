@@ -1,0 +1,6 @@
+uataq.instruments.Licor\_7000.model
+===================================
+
+.. currentmodule:: uataq.instruments
+
+.. autoattribute:: Licor_7000.model

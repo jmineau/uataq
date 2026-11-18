@@ -1,0 +1,6 @@
+uataq.instruments.Licor\_6262.pollutants
+========================================
+
+.. currentmodule:: uataq.instruments
+
+.. autoattribute:: Licor_6262.pollutants

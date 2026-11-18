@@ -12,6 +12,19 @@ uataq.filesystem.groupspaces.lin.LinDatFile
 
 
 
+.. rubric:: Attributes
+
+.. autosummary::
+   :toctree:
+   :nosignatures:
+
+   ~LinDatFile.date_slicer
+   ~LinDatFile.ext
+   ~LinDatFile.file_freq
+   ~LinDatFile.logger
+
+
+
 .. rubric:: Methods
 
 .. autosummary::

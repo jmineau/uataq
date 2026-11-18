@@ -2,5 +2,4 @@ uataq.sites.MobileSite.locate
 =============================
 
 .. currentmodule:: uataq.sites
-
 .. automethod:: MobileSite.locate

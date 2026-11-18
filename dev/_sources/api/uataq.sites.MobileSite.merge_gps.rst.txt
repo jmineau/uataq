@@ -2,5 +2,4 @@ uataq.sites.MobileSite.merge\_gps
 =================================
 
 .. currentmodule:: uataq.sites
-
 .. automethod:: MobileSite.merge_gps

@@ -2,5 +2,4 @@ uataq.filesystem.groupspaces.horel.HorelFile.convert\_nodata
 ============================================================
 
 .. currentmodule:: uataq.filesystem.groupspaces.horel
-
 .. automethod:: HorelFile.convert_nodata

@@ -1,0 +1,6 @@
+uataq.filesystem.groupspaces.horel.HorelCSVFile.ext
+===================================================
+
+.. currentmodule:: uataq.filesystem.groupspaces.horel
+
+.. autoattribute:: HorelCSVFile.ext

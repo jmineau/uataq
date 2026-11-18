@@ -1,0 +1,6 @@
+uataq.filesystem.groupspaces.lin.AirTrendFile.logger
+====================================================
+
+.. currentmodule:: uataq.filesystem.groupspaces.lin
+
+.. autoattribute:: AirTrendFile.logger

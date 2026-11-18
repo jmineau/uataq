@@ -1,0 +1,6 @@
+uataq.instruments.MetOne\_ES642.model
+=====================================
+
+.. currentmodule:: uataq.instruments
+
+.. autoattribute:: MetOne_ES642.model

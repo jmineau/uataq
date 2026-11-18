@@ -1,0 +1,6 @@
+uataq.filesystem.groupspaces.horel.HorelFile.file\_freq
+=======================================================
+
+.. currentmodule:: uataq.filesystem.groupspaces.horel
+
+.. autoattribute:: HorelFile.file_freq

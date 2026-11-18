@@ -10,13 +10,17 @@ uataq.instruments.GPS
 
 
 
+
+
 .. rubric:: Attributes
 
 .. autosummary::
    :toctree:
+   :nosignatures:
 
    ~GPS.estimate_max_gap
    ~GPS.estimate_window
+   ~GPS.model
 
 
 
@@ -34,6 +38,6 @@ uataq.instruments.GPS
 .. rubric:: Inherited
 
 
-From :class:`~.Instrument`: :py:obj:`~.Instrument.active_range`, :py:obj:`~.Instrument.clip_to_active`, :py:obj:`~.Instrument.get_datafiles`, :py:obj:`~.Instrument.get_files`, :py:obj:`~.Instrument.get_highest_lvl`, :py:obj:`~.Instrument.model`, :py:obj:`~.Instrument.plan_reads`, :py:obj:`~.Instrument.resolve_group`, :py:obj:`~.Instrument.standardize_data`
+From :class:`~.Instrument`: :py:obj:`~.Instrument.active_range`, :py:obj:`~.Instrument.clip_to_active`, :py:obj:`~.Instrument.get_datafiles`, :py:obj:`~.Instrument.get_files`, :py:obj:`~.Instrument.get_highest_lvl`, :py:obj:`~.Instrument.plan_reads`, :py:obj:`~.Instrument.resolve_group`, :py:obj:`~.Instrument.standardize_data`
 
 

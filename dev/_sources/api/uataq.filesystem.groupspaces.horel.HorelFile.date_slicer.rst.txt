@@ -1,0 +1,6 @@
+uataq.filesystem.groupspaces.horel.HorelFile.date\_slicer
+=========================================================
+
+.. currentmodule:: uataq.filesystem.groupspaces.horel
+
+.. autoattribute:: HorelFile.date_slicer

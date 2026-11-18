@@ -2,5 +2,4 @@ uataq.filesystem.groupspaces.horel.HorelGroup.get\_datafiles
 ============================================================
 
 .. currentmodule:: uataq.filesystem.groupspaces.horel
-
 .. automethod:: HorelGroup.get_datafiles

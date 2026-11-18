@@ -1,0 +1,6 @@
+uataq.instruments.Teledyne\_T400.pollutants
+===========================================
+
+.. currentmodule:: uataq.instruments
+
+.. autoattribute:: Teledyne_T400.pollutants

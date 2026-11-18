@@ -1,0 +1,6 @@
+uataq.instruments.LGR\_UGGA.model
+=================================
+
+.. currentmodule:: uataq.instruments
+
+.. autoattribute:: LGR_UGGA.model

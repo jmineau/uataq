@@ -1,0 +1,6 @@
+uataq.instruments.GPS.model
+===========================
+
+.. currentmodule:: uataq.instruments
+
+.. autoattribute:: GPS.model

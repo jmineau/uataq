@@ -9,10 +9,13 @@ uataq.sodar.Sodar
 
 
 
+
+
 .. rubric:: Attributes
 
 .. autosummary::
    :toctree:
+   :nosignatures:
 
    ~Sodar.model
    ~Sodar.species_measured

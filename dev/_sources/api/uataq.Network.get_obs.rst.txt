@@ -2,5 +2,4 @@ uataq.Network.get\_obs
 ======================
 
 .. currentmodule:: uataq
-
 .. automethod:: Network.get_obs

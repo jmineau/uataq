@@ -1,0 +1,6 @@
+uataq.instruments.Magee\_AE33.pollutants
+========================================
+
+.. currentmodule:: uataq.instruments
+
+.. autoattribute:: Magee_AE33.pollutants

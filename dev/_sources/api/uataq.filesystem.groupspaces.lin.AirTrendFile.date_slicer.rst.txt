@@ -1,0 +1,6 @@
+uataq.filesystem.groupspaces.lin.AirTrendFile.date\_slicer
+==========================================================
+
+.. currentmodule:: uataq.filesystem.groupspaces.lin
+
+.. autoattribute:: AirTrendFile.date_slicer

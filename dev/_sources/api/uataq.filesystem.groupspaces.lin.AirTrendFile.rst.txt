@@ -12,6 +12,19 @@ uataq.filesystem.groupspaces.lin.AirTrendFile
 
 
 
+.. rubric:: Attributes
+
+.. autosummary::
+   :toctree:
+   :nosignatures:
+
+   ~AirTrendFile.date_slicer
+   ~AirTrendFile.ext
+   ~AirTrendFile.file_freq
+   ~AirTrendFile.logger
+
+
+
 .. rubric:: Methods
 
 .. autosummary::

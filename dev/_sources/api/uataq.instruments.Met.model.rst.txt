@@ -1,0 +1,6 @@
+uataq.instruments.Met.model
+===========================
+
+.. currentmodule:: uataq.instruments
+
+.. autoattribute:: Met.model

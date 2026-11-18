@@ -9,10 +9,13 @@ uataq.instruments.SensorMixin
 
 
 
+
+
 .. rubric:: Attributes
 
 .. autosummary::
    :toctree:
+   :nosignatures:
 
    ~SensorMixin.pollutants
 

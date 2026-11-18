@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>uataq.filesystem.groupspaces &#8212; UATAQ 2026.11.2.dev7+ga3cd6a8e1 documentation</title>
+    <title>uataq.filesystem.groupspaces &#8212; UATAQ dev</title>
   
   
   
@@ -33,6 +33,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx_autodoc_typehints.css?v=057ac668" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=c5defd60" />
   
   <!-- So that users can add custom icons -->
   <script defer src="../_static/scripts/fontawesome.js?digest=18bd87630a240e9c25be"></script>
@@ -40,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be" />
 
-    <script src="../_static/documentation_options.js?v=1f44a99b"></script>
+    <script src="../_static/documentation_options.js?v=3659f7cb"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -59,16 +60,22 @@
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="uataq.filesystem.groupspaces.horel" href="uataq.filesystem.groupspaces.horel.html" />
     <link rel="prev" title="uataq.filesystem.core.GroupSpace.standardize_data" href="uataq.filesystem.core.GroupSpace.standardize_data.html" />
+  
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.11.2.dev7+ga3cd6a8e1" />
+  <meta name="docsearch:version" content="2026.11.2.dev8+g0552bb96f" />
   
     
     <script src="../_static/searchtools.js"></script>
     <script src="../_static/language_data.js"></script>
     <script src="../searchindex.js"></script>
   
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="UATAQ">
+  <meta property="og:title" content="uataq.filesystem.groupspaces">
+  <meta property="og:description" content="Read UATAQ data">
+
   </head>
   <body data-default-mode="">
   
@@ -498,12 +505,24 @@
 <li class="toctree-l3"><a class="reference internal" href="uataq.instruments.catalog.html">uataq.instruments.catalog</a></li>
 <li class="toctree-l3"><a class="reference internal" href="uataq.instruments.check_group.html">uataq.instruments.check_group</a></li>
 <li class="toctree-l3"><a class="reference internal" href="uataq.instruments.configure_instrument.html">uataq.instruments.configure_instrument</a></li>
-<li class="toctree-l3"><a class="reference internal" href="uataq.instruments.BB_205.html">uataq.instruments.BB_205</a></li>
-<li class="toctree-l3"><a class="reference internal" href="uataq.instruments.BB_405.html">uataq.instruments.BB_405</a></li>
-<li class="toctree-l3"><a class="reference internal" href="uataq.instruments.CR1000.html">uataq.instruments.CR1000</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="uataq.instruments.BB_205.html">uataq.instruments.BB_205</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="uataq.instruments.BB_205.model.html">uataq.instruments.BB_205.model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="uataq.instruments.BB_205.pollutants.html">uataq.instruments.BB_205.pollutants</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="uataq.instruments.BB_405.html">uataq.instruments.BB_405</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="uataq.instruments.BB_405.model.html">uataq.instruments.BB_405.model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="uataq.instruments.BB_405.pollutants.html">uataq.instruments.BB_405.pollutants</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="uataq.instruments.CR1000.html">uataq.instruments.CR1000</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="uataq.instruments.CR1000.model.html">uataq.instruments.CR1000.model</a></li>
+</ul>
+</details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="uataq.instruments.GPS.html">uataq.instruments.GPS</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="uataq.instruments.GPS.estimate_max_gap.html">uataq.instruments.GPS.estimate_max_gap</a></li>
 <li class="toctree-l4"><a class="reference internal" href="uataq.instruments.GPS.estimate_window.html">uataq.instruments.GPS.estimate_window</a></li>
+<li class="toctree-l4"><a class="reference internal" href="uataq.instruments.GPS.model.html">uataq.instruments.GPS.model</a></li>
 <li class="toctree-l4"><a class="reference internal" href="uataq.instruments.GPS.estimate_motion.html">uataq.instruments.GPS.estimate_motion</a></li>
 <li class="toctree-l4"><a class="reference internal" href="uataq.instruments.GPS.read_data.html">uataq.instruments.GPS.read_data</a></li>
 </ul>
@@ -522,26 +541,74 @@
 </ul>
 </details></li>
 <li class="toctree-l3"><a class="reference internal" href="uataq.instruments.InstrumentEnsemble.html">uataq.instruments.InstrumentEnsemble</a></li>
-<li class="toctree-l3"><a class="reference internal" href="uataq.instruments.LGR_NO2.html">uataq.instruments.LGR_NO2</a></li>
-<li class="toctree-l3"><a class="reference internal" href="uataq.instruments.LGR_UGGA.html">uataq.instruments.LGR_UGGA</a></li>
-<li class="toctree-l3"><a class="reference internal" href="uataq.instruments.Licor_6262.html">uataq.instruments.Licor_6262</a></li>
-<li class="toctree-l3"><a class="reference internal" href="uataq.instruments.Licor_7000.html">uataq.instruments.Licor_7000</a></li>
-<li class="toctree-l3"><a class="reference internal" href="uataq.instruments.Magee_AE33.html">uataq.instruments.Magee_AE33</a></li>
-<li class="toctree-l3"><a class="reference internal" href="uataq.instruments.Met.html">uataq.instruments.Met</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="uataq.instruments.LGR_NO2.html">uataq.instruments.LGR_NO2</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="uataq.instruments.LGR_NO2.model.html">uataq.instruments.LGR_NO2.model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="uataq.instruments.LGR_NO2.pollutants.html">uataq.instruments.LGR_NO2.pollutants</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="uataq.instruments.LGR_UGGA.html">uataq.instruments.LGR_UGGA</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="uataq.instruments.LGR_UGGA.model.html">uataq.instruments.LGR_UGGA.model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="uataq.instruments.LGR_UGGA.pollutants.html">uataq.instruments.LGR_UGGA.pollutants</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="uataq.instruments.Licor_6262.html">uataq.instruments.Licor_6262</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="uataq.instruments.Licor_6262.model.html">uataq.instruments.Licor_6262.model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="uataq.instruments.Licor_6262.pollutants.html">uataq.instruments.Licor_6262.pollutants</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="uataq.instruments.Licor_7000.html">uataq.instruments.Licor_7000</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="uataq.instruments.Licor_7000.model.html">uataq.instruments.Licor_7000.model</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="uataq.instruments.Magee_AE33.html">uataq.instruments.Magee_AE33</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="uataq.instruments.Magee_AE33.model.html">uataq.instruments.Magee_AE33.model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="uataq.instruments.Magee_AE33.pollutants.html">uataq.instruments.Magee_AE33.pollutants</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="uataq.instruments.Met.html">uataq.instruments.Met</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="uataq.instruments.Met.model.html">uataq.instruments.Met.model</a></li>
+</ul>
+</details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="uataq.instruments.MetOne_ES405.html">uataq.instruments.MetOne_ES405</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="uataq.instruments.MetOne_ES405.model.html">uataq.instruments.MetOne_ES405.model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="uataq.instruments.MetOne_ES405.pollutants.html">uataq.instruments.MetOne_ES405.pollutants</a></li>
 <li class="toctree-l4"><a class="reference internal" href="uataq.instruments.MetOne_ES405.get_datafiles.html">uataq.instruments.MetOne_ES405.get_datafiles</a></li>
 </ul>
 </details></li>
-<li class="toctree-l3"><a class="reference internal" href="uataq.instruments.MetOne_ES642.html">uataq.instruments.MetOne_ES642</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="uataq.instruments.MetOne_ES642.html">uataq.instruments.MetOne_ES642</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="uataq.instruments.MetOne_ES642.model.html">uataq.instruments.MetOne_ES642.model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="uataq.instruments.MetOne_ES642.pollutants.html">uataq.instruments.MetOne_ES642.pollutants</a></li>
+</ul>
+</details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="uataq.instruments.SensorMixin.html">uataq.instruments.SensorMixin</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="uataq.instruments.SensorMixin.pollutants.html">uataq.instruments.SensorMixin.pollutants</a></li>
 </ul>
 </details></li>
-<li class="toctree-l3"><a class="reference internal" href="uataq.instruments.Teledyne_T200.html">uataq.instruments.Teledyne_T200</a></li>
-<li class="toctree-l3"><a class="reference internal" href="uataq.instruments.Teledyne_T300.html">uataq.instruments.Teledyne_T300</a></li>
-<li class="toctree-l3"><a class="reference internal" href="uataq.instruments.Teledyne_T400.html">uataq.instruments.Teledyne_T400</a></li>
-<li class="toctree-l3"><a class="reference internal" href="uataq.instruments.Teledyne_T500u.html">uataq.instruments.Teledyne_T500u</a></li>
-<li class="toctree-l3"><a class="reference internal" href="uataq.instruments.Teom_1400ab.html">uataq.instruments.Teom_1400ab</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="uataq.instruments.Teledyne_T200.html">uataq.instruments.Teledyne_T200</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="uataq.instruments.Teledyne_T200.model.html">uataq.instruments.Teledyne_T200.model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="uataq.instruments.Teledyne_T200.pollutants.html">uataq.instruments.Teledyne_T200.pollutants</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="uataq.instruments.Teledyne_T300.html">uataq.instruments.Teledyne_T300</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="uataq.instruments.Teledyne_T300.model.html">uataq.instruments.Teledyne_T300.model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="uataq.instruments.Teledyne_T300.pollutants.html">uataq.instruments.Teledyne_T300.pollutants</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="uataq.instruments.Teledyne_T400.html">uataq.instruments.Teledyne_T400</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="uataq.instruments.Teledyne_T400.model.html">uataq.instruments.Teledyne_T400.model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="uataq.instruments.Teledyne_T400.pollutants.html">uataq.instruments.Teledyne_T400.pollutants</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="uataq.instruments.Teledyne_T500u.html">uataq.instruments.Teledyne_T500u</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="uataq.instruments.Teledyne_T500u.model.html">uataq.instruments.Teledyne_T500u.model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="uataq.instruments.Teledyne_T500u.pollutants.html">uataq.instruments.Teledyne_T500u.pollutants</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="uataq.instruments.Teom_1400ab.html">uataq.instruments.Teom_1400ab</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="uataq.instruments.Teom_1400ab.model.html">uataq.instruments.Teom_1400ab.model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="uataq.instruments.Teom_1400ab.pollutants.html">uataq.instruments.Teom_1400ab.pollutants</a></li>
+</ul>
+</details></li>
 </ul>
 </details></li>
 <li class="toctree-l2 current active has-children"><a class="reference internal" href="uataq.filesystem.html">uataq.filesystem</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">

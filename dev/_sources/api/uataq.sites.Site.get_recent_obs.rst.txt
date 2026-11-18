@@ -2,5 +2,4 @@ uataq.sites.Site.get\_recent\_obs
 =================================
 
 .. currentmodule:: uataq.sites
-
 .. automethod:: Site.get_recent_obs

@@ -1,0 +1,6 @@
+uataq.instruments.Magee\_AE33.model
+===================================
+
+.. currentmodule:: uataq.instruments
+
+.. autoattribute:: Magee_AE33.model

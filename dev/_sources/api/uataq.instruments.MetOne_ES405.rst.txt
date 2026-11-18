@@ -12,6 +12,17 @@ uataq.instruments.MetOne\_ES405
 
 
 
+.. rubric:: Attributes
+
+.. autosummary::
+   :toctree:
+   :nosignatures:
+
+   ~MetOne_ES405.model
+   ~MetOne_ES405.pollutants
+
+
+
 .. rubric:: Methods
 
 .. autosummary::
@@ -25,10 +36,6 @@ uataq.instruments.MetOne\_ES405
 .. rubric:: Inherited
 
 
-From :class:`~.Instrument`: :py:obj:`~.Instrument.active_range`, :py:obj:`~.Instrument.clip_to_active`, :py:obj:`~.Instrument.get_files`, :py:obj:`~.Instrument.get_highest_lvl`, :py:obj:`~.Instrument.model`, :py:obj:`~.Instrument.plan_reads`, :py:obj:`~.Instrument.read_data`, :py:obj:`~.Instrument.resolve_group`, :py:obj:`~.Instrument.standardize_data`
-
-
-
-From :class:`~.SensorMixin`: :py:obj:`~.SensorMixin.pollutants`
+From :class:`~.Instrument`: :py:obj:`~.Instrument.active_range`, :py:obj:`~.Instrument.clip_to_active`, :py:obj:`~.Instrument.get_files`, :py:obj:`~.Instrument.get_highest_lvl`, :py:obj:`~.Instrument.plan_reads`, :py:obj:`~.Instrument.read_data`, :py:obj:`~.Instrument.resolve_group`, :py:obj:`~.Instrument.standardize_data`
 
 

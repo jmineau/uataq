@@ -1,0 +1,6 @@
+uataq.filesystem.groupspaces.horel.HorelH5File.logger
+=====================================================
+
+.. currentmodule:: uataq.filesystem.groupspaces.horel
+
+.. autoattribute:: HorelH5File.logger

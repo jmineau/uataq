@@ -2,5 +2,4 @@ uataq.instruments.Instrument.standardize\_data
 ==============================================
 
 .. currentmodule:: uataq.instruments
-
 .. automethod:: Instrument.standardize_data

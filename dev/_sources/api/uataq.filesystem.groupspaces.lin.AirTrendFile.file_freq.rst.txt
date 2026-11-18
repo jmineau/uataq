@@ -1,0 +1,6 @@
+uataq.filesystem.groupspaces.lin.AirTrendFile.file\_freq
+========================================================
+
+.. currentmodule:: uataq.filesystem.groupspaces.lin
+
+.. autoattribute:: AirTrendFile.file_freq

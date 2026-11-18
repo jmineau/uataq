@@ -12,6 +12,17 @@ uataq.filesystem.groupspaces.horel.HorelFile
 
 
 
+.. rubric:: Attributes
+
+.. autosummary::
+   :toctree:
+   :nosignatures:
+
+   ~HorelFile.date_slicer
+   ~HorelFile.file_freq
+
+
+
 .. rubric:: Methods
 
 .. autosummary::

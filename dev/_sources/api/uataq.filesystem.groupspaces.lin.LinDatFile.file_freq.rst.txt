@@ -1,0 +1,6 @@
+uataq.filesystem.groupspaces.lin.LinDatFile.file\_freq
+======================================================
+
+.. currentmodule:: uataq.filesystem.groupspaces.lin
+
+.. autoattribute:: LinDatFile.file_freq

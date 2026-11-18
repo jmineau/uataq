@@ -1,0 +1,6 @@
+uataq.instruments.BB\_205.pollutants
+====================================
+
+.. currentmodule:: uataq.instruments
+
+.. autoattribute:: BB_205.pollutants

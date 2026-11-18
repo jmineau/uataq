@@ -1,0 +1,6 @@
+uataq.filesystem.groupspaces.lin.AirTrendFile.ext
+=================================================
+
+.. currentmodule:: uataq.filesystem.groupspaces.lin
+
+.. autoattribute:: AirTrendFile.ext

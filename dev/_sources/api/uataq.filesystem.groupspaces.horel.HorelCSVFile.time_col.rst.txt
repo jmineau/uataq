@@ -1,0 +1,6 @@
+uataq.filesystem.groupspaces.horel.HorelCSVFile.time\_col
+=========================================================
+
+.. currentmodule:: uataq.filesystem.groupspaces.horel
+
+.. autoattribute:: HorelCSVFile.time_col

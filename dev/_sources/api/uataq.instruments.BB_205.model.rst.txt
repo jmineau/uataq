@@ -1,0 +1,6 @@
+uataq.instruments.BB\_205.model
+===============================
+
+.. currentmodule:: uataq.instruments
+
+.. autoattribute:: BB_205.model

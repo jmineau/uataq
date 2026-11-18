@@ -12,6 +12,8 @@ uataq.filesystem.groupspaces.horel.HorelCSVFinalizedFile
 
 
 
+
+
 .. rubric:: Methods
 
 .. autosummary::
@@ -25,6 +27,10 @@ uataq.filesystem.groupspaces.horel.HorelCSVFinalizedFile
 .. rubric:: Inherited
 
 
-From :class:`~.HorelFile`: :py:obj:`~.HorelFile.coerce_numeric`, :py:obj:`~.HorelFile.convert_nodata`, :py:obj:`~.HorelFile.format_time`, :py:obj:`~.HorelFile.usecols`
+From :class:`~.HorelCSVFile`: :py:obj:`~.HorelCSVFile.ext`, :py:obj:`~.HorelCSVFile.logger`, :py:obj:`~.HorelCSVFile.time_col`
+
+
+
+From :class:`~.HorelFile`: :py:obj:`~.HorelFile.coerce_numeric`, :py:obj:`~.HorelFile.convert_nodata`, :py:obj:`~.HorelFile.date_slicer`, :py:obj:`~.HorelFile.file_freq`, :py:obj:`~.HorelFile.format_time`, :py:obj:`~.HorelFile.usecols`
 
 

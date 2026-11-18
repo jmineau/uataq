@@ -1,0 +1,6 @@
+uataq.instruments.CR1000.model
+==============================
+
+.. currentmodule:: uataq.instruments
+
+.. autoattribute:: CR1000.model

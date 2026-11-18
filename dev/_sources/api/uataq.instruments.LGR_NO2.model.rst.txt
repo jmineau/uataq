@@ -1,0 +1,6 @@
+uataq.instruments.LGR\_NO2.model
+================================
+
+.. currentmodule:: uataq.instruments
+
+.. autoattribute:: LGR_NO2.model

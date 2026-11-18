@@ -2,5 +2,4 @@ uataq.instruments.Instrument.read\_data
 =======================================
 
 .. currentmodule:: uataq.instruments
-
 .. automethod:: Instrument.read_data

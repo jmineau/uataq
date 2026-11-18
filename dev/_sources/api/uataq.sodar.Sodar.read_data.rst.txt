@@ -2,5 +2,4 @@ uataq.sodar.Sodar.read\_data
 ============================
 
 .. currentmodule:: uataq.sodar
-
 .. automethod:: Sodar.read_data

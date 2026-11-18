@@ -2,5 +2,4 @@ uataq.filesystem.groupspaces.lin.LinGroup.get\_datafiles
 ========================================================
 
 .. currentmodule:: uataq.filesystem.groupspaces.lin
-
 .. automethod:: LinGroup.get_datafiles

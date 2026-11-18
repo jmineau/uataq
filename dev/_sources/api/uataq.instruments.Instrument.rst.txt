@@ -9,10 +9,13 @@ uataq.instruments.Instrument
 
 
 
+
+
 .. rubric:: Attributes
 
 .. autosummary::
    :toctree:
+   :nosignatures:
 
    ~Instrument.active_range
    ~Instrument.model
