@@ -48,9 +48,22 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
 html_theme = "pydata_sphinx_theme"
+html_title = f"{project} {version_match}"  # the site title (tab, search); not the full dev version
 html_static_path = ["_static"]
+html_css_files = ["custom.css"]
 html_favicon = "_static/uataq-icon-light.svg"
 
+# Link preview (Open Graph), written by _templates/layout.html. The image is left out
+# when there is no docs/_static/social-preview.png.
+_static = Path(__file__).parent / "_static"
+html_context = {
+    "og_description": "Read UATAQ data",
+    "og_image": (
+        "https://raw.githubusercontent.com/jmineau/uataq/main/docs/_static/social-preview.png"
+        if (_static / "social-preview.png").exists()
+        else ""
+    ),
+}
 html_theme_options = {
     "github_url": "https://github.com/jmineau/uataq",
     "logo": {  # the icon (no wordmark) in the navbar; the theme picks by light/dark mode
