@@ -96,7 +96,7 @@ Driven by `just` and `uv`; CI runs the same recipes.
 | `just sync` / `just lock` | `uv sync`: uataq (editable) and the dev tools / `uv lock` after changing dependencies (commit `uv.lock` with them) |
 | `just quality-check` | `lint` + `type-check` + `docstr` + `test` |
 | `just test` | pytest in parallel (up to 8 workers) over `tests` and the `>>>` examples under `src`, skipping `network`, `slow` and `chpc`; extra args go to pytest (`-n 0` for serial) |
-| `just cov` | `just test` with coverage (what `tests.yml` runs) |
+| `just cov` / `just sync-floors` | `just test` with coverage (what `tests.yml` runs) / install every dependency at its declared minimum, then `just test` (CI's minimum-dependencies job) |
 | `just lint` / `just format` | ruff check and format check / fix and format |
 | `just type-check` / `just docstr` | pyrefly / docstring coverage of the public API, at 100% |
 | `just build-docs` | Sphinx HTML into `docs/_build`, running every example; a warning fails the build |

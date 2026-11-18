@@ -74,6 +74,9 @@ the orientation file it should read.
 CI (`.github/workflows/`) runs the same `just` recipes:
 
 - `tests.yml` runs `just cov` on Linux, macOS and Windows × Python 3.11–3.14.
+  It also has a "minimum dependencies" job: `just sync-floors` installs every
+  dependency at the minimum `pyproject.toml` declares, then `just test` runs, so
+  give each direct dependency a minimum.
 - `quality.yml` runs lint, type-check and docstr on Python 3.11.
 - `docs.yml` builds the docs for every pull request and publishes `dev/`, each
   release and `stable/` to `gh-pages`.
