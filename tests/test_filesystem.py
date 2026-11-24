@@ -2,6 +2,7 @@
 Tests for filesystem utilities.
 """
 
+import gzip
 from pathlib import Path
 from unittest.mock import patch
 
@@ -102,6 +103,17 @@ class TestListFiles:
         # At least one should find results (assuming lowercase files exist)
         assert len(files_lower) + len(files_upper) > 0
 
+    def test_a_folder_is_not_listed(self, tmp_path):
+        """A folder named like a data file is not one (#206)."""
+        (tmp_path / "2024_01_final.dat").write_text("x")
+        (tmp_path / "2024_02_final.dat").mkdir()
+        assert filesystem.list_files(tmp_path) == ["2024_01_final.dat"]
+
+    def test_a_missing_folder_raises(self, tmp_path):
+        """Callers tell a missing folder by FileNotFoundError."""
+        with pytest.raises(FileNotFoundError):
+            filesystem.list_files(tmp_path / "missing")
+
 
 class TestHomeConstant:
     """Test the HOME constant."""
@@ -162,6 +174,43 @@ class TestParseDatafiles:
         files = [self.BadFile("2024_01.dat"), self.BadFile("2024_02.dat")]
         with pytest.raises(errors.ReaderError, match="None of the 2"):
             filesystem.parse_datafiles(files, TimeRange("2024"))
+
+    def test_a_file_cut_off_mid_write_is_skipped(self, tmp_path):
+        """A .csv.gz cut off while it is rewritten does not stop the read (#206)."""
+        text = gzip.compress(b"Time_UTC,x\n" + b"2024-02-01 00:00:00,1\n" * 5000)
+        cut = tmp_path / "2024_02.csv.gz"
+        cut.write_bytes(text[: len(text) // 2])
+
+        class GzFile(filesystem.DataFile):
+            date_slicer = slice(7)
+            file_freq = "M"
+            ext = "csv.gz"
+
+            def parse(self):
+                return pd.read_csv(self.path, parse_dates=["Time_UTC"])
+
+        files = [MonthFile("2024_01.dat"), GzFile(str(cut))]
+        with pytest.warns(errors.DataFileWarning, match="Skipped .*2024_02.csv.gz"):
+            data = filesystem.parse_datafiles(files, TimeRange("2024"))
+        assert data["x"].tolist() == [1.0, 2.0]  # January's rows
+
+    def test_a_folder_given_as_a_file_is_skipped(self, tmp_path):
+        """IsADirectoryError is an OSError: skipped, not raised (#206)."""
+        folder = tmp_path / "2024_02.dat"
+        folder.mkdir()
+
+        class OpenFile(filesystem.DataFile):
+            date_slicer = slice(7)
+            file_freq = "M"
+            ext = "dat"
+
+            def parse(self):
+                return pd.read_csv(self.path)
+
+        files = [MonthFile("2024_01.dat"), OpenFile(str(folder))]
+        with pytest.warns(errors.DataFileWarning, match="Skipped"):
+            data = filesystem.parse_datafiles(files, TimeRange("2024"))
+        assert len(data) == 2
 
     def test_rows_are_half_open(self):
         """A sample exactly at stop is not returned (#9)."""

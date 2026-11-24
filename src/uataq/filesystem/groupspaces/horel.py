@@ -15,7 +15,7 @@ import tables as pytbls
 
 import uataq.filesystem.core as filesystem
 from uataq import errors
-from uataq.timerange import TimeRange
+from uataq.timerange import TimeRange, _naive_utc
 
 _logger = logging.getLogger(__name__)
 
@@ -347,9 +347,7 @@ class HorelFile(filesystem.DataFile, metaclass=ABCMeta):
         pd.DataFrame
             The data DataFrame with the time column formatted as Time_UTC.
         """
-        data[self.time_col] = pd.to_datetime(
-            data[self.time_col], errors="coerce", **kwargs
-        )
+        data[self.time_col] = _naive_utc(data[self.time_col], errors="coerce", **kwargs)
         return data.rename(columns={self.time_col: "Time_UTC"})
 
     @staticmethod

@@ -5,6 +5,7 @@ from unittest.mock import patch
 import pandas as pd
 import pytest
 
+from uataq.errors import ParserError
 from uataq.filesystem.groupspaces import lin
 
 CONFIG = {
@@ -51,6 +52,37 @@ def test_file_without_a_header_keeps_its_first_row(tmp_path, fraction):
 
 
 def test_file_whose_first_line_is_text_but_not_a_time_is_skipped(tmp_path):
-    """Text that is not a time is still taken for a header (a corrupt file's first line)."""
-    data = parse(tmp_path, "2023-07-26.csv    0000644\n" + "\n".join(ROWS) + "\n")
+    """
+    Text that is not a time is still taken for a header.
+
+    As in TRX02's T500U file of 2023-07-21, a tar archive whose first line is
+    the tar block run into the CSV's header.
+    """
+    first = "2023-07-26.csv\x00\x000000644\x00ustar\x00time,no2_ppb,box_t_c"
+    data = parse(tmp_path, first + "\n" + "\n".join(ROWS) + "\n")
     assert len(data) == 3
+
+
+@pytest.mark.parametrize("header", [True, False], ids=["header", "no-header"])
+def test_a_column_the_config_lacks_names_the_file(tmp_path, header):
+    """
+    One field more than the config put every name one off (#209).
+
+    pandas took the time for the row label, so every Time_UTC was NaT and the
+    read dropped the whole day without a word.
+    """
+    rows = [row.replace(",", ",999,", 1) for row in ROWS]
+    text = ("time,new,no2_ppb,box_t_c\n" if header else "") + "\n".join(rows) + "\n"
+    with pytest.raises(ParserError, match="4 fields, but the pipeline config lists 3"):
+        parse(tmp_path, text)
+
+
+def test_a_missing_column_names_the_file(tmp_path):
+    rows = [row.rsplit(",", 1)[0] for row in ROWS]
+    with pytest.raises(ParserError, match="2 fields"):
+        parse(tmp_path, "time,no2_ppb\n" + "\n".join(rows) + "\n")
+
+
+def test_an_empty_file_has_no_rows(tmp_path):
+    """A file the logger has just opened is not an error."""
+    assert parse(tmp_path, "").empty

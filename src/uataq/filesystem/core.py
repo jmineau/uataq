@@ -97,7 +97,11 @@ def list_files(
     if recursive:
         walk = os.walk(path, followlinks=followlinks)
     else:
-        walk = [(path, None, os.listdir(path))]
+        # Files only, as os.walk lists them: a folder named like a data file
+        # (2024_02_final.dat/) is not one (#206). A missing path raises
+        # FileNotFoundError, which callers rely on.
+        with os.scandir(path) as entries:
+            walk = [(path, None, [e.name for e in entries if e.is_file()])]
 
     if ignore_case and pattern is not None:
         pattern = pattern.lower()
@@ -314,7 +318,9 @@ def _parse_datafile(
         warnings.simplefilter("always")
         try:
             data = datafile.parse()
-        except errors.ParserError as e:
+        except (errors.ParserError, OSError, EOFError) as e:
+            # OSError and EOFError: a file that cannot be opened or was cut off
+            # mid-write (a .csv.gz being rewritten) is skipped too (#206)
             _logger.warning(f"Error parsing {datafile}: {e}")
             data = None
             reason = f"{datafile}: {e}"

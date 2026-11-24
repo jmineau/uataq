@@ -44,6 +44,18 @@ _ISO8601 = re.compile(
 )
 
 
+def _naive_utc(values: pd.Series, **kwargs) -> pd.Series:
+    """
+    Parse times as naive UTC, the form uataq's tables and time ranges use.
+
+    A time with a UTC offset (``Z``, ``-06:00``) is converted to UTC; one
+    without is taken as UTC. Without ``utc=True`` pandas would keep the offset,
+    and the slice against a naive time range would raise (#207). ``kwargs``
+    go to :func:`pandas.to_datetime` (``format``, ``unit``, ``errors``).
+    """
+    return pd.to_datetime(values, utc=True, **kwargs).dt.tz_localize(None)
+
+
 class TimeRange:
     """
     TimeRange class to represent a time range with start and stop times.

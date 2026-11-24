@@ -231,3 +231,47 @@ class TestMissingInstrumentFolder:
         net = uataq.Network(["WBB", "SUG"], "O3")
         obs = net.get_obs(time_range="2024-06")
         assert set(obs.SID) == {"WBB"}
+
+
+class TestUnreadableFiles:
+    """A file that cannot be read does not stop the read (#206)."""
+
+    def test_a_folder_named_like_a_month_file_is_not_read(self, final):
+        write(final, "2024_06_final.dat", table())
+        (final / "2024_07_final.dat").mkdir()
+        data = read(["2024-06", "2024-08"])
+        assert len(data) == 24
+
+
+class TestTimeOffsets:
+    """Times with a UTC offset are converted to UTC, not compared tz-aware (#207)."""
+
+    def test_a_trailing_z_is_utc(self, final):
+        times = pd.date_range("2024-06-01", periods=24, freq="h")
+        write(
+            final,
+            "2024_06_final.dat",
+            table(Time_UTC=times.strftime("%Y-%m-%dT%H:%M:%SZ")),
+        )
+        assert read().index.tolist() == times.tolist()
+
+    def test_another_offset_is_converted(self, final):
+        times = pd.date_range("2024-06-01", periods=24, freq="h")
+        write(
+            final,
+            "2024_06_final.dat",
+            table(Time_UTC=times.strftime("%Y-%m-%dT%H:%M:%S-06:00")),
+        )
+        data = read(["2024-06-01", "2024-07-01"])
+        assert data.index.tolist() == (times + pd.Timedelta(hours=6)).tolist()
+        assert data.index.tz is None
+
+
+class TestNoData:
+    def test_minus_9999_is_missing(self, final):
+        """The loggers' "no value" is NaN, as in horel's files (#208)."""
+        frame = table()
+        frame.loc[[0, 1], "O3_ppb"] = [-9999, -9999.0]
+        write(final, "2024_06_final.dat", frame)
+        data = read()
+        assert data["O3_ppb"].isna().tolist()[:3] == [True, True, False]
