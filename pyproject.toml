@@ -77,8 +77,8 @@ exclude_also = [
 
 [tool.pyrefly]
 project-includes = ["src"]
-# matplotlib and cartopy are optional plotting imports, not dependencies.
-ignore-missing-imports = ["matplotlib.*", "cartopy.*"]
+# matplotlib is an optional plotting import, not a dependency.
+ignore-missing-imports = ["matplotlib.*"]
 python-version = "3.11"  # as CI checks, against the oldest supported Python
 
 [tool.pytest]

@@ -362,7 +362,6 @@ def parse_datafiles(
     files: list[DataFile],
     time_range: TimeRange,
     num_processes: int | Literal["max"] = 1,
-    driver: Literal["pandas"] | Literal["xarray"] = "pandas",
 ):
     """
     Read and parse data files, in parallel, using multiple processes.
@@ -375,8 +374,6 @@ def parse_datafiles(
         A TimeRange object representing the time range to filter by.
     num_processes : int, optional
         The number of processes to use. Defaults to 1.
-    driver : str, optional
-        The data driver to use. Defaults to 'pandas'.
 
     Returns
     -------
@@ -423,7 +420,7 @@ def parse_datafiles(
 
     datasets = [data for data, _, _ in results]
     reasons = [reason for _, reason, _ in results if reason is not None]
-    if driver == "pandas" and all(data is None for data in datasets):
+    if all(data is None for data in datasets):
         # ReaderError, not pd.concat's ValueError, so Site.read_data skips
         # this instrument instead of abandoning the whole site
         why = f": {reasons[0]}" if reasons else ""
@@ -440,27 +437,19 @@ def parse_datafiles(
 
     # Concatenate the datasets
     _logger.info("Concatenating datasets and reducing rows to time range...")
-    if driver == "pandas":
-        # a datafile that failed to parse contributes None
-        data = pd.concat([d for d in datasets if d is not None])
+    # a datafile that failed to parse contributes None
+    data = pd.concat([d for d in datasets if d is not None])
 
-        # Set time as index and filter to time_range
-        data = (
-            data.dropna(subset="Time_UTC")
-            .set_index("Time_UTC")
-            .sort_index(kind="stable")
-        )
-        data = data.loc[time_range.start : time_range.stop]
-        if time_range.stop is not None:
-            # .loc is inclusive, but time ranges are half-open [start, stop):
-            # a sample exactly at stop belongs to the next range (#9)
-            data = data[data.index < time_range.stop]
-        _warn_repeated_times(files, datasets, data)
-    elif driver == "xarray":
-        # TODO
-        raise NotImplementedError("xarray driver not implemented yet.")
-    else:
-        raise ValueError(f"Invalid driver: {driver}")
+    # Set time as index and filter to time_range
+    data = (
+        data.dropna(subset="Time_UTC").set_index("Time_UTC").sort_index(kind="stable")
+    )
+    data = data.loc[time_range.start : time_range.stop]
+    if time_range.stop is not None:
+        # .loc is inclusive, but time ranges are half-open [start, stop):
+        # a sample exactly at stop belongs to the next range (#9)
+        data = data[data.index < time_range.stop]
+    _warn_repeated_times(files, datasets, data)
 
     return data
 
@@ -658,7 +647,6 @@ class GroupSpace(metaclass=ABCMeta):
                     _logger.warning(
                         f"Unable to initialize {DataFileClass.__name__} from {path}: {e}"
                     )
-            continue
 
         return filter_datafiles(datafiles, time_range, pattern)
 

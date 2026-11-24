@@ -6,6 +6,7 @@ This module contains classes and functions for working with the Horel group data
 
 import logging
 import os
+import re
 from abc import ABCMeta
 from collections.abc import Callable
 
@@ -662,16 +663,20 @@ class HorelCSVFinalizedFile(HorelCSVFile):
         """
         data = super().parse()
 
-        # Need to standardize in order to filter columns
-        # TODO this is a bit of a hack, but it works for now
-        data = HorelGroup.standardize_data(self.instrument, data)
-
         if "QAQC_Flag" in data.columns:
             # Drop rows with QAQC_Flag < 0
             data = data[data.QAQC_Flag >= 0]
 
-        # Use final patterns to filter columns
-        data = pd.DataFrame(data.filter(regex="|".join(self.final_patterns)))
+        # Keep the columns whose UATAQ name matches a final pattern. The names
+        # are looked up, not applied: Instrument.read_data standardizes once,
+        # after the parse (#213).
+        mapping = column_mapping[self.instrument]
+
+        def named(pattern: str) -> list[str]:
+            """Return the columns whose UATAQ name matches ``pattern``."""
+            return [c for c in data.columns if re.search(pattern, mapping.get(c, c))]
+
+        data = pd.DataFrame(data[named("|".join(self.final_patterns))])
 
         # Drop rows without obs. Time_UTC is always set, so it can't count:
         # a plain dropna(how="all") never dropped anything. An instrument that
@@ -680,8 +685,7 @@ class HorelCSVFinalizedFile(HorelCSVFile):
         # rows with no PM2.5. The GPS and the logger have no concentration, so
         # any of their columns counts.
         obs_columns = [c for c in data.columns if c != "Time_UTC"]
-        concentrations = list(data.filter(regex="ppb|ugm3").columns)
-        obs_columns = concentrations or obs_columns
+        obs_columns = named("ppb|ugm3") or obs_columns
         return data.dropna(how="all", subset=obs_columns)
 
 
@@ -860,7 +864,6 @@ class HorelGroup(filesystem.GroupSpace):
                     _logger.warning(
                         f"Unable to initialize {DataFileClass.__name__} from {path}: {e}"
                     )
-            continue
 
         return filesystem.filter_datafiles(datafiles, time_range, pattern)
 

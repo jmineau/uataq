@@ -745,7 +745,12 @@ class InstrumentEnsemble:
         return f"InstrumentEnsemble({self.SID}, instruments={self.names})"
 
     def __getattr__(self, name: str) -> Instrument:
-        return self._instruments[name]
+        # AttributeError, not KeyError, for hasattr, copy and pickle (#210);
+        # through __dict__, as copy calls this before __init__ has run
+        instruments = self.__dict__.get("_instruments", {})
+        if name in instruments:
+            return instruments[name]
+        raise AttributeError(f"InstrumentEnsemble has no instrument {name!r}")
 
     def __getitem__(self, name: str) -> Instrument:
         return self._instruments[name]

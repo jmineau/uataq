@@ -2,11 +2,13 @@
 Tests for the Instrument classes.
 """
 
-from unittest.mock import patch
+import copy
+import pickle
 
 import pandas as pd
 import pytest
 
+import uataq
 from uataq import errors, filesystem, instruments
 
 
@@ -144,13 +146,24 @@ class TestInstrumentRepr:
 
 
 class TestInstrumentEnsemble:
-    """Test the InstrumentEnsemble class if it's exposed."""
+    """A site's instruments, by name."""
 
-    @patch.object(instruments, "InstrumentEnsemble", create=True)
-    def test_instrument_ensemble_exists(self, mock_ensemble):
-        """Test that InstrumentEnsemble can be imported."""
-        # This test verifies the class exists
-        assert hasattr(instruments, "InstrumentEnsemble") or True  # May not be exposed
+    @pytest.fixture
+    def ensemble(self):
+        return uataq.get_site("WBB").instruments
+
+    def test_an_instrument_by_attribute(self, ensemble):
+        assert ensemble.lgr_ugga is ensemble["lgr_ugga"]
+
+    def test_a_missing_instrument_is_an_attribute_error(self, ensemble):
+        """Not KeyError, so hasattr and getattr with a default work (#210)."""
+        assert not hasattr(ensemble, "nope")
+        assert getattr(ensemble, "nope", None) is None
+
+    def test_copy_and_pickle(self, ensemble):
+        """Copy and pickle look names up before __init__ has run (#210)."""
+        assert copy.deepcopy(ensemble).names == ensemble.names
+        assert pickle.loads(pickle.dumps(ensemble)).names == ensemble.names
 
 
 class TestConcreteInstrumentImplementation:

@@ -104,6 +104,12 @@ def write_trx(tmp_path) -> str:
     )
 
 
+def parse_final(path, instrument: str):
+    """Parse a finalized file and rename its columns, as ``Instrument.read_data`` does."""
+    data = horel.HorelCSVFinalizedFile(path, instrument).parse()
+    return horel.HorelGroup.standardize_data(instrument, data)
+
+
 def write_bus(tmp_path) -> str:
     return write_csv_gz(
         tmp_path / "csv_finalized_ebus" / "BUS01_2024_06.csv.gz",
@@ -304,15 +310,20 @@ class TestHorelCSVFinalizedFile:
     """final: flagged rows dropped, diagnostics dropped."""
 
     def test_drops_flagged_rows_and_diagnostic_columns(self, tmp_path):
-        data = horel.HorelCSVFinalizedFile(write_trx(tmp_path), "2b_205").parse()
+        data = parse_final(write_trx(tmp_path), "2b_205")
 
         # The flagged first row is gone; flow, pressure and the flag are too
         assert list(data.columns) == ["Time_UTC", "O3_ppb"]
         assert data["Time_UTC"].iloc[0] == pd.Timestamp("2024-06-01 00:00:02")
         assert data["O3_ppb"].iloc[0] == 50.3
 
+    def test_the_parse_keeps_horel_names(self, tmp_path):
+        """read_data renames once; the parse only picks the columns (#213)."""
+        data = horel.HorelCSVFinalizedFile(write_trx(tmp_path), "2b_205").parse()
+        assert list(data.columns) == ["Time_UTC", "2B_Ozone_Concentration"]
+
     def test_keeps_ambient_and_concentration_columns(self, tmp_path):
-        data = horel.HorelCSVFinalizedFile(write_trx(tmp_path), "metone_es642").parse()
+        data = parse_final(write_trx(tmp_path), "metone_es642")
         # The ES642 "internal" temperature is mapped to ambient
         assert list(data.columns) == ["Time_UTC", "PM2.5_ugm3", "Ambient_T_C"]
         assert data["PM2.5_ugm3"].tolist() == [2.0, 1.0]
@@ -322,7 +333,7 @@ class TestFinalizedRowsWithoutObs:
     """final drops a row whose measurements are all no-data."""
 
     def test_drops_rows_without_obs(self, tmp_path):
-        data = horel.HorelCSVFinalizedFile(write_trx(tmp_path), "2b_205").parse()
+        data = parse_final(write_trx(tmp_path), "2b_205")
         # Row 3 is unflagged, but its ozone is -9999
         assert data["O3_ppb"].notna().all()
         assert data["Time_UTC"].tolist() == [pd.Timestamp("2024-06-01 00:00:02")]
@@ -332,7 +343,7 @@ class TestFinalizedRowsWithoutObs:
         path = write_csv_gz(
             tmp_path / "TRX01_2024_06.csv.gz", TRX_HEADER, TRX_UNITS, rows
         )
-        data = horel.HorelCSVFinalizedFile(path, "gps").parse()
+        data = parse_final(path, "gps")
         assert len(data) == 3  # the positions are still there
 
 
@@ -506,7 +517,7 @@ class TestHorelGPSRead:
 
     def test_final_csv_keeps_recorded_speed(self, tmp_path):
         """The BUS finalized CSV's GPS_Speed (m/s) survives the final filter."""
-        data = horel.HorelCSVFinalizedFile(write_bus(tmp_path), "gps").parse()
+        data = parse_final(write_bus(tmp_path), "gps")
         # The invalid-RMC row is dropped
         assert data["Speed_m_s"].tolist() == [0.0, 5.5]
 
@@ -523,7 +534,7 @@ class TestHorelGPSRead:
     def test_final_csv_keeps_altitude(self, tmp_path, write, columns, altitude):
         """The finalized CSV's Elevation is Altitude_msl at final, as at qaqc."""
         path = write(tmp_path)
-        final = horel.HorelCSVFinalizedFile(path, "gps").parse()
+        final = parse_final(path, "gps")
         qaqc = horel.HorelGroup.standardize_data(
             "gps", horel.HorelCSVFile(path, "gps").parse()
         )
