@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../../../../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be" />
 <link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be" />
 
-    <script src="../../../../_static/documentation_options.js?v=4eb0f036"></script>
+    <script src="../../../../_static/documentation_options.js?v=0ebfb99e"></script>
     <script src="../../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -61,7 +61,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.11.2.dev9+g9ebaffaa3" />
+  <meta name="docsearch:version" content="2026.11.2.dev10+ge3e687af1" />
   
     
     <script src="../../../../_static/searchtools.js"></script>
@@ -455,6 +455,7 @@
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">ABCMeta</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Callable</span>
 
@@ -1145,16 +1146,20 @@
 <span class="sd">        """</span>
         <span class="n">data</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">parse</span><span class="p">()</span>
 
-        <span class="c1"># Need to standardize in order to filter columns</span>
-        <span class="c1"># TODO this is a bit of a hack, but it works for now</span>
-        <span class="n">data</span> <span class="o">=</span> <span class="n">HorelGroup</span><span class="o">.</span><span class="n">standardize_data</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">instrument</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
-
         <span class="k">if</span> <span class="s2">"QAQC_Flag"</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
             <span class="c1"># Drop rows with QAQC_Flag &lt; 0</span>
             <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">data</span><span class="o">.</span><span class="n">QAQC_Flag</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">]</span>
 
-        <span class="c1"># Use final patterns to filter columns</span>
-        <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">regex</span><span class="o">=</span><span class="s2">"|"</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">final_patterns</span><span class="p">)))</span>
+        <span class="c1"># Keep the columns whose UATAQ name matches a final pattern. The names</span>
+        <span class="c1"># are looked up, not applied: Instrument.read_data standardizes once,</span>
+        <span class="c1"># after the parse (#213).</span>
+        <span class="n">mapping</span> <span class="o">=</span> <span class="n">column_mapping</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">instrument</span><span class="p">]</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">named</span><span class="p">(</span><span class="n">pattern</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">            </span><span class="sd">"""Return the columns whose UATAQ name matches ``pattern``."""</span>
+            <span class="k">return</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">mapping</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">c</span><span class="p">))]</span>
+
+        <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">named</span><span class="p">(</span><span class="s2">"|"</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">final_patterns</span><span class="p">))])</span>
 
         <span class="c1"># Drop rows without obs. Time_UTC is always set, so it can't count:</span>
         <span class="c1"># a plain dropna(how="all") never dropped anything. An instrument that</span>
@@ -1163,8 +1168,7 @@
         <span class="c1"># rows with no PM2.5. The GPS and the logger have no concentration, so</span>
         <span class="c1"># any of their columns counts.</span>
         <span class="n">obs_columns</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="n">c</span> <span class="o">!=</span> <span class="s2">"Time_UTC"</span><span class="p">]</span>
-        <span class="n">concentrations</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">regex</span><span class="o">=</span><span class="s2">"ppb|ugm3"</span><span class="p">)</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
-        <span class="n">obs_columns</span> <span class="o">=</span> <span class="n">concentrations</span> <span class="ow">or</span> <span class="n">obs_columns</span>
+        <span class="n">obs_columns</span> <span class="o">=</span> <span class="n">named</span><span class="p">(</span><span class="s2">"ppb|ugm3"</span><span class="p">)</span> <span class="ow">or</span> <span class="n">obs_columns</span>
         <span class="k">return</span> <span class="n">data</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">how</span><span class="o">=</span><span class="s2">"all"</span><span class="p">,</span> <span class="n">subset</span><span class="o">=</span><span class="n">obs_columns</span><span class="p">)</span></div>
 </div>
 
@@ -1361,7 +1365,6 @@
                     <span class="n">_logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
                         <span class="sa">f</span><span class="s2">"Unable to initialize </span><span class="si">{</span><span class="n">DataFileClass</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> from </span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span>
                     <span class="p">)</span>
-            <span class="k">continue</span>
 
         <span class="k">return</span> <span class="n">filesystem</span><span class="o">.</span><span class="n">filter_datafiles</span><span class="p">(</span><span class="n">datafiles</span><span class="p">,</span> <span class="n">time_range</span><span class="p">,</span> <span class="n">pattern</span><span class="p">)</span></div>
 

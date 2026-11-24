@@ -22,7 +22,6 @@ uataq.sites.MobileSite
    ~MobileSite.get_obs
    ~MobileSite.locate
    ~MobileSite.merge_gps
-   ~MobileSite.plot
 
 
 

@@ -74,8 +74,8 @@ Module layout
 
     src/uataq/
       __init__.py        read_data, get_obs, get_recent_obs, get_network_obs;
-                         re-exports laboratory, get_site, Network, DEFAULT_GROUP,
-                         TimeRange and the modules below
+                         re-exports laboratory, get_site, Network, TimeRange
+                         and the modules below
       config.json        sites and instruments; read at import (importlib.resources)
       _laboratory.py     Laboratory: builds sites and instruments from config.json
       sites.py           Site (stationary) and MobileSite (GPS-located rows)

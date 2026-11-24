@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be" />
 
-    <script src="../../../_static/documentation_options.js?v=4eb0f036"></script>
+    <script src="../../../_static/documentation_options.js?v=0ebfb99e"></script>
     <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -61,7 +61,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.11.2.dev9+g9ebaffaa3" />
+  <meta name="docsearch:version" content="2026.11.2.dev10+ge3e687af1" />
   
     
     <script src="../../../_static/searchtools.js"></script>
@@ -831,7 +831,6 @@
     <span class="n">files</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">DataFile</span><span class="p">],</span>
     <span class="n">time_range</span><span class="p">:</span> <span class="n">TimeRange</span><span class="p">,</span>
     <span class="n">num_processes</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">"max"</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
-    <span class="n">driver</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">"pandas"</span><span class="p">]</span> <span class="o">|</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">"xarray"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"pandas"</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Read and parse data files, in parallel, using multiple processes.</span>
@@ -844,8 +843,6 @@
 <span class="sd">        A TimeRange object representing the time range to filter by.</span>
 <span class="sd">    num_processes : int, optional</span>
 <span class="sd">        The number of processes to use. Defaults to 1.</span>
-<span class="sd">    driver : str, optional</span>
-<span class="sd">        The data driver to use. Defaults to 'pandas'.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -892,7 +889,7 @@
 
     <span class="n">datasets</span> <span class="o">=</span> <span class="p">[</span><span class="n">data</span> <span class="k">for</span> <span class="n">data</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">results</span><span class="p">]</span>
     <span class="n">reasons</span> <span class="o">=</span> <span class="p">[</span><span class="n">reason</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">reason</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">results</span> <span class="k">if</span> <span class="n">reason</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">]</span>
-    <span class="k">if</span> <span class="n">driver</span> <span class="o">==</span> <span class="s2">"pandas"</span> <span class="ow">and</span> <span class="nb">all</span><span class="p">(</span><span class="n">data</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">datasets</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="n">data</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">datasets</span><span class="p">):</span>
         <span class="c1"># ReaderError, not pd.concat's ValueError, so Site.read_data skips</span>
         <span class="c1"># this instrument instead of abandoning the whole site</span>
         <span class="n">why</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">": </span><span class="si">{</span><span class="n">reasons</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span> <span class="k">if</span> <span class="n">reasons</span> <span class="k">else</span> <span class="s2">""</span>
@@ -909,27 +906,19 @@
 
     <span class="c1"># Concatenate the datasets</span>
     <span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Concatenating datasets and reducing rows to time range..."</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">driver</span> <span class="o">==</span> <span class="s2">"pandas"</span><span class="p">:</span>
-        <span class="c1"># a datafile that failed to parse contributes None</span>
-        <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">d</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">datasets</span> <span class="k">if</span> <span class="n">d</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">])</span>
+    <span class="c1"># a datafile that failed to parse contributes None</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">d</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">datasets</span> <span class="k">if</span> <span class="n">d</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">])</span>
 
-        <span class="c1"># Set time as index and filter to time_range</span>
-        <span class="n">data</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="n">data</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="s2">"Time_UTC"</span><span class="p">)</span>
-            <span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">"Time_UTC"</span><span class="p">)</span>
-            <span class="o">.</span><span class="n">sort_index</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s2">"stable"</span><span class="p">)</span>
-        <span class="p">)</span>
-        <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">time_range</span><span class="o">.</span><span class="n">start</span> <span class="p">:</span> <span class="n">time_range</span><span class="o">.</span><span class="n">stop</span><span class="p">]</span>
-        <span class="k">if</span> <span class="n">time_range</span><span class="o">.</span><span class="n">stop</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="c1"># .loc is inclusive, but time ranges are half-open [start, stop):</span>
-            <span class="c1"># a sample exactly at stop belongs to the next range (#9)</span>
-            <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">data</span><span class="o">.</span><span class="n">index</span> <span class="o">&lt;</span> <span class="n">time_range</span><span class="o">.</span><span class="n">stop</span><span class="p">]</span>
-        <span class="n">_warn_repeated_times</span><span class="p">(</span><span class="n">files</span><span class="p">,</span> <span class="n">datasets</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">driver</span> <span class="o">==</span> <span class="s2">"xarray"</span><span class="p">:</span>
-        <span class="c1"># TODO</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">"xarray driver not implemented yet."</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Invalid driver: </span><span class="si">{</span><span class="n">driver</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="c1"># Set time as index and filter to time_range</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">data</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="s2">"Time_UTC"</span><span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">"Time_UTC"</span><span class="p">)</span><span class="o">.</span><span class="n">sort_index</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s2">"stable"</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">time_range</span><span class="o">.</span><span class="n">start</span> <span class="p">:</span> <span class="n">time_range</span><span class="o">.</span><span class="n">stop</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">time_range</span><span class="o">.</span><span class="n">stop</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># .loc is inclusive, but time ranges are half-open [start, stop):</span>
+        <span class="c1"># a sample exactly at stop belongs to the next range (#9)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">data</span><span class="o">.</span><span class="n">index</span> <span class="o">&lt;</span> <span class="n">time_range</span><span class="o">.</span><span class="n">stop</span><span class="p">]</span>
+    <span class="n">_warn_repeated_times</span><span class="p">(</span><span class="n">files</span><span class="p">,</span> <span class="n">datasets</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">data</span></div>
 
@@ -1147,7 +1136,6 @@
                     <span class="n">_logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
                         <span class="sa">f</span><span class="s2">"Unable to initialize </span><span class="si">{</span><span class="n">DataFileClass</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> from </span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span>
                     <span class="p">)</span>
-            <span class="k">continue</span>
 
         <span class="k">return</span> <span class="n">filter_datafiles</span><span class="p">(</span><span class="n">datafiles</span><span class="p">,</span> <span class="n">time_range</span><span class="p">,</span> <span class="n">pattern</span><span class="p">)</span></div>
 
