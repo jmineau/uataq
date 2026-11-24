@@ -73,8 +73,8 @@ SODAR, the Street View tables) are in [docs/contributing.rst](docs/contributing.
 - **Never write to the data archives.** uataq only reads.
 - **`laboratory` is shared**: don't mutate `laboratory.sites`.
 - **`import uataq` stays light.** `uataq.sodar` (the only xarray user) is not
-  imported by `__init__`; matplotlib and cartopy are optional imports inside
-  the plotting methods. uataq never imports lair (its import downloads the CCG
+  imported by `__init__`; matplotlib is an optional import inside the
+  plotting methods. uataq never imports lair (its import downloads the CCG
   filter); display metadata for pollutants lives in `lair.pollutants`.
 - **uataq does not set pandas options.** Code must be right with copy-on-write
   on or off: no chained assignment, and `.copy()` a filtered frame before

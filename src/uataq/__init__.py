@@ -27,7 +27,6 @@ logging.getLogger(__name__).addHandler(logging.NullHandler())
 # builds the `laboratory` singleton, which logs while it reads config.json.
 from . import filesystem, instruments, pollutants, sites  # noqa: E402
 from ._laboratory import Laboratory, get_site, laboratory  # noqa: E402
-from .filesystem import DEFAULT_GROUP  # noqa: E402
 from .network import Network  # noqa: E402
 from .timerange import TimeRange, TimeRangeTypes  # noqa: E402
 
@@ -43,10 +42,6 @@ _all_or_mult_strs = Literal["all"] | str | list[str] | tuple[str, ...] | set[str
 #:
 #: :meta hide-value:
 laboratory: Laboratory
-
-
-# sites = {SID: laboratory.get_site(SID)  # name conflict
-#          for SID in laboratory.sites}  # how much time does this take?
 
 
 def read_data(
@@ -309,7 +304,6 @@ __all__ = [
     "laboratory",
     "filesystem",
     "pollutants",
-    "DEFAULT_GROUP",
     "get_site",
     "read_data",
     "get_obs",

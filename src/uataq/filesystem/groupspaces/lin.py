@@ -1050,8 +1050,6 @@ class LinGroup(filesystem.GroupSpace):
         The group name.
     datafiles : dict[str, Type[DataFile]]
         A dictionary mapping datafile keys to DataFile classes.
-    data_config : dict
-        The data configuration.
 
     Methods
     -------
@@ -1077,8 +1075,6 @@ class LinGroup(filesystem.GroupSpace):
         "air-trend": AirTrendFile,
         "lgr_ugga": LGR_UGGA_File,
     }
-
-    data_config = deepcopy(DATA_CONFIG)
 
     @property
     def data_dir(self) -> str:

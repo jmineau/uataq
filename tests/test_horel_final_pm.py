@@ -17,7 +17,8 @@ def es642_final(tmp_path, pm_values):
         ["2024-06-01T00:00:04", 40.76, -111.86, 1325.9, 13.1, pm_values[2], 29.5, 51.0, 1.9, 825.3, 0, 0],
     ]  # fmt: skip
     path = write_csv_gz(tmp_path / "TRX01_2024_06.csv.gz", TRX_HEADER, TRX_UNITS, rows)
-    return horel.HorelCSVFinalizedFile(path, "metone_es642").parse()
+    data = horel.HorelCSVFinalizedFile(path, "metone_es642").parse()
+    return horel.HorelGroup.standardize_data("metone_es642", data)
 
 
 def test_es642_final_drops_rows_with_no_pm25(tmp_path):

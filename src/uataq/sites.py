@@ -699,8 +699,6 @@ class MobileSite(Site):
             }
     """
 
-    _pilot_sites = ["trx01", "trx02"]
-
     @staticmethod
     def merge_gps(
         obs: pd.DataFrame,
@@ -1061,30 +1059,3 @@ class MobileSite(Site):
         # lin's GPS time, or horel's CR1000 clock (1-20 s ahead of GPS time)
         merged["GPS_Group"] = gps_group
         return gpd.GeoDataFrame(merged)
-
-    @staticmethod
-    def plot(obs, ax=None):
-        """
-        Plot mobile observations on a map.
-
-        Requires the optional cartopy and matplotlib dependencies.
-
-        .. warning::
-           Incomplete -- it returns an axis without drawing the observations.
-        """
-        import cartopy.crs as ccrs  # optional plotting extra
-        import matplotlib.pyplot as plt  # optional plotting extra
-
-        # FIXME is this the best way to do this?
-        obs["lon"] = obs.Longitude_deg.round(3)
-        obs["lat"] = obs.Latitude_deg.round(3)
-
-        # keep only most recent for each lat/lon
-
-        if ax is None:
-            fig, ax = plt.subplots(subplot_kw={"projection": ccrs.PlateCarree()})
-
-        # ax.set_extent([SLV_bounds[0], SLV_bounds[2],
-        #                SLV_bounds[1], SLV_bounds[3]], crs=ccrs.PlateCarree())
-
-        return ax

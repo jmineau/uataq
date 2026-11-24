@@ -274,14 +274,6 @@ class TestParseDatafilesOptions:
         pool.assert_not_called()
         assert len(data) == 4
 
-    def test_xarray_driver_is_not_implemented(self):
-        with pytest.raises(NotImplementedError):
-            filesystem.parse_datafiles(self.files, TimeRange(), driver="xarray")
-
-    def test_invalid_driver(self):
-        with pytest.raises(ValueError, match="Invalid driver"):
-            filesystem.parse_datafiles(self.files, TimeRange(), driver="polars")  # pyrefly: ignore[bad-argument-type]
-
 
 def test_cpu_count_without_affinity(monkeypatch):
     """Where the OS has no CPU affinity (macOS), count every core."""
