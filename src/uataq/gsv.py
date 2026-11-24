@@ -87,7 +87,7 @@ import pandas as pd
 
 from uataq import errors
 from uataq.filesystem.groupspaces import lin
-from uataq.timerange import TimeRange, TimeRangeTypes
+from uataq.timerange import TimeRange, TimeRangeTypes, _naive_utc
 
 _logger = logging.getLogger(__name__)
 
@@ -244,11 +244,7 @@ def _times(text: pd.Series) -> pd.Series:
     """Parse the tables' times, with or without a UTC offset, as naive UTC."""
     # "2019-07-16 18:22:10+00:00" on CHPC, "2019-07-16 18:22:10" on Zenodo
     # (UTC either way). A time with another offset is converted to UTC.
-    return (
-        pd.to_datetime(text, format="ISO8601", utc=True)
-        .dt.tz_convert("UTC")
-        .dt.tz_localize(None)
-    )
+    return _naive_utc(text, format="ISO8601")
 
 
 def _read_picarro(

@@ -23,7 +23,7 @@ from uataq.errors import (
     ParserError,
     ReaderError,
 )
-from uataq.timerange import TimeRange
+from uataq.timerange import TimeRange, _naive_utc
 
 _logger = logging.getLogger(__name__)
 
@@ -349,6 +349,11 @@ column_mapping: dict[str, dict[str, str]] = {
 column_mapping["licor_7000"] = column_mapping["licor_6262"]
 
 
+# The value a logger writes for "no value" in a .dat file, read as NaN (#208),
+# as horel's files are by HorelFile.convert_nodata
+_NODATA = ["-9999"]
+
+
 def _read_lines(path: str, first: int = 0, last: bool = False) -> list[str]:
     """
     Read the first ``first`` lines of a file and, if ``last``, its final line.
@@ -458,7 +463,8 @@ class LinDatFile(filesystem.DataFile):
         a file with the same columns in another order reads correctly. A file
         without a header (the old logger files) takes the config's names in
         order, so it must have that many columns. A file with no rows gives an
-        empty table.
+        empty table. A value of -9999, the loggers' "no value", is read as
+        missing.
 
         Returns
         -------
@@ -481,13 +487,13 @@ class LinDatFile(filesystem.DataFile):
 
         if first_field == "TIMESTAMP":
             # campbellsci files with their own header
-            data = pd.read_csv(self.path, on_bad_lines="skip")
+            data = pd.read_csv(self.path, on_bad_lines="skip", na_values=_NODATA)
         else:
             data = self._read_pipeline_file(first_field)
         data = data.rename(columns={"TIMESTAMP": "Time_UTC"})
 
         # Format time col
-        times = pd.to_datetime(data.Time_UTC, errors="coerce", format="ISO8601")
+        times = _naive_utc(data.Time_UTC, errors="coerce", format="ISO8601")
         if first_field != "TIMESTAMP":
             # The rows with no time at all were dropped before; these have one
             # that is not ISO 8601
@@ -526,6 +532,7 @@ class LinDatFile(filesystem.DataFile):
                 self.path,
                 header=0 if has_header else None,
                 on_bad_lines="skip",
+                na_values=_NODATA,
             )
         except pd.errors.EmptyDataError:
             # No rows (an empty file, or a header alone): an empty table
@@ -995,10 +1002,19 @@ class AirTrendFile(filesystem.DataFile):
         """
         Parse an AirTrend file.
 
+        The columns take the pipeline config's names in order, so the first
+        line (the header, or the first row of a file without one) must have
+        as many fields as the config lists.
+
         Returns
         -------
         pd.DataFrame
             The parsed data.
+
+        Raises
+        ------
+        ParserError
+            If the first line's field count does not match the config.
         """
         _logger.debug(f"Parsing {filesystem._relpath(self.path, _data_dir())}")
 
@@ -1014,6 +1030,16 @@ class AirTrendFile(filesystem.DataFile):
             first_line = f.readline()
         has_header = _ISO_TIME_START.match(first_line) is None
 
+        # The names are given by position, so a line with another number of
+        # fields would put every name off by one; with one field more, pandas
+        # takes the time for the row label and every row is dropped (#209)
+        n_fields = first_line.count(b",") + 1
+        if first_line.strip() and n_fields != len(col_names):
+            raise ParserError(
+                f"its first line has {n_fields} fields, but the pipeline config "
+                f"lists {len(col_names)} columns"
+            )
+
         data = pd.read_csv(
             self.path,
             names=col_names,
@@ -1026,7 +1052,7 @@ class AirTrendFile(filesystem.DataFile):
         # Format time. The logger writes isoformat(), which leaves out the
         # fraction when the microseconds are 0; without a format pandas infers
         # one from the first row, and a row of the other shape becomes NaT.
-        data["time"] = pd.to_datetime(data.time, errors="coerce", format="ISO8601")
+        data["time"] = _naive_utc(data.time, errors="coerce", format="ISO8601")
         data = data.rename(columns={"time": "Time_UTC"})
 
         # Coerce numeric columns
