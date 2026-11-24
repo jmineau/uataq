@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be" />
 
-    <script src="../../_static/documentation_options.js?v=3659f7cb"></script>
+    <script src="../../_static/documentation_options.js?v=4eb0f036"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -61,7 +61,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2026.11.2.dev8+g0552bb96f" />
+  <meta name="docsearch:version" content="2026.11.2.dev9+g9ebaffaa3" />
   
     
     <script src="../../_static/searchtools.js"></script>
@@ -488,6 +488,18 @@
     <span class="sa">r</span><span class="s2">")?)?)?)?"</span>
     <span class="sa">r</span><span class="s2">"(?:Z|[+-]00:?00)?$"</span>
 <span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_naive_utc</span><span class="p">(</span><span class="n">values</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Parse times as naive UTC, the form uataq's tables and time ranges use.</span>
+
+<span class="sd">    A time with a UTC offset (``Z``, ``-06:00``) is converted to UTC; one</span>
+<span class="sd">    without is taken as UTC. Without ``utc=True`` pandas would keep the offset,</span>
+<span class="sd">    and the slice against a naive time range would raise (#207). ``kwargs``</span>
+<span class="sd">    go to :func:`pandas.to_datetime` (``format``, ``unit``, ``errors``).</span>
+<span class="sd">    """</span>
+    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">utc</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">tz_localize</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="TimeRange">
