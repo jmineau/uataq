@@ -49,7 +49,7 @@ groups: dict
 lvls: dict
 
 
-def get_group(group: str | None) -> str:
+def get_group(group: str) -> str:
     """
     Get the group name.
 
@@ -63,12 +63,9 @@ def get_group(group: str | None) -> str:
     str
         The group name.
     """
-    if group is None:
-        return DEFAULT_GROUP
-    elif group not in groups:
+    if group not in groups:
         raise ValueError(f"Invalid group: {group}")
-    else:
-        return group
+    return group
 
 
 __all__ = [

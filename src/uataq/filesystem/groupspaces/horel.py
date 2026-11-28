@@ -76,7 +76,6 @@ def _lvl_data_dirs() -> dict[str, list[str]]:
 #: Horel group root: ``UATAQ_HOREL_DIR`` if set, else the default.
 HOREL_DIR: str
 # Consider UUTRAX project as part of UATAQ (includes TRX, BUS, RAIL, HAWTH)
-#   TODO add rail and hawth
 #   Includes a pilot phase which does not have QAQC data
 #: UUTRAX directory, ``uutrax`` under ``HOREL_DIR``.
 UUTRAX_DIR: str

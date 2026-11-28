@@ -66,10 +66,6 @@ def _in_prose(words: list[str]) -> str:
     return f"{', '.join(head)} and {last}" if head else last
 
 
-# TODO
-# TRX01 aeth & no2 from horel-group
-
-
 class Instrument(metaclass=ABCMeta):
     """
     Abstract base class for instrument objects.
@@ -402,33 +398,6 @@ class Instrument(metaclass=ABCMeta):
             raise errors.ReaderError(
                 f"{self} has no {lvl} level (it has {_in_prose(have)})."
             )
-
-    def get_files(self, group: str, lvl: str) -> list[str]:
-        """
-        Get list of file paths for a given level.
-
-        Parameters
-        ----------
-        group : str
-            The research group whose data to retrieve.
-        lvl : str
-            The level of the data to retrieve.
-
-        Returns
-        -------
-        list[str]
-            A list of file paths.
-
-        Raises
-        ------
-        ReaderError
-            If the group has no such level for the instrument. The message
-            says which levels it has.
-        """
-        self._check_lvl(group, lvl)
-        groupspace = self._get_groupspace(group)
-        logger = self._loggers[group]
-        return groupspace.get_files(self.SID, self.name, lvl, logger)
 
     def get_datafiles(
         self,

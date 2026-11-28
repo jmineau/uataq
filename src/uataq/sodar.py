@@ -139,11 +139,6 @@ class Sodar:
         If the archive directory or the station's metadata log does not exist.
     """
 
-    #: Model name, as in an instrument's ``model`` (SODAR is not configured).
-    model = "sodar"
-    #: What the SODAR measures.
-    species_measured = ("wind",)
-
     def __init__(self, SID: str, mesowest_dir: str | None = None):
         """Initialize the Sodar and read the station's metadata log."""
         self.SID = SID.upper()

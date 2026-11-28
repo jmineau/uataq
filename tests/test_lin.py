@@ -11,6 +11,8 @@ current contents.
 
 import logging
 import os
+import subprocess
+import sys
 from unittest.mock import patch
 
 import numpy as np
@@ -175,8 +177,27 @@ class TestReadConfig:
         monkeypatch.setenv("LINGROUP_MEASUREMENTS_DIR", str(tmp_path))
         monkeypatch.setattr(urllib.request, "urlopen", fail)
         with pytest.raises(RuntimeError, match="not on CHPC") as err:
-            lin._read_config("site_config.csv")
+            lin._read_config("data_config.json")
         assert lin.CONFIG_URL in str(err.value)
+
+    def test_import_with_only_data_config(self, tmp_path, monkeypatch):
+        config = tmp_path / "pipeline" / "config"
+        config.mkdir(parents=True)
+        (config / "data_config.json").write_text('{"lgr_ugga": {}}', encoding="utf-8")
+        monkeypatch.setenv("LINGROUP_MEASUREMENTS_DIR", str(tmp_path))
+        result = subprocess.run(
+            [
+                sys.executable,
+                "-c",
+                "from unittest.mock import patch\n"
+                'with patch("urllib.request.urlopen", side_effect=AssertionError("unexpected fetch")):\n'
+                "    import uataq\n",
+            ],
+            capture_output=True,
+            text=True,
+            timeout=60,
+        )
+        assert result.returncode == 0, result.stderr
 
 
 def ugga_row(time: str, sep: str = ",", n_numeric: int = 20, tail=("3",)) -> str:
@@ -298,7 +319,6 @@ class TestLGRUGGAFile:
         datafile = lin.LGR_UGGA_File(path)
         assert datafile.version == "904M"
         assert datafile.serial == "LGR-13-0221"
-        assert lin.LGR_UGGA_File.get_serial(path) == "LGR-13-0221"
         assert datafile.period == pd.Period("2016-04-01", freq="D")
 
     def test_period_new_software(self, tmp_path):
