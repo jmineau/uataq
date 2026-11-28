@@ -61,13 +61,13 @@ def list_files(
     path: str | Path = ".",
     pattern: str | None = None,
     ignore_case: bool = False,
-    all_files: bool = False,
     full_names: bool = False,
     recursive: bool = False,
-    followlinks: bool = False,
 ) -> list[str]:
     """
     Return a list of files in the specified directory that match the specified pattern.
+
+    Hidden files are skipped, and recursive searches skip symlinked directories.
 
     Parameters
     ----------
@@ -77,14 +77,10 @@ def list_files(
         The glob-style pattern to match against file names. Defaults to None, which matches all files.
     ignore_case : bool, optional
         Whether to ignore case when matching file names. Defaults to False.
-    all_files : bool, optional
-        Whether to include hidden files (files that start with a dot). Defaults to False.
     full_names : bool, optional
         Whether to return the full path of each file. Defaults to False.
     recursive : bool, optional
         Whether to search for files recursively in subdirectories. Defaults to False.
-    followlinks : bool, optional
-        Whether to follow symbolic links. Defaults to False.
 
     Returns
     -------
@@ -95,7 +91,7 @@ def list_files(
 
     result = []
     if recursive:
-        walk = os.walk(path, followlinks=followlinks)
+        walk = os.walk(path)
     else:
         # Files only, as os.walk lists them: a folder named like a data file
         # (2024_02_final.dat/) is not one (#206). A missing path raises
@@ -108,13 +104,14 @@ def list_files(
 
     for root, _, files in walk:
         for file in files:
-            if all_files or not file.startswith("."):
-                fn = file.lower() if ignore_case else file
-                if pattern is None or fnmatch.fnmatch(fn, pattern):
-                    if full_names:
-                        result.append(os.path.abspath(os.path.join(root, file)))
-                    else:
-                        result.append(file)
+            if file.startswith("."):
+                continue
+            fn = file.lower() if ignore_case else file
+            if pattern is None or fnmatch.fnmatch(fn, pattern):
+                if full_names:
+                    result.append(os.path.abspath(os.path.join(root, file)))
+                else:
+                    result.append(file)
     return result
 
 

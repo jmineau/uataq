@@ -27,8 +27,6 @@ from uataq.timerange import TimeRange, _naive_utc
 
 _logger = logging.getLogger(__name__)
 
-# TODO: check for reprocessing
-
 # The Lin group's measurements root. ``LINGROUP_MEASUREMENTS_DIR`` overrides the
 # default, and is read each time a path is needed (not at import), so setting it
 # after ``import uataq`` works. MEASUREMENTS_DIR, CONFIG_DIR and DATA_DIR are
@@ -127,11 +125,6 @@ DATA_CONFIG["lgr_ugga_manual_cal"] = DATA_CONFIG[
     "lgr_ugga"
 ]  # manual cal has same format
 
-#: Site configuration.
-SITE_CONFIG = pd.read_csv(
-    _read_config("site_config.csv"), skipinitialspace=True, index_col="stid"
-)
-
 #: Lin to UATAQ column mapping
 column_mapping: dict[str, dict[str, str]] = {
     "2b_205": {
@@ -140,8 +133,6 @@ column_mapping: dict[str, dict[str, str]] = {
         "Cavity_T_C": "Internal_T_C",
         "p_hpa": "Internal_P_hPa",
         "Cavity_P_hPa": "Internal_P_hPa",
-        "flow_ccpm": "Flow_mLpm",
-        "Flow_CCmin": "Flow_mLpm",
     },
     "gps": {
         "inst_date": "Instrument_Date",
@@ -184,7 +175,6 @@ column_mapping: dict[str, dict[str, str]] = {
         "inst_time": "Instrument_Time",
         "Pressure_torr": "Internal_P_torr",
         "Cavity_P_torr": "Internal_P_torr",
-        # do i want to drop the -1
     },
     "lgr_ugga": {
         "GasP_torr": "Internal_P_torr",
@@ -195,7 +185,7 @@ column_mapping: dict[str, dict[str, str]] = {
         "Cavity_T_C": "Internal_T_C",
         "GasT_C_sd": "Internal_T_C_sd",
         "Cavity_T_C_sd": "Internal_T_C_sd",
-        "AmbT_C": "Ambient_T_C",  # FIXME should this actually be called ambient??
+        "AmbT_C": "Ambient_T_C",
         "AmbT_C_sd": "Ambient_T_C_sd",
         "RD0_us": "RingDown0_us",
         "RD0_us_sd": "RingDown0_us_sd",
@@ -228,7 +218,6 @@ column_mapping: dict[str, dict[str, str]] = {
         "batt_volt_Min": "Battery_Voltage_V",
         "PTemp_Avg": "Logger_T_C",
         "PM_25_Avg": "PM2.5_ugm3",
-        "pm25_mgm3": "PM2.5_mgm3",
         "Flow_Avg": "Flow_Lpm",
         "flow_lpm": "Flow_Lpm",
         "Flow_Lmin": "Flow_Lpm",
@@ -726,23 +715,6 @@ class LGR_UGGA_File(filesystem.DataFile):
                 f"Failed to read meta data from {path}"
             ) from e
         return meta
-
-    @staticmethod
-    def get_serial(path) -> str:
-        """
-        Get serial number of UGGA from file.
-
-        Parameters
-        ----------
-        path : str
-            The path to the UGGA file.
-
-        Returns
-        -------
-        str
-            The serial number.
-        """
-        return LGR_UGGA_File.get_meta(path)["SN"]
 
     @staticmethod
     def get_files(

@@ -240,10 +240,10 @@ holds ``data`` and ``pipeline``. Unset or empty, it means the archive itself.
 
 uataq looks the variable up each time it needs a path, so setting it in Python
 after ``import uataq`` works too (``os.environ["LINGROUP_MEASUREMENTS_DIR"] = ...``),
-with one exception: the pipeline's configuration files (``data_config.json`` and
-``site_config.csv``) are read once, when uataq is imported, so set the variable
-before the import if the copy's configuration differs. A value that is not a
-directory raises ``FileNotFoundError`` naming the variable.
+with one exception: uataq reads the pipeline's ``data_config.json`` once at
+import, so set the variable before importing if the copy's configuration
+differs. A value that is not a directory raises ``FileNotFoundError`` naming
+the variable.
 
 The Horel group's root works the same way, through ``UATAQ_HOREL_DIR``: unset or
 empty, it means the group's own space; set, it is read each time a path is

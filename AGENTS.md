@@ -48,8 +48,7 @@ SODAR, the Street View tables) are in [docs/contributing.rst](docs/contributing.
   operates the instrument, else its sole operator, else the first configured.
   It is a config lookup: it never checks the archive and ignores
   `group_dates`. Anything that wraps `Site.read_data` must pass `group=None`
-  through, never replace it with `get_group(None)`, which would send
-  horel-only instruments to lin.
+  through so selection respects the instrument's configured operators.
 - **Reads are planned by time.** `Instrument.plan_reads(group, time_range)`
   returns `[(group, portion), ...]`: one portion for a named group; with none,
   the clipped range is cut at each `group_dates` edge and each piece goes to

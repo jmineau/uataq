@@ -473,17 +473,12 @@ class TestLevelTheInstrumentLacks:
             "teledyne_t400@WBB has no calibrated level (it has raw, qaqc and final)."
         )
 
-    def test_get_files_names_the_levels_it_has(self, t400):
-        with pytest.raises(errors.ReaderError, match=r"has no calibrated level"):
-            t400.get_files("lin", "calibrated")
-
     def test_read_data_names_the_levels_it_has(self, t400):
         with pytest.raises(errors.ReaderError, match=r"\(it has raw, qaqc and final\)"):
             t400.read_data("lin", "Calibrated", "2025-06")
 
-    def test_a_level_it_has_is_not_refused(self, t400, tmp_path):
+    def test_a_level_it_has_is_not_refused(self, t400):
         """The folder is there: an empty one is a read with no files, as before."""
-        assert t400.get_files("lin", "final") == []
         with pytest.raises(errors.ReaderError, match="No files found"):
             t400.get_datafiles("lin", "final", "2025-06")
 

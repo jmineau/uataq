@@ -725,6 +725,6 @@ class Network:
 
         # Add height above ground level
         zagl = site.config.get("zagl")
-        site_data["zagl"] = zagl if zagl is not None else None
+        site_data["zagl"] = zagl
 
         return site_data

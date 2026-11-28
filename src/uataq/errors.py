@@ -64,14 +64,6 @@ class InstrumentNotFoundError(Exception):
         super().__init__(msg)
 
 
-class PollutantNotMeasured(Exception):
-    """Raised when a site measures none of the requested pollutants."""
-
-    def __init__(self, SID, pollutant):
-        msg = f"{pollutant} not measured at {SID}"
-        super().__init__(msg)
-
-
 class EmptyResultWarning(UserWarning):
     """
     Warned when a read finds files for the range but no data in them.

@@ -87,25 +87,6 @@ class TestInstrumentNotFoundError:
         assert "TestEnsemble" in str(exc_info.value)
 
 
-class TestPollutantNotMeasuredError:
-    """Test PollutantNotMeasured with custom message."""
-
-    def test_pollutant_not_measured_message(self):
-        """Test PollutantNotMeasured generates correct message."""
-        sid = "WBB"
-        pollutant = "CO2"
-        err = errors.PollutantNotMeasured(sid, pollutant)
-        assert sid in str(err)
-        assert pollutant in str(err)
-
-    def test_pollutant_not_measured_raised(self):
-        """Test raising PollutantNotMeasured."""
-        with pytest.raises(errors.PollutantNotMeasured) as exc_info:
-            raise errors.PollutantNotMeasured("WBB", "CO2")
-        assert "WBB" in str(exc_info.value)
-        assert "CO2" in str(exc_info.value)
-
-
 class TestErrorHierarchy:
     """Test exception hierarchy relationships."""
 
